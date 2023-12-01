@@ -1,0 +1,11 @@
+framework module flutter_bluetooth {
+  umbrella header "flutter_bluetooth-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module flutter_bluetooth.Swift {
+  header "flutter_bluetooth-Swift.h"
+  requires objc
+}

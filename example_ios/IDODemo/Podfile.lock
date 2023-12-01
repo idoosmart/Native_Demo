@@ -1,0 +1,41 @@
+PODS:
+  - IDOSDK (0.0.3)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
+  - SnapKit (5.6.0)
+  - SVProgressHUD (2.2.5)
+
+DEPENDENCIES:
+  - IDOSDK (from `../IDOSDK/`)
+  - RxCocoa
+  - RxSwift
+  - SnapKit
+  - SVProgressHUD
+
+SPEC REPOS:
+  trunk:
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - SnapKit
+    - SVProgressHUD
+
+EXTERNAL SOURCES:
+  IDOSDK:
+    :path: "../IDOSDK/"
+
+SPEC CHECKSUMS:
+  IDOSDK: f97322ac00940c12dd77bbb43f088380d3d47d7e
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+
+PODFILE CHECKSUM: 42dac23d680300cb60e6a13ca6acf901a7b628be
+
+COCOAPODS: 1.13.0

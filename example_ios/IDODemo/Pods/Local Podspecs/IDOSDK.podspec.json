@@ -1,0 +1,65 @@
+{
+  "name": "IDOSDK",
+  "version": "0.0.3",
+  "summary": "ido sdk",
+  "description": "ido sdk",
+  "homepage": "http://example.com",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "IDO": "email@example.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "libraries": [
+    "iconv",
+    "z",
+    "c++"
+  ],
+  "vendored_frameworks": [
+    "alexa_channel.xcframework",
+    "App.xcframework",
+    "connectivity_plus.xcframework",
+    "flutter_bluetooth.xcframework",
+    "flutter_image_compress_common.xcframework",
+    "flutter_native_timezone.xcframework",
+    "Flutter.xcframework",
+    "FlutterPluginRegistrant.xcframework",
+    "libwebp.xcframework",
+    "Mantle.xcframework",
+    "native_channel.xcframework",
+    "package_info_plus.xcframework",
+    "path_provider_foundation.xcframework",
+    "protocol_channel.xcframework",
+    "Reachability.xcframework",
+    "SDWebImage.xcframework",
+    "SDWebImageWebPCoder.xcframework",
+    "protocol_c.framework"
+  ],
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386"
+  },
+  "xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": [
+      "PLATFORM_TYPE=2",
+      "HAVE_INTTYPES_H",
+      "HAVE_PKCRYPT",
+      "HAVE_STDINT_H",
+      "HAVE_WZAES",
+      "HAVE_ZLIB",
+      "VAR_ARRAYS",
+      "USE_ALLOCA",
+      "NONTHREADSAFE_PSEUDOSTACK",
+      "OPUS_BUILD",
+      "STDC_HEADERS"
+    ]
+  },
+  "swift_versions": "5.0",
+  "swift_version": "5.0"
+}

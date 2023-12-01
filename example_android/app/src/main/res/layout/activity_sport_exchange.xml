@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".activity.SportExchangeActivity">
+
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:onClick="start"
+        android:text="@string/sport_start"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_pause"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:onClick="pause"
+        android:text="@string/sport_pause"
+        android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/tv_resume"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:onClick="resume"
+        android:text="@string/sport_resume"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_end"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:onClick="end"
+        android:text="@string/sport_end"
+        android:textColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:background="@color/color_808080">
+
+        <TextView
+            android:id="@+id/tv_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="successfull" />
+    </ScrollView>
+</LinearLayout>

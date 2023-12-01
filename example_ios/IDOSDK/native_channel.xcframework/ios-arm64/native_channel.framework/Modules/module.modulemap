@@ -1,0 +1,11 @@
+framework module native_channel {
+  umbrella header "native_channel-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module native_channel.Swift {
+  header "native_channel-Swift.h"
+  requires objc
+}
