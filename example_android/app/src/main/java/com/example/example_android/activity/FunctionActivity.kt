@@ -37,7 +37,7 @@ class FunctionActivity : BaseActivity() {
     private var isBind: Boolean = false
 
     fun ll_connect(view: View) {
-        if (sdk.bleDevice?.state == IDODeviceStateType.CONNECTED) {
+        if (deviceState?.state == IDODeviceStateType.CONNECTED) {
             Toast.makeText(this, "is connected", Toast.LENGTH_LONG).show()
         } else {
             showProgressDialog("Connecting...")
@@ -52,7 +52,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun bind(view: View) {
-        if (sdk.bleDevice.state == IDODeviceStateType.CONNECTED) {
+        if (deviceState.state == IDODeviceStateType.CONNECTED) {
             if (isBind) {
                 toast("already bond")
             } else {
@@ -165,16 +165,6 @@ class FunctionActivity : BaseActivity() {
     }
 
     inner class BleData : IDOBridgeDelegate {
-        override fun registerWriteDataToBle(bleData: IDOBleDataRequest) {
-            println("registerWriteDataToBle $bleData");
-            bleData?.run {
-                //  if(deviceState?.macAddress == bleData.macAddress){
-                sdk.ble.writeData(bleData.data, device, bleData.type) {
-                    println("writeData $it");
-                }
-                //  }
-            }
-        }
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
@@ -188,25 +178,6 @@ class FunctionActivity : BaseActivity() {
 
 
     inner class Blelisten : IDOBleDelegate {
-        override fun writeState(state: IDOWriteStateModel) {
-            println("writeState $state");
-            if (state.state == true && state.type != IDOWriteType.ERROR) {
-                sdk.bridge.writeDataComplete()
-            }
-        }
-
-        override fun receiveData(data: IDOReceiveData) {
-            println("receiveData $data");
-            if (data.data != null) {
-                sdk.bridge.receiveDataFromBle(
-                    data.data!!, data.macAddress,
-                    data.spp == true
-                )
-            } else {
-                println("receiveData null");
-            }
-
-        }
 
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
 
@@ -224,14 +195,14 @@ class FunctionActivity : BaseActivity() {
                 tv_device_state?.text = "state: connected"
                 tv_device_state.setTextColor(Color.parseColor("#00ff00"))
                 var type = IDOOtaType.NONE
-                val isOta = sdk.bleDevice?.isOta ?: false
-                val isTlwOta = sdk.bleDevice?.isTlwOta ?: false
+                val isOta = device?.isOta ?: false
+                val isTlwOta = device?.isTlwOta ?: false
                 if (isOta) {
                     type = IDOOtaType.NORDIC
                 } else if (isTlwOta) {
                     type = IDOOtaType.TELINK
                 }
-                sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
+               // sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
             } else if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTING) {
                 tv_device_state?.text = "state: connecting"
             } else if (idoDeviceStateModel.state == IDODeviceStateType.DISCONNECTED) {

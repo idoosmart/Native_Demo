@@ -17,40 +17,16 @@ RSYNC_PROTECT_TMP_FILES=(--filter "P .*.??????")
 variant_for_slice()
 {
   case "$1" in
-  "alexa_channel.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "alexa_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
   "App.xcframework/ios-arm64")
     echo ""
     ;;
   "App.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
-  "connectivity_plus.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "connectivity_plus.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
   "flutter_bluetooth.xcframework/ios-arm64")
     echo ""
     ;;
   "flutter_bluetooth.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "flutter_image_compress_common.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "flutter_image_compress_common.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "flutter_native_timezone.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "flutter_native_timezone.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
   "Flutter.xcframework/ios-arm64")
@@ -65,28 +41,10 @@ variant_for_slice()
   "FlutterPluginRegistrant.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
-  "libwebp.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "libwebp.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "Mantle.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "Mantle.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
   "native_channel.xcframework/ios-arm64")
     echo ""
     ;;
   "native_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "package_info_plus.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "package_info_plus.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
   "path_provider_foundation.xcframework/ios-arm64")
@@ -99,24 +57,6 @@ variant_for_slice()
     echo ""
     ;;
   "protocol_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "Reachability.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "Reachability.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "SDWebImage.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "SDWebImage.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
-  "SDWebImageWebPCoder.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "SDWebImageWebPCoder.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
   esac
@@ -125,40 +65,16 @@ variant_for_slice()
 archs_for_slice()
 {
   case "$1" in
-  "alexa_channel.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "alexa_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
   "App.xcframework/ios-arm64")
     echo "arm64"
     ;;
   "App.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
-  "connectivity_plus.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "connectivity_plus.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
   "flutter_bluetooth.xcframework/ios-arm64")
     echo "arm64"
     ;;
   "flutter_bluetooth.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "flutter_image_compress_common.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "flutter_image_compress_common.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "flutter_native_timezone.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "flutter_native_timezone.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
   "Flutter.xcframework/ios-arm64")
@@ -173,28 +89,10 @@ archs_for_slice()
   "FlutterPluginRegistrant.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
-  "libwebp.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "libwebp.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "Mantle.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "Mantle.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
   "native_channel.xcframework/ios-arm64")
     echo "arm64"
     ;;
   "native_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "package_info_plus.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "package_info_plus.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
   "path_provider_foundation.xcframework/ios-arm64")
@@ -207,24 +105,6 @@ archs_for_slice()
     echo "arm64"
     ;;
   "protocol_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "Reachability.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "Reachability.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "SDWebImage.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "SDWebImage.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "SDWebImageWebPCoder.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "SDWebImageWebPCoder.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
   esac
@@ -309,21 +189,11 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../IDOSDK/alexa_channel.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/App.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/connectivity_plus.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/flutter_bluetooth.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/flutter_image_compress_common.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/flutter_native_timezone.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/Flutter.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/FlutterPluginRegistrant.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/libwebp.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/Mantle.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/native_channel.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/package_info_plus.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/path_provider_foundation.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/protocol_channel.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/Reachability.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/SDWebImage.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK/SDWebImageWebPCoder.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/App.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/flutter_bluetooth.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/Flutter.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/FlutterPluginRegistrant.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/native_channel.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/path_provider_foundation.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../IDOSDK-full/protocol_channel.xcframework" "IDOSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

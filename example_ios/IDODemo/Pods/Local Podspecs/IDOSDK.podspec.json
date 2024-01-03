@@ -1,14 +1,14 @@
 {
   "name": "IDOSDK",
-  "version": "0.0.3",
+  "version": "4.0.15",
   "summary": "ido sdk",
   "description": "ido sdk",
-  "homepage": "http://example.com",
+  "homepage": "https://www.idoocn.com/",
   "license": {
     "file": "../LICENSE"
   },
   "authors": {
-    "IDO": "email@example.com"
+    "IDO": "huc@idosmart.com"
   },
   "source": {
     "path": "."
@@ -22,23 +22,13 @@
     "c++"
   ],
   "vendored_frameworks": [
-    "alexa_channel.xcframework",
     "App.xcframework",
-    "connectivity_plus.xcframework",
     "flutter_bluetooth.xcframework",
-    "flutter_image_compress_common.xcframework",
-    "flutter_native_timezone.xcframework",
     "Flutter.xcframework",
     "FlutterPluginRegistrant.xcframework",
-    "libwebp.xcframework",
-    "Mantle.xcframework",
     "native_channel.xcframework",
-    "package_info_plus.xcframework",
     "path_provider_foundation.xcframework",
     "protocol_channel.xcframework",
-    "Reachability.xcframework",
-    "SDWebImage.xcframework",
-    "SDWebImageWebPCoder.xcframework",
     "protocol_c.framework"
   ],
   "pod_target_xcconfig": {

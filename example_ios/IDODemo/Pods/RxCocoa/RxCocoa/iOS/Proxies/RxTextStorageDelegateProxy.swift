@@ -17,7 +17,8 @@
 
     open class RxTextStorageDelegateProxy
         : DelegateProxy<NSTextStorage, NSTextStorageDelegate>
-        , DelegateProxyType {
+        , DelegateProxyType 
+        , NSTextStorageDelegate {
 
         /// Typed parent object.
         public weak private(set) var textStorage: NSTextStorage?
@@ -33,6 +34,4 @@
             self.register { RxTextStorageDelegateProxy(textStorage: $0) }
         }
     }
-
-    extension RxTextStorageDelegateProxy: NSTextStorageDelegate {}
 #endif

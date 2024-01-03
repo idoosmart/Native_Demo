@@ -1,0 +1,14 @@
+${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks.sh
+${PODS_ROOT}/../../IDOSDK-full/protocol_c.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
+${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework
+${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
+${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework
+${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/App.framework/App
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_bluetooth.framework/flutter_bluetooth
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Flutter.framework/Flutter
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/native_channel.framework/native_channel
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/path_provider_foundation.framework/path_provider_foundation
+${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/protocol_channel.framework/protocol_channel

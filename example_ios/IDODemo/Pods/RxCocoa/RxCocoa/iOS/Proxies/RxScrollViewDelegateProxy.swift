@@ -18,7 +18,8 @@ extension UIScrollView: HasDelegate {
 /// For more information take a look at `DelegateProxyType`.
 open class RxScrollViewDelegateProxy
     : DelegateProxy<UIScrollView, UIScrollViewDelegate>
-    , DelegateProxyType {
+    , DelegateProxyType 
+    , UIScrollViewDelegate {
 
     /// Typed parent object.
     public weak private(set) var scrollView: UIScrollView?
@@ -64,18 +65,8 @@ open class RxScrollViewDelegateProxy
         return subject
     }
     
-    deinit {
-        if let subject = _contentOffsetBehaviorSubject {
-            subject.on(.completed)
-        }
+    // MARK: delegate methods
 
-        if let subject = _contentOffsetPublishSubject {
-            subject.on(.completed)
-        }
-    }
-}
-
-extension RxScrollViewDelegateProxy: UIScrollViewDelegate {
     /// For more information take a look at `DelegateProxyType`.
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let subject = _contentOffsetBehaviorSubject {
@@ -85,6 +76,16 @@ extension RxScrollViewDelegateProxy: UIScrollViewDelegate {
             subject.on(.next(()))
         }
         self._forwardToDelegate?.scrollViewDidScroll?(scrollView)
+    }
+    
+    deinit {
+        if let subject = _contentOffsetBehaviorSubject {
+            subject.on(.completed)
+        }
+
+        if let subject = _contentOffsetPublishSubject {
+            subject.on(.completed)
+        }
     }
 }
 

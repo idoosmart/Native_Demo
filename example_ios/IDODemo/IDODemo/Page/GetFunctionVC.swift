@@ -26,47 +26,29 @@ class GetFunctionVC: UIViewController {
         GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information"),
         GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information"),
         GetCmd(type: .getBtName, title: "getBtName", desc: "Get bt bluetooth name"),
-        //GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number"),
-        //GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: "Get error record"),
-        //GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number"),
-        //GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: "Get GPS Information event number"),
-        //GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: "Get version information event number"),
         GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: "Get MTU Information event number"),
         GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"),
-        //GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: "Get GPS Status event number"),
-        //GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: "Get non-deletable menu list in firmware event number"),
         GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"),
         GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number"),
         GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: "Get Font Library Information event number"),
         GetCmd(type: .getBtNotice, title: "getBtNotice", desc: "Query BT pairing switch, connection, A2DP connection, HFP connection status (Only Supported on devices with BT Bluetooth) event number"),
         GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: "Get wrist up gesture data event number"),
-        //GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number"),
         GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: "Get Do Not Disturb mode status event number"),
         GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: "Get Set Calorie/Distance/Mid-High Sport Time Goal event number"),
-        //GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: "Get blood pressure algorithm version information event number"),
         GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: "Get screen brightness event number"),
-        //GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number"),
         GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: "Get maximum number of settings supported by firmware event number"),
         GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: "Get walk reminder event number"),
         GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"),
-        //GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number"),
         GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: "Get firmware local contact file modification time event number"),
-        //GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: "Get device update status event number"),
-        //GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"),
         GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number"),
         GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number"),
         GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number"),
-        //GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: "Get Download Language Support"),
         GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List"),
         GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"),
         GetCmd(type: .getAlarm, title: "getAlarm", desc: "Getting Alarms for V3APP Devices"),
-        //GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3"),
-        //GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: "Get Firmware Song Names and Folders"),
         GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information"),
         GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)"),
         GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2"),
-        //GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: "Get Language Library List"),
-        //GetCmd(type: .getBleBeep, title: "getBleBeep", desc: "Getting firmware local beep file information for V3")
     ]
     
     override func viewDidLoad() {
@@ -74,6 +56,52 @@ class GetFunctionVC: UIViewController {
         
         title = "Get Function"
         view.backgroundColor = .white
+        
+        // 根据功能表添加
+        
+        if (sdk.funcTable.getRealtimeData) {
+            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number"))
+        }
+        if (sdk.funcTable.getFlashLog) {
+            items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: "Get error record"))
+        }
+        if (sdk.funcTable.getSupportUpdateGps) {
+            items.append(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: "Get GPS Information event number"))
+        }
+        if (sdk.funcTable.getVersionInfo) {
+            items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: "Get version information event number"))
+        }
+        if (sdk.funcTable.getSupportUpdateGps) {
+            items.append(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: "Get GPS Status event number"))
+        }
+        if (sdk.funcTable.getDeletableMenuListV2) {
+            items.append(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: "Get non-deletable menu list in firmware event number"))
+        }
+        if (sdk.funcTable.setSupportV3Bp) {
+            items.append(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: "Get blood pressure algorithm version information event number"))
+        }
+        if (sdk.funcTable.getDeviceUpdateState) {
+            items.append(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: "Get device update status event number"))
+        }
+        if (sdk.funcTable.getDownloadLanguage) {
+            items.append(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: "Get Download Language Support"))
+        }
+        if (sdk.funcTable.getSupportGetBleMusicInfoVerV3) {
+            items.append(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: "Get Firmware Song Names and Folders"))
+        }
+        if (sdk.funcTable.getLangLibraryV3) {
+            items.append(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: "Get Language Library List"))
+        }
+        if (sdk.funcTable.getSupportGetBleBeepV3) {
+            items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: "Getting firmware local beep file information for V3"))
+        }
+        
+        //GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number"),
+        //GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number"),
+        //GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number"),
+        //GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number"),
+        //GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"),
+        //GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3"),
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in

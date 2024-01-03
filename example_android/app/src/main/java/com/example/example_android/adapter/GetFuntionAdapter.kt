@@ -1,5 +1,6 @@
 package com.example.example_android.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class GetFuntionAdapter(var getFuntionList: MutableList<IDoDataBean>) : Recycler
         this.itemClickListener = itemClickListener
     }
 
-    override fun onBindViewHolder(holder: GetFuntionViewHodler, position: Int) {
+    override fun onBindViewHolder(holder: GetFuntionViewHodler, @SuppressLint("RecyclerView") position: Int) {
         var  function  = getFuntionList[position]
          holder.title.text = function.title
         holder.tv_sub_title.text = function.sub_title

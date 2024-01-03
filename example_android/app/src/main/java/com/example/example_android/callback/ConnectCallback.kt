@@ -15,11 +15,6 @@ import com.idosmart.protocol_sdk.IDOBleDelegate
  * 用途:
  */
 interface ConnectCallback : IDOBleDelegate {
-    override fun writeState(state: IDOWriteStateModel) {
-    }
-
-    override fun receiveData(data: IDOReceiveData) {
-    }
 
     override fun scanResult(list: List<IDOBleDeviceModel>?) {
     }

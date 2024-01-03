@@ -8,7 +8,7 @@
 
 #if !os(Linux)
 
-import Foundation
+import Foundation.NSObject
 import RxSwift
 #if SWIFT_PACKAGE && !DISABLE_SWIZZLING && !os(Linux)
     import RxCocoaRuntime
@@ -57,39 +57,14 @@ extension Reactive where Base: NSObject {
 
      If support for weak properties is needed or observing arbitrary or unknown relationships in the
      ownership tree, `observeWeakly` is the preferred option.
-     - parameter type: Optional type hint of the observed sequence elements.
+
      - parameter keyPath: Key path of property names to observe.
      - parameter options: KVO mechanism notification options.
      - parameter retainSelf: Retains self during observation if set `true`.
      - returns: Observable sequence of objects on `keyPath`.
      */
-    public func observe<Element>(_ type: Element.Type,
-                                 _ keyPath: String,
-                                 options: KeyValueObservingOptions = [.new, .initial],
-                                 retainSelf: Bool = true) -> Observable<Element?> {
-        KVOObservable(object: self.base, keyPath: keyPath, options: options, retainTarget: retainSelf).asObservable()
-    }
-
-    /**
-    Observes values at the provided key path using the provided options.
-
-     - parameter keyPath: A key path between the object and one of its properties.
-     - parameter options: Key-value observation options, defaults to `.new` and `.initial`.
-
-     - note: When the object is deallocated, a completion event is emitted.
-
-     - returns: An observable emitting value changes at the provided key path.
-    */
-    public func observe<Element>(_ keyPath: KeyPath<Base, Element>,
-                                 options: NSKeyValueObservingOptions = [.new, .initial]) -> Observable<Element> {
-        Observable<Element>.create { [weak base] observer in
-            let observation = base?.observe(keyPath, options: options) { obj, _ in
-                observer.on(.next(obj[keyPath: keyPath]))
-            }
-
-            return Disposables.create { observation?.invalidate() }
-        }
-        .take(until: base.rx.deallocated)
+    public func observe<Element>(_ type: Element.Type, _ keyPath: String, options: KeyValueObservingOptions = [.new, .initial], retainSelf: Bool = true) -> Observable<Element?> {
+        return KVOObservable(object: self.base, keyPath: keyPath, options: options, retainTarget: retainSelf).asObservable()
     }
 }
 
@@ -107,7 +82,7 @@ extension Reactive where Base: NSObject {
      * it can be used to observe `weak` properties
 
      **Since it needs to intercept object deallocation process it needs to perform swizzling of `dealloc` method on observed object.**
-     - parameter type: Optional type hint of the observed sequence elements.
+
      - parameter keyPath: Key path of property names to observe.
      - parameter options: KVO mechanism notification options.
      - returns: Observable sequence of objects on `keyPath`.
@@ -134,13 +109,13 @@ extension Reactive where Base: AnyObject {
     public var deallocated: Observable<Void> {
         return self.synchronized {
             if let deallocObservable = objc_getAssociatedObject(self.base, &deallocatedSubjectContext) as? DeallocObservable {
-                return deallocObservable.subject
+                return deallocObservable._subject
             }
 
             let deallocObservable = DeallocObservable()
 
             objc_setAssociatedObject(self.base, &deallocatedSubjectContext, deallocObservable, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return deallocObservable.subject
+            return deallocObservable._subject
         }
     }
 
@@ -266,7 +241,7 @@ extension Reactive where Base: AnyObject {
 
 #if !DISABLE_SWIZZLING && !os(Linux)
 
-    private protocol MessageInterceptorSubject: AnyObject {
+    private protocol MessageInterceptorSubject: class {
         init()
 
         var isActive: Bool {
@@ -336,14 +311,14 @@ extension Reactive where Base: AnyObject {
 
 
 private final class DeallocObservable {
-    let subject = ReplaySubject<Void>.create(bufferSize:1)
+    let _subject = ReplaySubject<Void>.create(bufferSize:1)
 
     init() {
     }
 
     deinit {
-        self.subject.on(.next(()))
-        self.subject.on(.completed)
+        self._subject.on(.next(()))
+        self._subject.on(.completed)
     }
 }
 
@@ -460,7 +435,7 @@ private extension KeyValueObservingOptions {
     // is as a delimiter.
     // This means there is `W` as element in an array of property attributes.
     private func isWeakProperty(_ properyRuntimeInfo: String) -> Bool {
-        properyRuntimeInfo.range(of: ",W,") != nil
+        return properyRuntimeInfo.range(of: ",W,") != nil
     }
 
     private extension ObservableType where Element == AnyObject? {

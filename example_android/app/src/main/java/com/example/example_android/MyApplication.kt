@@ -2,6 +2,7 @@ package com.example.example_android
 
 import android.app.Application
 import android.content.res.AssetManager
+import com.example.example_android.callback.BleManager
 import com.idosmart.protocol_channel.sdk
 import java.io.File
 import java.io.FileOutputStream
@@ -82,6 +83,7 @@ class MyApplication : Application() {
         super.onCreate()
         /// 只初始化一次
         sdk.init(this)
+        BleManager.initSdk()
         initResource()
     }
 

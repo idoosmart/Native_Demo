@@ -23,14 +23,14 @@ operator please use `ConcurrentMainScheduler` because it is more optimized for t
 */
 public final class MainScheduler : SerialDispatchQueueScheduler {
 
-    private let mainQueue: DispatchQueue
+    private let _mainQueue: DispatchQueue
 
     let numberEnqueued = AtomicInt(0)
 
     /// Initializes new instance of `MainScheduler`.
     public init() {
-        self.mainQueue = DispatchQueue.main
-        super.init(serialQueue: self.mainQueue)
+        self._mainQueue = DispatchQueue.main
+        super.init(serialQueue: self._mainQueue)
     }
 
     /// Singleton instance of `MainScheduler`
@@ -41,14 +41,14 @@ public final class MainScheduler : SerialDispatchQueueScheduler {
     public static let asyncInstance = SerialDispatchQueueScheduler(serialQueue: DispatchQueue.main)
 
     /// In case this method is called on a background thread it will throw an exception.
-    public static func ensureExecutingOnScheduler(errorMessage: String? = nil) {
+    public class func ensureExecutingOnScheduler(errorMessage: String? = nil) {
         if !DispatchQueue.isMain {
             rxFatalError(errorMessage ?? "Executing on background thread. Please use `MainScheduler.instance.schedule` to schedule work on main thread.")
         }
     }
 
     /// In case this method is running on a background thread it will throw an exception.
-    public static func ensureRunningOnMainThread(errorMessage: String? = nil) {
+    public class func ensureRunningOnMainThread(errorMessage: String? = nil) {
         #if !os(Linux) // isMainThread is not implemented in Linux Foundation
             guard Thread.isMainThread else {
                 rxFatalError(errorMessage ?? "Running on background thread.")
@@ -67,9 +67,9 @@ public final class MainScheduler : SerialDispatchQueueScheduler {
 
         let cancel = SingleAssignmentDisposable()
 
-        self.mainQueue.async {
+        self._mainQueue.async {
             if !cancel.isDisposed {
-                cancel.setDisposable(action(state))
+                _ = action(state)
             }
 
             decrement(self.numberEnqueued)

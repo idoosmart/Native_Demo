@@ -1,6 +1,0 @@
-framework module alexa_channel {
-  umbrella header "alexa_channel-umbrella.h"
-
-  export *
-  module * { export * }
-}

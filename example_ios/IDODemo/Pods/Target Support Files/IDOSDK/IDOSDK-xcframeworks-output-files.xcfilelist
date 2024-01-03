@@ -1,17 +1,7 @@
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/alexa_channel.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/App.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/connectivity_plus.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_bluetooth.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_image_compress_common.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_native_timezone.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Flutter.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/FlutterPluginRegistrant.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/libwebp.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Mantle.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/native_channel.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/package_info_plus.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/path_provider_foundation.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/protocol_channel.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Reachability.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/SDWebImage.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/SDWebImageWebPCoder.framework

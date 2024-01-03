@@ -1,18 +1,8 @@
 ${PODS_ROOT}/Target Support Files/IDOSDK/IDOSDK-xcframeworks.sh
-${PODS_ROOT}/../../IDOSDK/alexa_channel.xcframework
-${PODS_ROOT}/../../IDOSDK/App.xcframework
-${PODS_ROOT}/../../IDOSDK/connectivity_plus.xcframework
-${PODS_ROOT}/../../IDOSDK/flutter_bluetooth.xcframework
-${PODS_ROOT}/../../IDOSDK/flutter_image_compress_common.xcframework
-${PODS_ROOT}/../../IDOSDK/flutter_native_timezone.xcframework
-${PODS_ROOT}/../../IDOSDK/Flutter.xcframework
-${PODS_ROOT}/../../IDOSDK/FlutterPluginRegistrant.xcframework
-${PODS_ROOT}/../../IDOSDK/libwebp.xcframework
-${PODS_ROOT}/../../IDOSDK/Mantle.xcframework
-${PODS_ROOT}/../../IDOSDK/native_channel.xcframework
-${PODS_ROOT}/../../IDOSDK/package_info_plus.xcframework
-${PODS_ROOT}/../../IDOSDK/path_provider_foundation.xcframework
-${PODS_ROOT}/../../IDOSDK/protocol_channel.xcframework
-${PODS_ROOT}/../../IDOSDK/Reachability.xcframework
-${PODS_ROOT}/../../IDOSDK/SDWebImage.xcframework
-${PODS_ROOT}/../../IDOSDK/SDWebImageWebPCoder.xcframework
+${PODS_ROOT}/../../IDOSDK-full/App.xcframework
+${PODS_ROOT}/../../IDOSDK-full/flutter_bluetooth.xcframework
+${PODS_ROOT}/../../IDOSDK-full/Flutter.xcframework
+${PODS_ROOT}/../../IDOSDK-full/FlutterPluginRegistrant.xcframework
+${PODS_ROOT}/../../IDOSDK-full/native_channel.xcframework
+${PODS_ROOT}/../../IDOSDK-full/path_provider_foundation.xcframework
+${PODS_ROOT}/../../IDOSDK-full/protocol_channel.xcframework

@@ -38,21 +38,6 @@ object BleManager {
     }
 
     private val bleDelegate = object : IDOBleDelegate {
-        override fun writeState(state: IDOWriteStateModel) {
-            delegates.forEach {
-                it.writeState(state)
-            }
-        }
-
-        override fun receiveData(data: IDOReceiveData) {
-            delegates.forEach { it.receiveData(data) }
-            if (data.data != null) {
-                //Bluetooth response data
-                sdk.bridge.receiveDataFromBle(data.data!!, data.macAddress, data.spp ?: false)
-            } else {
-                print("receiveData data is null")
-            }
-        }
 
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
             delegates.forEach { it.scanResult(list) }
@@ -78,7 +63,6 @@ object BleManager {
     }
 
     fun initSdk() {
-        sdk.ble.bluetoothRegister(false)
         sdk.ble.addBleDelegate(bleDelegate)
         sdk.ble.getBluetoothState {
 

@@ -17,11 +17,21 @@ struct Word {
     static let syncData = "Sync Data"
     static let alexa = "Alexa"
     static let transFile = "Transfer File"
+    static let sport = "Sport"
 }
 
 
 struct Constant {
     static let bindKey = "bind-state"
+    
+    /// 2秒一次交换简要运动数据
+    static let intervalExchangeData = 2 * 1000
+
+    /// 40秒一次交换运动完整数据
+    static let intervalExchangeCompleteData = 40 * 1000
+
+    /// 30秒一次交换V3心率数据
+    static let intervalExchangeHrData = 30 * 1000
 }
 
 

@@ -1,16 +1,20 @@
 PODS:
-  - IDOSDK (0.0.3)
-  - RxCocoa (6.5.0):
-    - RxRelay (= 6.5.0)
-    - RxSwift (= 6.5.0)
-  - RxRelay (6.5.0):
-    - RxSwift (= 6.5.0)
-  - RxSwift (6.5.0)
+  - IDOSDK (4.0.15)
+  - IDOSDK-lite (4.0.15)
+  - ReachabilitySwift (5.0.0)
+  - RxCocoa (5.1.3):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.3):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.3)
   - SnapKit (5.6.0)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
-  - IDOSDK (from `../IDOSDK/`)
+  - IDOSDK (from `../IDOSDK-full/`)
+  - IDOSDK-lite (from `../IDOSDK-lite/`)
+  - ReachabilitySwift
   - RxCocoa
   - RxSwift
   - SnapKit
@@ -18,6 +22,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ReachabilitySwift
     - RxCocoa
     - RxRelay
     - RxSwift
@@ -26,16 +31,20 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   IDOSDK:
-    :path: "../IDOSDK/"
+    :path: "../IDOSDK-full/"
+  IDOSDK-lite:
+    :path: "../IDOSDK-lite/"
 
 SPEC CHECKSUMS:
-  IDOSDK: f97322ac00940c12dd77bbb43f088380d3d47d7e
-  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
-  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
-  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  IDOSDK: 0666a353104c85dbf2f19b5269eb54799a16ccac
+  IDOSDK-lite: 8ce73bea516c38d297346a53c579239757923dcb
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
+  RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
+  RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 42dac23d680300cb60e6a13ca6acf901a7b628be
+PODFILE CHECKSUM: d2e559b28938ccc074d6f81e10613fc035d63483
 
 COCOAPODS: 1.13.0
