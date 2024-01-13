@@ -47,14 +47,15 @@
 		47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */; };
 		47E5966A2B3C14C2001DC0B1 /* Lite-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47E596672B3C14C2001DC0B1 /* Lite-Info.plist */; };
 		47E5966B2B3C14C2001DC0B1 /* Full-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47E596682B3C14C2001DC0B1 /* Full-Info.plist */; };
+		47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E95DBF2B4D0210006C8B99 /* TestOC.m */; };
+		47E95DC12B4D0210006C8B99 /* TestOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E95DBF2B4D0210006C8B99 /* TestOC.m */; };
 		47EAC8CD2B200CB000B88684 /* SportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EAC8CC2B200CB000B88684 /* SportVC.swift */; };
-		5D0EAA2B56D813995E635B10 /* Pods_IDODemoLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29771D4211806D3B670AC905 /* Pods_IDODemoLite.framework */; };
-		C87B68955D6CEEFECB4EB5F5 /* Pods_IDODemoFull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC2995A2E42C758B8FCAAC2 /* Pods_IDODemoFull.framework */; };
+		87EABD3B539C241712F61A56 /* Pods_IDODemoFull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A35DEFA29C8A7A7A21C7B166 /* Pods_IDODemoFull.framework */; };
+		B838A9F9D3ADB11663AF6FF8 /* Pods_IDODemoLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F93F855E179FE0EC9E81DAC4 /* Pods_IDODemoLite.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29771D4211806D3B670AC905 /* Pods_IDODemoLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDODemoLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		442F641A3B6A943FB169DF09 /* Pods-IDODemoLite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoLite.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite.debug.xcconfig"; sourceTree = "<group>"; };
+		3D384D22C404D4B4D7995641 /* Pods-IDODemoLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoLite.release.xcconfig"; path = "Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite.release.xcconfig"; sourceTree = "<group>"; };
 		470498D02AEA5D1900ADA589 /* GetFunctionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFunctionVC.swift; sourceTree = "<group>"; };
 		470498D22AEA5D4400ADA589 /* SetFunctionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFunctionVC.swift; sourceTree = "<group>"; };
 		470498D82AEA5F7300ADA589 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -82,11 +83,16 @@
 		47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlexaPageVC.swift; sourceTree = "<group>"; };
 		47E596672B3C14C2001DC0B1 /* Lite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Lite-Info.plist"; sourceTree = SOURCE_ROOT; };
 		47E596682B3C14C2001DC0B1 /* Full-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Full-Info.plist"; sourceTree = SOURCE_ROOT; };
+		47E95DBC2B4D020F006C8B99 /* IDODemoFull-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDODemoFull-Bridging-Header.h"; sourceTree = "<group>"; };
+		47E95DBD2B4D020F006C8B99 /* IDODemoLite-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IDODemoLite-Bridging-Header.h"; sourceTree = "<group>"; };
+		47E95DBE2B4D0210006C8B99 /* TestOC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestOC.h; sourceTree = "<group>"; };
+		47E95DBF2B4D0210006C8B99 /* TestOC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestOC.m; sourceTree = "<group>"; };
 		47EAC8CC2B200CB000B88684 /* SportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SportVC.swift; sourceTree = "<group>"; };
-		53F670E5B18D226443CBD573 /* Pods-IDODemoFull.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.release.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.release.xcconfig"; sourceTree = "<group>"; };
-		892E7FF553AF32EC392365EA /* Pods-IDODemoFull.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.debug.xcconfig"; sourceTree = "<group>"; };
-		A9F70D87C2126ADCA1F6042D /* Pods-IDODemoLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoLite.release.xcconfig"; path = "Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite.release.xcconfig"; sourceTree = "<group>"; };
-		FCC2995A2E42C758B8FCAAC2 /* Pods_IDODemoFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDODemoFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A35DEFA29C8A7A7A21C7B166 /* Pods_IDODemoFull.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDODemoFull.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B65D72FBAA8C846DEC7B8B7F /* Pods-IDODemoLite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoLite.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite.debug.xcconfig"; sourceTree = "<group>"; };
+		D20EA3CD592C549A8788E9A9 /* Pods-IDODemoFull.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.debug.xcconfig"; sourceTree = "<group>"; };
+		D5DF23FD4AB11B4D224FF2BE /* Pods-IDODemoFull.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.release.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.release.xcconfig"; sourceTree = "<group>"; };
+		F93F855E179FE0EC9E81DAC4 /* Pods_IDODemoLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDODemoLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +102,7 @@
 			files = (
 				4738B07F2B3538EC00D6BBEC /* AVFoundation.framework in Frameworks */,
 				4738B0802B3538EC00D6BBEC /* MediaPlayer.framework in Frameworks */,
-				5D0EAA2B56D813995E635B10 /* Pods_IDODemoLite.framework in Frameworks */,
+				B838A9F9D3ADB11663AF6FF8 /* Pods_IDODemoLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +112,7 @@
 			files = (
 				47C9DE082AF0D335006F7CB8 /* AVFoundation.framework in Frameworks */,
 				47C9DE0A2AF0D353006F7CB8 /* MediaPlayer.framework in Frameworks */,
-				C87B68955D6CEEFECB4EB5F5 /* Pods_IDODemoFull.framework in Frameworks */,
+				87EABD3B539C241712F61A56 /* Pods_IDODemoFull.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +187,10 @@
 				470498D72AEA5F4300ADA589 /* Common */,
 				47D582412AE8B1E6007D9DCE /* Page */,
 				47D582482AE8B21E007D9DCE /* Resources */,
+				47E95DBE2B4D0210006C8B99 /* TestOC.h */,
+				47E95DBF2B4D0210006C8B99 /* TestOC.m */,
+				47E95DBC2B4D020F006C8B99 /* IDODemoFull-Bridging-Header.h */,
+				47E95DBD2B4D020F006C8B99 /* IDODemoLite-Bridging-Header.h */,
 			);
 			path = IDODemo;
 			sourceTree = "<group>";
@@ -214,10 +224,10 @@
 		4A23F317D9DBFB651B6E832B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				892E7FF553AF32EC392365EA /* Pods-IDODemoFull.debug.xcconfig */,
-				53F670E5B18D226443CBD573 /* Pods-IDODemoFull.release.xcconfig */,
-				442F641A3B6A943FB169DF09 /* Pods-IDODemoLite.debug.xcconfig */,
-				A9F70D87C2126ADCA1F6042D /* Pods-IDODemoLite.release.xcconfig */,
+				D20EA3CD592C549A8788E9A9 /* Pods-IDODemoFull.debug.xcconfig */,
+				D5DF23FD4AB11B4D224FF2BE /* Pods-IDODemoFull.release.xcconfig */,
+				B65D72FBAA8C846DEC7B8B7F /* Pods-IDODemoLite.debug.xcconfig */,
+				3D384D22C404D4B4D7995641 /* Pods-IDODemoLite.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -227,8 +237,8 @@
 			children = (
 				47C9DE092AF0D353006F7CB8 /* MediaPlayer.framework */,
 				47C9DE072AF0D334006F7CB8 /* AVFoundation.framework */,
-				FCC2995A2E42C758B8FCAAC2 /* Pods_IDODemoFull.framework */,
-				29771D4211806D3B670AC905 /* Pods_IDODemoLite.framework */,
+				A35DEFA29C8A7A7A21C7B166 /* Pods_IDODemoFull.framework */,
+				F93F855E179FE0EC9E81DAC4 /* Pods_IDODemoLite.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -240,11 +250,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4738B0882B3538EC00D6BBEC /* Build configuration list for PBXNativeTarget "IDODemoLite" */;
 			buildPhases = (
-				A8BE52947A0948F0F8A48F7E /* [CP] Check Pods Manifest.lock */,
+				AA962B3B8A76F39068F1A257 /* [CP] Check Pods Manifest.lock */,
 				4738B0722B3538EC00D6BBEC /* Sources */,
 				4738B07E2B3538EC00D6BBEC /* Frameworks */,
 				4738B0822B3538EC00D6BBEC /* Resources */,
-				7C928FF09B1A998A08098A91 /* [CP] Embed Pods Frameworks */,
+				556CF3105E6D381275D32E53 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,11 +269,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47D5823D2AE8ACA7007D9DCE /* Build configuration list for PBXNativeTarget "IDODemoFull" */;
 			buildPhases = (
-				9FDE988A2E4F81EEC377C223 /* [CP] Check Pods Manifest.lock */,
+				259DF6DE2C820D62682FCF16 /* [CP] Check Pods Manifest.lock */,
 				47D582252AE8ACA5007D9DCE /* Sources */,
 				47D582262AE8ACA5007D9DCE /* Frameworks */,
 				47D582272AE8ACA5007D9DCE /* Resources */,
-				6ED092B06EC1E930737CD7A9 /* [CP] Embed Pods Frameworks */,
+				F1298C1EB622CFCC3ACDD438 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -284,6 +294,9 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					4738B0702B3538EC00D6BBEC = {
+						LastSwiftMigration = 1420;
+					};
 					47D582282AE8ACA5007D9DCE = {
 						CreatedOnToolsVersion = 14.2;
 						LastSwiftMigration = 1420;
@@ -337,41 +350,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6ED092B06EC1E930737CD7A9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C928FF09B1A998A08098A91 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9FDE988A2E4F81EEC377C223 /* [CP] Check Pods Manifest.lock */ = {
+		259DF6DE2C820D62682FCF16 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,7 +372,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A8BE52947A0948F0F8A48F7E /* [CP] Check Pods Manifest.lock */ = {
+		556CF3105E6D381275D32E53 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA962B3B8A76F39068F1A257 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -415,6 +411,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F1298C1EB622CFCC3ACDD438 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -427,6 +440,7 @@
 				4738B0772B3538EC00D6BBEC /* AlexaPageVC.swift in Sources */,
 				4738B0782B3538EC00D6BBEC /* Extensions.swift in Sources */,
 				4738B0792B3538EC00D6BBEC /* GetFunctionVC.swift in Sources */,
+				47E95DC12B4D0210006C8B99 /* TestOC.m in Sources */,
 				47D514B22B393BF300E0AC21 /* XYCBBase.swift in Sources */,
 				47D514B42B397D9200E0AC21 /* MainPageVC.swift in Sources */,
 				4738B07A2B3538EC00D6BBEC /* AppDelegate.swift in Sources */,
@@ -448,6 +462,7 @@
 				470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */,
 				47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */,
 				470498DE2AEA804500ADA589 /* Extensions.swift in Sources */,
+				47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */,
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,
 				47D5822D2AE8ACA5007D9DCE /* AppDelegate.swift in Sources */,
 				47D514B62B397DA500E0AC21 /* MainPageVC.swift in Sources */,
@@ -483,7 +498,7 @@
 /* Begin XCBuildConfiguration section */
 		4738B0892B3538EC00D6BBEC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 442F641A3B6A943FB169DF09 /* Pods-IDODemoLite.debug.xcconfig */;
+			baseConfigurationReference = B65D72FBAA8C846DEC7B8B7F /* Pods-IDODemoLite.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -515,7 +530,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "IDODemo/IDODemoLite-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -524,7 +539,7 @@
 		};
 		4738B08A2B3538EC00D6BBEC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9F70D87C2126ADCA1F6042D /* Pods-IDODemoLite.release.xcconfig */;
+			baseConfigurationReference = 3D384D22C404D4B4D7995641 /* Pods-IDODemoLite.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -556,7 +571,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "IDODemo/IDODemoLite-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -678,7 +693,7 @@
 		};
 		47D5823E2AE8ACA7007D9DCE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 892E7FF553AF32EC392365EA /* Pods-IDODemoFull.debug.xcconfig */;
+			baseConfigurationReference = D20EA3CD592C549A8788E9A9 /* Pods-IDODemoFull.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -710,7 +725,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "IDODemo/IDODemoFull-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -719,7 +734,7 @@
 		};
 		47D5823F2AE8ACA7007D9DCE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53F670E5B18D226443CBD573 /* Pods-IDODemoFull.release.xcconfig */;
+			baseConfigurationReference = D5DF23FD4AB11B4D224FF2BE /* Pods-IDODemoFull.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -751,7 +766,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "IDODemo/IDODemoFull-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

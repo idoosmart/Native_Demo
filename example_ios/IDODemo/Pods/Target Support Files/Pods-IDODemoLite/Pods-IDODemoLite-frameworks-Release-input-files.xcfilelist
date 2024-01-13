@@ -5,7 +5,7 @@ ${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
 ${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework
 ${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
-${PODS_ROOT}/../../IDOSDK-lite/protocol_c.framework
+${PODS_ROOT}/IDOSDK-lite/protocol_c.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/App.framework/App
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/Flutter.framework/Flutter
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/native_channel.framework/native_channel

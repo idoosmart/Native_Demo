@@ -1,5 +1,5 @@
 PODS:
-  - IDOSDK (4.0.15)
+  - IDOSDK-full (4.0.15)
   - IDOSDK-lite (4.0.15)
   - ReachabilitySwift (5.0.0)
   - RxCocoa (5.1.3):
@@ -12,8 +12,8 @@ PODS:
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
-  - IDOSDK (from `../IDOSDK-full/`)
-  - IDOSDK-lite (from `../IDOSDK-lite/`)
+  - IDOSDK-full (~> 4.0.15)
+  - IDOSDK-lite (~> 4.0.15)
   - ReachabilitySwift
   - RxCocoa
   - RxSwift
@@ -21,6 +21,10 @@ DEPENDENCIES:
   - SVProgressHUD
 
 SPEC REPOS:
+  http://gitlab.hc.com/spec/myspec:
+    - IDOSDK-lite
+  https://github.com/idoosmart/IDOSmartSpec:
+    - IDOSDK-full
   trunk:
     - ReachabilitySwift
     - RxCocoa
@@ -29,15 +33,9 @@ SPEC REPOS:
     - SnapKit
     - SVProgressHUD
 
-EXTERNAL SOURCES:
-  IDOSDK:
-    :path: "../IDOSDK-full/"
-  IDOSDK-lite:
-    :path: "../IDOSDK-lite/"
-
 SPEC CHECKSUMS:
-  IDOSDK: 0666a353104c85dbf2f19b5269eb54799a16ccac
-  IDOSDK-lite: 8ce73bea516c38d297346a53c579239757923dcb
+  IDOSDK-full: 34ce03083a5ce90f0ef133656e36fb6d734ad821
+  IDOSDK-lite: def5180c8d3aeb3263bc2283d97bf5c5e1e4e552
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
@@ -45,6 +43,6 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: d2e559b28938ccc074d6f81e10613fc035d63483
+PODFILE CHECKSUM: 85f81462e7bf31677b56954b8071678c59386973
 
 COCOAPODS: 1.13.0

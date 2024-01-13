@@ -18,6 +18,7 @@ struct Word {
     static let alexa = "Alexa"
     static let transFile = "Transfer File"
     static let sport = "Sport"
+    static let testOC = "Test OC"
 }
 
 

@@ -185,7 +185,7 @@ extension SportVC {
             baseModel: baseModel,
             forceStart: 1
         )
-        sdk.dataExchange.appExec(.appStart(obj))
+        sdk.dataExchange.appExec(model: obj)
         print("start")
         textConsole.text = ""
         exchangeType = 1
@@ -194,14 +194,14 @@ extension SportVC {
     private func _sportPause() {
         guard baseModel != nil else { return }
         let obj = IDOAppPauseExchangeModel(baseModel: baseModel)
-        sdk.dataExchange.appExec(.appPause(obj))
+        sdk.dataExchange.appExec(model: obj)
         print("pause")
         exchangeType = 2
     }
     
     private func _sportResume() {
         guard baseModel != nil else { return }
-        sdk.dataExchange.appExec(.appRestore(IDOAppRestoreExchangeModel(baseModel: baseModel)))
+        sdk.dataExchange.appExec(model: IDOAppRestoreExchangeModel(baseModel: baseModel))
         print("resume")
         exchangeType = 1
     }
@@ -215,7 +215,7 @@ extension SportVC {
             distance: 10,
             isSave: 1
         )
-        sdk.dataExchange.appExec(.appEnd(obj))
+        sdk.dataExchange.appExec(model: obj)
         disposeTimer = DisposeBag()
         print("end")
         textConsole.text = ""
@@ -228,10 +228,10 @@ extension SportVC {
         }
         if (sdk.dataExchange.supportV3ActivityExchange) {
             let obj = IDOAppIngV3ExchangeModel(baseModel: baseModel, version: 2, signal: 0, distance: distance, speed: 0, duration: duration, calories: calories)
-            sdk.dataExchange.appExec(IDOAppExecType.appIngV3(obj))
+            sdk.dataExchange.appExec(model: obj)
         } else {
             let obj = IDOAppIngExchangeModel(baseModel: baseModel, duration: duration, calories: calories, distance: distance, status: 0)
-            sdk.dataExchange.appExec(IDOAppExecType.appIng(obj))
+            sdk.dataExchange.appExec(model: obj)
         }
     }
     
@@ -248,47 +248,94 @@ extension SportVC {
 }
 
 
-extension SportVC: IDOExchangeDataDelegate {
-    func appListenBleExec(type: IDOBleExecType) {
-        switch type {
-        case .bleStart(let obj):
-            let model = IDOBleStartReplyExchangeModel(baseModel: obj?.baseModel, operate: obj?.operate, retCode: 0)
-            sdk.dataExchange.appReplyExec(.bleStartReply(model))
-        case .bleIng(let obj):
-            let model = IDOBleIngReplyExchangeModel(baseModel: obj?.baseModel, distance: obj?.distance)
-            sdk.dataExchange.appReplyExec(.bleIngReply(model))
-        case .bleEnd(let obj):
-            let model = IDOBleEndReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
-            sdk.dataExchange.appReplyExec(.bleEndReply(model))
-        case .blePause(let obj):
-            let model = IDOBlePauseReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
-            sdk.dataExchange.appReplyExec(.blePauseReply(model))
-        case .bleRestore(let obj):
-            let model = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
-            sdk.dataExchange.appReplyExec(.bleRestoreReply(model))
-        case .bleOperatePlan(_):
-            break
-        case .appBlePause(let obj):
-            let model = IDOAppBlePauseReplyExchangeModel(baseModel: obj?.baseModel, errCode: 0)
-            sdk.dataExchange.appReplyExec(.appBlePauseReply(model))
-        case .appBleRestore(let obj):
-            let model = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
-            sdk.dataExchange.appReplyExec(.bleRestoreReply(model))
-        case .appBleEnd(let obj):
-            let model = IDOAppBleEndReplyExchangeModel(baseModel: baseModel,
-                                                       errCode: 0,
-                                                       duration: obj?.duration,
-                                                       calories: obj?.calories,
-                                                       distance: obj?.distance)
-            sdk.dataExchange.appReplyExec(.appBleEndReply(model))
-        @unknown default:
-            fatalError()
+extension SportVC: IDOExchangeDataOCDelegate {
+    func appListenBleExec(model: NSObject) {
+        if (model is IDOBleStartExchangeModel) {
+            let obj = model as? IDOBleStartExchangeModel
+            let sendModel = IDOBleStartReplyExchangeModel(baseModel: obj?.baseModel, operate: obj?.operate, retCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOBleIngExchangeModel) {
+            let obj = model as? IDOBleIngExchangeModel
+            let sendModel = IDOBleIngReplyExchangeModel(baseModel: obj?.baseModel, distance: obj?.distance)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOBleEndExchangeModel) {
+            let obj = model as? IDOBleEndExchangeModel
+            let sendModel = IDOBleEndReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOBlePauseExchangeModel) {
+            let obj = model as? IDOBlePauseExchangeModel
+            let sendModel = IDOBlePauseReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOBleRestoreExchangeModel) {
+            let obj = model as? IDOBleRestoreExchangeModel
+            let sendModel = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOAppBlePauseExchangeModel) {
+            let obj = model as? IDOAppBlePauseExchangeModel
+            let sendModel = IDOAppBlePauseReplyExchangeModel(baseModel: obj?.baseModel, errCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOAppBleRestoreExchangeModel) {
+            let obj = model as? IDOAppBleRestoreExchangeModel
+            let sendModel = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
+            sdk.dataExchange.appReplyExec(model: sendModel)
+        }
+        else if (model is IDOAppBleEndExchangeModel) {
+            let obj = model as? IDOAppBleEndExchangeModel
+            let sendModel = IDOAppBleEndReplyExchangeModel(baseModel: baseModel,
+                                                           errCode: 0,
+                                                           duration: obj?.duration,
+                                                           calories: obj?.calories,
+                                                           distance: obj?.distance)
+            sdk.dataExchange.appReplyExec(model: sendModel)
         }
     }
     
-    func appListenAppExec(type: IDOBleReplyType) {
-        switch type {
-        case .appStartReply(let obj):
+    func appListenAppExec(model: NSObject) {
+        
+        /// app执行响应
+        /// - Parameter model: 监听app执行Ble响应实体
+        /// ```
+        /// 响应实体包括：
+        /// app 开始发起运动 ble回复 IDOAppStartReplyExchangeModel
+        /// app 发起运动结束 ble回复 IDOAppEndReplyExchangeModel
+        /// app 交换运动数据 ble回复 IDOAppIngReplyExchangeModel
+        /// app 交换运动数据暂停 ble回复 IDOAppPauseReplyExchangeModel
+        /// app 交换运动数据恢复 ble回复 IDOAppRestoreReplyExchangeModel
+        /// app v3交换运动数据 ble回复 IDOAppIngV3ReplyExchangeModel
+        /// app 操作运动计划 ble回复 IDOAppOperatePlanReplyExchangeModel
+        /// app 获取v3多运动一次活动数据 ble回复 IDOAppActivityDataV3ExchangeModel
+        /// app 获取v3多运动一次心率数据 ble回复 IDOAppHrDataExchangeModel
+        /// app 获取v3多运动一次GPS数据 ble回复 IDOAppGpsDataExchangeModel
+        ///
+        /* /// app 开始发起运动 ble回复
+         case appStartReply(IDOAppStartReplyExchangeModel?)
+         /// app 发起运动结束 ble回复
+         case appEndReply(IDOAppEndReplyExchangeModel?)
+         ///  app 交换运动数据 ble回复
+         case appIngReply(?)
+         /// app 交换运动数据暂停 ble回复
+         case appPauseReply(?)
+         /// app 交换运动数据恢复 ble回复
+         case appRestoreReply(?)
+         /// app v3交换运动数据 ble回复
+         case appIngV3Reply(?)
+         /// app 操作运动计划 ble回复
+         case appOperatePlanReply(?)
+         /// app 获取v3多运动一次活动数据 ble回复
+         case appActivityDataReply(?)
+         /// app 获取v3多运动一次心率数据 ble回复
+         case appActivityHrReply(?)
+         /// app 获取v3多运动一次GPS数据 ble回复
+         case appActivityGpsReply(?)*/
+        
+        if (model is IDOAppStartReplyExchangeModel) {
+            let obj = model as? IDOAppStartReplyExchangeModel
             print("sport started now : \(String(describing: obj))")
             //* - 0:成功; 1:设备已经进入运动模式失败;
             //* - 2:设备电量低失败;3:手环正在充电
@@ -316,30 +363,45 @@ extension SportVC: IDOExchangeDataDelegate {
                     self?.exchangeV3HrData()
                 })
                 .disposed(by: disposeTimer)
-
-        case .appEndReply(let obj):
+        }
+        else if (model is IDOAppEndReplyExchangeModel) {
+            let obj = model as? IDOAppEndReplyExchangeModel
             print("reply for app's end reply: \(String(describing: obj))")
-        case .appIngReply(let obj):
+        }
+        else if (model is IDOAppIngReplyExchangeModel) {
+            let obj = model as? IDOAppIngReplyExchangeModel
             print("data of sport from device: \(String(describing: obj))")
-        case .appPauseReply(let obj):
+        }
+        else if (model is IDOAppPauseReplyExchangeModel) {
+            let obj = model as? IDOAppPauseReplyExchangeModel
             print("reply for app's pause cmd: \(String(describing: obj))")
-        case .appRestoreReply(let obj):
+        }
+        else if (model is IDOAppRestoreReplyExchangeModel) {
+            let obj = model as? IDOAppRestoreReplyExchangeModel
             print("reply for app's restore cmd: \(String(describing: obj))")
-        case .appIngV3Reply(let obj):
+        }
+        else if (model is IDOAppIngV3ReplyExchangeModel) {
+            let obj = model as? IDOAppIngV3ReplyExchangeModel
             print("v3 data of sport from device: \(String(describing: obj))")
-        case .appOperatePlanReply(let obj):
+        }
+        else if (model is IDOAppOperatePlanReplyExchangeModel) {
+            let obj = model as? IDOAppOperatePlanReplyExchangeModel
             print("reply for app's operate plan cmd: \(String(describing: obj))")
-        case .appActivityDataReply(let obj):
+        }
+        else if (model is IDOAppActivityDataV3ExchangeModel) {
+            let obj = model as? IDOAppActivityDataV3ExchangeModel
             print("appActivityDataReply: ${type.model}")
             duration = max(duration, obj?.durations ?? 0)
             calories = max(calories, obj?.calories ?? 0)
             distance = max(distance, obj?.distance ?? 0)
-        case .appActivityHrReply(let obj):
+        }
+        else if (model is IDOAppHrDataExchangeModel) {
+            let obj = model as? IDOAppHrDataExchangeModel
             print("appActivityHrReply: \(String(describing: obj))")
-        case .appActivityGpsReply(let obj):
+        }
+        else if (model is IDOAppGpsDataExchangeModel) {
+            let obj = model as? IDOAppGpsDataExchangeModel
             print("appActivityGpsReply: \(String(describing: obj))")
-        @unknown default:
-            fatalError()
         }
     }
     

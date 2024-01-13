@@ -33,7 +33,8 @@ class FunctionPageVC: UIViewController {
         Word.syncData,
         Word.transFile,
         Word.sport,
-        Word.alexa
+        Word.alexa,
+        Word.testOC
     ]
     
     private lazy var tableView: UITableView = {
@@ -211,6 +212,11 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.sport:
             navigationController?.pushViewController(SportVC(), animated: true)
             break
+        case Word.testOC:
+            let test = TestOC()
+            test.testCommand()
+            test.testSync()
+            break
         default: break
         }
     }
@@ -291,6 +297,8 @@ extension FunctionPageVC {
         case Word.transFile:
             return isConnected && isBinded
         case Word.sport:
+            return isConnected && isBinded
+        case Word.testOC:
             return isConnected && isBinded
         default:
             break

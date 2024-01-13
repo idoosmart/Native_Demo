@@ -83,7 +83,22 @@ class SetFunctionVC: UIViewController {
         SetCmd(type: .setWatchDialSort, title: "setWatchDialSort", desc: "Set watch dial sort event"),
         SetCmd(type: .setWalkRemindTimes, title: "setWalkRemindTimes", desc: "Set multiple walk reminder times event number"),
         SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: "Set wallpaper dial list event number"),
-        SetCmd(type: .setDateTime, title: "setDateTime", desc: "Set Time")
+        SetCmd(type: .setDateTime, title: "setDateTime", desc: "Set Time"),
+        SetCmd(type: .setUserInfo, title: "setUserInfo", desc: "设置用户信息"),
+        SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: "控制寻找设备开始"),
+        SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: "控制寻找设备结束"),
+        SetCmd(type: .photoStart, title: "photoStart", desc: "开始拍照 (app -> ble)"),
+        SetCmd(type: .photoStop, title: "photoStop", desc: "结束拍照 (app -> ble)"),
+        SetCmd(type: .setHand, title: "setHand", desc: "设置左右手"),
+        SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: "设置屏幕亮度"),
+        SetCmd(type: .otaStart, title: "otaStart", desc: "进入升级模式"),
+        SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: "设置心率区间"),
+        SetCmd(type: .setCalorieDistanceGoal, title: "setCalorieDistanceGoal", desc: "设置卡路里和距离目标(设置日常三环)"),
+        SetCmd(type: .setWalkRemind, title: "setWalkRemind", desc: "设置走动提醒"),
+        SetCmd(type: .setMenstruation, title: "setMenstruation", desc: "设置经期"),
+        SetCmd(type: .factoryReset, title: "factoryReset", desc: "恢复出厂设置"),
+        SetCmd(type: .reboot, title: "reboot", desc: "重启设备")
+        
     ]
     
     override func viewDidLoad() {
@@ -348,6 +363,34 @@ private enum CmdType {
     /// 设置时间
     /// Set Time
     case setDateTime
+    /// 设置用户信息
+    case setUserInfo
+    /// 控制寻找设备开始
+    case findDeviceStart
+    /// 控制寻找设备结束
+    case findDeviceStop
+    /// 开始拍照 (app -> ble)
+    case photoStart
+    /// 结束拍照 (app -> ble)
+    case photoStop
+    /// 设置左右手
+    case setHand
+    /// 设置屏幕亮度
+    case setScreenBrightness
+    /// 进入升级模式
+    case otaStart
+    /// 设置心率区间
+    case setHeartRateInterval
+    /// 设置卡路里和距离目标(设置日常三环)
+    case setCalorieDistanceGoal
+    /// 设置走动提醒
+    case setWalkRemind
+    /// 设置经期
+    case setMenstruation
+    /// 恢复出厂设置
+    case factoryReset
+    /// 重启设备
+    case reboot
 }
 
 extension CmdType {
@@ -768,6 +811,73 @@ extension CmdType {
                                                      widgetType: 2,
                                                      widgetIconColor: 0x232323,
                                                      widgetNumColor: 0x232323)
+        case .setUserInfo:
+            return IDOUserInfoPramModel(year: 1999, monuth: 2, day: 2, heigh: 180, weigh: 90, gender: 1)
+        case .findDeviceStart:
+            return nil
+        case .findDeviceStop:
+            return nil
+        case .photoStart:
+            return nil
+        case .photoStop:
+            return nil
+        case .setHand:
+            return OtherParamModel(dic: ["isRightHand": true])
+        case .setScreenBrightness:
+            return IDOScreenBrightnessModel(level: 50,
+                                            opera: 1,
+                                            mode: 1,
+                                            autoAdjustNight: 2,
+                                            startHour: 8,
+                                            startMinute: 0,
+                                            endHour: 6,
+                                            endMinute: 0,
+                                            nightLevel: 30,
+                                            showInterval: 0)
+        case .otaStart:
+            return nil
+        case .setHeartRateInterval:
+            return IDOHeartRateIntervalModel(burnFatThreshold: 113,
+                                             aerobicThreshold: 132,
+                                             limitThreshold: 170,
+                                             userMaxHr: 220,
+                                             range1: 94,
+                                             range2: 113,
+                                             range3: 132,
+                                             range4: 152,
+                                             range5: 170,
+                                             minHr: 20,
+                                             maxHrRemind: 1,
+                                             minHrRemind: 0,
+                                             remindStartHour: 0,
+                                             remindStartMinute: 0,
+                                             remindStopHour: 23,
+                                             remindStopMinute: 59)
+        case .setCalorieDistanceGoal:
+            return IDOMainSportGoalModel(calorie: 500, distance: 200, calorieMin: 100, calorieMax: 666, midHighTimeGoal: 600, walkGoalTime: 600, timeGoalType: 0)
+        case .setWalkRemind:
+            return IDOWalkRemindModel(onOff: 1, goalStep: 2000, startHour: 14,
+                                      startMinute: 0, endHour: 20, endMinute: 0,
+                                      isOpenRepeat: true, repeats: [.monday, .tuesday, .wednesday],
+                                      goalTime: 60, notifyFlag: 1, doNotDisturbOnOff: 0,
+                                      noDisturbStartHour: 0, noDisturbStartMinute: 0,
+                                      noDisturbEndHour: 0, noDisturbEndMinute: 0)
+        case .setMenstruation:
+            return IDOMenstruationModel(onOff: 1,
+                                        menstrualLength: 7,
+                                        menstrualCycle: 21,
+                                        lastMenstrualYear: 2022,
+                                        lastMenstrualMonth: 12,
+                                        lastMenstrualDay: 19,
+                                        ovulationIntervalDay: 15,
+                                        ovulationBeforeDay: 5,
+                                        ovulationAfterDay: 5,
+                                        notifyFlag: 1,
+                                        menstrualReminderOnOff: 1)
+        case .factoryReset:
+            return nil
+        case .reboot:
+            return nil
         }
     }
     
@@ -1259,6 +1369,69 @@ private class FunctionDetailVC: UIViewController {
         case .setDateTime:
             let obj = cmd.type.param() as! IDODateTimeParamModel
             cancellable = Cmds.setDateTime(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setUserInfo:
+            let obj = cmd.type.param() as! IDOUserInfoPramModel
+            cancellable = Cmds.setUserInfo(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .findDeviceStart:
+            cancellable = Cmds.findDeviceStart().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .findDeviceStop:
+            cancellable = Cmds.findDeviceStop().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .photoStart:
+            cancellable = Cmds.photoStart().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .photoStop:
+            cancellable = Cmds.photoStop().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setHand:
+            let dic = (cmd.type.param() as! OtherParamModel).dic!
+            cancellable = Cmds.setHand(isRightHand: dic["isRightHand"] as! Bool).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setScreenBrightness:
+            let obj = cmd.type.param() as! IDOScreenBrightnessModel
+            cancellable = Cmds.setScreenBrightness(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .otaStart:
+            cancellable = Cmds.otaStart().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setHeartRateInterval:
+            let obj = cmd.type.param() as! IDOHeartRateIntervalModel
+            cancellable = Cmds.setHeartRateInterval(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setCalorieDistanceGoal:
+            let obj = cmd.type.param() as! IDOMainSportGoalModel
+            cancellable = Cmds.setCalorieDistanceGoal(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setWalkRemind:
+            let obj = cmd.type.param() as! IDOWalkRemindModel
+            cancellable = Cmds.setWalkRemind(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setMenstruation:
+            let obj = cmd.type.param() as! IDOMenstruationModel
+            cancellable = Cmds.setMenstruation(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .factoryReset:
+            cancellable = Cmds.factoryReset().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .reboot:
+            cancellable = Cmds.reboot().send { [weak self] res in
                 self?.doPrint(res)
             }
         }

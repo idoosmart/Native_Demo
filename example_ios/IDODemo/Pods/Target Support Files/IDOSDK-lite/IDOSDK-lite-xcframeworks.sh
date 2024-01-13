@@ -165,9 +165,9 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../IDOSDK-lite/App.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK-lite/Flutter.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK-lite/FlutterPluginRegistrant.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK-lite/native_channel.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../IDOSDK-lite/protocol_channel.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/IDOSDK-lite/App.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/IDOSDK-lite/Flutter.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/IDOSDK-lite/FlutterPluginRegistrant.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/IDOSDK-lite/native_channel.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/IDOSDK-lite/protocol_channel.xcframework" "IDOSDK-lite" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

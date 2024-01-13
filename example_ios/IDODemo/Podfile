@@ -2,15 +2,16 @@
 # platform :ios, '10.0'
 
 # Comment the next line if you don't want to use dynamic frameworks
+source 'https://github.com/idoosmart/IDOSmartSpec.git'
 use_frameworks!
 inhibit_all_warnings!
 
 target 'IDODemoFull' do
-  pod 'IDOSDK' , :path => '../IDOSDK-full/'
+  pod 'IDOSDK-full', '~> 4.0.15'
 end
 
 target 'IDODemoLite' do
-  pod 'IDOSDK-lite' , :path => '../IDOSDK-lite/'
+  pod 'IDOSDK-lite', '~> 4.0.15'
 end
 
 

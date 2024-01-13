@@ -176,34 +176,34 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${PODS_ROOT}/../../IDOSDK-full/protocol_c.framework"
+  install_framework "${PODS_ROOT}/IDOSDK-full/protocol_c.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/App.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_bluetooth.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Flutter.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/native_channel.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/path_provider_foundation.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/protocol_channel.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/App.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/flutter_bluetooth.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/Flutter.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/native_channel.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/path_provider_foundation.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/protocol_channel.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${PODS_ROOT}/../../IDOSDK-full/protocol_c.framework"
+  install_framework "${PODS_ROOT}/IDOSDK-full/protocol_c.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/App.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/flutter_bluetooth.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/Flutter.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/native_channel.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/path_provider_foundation.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK/protocol_channel.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/App.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/flutter_bluetooth.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/Flutter.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/native_channel.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/path_provider_foundation.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/protocol_channel.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
