@@ -74,7 +74,7 @@ extension MainPageVC: IDOBleDelegate {
     func bluetoothState(state: IDOBluetoothStateModel) {
         bleState = state
         funcPage?.bleState = state
-        print("on bluetoothState callback: \(String(describing: state.scanType?.rawValue))")
+        print("on bluetoothState callback: \(String(describing: state.scanType.rawValue))")
     }
     
     func deviceState(state: IDODeviceStateModel) {
@@ -90,14 +90,58 @@ extension MainPageVC: IDOBleDelegate {
 
 extension MainPageVC: IDOBridgeDelegate {
     
+    // SDK状态通知
     func listenStatusNotification(status: IDOStatusNotification) {
         print("StatusNotification: \(status)")
         NotificationCenter.default.post(name: Notify.onSdkStatusChanged, object: status)
+        switch (status) {
+        case .protocolConnectCompleted:
+            break
+        case .functionTableUpdateCompleted:
+            break
+        case .deviceInfoUpdateCompleted:
+            break
+        case .deviceInfoFwVersionCompleted:
+            break
+        case .unbindOnAuthCodeError:
+            // 绑定授权码异常，设备强制解绑，APP可根据该通知更新绑定状态
+            break
+        case .unbindOnBindStateError:
+            // 出现该情况，可能是设备重置了
+            // 绑定状态异常，需要APP解绑 (APP记录的绑定状态和设备信息里的绑定状态不一致时触发)
+            break
+        case .fastSyncCompleted:
+            // 快速配置完成
+            break
+        case .fastSyncFailed:
+            // 快速配置失败（需要APP重新连设备）
+            break
+        case .deviceInfoBtAddressUpdateCompleted:
+            break
+        case .macAddressError:
+            break
+        case .syncHealthDataIng:
+            // 同步健康数据中
+            break
+        case .syncHealthDataCompleted:
+            // 同步健康数据完成
+            break
+        @unknown default:
+            break
+        }
     }
     
+    // 设备通知
     func listenDeviceNotification(model: IDODeviceNotificationModel) {
         print("DeviceNotification: \(model)")
         NotificationCenter.default.post(name: Notify.onSdkDeviceStateChanged, object: model)
+    }
+    
+    // APP提供设备绑定状态, 设备蓝牙连接时会调用该方法，如何返回true，将会走快速配置（获取设备功能表、设备信息、三级版本号、更新手表时间等）
+    func checkDeviceBindState(macAddress: String) -> Bool {
+        let isBinded = UserDefaults.standard.isBind(macAddress)
+        print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
+        return isBinded
     }
 }
 

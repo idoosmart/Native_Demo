@@ -1,96 +1,120 @@
 package com.example.example_android.activity
 
-import android.Manifest
 import android.bluetooth.BluetoothGatt
-import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothProfile
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
-import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
-import com.example.example_android.MyApplication
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.data.BLEdata
 import com.example.example_android.data.CurrentDevice
-import com.example.example_android.data.CurrentDevice.uuid_characteristic_notify
-import com.example.example_android.data.CurrentDevice.uuid_service
+import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.Logutil
-import com.example.example_android.util.SPUtil
 import com.idosmart.enum.IDOBindStatus
-import com.idosmart.enum.IDOLogType
-import com.idosmart.enum.IDOOtaType
-import com.idosmart.enum.IDOStatusNotification
-import com.idosmart.model.IDOBleDataRequest
-import com.idosmart.model.IDODeviceNotificationModel
 import com.idosmart.protocol_channel.sdk
-import com.idosmart.protocol_sdk.IDOBridgeDelegate
-import io.flutter.Log
 import kotlinx.android.synthetic.main.layout_device_describe.*
-import java.util.*
+import kotlinx.android.synthetic.main.layout_function_activity.ll_bin
+import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
+import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
+import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
+import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
+import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
+import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
 
 
 class FunctionActivity : BaseActivity() {
-    private val TAG:String ="function---------------"
+    private val TAG: String = "function---------------"
     private var device: BleDevice? = null
-    private val bind_key: String = "bindkey"
-    private var isBind: Boolean = false
-    private var isConnect:Boolean = false;
 
-    fun ll_connect(view: View) {
-        if(isConnect){
+    private var isConnect: Boolean = false;
+
+    fun connect(view: View) {
+        connectDevice()
+    }
+
+
+    fun connectDevice() {
+        if (isConnect) {
             return
         }
         BleManager.getInstance().connect(device, object : BleGattCallback() {
             override fun onStartConnect() {
                 showProgressDialog("connecting...")
             }
-
             override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
-                Logutil.logMessage(TAG,"onConnectFail" )
+                Logutil.logMessage(TAG, "onConnectFail")
                 closeProgressDialog()
                 isConnect = false
+                updateBleStatus(isConnect)
+                ll_connect?.visibility = View.VISIBLE
+                ll_dis_connect?.visibility = View.GONE
             }
-
             override fun onConnectSuccess(bleDevice: BleDevice, gatt: BluetoothGatt, status: Int) {
-                Logutil.logMessage(TAG,"onConnectSuccess" )
+                Logutil.logMessage(TAG, "onConnectSuccess")
                 closeProgressDialog()
                 tv_device_state?.text = "state: connected"
                 tv_device_state.setTextColor(Color.parseColor("#00ff00"))
                 isConnect = true
-                BLEdata.notifyData(bleDevice,false)
-            }
+                ll_connect?.visibility = View.GONE
+                ll_dis_connect?.visibility = View.VISIBLE
+                bindState()
+                updateBleStatus(isConnect)
 
+                BLEdata.notifyData(bleDevice, false)
+            }
             override fun onDisConnected(
                 isActiveDisConnected: Boolean,
                 bleDevice: BleDevice,
                 gatt: BluetoothGatt,
                 status: Int
             ) {
-                Logutil.logMessage(TAG,"onDisConnected" )
+                Logutil.logMessage(TAG, "onDisConnected")
                 tv_device_state?.text = "state: disconnect"
+                tv_device_state.setTextColor(Color.parseColor("#ff0000"))
+
                 closeProgressDialog()
                 isConnect = false
+                updateBleStatus(isConnect)
+                ll_connect?.visibility = View.VISIBLE
+                ll_dis_connect?.visibility = View.GONE
             }
         })
     }
 
 
-    fun ll_dis_connect(view: View) {
-        Logutil.logMessage(TAG,"disconnect" )
+    fun dis_connect(view: View) {
+        Logutil.logMessage(TAG, "disconnect")
         BleManager.getInstance().disconnect(device);
+        tv_device_state?.text = "state: disconnect"
+        tv_device_state.setTextColor(Color.parseColor("#ff0000"))
+
+
+        ll_un_bin?.visibility = View.GONE
+        rl_get_function?.visibility = View.GONE
+        rl_set_function?.visibility = View.GONE
+        rl_sync_data?.visibility = View.GONE
+        rl_transfer_file?.visibility = View.GONE
+        rl_alexa?.visibility = View.GONE
+        rl_sport?.visibility = View.GONE
+        ll_dis_connect?.visibility = View.GONE
+        ll_connect?.visibility = View.VISIBLE
+
+        updateBleStatus(false)
     }
 
 
     fun bind(view: View) {
         if (isConnect) {
-            if (isBind) {
+            if (bindState()) {
                 toast("already bond")
             } else {
                 showProgressDialog("bind...")
@@ -104,9 +128,9 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
-                            SPUtil.putAValue(bind_key + device?.mac, true)
+                            FunctionUtils.saveDeviceMac(device!!.mac.toString())
+                            bindState()
                         }
-
                         IDOBindStatus.FAILED,
                         IDOBindStatus.BINDED,
                         IDOBindStatus.NEEDAUTH,
@@ -127,14 +151,16 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun unbind(view: View) {
-//        isBind = SPUtil.getAValue(bind_key + device?.macAddress, false) as Boolean
-        if (isBind) {
+        if (bindState()) {
             sdk.cmd.unbind(device?.mac.toString(), true) {
                 if (it) {
                     toast("unbind ok")
-                    SPUtil.putAValue(bind_key + device?.mac, false)
-                    isBind = false
-                    BleManager.getInstance().cancelScan();
+                    FunctionUtils.upDataDeviceMac(device!!.mac.toString())
+                    BleManager.getInstance().disconnect(device);
+                    tv_device_state?.text = "state: connected"
+                    bindState()
+                    tv_device_state.setTextColor(Color.parseColor("#ff0000"))
+
                 } else {
                     toast("unbind failed")
                 }
@@ -175,20 +201,63 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
+
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle("FunctionList")
-       // device = intent.getParcelableExtra(MainActivity.DEVICE) as BleDevice?
+        // device = intent.getParcelableExtra(MainActivity.DEVICE) as BleDevice?
         device = CurrentDevice.bleDevice
         tv_device_name?.text = "name: " + device?.name
         tv_device_mac?.text = "mac: " + device?.mac
         tv_device_rssl?.text = "rssi: " + device?.rssi.toString()
         tv_device_state?.text = "state: disconnect"
-
+        connectDevice()
+        showProgressDialog("Connecting...")
+        ll_connect?.visibility = View.GONE
+        ll_dis_connect?.visibility = View.VISIBLE
     }
 
+    fun bindState(): Boolean {
+        if (FunctionUtils.getDeviceMac(device!!.mac.toString())) {
+            ll_un_bin?.visibility = View.VISIBLE
+            rl_get_function?.visibility = View.VISIBLE
+            rl_set_function?.visibility = View.VISIBLE
+            rl_sync_data?.visibility = View.VISIBLE
+            rl_transfer_file?.visibility = View.VISIBLE
+            rl_alexa?.visibility = View.VISIBLE
+            rl_sport?.visibility = View.VISIBLE
+            ll_bin?.visibility = View.GONE
+            return true
+        } else {
+            ll_un_bin?.visibility = View.GONE
+            rl_get_function?.visibility = View.GONE
+            rl_set_function?.visibility = View.GONE
+            rl_sync_data?.visibility = View.GONE
+            rl_transfer_file?.visibility = View.GONE
+            rl_alexa?.visibility = View.GONE
+            rl_sport?.visibility = View.GONE
+            ll_bin?.visibility = View.VISIBLE
+            return false
+        }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        if (!isConnect){
+            tv_device_state?.text = "state: disconnect"
+            tv_device_state.setTextColor(Color.parseColor("#ff0000"))
 
+            ll_un_bin?.visibility = View.GONE
+            rl_get_function?.visibility = View.GONE
+            rl_set_function?.visibility = View.GONE
+            rl_sync_data?.visibility = View.GONE
+            rl_transfer_file?.visibility = View.GONE
+            rl_alexa?.visibility = View.GONE
+            rl_sport?.visibility = View.GONE
+            ll_dis_connect?.visibility = View.GONE
+            ll_connect?.visibility = View.VISIBLE
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         BleManager.getInstance().disconnect(device)
@@ -197,6 +266,8 @@ class FunctionActivity : BaseActivity() {
     override fun getLayoutId(): Int {
         return R.layout.layout_function_activity
     }
+
+
 
 
 }

@@ -29,6 +29,7 @@ class SyncDataActivity : BaseActivity() {
         }, { type, jsonStr, errorCode ->
             result += jsonStr + "\n"
         }, {
+            tv_response?.text = result
 
         })
     }

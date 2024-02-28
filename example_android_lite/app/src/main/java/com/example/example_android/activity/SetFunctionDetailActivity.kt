@@ -1,18 +1,17 @@
 package com.example.example_android.activity
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
 import com.example.example_android.data.CmdSet
 import com.example.example_android.data.SetFuncData
-import com.idosmart.model.IDOBleVoiceParamModel
-import com.idosmart.model.IDODateTimeParamModel
+import com.example.example_android.data.CustomEvtType
+import com.idosmart.model.IDOAlarmItem
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 class SetFunctionDetailActivity : BaseActivity() {
     private var type: Int = SetFuntionActivity.setDateTime
@@ -27,7 +26,21 @@ class SetFunctionDetailActivity : BaseActivity() {
         setFuncData = intent.getSerializableExtra(SetFuntionActivity.SET_FUNCTION_DATA) as SetFuncData
         supportActionBar?.setTitle(setFuncData?.title)
         val myType = setFuncData?.type
-        val idoBaseModel = setFuncData?.idoBaseModel
+        var idoBaseModel = setFuncData?.idoBaseModel
+        Log.e("alarm","$myType----${CustomEvtType.SETALARMV3}")
+        if(myType== CustomEvtType.SETALARMV3){
+            Cmds.getAlarm().send {
+                idoBaseModel  = it.res
+                Log.e("alarm",idoBaseModel.toString())
+                //闹钟首先要从固件拿到列表，然后对列表修改用户设置的，然后下发即可，
+                var idoAlarmModel: IDOAlarmItem = it.res?.items?.get(0) as IDOAlarmItem
+                idoAlarmModel.hour = 9
+                idoAlarmModel.minute = 10
+                idoAlarmModel.name = "dddd"
+                idoAlarmModel.repeatTimes = 1;
+                Log.e("alarm",idoBaseModel.toString())
+            }
+        }
         send_btn.setOnClickListener {
             CmdSet.set(myType, idoBaseModel, {
                 paramter_tv.text = it

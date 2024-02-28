@@ -57,14 +57,30 @@ extension MainPageVC: IDOBridgeDelegate {
     // 需要将指令数据发到蓝牙设备（!!!重要）
     func writeDataToBle(bleData: protocol_channel.IDOBleData) {
         guard let device = currentDeviceModel else { return }
+        
+        guard let data = bleData.data else { return }
+        guard data.count >= 2 else {
+            print("空数据")
+            return
+        }
+        let data0 = data[0]
+        let data1 = data[1]
+        let isTrans = (((data0 == 0xD1 || data0 == 0x13) && data1 == 0x02) || (data0 == 0x02 && data1 == 0x03))
         guard let characteristic = device.peripheral.writeCharacteristic() else { return }
-        bleMgr.write(peripheral: characteristic.0, characteristic: characteristic.1, data: bleData.data!) { err in
-            if err != nil {
-                print("写失败：\(err.debugDescription)")
-            }else {
-                // 写完成 （!!!重要）
-                sdk.bridge.writeDataComplete()
+        if (!isTrans) {
+            bleMgr.write(peripheral: characteristic.0, characteristic: characteristic.1, data: data) { err in
+                if err != nil {
+                    print("写失败：\(err.debugDescription)")
+                }else {
+                    // 写完成 （!!!重要）
+                    sdk.bridge.writeDataComplete()
+                }
             }
+        }else {
+            // 不需要响应
+            bleMgr.writeWithoutResponse(peripheral: characteristic.0, characteristic: characteristic.1, data: data)
+            // 写完成 （!!!重要）
+            sdk.bridge.writeDataComplete()
         }
     }
     
@@ -77,6 +93,12 @@ extension MainPageVC: IDOBridgeDelegate {
     func listenDeviceNotification(model: IDODeviceNotificationModel) {
         print("DeviceNotification: \(model)")
         NotificationCenter.default.post(name: Notify.onSdkDeviceStateChanged, object: model)
+    }
+    
+    func checkDeviceBindState(macAddress: String) -> Bool {
+        let isBinded = UserDefaults.standard.isBind(macAddress)
+        print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
+        return isBinded
     }
 }
 

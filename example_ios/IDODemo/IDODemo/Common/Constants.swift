@@ -19,6 +19,7 @@ struct Word {
     static let transFile = "Transfer File"
     static let sport = "Sport"
     static let testOC = "Test OC"
+    static let exportLog = "Export logs"
 }
 
 

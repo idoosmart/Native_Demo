@@ -102,6 +102,16 @@
     <string name="getblemusicinfo">获取固件的歌曲名和文件夹</string>
     <string name="setnotificationcenter">Set up notification center</string>
     <string name="setwalkreminder">设置走动提醒</string>
-
+    <string name="enter_upgrade_mode">进入升级模式</string>
+    <string name="reboot_device">重新启动设备</string>
+    <string name="restore_factory_settings">恢复出厂设置</string>
+    <string name="find_devices">找到设备</string>
+    <string name="set_activity_switch">设置活动开关</string>
+    <string name="set_alarm">设置闹钟</string>
+    <string name="set_heart_rate_interval">设定心率间隔</string>
+    <string name="set_screen_brightness">设置屏幕亮度</string>
+    <string name="set_menstrual_period">设定月经周期</string>
+    <string name="calories_and_distance_targets">卡路里和距离目标</string>
+    <string name="getBtConnectPhoneModel">获取BT连接手机型号</string>
 
 </resources>

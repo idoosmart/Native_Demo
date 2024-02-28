@@ -6,52 +6,61 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
 import com.example.example_android.adapter.GetFuntionAdapter
+import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
 import com.example.example_android.data.IDoDataBean
+import com.idosmart.protocol_channel.sdk
 import kotlinx.android.synthetic.main.layout_get_funtion.ry_view
 
 /**
  * get device function  list
  */
-class GetFuntionActivity :BaseActivity() {
+class GetFuntionActivity : BaseActivity() {
     private var function_list = mutableListOf<IDoDataBean>()
-    var type:Int = getDeviceInfo;
+    var type: Int = getDeviceInfo;
 
     override fun getLayoutId(): Int {
         return R.layout.layout_get_funtion
     }
-    fun  getDeviceInfo(view: View){
+
+    fun getDeviceInfo(view: View) {
         type = getDeviceInfo
         toGetInfoDetailActivity()
     }
-    fun  getFuntionTable(view: View){
+
+    fun getFuntionTable(view: View) {
         type = getFuntionTable
         toGetInfoDetailActivity()
     }
-    fun  getSn(view: View){
+
+    fun getSn(view: View) {
         type = getSn
         toGetInfoDetailActivity()
     }
-    fun  getMenuList(view: View){
+
+    fun getMenuList(view: View) {
         type = getMenuList
         toGetInfoDetailActivity()
     }
-    fun  getNoticeStatus(view: View){
+
+    fun getNoticeStatus(view: View) {
         type = getNoticeStatus
         toGetInfoDetailActivity()
     }
-    fun  getMainSportGoal(view: View){
+
+    fun getMainSportGoal(view: View) {
         type = getMainSportGoal
         toGetInfoDetailActivity()
     }
-    fun  getWatchDiallinfo(view: View){
+
+    fun getWatchDiallinfo(view: View) {
         type = getWatchDiallinfo
         toGetInfoDetailActivity()
     }
 
-    fun toGetInfoDetailActivity(){
-        val  intent = Intent(this,GetFunctionDetailActivity::class.java)
-        intent.putExtra(typeInfo,type)
+    fun toGetInfoDetailActivity() {
+        val intent = Intent(this, GetFunctionDetailActivity::class.java)
+        intent.putExtra(typeInfo, type)
         startActivity(intent)
     }
 
@@ -61,11 +70,34 @@ class GetFuntionActivity :BaseActivity() {
         function_list.addAll(GetFuntionData.getFunctions(this))
         ry_view.layoutManager = LinearLayoutManager(this)
         var mAdapter = GetFuntionAdapter(function_list)
-        mAdapter.setonItemClickListener(object : GetFuntionAdapter.onItemClickListener{
+        mAdapter.setonItemClickListener(object : GetFuntionAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                var intent =Intent(this@GetFuntionActivity,GetFunctionDetailActivity::class.java)
-                intent.putExtra(GetFuntionActivity.FUNCTION_DATA,function_list[position])
-                startActivity(intent)
+                if (function_list.get(position).type == CustomEvtType.GETBTCONNECTPHONEMODEL) {
+                    if (sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
+                        var intent = Intent(
+                            this@GetFuntionActivity,
+                            GetFunctionDetailActivity::class.java
+                        )
+                        intent.putExtra(
+                            GetFuntionActivity.FUNCTION_DATA,
+                            function_list[position]
+                        )
+                        startActivity(intent)
+                    } else {
+                        toast("当前设备不支持该功能")
+                    }
+                } else {
+                    var intent = Intent(
+                        this@GetFuntionActivity,
+                        GetFunctionDetailActivity::class.java
+                    )
+                    intent.putExtra(
+                        GetFuntionActivity.FUNCTION_DATA,
+                        function_list[position]
+                    )
+                    startActivity(intent)
+                }
+
             }
 
 
@@ -73,16 +105,17 @@ class GetFuntionActivity :BaseActivity() {
         ry_view.adapter = mAdapter
 
     }
-    companion object{
+
+    companion object {
         val FUNCTION_DATA = "functon_data"
-        var typeInfo : String = "typeInfo";
-        var getDeviceInfo:Int = 1;
-        var getFuntionTable:Int = 2;
-        var getSn:Int = 3;
-        var getMenuList:Int = 4;
-        var getNoticeStatus:Int =5;
-        var getMainSportGoal:Int =6;
-        var getWatchDiallinfo:Int = 7;
+        var typeInfo: String = "typeInfo";
+        var getDeviceInfo: Int = 1;
+        var getFuntionTable: Int = 2;
+        var getSn: Int = 3;
+        var getMenuList: Int = 4;
+        var getNoticeStatus: Int = 5;
+        var getMainSportGoal: Int = 6;
+        var getWatchDiallinfo: Int = 7;
     }
 
 

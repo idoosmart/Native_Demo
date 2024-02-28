@@ -21,6 +21,7 @@ class FunctionPageVC: UIViewController {
     private var isConnected = false
     private var _deviceState: IDODeviceStateModel?
     private var _bleState: IDOBluetoothStateModel?
+    private let disposeBag = DisposeBag()
     var deviceModel: IDODeviceModel?
     var bleState: IDOBluetoothStateModel? {
         get { return _bleState }
@@ -47,7 +48,8 @@ class FunctionPageVC: UIViewController {
         Word.transFile,
         Word.sport,
         Word.alexa,
-        Word.testOC
+        Word.testOC,
+        Word.exportLog
     ]
     
     private lazy var tableView: UITableView = {
@@ -85,7 +87,7 @@ class FunctionPageVC: UIViewController {
         view.addSubview(tableView)
         
         if let device = deviceModel {
-            lblDeviceInfo.text = "Current Device: \(device.name ?? "-")\nMac Address\(device.macAddress ?? "-")\nRSSI: \(device.rssi ?? -1)"
+            lblDeviceInfo.text = "Current Device: \(device.name ?? "-")\nMac Address\(device.macAddress ?? "-")\nRSSI: \(device.rssi)"
         }
         
         lblDeviceInfo.snp.makeConstraints { make in
@@ -147,10 +149,12 @@ class FunctionPageVC: UIViewController {
                     break
                 }
             }
-        })
+        }).disposed(by: disposeBag)
     }
     
     deinit {
+        print("\(String(describing: type(of: self))) deinit")
+        print("Disconnect Device")
         sdk.ble.cancelConnect(macAddress: deviceModel?.macAddress) { _ in }
     }
 }
@@ -181,10 +185,9 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let name = items[indexPath.row]
-        let canEnable = canEnable(name)
-        if (!canEnable) {
-            //tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            return
+        guard canEnable(name) else { return }
+        if (!canPush(name)) {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         switch name {
         case Word.deviceConnect:
@@ -226,6 +229,9 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             test.testCommand()
             test.testSync()
             break
+        case Word.exportLog:
+            doExportLog()
+            break
         default: break
         }
     }
@@ -256,8 +262,7 @@ extension FunctionPageVC {
     
     private func onBleStateChanged() {
         guard let bleState = self.bleState else { return }
-        guard let type = bleState.type else { return }
-        print("ble state:\(type)");
+        print("ble state:\(bleState.type)");
     }
     
     private func canEnable(_ funName: String) -> Bool {
@@ -284,6 +289,8 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.testOC:
             return isConnected && isBinded
+        case Word.exportLog:
+            return isConnected && isBinded
         default:
             break
         }
@@ -292,7 +299,8 @@ extension FunctionPageVC {
     
     private func canPush(_ funName: String) -> Bool {
         return !(funName == Word.deviceConnect || funName == Word.deviceDisconnect
-                 || funName == Word.deviceBind || funName == Word.deviceUnbind)
+                 || funName == Word.deviceBind || funName == Word.deviceUnbind
+                 || funName == Word.testOC || funName == Word.exportLog)
     }
     
     private func bind() {

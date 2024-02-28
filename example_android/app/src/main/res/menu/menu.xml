@@ -10,5 +10,8 @@
         android:id="@+id/menu_log_export"
         android:title="@string/menu_log_export"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/menu_log_app"
+        android:title="@string/menu_log_app"
+        app:showAsAction="never" />
 </menu>

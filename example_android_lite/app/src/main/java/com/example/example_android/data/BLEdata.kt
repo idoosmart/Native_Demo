@@ -87,6 +87,10 @@ object BLEdata{
             sdk.bridge.writeDataComplete()
         }
 
+        override fun checkDeviceBindState(macAddress: String): Boolean {
+            TODO("Not yet implemented")
+        }
+
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
             Logutil.logMessage("bledata","listenDeviceNotification:${status}")
         }
@@ -106,4 +110,5 @@ object BLEdata{
         }
 
     }
+    
 }

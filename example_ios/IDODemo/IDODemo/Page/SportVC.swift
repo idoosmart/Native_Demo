@@ -192,7 +192,7 @@ extension SportVC {
     }
     
     private func _sportPause() {
-        guard baseModel != nil else { return }
+        guard let baseModel = baseModel else { return }
         let obj = IDOAppPauseExchangeModel(baseModel: baseModel)
         sdk.dataExchange.appExec(model: obj)
         print("pause")
@@ -210,9 +210,9 @@ extension SportVC {
         guard baseModel != nil else { return }
         let obj = IDOAppEndExchangeModel(
             baseModel: baseModel,
-            duration: 10,
-            calories: 10,
-            distance: 10,
+            duration: duration,
+            calories: calories,
+            distance: distance,
             isSave: 1
         )
         sdk.dataExchange.appExec(model: obj)
@@ -251,13 +251,16 @@ extension SportVC {
 extension SportVC: IDOExchangeDataOCDelegate {
     func appListenBleExec(model: NSObject) {
         if (model is IDOBleStartExchangeModel) {
-            let obj = model as? IDOBleStartExchangeModel
-            let sendModel = IDOBleStartReplyExchangeModel(baseModel: obj?.baseModel, operate: obj?.operate, retCode: 0)
+            guard let obj = model as? IDOBleStartExchangeModel else {
+                print("异常：数据为空")
+                return
+            }
+            let sendModel = IDOBleStartReplyExchangeModel(baseModel: obj.baseModel, operate: obj.operate, retCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
         }
         else if (model is IDOBleIngExchangeModel) {
             let obj = model as? IDOBleIngExchangeModel
-            let sendModel = IDOBleIngReplyExchangeModel(baseModel: obj?.baseModel, distance: obj?.distance)
+            let sendModel = IDOBleIngReplyExchangeModel(baseModel: obj?.baseModel, distance: obj?.distance ?? 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
         }
         else if (model is IDOBleEndExchangeModel) {
@@ -286,12 +289,15 @@ extension SportVC: IDOExchangeDataOCDelegate {
             sdk.dataExchange.appReplyExec(model: sendModel)
         }
         else if (model is IDOAppBleEndExchangeModel) {
-            let obj = model as? IDOAppBleEndExchangeModel
+            guard let obj = model as? IDOAppBleEndExchangeModel else {
+                print("异常：数据为空")
+                return
+            }
             let sendModel = IDOAppBleEndReplyExchangeModel(baseModel: baseModel,
                                                            errCode: 0,
-                                                           duration: obj?.duration,
-                                                           calories: obj?.calories,
-                                                           distance: obj?.distance)
+                                                           duration: obj.duration,
+                                                           calories: obj.calories,
+                                                           distance: obj.distance)
             sdk.dataExchange.appReplyExec(model: sendModel)
         }
     }
@@ -312,27 +318,6 @@ extension SportVC: IDOExchangeDataOCDelegate {
         /// app 获取v3多运动一次活动数据 ble回复 IDOAppActivityDataV3ExchangeModel
         /// app 获取v3多运动一次心率数据 ble回复 IDOAppHrDataExchangeModel
         /// app 获取v3多运动一次GPS数据 ble回复 IDOAppGpsDataExchangeModel
-        ///
-        /* /// app 开始发起运动 ble回复
-         case appStartReply(IDOAppStartReplyExchangeModel?)
-         /// app 发起运动结束 ble回复
-         case appEndReply(IDOAppEndReplyExchangeModel?)
-         ///  app 交换运动数据 ble回复
-         case appIngReply(?)
-         /// app 交换运动数据暂停 ble回复
-         case appPauseReply(?)
-         /// app 交换运动数据恢复 ble回复
-         case appRestoreReply(?)
-         /// app v3交换运动数据 ble回复
-         case appIngV3Reply(?)
-         /// app 操作运动计划 ble回复
-         case appOperatePlanReply(?)
-         /// app 获取v3多运动一次活动数据 ble回复
-         case appActivityDataReply(?)
-         /// app 获取v3多运动一次心率数据 ble回复
-         case appActivityHrReply(?)
-         /// app 获取v3多运动一次GPS数据 ble回复
-         case appActivityGpsReply(?)*/
         
         if (model is IDOAppStartReplyExchangeModel) {
             let obj = model as? IDOAppStartReplyExchangeModel

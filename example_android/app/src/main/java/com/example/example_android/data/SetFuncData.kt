@@ -2,6 +2,11 @@ package com.example.example_android.data
 
 import android.content.Context
 import com.example.example_android.R
+import com.idosmart.model.IDOActivitySwitchModel
+import com.idosmart.model.IDOAlarmItem
+import com.idosmart.model.IDOAlarmModel
+import com.idosmart.model.IDOAlarmStatus
+import com.idosmart.model.IDOAlarmType
 import com.idosmart.model.IDOBaseModel
 import com.idosmart.model.IDOBleVoiceParamModel
 import com.idosmart.model.IDOBpCalControlModel
@@ -16,12 +21,15 @@ import com.idosmart.model.IDOGpsControlParamModel
 import com.idosmart.model.IDOGpsInfoModelItem
 import com.idosmart.model.IDOHandWashingReminderParamModel
 import com.idosmart.model.IDOHeartModeParamModel
+import com.idosmart.model.IDOHeartRateIntervalModel
 import com.idosmart.model.IDOHeartRateModeSmartParamModel
 import com.idosmart.model.IDOHoursWeatherItem
 import com.idosmart.model.IDOItemItem
 import com.idosmart.model.IDOLongSitParamModel
 import com.idosmart.model.IDOLostFindParamModel
+import com.idosmart.model.IDOMainSportGoalModel
 import com.idosmart.model.IDOMainUISortParamModel
+import com.idosmart.model.IDOMenstruationModel
 import com.idosmart.model.IDOMusicControlParamModel
 import com.idosmart.model.IDOMusicFolderItem
 import com.idosmart.model.IDOMusicItem
@@ -36,18 +44,15 @@ import com.idosmart.model.IDONotificationCenterParamModel
 import com.idosmart.model.IDONotificationStatusParamModel
 import com.idosmart.model.IDORunPlanParamModel
 import com.idosmart.model.IDOSchedulerReminderItem
-import com.idosmart.model.IDOSchedulerReminderModel
 import com.idosmart.model.IDOSchedulerReminderParamModel
 import com.idosmart.model.IDOScientificSleepSwitchParamModel
+import com.idosmart.model.IDOScreenBrightnessModel
 import com.idosmart.model.IDOShortcutParamModel
 import com.idosmart.model.IDOSleepPeriodParamModel
 import com.idosmart.model.IDOSpo2SwitchParamModel
-import com.idosmart.model.IDOSport100SortItem
-import com.idosmart.model.IDOSport100SortModel
 import com.idosmart.model.IDOSport100SortParamModel
 import com.idosmart.model.IDOSportGoalParamModel
 import com.idosmart.model.IDOSportModeSelectParamModel
-import com.idosmart.model.IDOSportSortModel
 import com.idosmart.model.IDOSportSortParamModel
 import com.idosmart.model.IDOSportType
 import com.idosmart.model.IDOStressCalibrationParamModel
@@ -62,7 +67,6 @@ import com.idosmart.model.IDOVoiceReplyParamModel
 import com.idosmart.model.IDOWalkRemindModel
 import com.idosmart.model.IDOWalkRemindTimesItem
 import com.idosmart.model.IDOWalkRemindTimesParamModel
-import com.idosmart.model.IDOWallpaperDialReplyV3Model
 import com.idosmart.model.IDOWallpaperDialReplyV3ParamModel
 import com.idosmart.model.IDOWatchDialParamModel
 import com.idosmart.model.IDOWatchDialSortItem
@@ -75,17 +79,94 @@ import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOWorldTimeParamModel
 import com.idosmart.pigeon_implement.IDOCmdSetResponseModel
-import com.idosmart.pigeongen.api_evt_type.ApiEvtType
-import java.io.Serializable
 
 class SetFuncData(
-    type: ApiEvtType = ApiEvtType.GETACTIVITYSWITCH, title: String? = null, var idoBaseModel: IDOBaseModel
+    type: CustomEvtType = CustomEvtType.GETACTIVITYSWITCH, title: String? = null, var idoBaseModel: IDOBaseModel
 ) : IDoDataBean(type, title) {
     companion object {
         fun getFunctions(context: Context): MutableList<SetFuncData> {
             return mutableListOf<SetFuncData>(
                 SetFuncData(
-                    ApiEvtType.SETSENDRUNPLAN, context.getString(R.string.set_send_run_plan), IDORunPlanParamModel(
+                    CustomEvtType.SETACTIVITYSWITCH, context.getString(R.string.set_activity_switch), IDOActivitySwitchModel(1,
+                        2,10,
+                        9,7,
+                        9,7,
+                        5,
+                        4,
+                        14,
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETALARMV3, context.getString(R.string.set_alarm), IDOAlarmModel(
+                        listOf(
+                            IDOAlarmItem(
+                                14,
+                                5,
+                                12,
+                                54,
+                                "dsdgf",
+                                false,
+                                hashSetOf(
+                                    IDOWeek.FRIDAY,
+                                    IDOWeek.FRIDAY,
+                                    IDOWeek.FRIDAY,
+                                    IDOWeek.FRIDAY,
+                                ),
+                                3,
+                                10,
+                                IDOAlarmStatus.DISPLAYED,
+                                10,
+                                IDOAlarmType.DATE
+                            )
+                        )
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETHEARTRATEINTERVAL, context.getString(R.string.set_heart_rate_interval), IDOHeartRateIntervalModel(
+                        1,
+                        2,
+                        4,
+                        5,
+                        6,
+                        8,
+                        9,
+                        10,
+                        7,
+                        6,
+                        5,5,
+                        5,5,5,
+                        5
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETSCREENBRIGHTNESS, context.getString(R.string.set_screen_brightness), IDOScreenBrightnessModel(
+                        1,
+                        2,
+                        4,
+                        5,
+                        6,
+                        8,
+                        9,
+                        10,
+                        7,
+                        6,
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETMENSTRUATION,context.getString(R.string.set_menstrual_period),
+                    IDOMenstruationModel(
+                        66,4,15,89,90,90,90,
+                        80,70,76,6
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETCALORIEDISTANCEGOAL,context.getString(R.string.calories_and_distance_targets),
+                    IDOMainSportGoalModel(
+                        66,4,15,89,90,90,90,
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETSENDRUNPLAN, context.getString(R.string.set_send_run_plan), IDORunPlanParamModel(
                         verison = 1,
                         operate = 1,
                         type = 1,
@@ -108,13 +189,13 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWALKREMIND, context.getString(R.string.setwalkreminder), IDOWalkRemindModel(
+                    CustomEvtType.SETWALKREMIND, context.getString(R.string.setwalkreminder), IDOWalkRemindModel(
                         1, 100, 9, 0, 18, 0, true, hashSetOf(IDOWeek.MONDAY, IDOWeek.SUNDAY), 0, 1, 0, 14, 0, 15, 0
                     )
                 ),
 
                 SetFuncData(
-                    ApiEvtType.SETWATCHDIALSORT, context.getString(R.string.set_dial_order), IDOWatchDialSortParamModel(
+                    CustomEvtType.SETWATCHDIALSORT, context.getString(R.string.set_dial_order), IDOWatchDialSortParamModel(
                         sortItemNumb = 0, pSortItem = listOf(
                             IDOWatchDialSortItem(
                                 type = 1, sortNumber = 0, name = ""
@@ -123,7 +204,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWALKREMINDTIMES, context.getString(R.string.set_walk_remiders_time), IDOWalkRemindTimesParamModel(
+                    CustomEvtType.SETWALKREMINDTIMES, context.getString(R.string.set_walk_remiders_time), IDOWalkRemindTimesParamModel(
                         onOff = 0, items = listOf(
                             IDOWalkRemindTimesItem(
                                 hour = 0, min = 0
@@ -132,7 +213,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWEATHERV3, context.getString(R.string.set_weather_v3), IDOWeatherV3ParamModel(
+                    CustomEvtType.SETWEATHERV3, context.getString(R.string.set_weather_v3), IDOWeatherV3ParamModel(
                         11, 29, 16, 2, 2, 1, 7, 9, 33, 3, "shenzhen", 7, 40, 32, 10, 5, 5, 37, 18, 49, 3, "big", listOf(
                             IDOHoursWeatherItem(
                                 weatherType = 7, temperature = 8, probability = 40
@@ -153,7 +234,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETNOTICEMESSAGESTATE,
+                    CustomEvtType.SETNOTICEMESSAGESTATE,
                     context.getString(R.string.v3_set_message_notification_status),
                     IDONoticeMessageStateParamModel(
                         1, 1, 0, 0, 0, 2, listOf(
@@ -164,17 +245,17 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETMAINUISORTV3, context.getString(R.string.setmainuisortv3), IDOMainUISortParamModel(
+                    CustomEvtType.SETMAINUISORTV3, context.getString(R.string.setmainuisortv3), IDOMainUISortParamModel(
                         1, listOf(1, 45, 23), 2, 4, 6, 54
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWATCHFACEDATA, context.getString(R.string.setwatchfacedata), IDOWatchFaceParamModel(
+                    CustomEvtType.SETWATCHFACEDATA, context.getString(R.string.setwatchfacedata), IDOWatchFaceParamModel(
                         1, "w97.iwf", 2097152
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETMUSICOPERATE, context.getString(R.string.setmusicoperate), IDOMusicOpearteParamModel(
+                    CustomEvtType.SETMUSICOPERATE, context.getString(R.string.setmusicoperate), IDOMusicOpearteParamModel(
                         1, 1, listOf(
                             IDOMusicFolderItem(
                                 folderId = 1, musicNum = 0, folderName = "kd", musicIndex = listOf()
@@ -187,10 +268,10 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETNOTIFICATIONSTATUS, context.getString(R.string.setnotificationstatus), IDONotificationStatusParamModel(1)
+                    CustomEvtType.SETNOTIFICATIONSTATUS, context.getString(R.string.setnotificationstatus), IDONotificationStatusParamModel(1)
                 ),
                 SetFuncData(
-                    ApiEvtType.SETFITNESSGUIDANCE, context.getString(R.string.setfitnessguidance), IDOFitnessGuidanceParamModel(
+                    CustomEvtType.SETFITNESSGUIDANCE, context.getString(R.string.setfitnessguidance), IDOFitnessGuidanceParamModel(
                         1, 2, 4, 5, 6, 7, 8, false, hashSetOf(
                             IDOWeek.MONDAY,
                             IDOWeek.TUESDAY,
@@ -203,30 +284,30 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSCIENTIFICSLEEPSWITCH,
+                    CustomEvtType.SETSCIENTIFICSLEEPSWITCH,
                     context.getString(R.string.setscientificsleepswitch),
                     IDOScientificSleepSwitchParamModel(
                         1, 1, 2, 3, 4
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETTEMPERATURESWITCH, context.getString(R.string.settemperatureswitch), IDOTemperatureSwitchParamModel(
+                    CustomEvtType.SETTEMPERATURESWITCH, context.getString(R.string.settemperatureswitch), IDOTemperatureSwitchParamModel(
                         1, 1, 2, 3, 4, 6
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETV3NOISE, context.resources.getString(R.string.setv3noise), IDOV3NoiseParamModel(
+                    CustomEvtType.SETV3NOISE, context.resources.getString(R.string.setv3noise), IDOV3NoiseParamModel(
                         3, 0, 0, 23, 59, 1, 5
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETHEARTMODE, context.getString(R.string.setheartmode), IDOHeartModeParamModel(
+                    CustomEvtType.SETHEARTMODE, context.getString(R.string.setheartmode), IDOHeartModeParamModel(
                         8, 0, 0, 23, 59, 1, 4, 4, 49, 98, 99, 100, 101
 
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETHEARTRATEMODESMART, context.getString(R.string.setheartratemodesmart), IDOHeartRateModeSmartParamModel(
+                    CustomEvtType.SETHEARTRATEMODESMART, context.getString(R.string.setheartratemodesmart), IDOHeartRateModeSmartParamModel(
                         1,
                         0,
                         0,
@@ -240,7 +321,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETTAKINGMEDICINEREMINDER,
+                    CustomEvtType.SETTAKINGMEDICINEREMINDER,
                     context.getString(R.string.settakingmedicinereminder),
                     IDOTakingMedicineReminderParamModel(
                         1, 0, 0, 23, 59, 1, false, hashSetOf(
@@ -254,22 +335,22 @@ class SetFuncData(
                         ), 49, 98, 99, 100, 101, 9
                     )
                 ),
-                SetFuncData(ApiEvtType.SETBLEVOICE, context.getString(R.string.setblevoiceble), IDOBleVoiceParamModel(5, 6)),
+                SetFuncData(CustomEvtType.SETBLEVOICE, context.getString(R.string.setblevoiceble), IDOBleVoiceParamModel(5, 6)),
                 SetFuncData(
-                    ApiEvtType.SETLONGSIT, context.getString(R.string.setlongsit), IDOLongSitParamModel(
+                    CustomEvtType.SETLONGSIT, context.getString(R.string.setlongsit), IDOLongSitParamModel(
                         10, 4, 10, 19, 10, 39
                     )
                 ),
-                SetFuncData(ApiEvtType.SETLOSTFIND, context.getString(R.string.setlostfind), IDOLostFindParamModel(8)),
+                SetFuncData(CustomEvtType.SETLOSTFIND, context.getString(R.string.setlostfind), IDOLostFindParamModel(8)),
                 SetFuncData(
-                    ApiEvtType.SETSPORTGOAL, context.getString(R.string.setsportgoal), IDOSportGoalParamModel(
+                    CustomEvtType.SETSPORTGOAL, context.getString(R.string.setsportgoal), IDOSportGoalParamModel(
                         10,
                         4,
                         10,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETUNIT, context.getString(R.string.setunit), IDOUnitParamModel(
+                    CustomEvtType.SETUNIT, context.getString(R.string.setunit), IDOUnitParamModel(
                         10,
                         4,
                         10,
@@ -286,7 +367,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETNOTIFICATIONCENTER, context.getString(R.string.setnotificationcenter), IDONotificationCenterParamModel(
+                    CustomEvtType.SETNOTIFICATIONCENTER, context.getString(R.string.setnotificationcenter), IDONotificationCenterParamModel(
                         10,
                         4,
                         10,
@@ -306,7 +387,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETUPHANDGESTURE, context.getString(R.string.setuphandgesture), IDOUpHandGestureParamModel(
+                    CustomEvtType.SETUPHANDGESTURE, context.getString(R.string.setuphandgesture), IDOUpHandGestureParamModel(
                         10,
                         4,
                         10,
@@ -317,68 +398,68 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETMUSICONOFF, context.getString(R.string.setmusiconoff), IDOMusicOnOffParamModel(
+                    CustomEvtType.SETMUSICONOFF, context.getString(R.string.setmusiconoff), IDOMusicOnOffParamModel(
                         10,
                         4,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETDISPLAYMODE, context.getString(R.string.setdisplaymode), IDODisplayModeParamModel(
+                    CustomEvtType.SETDISPLAYMODE, context.getString(R.string.setdisplaymode), IDODisplayModeParamModel(
                         10,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSPORTMODESELECT, context.getString(R.string.setsportmodeselect), IDOSportModeSelectParamModel(
-                        10,
-                        4,
-                        10,
-                        19,
-                        10,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                    )
-                ),
-                SetFuncData(
-                    ApiEvtType.SETSLEEPPERIOD, context.getString(R.string.setsleepperiod), IDOSleepPeriodParamModel(
+                    CustomEvtType.SETSPORTMODESELECT, context.getString(R.string.setsportmodeselect), IDOSportModeSelectParamModel(
                         10,
                         4,
                         10,
                         19,
                         10,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWEATHERDATA, context.getString(R.string.setweatherdata), IDOWeatherDataParamModel(
+                    CustomEvtType.SETSLEEPPERIOD, context.getString(R.string.setsleepperiod), IDOSleepPeriodParamModel(
+                        10,
+                        4,
+                        10,
+                        19,
+                        10,
+                    )
+                ),
+                SetFuncData(
+                    CustomEvtType.SETWEATHERDATA, context.getString(R.string.setweatherdata), IDOWeatherDataParamModel(
                         10, 4, 10, 19, 10, 4, 5, listOf(
                             IDOWeatherDataFuture(
                                 0, 0, 0
@@ -387,7 +468,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWEATHERSUNTIME, context.getString(R.string.setweathersuntime), IDOWeatherSunTimeParamModel(
+                    CustomEvtType.SETWEATHERSUNTIME, context.getString(R.string.setweathersuntime), IDOWeatherSunTimeParamModel(
                         10,
                         4,
                         10,
@@ -395,39 +476,39 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWATCHDIAL, context.getString(R.string.setwatchdial), IDOWatchDialParamModel(
+                    CustomEvtType.SETWATCHDIAL, context.getString(R.string.setwatchdial), IDOWatchDialParamModel(
                         10,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSHORTCUT, context.getString(R.string.setshortcut), IDOShortcutParamModel(
+                    CustomEvtType.SETSHORTCUT, context.getString(R.string.setshortcut), IDOShortcutParamModel(
                         1
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETBPCALIBRATION, context.getString(R.string.setbpcalibration), IDOBpCalibrationParamModel(
+                    CustomEvtType.SETBPCALIBRATION, context.getString(R.string.setbpcalibration), IDOBpCalibrationParamModel(
                         1, 0, 0
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETBPMEASUREMENT, context.getString(R.string.setbpmeasurement), IDOBpMeasurementParamModel(
+                    CustomEvtType.SETBPMEASUREMENT, context.getString(R.string.setbpmeasurement), IDOBpMeasurementParamModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSTRESSCALIBRATION, context.getString(R.string.setstresscalibration), IDOStressCalibrationParamModel(
+                    CustomEvtType.SETSTRESSCALIBRATION, context.getString(R.string.setstresscalibration), IDOStressCalibrationParamModel(
                         1,
                         0,
                     )
                 ),
-                SetFuncData(ApiEvtType.SETGPSCONTROL, context.getString(R.string.setgpscontrol), IDOGpsControlParamModel(8, 9)),
+                SetFuncData(CustomEvtType.SETGPSCONTROL, context.getString(R.string.setgpscontrol), IDOGpsControlParamModel(8, 9)),
                 SetFuncData(
-                    ApiEvtType.SETSPO2SWITCH, context.getString(R.string.setspo2switch), IDOSpo2SwitchParamModel(
+                    CustomEvtType.SETSPO2SWITCH, context.getString(R.string.setspo2switch), IDOSpo2SwitchParamModel(
                         10, 4, 10, 19, 10, 39, 3, 6
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETHANDWASHINGREMINDER, context.getString(R.string.sethandwashingreminder), IDOHandWashingReminderParamModel(
+                    CustomEvtType.SETHANDWASHINGREMINDER, context.getString(R.string.sethandwashingreminder), IDOHandWashingReminderParamModel(
                         3, 0, 0, 23, 59, false, hashSetOf(
                             IDOWeek.MONDAY,
                             IDOWeek.TUESDAY,
@@ -439,7 +520,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETNOTICEAPPNAME, context.getString(R.string.setnoticeappname), IDONoticeMesaageParamModel(
+                    CustomEvtType.SETNOTICEAPPNAME, context.getString(R.string.setnoticeappname), IDONoticeMesaageParamModel(
                         10, 4, 10, 19, 10, 39, "ido", "ido_demo", "ido_demo", listOf(
                             IDONoticeMesaageParamItem(
                                 0, "ido"
@@ -448,7 +529,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSYNCCONTACT, context.getString(R.string.setsynccontact), IDOSyncContactParamModel(
+                    CustomEvtType.SETSYNCCONTACT, context.getString(R.string.setsynccontact), IDOSyncContactParamModel(
                         5, listOf(
                             IDOContactItem(
                                 "18888888888", "ido"
@@ -457,18 +538,18 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.MUSICCONTROL, context.getString(R.string.musiccontrol), IDOMusicControlParamModel(
+                    CustomEvtType.MUSICCONTROL, context.getString(R.string.musiccontrol), IDOMusicControlParamModel(
                         1, 5, 2, "ido", "ido"
 
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.NOTICEMESSAGEV3, context.getString(R.string.noticemessagev3), IDONoticeMessageParamModel(
+                    CustomEvtType.NOTICEMESSAGEV3, context.getString(R.string.noticemessagev3), IDONoticeMessageParamModel(
                         8, 4, 10, false, false, false, "xmm", "ddd", "dsdf", "xiao"
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETBPCALCONTROLV3, context.getString(R.string.setbpcalcontrolv3), IDOBpCalControlModel(
+                    CustomEvtType.SETBPCALCONTROLV3, context.getString(R.string.setbpcalcontrolv3), IDOBpCalControlModel(
                         1, 0, 0, 23, listOf(
                             0, 0, 1
                         ), listOf(
@@ -477,7 +558,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETBASESPORTPARAMSORTV3, context.getString(R.string.setbasesportparamsortv3), IDOSportSortParamModel(
+                    CustomEvtType.SETBASESPORTPARAMSORTV3, context.getString(R.string.setbasesportparamsortv3), IDOSportSortParamModel(
                         1, IDOSportType.SPORTTYPEAEROBICS, 1, listOf(
                             1,
                             2,
@@ -485,7 +566,7 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSCHEDULERREMINDERV3, context.getString(R.string.setschedulerreminderv3), IDOSchedulerReminderParamModel(
+                    CustomEvtType.SETSCHEDULERREMINDERV3, context.getString(R.string.setschedulerreminderv3), IDOSchedulerReminderParamModel(
                         1, listOf(
                             IDOSchedulerReminderItem(
                                 0,
@@ -505,14 +586,14 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SET100SPORTSORTV3, context.getString(R.string.set100sportsortv3), IDOSport100SortParamModel(
+                    CustomEvtType.SET100SPORTSORTV3, context.getString(R.string.set100sportsortv3), IDOSport100SortParamModel(
                         1, 2, listOf(
                             1, 2
                         )
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWALLPAPERDIALREPLYV3,
+                    CustomEvtType.SETWALLPAPERDIALREPLYV3,
                     context.getString(R.string.setwallpaperdialreplyv3),
                     IDOWallpaperDialReplyV3ParamModel(
                         1,
@@ -525,57 +606,57 @@ class SetFuncData(
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETVOICEREPLYTXTV3, context.getString(R.string.setvoicereplytxtv3), IDOVoiceReplyParamModel(
+                    CustomEvtType.SETVOICEREPLYTXTV3, context.getString(R.string.setvoicereplytxtv3), IDOVoiceReplyParamModel(
                         1, "dsdf", "sdf"
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETTIME, context.getString(R.string.settime), IDODateTimeParamModel(
+                    CustomEvtType.SETTIME, context.getString(R.string.settime), IDODateTimeParamModel(
                         2022, 10, 3, 5, 19, 16, 10, 29
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETFINDPHONE, context.getString(R.string.setfindphone), IDOCmdSetResponseModel(
+                    CustomEvtType.SETFINDPHONE, context.getString(R.string.setfindphone), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETONEKEYSOS, context.getString(R.string.setonekeysos), IDOCmdSetResponseModel(
+                    CustomEvtType.SETONEKEYSOS, context.getString(R.string.setonekeysos), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWEATHERSWITCH, context.getString(R.string.setweatherswitch), IDOCmdSetResponseModel(
+                    CustomEvtType.SETWEATHERSWITCH, context.getString(R.string.setweatherswitch), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETUNREADAPPREMINDER, context.getString(R.string.setunreadappreminder), IDOCmdSetResponseModel(
+                    CustomEvtType.SETUNREADAPPREMINDER, context.getString(R.string.setunreadappreminder), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWEATHERCITYNAME, context.getString(R.string.setweathercityname), IDOCmdSetResponseModel(
+                    CustomEvtType.SETWEATHERCITYNAME, context.getString(R.string.setweathercityname), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETSPORTMODESORT, context.getString(R.string.setsportmodesort), IDOCmdSetResponseModel(
+                    CustomEvtType.SETSPORTMODESORT, context.getString(R.string.setsportmodesort), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETRRESPIRATETURN, context.getString(R.string.setrrespirateturn), IDOCmdSetResponseModel(
+                    CustomEvtType.SETRRESPIRATETURN, context.getString(R.string.setrrespirateturn), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETBODYPOWERTURN, context.getString(R.string.setbodypowerturn), IDOCmdSetResponseModel(
+                    CustomEvtType.SETBODYPOWERTURN, context.getString(R.string.setbodypowerturn), IDOCmdSetResponseModel(
                         1,
                     )
                 ),
                 SetFuncData(
-                    ApiEvtType.SETWORLDTIMEV3, context.resources.getString(R.string.setworldtimev3), IDOWorldTimeParamModel(
+                    CustomEvtType.SETWORLDTIMEV3, context.resources.getString(R.string.setworldtimev3), IDOWorldTimeParamModel(
                         1,
                         0,
                         "北京",

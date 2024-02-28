@@ -848,6 +848,13 @@ extern int mkPhotoFile(const char * file_path,const char * save_file_path,int fo
 extern char *mkConnactFile(const char * jsondata);
 
 /**
+ * @brief 制作思澈表盘文件,会在输入路径下生成(.watch)表盘文件
+ * @param file_path 素材文件路径
+ * @return 0成功 非0失败 -1: 没有控件 -2: json文件加载失败
+ */
+extern int mkSifliDialFile(const char *file_path);
+
+/**
  * @brief 压缩png图片质量
  * @param inputFilePath   输入文件路径
  * @param outputFilePath 输出文件路径
@@ -951,6 +958,14 @@ extern char *simulatorRespondInfoExec(const char *json_data,int json_data_len,in
  * @return 输出json数据字符串
  */
 extern char *simulatorReceiveBinary2Json(const char *data,int data_len);
+
+/**
+ * @brief 计算长包指令的校验码
+ * @param data 素材字节数据
+ * @param data_len 字节数据长度
+ * @return 输出2个字节的CRC校验码
+ */
+extern uint16_t getCrc16(const char *data,int data_len);
 
 // ------------------------------ v2闹钟同步 ------------------------------
 

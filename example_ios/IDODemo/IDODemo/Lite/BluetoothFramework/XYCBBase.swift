@@ -20,13 +20,13 @@ private let _option = [CBCentralManagerScanOptionAllowDuplicatesKey : NSNumber.i
 class ScanInfo: NSObject {
     var peripheral: CBPeripheral
     var advertisementData: [String : Any]
-    var rssi: NSNumber 
+    var rssi: NSNumber
     init(peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber) {
         self.peripheral = peripheral
         self.advertisementData = advertisementData
         self.rssi = rssi
     }
-
+    
     var peripheralName: String? {
         guard self.advertisementData["kCBAdvDataLocalName"] != nil else {
             return nil
@@ -40,7 +40,7 @@ class ScanInfo: NSObject {
     
     override func isEqual(_ object: Any?) -> Bool {
         let object: ScanInfo = object as! ScanInfo
-       return self.peripheral.identifier == object.peripheral.identifier ? true : false
+        return self.peripheral.identifier == object.peripheral.identifier ? true : false
     }
 }
 
@@ -127,7 +127,7 @@ class XYCBBase: NSObject {
                 }else{
                     send = Array(bytes[(i-1)*mode...(mode*i-1)]);
                 }
-               
+                
                 let data:Data = Data.init(send);
                 let nsdata:NSData = NSData.init(bytes: send, length: send.count);
                 peripheral.writeValue(data, for: characteristic, type: .withResponse)
@@ -300,11 +300,11 @@ extension XYCBBase: CBPeripheralDelegate {
     //readValue
     //setNotifyValue
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        print(#function)
+        //print(#function)
         if characteristic.isNotifying {
             if let closure = self.notifyClosure {
                 closure(characteristic.value,error)
-            }            
+            }
         }else {
             if let closure = self.readCallBack {
                 closure(characteristic.value,error)
@@ -326,9 +326,9 @@ extension XYCBBase: CBPeripheralDelegate {
     }
     
     func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
-        printXY(#function, obj: self, line: #line)
+        //printXY(#function, obj: self, line: #line)
         if #available(iOS 11.0, *) {
-            printXY(peripheral.canSendWriteWithoutResponse, obj: self, line: #line)
+            //printXY(peripheral.canSendWriteWithoutResponse, obj: self, line: #line)
         } else {
             // Fallback on earlier versions
         }
@@ -366,9 +366,9 @@ extension CBPeripheral {
         let service = services?.first(where: { $0.uuid.uuidString == "0AF0" })
         let characteristic = service?.characteristics?.first(where: {  $0.uuid.uuidString == "0AF6" })
         guard (service?.peripheral != nil && characteristic != nil) else {  return nil }
-//        print("write service.uuid: \(service?.uuid.uuidString ?? "")  service.peripheral?.name:\(service?.peripheral?.name ?? "")")
-//        print("characteristic.uuid.uuidString: \(characteristic?.uuid.uuidString ?? "")")
-//        print("characteristic.dealCharacteristicProperties():\(characteristic?.dealCharacteristicProperties()  ?? "")")
+        //        print("write service.uuid: \(service?.uuid.uuidString ?? "")  service.peripheral?.name:\(service?.peripheral?.name ?? "")")
+        //        print("characteristic.uuid.uuidString: \(characteristic?.uuid.uuidString ?? "")")
+        //        print("characteristic.dealCharacteristicProperties():\(characteristic?.dealCharacteristicProperties()  ?? "")")
         return (service!.peripheral!, characteristic!)
     }
     
@@ -377,9 +377,9 @@ extension CBPeripheral {
         let service = services?.first(where: { $0.uuid.uuidString == "0AF0" })
         let characteristic = service?.characteristics?.first(where: {  $0.uuid.uuidString == "0AF7" })
         guard (service?.peripheral != nil && characteristic != nil) else {  return nil }
-//        print("notify service.uuid: \(service?.uuid.uuidString ?? "")  service.peripheral?.name:\(service?.peripheral?.name ?? "")")
-//        print("characteristic.uuid.uuidString: \(characteristic?.uuid.uuidString ?? "")")
-//        print("characteristic.dealCharacteristicProperties():\(characteristic?.dealCharacteristicProperties()  ?? "")")
+        //        print("notify service.uuid: \(service?.uuid.uuidString ?? "")  service.peripheral?.name:\(service?.peripheral?.name ?? "")")
+        //        print("characteristic.uuid.uuidString: \(characteristic?.uuid.uuidString ?? "")")
+        //        print("characteristic.dealCharacteristicProperties():\(characteristic?.dealCharacteristicProperties()  ?? "")")
         return (service!.peripheral!, characteristic!)
     }
     

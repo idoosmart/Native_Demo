@@ -441,7 +441,7 @@ extension CmdType {
                                                     repeats: [.wednesday, .monday],
                                                     interval: 60)
         case .setSportGoal:
-            return IDOSportGoalParamModel(sportStep: 1, walkGoalSteps: 1, targetType: 1)
+            return IDOSportGoalParamModel(sportStep: 2000, walkGoalSteps: 15, targetType: 1)
         case .setWeatherData:
             let dataFuture1 = IDOWeatherDataFuture(type: 0, minTemp: 3, maxTemp: 13)
             let dataFuture2 = IDOWeatherDataFuture(type: 0, minTemp: 1, maxTemp: 10)
@@ -854,7 +854,7 @@ extension CmdType {
                                              remindStopHour: 23,
                                              remindStopMinute: 59)
         case .setCalorieDistanceGoal:
-            return IDOMainSportGoalModel(calorie: 500, distance: 200, calorieMin: 100, calorieMax: 666, midHighTimeGoal: 600, walkGoalTime: 600, timeGoalType: 0)
+            return IDOMainSportGoalModel(calorie: 600, distance: 300, calorieMin: 130, calorieMax: 666, midHighTimeGoal: 600, walkGoalTime: 5, timeGoalType: 1)
         case .setWalkRemind:
             return IDOWalkRemindModel(onOff: 1, goalStep: 2000, startHour: 14,
                                       startMinute: 0, endHour: 20, endMinute: 0,

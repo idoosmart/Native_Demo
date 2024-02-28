@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -13,9 +14,14 @@ import androidx.core.view.get
 import com.example.example_android.R
 import com.example.example_android.callback.BleManager
 import com.example.example_android.callback.ConnectCallback
+import com.example.example_android.util.BaseUtil
+import com.example.example_android.util.ZipUtil
+import com.idosmart.enum.IDODeviceLogType
 import com.idosmart.enum.IDODeviceStateType
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.protocol_channel.sdk
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -78,9 +84,44 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @Override
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish();
+                return true
+            }
+
+            R.id.menu_log_export -> {
+
+                showProgressDialog("Compressed log")
+                var logType = listOf(IDODeviceLogType.GENERAL)
+                sdk.deviceLog.startGet(logType, 60, { progress ->
+                    Log.d("TAG", "onOptionsItemSelected_progress: $progress")
+                }, {
+                    if (it) {
+                        closeProgressDialog()
+                        val path = sdk.deviceLog.logDirPath
+                        var currentTimeMillis = System.currentTimeMillis()
+                        var simpleDateFormat =
+                            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+                        var fileName = simpleDateFormat.format(currentTimeMillis)
+                        var filePath = filesDir.parentFile.path.plus("/ido_sdk").plus("/devices")
+                        ZipUtil.zip(path, filePath, fileName.plus("_log.zip"))
+                        Log.d("TAG", "onOptionsItemSelected filePath: $filePath")
+                        BaseUtil.share(this, filePath.plus("/".plus(fileName.plus("_log.zip"))))
+                    } else {
+                        closeProgressDialog()
+                        toast("Please link the watch to use this feature ")
+                    }
+                })
+            }
+
+            R.id.menu_log_app -> {
+                sdk.tool.exportLog {
+                    BaseUtil.share(this, it)
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }

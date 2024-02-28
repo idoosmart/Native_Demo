@@ -107,7 +107,8 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         lv_device = findViewById(R.id.lv_device)
         intPermission();
-        var driver: DividerItemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        var driver: DividerItemDecoration =
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         lv_device?.addItemDecoration(driver)
         lv_device?.layoutManager = LinearLayoutManager(this)
         mAdapter = ScanDeviceAdapter(mDeviceList)
@@ -138,9 +139,11 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
             override fun onScanStarted(success: Boolean) {
 
             }
+
             override fun onScanning(bleDevice: BleDevice?) {
 
             }
+
             override fun onScanFinished(scanResultList: List<BleDevice?>?) {
                 closeProgressDialog()
                 if (scanResultList != null) {
@@ -152,9 +155,9 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     }
 
     //第三方蓝牙，可以修改称自己的
-    fun initconfig(){
+    fun initconfig() {
         val scanRuleConfig = BleScanRuleConfig.Builder()
-            //.setDeviceMac("00:A4:BD:D5:DB:1C")
+            .setDeviceMac("00:A4:BD:D5:DB:1C")//过滤自己的mac
             .setScanTimeOut(10000)
             .build()
         BleManager.getInstance().initScanRule(scanRuleConfig)
@@ -167,6 +170,7 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         val intent = Intent(lv_device?.context, FunctionActivity::class.java)
         intent.putExtra(DEVICE, mDevice)
         CurrentDevice.bleDevice = mDevice!!
+        device = CurrentDevice.bleDevice
         startActivity(intent)
     }
 

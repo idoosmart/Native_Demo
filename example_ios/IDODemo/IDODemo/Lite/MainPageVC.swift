@@ -21,7 +21,7 @@ let clientId = "amzn1.application-oa2-client.e45ff1ade6064c24a265fe6924c6f75d"
 
 class MainPageVC: UIViewController {
     
-    weak var funcPage: FunctionPageVC?
+//    weak var funcPage: FunctionPageVC?
     var dataList = [ScanInfo]()
     var currentDeviceModel: ScanInfo?
     lazy var tableView: UITableView = {
@@ -95,7 +95,7 @@ extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
         currentDeviceModel = scanInfo
         let vc = FunctionPageVC()
         vc.deviceModel = scanInfo
-        funcPage = vc
+        //funcPage = vc
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

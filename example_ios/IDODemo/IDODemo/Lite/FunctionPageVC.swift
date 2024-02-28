@@ -21,6 +21,7 @@ class FunctionPageVC: UIViewController {
     private var isBinded = false
     private var isConnected = false
     var deviceModel: ScanInfo?
+    private let disposeBag = DisposeBag()
     //var service: CBService?
     
     private lazy var items = [
@@ -34,7 +35,8 @@ class FunctionPageVC: UIViewController {
         Word.transFile,
         Word.sport,
         Word.alexa,
-        Word.testOC
+        Word.testOC,
+        Word.exportLog
     ]
     
     private lazy var tableView: UITableView = {
@@ -135,10 +137,12 @@ class FunctionPageVC: UIViewController {
                     break
                 }
             }
-        })
+        }).disposed(by: disposeBag)
     }
     
     deinit {
+        print("\(String(describing: type(of: self))) deinit")
+        print("Disconnect Device")
         guard let peripheral = deviceModel?.peripheral else { return }
         bleMgr.disConnect(peripheral: peripheral) {  }
         sdk.bridge.markDisconnectedDevice(macAddress: nil, uuid: deviceModel?.uuid) { _ in  }
@@ -171,10 +175,9 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let name = items[indexPath.row]
-        let canEnable = canEnable(name)
-        if (!canEnable) {
-            //tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            return
+        guard canEnable(name) else { return }
+        if (!canPush(name)) {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         switch name {
         case Word.deviceConnect:
@@ -216,6 +219,9 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             let test = TestOC()
             test.testCommand()
             test.testSync()
+            break
+        case Word.exportLog:
+            doExportLog()
             break
         default: break
         }
@@ -263,9 +269,12 @@ extension FunctionPageVC {
     private func testReadData(){
         guard let peripheral = deviceModel?.peripheral else { return }
         guard let notifyTuple =  peripheral.notifyCharacteristic() else { return }
-        bleMgr.subscribeNotify(peripheral: notifyTuple.0, characteristic: notifyTuple.1) { (error) in
+        bleMgr.subscribeNotify(peripheral: notifyTuple.0, characteristic: notifyTuple.1) { [weak self] (error) in
+            guard let self = self else {
+                return
+            }
             if error != nil {
-                printXY(error, obj: self, line: #line)
+                printXY(error ?? "", obj: self, line: #line)
             }
         } notifyClosure: { (data, error) in
             if (data != nil) {
@@ -300,6 +309,8 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.testOC:
             return isConnected && isBinded
+        case Word.exportLog:
+            return isConnected && isBinded
         default:
             break
         }
@@ -308,7 +319,8 @@ extension FunctionPageVC {
     
     private func canPush(_ funName: String) -> Bool {
         return !(funName == Word.deviceConnect || funName == Word.deviceDisconnect
-                 || funName == Word.deviceBind || funName == Word.deviceUnbind)
+                 || funName == Word.deviceBind || funName == Word.deviceUnbind
+                 || funName == Word.testOC || funName == Word.exportLog)
     }
     
     private func bind() {

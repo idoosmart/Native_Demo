@@ -1,113 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/layout_device_describe"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_device_describe" />
+
     <LinearLayout
         android:id="@+id/ll_connect"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="start|center_vertical"
-        android:onClick="ll_connect"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="connect"
+        android:visibility="gone"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/connect"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_connect"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
             android:text="@string/device_connect"
-            />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" />
+
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black"
-        />
 
     <LinearLayout
         android:id="@+id/ll_dis_connect"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="ll_dis_connect"
-        android:gravity="start|center_vertical"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="start|center_vertical"
+        android:onClick="dis_connect">
+
         <TextView
             android:id="@+id/tv_disconnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
             android:text="@string/disconnect"
-            />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black"
-        />
+
     <LinearLayout
         android:id="@+id/ll_bin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="bind"
-        android:gravity="start|center_vertical"
+        android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical"
+        android:onClick="bind">
+
         <TextView
             android:id="@+id/tv_bin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
             android:text="@string/device_bind"
-            />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black"
-        />
+
     <LinearLayout
         android:id="@+id/ll_un_bin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="unbind"
-        android:gravity="start|center_vertical"
+        android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="unbind">
+
         <TextView
             android:id="@+id/tv_un_bin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15sp"
             android:text="@string/device_unbind"
-            />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/black"
-        />
+
     <RelativeLayout
-        android:id="@+id/get_function"
+        android:id="@+id/rl_get_function"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="getFunction"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
+        android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="getFunction"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -116,30 +133,32 @@
             android:text="@string/get_function"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_set_function"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="40dp"
-        android:onClick="setFunction"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="setFunction"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,29 +167,32 @@
             android:text="@string/set_function"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_sync_data"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="syncdata"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
+        android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="syncdata"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -179,29 +201,32 @@
             android:text="Sync Data"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_transfer_file"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="transfer_file"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:visibility="gone"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="transfer_file"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -210,29 +235,32 @@
             android:text="@string/transfer_file"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_alexa"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:onClick="alexa"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
+        android:visibility="gone"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="alexa"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -241,29 +269,32 @@
             android:text="@string/alexa"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_sport"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="40dp"
-        android:onClick="sport"
-        android:orientation="horizontal"
-        android:gravity="start|center_vertical"
         android:layout_marginStart="5dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="sport"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -272,20 +303,20 @@
             android:text="@string/sport"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/v_right_s"/>
+            android:src="@drawable/v_right_s" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"
             android:layout_alignParentBottom="true"
-            />
+            android:background="@color/black" />
     </RelativeLayout>
 
 </LinearLayout>

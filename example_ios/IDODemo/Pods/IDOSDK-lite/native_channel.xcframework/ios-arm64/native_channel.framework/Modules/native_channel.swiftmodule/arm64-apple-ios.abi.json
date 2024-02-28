@@ -229,5 +229,27 @@
     ],
     "json_format_version": 8
   },
-  "ConstValues": []
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
+      "kind": "BooleanLiteral",
+      "offset": 15087,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
+      "kind": "Array",
+      "offset": 15133,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
+      "kind": "StringLiteral",
+      "offset": 15171,
+      "length": 4,
+      "value": "\"US\""
+    }
+  ]
 }

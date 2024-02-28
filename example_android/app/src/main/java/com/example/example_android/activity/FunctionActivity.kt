@@ -2,13 +2,14 @@ package com.example.example_android.activity
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 
 import android.view.View
 import android.widget.Toast
-import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
-import com.example.example_android.activity.SportExchangeActivity
+import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
+import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.SPUtil
 import com.idosmart.enum.IDOBindStatus
 import com.idosmart.enum.IDODeviceStateType
@@ -27,17 +28,29 @@ import com.idosmart.model.IDOWriteStateModel
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
+import kotlinx.android.synthetic.main.activity_transfer_module_file.tvContact
 import kotlinx.android.synthetic.main.layout_device_describe.*
+import kotlinx.android.synthetic.main.layout_function_activity.ll_bin
+import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
+import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
+import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
+import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
+import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
+import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
+import kotlinx.android.synthetic.main.layout_function_activity.tv_bin
+import kotlinx.android.synthetic.main.layout_function_activity.tv_connect
+import kotlinx.android.synthetic.main.layout_function_activity.tv_un_bin
 
 class FunctionActivity : BaseActivity() {
     private var device: IDOBleDeviceModel? = null
-    private val bind_key: String = "bindkey"
     private lateinit var deviceState: IDODeviceStateModel
     private var mBlelisten = Blelisten()
-    private var isBind: Boolean = false
 
-    fun ll_connect(view: View) {
-        if (deviceState?.state == IDODeviceStateType.CONNECTED) {
+    fun connect(view: View) {
+        if (deviceState.state == IDODeviceStateType.CONNECTED) {
             Toast.makeText(this, "is connected", Toast.LENGTH_LONG).show()
         } else {
             showProgressDialog("Connecting...")
@@ -45,15 +58,23 @@ class FunctionActivity : BaseActivity() {
         }
     }
 
-    fun ll_dis_connect(view: View) {
+    fun dis_connect(view: View) {
         sdk.ble.cancelConnect(device?.macAddress) {
-
+            if (it){
+                ll_un_bin?.visibility = View.GONE
+                rl_get_function?.visibility = View.GONE
+                rl_set_function?.visibility = View.GONE
+                rl_sync_data?.visibility = View.GONE
+                rl_transfer_file?.visibility = View.GONE
+                rl_alexa?.visibility = View.GONE
+                rl_sport?.visibility = View.GONE
+            }
         };
     }
 
     fun bind(view: View) {
         if (deviceState.state == IDODeviceStateType.CONNECTED) {
-            if (isBind) {
+            if (bindState()) {
                 toast("already bond")
             } else {
                 showProgressDialog("bind...")
@@ -67,7 +88,8 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
-                            SPUtil.putAValue(bind_key + device?.macAddress, true)
+                            FunctionUtils.saveDeviceMac(device!!.macAddress.toString())
+                            bindState()
                         }
 
                         IDOBindStatus.FAILED,
@@ -90,14 +112,13 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun unbind(view: View) {
-//        isBind = SPUtil.getAValue(bind_key + device?.macAddress, false) as Boolean
-        if (isBind) {
+        if (bindState()) {
             sdk.cmd.unbind(device?.macAddress.toString(), true) {
                 if (it) {
                     toast("unbind ok")
-                    SPUtil.putAValue(bind_key + device?.macAddress, false)
-                    isBind = false
+                    FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
                     sdk.ble.cancelConnect(device?.macAddress) {}
+                    bindState()
                 } else {
                     toast("unbind failed")
                 }
@@ -105,7 +126,6 @@ class FunctionActivity : BaseActivity() {
         } else {
             toast("not bond")
         }
-
     }
 
     fun getFunction(view: View) {
@@ -138,26 +158,36 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
+
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle("FunctionList")
         BleManager.registerBleDelegate(mBlelisten)
         sdk.bridge.setupBridge(BleData(), IDOLogType.DEBUG)
         device = intent.getSerializableExtra(MainActivity.DEVICE) as IDOBleDeviceModel?
-//        isBind = SPUtil.getAValue(bind_key + device?.macAddress, false) as Boolean
-//        if (isBind) {
         sdk.ble.autoConnect(device)
         showProgressDialog("Connecting...")
-//        }
+        ll_connect?.visibility = View.GONE
+        ll_dis_connect?.visibility = View.VISIBLE
+
         tv_device_name?.text = "name: " + device?.name
         tv_device_mac?.text = "mac: " + device?.macAddress
         tv_device_rssl?.text = "rssi: " + device?.rssi.toString()
         tv_device_state?.text = "state: disconnect"
+
+        val path1 = sdk.messageIcon.iconDirPath
+        val path2 = sdk.deviceLog.logDirPath
+        println("iconDirPath === $path1 logDirPath === $path2")
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        println("call sdk.ble.cancelConnect")
+        sdk.ble.cancelConnect(device?.macAddress) {
+
+        }
         BleManager.unregisterBleDelegate(mBlelisten)
+
     }
 
     override fun getLayoutId(): Int {
@@ -165,15 +195,55 @@ class FunctionActivity : BaseActivity() {
     }
 
     inner class BleData : IDOBridgeDelegate {
+//        override fun registerWriteDataToBle(bleData: IDOBleDataRequest) {
+//            println("registerWriteDataToBle $bleData");
+//            bleData?.run {
+//                //  if(deviceState?.macAddress == bleData.macAddress){
+//                sdk.ble.writeData(bleData.data, device, bleData.type) {
+//                    println("writeData $it");
+//                }
+//                //  }
+//            }
+//        }
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
+        }
+
+        override fun checkDeviceBindState(macAddress: String): Boolean {
+            return bindState()
+
         }
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
             println("listenDeviceNotification $status");
         }
 
+
+    }
+
+    fun bindState(): Boolean {
+        if (FunctionUtils.getDeviceMac(device!!.macAddress.toString())) {
+            ll_un_bin?.visibility = View.VISIBLE
+            rl_get_function?.visibility = View.VISIBLE
+            rl_set_function?.visibility = View.VISIBLE
+            rl_sync_data?.visibility = View.VISIBLE
+            rl_transfer_file?.visibility = View.VISIBLE
+            rl_alexa?.visibility = View.VISIBLE
+            rl_sport?.visibility = View.VISIBLE
+            ll_bin?.visibility = View.GONE
+            return true
+        } else {
+            ll_un_bin?.visibility = View.GONE
+            rl_get_function?.visibility = View.GONE
+            rl_set_function?.visibility = View.GONE
+            rl_sync_data?.visibility = View.GONE
+            rl_transfer_file?.visibility = View.GONE
+            rl_alexa?.visibility = View.GONE
+            rl_sport?.visibility = View.GONE
+            ll_bin?.visibility = View.VISIBLE
+            return false
+        }
     }
 
 
@@ -202,11 +272,18 @@ class FunctionActivity : BaseActivity() {
                 } else if (isTlwOta) {
                     type = IDOOtaType.TELINK
                 }
-               // sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
+
+                ll_connect?.visibility = View.GONE
+                ll_dis_connect?.visibility = View.VISIBLE
+                //sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
             } else if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTING) {
                 tv_device_state?.text = "state: connecting"
             } else if (idoDeviceStateModel.state == IDODeviceStateType.DISCONNECTED) {
                 tv_device_state?.text = "state: disconnected"
+                ll_connect?.visibility = View.VISIBLE
+                ll_dis_connect?.visibility = View.GONE
+                closeProgressDialog()
+
             }
         }
 

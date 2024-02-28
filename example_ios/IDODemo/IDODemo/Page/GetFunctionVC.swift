@@ -38,7 +38,6 @@ class GetFunctionVC: UIViewController {
         GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: "Get screen brightness event number"),
         GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: "Get maximum number of settings supported by firmware event number"),
         GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: "Get walk reminder event number"),
-        GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"),
         GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: "Get firmware local contact file modification time event number"),
         GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number"),
         GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number"),
@@ -95,6 +94,13 @@ class GetFunctionVC: UIViewController {
         if (sdk.funcTable.getSupportGetBleBeepV3) {
             items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: "Getting firmware local beep file information for V3"))
         }
+        if (sdk.funcTable.getStepDataTypeV2) {
+            items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"))
+        }
+        if (sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
+            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号"))
+        }
+        
         
         //GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number"),
         //GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number"),
@@ -335,6 +341,10 @@ fileprivate enum CmdType {
     /// 获取固件本地提示音文件信息
     /// Getting firmware local beep file information for V3
      case getBleBeep
+    /// 获取BT连接手机型号
+    /// Get BT connected mobile phone model
+     case getBtConnectPhoneModel
+    
 }
 
 extension CmdType {
@@ -661,6 +671,10 @@ private class FunctionDetailVC: UIViewController {
             btnCall.isEnabled = true
             textResponse.text = sdk.funcTable.printProperties()
             break
+        case .getBtConnectPhoneModel:
+            cancellable = Cmds.getBtConnectPhoneModel().send { [weak self] res in
+                self?.doPrint(res)
+            }
         }
     }
     

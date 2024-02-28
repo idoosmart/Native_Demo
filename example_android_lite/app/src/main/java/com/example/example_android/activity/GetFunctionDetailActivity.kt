@@ -4,7 +4,7 @@ import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
 import com.example.example_android.data.CmdGet
 import com.example.example_android.data.GetFuntionData
-import com.idosmart.pigeongen.api_evt_type.ApiEvtType
+import com.example.example_android.data.CustomEvtType
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOCancellable
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
@@ -23,7 +23,7 @@ class GetFunctionDetailActivity : BaseActivity() {
         supportActionBar?.title = getFunctionData?.title
         val myType = getFunctionData?.type ?: return
         send_btn.setOnClickListener {
-            if (myType == ApiEvtType.GETDEVICEINFO) {
+            if (myType == CustomEvtType.GETDEVICEINFO) {
                 val deviceInfo = sdk.device
                 tv_response?.text = deviceInfo.toString()
             } else {

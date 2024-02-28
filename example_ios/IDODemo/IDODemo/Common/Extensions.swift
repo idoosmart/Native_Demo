@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import protocol_channel
+import SVProgressHUD
+import SSZipArchive
 
 extension UIView {
     func showBorder(borderWidth: Float = 0.5, cornerRadius: Float = 12) {
@@ -35,7 +37,7 @@ extension UserDefaults {
         let key = Constant.bindKey + "-" + macAddress
         return bool(forKey: key)
     }
-
+    
     func setBind(_ macAddress: String, isBind: Bool) {
         let key = Constant.bindKey + "-" + macAddress
         setValue(isBind, forKey: key)
@@ -76,4 +78,85 @@ func printProperties(_ obj: Any?) -> String? {
     }
     rs += "}"
     return rs
+}
+
+
+extension FunctionPageVC {
+    // 导出日志
+    func doExportLog() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let appLogAction = UIAlertAction(title: "App日志", style: .default) { _ in
+            self.handleAppLogSelection()
+        }
+        alertController.addAction(appLogAction)
+        
+        let flashLogAction = UIAlertAction(title: "设备日志", style: .default) { _ in
+            self.handleFlashLogSelection()
+        }
+        alertController.addAction(flashLogAction)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in }
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func handleAppLogSelection() {
+        SVProgressHUD.show(withStatus: "导出app日志...")
+        sdk.tool.exportLog { [weak self] path in
+            print("log path:\(path)")
+            if (path.count > 0) {
+                // 成功
+                self?.share(filePath: path)
+            }else {
+                SVProgressHUD.showError(withStatus: "操作失败")
+            }
+        }
+    }
+    
+    private func handleFlashLogSelection() {
+        SVProgressHUD.show(withStatus: "导出设备日志...")
+        sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
+            print("progress: \(progress)")
+        } completion: { [weak self] rs in
+            print("设备日志获取 rs=\(rs)")
+            if (rs) {
+                let path = sdk.deviceLog.logDirPath
+                if (path.count > 0) {
+                    let zipFilePath = self?.zipFile(dirPath: path)
+                    if(zipFilePath != nil) {
+                        self?.share(filePath: zipFilePath!)
+                    }else {
+                        SVProgressHUD.showError(withStatus: "操作失败")
+                    }
+                }else {
+                    SVProgressHUD.showError(withStatus: "操作失败")
+                }
+            } else {
+                SVProgressHUD.showError(withStatus: "操作失败")
+            }
+        }
+    }
+    
+    private func share(filePath: String) {
+        SVProgressHUD.dismiss(withDelay: 0)
+        let fileURL = URL(fileURLWithPath: filePath)
+        let activityViewController = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [.print, .copyToPasteboard]
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true)
+    }
+    
+    private func zipFile(dirPath: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+        let fileName = "\(dateFormatter.string(from: Date()))_log.zip"
+        let zipFilePath = NSTemporaryDirectory() + "/" + fileName
+        if (SSZipArchive.createZipFile(atPath: zipFilePath, withContentsOfDirectory: dirPath)) {
+            return zipFilePath
+        }
+        return nil
+    }
+    
 }

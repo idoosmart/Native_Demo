@@ -25,7 +25,6 @@ object SPUtil {
         fileName: String = KEY_FILE_NAME_DEFAULT,
         context: (() -> Context?)? = null
     ) {
-
         getEditor(
             fileName,
             context?.invoke() ?: appContext

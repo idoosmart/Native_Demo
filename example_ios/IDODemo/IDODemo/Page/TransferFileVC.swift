@@ -26,7 +26,8 @@ class TransferFileVC: UIViewController {
     private lazy var items: [TransType] = {
         var list: [TransType] = [
             .wallpaper,
-            .contact
+            .contact,
+            .bin
         ]
         if sdk.funcTable.getSupportV3BleMusic {
             list.append(.mp3)
@@ -92,6 +93,7 @@ fileprivate enum TransType {
     case mp3
     case wallpaper
     case contact
+    case bin
 }
 
 extension TransType {
@@ -104,6 +106,8 @@ extension TransType {
             return "Wallpaper"
         case .contact:
             return "Contact"
+        case .bin:
+            return "bin文件升级"
         }
     }
 }
@@ -217,6 +221,9 @@ private class FunctionDetailVC: UIViewController {
         case .contact:
             _contact()
             break
+        case .bin:
+            _bin()
+            break
         }
     }
     
@@ -248,6 +255,15 @@ private class FunctionDetailVC: UIViewController {
         ])
     }
     
+    private func _bin() {
+        print("开始时间：\(Date())")
+        //let picFilePath = bundlePath + "/bin/gtx03_ota_full_1.0.1.bin"
+        let picFilePath = bundlePath + "/bin/ota_firmware.bin"
+        _trans([
+            IDOTransNormalModel(fileType: .bin, filePath: picFilePath, fileName: "ota_firmware.bin")
+        ])
+    }
+    
     private func _trans<T: IDOTransBaseModel>(_ items: [T]) {
         isTransferring = true
         cancellable = sdk.transfer.transferFiles(fileItems: items, cancelPrevTranTask: true) { [weak self] currentIndex, totalCount, currentProgress, totalProgress in
@@ -267,6 +283,7 @@ private class FunctionDetailVC: UIViewController {
             let txt = (self?.textConsole.text ?? "") + "result: \(rs)\n"
             self?.textConsole.text = txt
             self?.textConsole.scrollToBottom()
+            print("结束时间：\(Date())")
         }
     }
     

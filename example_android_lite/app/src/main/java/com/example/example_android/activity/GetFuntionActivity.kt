@@ -8,6 +8,8 @@ import com.example.example_android.R
 import com.example.example_android.adapter.GetFuntionAdapter
 import com.example.example_android.data.GetFuntionData
 import com.example.example_android.data.IDoDataBean
+import com.example.example_android.data.CustomEvtType
+import com.idosmart.protocol_channel.sdk
 import kotlinx.android.synthetic.main.layout_get_funtion.ry_view
 
 /**
@@ -61,13 +63,35 @@ class GetFuntionActivity :BaseActivity() {
         function_list.addAll(GetFuntionData.getFunctions(this))
         ry_view.layoutManager = LinearLayoutManager(this)
         var mAdapter = GetFuntionAdapter(function_list)
-        mAdapter.setonItemClickListener(object : GetFuntionAdapter.onItemClickListener{
+        mAdapter.setonItemClickListener(object : GetFuntionAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                var intent =Intent(this@GetFuntionActivity,GetFunctionDetailActivity::class.java)
-                intent.putExtra(GetFuntionActivity.FUNCTION_DATA,function_list[position])
-                startActivity(intent)
-            }
+                if (function_list.get(position).type == CustomEvtType.GETBTCONNECTPHONEMODEL) {
+                    if (sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
+                        var intent = Intent(
+                            this@GetFuntionActivity,
+                            GetFunctionDetailActivity::class.java
+                        )
+                        intent.putExtra(
+                            GetFuntionActivity.FUNCTION_DATA,
+                            function_list[position]
+                        )
+                        startActivity(intent)
+                    } else {
+                        toast("当前设备不支持该功能")
+                    }
+                } else {
+                    var intent = Intent(
+                        this@GetFuntionActivity,
+                        GetFunctionDetailActivity::class.java
+                    )
+                    intent.putExtra(
+                        GetFuntionActivity.FUNCTION_DATA,
+                        function_list[position]
+                    )
+                    startActivity(intent)
+                }
 
+            }
 
         })
         ry_view.adapter = mAdapter

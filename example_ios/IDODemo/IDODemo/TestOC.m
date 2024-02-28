@@ -31,6 +31,10 @@
         }
     }];
     
+    [sdkoc.device refreshDeviceInfoWithForced:true completion:^(BOOL rs) {
+        NSLog(@"手动刷新设备信息：%d", rs);
+    }];
+    
 }
 
 - (void)testSync {
