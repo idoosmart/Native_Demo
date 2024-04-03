@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleNotifyCallback
+import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.example.example_android.MyApplication
@@ -21,16 +22,19 @@ import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOBridgeDelegate
 import io.flutter.Log
 import java.util.*
+import java.util.logging.Handler
 
 /**
  * 蓝牙数据桥接
  */
-object BLEdata{
+object BLEdata  {
 
     var TAG:String = "BLEDATA"
+
+
     fun registBridge(){
         Logutil.logMessage(TAG,"sdk.bridge.setupBridge")
-        sdk.bridge.setupBridge(BleDataBrige(), IDOLogType.RELEASE)
+        sdk.bridge.setupBridge(BleDataBrige(), IDOLogType.DEBUG)
     }
     //使能通知
     fun notifyData(bleDevice: BleDevice,isBind:Boolean){
@@ -49,21 +53,22 @@ object BLEdata{
                 }
                 override fun onCharacteristicChanged(data: ByteArray) {
                     var dataString =ByteUtil.bytesToHexString(data)
-                    Logutil.logMessage(TAG,"onCharacteristicChanged  $dataString" )
+                    Logutil.logMessage(TAG,"onCharacteristicChanged  $dataString   data len:${data.size}" )
                     sdk.bridge.receiveDataFromBle(data,bleDevice?.mac,false)
                 }
             })
     }
 
-    class BleDataBrige : IDOBridgeDelegate {
+    class BleDataBrige : IDOBridgeDelegate,BleWriteCallback() {
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             Logutil.logMessage("bledata","status:$status")
         }
 
         override fun writeDataToBle(request: IDOBleDataRequest) {
-            Logutil.logMessage("bledata","writeDataToBle:${request.data}")
+            Logutil.logMessage("bledata","writeDataToBle:${ByteUtil.bytesToHexString(request.data)}")
             var bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
+
             var characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
                 CurrentDevice.uuid_service
             ), UUID.fromString(CurrentDevice.uuid_characteristic_write))
@@ -84,7 +89,7 @@ object BLEdata{
                 return
             }
             bluetoothGatt.writeCharacteristic(characteristic)
-            sdk.bridge.writeDataComplete()
+
         }
 
         override fun checkDeviceBindState(macAddress: String): Boolean {
@@ -109,6 +114,16 @@ object BLEdata{
             return service.getCharacteristic(characteristicId)
         }
 
+        override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
+            sdk.bridge.writeDataComplete()
+
+        }
+
+        override fun onWriteFailure(exception: BleException?) {
+
+        }
+
     }
-    
+
+
 }

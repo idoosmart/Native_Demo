@@ -20,6 +20,7 @@ import com.idosmart.enum.IDODeviceLogType
 import com.idosmart.enum.IDODeviceStateType
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.protocol_channel.sdk
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -105,7 +106,15 @@ abstract class BaseActivity : AppCompatActivity() {
                         var simpleDateFormat =
                             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                         var fileName = simpleDateFormat.format(currentTimeMillis)
-                        var filePath = filesDir.parentFile.path.plus("/ido_sdk").plus("/devices")
+                        var filePath = filesDir.parentFile.path.plus("/ido_sdk").plus("/devices/logs")
+                        var file = File(filePath)
+                        if (file.exists()) {
+                            if (file.isDirectory) {
+                                file.deleteRecursively() // 删除目录及其内容
+                            } else {
+                                file.delete() // 删除文件
+                            }
+                        }
                         ZipUtil.zip(path, filePath, fileName.plus("_log.zip"))
                         Log.d("TAG", "onOptionsItemSelected filePath: $filePath")
                         BaseUtil.share(this, filePath.plus("/".plus(fileName.plus("_log.zip"))))

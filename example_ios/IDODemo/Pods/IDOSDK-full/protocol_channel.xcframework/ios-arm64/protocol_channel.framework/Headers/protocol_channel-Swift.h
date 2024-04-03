@@ -326,7 +326,7 @@ SWIFT_CLASS("_TtC16protocol_channel8CmdError")
 @class IDOScreenBrightnessModel;
 @class IDOHotStartParamModel;
 @class IDOSupportMaxSetItemsNumModel;
-@class IDOWalkRemindModel;
+@class IDOWalkRemindModelObjc;
 @class IDOStepGoalModel;
 @class IDOContactReviseTimeModel;
 @class IDOUpdateStatusModel;
@@ -341,7 +341,7 @@ SWIFT_CLASS("_TtC16protocol_channel8CmdError")
 @class IDOHeartRateModeSmartParamModel;
 @class IDOStressCalibrationParamModel;
 @class IDOStressCalibrationModel;
-@class IDOHandWashingReminderParamModel;
+@class IDOHandWashingReminderParamModelObjc;
 @class IDOSportGoalParamModel;
 @class IDOWeatherDataParamModel;
 @class IDONotificationStatusParamModel;
@@ -365,11 +365,11 @@ SWIFT_CLASS("_TtC16protocol_channel8CmdError")
 @class IDOTemperatureSwitchParamModel;
 @class IDOSleepPeriodParamModel;
 @class IDOUpHandGestureParamModel;
-@class IDOTakingMedicineReminderParamModel;
+@class IDOTakingMedicineReminderParamModelObjc;
 @class IDOSpo2SwitchParamModel;
-@class IDOAlarmModel;
+@class IDOAlarmModelObjc;
 @class IDOHabitInfoModel;
-@class IDOFitnessGuidanceParamModel;
+@class IDOFitnessGuidanceParamModelObjc;
 @class IDODisplayModeParamModel;
 @class IDOBpMeasurementParamModel;
 @class IDOBpMeasurementModel;
@@ -418,12 +418,13 @@ SWIFT_CLASS("_TtC16protocol_channel8CmdError")
 @class IDOHeartRateIntervalModel;
 @class IDOMenstruationModel;
 @class IDODefaultSportTypeModel;
-@class IDODrinkWaterRemindModel;
+@class IDODrinkWaterRemindModelObjc;
 @class IDOMenstruationRemindParamModel;
-@class IDOStressSwitchParamModel;
+@class IDOStressSwitchParamModelObjc;
 @class IDONotDisturbParamModel;
 @class IDOMenuListParamModel;
 @class IDOSportParamModel;
+@class IDOActivitySwitchParamModel;
 
 SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 @interface Cmdoc : NSObject
@@ -504,7 +505,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 + (id <IDOCancellable> _Nonnull)getSupportMaxSetItemsNum:(void (^ _Nonnull)(CmdError * _Nonnull, IDOSupportMaxSetItemsNumModel * _Nullable))completion;
 /// 获取走动提醒
 /// Get walk reminder event number
-+ (id <IDOCancellable> _Nonnull)getWalkRemind:(void (^ _Nonnull)(CmdError * _Nonnull, IDOWalkRemindModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)getWalkRemind:(void (^ _Nonnull)(CmdError * _Nonnull, IDOWalkRemindModelObjc * _Nullable))completion;
 /// 获取全天步数目标
 /// Get daily step goal event number
 + (id <IDOCancellable> _Nonnull)getStepGoal:(void (^ _Nonnull)(CmdError * _Nonnull, IDOStepGoalModel * _Nullable))completion;
@@ -543,7 +544,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 + (id <IDOCancellable> _Nonnull)setStressCalibration:(IDOStressCalibrationParamModel * _Nonnull)stressCalibration completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOStressCalibrationModel * _Nullable))completion;
 /// 设置洗手提醒
 /// Set Hand Washing Reminder Event
-+ (id <IDOCancellable> _Nonnull)setHandWashingReminder:(IDOHandWashingReminderParamModel * _Nonnull)handWashingParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setHandWashingReminder:(IDOHandWashingReminderParamModelObjc * _Nonnull)handWashingParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置运动目标
 /// Set exercise goal event
 + (id <IDOCancellable> _Nonnull)setSportGoal:(IDOSportGoalParamModel * _Nonnull)sportGoalParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
@@ -637,7 +638,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 + (id <IDOCancellable> _Nonnull)setUpHandGesture:(IDOUpHandGestureParamModel * _Nonnull)upHandGesture completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置吃药提醒
 /// Set Taking Medicine Reminder Event Code
-+ (id <IDOCancellable> _Nonnull)setTakingMedicineReminder:(IDOTakingMedicineReminderParamModel * _Nonnull)takingMedicine completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setTakingMedicineReminder:(IDOTakingMedicineReminderParamModelObjc * _Nonnull)takingMedicine completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置血氧开关
 /// Set SpO2 switch event
 + (id <IDOCancellable> _Nonnull)setSpo2Switch:(IDOSpo2SwitchParamModel * _Nonnull)spo2Switch completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
@@ -648,16 +649,16 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 /// Getting Alarms for V3APP Devices
 /// \param flag Flag for getting alarms  0: Get all alarms 1: Get alarms modified by the device notification
 ///
-+ (id <IDOCancellable> _Nonnull)getAlarm:(NSInteger)flag completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOAlarmModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)getAlarm:(NSInteger)flag completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOAlarmModelObjc * _Nullable))completion;
 /// app设置ble的闹钟
 /// Getting Alarms for V3APP Devices
-+ (id <IDOCancellable> _Nonnull)setAlarm:(IDOAlarmModel * _Nonnull)alarm completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setAlarm:(IDOAlarmModelObjc * _Nonnull)alarm completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 获取用户习惯信息
 /// Get User Habit Information in V3
 + (id <IDOCancellable> _Nonnull)getHabitInfo:(void (^ _Nonnull)(CmdError * _Nonnull, IDOHabitInfoModel * _Nullable))completion;
 /// 健身指导
 /// Fitness Guidance Event
-+ (id <IDOCancellable> _Nonnull)setFitnessGuidance:(IDOFitnessGuidanceParamModel * _Nonnull)fitness completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setFitnessGuidance:(IDOFitnessGuidanceParamModelObjc * _Nonnull)fitness completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 显示模式
 /// Display mode event number
 + (id <IDOCancellable> _Nonnull)setDisplayMode:(IDODisplayModeParamModel * _Nonnull)displayMode completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
@@ -791,7 +792,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 /// 设置卡路里和距离目标(设置日常三环)
 + (id <IDOCancellable> _Nonnull)setCalorieDistanceGoal:(IDOMainSportGoalModel * _Nonnull)sportGoal completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置走动提醒
-+ (id <IDOCancellable> _Nonnull)setWalkRemind:(IDOWalkRemindModel * _Nonnull)walkRemind completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setWalkRemind:(IDOWalkRemindModelObjc * _Nonnull)walkRemind completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置经期
 + (id <IDOCancellable> _Nonnull)setMenstruation:(IDOMenstruationModel * _Nonnull)menstruation completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 获取默认的运动类型
@@ -799,13 +800,13 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 + (id <IDOCancellable> _Nonnull)getDefaultSportType:(void (^ _Nonnull)(CmdError * _Nonnull, IDODefaultSportTypeModel * _Nullable))completion;
 /// 设置喝水提醒
 /// Set Drink Water Reminder
-+ (id <IDOCancellable> _Nonnull)setDrinkWaterRemind:(IDODrinkWaterRemindModel * _Nonnull)drinkWaterRemind completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setDrinkWaterRemind:(IDODrinkWaterRemindModelObjc * _Nonnull)drinkWaterRemind completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置经期提醒
 /// Set Menstrual Reminder
 + (id <IDOCancellable> _Nonnull)setMenstruationRemind:(IDOMenstruationRemindParamModel * _Nonnull)menstruationRemind completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置压力开关
 /// Set Pressure Switch
-+ (id <IDOCancellable> _Nonnull)setStressSwitch:(IDOStressSwitchParamModel * _Nonnull)stressSwitchParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
++ (id <IDOCancellable> _Nonnull)setStressSwitch:(IDOStressSwitchParamModelObjc * _Nonnull)stressSwitchParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置语音助手开关
 /// Setting Voice Assistant Switch
 + (id <IDOCancellable> _Nonnull)setVoiceAssistantOnOff:(BOOL)isOpen completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
@@ -827,6 +828,18 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 /// 获取BT连接手机型号
 /// Get BT connected mobile phone model
 + (id <IDOCancellable> _Nonnull)getBtConnectPhoneModel:(void (^ _Nonnull)(CmdError * _Nonnull, NSString * _Nullable))completion;
+/// 设置运动模式识别开关
+/// Set the sports mode recognition switch
++ (id <IDOCancellable> _Nonnull)setActivitySwitch:(IDOActivitySwitchParamModel * _Nonnull)switchParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
+/// 控制音乐开始
+/// Control music start
++ (id <IDOCancellable> _Nonnull)musicStart:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
+/// 控制音乐停止
+/// Control music stop
++ (id <IDOCancellable> _Nonnull)musicStop:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
+/// APP下发配对结果
+/// The APP delivers the pairing result
++ (id <IDOCancellable> _Nonnull)sendBindResult:(BOOL)isSuccess :(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -836,55 +849,102 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOActivitySwitchModel")
 @interface IDOActivitySwitchModel : NSObject
 /// 0 for success
 /// non-zero for error
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Auto identify walking switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportWalk;
+@property (nonatomic) NSInteger autoIdentifySportWalk;
 /// Auto identify running switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportRun;
+@property (nonatomic) NSInteger autoIdentifySportRun;
 /// Auto identify cycling switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportBicycle;
+@property (nonatomic) NSInteger autoIdentifySportBicycle;
 /// Auto pause switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoPauseOnOff;
+@property (nonatomic) NSInteger autoPauseOnOff;
 /// End reminder switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoEndRemindOnOffOnOff;
+@property (nonatomic) NSInteger autoEndRemindOnOffOnOff;
 /// Auto identify elliptical switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportElliptical;
+@property (nonatomic) NSInteger autoIdentifySportElliptical;
 /// Auto identify rowing switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportRowing;
+@property (nonatomic) NSInteger autoIdentifySportRowing;
 /// Auto identify swimming switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportSwim;
+@property (nonatomic) NSInteger autoIdentifySportSwim;
 /// Auto identify smart rope switch: 0 for off, 1 for on, -1 for not supported
-@property (nonatomic, readonly) NSInteger autoIdentifySportSmartRope;
+@property (nonatomic) NSInteger autoIdentifySportSmartRope;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode autoIdentifySportWalk:(NSInteger)autoIdentifySportWalk autoIdentifySportRun:(NSInteger)autoIdentifySportRun autoIdentifySportBicycle:(NSInteger)autoIdentifySportBicycle autoPauseOnOff:(NSInteger)autoPauseOnOff autoEndRemindOnOffOnOff:(NSInteger)autoEndRemindOnOffOnOff autoIdentifySportElliptical:(NSInteger)autoIdentifySportElliptical autoIdentifySportRowing:(NSInteger)autoIdentifySportRowing autoIdentifySportSwim:(NSInteger)autoIdentifySportSwim autoIdentifySportSmartRope:(NSInteger)autoIdentifySportSmartRope OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-enum IDOAlarmStatus : NSInteger;
-enum IDOAlarmType : NSInteger;
+
+SWIFT_CLASS("_TtC16protocol_channel27IDOActivitySwitchParamModel")
+@interface IDOActivitySwitchParamModel : NSObject
+/// Automatic recognition of walking switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportWalk;
+/// Automatic recognition of running switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportRun;
+/// Automatically identify bicycle switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportBicycle;
+/// Motion auto-pause 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoPauseOnOff;
+/// End reminder 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoEndRemindOnOffOnOff;
+/// Automatically identify the elliptical machine switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportElliptical;
+/// Automatically identify rowing machine switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportRowing;
+/// Automatic recognition of swimming switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportSwim;
+/// Automatically identify smart rope skipping switch 0 off 1 on
+/// Function table: getAutoActivitySetGetUseNewStructExchange
+@property (nonatomic) NSInteger autoIdentifySportSmartRope;
+- (nonnull instancetype)initWithAutoIdentifySportWalk:(NSInteger)autoIdentifySportWalk autoIdentifySportRun:(NSInteger)autoIdentifySportRun autoIdentifySportBicycle:(NSInteger)autoIdentifySportBicycle autoPauseOnOff:(NSInteger)autoPauseOnOff autoEndRemindOnOffOnOff:(NSInteger)autoEndRemindOnOffOnOff autoIdentifySportElliptical:(NSInteger)autoIdentifySportElliptical autoIdentifySportRowing:(NSInteger)autoIdentifySportRowing autoIdentifySportSwim:(NSInteger)autoIdentifySportSwim autoIdentifySportSmartRope:(NSInteger)autoIdentifySportSmartRope OBJC_DESIGNATED_INITIALIZER;
+- (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 
 SWIFT_CLASS("_TtC16protocol_channel12IDOAlarmItem")
 @interface IDOAlarmItem : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@class IDOWeekObjc;
+enum IDOAlarmStatus : NSInteger;
+enum IDOAlarmType : NSInteger;
+
+SWIFT_CLASS("_TtC16protocol_channel16IDOAlarmItemObjc")
+@interface IDOAlarmItemObjc : NSObject
 /// Alarm ID, starting from 1, 1~maximum supported number of alarms
-@property (nonatomic, readonly) NSInteger alarmID;
+@property (nonatomic) NSInteger alarmID;
 /// Delay in minutes
-@property (nonatomic, readonly) NSInteger delayMin;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger minute;
+@property (nonatomic) NSInteger delayMin;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger minute;
 /// Alarm name, maximum 23 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
-/// Repeat switch
-@property (nonatomic) BOOL isOpenRepeat;
+@property (nonatomic, copy) NSString * _Nonnull name;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
+/// on/off
+@property (nonatomic) BOOL isOpen;
 /// Number of repeated alarms
 /// Number of times the alarm is repeated, delay switch, set to 0 to turn off, set to a number to repeat that many times
-@property (nonatomic, readonly) NSInteger repeatTimes;
-@property (nonatomic, readonly) NSInteger shockOnOff;
+@property (nonatomic) NSInteger repeatTimes;
+@property (nonatomic) NSInteger shockOnOff;
 /// 0: Hidden (deleted) 1: Displayed -1:Invailed
-@property (nonatomic, readonly) enum IDOAlarmStatus status;
-@property (nonatomic, readonly) NSInteger tsnoozeDuration;
+@property (nonatomic) enum IDOAlarmStatus status;
+@property (nonatomic) NSInteger tsnoozeDuration;
 /// Alarm type
-@property (nonatomic, readonly) enum IDOAlarmType type;
+@property (nonatomic) enum IDOAlarmType type;
+- (nonnull instancetype)initWithAlarmID:(NSInteger)alarmID delayMin:(NSInteger)delayMin hour:(NSInteger)hour minute:(NSInteger)minute name:(NSString * _Nonnull)name repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats isOpen:(BOOL)isOpen repeatTimes:(NSInteger)repeatTimes shockOnOff:(NSInteger)shockOnOff status:(enum IDOAlarmStatus)status tsnoozeDuration:(NSInteger)tsnoozeDuration type:(enum IDOAlarmType)type OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -892,8 +952,15 @@ SWIFT_CLASS("_TtC16protocol_channel12IDOAlarmItem")
 
 SWIFT_CLASS("_TtC16protocol_channel13IDOAlarmModel")
 @interface IDOAlarmModel : NSObject
-@property (nonatomic, readonly, copy) NSArray<IDOAlarmItem *> * _Nonnull items;
-- (nonnull instancetype)initWithItems:(NSArray<IDOAlarmItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_CLASS("_TtC16protocol_channel17IDOAlarmModelObjc")
+@interface IDOAlarmModelObjc : NSObject
+@property (nonatomic, copy) NSArray<IDOAlarmItemObjc *> * _Nonnull items;
+- (nonnull instancetype)initWithItems:(NSArray<IDOAlarmItemObjc *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -931,8 +998,26 @@ enum IDOGetValueType : NSInteger;
 SWIFT_PROTOCOL("_TtP16protocol_channel16IDOAlexaDelegate_")
 @protocol IDOAlexaDelegate <NSObject>
 /// 获取健康数据
+/// <ul>
+///   <li>
+///     Parameters:
+///   </li>
+///   <li>
+///     dataType: 健康数据类型
+///   </li>
+/// </ul>
+///
+/// returns:
+/// 对应健康数据
 - (NSInteger)getHealthValueWithValueType:(enum IDOGetValueType)valueType SWIFT_WARN_UNUSED_RESULT;
 /// 获取心率
+/// \param dataType 0: 平均，1： 最大，2： 最小
+///
+/// \param timeType 0：今天，1：上周，2：上个月，3：上一年
+///
+///
+/// returns:
+/// 心率
 - (NSInteger)getHrValueWithDataType:(NSInteger)dataType timeType:(NSInteger)timeType SWIFT_WARN_UNUSED_RESULT;
 /// 功能控制
 /// funType 0 关闭找手机功能
@@ -989,98 +1074,98 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOAllHealthSwitchStateModel")
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger heartMode;
+@property (nonatomic) NSInteger heartMode;
 /// Automatic blood pressure measurement switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger pressureMode;
+@property (nonatomic) NSInteger pressureMode;
 /// Automatic blood oxygen measurement switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger spo2Mode;
+@property (nonatomic) NSInteger spo2Mode;
 /// Scientific sleep switch
 /// 2:scientific sleep mode
 /// 1:normal sleep mode
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger scienceMode;
+@property (nonatomic) NSInteger scienceMode;
 /// Nighttime temperature switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger temperatureMode;
+@property (nonatomic) NSInteger temperatureMode;
 /// Noise switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger noiseMode;
+@property (nonatomic) NSInteger noiseMode;
 /// Menstrual cycle switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger menstrualMode;
+@property (nonatomic) NSInteger menstrualMode;
 /// Walking reminder switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger walkMode;
+@property (nonatomic) NSInteger walkMode;
 /// Handwashing reminder switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger handwashingMode;
+@property (nonatomic) NSInteger handwashingMode;
 /// Respiration rate switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger respirRateState;
+@property (nonatomic) NSInteger respirRateState;
 /// Body battery switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger bodyPowerState;
+@property (nonatomic) NSInteger bodyPowerState;
 /// Drink water reminder switch
 /// 1:On
 /// 0:Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger drinkwaterMode;
+@property (nonatomic) NSInteger drinkwaterMode;
 /// Heart rate notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger heartmodeNotifyFlag;
+@property (nonatomic) NSInteger heartmodeNotifyFlag;
 /// Blood pressure notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger pressureNotifyFlag;
+@property (nonatomic) NSInteger pressureNotifyFlag;
 /// Blood oxygen notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger spo2NotifyFlag;
+@property (nonatomic) NSInteger spo2NotifyFlag;
 /// Menstrual cycle notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger menstrualNotifyFlag;
+@property (nonatomic) NSInteger menstrualNotifyFlag;
 /// Fitness guidance notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger guidanceNotifyFlag;
+@property (nonatomic) NSInteger guidanceNotifyFlag;
 /// Reminder notification status:
 /// 0 for invalid
 /// 1 for allow notification
 /// 2 for silent notification
 /// 3 for disable notification
-@property (nonatomic, readonly) NSInteger reminderNotifyFlag;
+@property (nonatomic) NSInteger reminderNotifyFlag;
 - (nonnull instancetype)initWithHeartMode:(NSInteger)heartMode pressureMode:(NSInteger)pressureMode spo2Mode:(NSInteger)spo2Mode scienceMode:(NSInteger)scienceMode temperatureMode:(NSInteger)temperatureMode noiseMode:(NSInteger)noiseMode menstrualMode:(NSInteger)menstrualMode walkMode:(NSInteger)walkMode handwashingMode:(NSInteger)handwashingMode respirRateState:(NSInteger)respirRateState bodyPowerState:(NSInteger)bodyPowerState drinkwaterMode:(NSInteger)drinkwaterMode heartmodeNotifyFlag:(NSInteger)heartmodeNotifyFlag pressureNotifyFlag:(NSInteger)pressureNotifyFlag spo2NotifyFlag:(NSInteger)spo2NotifyFlag menstrualNotifyFlag:(NSInteger)menstrualNotifyFlag guidanceNotifyFlag:(NSInteger)guidanceNotifyFlag reminderNotifyFlag:(NSInteger)reminderNotifyFlag OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1706,33 +1791,33 @@ SWIFT_CLASS("_TtC16protocol_channel29IDOAppStartReplyExchangeModel")
 SWIFT_CLASS("_TtC16protocol_channel19IDOBatteryInfoModel")
 @interface IDOBatteryInfoModel : NSObject
 /// Battery type: 0: Rechargeable lithium battery, 1: Button battery
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Voltage
-@property (nonatomic, readonly) NSInteger voltage;
+@property (nonatomic) NSInteger voltage;
 /// Battery status
 /// 0: Normal
 /// 1: Charging
 /// 2: Charging complete
 /// 3: Low battery
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// Level
-@property (nonatomic, readonly) NSInteger level;
+@property (nonatomic) NSInteger level;
 /// Last charging time, year
-@property (nonatomic, readonly) NSInteger lastChargingYear;
+@property (nonatomic) NSInteger lastChargingYear;
 /// Last charging time, month
-@property (nonatomic, readonly) NSInteger lastChargingMonth;
+@property (nonatomic) NSInteger lastChargingMonth;
 /// Last charging time, day
-@property (nonatomic, readonly) NSInteger lastChargingDay;
+@property (nonatomic) NSInteger lastChargingDay;
 /// Last charging time, hour
-@property (nonatomic, readonly) NSInteger lastChargingHour;
+@property (nonatomic) NSInteger lastChargingHour;
 /// Last charging time, minute
-@property (nonatomic, readonly) NSInteger lastChargingMinute;
+@property (nonatomic) NSInteger lastChargingMinute;
 /// Last charging time, second
-@property (nonatomic, readonly) NSInteger lastChargingSecond;
+@property (nonatomic) NSInteger lastChargingSecond;
 /// 0: Invalid
 /// 1: Normal mode (non-power saving mode)
 /// 2: Power saving mode
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 - (nonnull instancetype)initWithType:(NSInteger)type voltage:(NSInteger)voltage status:(NSInteger)status level:(NSInteger)level lastChargingYear:(NSInteger)lastChargingYear lastChargingMonth:(NSInteger)lastChargingMonth lastChargingDay:(NSInteger)lastChargingDay lastChargingHour:(NSInteger)lastChargingHour lastChargingMinute:(NSInteger)lastChargingMinute lastChargingSecond:(NSInteger)lastChargingSecond mode:(NSInteger)mode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1761,12 +1846,22 @@ typedef SWIFT_ENUM(NSInteger, IDOBindStatus, open) {
   IDOBindStatusFailedOnGetFunctionTable = 8,
 /// 绑定失败（获取设备信息失败)
   IDOBindStatusFailedOnGetDeviceInfo = 9,
+/// 绑定超时（支持该功能的设备专用）
+  IDOBindStatusTimeout = 10,
+/// 新账户绑定，用户确定删除设备数据（支持该功能的设备专用）
+  IDOBindStatusAgreeDeleteDeviceData = 11,
+/// 新账户绑定，用户不删除设备数据，绑定失败（支持该功能的设备专用）
+  IDOBindStatusDenyDeleteDeviceData = 12,
+/// 新账户绑定，用户不选择，设备超时（支持该功能的设备专用）
+  IDOBindStatusTimeoutOnNewAccount = 13,
+/// 设备同意配对(绑定)请求，等待APP下发配对结果（支持该功能的设备专用）
+  IDOBindStatusNeedConfirmByApp = 14,
 };
 
 
 SWIFT_CLASS("_TtC16protocol_channel14IDOBleBeepItem")
 @interface IDOBleBeepItem : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull name;
 - (nonnull instancetype)initWithName:(NSString * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -1776,8 +1871,8 @@ SWIFT_CLASS("_TtC16protocol_channel14IDOBleBeepItem")
 SWIFT_CLASS("_TtC16protocol_channel15IDOBleBeepModel")
 @interface IDOBleBeepModel : NSObject
 /// Error code, 0 for success, non-zero for failure
-@property (nonatomic, readonly) NSInteger errCode;
-@property (nonatomic, readonly, copy) NSArray<IDOBleBeepItem *> * _Nonnull items;
+@property (nonatomic) NSInteger errCode;
+@property (nonatomic, copy) NSArray<IDOBleBeepItem *> * _Nonnull items;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode items:(NSArray<IDOBleBeepItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1909,6 +2004,8 @@ SWIFT_PROTOCOL("_TtP16protocol_channel15IDOBleInterface_")
 - (void)disconnectSPPWithBtMacAddress:(NSString * _Nonnull)btMacAddress;
 /// 发起dfu升级
 - (void)startNordicDFUWithConfig:(IDODfuConfig * _Nonnull)config;
+/// 导出ble日志，返回压缩后日志zip文件绝对路径
+- (void)exportLogWithCompletion:(void (^ _Nonnull)(NSString * _Nullable))completion;
 @end
 
 
@@ -2048,9 +2145,9 @@ SWIFT_CLASS("_TtC16protocol_channel29IDOBleStartReplyExchangeModel")
 SWIFT_CLASS("_TtC16protocol_channel21IDOBleVoiceParamModel")
 @interface IDOBleVoiceParamModel : NSObject
 /// Total volume
-@property (nonatomic, readonly) NSInteger totalVolume;
+@property (nonatomic) NSInteger totalVolume;
 /// Current volume
-@property (nonatomic, readonly) NSInteger currentVolume;
+@property (nonatomic) NSInteger currentVolume;
 - (nonnull instancetype)initWithTotalVolume:(NSInteger)totalVolume currentVolume:(NSInteger)currentVolume OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2099,11 +2196,11 @@ typedef SWIFT_ENUM(NSInteger, IDOBluetoothStateType, open) {
 SWIFT_CLASS("_TtC16protocol_channel20IDOBpAlgVersionModel")
 @interface IDOBpAlgVersionModel : NSObject
 /// Firmware blood pressure algorithm version1
-@property (nonatomic, readonly) NSInteger bpVersion1;
+@property (nonatomic) NSInteger bpVersion1;
 /// Firmware blood pressure algorithm version2
-@property (nonatomic, readonly) NSInteger bpVersion2;
+@property (nonatomic) NSInteger bpVersion2;
 /// Firmware blood pressure algorithm version3
-@property (nonatomic, readonly) NSInteger bpVersion3;
+@property (nonatomic) NSInteger bpVersion3;
 - (nonnull instancetype)initWithBpVersion1:(NSInteger)bpVersion1 bpVersion2:(NSInteger)bpVersion2 bpVersion3:(NSInteger)bpVersion3 OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2114,7 +2211,7 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOBpAlgVersionModel")
 SWIFT_CLASS("_TtC16protocol_channel20IDOBpCalControlModel")
 @interface IDOBpCalControlModel : NSObject
 /// Error code: 0 for success, non-zero for failure
-@property (nonatomic, readonly) NSInteger errorCode;
+@property (nonatomic) NSInteger errorCode;
 /// Operation
 /// \code
 /// 0: Invalid
@@ -2123,19 +2220,19 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOBpCalControlModel")
 /// 3: Get feature vector
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Number of high blood pressure PPG feature vectors
 /// Valid when operate=3
-@property (nonatomic, readonly) NSInteger sbpPpgFeatureNum;
+@property (nonatomic) NSInteger sbpPpgFeatureNum;
 /// Number of low blood pressure PPG feature vectors
 /// Valid when operate=3
-@property (nonatomic, readonly) NSInteger dbpPpgFeatureNum;
+@property (nonatomic) NSInteger dbpPpgFeatureNum;
 /// Array of high blood pressure PPG feature vectors
 /// Valid when operate=3
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull sbpPpgFeatureItems;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull sbpPpgFeatureItems;
 /// Array of low blood pressure PPG feature vectors
 /// Valid when operate=3
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull dbpPpgFeatureItems;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull dbpPpgFeatureItems;
 - (nonnull instancetype)initWithErrorCode:(NSInteger)errorCode operate:(NSInteger)operate sbpPpgFeatureNum:(NSInteger)sbpPpgFeatureNum dbpPpgFeatureNum:(NSInteger)dbpPpgFeatureNum sbpPpgFeatureItems:(NSArray<NSNumber *> * _Nonnull)sbpPpgFeatureItems dbpPpgFeatureItems:(NSArray<NSNumber *> * _Nonnull)dbpPpgFeatureItems OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2151,7 +2248,7 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOBpCalibrationModel")
 /// 2: In exercise mode
 /// 3: Device busy
 /// 4: Invalid status
-@property (nonatomic, readonly) NSInteger retCode;
+@property (nonatomic) NSInteger retCode;
 - (nonnull instancetype)initWithRetCode:(NSInteger)retCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2164,11 +2261,11 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOBpCalibrationParamModel")
 @interface IDOBpCalibrationParamModel : NSObject
 /// 1: Blood pressure calibration settings
 /// 2: Blood pressure calibration query result
-@property (nonatomic, readonly) NSInteger flag;
+@property (nonatomic) NSInteger flag;
 /// Systolic pressure
-@property (nonatomic, readonly) NSInteger diastolic;
+@property (nonatomic) NSInteger diastolic;
 /// Diastolic pressure
-@property (nonatomic, readonly) NSInteger systolic;
+@property (nonatomic) NSInteger systolic;
 - (nonnull instancetype)initWithFlag:(NSInteger)flag diastolic:(NSInteger)diastolic systolic:(NSInteger)systolic OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2184,11 +2281,11 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOBpMeasurementModel")
 /// 2: Measurement successful
 /// 3: Measurement failed
 /// 4: Device in exercise mode
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// Systolic blood pressure
-@property (nonatomic, readonly) NSInteger systolicBp;
+@property (nonatomic) NSInteger systolicBp;
 /// Diastolic blood pressure
-@property (nonatomic, readonly) NSInteger diastolicBp;
+@property (nonatomic) NSInteger diastolicBp;
 - (nonnull instancetype)initWithStatus:(NSInteger)status systolicBp:(NSInteger)systolicBp diastolicBp:(NSInteger)diastolicBp OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2202,7 +2299,7 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOBpMeasurementParamModel")
 /// 1: Start measurement
 /// 2: End measurement
 /// 3: Get blood pressure data
-@property (nonatomic, readonly) NSInteger flag;
+@property (nonatomic) NSInteger flag;
 - (nonnull instancetype)initWithFlag:(NSInteger)flag OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2218,7 +2315,7 @@ SWIFT_PROTOCOL("_TtP16protocol_channel17IDOBridgeDelegate_")
 - (void)listenStatusNotificationWithStatus:(enum IDOStatusNotification)status;
 /// 监听设备主动通知/控制事件 (设备)
 - (void)listenDeviceNotificationWithModel:(IDODeviceNotificationModel * _Nonnull)model;
-/// 根据设备macAddress查询绑定状态
+/// 根据设备macAddress查询绑定状态（由APP端提供） true: 已绑定，false：未绑定
 - (BOOL)checkDeviceBindStateWithMacAddress:(NSString * _Nonnull)macAddress SWIFT_WARN_UNUSED_RESULT;
 @end
 
@@ -2227,7 +2324,7 @@ enum IDOLogType : NSInteger;
 /// 桥接接口
 SWIFT_PROTOCOL("_TtP16protocol_channel18IDOBridgeInterface_")
 @protocol IDOBridgeInterface
-/// 注册,程序开始运行调用
+/// 注册,程序开始运行调用（全局只调用一次即可）
 /// \param delegate 代理
 ///
 /// \param logType log等级
@@ -2242,19 +2339,19 @@ SWIFT_CLASS("_TtC16protocol_channel16IDOBtNoticeModel")
 /// 1: BT connection status on
 /// 0: BT connection status off
 /// -1: Invalid
-@property (nonatomic, readonly) NSInteger btConnectStates;
+@property (nonatomic) NSInteger btConnectStates;
 /// 1: BT pairing status on
 /// 0: BT pairing status off
 /// -1: Invalid
-@property (nonatomic, readonly) NSInteger btPairStates;
+@property (nonatomic) NSInteger btPairStates;
 /// 1: A2DP connection status on
 /// 0: A2DP connection status off
 /// -1: Invalid
-@property (nonatomic, readonly) NSInteger a2dpConnectStates;
+@property (nonatomic) NSInteger a2dpConnectStates;
 /// 1: HFP connection status on
 /// 0: HFP connection status off
 /// -1: Invalid
-@property (nonatomic, readonly) NSInteger hfpConnectStates;
+@property (nonatomic) NSInteger hfpConnectStates;
 - (nonnull instancetype)initWithBtConnectStates:(NSInteger)btConnectStates btPairStates:(NSInteger)btPairStates a2dpConnectStates:(NSInteger)a2dpConnectStates hfpConnectStates:(NSInteger)hfpConnectStates OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2275,7 +2372,7 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOCmdGetResponseModel")
 /// 1: On
 /// 0: Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2293,8 +2390,11 @@ SWIFT_PROTOCOL("_TtP16protocol_channel15IDOCmdInterface_")
 @property (nonatomic, readonly) BOOL isBinding;
 /// 设备绑定
 - (void)bindWithOsVersion:(NSInteger)osVersion onDeviceInfo:(void (^ _Nullable)(id <IDODeviceInterface> _Nonnull))onDeviceInfo onFuncTable:(void (^ _Nullable)(id <IDOFuncTableInterface> _Nonnull))onFuncTable completion:(void (^ _Nonnull)(enum IDOBindStatus))completion;
-/// 取消当前绑定请求
+/// 取消当前绑定请求（仅限需要app确认绑定结果的设备使用）
 - (void)cancelBind;
+/// APP下发绑定结果（仅限需要app确认绑定结果的设备使用）
+/// 唯一使用场景：bind(…)方法返回IDOBindStatus.needConfirmByApp时调用
+- (void)appMarkBindResultWithSuccess:(BOOL)success;
 /// 发起解绑
 /// macAddress: 设备Mac地址
 /// isForceRemove：强制删除设备，设备无响应也删除
@@ -2348,7 +2448,7 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOCmdOTAResponseModel")
 /// 1: Failure: Battery is too low
 /// 2: Failure: Device not supported
 /// 3: Failure: Incorrect parameters
-@property (nonatomic, readonly) NSInteger errFlag;
+@property (nonatomic) NSInteger errFlag;
 - (nonnull instancetype)initWithErrFlag:(NSInteger)errFlag OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2358,9 +2458,8 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOCmdOTAResponseModel")
 
 SWIFT_CLASS("_TtC16protocol_channel22IDOCmdSetResponseModel")
 @interface IDOCmdSetResponseModel : NSObject
-/// 0: Failed
-/// 1: Success
-@property (nonatomic, readonly) NSInteger isSuccess;
+/// 0: Success， other: Failed
+@property (nonatomic) NSInteger isSuccess;
 - (nonnull instancetype)initWithIsSuccess:(NSInteger)isSuccess OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2395,9 +2494,9 @@ typedef SWIFT_ENUM(NSInteger, IDOConnectErrorType, open) {
 SWIFT_CLASS("_TtC16protocol_channel14IDOContactItem")
 @interface IDOContactItem : NSObject
 /// Contact phone number content, maximum of 14 bytes + ‘\0’ line break
-@property (nonatomic, readonly, copy) NSString * _Nonnull phone;
+@property (nonatomic, copy) NSString * _Nonnull phone;
 /// Contact name content, maximum of 31 bytes + ‘\0’ line break
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull name;
 - (nonnull instancetype)initWithPhone:(NSString * _Nonnull)phone name:(NSString * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -2409,7 +2508,7 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOContactReviseTimeModel")
 @interface IDOContactReviseTimeModel : NSObject
 /// 0: No need to send contact file
 /// 1: Need to send contact data
-@property (nonatomic, readonly) NSInteger result;
+@property (nonatomic) NSInteger result;
 - (nonnull instancetype)initWithResult:(NSInteger)result OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2473,38 +2572,38 @@ SWIFT_CLASS("_TtC16protocol_channel22IDODataTranConfigModel")
 /// Error code
 /// 0: Normal
 /// Non-zero: Error
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Icon type corresponding to the activity type
 /// 0: Invalid
 /// 1: Small icon for activity
 /// 2: Large icon for activity
 /// 3: Animated icon for activity
 /// 4: Medium-sized icons for activity
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Event type
 /// 0: Invalid
 /// For example, 1: SMS, 2: Email, 3: WeChat, etc.
-@property (nonatomic, readonly) NSInteger evtType;
+@property (nonatomic) NSInteger evtType;
 /// Activity type
 /// 0: Invalid
 /// Activity mode type, 1: Walking, 2: Running, etc.
-@property (nonatomic, readonly) NSInteger sportType;
+@property (nonatomic) NSInteger sportType;
 /// Width required by the firmware icon (determined by type and evt_type/sport_type)
-@property (nonatomic, readonly) NSInteger iconWidth;
+@property (nonatomic) NSInteger iconWidth;
 /// Height required by the firmware icon (determined by type and evt_type/sport_type)
-@property (nonatomic, readonly) NSInteger iconHeight;
+@property (nonatomic) NSInteger iconHeight;
 /// Color format
-@property (nonatomic, readonly) NSInteger format;
+@property (nonatomic) NSInteger format;
 /// Compression block size
-@property (nonatomic, readonly) NSInteger blockSize;
+@property (nonatomic) NSInteger blockSize;
 /// Number of big sports icons
-@property (nonatomic, readonly) NSInteger bigSportsNum;
+@property (nonatomic) NSInteger bigSportsNum;
 /// Number of message icons
-@property (nonatomic, readonly) NSInteger msgNum;
+@property (nonatomic) NSInteger msgNum;
 /// Number of small sports and animation icons
-@property (nonatomic, readonly) NSInteger smallSportsAndAnimationNum;
+@property (nonatomic) NSInteger smallSportsAndAnimationNum;
 /// Number of medium-sized icons
-@property (nonatomic, readonly) NSInteger mediumNum;
+@property (nonatomic) NSInteger mediumNum;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode type:(NSInteger)type evtType:(NSInteger)evtType sportType:(NSInteger)sportType iconWidth:(NSInteger)iconWidth iconHeight:(NSInteger)iconHeight format:(NSInteger)format blockSize:(NSInteger)blockSize bigSportsNum:(NSInteger)bigSportsNum msgNum:(NSInteger)msgNum smallSportsAndAnimationNum:(NSInteger)smallSportsAndAnimationNum mediumNum:(NSInteger)mediumNum OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2515,16 +2614,16 @@ SWIFT_CLASS("_TtC16protocol_channel22IDODataTranConfigModel")
 /// 设置时间
 SWIFT_CLASS("_TtC16protocol_channel21IDODateTimeParamModel")
 @interface IDODateTimeParamModel : NSObject
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger monuth;
-@property (nonatomic, readonly) NSInteger day;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger minute;
-@property (nonatomic, readonly) NSInteger second;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger monuth;
+@property (nonatomic) NSInteger day;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger minute;
+@property (nonatomic) NSInteger second;
 /// Week: 0-6 for Monday to Sunday
-@property (nonatomic, readonly) NSInteger week;
+@property (nonatomic) NSInteger week;
 /// Timezone in a 24-hour format: 0-12 for East ,13-24 for West
-@property (nonatomic, readonly) NSInteger timeZone;
+@property (nonatomic) NSInteger timeZone;
 - (nonnull instancetype)initWithYear:(NSInteger)year monuth:(NSInteger)monuth day:(NSInteger)day hour:(NSInteger)hour minute:(NSInteger)minute second:(NSInteger)second week:(NSInteger)week timeZone:(NSInteger)timeZone OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2535,6 +2634,16 @@ SWIFT_CLASS("_TtC16protocol_channel21IDODateTimeParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel24IDODefaultSportTypeModel")
 @interface IDODefaultSportTypeModel : NSObject
+/// 默认显示的数量
+@property (nonatomic) NSInteger defaultShowNum;
+/// 最小支持的数量
+@property (nonatomic) NSInteger minShowNum;
+/// 最大支持的数量
+@property (nonatomic) NSInteger maxShowNum;
+/// 是否支持默认排序 0 不支持 ，1 支持
+@property (nonatomic) NSInteger isSupportsSort;
+/// 运动类型列表集合 type的集合
+@property (nonatomic, copy) NSArray<IDOSportTypeItem *> * _Nonnull sportTypes;
 - (nonnull instancetype)initWithDefaultShowNum:(NSInteger)defaultShowNum minShowNum:(NSInteger)minShowNum maxShowNum:(NSInteger)maxShowNum isSupportsSort:(NSInteger)isSupportsSort sportTypes:(NSArray<IDOSportTypeItem *> * _Nonnull)sportTypes OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2650,9 +2759,9 @@ SWIFT_CLASS("_TtC16protocol_channel22IDODeviceLogStateModel")
 /// 0: No corresponding log
 /// 1: Firmware restart log
 /// 2: Firmware exception
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Error code of firmware restart log, 0 is normal
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 - (nonnull instancetype)initWithType:(NSInteger)type errCode:(NSInteger)errCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2779,6 +2888,18 @@ SWIFT_CLASS("_TtC16protocol_channel26IDODeviceNotificationModel")
 /// 44 固件升级EPO.dat文件成功
 /// 45 固件升级GPS失败，通知app重新传输
 /// 46 固件升级GPS成功
+/// 47 发起运动时, 固件GPS异常，通知app
+/// 48 固件润丰外设信息更新，通知app获取
+/// 49 固件通知用户取消ble和手表配对,app弹窗处理
+/// 50 固件通知app bt配对完成
+/// 51 固件设置运动排序,通知app获取运动排序信息
+/// 52 固件全天步数目标参数有更改,通知app获取全天步数目标(0208)
+/// 53 固件通知app固件进入血压校准界面
+/// 54 固件自动识别开关状态更新,通知app获取运动自动识别开关状态(02EA)
+/// 55 固件慢速模式切换慢速模式
+/// 56 固件快速模式切换快速模式
+/// 57 固件更新mtu，APP下发获取mtu更新本地记录的mtu<br />(本地记录的mtu大小大于20Bytes不更新)
+/// 58 固件电量变化，APP下发获取电量信息
 ///
 /// \endcode
 @property (nonatomic, readonly, strong) NSNumber * _Nullable dataType;
@@ -2844,11 +2965,11 @@ SWIFT_CLASS("_TtC16protocol_channel19IDODeviceStateModel")
 
 /// 连接状态
 typedef SWIFT_ENUM(NSInteger, IDODeviceStateType, open) {
-/// 断开连接，
+/// 断开连接
   IDODeviceStateTypeDisconnected = 0,
-/// 连接中，
+/// 连接中
   IDODeviceStateTypeConnecting = 1,
-/// 已连接，
+/// 已连接
   IDODeviceStateTypeConnected = 2,
 /// 断开连接中
   IDODeviceStateTypeDisconnecting = 3,
@@ -2907,7 +3028,7 @@ SWIFT_CLASS("_TtC16protocol_channel24IDODisplayModeParamModel")
 /// 1: Landscape
 /// 2: Portrait
 /// 3: Flipped (180 degrees)
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 - (nonnull instancetype)initWithMode:(NSInteger)mode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2919,15 +3040,15 @@ SWIFT_CLASS("_TtC16protocol_channel24IDODisplayModeParamModel")
 SWIFT_CLASS("_TtC16protocol_channel24IDODownloadLanguageModel")
 @interface IDODownloadLanguageModel : NSObject
 /// Current used language
-@property (nonatomic, readonly) NSInteger useLang;
+@property (nonatomic) NSInteger useLang;
 /// Default language
-@property (nonatomic, readonly) NSInteger defaultLang;
+@property (nonatomic) NSInteger defaultLang;
 /// Number of fixed stored languages
-@property (nonatomic, readonly) NSInteger fixedLang;
+@property (nonatomic) NSInteger fixedLang;
 /// Maximum stored languages
-@property (nonatomic, readonly) NSInteger maxStorageLang;
+@property (nonatomic) NSInteger maxStorageLang;
 /// List of stored language values
-@property (nonatomic, readonly, copy) NSArray<IDODownloadLanguageType *> * _Nonnull langArray;
+@property (nonatomic, copy) NSArray<IDODownloadLanguageType *> * _Nonnull langArray;
 - (nonnull instancetype)initWithUseLang:(NSInteger)useLang defaultLang:(NSInteger)defaultLang fixedLang:(NSInteger)fixedLang maxStorageLang:(NSInteger)maxStorageLang langArray:(NSArray<IDODownloadLanguageType *> * _Nonnull)langArray OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2938,7 +3059,7 @@ SWIFT_CLASS("_TtC16protocol_channel24IDODownloadLanguageModel")
 SWIFT_CLASS("_TtC16protocol_channel23IDODownloadLanguageType")
 @interface IDODownloadLanguageType : NSObject
 /// Stored language values, ended by 0
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 - (nonnull instancetype)initWithType:(NSInteger)type OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -2947,44 +3068,52 @@ SWIFT_CLASS("_TtC16protocol_channel23IDODownloadLanguageType")
 
 SWIFT_CLASS("_TtC16protocol_channel24IDODrinkWaterRemindModel")
 @interface IDODrinkWaterRemindModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_CLASS("_TtC16protocol_channel28IDODrinkWaterRemindModelObjc")
+@interface IDODrinkWaterRemindModelObjc : NSObject
 /// Switch 0: Off 1: On
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Start time Hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time Minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time Hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time Minute
-@property (nonatomic, readonly) NSInteger endMinute;
-/// Repeat switch
-@property (nonatomic, readonly) BOOL isOpenRepeat;
+@property (nonatomic) NSInteger endMinute;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
 /// Reminder interval in minutes
-@property (nonatomic, readonly) NSInteger interval;
+@property (nonatomic) NSInteger interval;
 /// Notification type
 /// 0: Invalid
 /// 1: Allow notification
 /// 2: Silent notification
 /// 3: Notification off
 /// Need to open firmware table support setDrinkWaterAddNotifyFlag
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// Do not disturb switch
 /// 00: Off
 /// 01: On
 /// Need to open firmware table support setNoReminderOnDrinkReminder
-@property (nonatomic, readonly) NSInteger doNotDisturbOnOff;
+@property (nonatomic) NSInteger doNotDisturbOnOff;
 /// Do not disturb start time Hour
 /// Need to open firmware table support setNoReminderOnDrinkReminder
-@property (nonatomic, readonly) NSInteger noDisturbStartHour;
+@property (nonatomic) NSInteger noDisturbStartHour;
 /// Do not disturb start time Minute
 /// Need to open firmware table support setNoReminderOnDrinkReminder
-@property (nonatomic, readonly) NSInteger noDisturbStartMinute;
+@property (nonatomic) NSInteger noDisturbStartMinute;
 /// Do not disturb end time Hour
 /// Need to open firmware table support setNoReminderOnDrinkReminder
-@property (nonatomic, readonly) NSInteger noDisturbEndHour;
+@property (nonatomic) NSInteger noDisturbEndHour;
 /// Do not disturb end time Minute
 /// Need to open firmware table support setNoReminderOnDrinkReminder
-@property (nonatomic, readonly) NSInteger noDisturbEndMinute;
+@property (nonatomic) NSInteger noDisturbEndMinute;
+- (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats interval:(NSInteger)interval notifyFlag:(NSInteger)notifyFlag doNotDisturbOnOff:(NSInteger)doNotDisturbOnOff noDisturbStartHour:(NSInteger)noDisturbStartHour noDisturbStartMinute:(NSInteger)noDisturbStartMinute noDisturbEndHour:(NSInteger)noDisturbEndHour noDisturbEndMinute:(NSInteger)noDisturbEndMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -2996,21 +3125,21 @@ SWIFT_CLASS("_TtC16protocol_channel19IDOErrorRecordModel")
 @interface IDOErrorRecordModel : NSObject
 /// 0 Query
 /// 1 Clear Log
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// 0 Normal
 /// 1 Hard Faul
 /// 2 Watchdog service
 /// 3 Assertion reset
 /// 4 Power-off service
 /// 5 Other exceptions
-@property (nonatomic, readonly) NSInteger resetFlag;
+@property (nonatomic) NSInteger resetFlag;
 /// Hardware error code
 /// 0 Normal
 /// 1 Accelerometer error
 /// 2 Heart rate error
 /// 3 TP error
 /// 4 Flash error
-@property (nonatomic, readonly) NSInteger hwError;
+@property (nonatomic) NSInteger hwError;
 - (nonnull instancetype)initWithType:(NSInteger)type resetFlag:(NSInteger)resetFlag hwError:(NSInteger)hwError OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -3441,32 +3570,41 @@ SWIFT_PROTOCOL("_TtP16protocol_channel24IDOFileTransferInterface_")
 /// Fitness Guidance Event
 SWIFT_CLASS("_TtC16protocol_channel28IDOFitnessGuidanceParamModel")
 @interface IDOFitnessGuidanceParamModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Fitness Guidance Event
+SWIFT_CLASS("_TtC16protocol_channel32IDOFitnessGuidanceParamModelObjc")
+@interface IDOFitnessGuidanceParamModelObjc : NSObject
 /// Fitness guidance mode switch
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Start hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Notification type
 /// 0: Invalid
 /// 1: Allow
 /// 2: Silent
 /// 3: Disable
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// Reminders to move switch
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger goMode;
-/// Repeat switch
-@property (nonatomic, readonly) BOOL isOpenRepeat;
+@property (nonatomic) NSInteger goMode;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
 /// Target steps
-@property (nonatomic, readonly) NSInteger targetSteps;
+@property (nonatomic) NSInteger targetSteps;
+- (nonnull instancetype)initWithMode:(NSInteger)mode startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute notifyFlag:(NSInteger)notifyFlag goMode:(NSInteger)goMode repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats targetSteps:(NSInteger)targetSteps OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -3477,11 +3615,11 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOFitnessGuidanceParamModel")
 SWIFT_CLASS("_TtC16protocol_channel20IDOFlashBinInfoModel")
 @interface IDOFlashBinInfoModel : NSObject
 /// Status: 0 - Normal, 1 - Invalid font, checksum error, 2 - Version mismatch
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// Matching version required by the firmware
-@property (nonatomic, readonly) NSInteger matchVersion;
+@property (nonatomic) NSInteger matchVersion;
 /// Font library checksum code
-@property (nonatomic, readonly) NSInteger checkCode;
+@property (nonatomic) NSInteger checkCode;
 - (nonnull instancetype)initWithStatus:(NSInteger)status matchVersion:(NSInteger)matchVersion checkCode:(NSInteger)checkCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -3494,14 +3632,14 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOFuncSimpleFileOptModel")
 @interface IDOFuncSimpleFileOptModel : NSObject
 /// Error code
 /// 0 for success, others for errors
-@property (nonatomic, readonly) NSInteger error;
+@property (nonatomic) NSInteger error;
 /// Operation type
 /// 0: Get
 /// 1: Overwrite
 /// 2: Delete
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Index number
-@property (nonatomic, readonly) NSInteger index;
+@property (nonatomic) NSInteger index;
 - (nonnull instancetype)initWithError:(NSInteger)error operate:(NSInteger)operate index:(NSInteger)index OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -3517,11 +3655,11 @@ SWIFT_CLASS("_TtC16protocol_channel30IDOFuncSimpleFileOptParamModel")
 /// 1: Overwrite
 /// 2: Delete
 /// 3: Copy
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Index number
-@property (nonatomic, readonly) NSInteger index;
+@property (nonatomic) NSInteger index;
 /// Destination index, only used for copying, invalid for other cases
-@property (nonatomic, readonly) NSInteger destIndex;
+@property (nonatomic) NSInteger destIndex;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate index:(NSInteger)index destIndex:(NSInteger)destIndex OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -3966,6 +4104,8 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL getAutoActivityEndSwitchNotDisplay;
 /// 运动自识别暂停开关不展示，设置开关状态
 @property (nonatomic, readonly) BOOL getAutoActivityPauseSwitchNotDisplay;
+/// 运动模式自动识别开关设置获取 新增类型椭圆机 划船机 游泳
+@property (nonatomic, readonly) BOOL getV3AutoActivitySwitch;
 /// 运动模式自动识别开关设置获取 新增类型骑行
 @property (nonatomic, readonly) BOOL getAutoActivitySwitchAddBicycle;
 /// 运动模式自动识别开关设置获取 新增类型智能跳绳
@@ -4016,6 +4156,8 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL getSupportGetV3DeviceBtConnectPhoneModel;
 /// 支持血压模型文件更新
 @property (nonatomic, readonly) BOOL getSupportBloodPressureModelFileUpdate;
+/// 勿扰支持事件范围开关和重复
+@property (nonatomic, readonly) BOOL getSupportDisturbHaveRangRepeat;
 /// 设置获取消息应用状态使用version0x20版本下发
 @property (nonatomic, readonly) BOOL setNoticeMessageStateUseVersion0x20;
 /// 科学睡眠开关
@@ -4208,6 +4350,8 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL setSupportSetV3WeatcherSendStructVersion04;
 /// 支持设置压力校准阈
 @property (nonatomic, readonly) BOOL setSendCalibrationThreshold;
+/// 支持屏蔽跑步计划入口
+@property (nonatomic, readonly) BOOL getNotSupportAppSendRunPlan;
 /// 中文
 @property (nonatomic, readonly) BOOL languageCh;
 /// 捷克文
@@ -4396,9 +4540,9 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 
 SWIFT_CLASS("_TtC16protocol_channel13IDOFutureItem")
 @interface IDOFutureItem : NSObject
-@property (nonatomic, readonly) NSInteger weatherType;
-@property (nonatomic, readonly) NSInteger maxTemp;
-@property (nonatomic, readonly) NSInteger minTemp;
+@property (nonatomic) NSInteger weatherType;
+@property (nonatomic) NSInteger maxTemp;
+@property (nonatomic) NSInteger minTemp;
 - (nonnull instancetype)initWithWeatherType:(NSInteger)weatherType maxTemp:(NSInteger)maxTemp minTemp:(NSInteger)minTemp OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4441,13 +4585,13 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOGpsControlModel")
 /// 3: Write AGPS data
 /// 4: Erase AGPS data
 /// 5: Write GPS firmware
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// 0: Invalid
 /// 1: Command in progress
 /// 2: Completed
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// 0 for success, non-zero for failure
-@property (nonatomic, readonly) NSInteger errorCode;
+@property (nonatomic) NSInteger errorCode;
 - (nonnull instancetype)initWithType:(NSInteger)type status:(NSInteger)status errorCode:(NSInteger)errorCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4460,13 +4604,13 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOGpsControlParamModel")
 @interface IDOGpsControlParamModel : NSObject
 /// 1: Control
 /// 2: Query
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// 1: Enable log
 /// 2: Disable log
 /// 3: Write AGPS data
 /// 4: Erase AGPS data
 /// 5: Write GPS firmware
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate type:(NSInteger)type OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4479,35 +4623,35 @@ SWIFT_CLASS("_TtC16protocol_channel15IDOGpsInfoModel")
 @interface IDOGpsInfoModel : NSObject
 /// GPS error code
 /// 0 - Normal, non-zero - Exceptional
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// GPS firmware version
-@property (nonatomic, readonly) NSInteger fwVersion;
+@property (nonatomic) NSInteger fwVersion;
 /// Validity period of AGPS (Assisted GPS)
-@property (nonatomic, readonly) NSInteger agpsInfo;
+@property (nonatomic) NSInteger agpsInfo;
 /// AGPS error code
-@property (nonatomic, readonly) NSInteger agpsErrCode;
+@property (nonatomic) NSInteger agpsErrCode;
 /// UTC year
-@property (nonatomic, readonly) NSInteger utcYear;
+@property (nonatomic) NSInteger utcYear;
 /// UTC month
-@property (nonatomic, readonly) NSInteger utcMonth;
+@property (nonatomic) NSInteger utcMonth;
 /// UTC day
-@property (nonatomic, readonly) NSInteger utcDay;
+@property (nonatomic) NSInteger utcDay;
 /// UTC hour
-@property (nonatomic, readonly) NSInteger utcHour;
+@property (nonatomic) NSInteger utcHour;
 /// UTC minute
-@property (nonatomic, readonly) NSInteger utcMinute;
+@property (nonatomic) NSInteger utcMinute;
 /// Start mode
 /// 1 - Cold start
 /// 2 - Hot start
-@property (nonatomic, readonly) NSInteger startMode;
+@property (nonatomic) NSInteger startMode;
 /// Positioning satellite selection
 /// 1 - GPS
 /// 2 - GLONASS
 /// 3 - GPS + GLONASS
-@property (nonatomic, readonly) NSInteger gns;
+@property (nonatomic) NSInteger gns;
 /// Fix start bit
 /// Default 0, used for debugging
-@property (nonatomic, readonly) NSInteger fixStartBit;
+@property (nonatomic) NSInteger fixStartBit;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode fwVersion:(NSInteger)fwVersion agpsInfo:(NSInteger)agpsInfo agpsErrCode:(NSInteger)agpsErrCode utcYear:(NSInteger)utcYear utcMonth:(NSInteger)utcMonth utcDay:(NSInteger)utcDay utcHour:(NSInteger)utcHour utcMinute:(NSInteger)utcMinute startMode:(NSInteger)startMode gns:(NSInteger)gns fixStartBit:(NSInteger)fixStartBit OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4523,11 +4667,11 @@ SWIFT_CLASS("_TtC16protocol_channel19IDOGpsInfoModelItem")
 /// 187: Outdoor running plan
 /// 188: Indoor running plan
 /// 189: Indoor fitness plan
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Number of actions
 /// Note: The number of actions is zero when resting, and non-zero for other actions
-@property (nonatomic, readonly) NSInteger num;
-@property (nonatomic, readonly, copy) NSArray<IDOItemItem *> * _Nonnull item;
+@property (nonatomic) NSInteger num;
+@property (nonatomic, copy) NSArray<IDOItemItem *> * _Nonnull item;
 - (nonnull instancetype)initWithType:(NSInteger)type num:(NSInteger)num item:(NSArray<IDOItemItem *> * _Nonnull)item OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4541,10 +4685,10 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOGpsStatusModel")
 /// 0 - Not running
 /// 1 - Searching for satellites
 /// 2 - Tracking
-@property (nonatomic, readonly) NSInteger gpsRunStatus;
+@property (nonatomic) NSInteger gpsRunStatus;
 /// Validity of AGPS (Assisted GPS) in hours
 /// Non-zero values indicate validity
-@property (nonatomic, readonly) NSInteger agpsIsValid;
+@property (nonatomic) NSInteger agpsIsValid;
 - (nonnull instancetype)initWithGpsRunStatus:(NSInteger)gpsRunStatus agpsIsValid:(NSInteger)agpsIsValid OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4554,15 +4698,15 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOGpsStatusModel")
 
 SWIFT_CLASS("_TtC16protocol_channel15IDOHabitBroItem")
 @interface IDOHabitBroItem : NSObject
-@property (nonatomic, readonly) NSInteger type;
-@property (nonatomic, readonly) NSInteger evt;
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger month;
-@property (nonatomic, readonly) NSInteger day;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger min;
-@property (nonatomic, readonly) NSInteger sec;
-@property (nonatomic, readonly) NSInteger count;
+@property (nonatomic) NSInteger type;
+@property (nonatomic) NSInteger evt;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger month;
+@property (nonatomic) NSInteger day;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger min;
+@property (nonatomic) NSInteger sec;
+@property (nonatomic) NSInteger count;
 - (nonnull instancetype)initWithType:(NSInteger)type evt:(NSInteger)evt year:(NSInteger)year month:(NSInteger)month day:(NSInteger)day hour:(NSInteger)hour min:(NSInteger)min sec:(NSInteger)sec count:(NSInteger)count OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4571,21 +4715,21 @@ SWIFT_CLASS("_TtC16protocol_channel15IDOHabitBroItem")
 
 SWIFT_CLASS("_TtC16protocol_channel15IDOHabitImpItem")
 @interface IDOHabitImpItem : NSObject
-@property (nonatomic, readonly) NSInteger type;
-@property (nonatomic, readonly) NSInteger evt;
-@property (nonatomic, readonly) NSInteger startYear;
-@property (nonatomic, readonly) NSInteger startMonth;
-@property (nonatomic, readonly) NSInteger startDay;
-@property (nonatomic, readonly) NSInteger startHour;
-@property (nonatomic, readonly) NSInteger startMin;
-@property (nonatomic, readonly) NSInteger startSEC;
-@property (nonatomic, readonly) NSInteger endYear;
-@property (nonatomic, readonly) NSInteger endMonth;
-@property (nonatomic, readonly) NSInteger endDay;
-@property (nonatomic, readonly) NSInteger endHour;
-@property (nonatomic, readonly) NSInteger endMin;
-@property (nonatomic, readonly) NSInteger endSEC;
-@property (nonatomic, readonly) NSInteger completionRate;
+@property (nonatomic) NSInteger type;
+@property (nonatomic) NSInteger evt;
+@property (nonatomic) NSInteger startYear;
+@property (nonatomic) NSInteger startMonth;
+@property (nonatomic) NSInteger startDay;
+@property (nonatomic) NSInteger startHour;
+@property (nonatomic) NSInteger startMin;
+@property (nonatomic) NSInteger startSEC;
+@property (nonatomic) NSInteger endYear;
+@property (nonatomic) NSInteger endMonth;
+@property (nonatomic) NSInteger endDay;
+@property (nonatomic) NSInteger endHour;
+@property (nonatomic) NSInteger endMin;
+@property (nonatomic) NSInteger endSEC;
+@property (nonatomic) NSInteger completionRate;
 - (nonnull instancetype)initWithType:(NSInteger)type evt:(NSInteger)evt startYear:(NSInteger)startYear startMonth:(NSInteger)startMonth startDay:(NSInteger)startDay startHour:(NSInteger)startHour startMin:(NSInteger)startMin startSEC:(NSInteger)startSEC endYear:(NSInteger)endYear endMonth:(NSInteger)endMonth endDay:(NSInteger)endDay endHour:(NSInteger)endHour endMin:(NSInteger)endMin endSEC:(NSInteger)endSEC completionRate:(NSInteger)completionRate OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4594,10 +4738,10 @@ SWIFT_CLASS("_TtC16protocol_channel15IDOHabitImpItem")
 
 SWIFT_CLASS("_TtC16protocol_channel17IDOHabitInfoModel")
 @interface IDOHabitInfoModel : NSObject
-@property (nonatomic, readonly) NSInteger browseCount;
-@property (nonatomic, readonly) NSInteger implementCount;
-@property (nonatomic, readonly, copy) NSArray<IDOHabitBroItem *> * _Nonnull broItems;
-@property (nonatomic, readonly, copy) NSArray<IDOHabitImpItem *> * _Nonnull impItems;
+@property (nonatomic) NSInteger browseCount;
+@property (nonatomic) NSInteger implementCount;
+@property (nonatomic, copy) NSArray<IDOHabitBroItem *> * _Nonnull broItems;
+@property (nonatomic, copy) NSArray<IDOHabitImpItem *> * _Nonnull impItems;
 - (nonnull instancetype)initWithBrowseCount:(NSInteger)browseCount implementCount:(NSInteger)implementCount broItems:(NSArray<IDOHabitBroItem *> * _Nonnull)broItems impItems:(NSArray<IDOHabitImpItem *> * _Nonnull)impItems OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4608,23 +4752,32 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHabitInfoModel")
 /// Set Hand Washing Reminder Event
 SWIFT_CLASS("_TtC16protocol_channel32IDOHandWashingReminderParamModel")
 @interface IDOHandWashingReminderParamModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Set Hand Washing Reminder Event
+SWIFT_CLASS("_TtC16protocol_channel36IDOHandWashingReminderParamModelObjc")
+@interface IDOHandWashingReminderParamModelObjc : NSObject
 /// 0: Off
 /// 1: On
 /// Default is off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Start hour of the reminder
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start minute of the reminder
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End hour of the reminder
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End minute of the reminder
-@property (nonatomic, readonly) NSInteger endMinute;
-/// Repeat switch
-@property (nonatomic, readonly) BOOL isOpenRepeat;
+@property (nonatomic) NSInteger endMinute;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
 /// Reminder interval in minutes
 /// Default is 60 minutes
-@property (nonatomic, readonly) NSInteger interval;
+@property (nonatomic) NSInteger interval;
+- (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats interval:(NSInteger)interval OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4634,7 +4787,7 @@ SWIFT_CLASS("_TtC16protocol_channel32IDOHandWashingReminderParamModel")
 SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 @interface IDOHeartModeModel : NSObject
 /// Update time as a Unix timestamp in seconds. If equal to 0, it means to get the current UTC timestamp.
-@property (nonatomic, readonly) NSInteger updateTime;
+@property (nonatomic) NSInteger updateTime;
 /// Mode
 /// \code
 /// 0: Off
@@ -4650,15 +4803,15 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 /// 3. When setting continuous heart rate, if the function setSetV3HeartInterval is configured, the corresponding mode is Mode 5.
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Whether there is a time range. 0: No, 1: Yes
-@property (nonatomic, readonly) NSInteger hasTimeRange;
-@property (nonatomic, readonly) NSInteger startHour;
-@property (nonatomic, readonly) NSInteger startMinute;
-@property (nonatomic, readonly) NSInteger endHour;
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger startHour;
+@property (nonatomic) NSInteger startMinute;
+@property (nonatomic) NSInteger endHour;
+@property (nonatomic) NSInteger endMinute;
 /// Measurement interval in seconds
-@property (nonatomic, readonly) NSInteger measurementInterval;
+@property (nonatomic) NSInteger measurementInterval;
 /// Currently supported heart rate types by the watch
 /// \code
 /// all 0 invalid values
@@ -4666,7 +4819,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 /// Note: This is returned as 0 if setSetV3HeartInterval is not enabled in the firmware
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger getSECMode;
+@property (nonatomic) NSInteger getSECMode;
 /// Currently supported heart rate types by the watch,
 /// \code
 /// all 0:invalid values
@@ -4680,7 +4833,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 /// Note: This is returned as 0 if setSetV3HeartInterval is not enabled in the firmware
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger getMinMode;
+@property (nonatomic) NSInteger getMinMode;
 /// Notification type:
 /// \code
 /// 0: Invalid
@@ -4690,21 +4843,21 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// 1: Enable smart high heart rate reminder
 /// 0: Off
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger highHeartMode;
+@property (nonatomic) NSInteger highHeartMode;
 /// 1: Enable smart low heart rate reminder
 /// 0: Off
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger lowHeartMode;
+@property (nonatomic) NSInteger lowHeartMode;
 /// Smart high heart rate reminder threshold
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger highHeartValue;
+@property (nonatomic) NSInteger highHeartValue;
 /// Smart low heart rate reminder threshold
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger lowHeartValue;
+@property (nonatomic) NSInteger lowHeartValue;
 - (nonnull instancetype)initWithUpdateTime:(NSInteger)updateTime mode:(NSInteger)mode hasTimeRange:(NSInteger)hasTimeRange getMinMode:(NSInteger)getMinMode getSECMode:(NSInteger)getSECMode startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute measurementInterval:(NSInteger)measurementInterval notifyFlag:(NSInteger)notifyFlag highHeartMode:(NSInteger)highHeartMode lowHeartMode:(NSInteger)lowHeartMode highHeartValue:(NSInteger)highHeartValue lowHeartValue:(NSInteger)lowHeartValue OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4715,7 +4868,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOHeartModeModel")
 SWIFT_CLASS("_TtC16protocol_channel22IDOHeartModeParamModel")
 @interface IDOHeartModeParamModel : NSObject
 /// Update time as a Unix timestamp in seconds. If equal to 0, it means to get the current UTC timestamp.
-@property (nonatomic, readonly) NSInteger updateTime;
+@property (nonatomic) NSInteger updateTime;
 /// Mode
 /// \code
 /// 0: Off
@@ -4731,15 +4884,15 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOHeartModeParamModel")
 /// 3. When setting continuous heart rate, if the function setSetV3HeartInterval is configured, the corresponding mode is Mode 5.
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Whether there is a time range. 0: No, 1: Yes
-@property (nonatomic, readonly) NSInteger hasTimeRange;
-@property (nonatomic, readonly) NSInteger startHour;
-@property (nonatomic, readonly) NSInteger startMinute;
-@property (nonatomic, readonly) NSInteger endHour;
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger startHour;
+@property (nonatomic) NSInteger startMinute;
+@property (nonatomic) NSInteger endHour;
+@property (nonatomic) NSInteger endMinute;
 /// Measurement interval in seconds
-@property (nonatomic, readonly) NSInteger measurementInterval;
+@property (nonatomic) NSInteger measurementInterval;
 /// Notification type:
 /// \code
 /// 0: Invalid
@@ -4749,21 +4902,21 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOHeartModeParamModel")
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// 1: Enable smart high heart rate reminder
 /// 0: Off
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger highHeartMode;
+@property (nonatomic) NSInteger highHeartMode;
 /// 1: Enable smart low heart rate reminder
 /// 0: Off
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger lowHeartMode;
+@property (nonatomic) NSInteger lowHeartMode;
 /// Smart high heart rate reminder threshold
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger highHeartValue;
+@property (nonatomic) NSInteger highHeartValue;
 /// Smart low heart rate reminder threshold
 /// Note: This is ineffective if the firmware does not enable v3HeartSetRateModeCustom
-@property (nonatomic, readonly) NSInteger lowHeartValue;
+@property (nonatomic) NSInteger lowHeartValue;
 - (nonnull instancetype)initWithUpdateTime:(NSInteger)updateTime mode:(NSInteger)mode hasTimeRange:(NSInteger)hasTimeRange startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute measurementInterval:(NSInteger)measurementInterval notifyFlag:(NSInteger)notifyFlag highHeartMode:(NSInteger)highHeartMode lowHeartMode:(NSInteger)lowHeartMode highHeartValue:(NSInteger)highHeartValue lowHeartValue:(NSInteger)lowHeartValue OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4779,88 +4932,88 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOHeartRateIntervalModel")
 /// Fat training heart rate zone
 /// Calculation rules: 50%-69% of maximum heart rate
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger burnFatThreshold;
+@property (nonatomic) NSInteger burnFatThreshold;
 /// 心肺训练心率区间
 /// 计算规则:最大心率的70%-84%
 /// 单位:次/分钟
 /// Cardio training heart rate zones
 /// Calculation rule: 70%-84% of maximum heart rate
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger aerobicThreshold;
+@property (nonatomic) NSInteger aerobicThreshold;
 /// 峰值训练心率区间
 /// 计算规则:最大心率的85%-100%
 /// 单位:次/分钟
 /// Peak training heart rate zone
 /// Calculation rules: 85%-100% of maximum heart rate
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger limitThreshold;
+@property (nonatomic) NSInteger limitThreshold;
 /// 心率上限,最大心率提醒
 /// 单位:次/分钟
 /// Heart rate upper limit, maximum heart rate reminder
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger userMaxHr;
+@property (nonatomic) NSInteger userMaxHr;
 /// 热身运动心率区间
 /// 计算规则：(200-年龄) * 50
 /// 单位:次/分钟
 /// Warm-up exercise heart rate zone
 /// Calculation rule: (200-age) * 50
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger range1;
+@property (nonatomic) NSInteger range1;
 /// 脂肪燃烧心率区间
 /// 计算规则：(200-年龄) * 60
 /// 单位:次/分钟
 /// Fat burning heart rate zone
 /// Calculation rule: (200-age) * 60
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger range2;
+@property (nonatomic) NSInteger range2;
 /// 有氧运动心率区间
 /// 计算规则：(200-年龄) * 70
 /// 单位:次/分钟
 /// Aerobic exercise heart rate zones
 /// Calculation rule: (200-age) * 70
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger range3;
+@property (nonatomic) NSInteger range3;
 /// 无氧运动心率区间
 /// 计算规则：(200-年龄) * 80
 /// 单位:次/分钟
 /// Anaerobic exercise heart rate zone
 /// Calculation rule: (200-age) * 80
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger range4;
+@property (nonatomic) NSInteger range4;
 /// 极限锻炼心率区间
 /// 计算规则：(200-年龄) * 90
 /// 单位:次/分钟
 /// Extreme exercise heart rate zone
 /// Calculation rule: (200-age) * 90
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger range5;
+@property (nonatomic) NSInteger range5;
 /// 心率最小值
 /// 单位:次/分钟
 /// Minimum heart rate
 /// Unit: times/minute
-@property (nonatomic, readonly) NSInteger minHr;
+@property (nonatomic) NSInteger minHr;
 /// 最大心率提醒
 /// 0 关闭,1 开启
 /// Maximum heart rate reminder
 /// 0 off, 1 on
-@property (nonatomic, readonly) NSInteger maxHrRemind;
+@property (nonatomic) NSInteger maxHrRemind;
 /// 最小心率提醒
 /// 0 关闭,1 开启
 /// Minimum heart rate reminder
 /// 0 off, 1 on
-@property (nonatomic, readonly) NSInteger minHrRemind;
+@property (nonatomic) NSInteger minHrRemind;
 /// 提醒开始 时
 /// Reminder starts hour
-@property (nonatomic, readonly) NSInteger remindStartHour;
+@property (nonatomic) NSInteger remindStartHour;
 /// 提醒开始 分
 /// Reminder starts minutes
-@property (nonatomic, readonly) NSInteger remindStartMinute;
+@property (nonatomic) NSInteger remindStartMinute;
 /// 提醒结束 时
 /// Reminder ends hour
-@property (nonatomic, readonly) NSInteger remindStopHour;
+@property (nonatomic) NSInteger remindStopHour;
 /// 提醒结束 分
 /// Reminder ends minutes
-@property (nonatomic, readonly) NSInteger remindStopMinute;
+@property (nonatomic) NSInteger remindStopMinute;
 - (nonnull instancetype)initWithBurnFatThreshold:(NSInteger)burnFatThreshold aerobicThreshold:(NSInteger)aerobicThreshold limitThreshold:(NSInteger)limitThreshold userMaxHr:(NSInteger)userMaxHr range1:(NSInteger)range1 range2:(NSInteger)range2 range3:(NSInteger)range3 range4:(NSInteger)range4 range5:(NSInteger)range5 minHr:(NSInteger)minHr maxHrRemind:(NSInteger)maxHrRemind minHrRemind:(NSInteger)minHrRemind remindStartHour:(NSInteger)remindStartHour remindStartMinute:(NSInteger)remindStartMinute remindStopHour:(NSInteger)remindStopHour remindStopMinute:(NSInteger)remindStopMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4876,15 +5029,15 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOHeartRateModeModel")
 /// 2: Automatic
 /// 3: Continous Monitoring
 /// -1:Invalid
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Whether there is a time range 0: No 1: Yes
-@property (nonatomic, readonly) NSInteger hasTimeRange;
-@property (nonatomic, readonly) NSInteger startHour;
-@property (nonatomic, readonly) NSInteger startMinute;
-@property (nonatomic, readonly) NSInteger endHour;
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger startHour;
+@property (nonatomic) NSInteger startMinute;
+@property (nonatomic) NSInteger endHour;
+@property (nonatomic) NSInteger endMinute;
 /// Measurement interval (in minutes)
-@property (nonatomic, readonly) NSInteger measurementInterval;
+@property (nonatomic) NSInteger measurementInterval;
 - (nonnull instancetype)initWithMode:(NSInteger)mode hasTimeRange:(NSInteger)hasTimeRange startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute measurementInterval:(NSInteger)measurementInterval OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4899,22 +5052,22 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOHeartRateModeParamModel")
 /// 1: Auto(5min)
 /// 2: Continuous Monitoring(5sec)
 /// 3: Manual Mode
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Time Range
 /// 0: No
 /// 1: Yes
-@property (nonatomic, readonly) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger hasTimeRange;
 /// Start Hour (24-hour format, 0-23)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start Minute (0-59)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End Hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End Minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Measurement Interval
 /// Unit: minute
-@property (nonatomic, readonly) NSInteger measurementInterval;
+@property (nonatomic) NSInteger measurementInterval;
 - (nonnull instancetype)initWithMode:(NSInteger)mode hasTimeRange:(NSInteger)hasTimeRange startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute measurementInterval:(NSInteger)measurementInterval OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4928,31 +5081,31 @@ SWIFT_CLASS("_TtC16protocol_channel31IDOHeartRateModeSmartParamModel")
 /// Switch
 /// 0:Off
 /// 1:On
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Notification Type
 /// 0: Invalid
 /// 1: Allow Notifications
 /// 2: Silent Notifications
 /// 3: Disable Notifications
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// 1: Enable Smart High Heart Rate Alert
 /// 0: Disable
-@property (nonatomic, readonly) NSInteger highHeartMode;
+@property (nonatomic) NSInteger highHeartMode;
 /// 1: Enable Smart Low Heart Rate Alert
 /// 0: Disable
-@property (nonatomic, readonly) NSInteger lowHeartMode;
+@property (nonatomic) NSInteger lowHeartMode;
 /// Smart High Heart Rate Alert Threshold
-@property (nonatomic, readonly) NSInteger highHeartValue;
+@property (nonatomic) NSInteger highHeartValue;
 /// Smart Low Heart Rate Alert Threshold
-@property (nonatomic, readonly) NSInteger lowHeartValue;
+@property (nonatomic) NSInteger lowHeartValue;
 /// Start Time of Heart Rate Monitoring (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start Time of Heart Rate Monitoring (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End Time of Heart Rate Monitoring (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End Time of Heart Rate Monitoring (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 - (nonnull instancetype)initWithMode:(NSInteger)mode notifyFlag:(NSInteger)notifyFlag highHeartMode:(NSInteger)highHeartMode lowHeartMode:(NSInteger)lowHeartMode highHeartValue:(NSInteger)highHeartValue lowHeartValue:(NSInteger)lowHeartValue startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4962,18 +5115,18 @@ SWIFT_CLASS("_TtC16protocol_channel31IDOHeartRateModeSmartParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel34IDOHistoricalMenstruationParamItem")
 @interface IDOHistoricalMenstruationParamItem : NSObject
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger mon;
-@property (nonatomic, readonly) NSInteger day;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger mon;
+@property (nonatomic) NSInteger day;
 /// Length of menstrual cycle (days)
-@property (nonatomic, readonly) NSInteger menstrualDay;
-@property (nonatomic, readonly) NSInteger cycleDay;
+@property (nonatomic) NSInteger menstrualDay;
+@property (nonatomic) NSInteger cycleDay;
 /// The interval from the start of the next menstrual period to the ovulation day is usually 14 days when the Function
-@property (nonatomic, readonly) NSInteger ovulationIntervalDay;
+@property (nonatomic) NSInteger ovulationIntervalDay;
 /// The number of days of fertility before the ovulation day is usually 5 when the Function
-@property (nonatomic, readonly) NSInteger ovulationBeforeDay;
+@property (nonatomic) NSInteger ovulationBeforeDay;
 /// The number of days of fertility after the ovulation day is usually 5 when the Function
-@property (nonatomic, readonly) NSInteger ovulationAfterDay;
+@property (nonatomic) NSInteger ovulationAfterDay;
 - (nonnull instancetype)initWithYear:(NSInteger)year mon:(NSInteger)mon day:(NSInteger)day menstrualDay:(NSInteger)menstrualDay cycleDay:(NSInteger)cycleDay ovulationIntervalDay:(NSInteger)ovulationIntervalDay ovulationBeforeDay:(NSInteger)ovulationBeforeDay ovulationAfterDay:(NSInteger)ovulationAfterDay OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -4983,10 +5136,10 @@ SWIFT_CLASS("_TtC16protocol_channel34IDOHistoricalMenstruationParamItem")
 SWIFT_CLASS("_TtC16protocol_channel35IDOHistoricalMenstruationParamModel")
 @interface IDOHistoricalMenstruationParamModel : NSObject
 /// Average length of menstrual cycle Uint:day
-@property (nonatomic, readonly) NSInteger avgMenstrualDay;
+@property (nonatomic) NSInteger avgMenstrualDay;
 /// Average length of menstrual cycle Uint:day
-@property (nonatomic, readonly) NSInteger avgCycleDay;
-@property (nonatomic, readonly, copy) NSArray<IDOHistoricalMenstruationParamItem *> * _Nonnull items;
+@property (nonatomic) NSInteger avgCycleDay;
+@property (nonatomic, copy) NSArray<IDOHistoricalMenstruationParamItem *> * _Nonnull items;
 - (nonnull instancetype)initWithAvgMenstrualDay:(NSInteger)avgMenstrualDay avgCycleDay:(NSInteger)avgCycleDay items:(NSArray<IDOHistoricalMenstruationParamItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -4998,13 +5151,13 @@ SWIFT_CLASS("_TtC16protocol_channel35IDOHistoricalMenstruationParamModel")
 SWIFT_CLASS("_TtC16protocol_channel21IDOHotStartParamModel")
 @interface IDOHotStartParamModel : NSObject
 /// TCXO offset
-@property (nonatomic, readonly) NSInteger tcxoOffset;
+@property (nonatomic) NSInteger tcxoOffset;
 /// Longitude (multiplied by 10^6)
-@property (nonatomic, readonly) NSInteger longitude;
+@property (nonatomic) NSInteger longitude;
 /// Latitude (multiplied by 10^6)
-@property (nonatomic, readonly) NSInteger latitude;
+@property (nonatomic) NSInteger latitude;
 /// Altitude (multiplied by 10)
-@property (nonatomic, readonly) NSInteger altitude;
+@property (nonatomic) NSInteger altitude;
 - (nonnull instancetype)initWithTcxoOffset:(NSInteger)tcxoOffset longitude:(NSInteger)longitude latitude:(NSInteger)latitude altitude:(NSInteger)altitude OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5014,9 +5167,9 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOHotStartParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel19IDOHoursWeatherItem")
 @interface IDOHoursWeatherItem : NSObject
-@property (nonatomic, readonly) NSInteger weatherType;
-@property (nonatomic, readonly) NSInteger temperature;
-@property (nonatomic, readonly) NSInteger probability;
+@property (nonatomic) NSInteger weatherType;
+@property (nonatomic) NSInteger temperature;
+@property (nonatomic) NSInteger probability;
 - (nonnull instancetype)initWithWeatherType:(NSInteger)weatherType temperature:(NSInteger)temperature probability:(NSInteger)probability OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5030,13 +5183,13 @@ SWIFT_CLASS("_TtC16protocol_channel11IDOItemItem")
 /// 2: Jog
 /// 3: Moderate run
 /// 4: Fast run
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Target time Unit: seconds
-@property (nonatomic, readonly) NSInteger time;
+@property (nonatomic) NSInteger time;
 /// Low heart rate range
-@property (nonatomic, readonly) NSInteger heightHeart;
+@property (nonatomic) NSInteger heightHeart;
 /// High heart rate range
-@property (nonatomic, readonly) NSInteger lowHeart;
+@property (nonatomic) NSInteger lowHeart;
 - (nonnull instancetype)initWithType:(NSInteger)type time:(NSInteger)time heightHeart:(NSInteger)heightHeart lowHeart:(NSInteger)lowHeart OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5047,9 +5200,9 @@ enum IDOLanguageType : NSInteger;
 SWIFT_CLASS("_TtC16protocol_channel22IDOLanguageLibraryItem")
 @interface IDOLanguageLibraryItem : NSObject
 /// Language type
-@property (nonatomic, readonly) enum IDOLanguageType languageType;
+@property (nonatomic) enum IDOLanguageType languageType;
 /// Language version number
-@property (nonatomic, readonly) NSInteger languageVersion;
+@property (nonatomic) NSInteger languageVersion;
 - (nonnull instancetype)initWithLanguageType:(enum IDOLanguageType)languageType languageVersion:(NSInteger)languageVersion OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5059,15 +5212,15 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOLanguageLibraryItem")
 SWIFT_CLASS("_TtC16protocol_channel23IDOLanguageLibraryModel")
 @interface IDOLanguageLibraryModel : NSObject
 /// Currently used language
-@property (nonatomic, readonly) NSInteger useLang;
+@property (nonatomic) NSInteger useLang;
 /// Default language
-@property (nonatomic, readonly) NSInteger defaultLang;
+@property (nonatomic) NSInteger defaultLang;
 /// Number of fixed storage languages
-@property (nonatomic, readonly) NSInteger fixedLang;
+@property (nonatomic) NSInteger fixedLang;
 /// Maximum storage languages
-@property (nonatomic, readonly) NSInteger maxStorageLang;
-@property (nonatomic, readonly, copy) NSArray<IDOLanguageLibraryItem *> * _Nonnull items;
-@property (nonatomic, readonly, copy) NSArray<IDOLanguageLibraryItem *> * _Nonnull itemsUser;
+@property (nonatomic) NSInteger maxStorageLang;
+@property (nonatomic, copy) NSArray<IDOLanguageLibraryItem *> * _Nonnull items;
+@property (nonatomic, copy) NSArray<IDOLanguageLibraryItem *> * _Nonnull itemsUser;
 - (nonnull instancetype)initWithUseLang:(NSInteger)useLang defaultLang:(NSInteger)defaultLang fixedLang:(NSInteger)fixedLang maxStorageLang:(NSInteger)maxStorageLang items:(NSArray<IDOLanguageLibraryItem *> * _Nonnull)items itemsUser:(NSArray<IDOLanguageLibraryItem *> * _Nonnull)itemsUser OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5118,15 +5271,15 @@ typedef SWIFT_ENUM(NSInteger, IDOLanguageType, open) {
 SWIFT_CLASS("_TtC16protocol_channel16IDOLiveDataModel")
 @interface IDOLiveDataModel : NSObject
 /// Total steps
-@property (nonatomic, readonly) NSInteger totalStep;
+@property (nonatomic) NSInteger totalStep;
 /// Total calories (in kilocalories)
-@property (nonatomic, readonly) NSInteger totalCalories;
+@property (nonatomic) NSInteger totalCalories;
 /// Total distance (in meters)
-@property (nonatomic, readonly) NSInteger totalDistances;
+@property (nonatomic) NSInteger totalDistances;
 /// Total active time (in seconds)
-@property (nonatomic, readonly) NSInteger totalActiveTime;
+@property (nonatomic) NSInteger totalActiveTime;
 /// Heart rate data (in beats per minute)
-@property (nonatomic, readonly) NSInteger heartRate;
+@property (nonatomic) NSInteger heartRate;
 - (nonnull instancetype)initWithTotalStep:(NSInteger)totalStep totalCalories:(NSInteger)totalCalories totalDistances:(NSInteger)totalDistances totalActiveTime:(NSInteger)totalActiveTime heartRate:(NSInteger)heartRate OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5148,20 +5301,20 @@ typedef SWIFT_ENUM(NSInteger, IDOLogType, open) {
 SWIFT_CLASS("_TtC16protocol_channel20IDOLongSitParamModel")
 @interface IDOLongSitParamModel : NSObject
 /// Start Time of Sedentary Reminder (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start Time of Sedentary Reminder (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End Time of Sedentary Reminder (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End Time of Sedentary Reminder (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Interval (in minutes)
 /// Value should be greater than 15 minutes
-@property (nonatomic, readonly) NSInteger interval;
+@property (nonatomic) NSInteger interval;
 /// Repetitions and Switch
 /// bit0: 0 means off, 1 means on
 /// bit1-7: 0 means no repetition, 1 means repetition
-@property (nonatomic, readonly) NSInteger repetitions;
+@property (nonatomic) NSInteger repetitions;
 - (nonnull instancetype)initWithStartHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute interval:(NSInteger)interval repetitions:(NSInteger)repetitions OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5177,7 +5330,7 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOLostFindParamModel")
 /// 1: Close-range anti-lost
 /// 2: Medium-range anti-lost
 /// 3: Long-range anti-lost
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 - (nonnull instancetype)initWithMode:(NSInteger)mode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5190,23 +5343,15 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOMainSportGoalModel")
 @interface IDOMainSportGoalModel : NSObject
 /// Activity calorie goal (in kilocalories)
 /// Requires firmware to enable function table <code>setCalorieGoal</code>
-@property (nonatomic, readonly) NSInteger calorie;
+@property (nonatomic) NSInteger calorie;
 /// Distance goal (in meters)
-@property (nonatomic, readonly) NSInteger distance;
+@property (nonatomic) NSInteger distance;
 /// Minimum activity calorie value
-@property (nonatomic, readonly) NSInteger calorieMin;
+@property (nonatomic) NSInteger calorieMin;
 /// Maximum activity calorie value
-@property (nonatomic, readonly) NSInteger calorieMax;
-/// Mid-high sport time goal (in seconds)
-/// Requires firmware to enable function table <code>setMidHighTimeGoal</code>
-@property (nonatomic, readonly) NSInteger midHighTimeGoal;
+@property (nonatomic) NSInteger calorieMax;
 /// Goal time(in hour)
-@property (nonatomic, readonly) NSInteger walkGoalTime;
-/// 0: Invalid
-/// 1: Daily goal
-/// 2: Weekly goal
-/// Requires firmware to enable function table <code>getSupportSetGetTimeGoalTypeV2</code>
-@property (nonatomic, readonly) NSInteger timeGoalType;
+@property (nonatomic) NSInteger walkGoalTime;
 - (nonnull instancetype)initWithCalorie:(NSInteger)calorie distance:(NSInteger)distance calorieMin:(NSInteger)calorieMin calorieMax:(NSInteger)calorieMax midHighTimeGoal:(NSInteger)midHighTimeGoal walkGoalTime:(NSInteger)walkGoalTime timeGoalType:(NSInteger)timeGoalType OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5217,12 +5362,12 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOMainSportGoalModel")
 SWIFT_CLASS("_TtC16protocol_channel17IDOMainUISortItem")
 @interface IDOMainUISortItem : NSObject
 /// Coordinate x-axis, starting from 1
-@property (nonatomic, readonly) NSInteger locationX;
+@property (nonatomic) NSInteger locationX;
 /// Coordinate y-axis, starting from 1
 /// One y-axis represents a horizontal grid
-@property (nonatomic, readonly) NSInteger locationY;
+@property (nonatomic) NSInteger locationY;
 /// 0: Invalid 1: Large icon 2: Small icon
-@property (nonatomic, readonly) NSInteger sizeType;
+@property (nonatomic) NSInteger sizeType;
 /// Types of controls
 /// \code
 /// 0: Invalid
@@ -5234,7 +5379,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOMainUISortItem")
 /// 6: Battery
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger widgetsType;
+@property (nonatomic) NSInteger widgetsType;
 /// Editable icon types supported by the firmware
 /// \code
 /// 0: Invalid
@@ -5243,7 +5388,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOMainUISortItem")
 /// 3: Large icon + Small icon
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger supportSizeType;
+@property (nonatomic) NSInteger supportSizeType;
 - (nonnull instancetype)initWithLocationX:(NSInteger)locationX locationY:(NSInteger)locationY sizeType:(NSInteger)sizeType widgetsType:(NSInteger)widgetsType supportSizeType:(NSInteger)supportSizeType OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5254,18 +5399,18 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOMainUISortItem")
 SWIFT_CLASS("_TtC16protocol_channel18IDOMainUISortModel")
 @interface IDOMainUISortModel : NSObject
 /// 0: Success, Non-zero: Failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation
 /// 0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Number of currently displayed list in firmware
-@property (nonatomic, readonly) NSInteger allNum;
-@property (nonatomic, readonly, copy) NSArray<IDOMainUISortSupportItem *> * _Nonnull supportItems;
-@property (nonatomic, readonly, copy) NSArray<IDOMainUISortItem *> * _Nonnull items;
-@property (nonatomic, readonly) NSInteger locationX;
-@property (nonatomic, readonly) NSInteger locationY;
-@property (nonatomic, readonly) NSInteger sizeType;
-@property (nonatomic, readonly) NSInteger widgetsType;
+@property (nonatomic) NSInteger allNum;
+@property (nonatomic, copy) NSArray<IDOMainUISortSupportItem *> * _Nonnull supportItems;
+@property (nonatomic, copy) NSArray<IDOMainUISortItem *> * _Nonnull items;
+@property (nonatomic) NSInteger locationX;
+@property (nonatomic) NSInteger locationY;
+@property (nonatomic) NSInteger sizeType;
+@property (nonatomic) NSInteger widgetsType;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operate:(NSInteger)operate allNum:(NSInteger)allNum supportItems:(NSArray<IDOMainUISortSupportItem *> * _Nonnull)supportItems items:(NSArray<IDOMainUISortItem *> * _Nonnull)items locationX:(NSInteger)locationX locationY:(NSInteger)locationY sizeType:(NSInteger)sizeType widgetsType:(NSInteger)widgetsType OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5277,15 +5422,15 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOMainUISortParamModel")
 @interface IDOMainUISortParamModel : NSObject
 /// Operation
 /// 0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull items;
+@property (nonatomic) NSInteger operate;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull items;
 /// Coordinate x-axis, starting from 1
-@property (nonatomic, readonly) NSInteger locationX;
+@property (nonatomic) NSInteger locationX;
 /// Coordinate y-axis, starting from 1
 /// One y-axis represents a horizontal grid
-@property (nonatomic, readonly) NSInteger locationY;
+@property (nonatomic) NSInteger locationY;
 /// 0: Invalid 1: Large icon 2: Small icon
-@property (nonatomic, readonly) NSInteger sizeType;
+@property (nonatomic) NSInteger sizeType;
 /// Types of controls
 /// 0: Invalid
 /// 1: Week/Date
@@ -5294,7 +5439,7 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOMainUISortParamModel")
 /// 4: Calories
 /// 5: Heart Rate
 /// 6: Battery
-@property (nonatomic, readonly) NSInteger widgetsType;
+@property (nonatomic) NSInteger widgetsType;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate items:(NSArray<NSNumber *> * _Nonnull)items locationX:(NSInteger)locationX locationY:(NSInteger)locationY sizeType:(NSInteger)sizeType widgetsType:(NSInteger)widgetsType OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5315,7 +5460,7 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOMainUISortSupportItem")
 /// 6: Battery
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger widgetsType;
+@property (nonatomic) NSInteger widgetsType;
 /// Editable icon types supported by the firmware
 /// \code
 /// 0: Invalid
@@ -5324,7 +5469,7 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOMainUISortSupportItem")
 /// 3: Large icon + Small icon
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger supportSizeType;
+@property (nonatomic) NSInteger supportSizeType;
 - (nonnull instancetype)initWithSupportSizeType:(NSInteger)supportSizeType widgetsType:(NSInteger)widgetsType OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5335,31 +5480,31 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMenstruationModel")
 @interface IDOMenstruationModel : NSObject
 /// 经期开关 1开 0关闭
 /// Menstrual period switch 1 on 0 off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// 经期长度
 /// menstrual period length
-@property (nonatomic, readonly) NSInteger menstrualLength;
+@property (nonatomic) NSInteger menstrualLength;
 /// 经期周期
 /// menstrual cycle
-@property (nonatomic, readonly) NSInteger menstrualCycle;
+@property (nonatomic) NSInteger menstrualCycle;
 /// 最近一次经期开始时间 年
 /// Last menstrual period started year
-@property (nonatomic, readonly) NSInteger lastMenstrualYear;
+@property (nonatomic) NSInteger lastMenstrualYear;
 /// 最近一次经期开始时间 月
 /// Last menstrual period start time month
-@property (nonatomic, readonly) NSInteger lastMenstrualMonth;
+@property (nonatomic) NSInteger lastMenstrualMonth;
 /// 最近一次经期开始时间 日
 /// Last menstrual period start date
-@property (nonatomic, readonly) NSInteger lastMenstrualDay;
+@property (nonatomic) NSInteger lastMenstrualDay;
 /// 从下一个经期开始前到排卵日的间隔,一般为14天
 /// The interval from the start of the next menstrual period to the day of ovulation is generally 14 days
-@property (nonatomic, readonly) NSInteger ovulationIntervalDay;
+@property (nonatomic) NSInteger ovulationIntervalDay;
 /// 排卵日之前易孕期的天数,一般为5
 /// The number of fertile days before ovulation, usually 5
-@property (nonatomic, readonly) NSInteger ovulationBeforeDay;
+@property (nonatomic) NSInteger ovulationBeforeDay;
 /// 排卵日之后易孕期的天数,一般为5
 /// The number of fertile days after ovulation, usually 5
-@property (nonatomic, readonly) NSInteger ovulationAfterDay;
+@property (nonatomic) NSInteger ovulationAfterDay;
 /// 通知类型
 /// 0：无效
 /// 1：允许通知
@@ -5372,7 +5517,7 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMenstruationModel")
 /// 2: Silent notification
 /// 3: Close notification
 /// Requires firmware to enable menu support getMenstrualAddNotifyFlagV3
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// 经期提醒开关开关
 /// 1:开
 /// 0:关闭
@@ -5383,7 +5528,7 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMenstruationModel")
 /// 0: Close
 /// Requires firmware to enable menu support getSupportSetMenstrualReminderOnOff
 /// When this switch is invalid, the default reminder will be when the function is turned on.
-@property (nonatomic, readonly) NSInteger menstrualReminderOnOff;
+@property (nonatomic) NSInteger menstrualReminderOnOff;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff menstrualLength:(NSInteger)menstrualLength menstrualCycle:(NSInteger)menstrualCycle lastMenstrualYear:(NSInteger)lastMenstrualYear lastMenstrualMonth:(NSInteger)lastMenstrualMonth lastMenstrualDay:(NSInteger)lastMenstrualDay ovulationIntervalDay:(NSInteger)ovulationIntervalDay ovulationBeforeDay:(NSInteger)ovulationBeforeDay ovulationAfterDay:(NSInteger)ovulationAfterDay notifyFlag:(NSInteger)notifyFlag menstrualReminderOnOff:(NSInteger)menstrualReminderOnOff OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5394,19 +5539,19 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMenstruationModel")
 SWIFT_CLASS("_TtC16protocol_channel31IDOMenstruationRemindParamModel")
 @interface IDOMenstruationRemindParamModel : NSObject
 /// Number of days before start day to send reminder
-@property (nonatomic, readonly) NSInteger startDay;
+@property (nonatomic) NSInteger startDay;
 /// Number of days before ovulation day to send reminder
-@property (nonatomic, readonly) NSInteger ovulationDay;
+@property (nonatomic) NSInteger ovulationDay;
 /// Reminder time, hour
-@property (nonatomic, readonly) NSInteger hour;
+@property (nonatomic) NSInteger hour;
 /// Reminder time, minute
-@property (nonatomic, readonly) NSInteger minute;
+@property (nonatomic) NSInteger minute;
 /// Number of days before the start of the fertile period to send reminder
-@property (nonatomic, readonly) NSInteger pregnancyDayBeforeRemind;
+@property (nonatomic) NSInteger pregnancyDayBeforeRemind;
 /// Number of days before the end of the fertile period to send reminder
-@property (nonatomic, readonly) NSInteger pregnancyDayEndRemind;
+@property (nonatomic) NSInteger pregnancyDayEndRemind;
 /// Number of days before the end of the menstrual period to send reminder
-@property (nonatomic, readonly) NSInteger menstrualDayEndRemind;
+@property (nonatomic) NSInteger menstrualDayEndRemind;
 - (nonnull instancetype)initWithStartDay:(NSInteger)startDay ovulationDay:(NSInteger)ovulationDay hour:(NSInteger)hour minute:(NSInteger)minute pregnancyDayBeforeRemind:(NSInteger)pregnancyDayBeforeRemind pregnancyDayEndRemind:(NSInteger)pregnancyDayEndRemind menstrualDayEndRemind:(NSInteger)menstrualDayEndRemind OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5416,8 +5561,8 @@ SWIFT_CLASS("_TtC16protocol_channel31IDOMenstruationRemindParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel11IDOMenuItem")
 @interface IDOMenuItem : NSObject
-@property (nonatomic, readonly) NSInteger index;
-@property (nonatomic, readonly) NSInteger value;
+@property (nonatomic) NSInteger index;
+@property (nonatomic) NSInteger value;
 - (nonnull instancetype)initWithIndex:(NSInteger)index value:(NSInteger)value OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5426,11 +5571,11 @@ SWIFT_CLASS("_TtC16protocol_channel11IDOMenuItem")
 
 SWIFT_CLASS("_TtC16protocol_channel16IDOMenuListModel")
 @interface IDOMenuListModel : NSObject
-@property (nonatomic, readonly) NSInteger currentShowNum;
-@property (nonatomic, readonly, copy) NSArray<IDOMenuItem *> * _Nonnull items;
-@property (nonatomic, readonly) NSInteger maxNum;
-@property (nonatomic, readonly) NSInteger maxShowNum;
-@property (nonatomic, readonly) NSInteger minShowNum;
+@property (nonatomic) NSInteger currentShowNum;
+@property (nonatomic, copy) NSArray<IDOMenuItem *> * _Nonnull items;
+@property (nonatomic) NSInteger maxNum;
+@property (nonatomic) NSInteger maxShowNum;
+@property (nonatomic) NSInteger minShowNum;
 - (nonnull instancetype)initWithCurrentShowNum:(NSInteger)currentShowNum items:(NSArray<IDOMenuItem *> * _Nonnull)items maxNum:(NSInteger)maxNum maxShowNum:(NSInteger)maxShowNum minShowNum:(NSInteger)minShowNum OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5473,7 +5618,7 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOMenuListParamModel")
 /// 27 Barometric altimeter (new on mp01)
 ///
 /// \endcode
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull items;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull items;
 - (nonnull instancetype)initWithItems:(NSArray<NSNumber *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5515,20 +5660,20 @@ SWIFT_CLASS("_TtC16protocol_channel15IDOMtuInfoModel")
 @interface IDOMtuInfoModel : NSObject
 /// 0: Data is valid
 /// 1: Data is invalid, wait a while and try again. In case of invalid data, MTU is 20.
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// MTU for app receiving data
-@property (nonatomic, readonly) NSInteger rxMtu;
+@property (nonatomic) NSInteger rxMtu;
 /// MTU for app sending data
-@property (nonatomic, readonly) NSInteger txMtu;
+@property (nonatomic) NSInteger txMtu;
 /// Physical layer speed
 /// 0: Invalid
 /// 1000: 1M
 /// 2000: 2M
 /// 512: 512K
-@property (nonatomic, readonly) NSInteger phySpeed;
+@property (nonatomic) NSInteger phySpeed;
 /// DLE length
 /// 0: Not supported
-@property (nonatomic, readonly) NSInteger dleLength;
+@property (nonatomic) NSInteger dleLength;
 - (nonnull instancetype)initWithStatus:(NSInteger)status rxMtu:(NSInteger)rxMtu txMtu:(NSInteger)txMtu phySpeed:(NSInteger)phySpeed dleLength:(NSInteger)dleLength OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5539,16 +5684,16 @@ SWIFT_CLASS("_TtC16protocol_channel15IDOMtuInfoModel")
 SWIFT_CLASS("_TtC16protocol_channel25IDOMusicControlParamModel")
 @interface IDOMusicControlParamModel : NSObject
 /// Status: 0: Invalid 1: Play 2: Pause 3: Stop
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 /// Current play time Unit:second
-@property (nonatomic, readonly) NSInteger curTimeSecond;
+@property (nonatomic) NSInteger curTimeSecond;
 /// Total play time Unit:second
-@property (nonatomic, readonly) NSInteger totalTimeSecond;
+@property (nonatomic) NSInteger totalTimeSecond;
 /// Music name (maximum 63 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull musicName;
+@property (nonatomic, copy) NSString * _Nonnull musicName;
 /// Singer name (maximum 63 bytes)
 /// This value is not applicable if v3MusicControl02AddSingerName is not enabled on the firmware
-@property (nonatomic, readonly, copy) NSString * _Nonnull singerName;
+@property (nonatomic, copy) NSString * _Nonnull singerName;
 - (nonnull instancetype)initWithStatus:(NSInteger)status curTimeSecond:(NSInteger)curTimeSecond totalTimeSecond:(NSInteger)totalTimeSecond musicName:(NSString * _Nonnull)musicName singerName:(NSString * _Nonnull)singerName OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5559,13 +5704,13 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOMusicControlParamModel")
 SWIFT_CLASS("_TtC16protocol_channel18IDOMusicFolderItem")
 @interface IDOMusicFolderItem : NSObject
 /// Playlist (folder) id, ranging from 1 to 10
-@property (nonatomic, readonly) NSInteger folderID;
+@property (nonatomic) NSInteger folderID;
 /// Number of songs in the playlist, maximum of 100
-@property (nonatomic, readonly) NSInteger musicNum;
+@property (nonatomic) NSInteger musicNum;
 /// Playlist (folder) name, maximum of 19 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull folderName;
+@property (nonatomic, copy) NSString * _Nonnull folderName;
 /// Corresponding song ids in the playlist, arranged in order of addition
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull musicIndex;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull musicIndex;
 - (nonnull instancetype)initWithFolderID:(NSInteger)folderID musicNum:(NSInteger)musicNum folderName:(NSString * _Nonnull)folderName musicIndex:(NSArray<NSNumber *> * _Nonnull)musicIndex OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5576,13 +5721,13 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOMusicFolderItem")
 SWIFT_CLASS("_TtC16protocol_channel17IDOMusicInfoModel")
 @interface IDOMusicInfoModel : NSObject
 /// Firmware SDK card information<br />Total space<br />Uint:Byte
-@property (nonatomic, readonly) NSInteger allMemory;
-@property (nonatomic, readonly, copy) NSArray<IDOMusicFolderItem *> * _Nonnull folderItems;
-@property (nonatomic, readonly, copy) NSArray<IDOMusicItem *> * _Nonnull musicItems;
+@property (nonatomic) NSInteger allMemory;
+@property (nonatomic, copy) NSArray<IDOMusicFolderItem *> * _Nonnull folderItems;
+@property (nonatomic, copy) NSArray<IDOMusicItem *> * _Nonnull musicItems;
 /// Firmware SDK card information<br />Current used space in bytes<br />Uint:Byte
-@property (nonatomic, readonly) NSInteger usedMemory;
+@property (nonatomic) NSInteger usedMemory;
 /// Firmware SDK card information<br />Available space<br />Uint:Byte
-@property (nonatomic, readonly) NSInteger usefulMemory;
+@property (nonatomic) NSInteger usefulMemory;
 - (nonnull instancetype)initWithAllMemory:(NSInteger)allMemory folderItems:(NSArray<IDOMusicFolderItem *> * _Nonnull)folderItems musicItems:(NSArray<IDOMusicItem *> * _Nonnull)musicItems usedMemory:(NSInteger)usedMemory usefulMemory:(NSInteger)usefulMemory OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5593,13 +5738,13 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOMusicInfoModel")
 SWIFT_CLASS("_TtC16protocol_channel12IDOMusicItem")
 @interface IDOMusicItem : NSObject
 /// Music id, starting from 1
-@property (nonatomic, readonly) NSInteger musicID;
+@property (nonatomic) NSInteger musicID;
 /// Space occupied by the music
-@property (nonatomic, readonly) NSInteger musicMemory;
+@property (nonatomic) NSInteger musicMemory;
 /// Music name, maximum of 44 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull musicName;
+@property (nonatomic, copy) NSString * _Nonnull musicName;
 /// Singer name, maximum of 29 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull singerName;
+@property (nonatomic, copy) NSString * _Nonnull singerName;
 - (nonnull instancetype)initWithMusicID:(NSInteger)musicID musicMemory:(NSInteger)musicMemory musicName:(NSString * _Nonnull)musicName singerName:(NSString * _Nonnull)singerName OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5611,12 +5756,12 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOMusicOnOffParamModel")
 @interface IDOMusicOnOffParamModel : NSObject
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Show song information switch
 /// 1: On
 /// 0: Off
 /// Requires firmware support for menu:  <code>supportV2SetShowMusicInfoSwitch</code>
-@property (nonatomic, readonly) NSInteger showInfoStatus;
+@property (nonatomic) NSInteger showInfoStatus;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff showInfoStatus:(NSInteger)showInfoStatus OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5630,7 +5775,7 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOMusicOpearteParamModel")
 /// 0: Invalid operation
 /// 1: Delete music
 /// 2: Add music
-@property (nonatomic, readonly) NSInteger musicOperate;
+@property (nonatomic) NSInteger musicOperate;
 /// Folder (playlist) operation
 /// 0: Invalid operation
 /// 1: Delete folder
@@ -5638,12 +5783,12 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOMusicOpearteParamModel")
 /// 3: Modify playlist
 /// 4: Import playlist
 /// 5: Delete music
-@property (nonatomic, readonly) NSInteger folderOperate;
+@property (nonatomic) NSInteger folderOperate;
 /// Folder (playlist) details
-@property (nonatomic, readonly, copy) NSArray<IDOMusicFolderItem *> * _Nonnull folderItems;
+@property (nonatomic, strong) IDOMusicFolderItem * _Nonnull folderItem;
 /// Music details
-@property (nonatomic, readonly, copy) NSArray<IDOMusicItem *> * _Nonnull musicItems;
-- (nonnull instancetype)initWithMusicOperate:(NSInteger)musicOperate folderOperate:(NSInteger)folderOperate folderItems:(NSArray<IDOMusicFolderItem *> * _Nonnull)folderItems musicItems:(NSArray<IDOMusicItem *> * _Nonnull)musicItems OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, strong) IDOMusicItem * _Nonnull musicItem;
+- (nonnull instancetype)initWithMusicOperate:(NSInteger)musicOperate folderOperate:(NSInteger)folderOperate folderItem:(IDOMusicFolderItem * _Nonnull)folderItem musicItem:(IDOMusicItem * _Nonnull)musicItem OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5662,14 +5807,14 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMusicOperateModel")
 /// 5: Modify playlist
 /// 6: Import playlist
 /// 7: Delete music in playlist
-@property (nonatomic, readonly) NSInteger operateType;
+@property (nonatomic) NSInteger operateType;
 /// Firmware SDK card information
 /// Total space
-@property (nonatomic, readonly) NSInteger version;
+@property (nonatomic) NSInteger version;
 /// 0: Successful; non-zero: Failed
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Music id returned when adding music successfully
-@property (nonatomic, readonly) NSInteger musicId;
+@property (nonatomic) NSInteger musicId;
 - (nonnull instancetype)initWithOperateType:(NSInteger)operateType version:(NSInteger)version errCode:(NSInteger)errCode musicId:(NSInteger)musicId OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5680,41 +5825,41 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOMusicOperateModel")
 SWIFT_CLASS("_TtC16protocol_channel23IDONotDisturbParamModel")
 @interface IDONotDisturbParamModel : NSObject
 /// Switch 1 is on, 0 is off
-@property (nonatomic, readonly) NSInteger switchFlag;
+@property (nonatomic) NSInteger switchFlag;
 /// Start time
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time minutes
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time minutes
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Whether there is a time range
 /// 0 invalid
 /// 1 means no time range
 /// 2 means there is a time range
 /// The menu disturbHaveRangRepeat is enabled when enabled
-@property (nonatomic, readonly) NSInteger haveTimeRange;
+@property (nonatomic) NSInteger haveTimeRange;
 /// Daytime Do Not Disturb switch 1 is on, 0 is off
-@property (nonatomic, readonly) NSInteger noontimeRESTOnOff;
+@property (nonatomic) NSInteger noontimeRESTOnOff;
 /// Start time
-@property (nonatomic, readonly) NSInteger noontimeRESTStartHour;
+@property (nonatomic) NSInteger noontimeRESTStartHour;
 /// Start time minutes
-@property (nonatomic, readonly) NSInteger noontimeRESTStartMinute;
+@property (nonatomic) NSInteger noontimeRESTStartMinute;
 /// End time
-@property (nonatomic, readonly) NSInteger noontimeRESTEndHour;
+@property (nonatomic) NSInteger noontimeRESTEndHour;
 /// End time minutes
-@property (nonatomic, readonly) NSInteger noontimeRESTEndMinute;
+@property (nonatomic) NSInteger noontimeRESTEndMinute;
 /// Do not disturb me all day
 /// 1 open
 /// 0 close
 /// The menu setOnlyNoDisturbAllDayOnOff is enabled when enabled
-@property (nonatomic, readonly) NSInteger allDayOnOff;
+@property (nonatomic) NSInteger allDayOnOff;
 /// Smart Do Not Disturb Switch
 /// 1 open
 /// 0 close
 /// The menu setOnlyNoDisturbSmartOnOff is enabled when enabled
-@property (nonatomic, readonly) NSInteger intelligentOnOff;
+@property (nonatomic) NSInteger intelligentOnOff;
 - (nonnull instancetype)initWithSwitchFlag:(NSInteger)switchFlag startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute haveTimeRange:(NSInteger)haveTimeRange noontimeRESTOnOff:(NSInteger)noontimeRESTOnOff noontimeRESTStartHour:(NSInteger)noontimeRESTStartHour noontimeRESTStartMinute:(NSInteger)noontimeRESTStartMinute noontimeRESTEndHour:(NSInteger)noontimeRESTEndHour noontimeRESTEndMinute:(NSInteger)noontimeRESTEndMinute allDayOnOff:(NSInteger)allDayOnOff intelligentOnOff:(NSInteger)intelligentOnOff OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5729,47 +5874,47 @@ SWIFT_CLASS("_TtC16protocol_channel24IDONotDisturbStatusModel")
 /// 1: On
 /// 0: Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger switchFlag;
+@property (nonatomic) NSInteger switchFlag;
 /// Start hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Whether there is a time range
 /// 0: Invalid
 /// 1: No time range
 /// 2: Has time range
-@property (nonatomic, readonly) NSInteger haveTimeRange;
+@property (nonatomic) NSInteger haveTimeRange;
 /// Repeat
 /// bit0: Invalid
 /// (bit1 - bit7): Monday to Sunday
-@property (nonatomic, readonly) NSInteger weekRepeat;
+@property (nonatomic) NSInteger weekRepeat;
 /// Noon rest switch, headset reminder switch
 /// 1: On
 /// 0: Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger noontimeRestOnOff;
+@property (nonatomic) NSInteger noontimeRestOnOff;
 /// Reminder start hour
-@property (nonatomic, readonly) NSInteger noontimeRestStartHour;
+@property (nonatomic) NSInteger noontimeRestStartHour;
 /// Reminder start minute
-@property (nonatomic, readonly) NSInteger noontimeRestStartMinute;
+@property (nonatomic) NSInteger noontimeRestStartMinute;
 /// Reminder end hour
-@property (nonatomic, readonly) NSInteger noontimeRestEndHour;
+@property (nonatomic) NSInteger noontimeRestEndHour;
 /// Reminder end minute
-@property (nonatomic, readonly) NSInteger noontimeRestEndMinute;
+@property (nonatomic) NSInteger noontimeRestEndMinute;
 /// All day Do Not Disturb switch
 /// 1: On
 /// 0: Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger allDayOnOff;
+@property (nonatomic) NSInteger allDayOnOff;
 /// Intelligent Do Not Disturb switch
 /// 1: On
 /// 0: Off
 /// -1:Not Support
-@property (nonatomic, readonly) NSInteger intelligentOnOff;
+@property (nonatomic) NSInteger intelligentOnOff;
 - (nonnull instancetype)initWithSwitchFlag:(NSInteger)switchFlag startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute haveTimeRange:(NSInteger)haveTimeRange weekRepeat:(NSInteger)weekRepeat noontimeRestOnOff:(NSInteger)noontimeRestOnOff noontimeRestStartHour:(NSInteger)noontimeRestStartHour noontimeRestStartMinute:(NSInteger)noontimeRestStartMinute noontimeRestEndHour:(NSInteger)noontimeRestEndHour noontimeRestEndMinute:(NSInteger)noontimeRestEndMinute allDayOnOff:(NSInteger)allDayOnOff intelligentOnOff:(NSInteger)intelligentOnOff OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5786,9 +5931,9 @@ typedef SWIFT_ENUM(NSInteger, IDONoticeCallSwitchState, open) {
 SWIFT_CLASS("_TtC16protocol_channel25IDONoticeMesaageParamItem")
 @interface IDONoticeMesaageParamItem : NSObject
 /// Language type
-@property (nonatomic, readonly) NSInteger language;
+@property (nonatomic) NSInteger language;
 /// App name corresponding to the country (maximum 49 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull name;
 - (nonnull instancetype)initWithLanguage:(NSInteger)language name:(NSString * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5797,26 +5942,24 @@ SWIFT_CLASS("_TtC16protocol_channel25IDONoticeMesaageParamItem")
 
 SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMesaageParamModel")
 @interface IDONoticeMesaageParamModel : NSObject
-/// Protocol library version number
-@property (nonatomic, readonly) NSInteger verison;
 /// System 0: Invalid, 1: Android, 2: iOS
-@property (nonatomic, readonly) NSInteger osPlatform;
+@property (nonatomic) NSInteger osPlatform;
 /// Current mode 0: Invalid, 1: Message reminder
-@property (nonatomic, readonly) NSInteger evtType;
+@property (nonatomic) NSInteger evtType;
 /// Enumeration type of message Max value: 20000
-@property (nonatomic, readonly) NSInteger notifyType;
+@property (nonatomic) NSInteger notifyType;
 /// Message ID Valid only if evt_type is message reminder and msg_ID is not 0
-@property (nonatomic, readonly) NSInteger msgID;
+@property (nonatomic) NSInteger msgID;
 /// Number of country and language details
-@property (nonatomic, readonly) NSInteger appItemsLen;
+@property (nonatomic) NSInteger appItemsLen;
 /// Contact name (maximum 63 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull contact;
+@property (nonatomic, copy) NSString * _Nonnull contact;
 /// Phone number (maximum 31 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull phoneNumber;
+@property (nonatomic, copy) NSString * _Nonnull phoneNumber;
 /// Message content (maximum 249 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull msgData;
-@property (nonatomic, readonly, copy) NSArray<IDONoticeMesaageParamItem *> * _Nonnull items;
-- (nonnull instancetype)initWithVerison:(NSInteger)verison osPlatform:(NSInteger)osPlatform evtType:(NSInteger)evtType notifyType:(NSInteger)notifyType msgID:(NSInteger)msgID appItemsLen:(NSInteger)appItemsLen contact:(NSString * _Nonnull)contact phoneNumber:(NSString * _Nonnull)phoneNumber msgData:(NSString * _Nonnull)msgData items:(NSArray<IDONoticeMesaageParamItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, copy) NSString * _Nonnull msgData;
+@property (nonatomic, copy) NSArray<IDONoticeMesaageParamItem *> * _Nonnull items;
+- (nonnull instancetype)initWithOsPlatform:(NSInteger)osPlatform evtType:(NSInteger)evtType notifyType:(NSInteger)notifyType msgID:(NSInteger)msgID appItemsLen:(NSInteger)appItemsLen contact:(NSString * _Nonnull)contact phoneNumber:(NSString * _Nonnull)phoneNumber msgData:(NSString * _Nonnull)msgData items:(NSArray<IDONoticeMesaageParamItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5825,33 +5968,29 @@ SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMesaageParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMessageParamModel")
 @interface IDONoticeMessageParamModel : NSObject
-/// Protocol library version number
-/// Default version=1
-/// Version=2 is the sent format with msg_id
-@property (nonatomic, readonly) NSInteger verison;
 /// Message application type
-@property (nonatomic, readonly) NSInteger evtType;
+@property (nonatomic) NSInteger evtType;
 /// Message ID
 /// If evt_type is message reminder, mesg_ID is valid
-@property (nonatomic, readonly) NSInteger msgID;
+@property (nonatomic) NSInteger msgID;
 /// Support answering: 1
 /// Do not support answering: 0
-@property (nonatomic, readonly) BOOL supportAnswering;
+@property (nonatomic) BOOL supportAnswering;
 /// Support mute: 1
 /// Do not support mute: 0
-@property (nonatomic, readonly) BOOL supportMute;
+@property (nonatomic) BOOL supportMute;
 /// Support hang up: 1
 /// Do not support hang up: 0
-@property (nonatomic, readonly) BOOL supportHangUp;
+@property (nonatomic) BOOL supportHangUp;
 /// Mesaage Data
-@property (nonatomic, readonly, copy) NSString * _Nonnull msgData;
+@property (nonatomic, copy) NSString * _Nonnull msgData;
 /// Contact name (maximum 63 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull contact;
+@property (nonatomic, copy) NSString * _Nonnull contact;
 /// Phone number (maximum 31 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull phoneNumber;
+@property (nonatomic, copy) NSString * _Nonnull phoneNumber;
 /// Message content (maximum 249 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull dataText;
-- (nonnull instancetype)initWithVerison:(NSInteger)verison evtType:(NSInteger)evtType msgID:(NSInteger)msgID supportAnswering:(BOOL)supportAnswering supportMute:(BOOL)supportMute supportHangUp:(BOOL)supportHangUp msgData:(NSString * _Nonnull)msgData contact:(NSString * _Nonnull)contact phoneNumber:(NSString * _Nonnull)phoneNumber dataText:(NSString * _Nonnull)dataText OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, copy) NSString * _Nonnull dataText;
+- (nonnull instancetype)initWithEvtType:(NSInteger)evtType msgID:(NSInteger)msgID supportAnswering:(BOOL)supportAnswering supportMute:(BOOL)supportMute supportHangUp:(BOOL)supportHangUp msgData:(NSString * _Nonnull)msgData contact:(NSString * _Nonnull)contact phoneNumber:(NSString * _Nonnull)phoneNumber dataText:(NSString * _Nonnull)dataText OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5861,17 +6000,17 @@ SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMessageParamModel")
 SWIFT_CLASS("_TtC16protocol_channel25IDONoticeMessageStateItem")
 @interface IDONoticeMessageStateItem : NSObject
 /// Event type
-@property (nonatomic, readonly) NSInteger evtType;
+@property (nonatomic) NSInteger evtType;
 /// Notification status
 /// 1: Allow notifications
 /// 2: Silent notifications
 /// 3: Close notifications
-@property (nonatomic, readonly) NSInteger notifyState;
+@property (nonatomic) NSInteger notifyState;
 /// Applies when replying, set this parameter to 0
 /// 0: Invalid
 /// 1: Download corresponding image
 /// 2: No corresponding image
-@property (nonatomic, readonly) NSInteger picFlag;
+@property (nonatomic) NSInteger picFlag;
 - (nonnull instancetype)initWithEvtType:(NSInteger)evtType notifyState:(NSInteger)notifyState picFlag:(NSInteger)picFlag OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5881,20 +6020,20 @@ SWIFT_CLASS("_TtC16protocol_channel25IDONoticeMessageStateItem")
 SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMessageStateModel")
 @interface IDONoticeMessageStateModel : NSObject
 /// Error code: 0 for success, non-zero for failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation
 /// 1: Add
 /// 2: Modify
 /// 3: Get and Query
-@property (nonatomic, readonly) NSInteger operat;
+@property (nonatomic) NSInteger operat;
 /// Valid for querying
 /// Reply with overall notification switch status
 /// 1: Enable all notifications,
 /// 0: Disable all notifications
 /// -1:Invalid
-@property (nonatomic, readonly) NSInteger allOnOff;
+@property (nonatomic) NSInteger allOnOff;
 /// Message details content, valid for querying
-@property (nonatomic, readonly, copy) NSArray<IDONoticeMessageStateItem *> * _Nonnull items;
+@property (nonatomic, copy) NSArray<IDONoticeMessageStateItem *> * _Nullable items;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operat:(NSInteger)operat allOnOff:(NSInteger)allOnOff items:(NSArray<IDONoticeMessageStateItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5904,25 +6043,23 @@ SWIFT_CLASS("_TtC16protocol_channel26IDONoticeMessageStateModel")
 
 SWIFT_CLASS("_TtC16protocol_channel31IDONoticeMessageStateParamModel")
 @interface IDONoticeMessageStateParamModel : NSObject
-@property (nonatomic, readonly) NSInteger version;
-@property (nonatomic, readonly) NSInteger itemsNum;
 /// Operation 1: Add  2: Modify 3: Get and Query
-@property (nonatomic, readonly) NSInteger operat;
+@property (nonatomic) NSInteger operat;
 /// Add and modify only
 /// Overall notification switch
 /// 1: Enable all notifications
 /// 0: Disable all notifications
-@property (nonatomic, readonly) NSInteger allOnOff;
+@property (nonatomic) NSInteger allOnOff;
 /// Total number of packets sent
 /// For sending more than 100 packets in multiple parts
 /// all_send_num = now_send_index for completion of sending
-@property (nonatomic, readonly) NSInteger allSendNum;
+@property (nonatomic) NSInteger allSendNum;
 /// Current sequence of sending
-@property (nonatomic, readonly) NSInteger nowSendIndex;
+@property (nonatomic) NSInteger nowSendIndex;
 /// Message details
 /// Collection of evt_type, notify_state, and pic_flag
-@property (nonatomic, readonly, copy) NSArray<IDONoticeMessageStateItem *> * _Nonnull items;
-- (nonnull instancetype)initWithVersion:(NSInteger)version itemsNum:(NSInteger)itemsNum operat:(NSInteger)operat allOnOff:(NSInteger)allOnOff allSendNum:(NSInteger)allSendNum nowSendIndex:(NSInteger)nowSendIndex items:(NSArray<IDONoticeMessageStateItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, copy) NSArray<IDONoticeMessageStateItem *> * _Nonnull items;
+- (nonnull instancetype)initWithOperat:(NSInteger)operat allOnOff:(NSInteger)allOnOff allSendNum:(NSInteger)allSendNum nowSendIndex:(NSInteger)nowSendIndex items:(NSArray<IDONoticeMessageStateItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -5954,16 +6091,16 @@ typedef SWIFT_ENUM(NSInteger, IDONoticeNotifySwitchState, open) {
 SWIFT_CLASS("_TtC16protocol_channel26IDONotificationCenterModel")
 @interface IDONotificationCenterModel : NSObject
 /// Notification reminder switch
-@property (nonatomic, readonly) NSInteger notifySwitch;
+@property (nonatomic) NSInteger notifySwitch;
 /// Status
 /// 0: Unknown timeout
 /// 1: Success
 /// 2: Failed (canceled)
 /// 3: Firmware pairing timeout
-@property (nonatomic, readonly) NSInteger statusCode;
+@property (nonatomic) NSInteger statusCode;
 /// 0: Success
 /// Non-zero: Failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 - (nonnull instancetype)initWithNotifySwitch:(NSInteger)notifySwitch statusCode:(NSInteger)statusCode errCode:(NSInteger)errCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -5978,7 +6115,7 @@ SWIFT_CLASS("_TtC16protocol_channel31IDONotificationStatusParamModel")
 /// 1: Allow notification
 /// 2: Silent notification
 /// 3: Disable notification
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 - (nonnull instancetype)initWithNotifyFlag:(NSInteger)notifyFlag OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6015,30 +6152,30 @@ SWIFT_CLASS("_TtC16protocol_channel14IDOReceiveData")
 SWIFT_CLASS("_TtC16protocol_channel20IDORunPlanParamModel")
 @interface IDORunPlanParamModel : NSObject
 /// Protocol library version number
-@property (nonatomic, readonly) NSInteger verison;
+@property (nonatomic) NSInteger verison;
 /// Operation
 /// 1: Start plan
 /// 2: Plan data sent
 /// 3: End plan
 /// 4: Query running plan
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Plan type
 /// 1: 3km running plan
 /// 2: 5km running plan
 /// 3: 10km running plan
 /// 4: Half marathon training (Phase 2)
 /// 5: Marathon training (Phase 2)
-@property (nonatomic, readonly) NSInteger type;
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger month;
-@property (nonatomic, readonly) NSInteger day;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger min;
-@property (nonatomic, readonly) NSInteger sec;
+@property (nonatomic) NSInteger type;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger month;
+@property (nonatomic) NSInteger day;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger min;
+@property (nonatomic) NSInteger sec;
 /// Number of plan days
 /// Applicable when operate is 2
-@property (nonatomic, readonly) NSInteger dayNum;
-@property (nonatomic, readonly, copy) NSArray<IDOGpsInfoModelItem *> * _Nonnull items;
+@property (nonatomic) NSInteger dayNum;
+@property (nonatomic, copy) NSArray<IDOGpsInfoModelItem *> * _Nonnull items;
 - (nonnull instancetype)initWithVerison:(NSInteger)verison operate:(NSInteger)operate type:(NSInteger)type year:(NSInteger)year month:(NSInteger)month day:(NSInteger)day hour:(NSInteger)hour min:(NSInteger)min sec:(NSInteger)sec dayNum:(NSInteger)dayNum items:(NSArray<IDOGpsInfoModelItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6107,26 +6244,26 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) IDOSDK * _No
 SWIFT_CLASS("_TtC16protocol_channel24IDOSchedulerReminderItem")
 @interface IDOSchedulerReminderItem : NSObject
 /// Reminder event ID. Incremental value sent by the app, starting from 0
-@property (nonatomic, readonly) NSInteger id;
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger mon;
-@property (nonatomic, readonly) NSInteger day;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger min;
-@property (nonatomic, readonly) NSInteger sec;
+@property (nonatomic) NSInteger id;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger mon;
+@property (nonatomic) NSInteger day;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger min;
+@property (nonatomic) NSInteger sec;
 /// Repeat time <br />Set bit1-bit7 for week-based repeat if enabled with
 /// <code>getSupportSetRepeatWeekTypeOnScheduleReminderV3</code> (Monday to Sunday, with bit 0 as the general switch)
 /// Set repeat type (0: Invalid, 1: Once, 2: Daily, 3: Weekly, 4: Monthly, 5: Yearly) if enabled with
 /// <code>getSupportSetRepeatTypeOnScheduleReminderV3</code>
-@property (nonatomic, readonly) NSInteger repeatType;
+@property (nonatomic) NSInteger repeatType;
 /// Daily reminder switch<br />0: Off, 1: On
-@property (nonatomic, readonly) NSInteger remindOnOff;
+@property (nonatomic) NSInteger remindOnOff;
 /// State code <br />0: Invalid, 1: Deleted, 2: Enabled
-@property (nonatomic, readonly) NSInteger state;
+@property (nonatomic) NSInteger state;
 /// Title content. Maximum 74 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull title;
+@property (nonatomic, copy) NSString * _Nonnull title;
 /// Reminder content. Maximum 149 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull note;
+@property (nonatomic, copy) NSString * _Nonnull note;
 - (nonnull instancetype)initWithId:(NSInteger)id year:(NSInteger)year mon:(NSInteger)mon day:(NSInteger)day hour:(NSInteger)hour min:(NSInteger)min sec:(NSInteger)sec repeatType:(NSInteger)repeatType remindOnOff:(NSInteger)remindOnOff state:(NSInteger)state title:(NSString * _Nonnull)title note:(NSString * _Nonnull)note OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -6136,10 +6273,10 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOSchedulerReminderItem")
 SWIFT_CLASS("_TtC16protocol_channel25IDOSchedulerReminderModel")
 @interface IDOSchedulerReminderModel : NSObject
 /// Operation type<br />0: Invalid<br />1: Add<br />2: Delete<br />3: Query<br />4: Modify
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Error code. 0 if successful, non-zero if error
-@property (nonatomic, readonly) NSInteger errCode;
-@property (nonatomic, readonly, copy) NSArray<IDOSchedulerReminderItem *> * _Nonnull items;
+@property (nonatomic) NSInteger errCode;
+@property (nonatomic, copy) NSArray<IDOSchedulerReminderItem *> * _Nullable items;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate errCode:(NSInteger)errCode items:(NSArray<IDOSchedulerReminderItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6149,8 +6286,8 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOSchedulerReminderModel")
 
 SWIFT_CLASS("_TtC16protocol_channel30IDOSchedulerReminderParamModel")
 @interface IDOSchedulerReminderParamModel : NSObject
-@property (nonatomic, readonly) NSInteger operate;
-@property (nonatomic, readonly, copy) NSArray<IDOSchedulerReminderItem *> * _Nonnull items;
+@property (nonatomic) NSInteger operate;
+@property (nonatomic, copy) NSArray<IDOSchedulerReminderItem *> * _Nonnull items;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate items:(NSArray<IDOSchedulerReminderItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6164,15 +6301,15 @@ SWIFT_CLASS("_TtC16protocol_channel34IDOScientificSleepSwitchParamModel")
 /// Mode
 /// 2: Scientific sleep
 /// 1: Normal sleep
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Start time - hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time - minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time - hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time - minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 - (nonnull instancetype)initWithMode:(NSInteger)mode startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6185,33 +6322,33 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOScreenBrightnessModel")
 @interface IDOScreenBrightnessModel : NSObject
 /// Brightness level
 /// (0-100)
-@property (nonatomic, readonly) NSInteger level;
+@property (nonatomic) NSInteger level;
 /// 0 Auto
 /// 1 Manual
 /// If it is automatic synchronization configuration, please send 00; if it is user adjustment, please send 01
-@property (nonatomic, readonly) NSInteger opera;
+@property (nonatomic) NSInteger opera;
 /// 0 Specify level
 /// 1 Use ambient light sensor
 /// 2 level does not matter
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Night auto brightness adjustment
 /// 0 Invalid, defined by firmware
 /// 1 Off
 /// 2 Night auto brightness adjustment
 /// 3 Night brightness reduction uses the set time
-@property (nonatomic, readonly) NSInteger autoAdjustNight;
+@property (nonatomic) NSInteger autoAdjustNight;
 /// Start time hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Night brightness
-@property (nonatomic, readonly) NSInteger nightLevel;
+@property (nonatomic) NSInteger nightLevel;
 /// Display interval
-@property (nonatomic, readonly) NSInteger showInterval;
+@property (nonatomic) NSInteger showInterval;
 - (nonnull instancetype)initWithLevel:(NSInteger)level opera:(NSInteger)opera mode:(NSInteger)mode autoAdjustNight:(NSInteger)autoAdjustNight startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute nightLevel:(NSInteger)nightLevel showInterval:(NSInteger)showInterval OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6238,34 +6375,34 @@ SWIFT_CLASS("_TtC16protocol_channel10IDOSdkInfo")
 SWIFT_CLASS("_TtC16protocol_channel19IDOSendRunPlanModel")
 @interface IDOSendRunPlanModel : NSObject
 /// 00: Success, 01: Failed, 02: Another running plan is already enabled
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Protocol library version number
-@property (nonatomic, readonly) NSInteger version;
+@property (nonatomic) NSInteger version;
 /// Operation:
 /// 1: Start plan
 /// 2: Plan data sent
 /// 3: End plan
 /// 4: Query running plan
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Plan type:
 /// 1: 3km running plan
 /// 2: 5km running plan
 /// 3: 10km running plan
 /// 4: Half marathon training (Phase 2)
 /// 5: Marathon training (Phase 2)
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Plan implementation start time year
-@property (nonatomic, readonly) NSInteger year;
+@property (nonatomic) NSInteger year;
 /// Plan implementation start time month
-@property (nonatomic, readonly) NSInteger month;
+@property (nonatomic) NSInteger month;
 /// Plan implementation start time day
-@property (nonatomic, readonly) NSInteger day;
+@property (nonatomic) NSInteger day;
 /// Plan implementation start time hour
-@property (nonatomic, readonly) NSInteger hour;
+@property (nonatomic) NSInteger hour;
 /// Plan implementation start time minute
-@property (nonatomic, readonly) NSInteger min;
+@property (nonatomic) NSInteger min;
 /// Plan implementation start time second
-@property (nonatomic, readonly) NSInteger sec;
+@property (nonatomic) NSInteger sec;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode version:(NSInteger)version operate:(NSInteger)operate type:(NSInteger)type year:(NSInteger)year month:(NSInteger)month day:(NSInteger)day hour:(NSInteger)hour min:(NSInteger)min sec:(NSInteger)sec OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6454,7 +6591,7 @@ SWIFT_CLASS("_TtC16protocol_channel21IDOShortcutParamModel")
 /// 1: Quick access to camera control
 /// 2: Quick access to motion mode
 /// 3: Quick access to do not disturb
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 - (nonnull instancetype)initWithMode:(NSInteger)mode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6468,15 +6605,15 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOSleepPeriodParamModel")
 /// Switch
 /// 1 On
 /// 0 Off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Start time (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6490,30 +6627,30 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOSpo2SwitchParamModel")
 /// SpO2 all-day switch
 /// 1 On
 /// 0 Off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Start time (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Low SpO2 switch
 /// 1 On
 /// 0 Off
 /// Requires support from the menu <code>setSpo2AllDayOnOff</code>
-@property (nonatomic, readonly) NSInteger lowSpo2OnOff;
+@property (nonatomic) NSInteger lowSpo2OnOff;
 /// Low SpO2 threshold
 /// Requires support from the menu <code>v3SupportSetSpo2LowValueRemind</code>
-@property (nonatomic, readonly) NSInteger lowSpo2Value;
+@property (nonatomic) NSInteger lowSpo2Value;
 /// Notification type
 /// 0: Invalid
 /// 1: Allow notifications
 /// 2: Silent notifications
 /// 3: Disable notifications
 /// Requires support from the menu <code>getSpo2NotifyFlag</code>
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute lowSpo2OnOff:(NSInteger)lowSpo2OnOff lowSpo2Value:(NSInteger)lowSpo2Value notifyFlag:(NSInteger)notifyFlag OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6525,9 +6662,9 @@ enum IDOSportType : NSInteger;
 SWIFT_CLASS("_TtC16protocol_channel19IDOSport100SortItem")
 @interface IDOSport100SortItem : NSObject
 /// Type of sport
-@property (nonatomic, readonly) enum IDOSportType type;
+@property (nonatomic) enum IDOSportType type;
 /// 0: None downloaded for all<br />Bit0: Small icon downloaded<br />Bit1: Big icon downloaded<br />Bit2: Medium icon downloaded<br />Bit3: Smallest icon downloaded
-@property (nonatomic, readonly) NSInteger flag;
+@property (nonatomic) NSInteger flag;
 - (nonnull instancetype)initWithType:(enum IDOSportType)type flag:(NSInteger)flag OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -6537,16 +6674,16 @@ SWIFT_CLASS("_TtC16protocol_channel19IDOSport100SortItem")
 SWIFT_CLASS("_TtC16protocol_channel20IDOSport100SortModel")
 @interface IDOSport100SortModel : NSObject
 /// 0: Success, Non-zero: Failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation <br />0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Minimum number of items to be displayed, at least 1
-@property (nonatomic, readonly) NSInteger minShowNum;
+@property (nonatomic) NSInteger minShowNum;
 /// Maximum number of items to be displayed, maximum 20
-@property (nonatomic, readonly) NSInteger maxShowNum;
+@property (nonatomic) NSInteger maxShowNum;
 /// Current position of displayed added sports, app displays based on this position, with the devices added before corresponding to those positions, and those added later to the positions after this position. Only valid for queries
-@property (nonatomic, readonly) NSInteger nowUserLocation;
-@property (nonatomic, readonly, copy) NSArray<IDOSport100SortItem *> * _Nonnull items;
+@property (nonatomic) NSInteger nowUserLocation;
+@property (nonatomic, copy) NSArray<IDOSport100SortItem *> * _Nonnull items;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operate:(NSInteger)operate minShowNum:(NSInteger)minShowNum maxShowNum:(NSInteger)maxShowNum nowUserLocation:(NSInteger)nowUserLocation items:(NSArray<IDOSport100SortItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6557,10 +6694,10 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOSport100SortModel")
 SWIFT_CLASS("_TtC16protocol_channel25IDOSport100SortParamModel")
 @interface IDOSport100SortParamModel : NSObject
 /// Operation <br />0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Current position of displayed added sports
-@property (nonatomic, readonly) NSInteger nowUserLocation;
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull items;
+@property (nonatomic) NSInteger nowUserLocation;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull items;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate nowUserLocation:(NSInteger)nowUserLocation items:(NSArray<NSNumber *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6572,15 +6709,15 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOSport100SortParamModel")
 SWIFT_CLASS("_TtC16protocol_channel22IDOSportGoalParamModel")
 @interface IDOSportGoalParamModel : NSObject
 /// Number of steps for the exercise goal
-@property (nonatomic, readonly) NSInteger sportStep;
+@property (nonatomic) NSInteger sportStep;
 /// Walk goal steps per hour setting
-@property (nonatomic, readonly) NSInteger walkGoalSteps;
+@property (nonatomic) NSInteger walkGoalSteps;
 /// Target type setting
 /// 0: Invalid
 /// 1: Daily Goal
 /// 2: Weekly Goal
 /// Requires support from the menu <code>getStepDataTypeV2</code>
-@property (nonatomic, readonly) NSInteger targetType;
+@property (nonatomic) NSInteger targetType;
 - (nonnull instancetype)initWithSportStep:(NSInteger)sportStep walkGoalSteps:(NSInteger)walkGoalSteps targetType:(NSInteger)targetType OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6594,115 +6731,115 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOSportModeSelectParamModel")
 /// 0: Invalid
 /// 1: Set quick sport type - sport_type1 & sport_type2 & sport_type3 & sport_type4
 /// 2: Set specific sport type
-@property (nonatomic, readonly) NSInteger flag;
+@property (nonatomic) NSInteger flag;
 /// Quick sport type 1
 /// flag: 1 is valid
-@property (nonatomic, readonly) NSInteger sportType1;
+@property (nonatomic) NSInteger sportType1;
 /// Quick sport type 2
 /// flag: 1 is valid
-@property (nonatomic, readonly) NSInteger sportType2;
+@property (nonatomic) NSInteger sportType2;
 /// Quick sport type 3
 /// flag: 1 is valid
-@property (nonatomic, readonly) NSInteger sportType3;
+@property (nonatomic) NSInteger sportType3;
 /// Quick sport type 4
 /// flag: 1 is valid
-@property (nonatomic, readonly) NSInteger sportType4;
+@property (nonatomic) NSInteger sportType4;
 /// Type: Walking, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0Walk;
+@property (nonatomic) BOOL sportType0Walk;
 /// Type: Running, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0Run;
+@property (nonatomic) BOOL sportType0Run;
 /// Type: Cycling, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0ByBike;
+@property (nonatomic) BOOL sportType0ByBike;
 /// Type: Walking (on foot), 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0OnFoot;
+@property (nonatomic) BOOL sportType0OnFoot;
 /// Type: Swimming, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0Swim;
+@property (nonatomic) BOOL sportType0Swim;
 /// Type: Mountain climbing, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0MountainClimbing;
+@property (nonatomic) BOOL sportType0MountainClimbing;
 /// Type: Badminton, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0Badminton;
+@property (nonatomic) BOOL sportType0Badminton;
 /// Type: Other, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType0Other;
+@property (nonatomic) BOOL sportType0Other;
 /// Type: Fitness, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Fitness;
+@property (nonatomic) BOOL sportType1Fitness;
 /// Type: Spinning, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Spinning;
+@property (nonatomic) BOOL sportType1Spinning;
 /// Type: Ellipsoid, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Ellipsoid;
+@property (nonatomic) BOOL sportType1Ellipsoid;
 /// Type: Treadmill, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Treadmill;
+@property (nonatomic) BOOL sportType1Treadmill;
 /// Type: Sit-ups, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1SitUp;
+@property (nonatomic) BOOL sportType1SitUp;
 /// Type: Push-ups, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1PushUp;
+@property (nonatomic) BOOL sportType1PushUp;
 /// Type: Dumbbell, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Dumbbell;
+@property (nonatomic) BOOL sportType1Dumbbell;
 /// Type: Weightlifting, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType1Weightlifting;
+@property (nonatomic) BOOL sportType1Weightlifting;
 /// Type: Bodybuilding exercise, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2BodybuildingExercise;
+@property (nonatomic) BOOL sportType2BodybuildingExercise;
 /// Type: Yoga, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2Yoga;
+@property (nonatomic) BOOL sportType2Yoga;
 /// Type: Rope skipping, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2RopeSkipping;
+@property (nonatomic) BOOL sportType2RopeSkipping;
 /// Type: Table tennis, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2TableTennis;
+@property (nonatomic) BOOL sportType2TableTennis;
 /// Type: Basketball, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2Basketball;
+@property (nonatomic) BOOL sportType2Basketball;
 /// Type: Football, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2Football;
+@property (nonatomic) BOOL sportType2Football;
 /// Type: Volleyball, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2Volleyball;
+@property (nonatomic) BOOL sportType2Volleyball;
 /// Type: Tennis, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType2Tennis;
+@property (nonatomic) BOOL sportType2Tennis;
 /// Type: Golf, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3Golf;
+@property (nonatomic) BOOL sportType3Golf;
 /// Type: Baseball, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3Baseball;
+@property (nonatomic) BOOL sportType3Baseball;
 /// Type: Skiing, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3Skiing;
+@property (nonatomic) BOOL sportType3Skiing;
 /// Type: Roller skating, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3RollerSkating;
+@property (nonatomic) BOOL sportType3RollerSkating;
 /// Type: Dance, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3Dance;
+@property (nonatomic) BOOL sportType3Dance;
 /// Type: Strength training, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3StrengthTraining;
+@property (nonatomic) BOOL sportType3StrengthTraining;
 /// Type: Core training, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3CoreTraining;
+@property (nonatomic) BOOL sportType3CoreTraining;
 /// Type: Tidy up and relax, 0 not supported, 1 supported
 /// flag: 2 is valid
-@property (nonatomic, readonly) BOOL sportType3TidyUpRelax;
+@property (nonatomic) BOOL sportType3TidyUpRelax;
 - (nonnull instancetype)initWithFlag:(NSInteger)flag sportType1:(NSInteger)sportType1 sportType2:(NSInteger)sportType2 sportType3:(NSInteger)sportType3 sportType4:(NSInteger)sportType4 sportType0Walk:(BOOL)sportType0Walk sportType0Run:(BOOL)sportType0Run sportType0ByBike:(BOOL)sportType0ByBike sportType0OnFoot:(BOOL)sportType0OnFoot sportType0Swim:(BOOL)sportType0Swim sportType0MountainClimbing:(BOOL)sportType0MountainClimbing sportType0Badminton:(BOOL)sportType0Badminton sportType0Other:(BOOL)sportType0Other sportType1Fitness:(BOOL)sportType1Fitness sportType1Spinning:(BOOL)sportType1Spinning sportType1Ellipsoid:(BOOL)sportType1Ellipsoid sportType1Treadmill:(BOOL)sportType1Treadmill sportType1SitUp:(BOOL)sportType1SitUp sportType1PushUp:(BOOL)sportType1PushUp sportType1Dumbbell:(BOOL)sportType1Dumbbell sportType1Weightlifting:(BOOL)sportType1Weightlifting sportType2BodybuildingExercise:(BOOL)sportType2BodybuildingExercise sportType2Yoga:(BOOL)sportType2Yoga sportType2RopeSkipping:(BOOL)sportType2RopeSkipping sportType2TableTennis:(BOOL)sportType2TableTennis sportType2Basketball:(BOOL)sportType2Basketball sportType2Football:(BOOL)sportType2Football sportType2Volleyball:(BOOL)sportType2Volleyball sportType2Tennis:(BOOL)sportType2Tennis sportType3Golf:(BOOL)sportType3Golf sportType3Baseball:(BOOL)sportType3Baseball sportType3Skiing:(BOOL)sportType3Skiing sportType3RollerSkating:(BOOL)sportType3RollerSkating sportType3Dance:(BOOL)sportType3Dance sportType3StrengthTraining:(BOOL)sportType3StrengthTraining sportType3CoreTraining:(BOOL)sportType3CoreTraining sportType3TidyUpRelax:(BOOL)sportType3TidyUpRelax OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6713,8 +6850,8 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOSportModeSelectParamModel")
 SWIFT_CLASS("_TtC16protocol_channel26IDOSportModeSortParamModel")
 @interface IDOSportModeSortParamModel : NSObject
 /// Sorting index (starting from 1, 0 is invalid)
-@property (nonatomic, readonly) NSInteger index;
-@property (nonatomic, readonly) enum IDOSportType type;
+@property (nonatomic) NSInteger index;
+@property (nonatomic) enum IDOSportType type;
 - (nonnull instancetype)initWithIndex:(NSInteger)index type:(enum IDOSportType)type OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6725,7 +6862,7 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOSportModeSortParamModel")
 SWIFT_CLASS("_TtC16protocol_channel18IDOSportParamModel")
 @interface IDOSportParamModel : NSObject
 /// 运动类型排序详情
-@property (nonatomic, readonly, copy) NSArray<IDOSportModeSortParamModel *> * _Nonnull items;
+@property (nonatomic, copy) NSArray<IDOSportModeSortParamModel *> * _Nonnull items;
 - (nonnull instancetype)initWithItems:(NSArray<IDOSportModeSortParamModel *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6736,14 +6873,14 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOSportParamModel")
 SWIFT_CLASS("_TtC16protocol_channel17IDOSportSortModel")
 @interface IDOSportSortModel : NSObject
 /// 0: Success, Non-zero: Failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation <br />0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Type of sport
-@property (nonatomic, readonly) enum IDOSportType sportType;
+@property (nonatomic) enum IDOSportType sportType;
 /// Current position of displayed added sports, app displays based on this position, with the devices added before corresponding to those positions, and those added later to the positions after this position. Only valid for queries
-@property (nonatomic, readonly) NSInteger nowUserLocation;
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull items;
+@property (nonatomic) NSInteger nowUserLocation;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull items;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate errCode:(NSInteger)errCode sportType:(enum IDOSportType)sportType nowUserLocation:(NSInteger)nowUserLocation items:(NSArray<NSNumber *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -6754,12 +6891,12 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOSportSortModel")
 SWIFT_CLASS("_TtC16protocol_channel22IDOSportSortParamModel")
 @interface IDOSportSortParamModel : NSObject
 /// Operation <br />0: Invalid 1: Query 2: Set
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Type of sport
-@property (nonatomic, readonly) enum IDOSportType sportType;
+@property (nonatomic) enum IDOSportType sportType;
 /// Current position of displayed added sports
-@property (nonatomic, readonly) NSInteger nowUserLocation;
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull items;
+@property (nonatomic) NSInteger nowUserLocation;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull items;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate sportType:(enum IDOSportType)sportType nowUserLocation:(NSInteger)nowUserLocation items:(NSArray<NSNumber *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7038,6 +7175,7 @@ typedef SWIFT_ENUM(NSInteger, IDOSportType, open) {
 
 SWIFT_CLASS("_TtC16protocol_channel16IDOSportTypeItem")
 @interface IDOSportTypeItem : NSObject
+@property (nonatomic) enum IDOSportType type;
 - (nonnull instancetype)initWithType:(enum IDOSportType)type OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7099,10 +7237,10 @@ typedef SWIFT_ENUM(NSInteger, IDOStatusNotification, open) {
 SWIFT_CLASS("_TtC16protocol_channel16IDOStepGoalModel")
 @interface IDOStepGoalModel : NSObject
 /// Daily step goal
-@property (nonatomic, readonly) NSInteger step;
+@property (nonatomic) NSInteger step;
 /// Weekly step goal
 /// Valid when v2_support_set_step_data_type_03_03 is enabled
-@property (nonatomic, readonly) NSInteger stepWeek;
+@property (nonatomic) NSInteger stepWeek;
 - (nonnull instancetype)initWithStep:(NSInteger)step stepWeek:(NSInteger)stepWeek OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7117,7 +7255,7 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOStressCalibrationModel")
 /// 2: Failed - Charging
 /// 3: Failed - Not wearing
 /// 4: Failed - In a sports scene
-@property (nonatomic, readonly) NSInteger retCode;
+@property (nonatomic) NSInteger retCode;
 - (nonnull instancetype)initWithRetCode:(NSInteger)retCode OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7129,10 +7267,10 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOStressCalibrationModel")
 SWIFT_CLASS("_TtC16protocol_channel30IDOStressCalibrationParamModel")
 @interface IDOStressCalibrationParamModel : NSObject
 /// Stress score, ranging from 1 to 10
-@property (nonatomic, readonly) NSInteger stressScore;
+@property (nonatomic) NSInteger stressScore;
 /// 0: Start calibration setting
 /// 1: Cancel calibration setting
-@property (nonatomic, readonly) NSInteger status;
+@property (nonatomic) NSInteger status;
 - (nonnull instancetype)initWithStressScore:(NSInteger)stressScore status:(NSInteger)status OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7142,34 +7280,43 @@ SWIFT_CLASS("_TtC16protocol_channel30IDOStressCalibrationParamModel")
 
 SWIFT_CLASS("_TtC16protocol_channel25IDOStressSwitchParamModel")
 @interface IDOStressSwitchParamModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_CLASS("_TtC16protocol_channel29IDOStressSwitchParamModelObjc")
+@interface IDOStressSwitchParamModelObjc : NSObject
 /// Overall switch 1: On 0: Off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Start time - hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time - minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time - hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time - minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Stress reminder switch 1: On 0: Off
 /// Doesn’t work if on_off is off
-@property (nonatomic, readonly) NSInteger remindOnOff;
+@property (nonatomic) NSInteger remindOnOff;
 /// Reminder interval in minutes, default is 60 minutes
-@property (nonatomic, readonly) NSInteger interval;
+@property (nonatomic) NSInteger interval;
 /// High pressure threshold
-@property (nonatomic, readonly) NSInteger highThreshold;
+@property (nonatomic) NSInteger highThreshold;
 /// Pressure calibration threshold, default is 80
 /// Requires firmware support for setSendCalibrationThreshold
-@property (nonatomic, readonly) NSInteger stressThreshold;
+@property (nonatomic) NSInteger stressThreshold;
 /// Notification type
 /// 0: Invalid
 /// 1: Allow notification
 /// 2: Silent notification
 /// 3: Disable notification
 /// Requires firmware support for getPressureNotifyFlagMode
-@property (nonatomic, readonly) NSInteger notifyFlag;
-- (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute remindOnOff:(NSInteger)remindOnOff interval:(NSInteger)interval highThreshold:(NSInteger)highThreshold stressThreshold:(NSInteger)stressThreshold notifyFlag:(NSInteger)notifyFlag OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic) NSInteger notifyFlag;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
+- (nonnull instancetype)initOnOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute remindOnOff:(NSInteger)remindOnOff interval:(NSInteger)interval highThreshold:(NSInteger)highThreshold stressThreshold:(NSInteger)stressThreshold notifyFlag:(NSInteger)notifyFlag repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -7180,9 +7327,9 @@ SWIFT_CLASS("_TtC16protocol_channel25IDOStressSwitchParamModel")
 SWIFT_CLASS("_TtC16protocol_channel17IDOStressValModel")
 @interface IDOStressValModel : NSObject
 /// Stress value
-@property (nonatomic, readonly) NSInteger stressVal;
+@property (nonatomic) NSInteger stressVal;
 /// Threshold
-@property (nonatomic, readonly) NSInteger threshold;
+@property (nonatomic) NSInteger threshold;
 - (nonnull instancetype)initWithStressVal:(NSInteger)stressVal threshold:(NSInteger)threshold OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7192,10 +7339,10 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOStressValModel")
 
 SWIFT_CLASS("_TtC16protocol_channel14IDOSunriseItem")
 @interface IDOSunriseItem : NSObject
-@property (nonatomic, readonly) NSInteger sunriseHour;
-@property (nonatomic, readonly) NSInteger sunriseMin;
-@property (nonatomic, readonly) NSInteger sunsetHour;
-@property (nonatomic, readonly) NSInteger sunsetMin;
+@property (nonatomic) NSInteger sunriseHour;
+@property (nonatomic) NSInteger sunriseMin;
+@property (nonatomic) NSInteger sunsetHour;
+@property (nonatomic) NSInteger sunsetMin;
 - (nonnull instancetype)initWithSunriseHour:(NSInteger)sunriseHour sunriseMin:(NSInteger)sunriseMin sunsetHour:(NSInteger)sunsetHour sunsetMin:(NSInteger)sunsetMin OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -7206,11 +7353,11 @@ SWIFT_CLASS("_TtC16protocol_channel14IDOSunriseItem")
 SWIFT_CLASS("_TtC16protocol_channel29IDOSupportMaxSetItemsNumModel")
 @interface IDOSupportMaxSetItemsNumModel : NSObject
 /// Maximum number of frequently contacted persons that firmware supports for app to set (default is 10)
-@property (nonatomic, readonly) NSInteger contactMaxSetNum;
+@property (nonatomic) NSInteger contactMaxSetNum;
 /// Maximum number of schedule reminders that firmware supports for app to set(default is 30)
-@property (nonatomic, readonly) NSInteger reminderMaxSetNum;
+@property (nonatomic) NSInteger reminderMaxSetNum;
 /// Maximum sending buffer size of message reminders (default is 250 bytes)
-@property (nonatomic, readonly) NSInteger msgMaxBuffSize;
+@property (nonatomic) NSInteger msgMaxBuffSize;
 - (nonnull instancetype)initWithContactMaxSetNum:(NSInteger)contactMaxSetNum reminderMaxSetNum:(NSInteger)reminderMaxSetNum msgMaxBuffSize:(NSInteger)msgMaxBuffSize OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7221,15 +7368,15 @@ SWIFT_CLASS("_TtC16protocol_channel29IDOSupportMaxSetItemsNumModel")
 SWIFT_CLASS("_TtC16protocol_channel19IDOSyncContactModel")
 @interface IDOSyncContactModel : NSObject
 /// Error code, 0 for success, non-zero for error code
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation
 /// 0: invalid
 /// 1: set
 /// 2: query
 /// 3: set emergency contacts (requires support for <code>getSupportSetGetEmergencyContactV3</code> in the menu)
 /// 4: query emergency contacts (requires support for <code>getSupportSetGetEmergencyContactV3</code> in the menu)
-@property (nonatomic, readonly) NSInteger operat;
-@property (nonatomic, readonly, copy) NSArray<IDOContactItem *> * _Nullable items;
+@property (nonatomic) NSInteger operat;
+@property (nonatomic, copy) NSArray<IDOContactItem *> * _Nullable items;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operat:(NSInteger)operat items:(NSArray<IDOContactItem *> * _Nullable)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7245,8 +7392,8 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOSyncContactParamModel")
 /// 2: query contacts
 /// 3: set emergency contacts (requires support for <code>getSupportSetGetEmergencyContactV3</code> in the menu)
 /// 4: query emergency contacts (requires support for <code>getSupportSetGetEmergencyContactV3</code> in the menu)
-@property (nonatomic, readonly) NSInteger operat;
-@property (nonatomic, readonly, copy) NSArray<IDOContactItem *> * _Nonnull items;
+@property (nonatomic) NSInteger operat;
+@property (nonatomic, copy) NSArray<IDOContactItem *> * _Nonnull items;
 - (nonnull instancetype)initWithOperat:(NSInteger)operat items:(NSArray<IDOContactItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7315,37 +7462,46 @@ typedef SWIFT_ENUM(NSInteger, IDOSyncStatus, open) {
 /// Set Taking Medicine Reminder Event Code
 SWIFT_CLASS("_TtC16protocol_channel35IDOTakingMedicineReminderParamModel")
 @interface IDOTakingMedicineReminderParamModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Set Taking Medicine Reminder Event Code
+SWIFT_CLASS("_TtC16protocol_channel39IDOTakingMedicineReminderParamModelObjc")
+@interface IDOTakingMedicineReminderParamModelObjc : NSObject
 /// ID ranging from 1 to 5
-@property (nonatomic, readonly) NSInteger takingMedicineId;
+@property (nonatomic) NSInteger takingMedicineId;
 /// 0 for off
 /// 1 for on
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Starting hour of the reminder
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Starting minute of the reminder
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// Ending hour of the reminder
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// Ending minute of the reminder
-@property (nonatomic, readonly) NSInteger endMinute;
-/// Repeat switch
-@property (nonatomic, readonly) BOOL isOpenRepeat;
+@property (nonatomic) NSInteger endMinute;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
 /// Reminder interval in minutes
 /// Default is 60 minutes
-@property (nonatomic, readonly) NSInteger interval;
+@property (nonatomic) NSInteger interval;
 /// Do not disturb time period switch
 /// 0 for off
 /// 1 for on
 /// Default is off
-@property (nonatomic, readonly) NSInteger doNotDisturbOnOff;
+@property (nonatomic) NSInteger doNotDisturbOnOff;
 /// Do not disturb start hour
-@property (nonatomic, readonly) NSInteger doNotDisturbStartHour;
+@property (nonatomic) NSInteger doNotDisturbStartHour;
 /// Do not disturb start minute
-@property (nonatomic, readonly) NSInteger doNotDisturbStartMinute;
+@property (nonatomic) NSInteger doNotDisturbStartMinute;
 /// Do not disturb end hour
-@property (nonatomic, readonly) NSInteger doNotDisturbEndHour;
+@property (nonatomic) NSInteger doNotDisturbEndHour;
 /// Do not disturb end minute
-@property (nonatomic, readonly) NSInteger doNotDisturbEndMinute;
+@property (nonatomic) NSInteger doNotDisturbEndMinute;
+- (nonnull instancetype)initWithTakingMedicineId:(NSInteger)takingMedicineId onOff:(NSInteger)onOff startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats interval:(NSInteger)interval doNotDisturbOnOff:(NSInteger)doNotDisturbOnOff doNotDisturbStartHour:(NSInteger)doNotDisturbStartHour doNotDisturbStartMinute:(NSInteger)doNotDisturbStartMinute doNotDisturbEndHour:(NSInteger)doNotDisturbEndHour doNotDisturbEndMinute:(NSInteger)doNotDisturbEndMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -7358,19 +7514,19 @@ SWIFT_CLASS("_TtC16protocol_channel30IDOTemperatureSwitchParamModel")
 /// Mode:
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Start time, hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time, minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time, hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time, minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Temperature unit setting:
 /// 1 :Celsius
 /// 2 :Fahrenheit
-@property (nonatomic, readonly) NSInteger unit;
+@property (nonatomic) NSInteger unit;
 - (nonnull instancetype)initWithMode:(NSInteger)mode startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute unit:(NSInteger)unit OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7539,7 +7695,7 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOTransMusicModel")
 @property (nonatomic, readonly, copy) NSString * _Nullable singerName;
 /// 使用SPP传输
 @property (nonatomic, readonly) BOOL useSpp;
-- (nonnull instancetype)initWithFilePath:(NSString * _Null_unspecified)filePath fileName:(NSString * _Nonnull)fileName fileSize:(NSInteger)fileSize musicId:(NSInteger)musicId singerName:(NSString * _Nullable)singerName useSpp:(BOOL)useSpp OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFilePath:(NSString * _Null_unspecified)filePath fileName:(NSString * _Nonnull)fileName fileSize:(NSInteger)fileSize musicId:(NSInteger)musicId singerName:(NSString * _Nullable)singerName OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithFileType:(enum IDOTransType)fileType filePath:(NSString * _Nonnull)filePath fileName:(NSString * _Nonnull)fileName fileSize:(NSInteger)fileSize SWIFT_UNAVAILABLE;
 @end
 
@@ -7635,7 +7791,7 @@ typedef SWIFT_ENUM(NSInteger, IDOTransType, open) {
   IDOTransTypeFw = 0,
 /// 图片资源升级
   IDOTransTypeFzbin = 1,
-/// 字库升级
+/// 字库、ota等bin文件升级
   IDOTransTypeBin = 2,
 /// 语言包升级
   IDOTransTypeLang = 3,
@@ -7716,7 +7872,7 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOUnerasableMeunListModel")
 /// 27 Barometric altimeter (new on mp01)
 ///
 /// \endcode
-@property (nonatomic, readonly, copy) NSArray<NSNumber *> * _Nonnull itemList;
+@property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull itemList;
 - (nonnull instancetype)initWithItemList:(NSArray<NSNumber *> * _Nonnull)itemList OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7731,61 +7887,103 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOUnitParamModel")
 /// 0: Invalid
 /// 1: km (metric)
 /// 2: mi (imperial)
-@property (nonatomic, readonly) NSInteger distUnit;
+@property (nonatomic) NSInteger distUnit;
 /// Weight Unit:
 /// 0: Invalid
 /// 1: kg
 /// 2: lb
-@property (nonatomic, readonly) NSInteger weightUnit;
+@property (nonatomic) NSInteger weightUnit;
 /// Temperature Unit:
 /// 0: Invalid<br/>1: ℃
 /// 2: ℉
-@property (nonatomic, readonly) NSInteger temp;
+@property (nonatomic) NSInteger temp;
 /// Walking Stride:
 /// 0: Invalid
 /// 0: cm
-@property (nonatomic, readonly) NSInteger stride;
+@property (nonatomic) NSInteger stride;
 /// Language
-@property (nonatomic, readonly) NSInteger language;
+/// | 代码 | 语言         | 功能表                      |
+/// | –– | ———— | ————————— |
+/// | -1   | 无效         | -                           |
+/// | 1    | 中文         | languageCh                  |
+/// | 2    | 英文         | languageEnglish             |
+/// | 3    | 法语         | languageFrench              |
+/// | 4    | 德语         | languageGerman              |
+/// | 5    | 意大利语     | languageItalian             |
+/// | 6    | 西班牙语     | languageSpanish             |
+/// | 7    | 日语         | languageJapanese            |
+/// | 8    | 波兰语       | languagePolish              |
+/// | 9    | 捷克语       | languageCzech               |
+/// | 10   | 罗马尼亚     | languageRomanian            |
+/// | 11   | 立陶宛语     | languageLithuanian          |
+/// | 12   | 荷兰语       | languageDutch               |
+/// | 13   | 斯洛文尼亚语 | languageSlovenian           |
+/// | 14   | 匈牙利语     | languageHungarian           |
+/// | 15   | 俄罗斯语     | languageRussian             |
+/// | 16   | 乌克兰语     | languageUkrainian           |
+/// | 17   | 斯洛伐克语   | languageSlovak              |
+/// | 18   | 丹麦语       | languageDanish              |
+/// | 19   | 克罗地亚语   | languageCroatian            |
+/// | 20   | 印尼语       | languageIndonesian          |
+/// | 21   | 韩语         | languageKorean              |
+/// | 22   | 印地语       | languageHindi               |
+/// | 23   | 葡萄牙语     | languagePortuguese          |
+/// | 24   | 土耳其语     | languageTurkish             |
+/// | 25   | 泰国语       | languageThai                |
+/// | 26   | 越南语       | languageVietnamese          |
+/// | 27   | 缅甸语       | languageBurmese             |
+/// | 28   | 菲律宾语     | languageFilipino            |
+/// | 29   | 繁体中文     | languageTraditionalChinese  |
+/// | 30   | 希腊语       | languageGreek               |
+/// | 31   | 阿拉伯语     | languageArabic              |
+/// | 32   | 瑞典语       | languageSweden              |
+/// | 33   | 芬兰语       | languageFinland             |
+/// | 34   | 波斯语       | languagePersia              |
+/// | 35   | 挪威语       | languageNorwegian           |
+/// | 36   | 马来语       | languageMalay               |
+/// | 37   | 巴西葡语     | languageBrazilianPortuguese |
+/// | 38   | 孟加拉语     | languageBengali             |
+/// | 39   | 高棉语       | languageKhmer               |
+@property (nonatomic) NSInteger language;
 /// Time Format:
 /// 0: Invalid<br/>1: 24-hour format
 /// 2: 12-hour format
-@property (nonatomic, readonly) NSInteger is12HourFormat;
+@property (nonatomic) NSInteger is12HourFormat;
 /// Running Stride:
 /// 0: Invalid
 /// 1: cm
 /// Default value for males: 90cm
-@property (nonatomic, readonly) NSInteger strideRun;
+@property (nonatomic) NSInteger strideRun;
 /// Stride Calibration via GPS on/off:<br/>0: Invalid
 /// 1: On
 /// 2: Off
-@property (nonatomic, readonly) NSInteger strideGpsCal;
+@property (nonatomic) NSInteger strideGpsCal;
 /// Start day of the week:
 /// 0: Monday
 /// 1: Sunday
 /// 3: Saturday
-@property (nonatomic, readonly) NSInteger weekStartDate;
+@property (nonatomic) NSInteger weekStartDate;
 /// Calorie unit setting:
 /// 0: Invalid
 /// 1: Default kCal
 /// 2: Cal
 /// 3: kJ
-@property (nonatomic, readonly) NSInteger calorieUnit;
+@property (nonatomic) NSInteger calorieUnit;
 /// Swim pool unit setting:
 /// 0: Invalid
 /// 1: Default meters
 /// 2: yards
-@property (nonatomic, readonly) NSInteger swimPoolUnit;
+@property (nonatomic) NSInteger swimPoolUnit;
 /// Cycling unit:
 /// 0: Invalid
 /// 1: km
 /// 2: miles
-@property (nonatomic, readonly) NSInteger cyclingUnit;
+@property (nonatomic) NSInteger cyclingUnit;
 /// Unit for walking or running (km/miles) setting:<br/>0: Invalid
 /// 1: km
 /// 2: miles
 /// Requires support from the device firmware <code>setSupportWalkRunUnit</code>
-@property (nonatomic, readonly) NSInteger walkingRunningUnit;
+@property (nonatomic) NSInteger walkingRunningUnit;
 - (nonnull instancetype)initWithDistUnit:(NSInteger)distUnit weightUnit:(NSInteger)weightUnit temp:(NSInteger)temp stride:(NSInteger)stride language:(NSInteger)language is12HourFormat:(NSInteger)is12HourFormat strideRun:(NSInteger)strideRun strideGpsCal:(NSInteger)strideGpsCal weekStartDate:(NSInteger)weekStartDate calorieUnit:(NSInteger)calorieUnit swimPoolUnit:(NSInteger)swimPoolUnit cyclingUnit:(NSInteger)cyclingUnit walkingRunningUnit:(NSInteger)walkingRunningUnit OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7797,19 +7995,19 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOUnitParamModel")
 SWIFT_CLASS("_TtC16protocol_channel21IDOUpHandGestureModel")
 @interface IDOUpHandGestureModel : NSObject
 /// End time, hour
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time, minute
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Whether time range is available 1: Yes 0: No
-@property (nonatomic, readonly) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger hasTimeRange;
 /// Switch 1: On 0: Off -1:Not Support
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Screen on duration in seconds
-@property (nonatomic, readonly) NSInteger showSecond;
+@property (nonatomic) NSInteger showSecond;
 /// Start time, hour
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time, minute
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 - (nonnull instancetype)initWithEndHour:(NSInteger)endHour endMinute:(NSInteger)endMinute hasTimeRange:(NSInteger)hasTimeRange onOff:(NSInteger)onOff showSecond:(NSInteger)showSecond startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7823,21 +8021,21 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOUpHandGestureParamModel")
 /// Switch
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Duration for the screen to stay on, in seconds
-@property (nonatomic, readonly) NSInteger showSecond;
+@property (nonatomic) NSInteger showSecond;
 /// Whether there is a time range
 /// 1: Yes
 /// 0: No
-@property (nonatomic, readonly) NSInteger hasTimeRange;
+@property (nonatomic) NSInteger hasTimeRange;
 /// Starting hour of the time range
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Starting minute of the time range
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// Ending hour of the time range
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// Ending minute of the time range
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff showSecond:(NSInteger)showSecond hasTimeRange:(NSInteger)hasTimeRange startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7849,10 +8047,10 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOUpHandGestureParamModel")
 SWIFT_CLASS("_TtC16protocol_channel20IDOUpdateStatusModel")
 @interface IDOUpdateStatusModel : NSObject
 /// Firmware version number
-@property (nonatomic, readonly) NSInteger devVesion;
+@property (nonatomic) NSInteger devVesion;
 /// 0 for normal state
 /// 1 for upgrade state
-@property (nonatomic, readonly) NSInteger state;
+@property (nonatomic) NSInteger state;
 - (nonnull instancetype)initWithDevVesion:(NSInteger)devVesion state:(NSInteger)state OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7862,18 +8060,18 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOUpdateStatusModel")
 
 SWIFT_CLASS("_TtC16protocol_channel20IDOUserInfoPramModel")
 @interface IDOUserInfoPramModel : NSObject
-@property (nonatomic, readonly) NSInteger year;
-@property (nonatomic, readonly) NSInteger monuth;
-@property (nonatomic, readonly) NSInteger day;
+@property (nonatomic) NSInteger year;
+@property (nonatomic) NSInteger monuth;
+@property (nonatomic) NSInteger day;
 /// 身高 单位厘米
 /// Height in centimeters
-@property (nonatomic, readonly) NSInteger heigh;
+@property (nonatomic) NSInteger heigh;
 /// 体重 单位千克 值需要x100
 /// Weight in kilograms Value needs x100
-@property (nonatomic, readonly) NSInteger weigh;
+@property (nonatomic) NSInteger weigh;
 /// 性别 1：女  0：男
 /// Gender 1: Female 0: Male
-@property (nonatomic, readonly) NSInteger gender;
+@property (nonatomic) NSInteger gender;
 - (nonnull instancetype)initWithYear:(NSInteger)year monuth:(NSInteger)monuth day:(NSInteger)day heigh:(NSInteger)heigh weigh:(NSInteger)weigh gender:(NSInteger)gender OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7887,21 +8085,21 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOV3NoiseParamModel")
 /// All-day environmental noise volume switch
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger mode;
+@property (nonatomic) NSInteger mode;
 /// Start time (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
+@property (nonatomic) NSInteger endMinute;
 /// Threshold switch
 /// 1: On
 /// 0: Off
-@property (nonatomic, readonly) NSInteger highNoiseOnOff;
+@property (nonatomic) NSInteger highNoiseOnOff;
 /// Threshold value
-@property (nonatomic, readonly) NSInteger highNoiseValue;
+@property (nonatomic) NSInteger highNoiseValue;
 - (nonnull instancetype)initWithMode:(NSInteger)mode startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute highNoiseOnOff:(NSInteger)highNoiseOnOff highNoiseValue:(NSInteger)highNoiseValue OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7913,39 +8111,39 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOV3NoiseParamModel")
 SWIFT_CLASS("_TtC16protocol_channel19IDOVersionInfoModel")
 @interface IDOVersionInfoModel : NSObject
 /// SDK version
-@property (nonatomic, readonly) NSInteger sdkVersion;
+@property (nonatomic) NSInteger sdkVersion;
 /// Heart rate algorithm version
-@property (nonatomic, readonly) NSInteger hrAlgorithmVersion;
+@property (nonatomic) NSInteger hrAlgorithmVersion;
 /// Sleep algorithm version
-@property (nonatomic, readonly) NSInteger sleepAlgorithmVersion;
+@property (nonatomic) NSInteger sleepAlgorithmVersion;
 /// Step counter algorithm version
-@property (nonatomic, readonly) NSInteger stepAlgorithmVersion;
+@property (nonatomic) NSInteger stepAlgorithmVersion;
 /// Gesture recognition algorithm version
-@property (nonatomic, readonly) NSInteger gestureRecognitionVersion;
+@property (nonatomic) NSInteger gestureRecognitionVersion;
 /// PCB version (multiplied by 10, e.g., 11 for version 1.1)
-@property (nonatomic, readonly) NSInteger pcbVersion;
+@property (nonatomic) NSInteger pcbVersion;
 /// Wearable version
-@property (nonatomic, readonly) NSInteger spo2Version;
+@property (nonatomic) NSInteger spo2Version;
 /// SpO2 algorithm version
-@property (nonatomic, readonly) NSInteger wearVersion;
+@property (nonatomic) NSInteger wearVersion;
 /// Stress level algorithm version
-@property (nonatomic, readonly) NSInteger stressVersion;
+@property (nonatomic) NSInteger stressVersion;
 /// Calorie algorithm version
-@property (nonatomic, readonly) NSInteger kcalVersion;
+@property (nonatomic) NSInteger kcalVersion;
 /// Distance algorithm version
-@property (nonatomic, readonly) NSInteger disVersion;
+@property (nonatomic) NSInteger disVersion;
 /// 3-axis sensor swimming algorithm version
-@property (nonatomic, readonly) NSInteger axle3SwimVersion;
+@property (nonatomic) NSInteger axle3SwimVersion;
 /// 6-axis sensor swimming algorithm version
-@property (nonatomic, readonly) NSInteger axle6SwimVersion;
+@property (nonatomic) NSInteger axle6SwimVersion;
 /// Activity mode recognition algorithm version
-@property (nonatomic, readonly) NSInteger actModeTypeVersion;
+@property (nonatomic) NSInteger actModeTypeVersion;
 /// All-day heart rate algorithm version
-@property (nonatomic, readonly) NSInteger allDayHrVersion;
+@property (nonatomic) NSInteger allDayHrVersion;
 /// GPS algorithm version
-@property (nonatomic, readonly) NSInteger gpsVersion;
+@property (nonatomic) NSInteger gpsVersion;
 /// Peripheral version for 206 customized projects
-@property (nonatomic, readonly) NSInteger peripheralsVersion;
+@property (nonatomic) NSInteger peripheralsVersion;
 - (nonnull instancetype)initWithSdkVersion:(NSInteger)sdkVersion hrAlgorithmVersion:(NSInteger)hrAlgorithmVersion sleepAlgorithmVersion:(NSInteger)sleepAlgorithmVersion stepAlgorithmVersion:(NSInteger)stepAlgorithmVersion gestureRecognitionVersion:(NSInteger)gestureRecognitionVersion pcbVersion:(NSInteger)pcbVersion spo2Version:(NSInteger)spo2Version wearVersion:(NSInteger)wearVersion stressVersion:(NSInteger)stressVersion kcalVersion:(NSInteger)kcalVersion disVersion:(NSInteger)disVersion axle3SwimVersion:(NSInteger)axle3SwimVersion axle6SwimVersion:(NSInteger)axle6SwimVersion actModeTypeVersion:(NSInteger)actModeTypeVersion allDayHrVersion:(NSInteger)allDayHrVersion gpsVersion:(NSInteger)gpsVersion peripheralsVersion:(NSInteger)peripheralsVersion OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7957,11 +8155,11 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOVoiceReplyParamModel")
 @interface IDOVoiceReplyParamModel : NSObject
 /// Flag for continuing recording
 /// 0: Stop recording, 1: Continue recording
-@property (nonatomic, readonly) NSInteger flagIsContinue;
+@property (nonatomic) NSInteger flagIsContinue;
 /// Title data, maximum 31 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull title;
+@property (nonatomic, copy) NSString * _Nonnull title;
 /// Content data, maximum 511 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull textContent;
+@property (nonatomic, copy) NSString * _Nonnull textContent;
 - (nonnull instancetype)initWithFlagIsContinue:(NSInteger)flagIsContinue title:(NSString * _Nonnull)title textContent:(NSString * _Nonnull)textContent OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7972,46 +8170,55 @@ SWIFT_CLASS("_TtC16protocol_channel23IDOVoiceReplyParamModel")
 /// Get walk reminder event number
 SWIFT_CLASS("_TtC16protocol_channel18IDOWalkRemindModel")
 @interface IDOWalkRemindModel : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Get walk reminder event number
+SWIFT_CLASS("_TtC16protocol_channel22IDOWalkRemindModelObjc")
+@interface IDOWalkRemindModelObjc : NSObject
 /// 0 Off，1 On
-@property (nonatomic, readonly) NSInteger onOff;
+@property (nonatomic) NSInteger onOff;
 /// Goal step (deprecated)
-@property (nonatomic, readonly) NSInteger goalStep;
+@property (nonatomic) NSInteger goalStep;
 /// Start time (hour)
-@property (nonatomic, readonly) NSInteger startHour;
+@property (nonatomic) NSInteger startHour;
 /// Start time (minute)
-@property (nonatomic, readonly) NSInteger startMinute;
+@property (nonatomic) NSInteger startMinute;
 /// End time (hour)
-@property (nonatomic, readonly) NSInteger endHour;
+@property (nonatomic) NSInteger endHour;
 /// End time (minute)
-@property (nonatomic, readonly) NSInteger endMinute;
-/// Repeat switch
-@property (nonatomic, readonly) BOOL isOpenRepeat;
+@property (nonatomic) NSInteger endMinute;
+/// Repeat
+@property (nonatomic, copy) NSArray<IDOWeekObjc *> * _Nonnull repeats;
 /// Goal time (deprecated)
-@property (nonatomic, readonly) NSInteger goalTime;
+@property (nonatomic) NSInteger goalTime;
 /// Notification type
 /// 0: Invalid
 /// 1: Allow notification
 /// 2: Silent notification
 /// 3: Close notification
 /// Requires firmware to enable <code>setWalkReminderAddNotify</code>
-@property (nonatomic, readonly) NSInteger notifyFlag;
+@property (nonatomic) NSInteger notifyFlag;
 /// Do not disturb switch
 /// 0 Off
 /// 1 On
 /// Requires firmware to enable <code>getSupportSetGetNoReminderOnWalkReminderV2</code>
-@property (nonatomic, readonly) NSInteger doNotDisturbOnOff;
+@property (nonatomic) NSInteger doNotDisturbOnOff;
 /// Do not disturb start time (hour)
 /// Requires firmware to enable <code>getSupportSetGetNoReminderOnWalkReminderV2</code>
-@property (nonatomic, readonly) NSInteger noDisturbStartHour;
+@property (nonatomic) NSInteger noDisturbStartHour;
 /// Do not disturb start time (minute)
 /// Requires firmware to enable <code>getSupportSetGetNoReminderOnWalkReminderV2</code>
-@property (nonatomic, readonly) NSInteger noDisturbStartMinute;
+@property (nonatomic) NSInteger noDisturbStartMinute;
 /// Do not disturb end time (hour)
 /// Requires firmware to enable <code>getSupportSetGetNoReminderOnWalkReminderV2</code>
-@property (nonatomic, readonly) NSInteger noDisturbEndHour;
+@property (nonatomic) NSInteger noDisturbEndHour;
 /// Do not disturb end time (minute)
 /// Requires firmware to enable <code>getSupportSetGetNoReminderOnWalkReminderV2</code>
-@property (nonatomic, readonly) NSInteger noDisturbEndMinute;
+@property (nonatomic) NSInteger noDisturbEndMinute;
+- (nonnull instancetype)initOnOff:(NSInteger)onOff goalStep:(NSInteger)goalStep startHour:(NSInteger)startHour startMinute:(NSInteger)startMinute endHour:(NSInteger)endHour endMinute:(NSInteger)endMinute repeats:(NSArray<IDOWeekObjc *> * _Nonnull)repeats goalTime:(NSInteger)goalTime notifyFlag:(NSInteger)notifyFlag doNotDisturbOnOff:(NSInteger)doNotDisturbOnOff noDisturbStartHour:(NSInteger)noDisturbStartHour noDisturbStartMinute:(NSInteger)noDisturbStartMinute noDisturbEndHour:(NSInteger)noDisturbEndHour noDisturbEndMinute:(NSInteger)noDisturbEndMinute OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8021,9 +8228,9 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOWalkRemindModel")
 SWIFT_CLASS("_TtC16protocol_channel22IDOWalkRemindTimesItem")
 @interface IDOWalkRemindTimesItem : NSObject
 /// Walk reminder time: Hour
-@property (nonatomic, readonly) NSInteger hour;
+@property (nonatomic) NSInteger hour;
 /// Walk reminder time: Minute
-@property (nonatomic, readonly) NSInteger min;
+@property (nonatomic) NSInteger min;
 - (nonnull instancetype)initWithHour:(NSInteger)hour min:(NSInteger)min OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8033,8 +8240,8 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOWalkRemindTimesItem")
 SWIFT_CLASS("_TtC16protocol_channel28IDOWalkRemindTimesParamModel")
 @interface IDOWalkRemindTimesParamModel : NSObject
 /// Switch: 1:On 0:Off
-@property (nonatomic, readonly) NSInteger onOff;
-@property (nonatomic, readonly, copy) NSArray<IDOWalkRemindTimesItem *> * _Nonnull items;
+@property (nonatomic) NSInteger onOff;
+@property (nonatomic, copy) NSArray<IDOWalkRemindTimesItem *> * _Nonnull items;
 - (nonnull instancetype)initOnOff:(NSInteger)onOff items:(NSArray<IDOWalkRemindTimesItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8046,21 +8253,21 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOWalkRemindTimesParamModel")
 SWIFT_CLASS("_TtC16protocol_channel28IDOWallpaperDialReplyV3Model")
 @interface IDOWallpaperDialReplyV3Model : NSObject
 /// 0 for success, non-zero for failure
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation: 0 for query, 1 for setting, 2 for deleting the wallpaper dial
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Set location information
-@property (nonatomic, readonly) NSInteger location;
+@property (nonatomic) NSInteger location;
 /// Hide type
-@property (nonatomic, readonly) NSInteger hideType;
+@property (nonatomic) NSInteger hideType;
 /// Color of time control
-@property (nonatomic, readonly) NSInteger timeColor;
+@property (nonatomic) NSInteger timeColor;
 /// Control type
-@property (nonatomic, readonly) NSInteger widgetType;
+@property (nonatomic) NSInteger widgetType;
 /// Color of widget icons (1 byte reserved + R (1 byte) + G (1 byte) + B (1 byte))
-@property (nonatomic, readonly) NSInteger widgetIconColor;
+@property (nonatomic) NSInteger widgetIconColor;
 /// Color of widget numbers (1 byte reserved + R (1 byte) + G (1 byte) + B (1 byte))
-@property (nonatomic, readonly) NSInteger widgetNumColor;
+@property (nonatomic) NSInteger widgetNumColor;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operate:(NSInteger)operate location:(NSInteger)location hideType:(NSInteger)hideType timeColor:(NSInteger)timeColor widgetType:(NSInteger)widgetType widgetIconColor:(NSInteger)widgetIconColor widgetNumColor:(NSInteger)widgetNumColor OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8072,19 +8279,19 @@ SWIFT_CLASS("_TtC16protocol_channel28IDOWallpaperDialReplyV3Model")
 SWIFT_CLASS("_TtC16protocol_channel33IDOWallpaperDialReplyV3ParamModel")
 @interface IDOWallpaperDialReplyV3ParamModel : NSObject
 /// Operation: 0 for query, 1 for setting, 2 for deleting the wallpaper dial
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Set location information, reference to the 9-grid layout
-@property (nonatomic, readonly) NSInteger location;
+@property (nonatomic) NSInteger location;
 /// Hide type: 0 for showing all, 1 for hiding sub-controls (icons and numbers)
-@property (nonatomic, readonly) NSInteger hideType;
+@property (nonatomic) NSInteger hideType;
 /// Color of time control (1 byte reserved + R (1 byte) + G (1 byte) + B (1 byte))
-@property (nonatomic, readonly) NSInteger timeColor;
+@property (nonatomic) NSInteger timeColor;
 /// Control type: 1 for week/date, 2 for steps, 3 for distance, 4 for calories, 5 for heart rate, 6 for battery
-@property (nonatomic, readonly) NSInteger widgetType;
+@property (nonatomic) NSInteger widgetType;
 /// Color of widget icons (1 byte reserved + R (1 byte) + G (1 byte) + B (1 byte))
-@property (nonatomic, readonly) NSInteger widgetIconColor;
+@property (nonatomic) NSInteger widgetIconColor;
 /// Color of widget numbers (1 byte reserved + R (1 byte) + G (1 byte) + B (1 byte))
-@property (nonatomic, readonly) NSInteger widgetNumColor;
+@property (nonatomic) NSInteger widgetNumColor;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate location:(NSInteger)location hideType:(NSInteger)hideType timeColor:(NSInteger)timeColor widgetType:(NSInteger)widgetType widgetIconColor:(NSInteger)widgetIconColor widgetNumColor:(NSInteger)widgetNumColor OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8096,7 +8303,7 @@ SWIFT_CLASS("_TtC16protocol_channel33IDOWallpaperDialReplyV3ParamModel")
 SWIFT_CLASS("_TtC16protocol_channel19IDOWatchDialIdModel")
 @interface IDOWatchDialIdModel : NSObject
 /// Watch ID
-@property (nonatomic, readonly) NSInteger watchId;
+@property (nonatomic) NSInteger watchId;
 - (nonnull instancetype)initWithWatchId:(NSInteger)watchId OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8107,17 +8314,17 @@ SWIFT_CLASS("_TtC16protocol_channel19IDOWatchDialIdModel")
 SWIFT_CLASS("_TtC16protocol_channel21IDOWatchDialInfoModel")
 @interface IDOWatchDialInfoModel : NSObject
 /// Compression block size
-@property (nonatomic, readonly) NSInteger blockSize;
+@property (nonatomic) NSInteger blockSize;
 /// Family name (maximum 10 bytes)
-@property (nonatomic, readonly, copy) NSString * _Nonnull familyName;
+@property (nonatomic, copy) NSString * _Nonnull familyName;
 /// Color format
-@property (nonatomic, readonly) NSInteger format;
+@property (nonatomic) NSInteger format;
 /// Screen height (pixel size)
-@property (nonatomic, readonly) NSInteger height;
+@property (nonatomic) NSInteger height;
 /// Size in 100x increments
-@property (nonatomic, readonly) NSInteger sizex100;
+@property (nonatomic) NSInteger sizex100;
 /// Screen width (pixel size)
-@property (nonatomic, readonly) NSInteger width;
+@property (nonatomic) NSInteger width;
 - (nonnull instancetype)initWithBlockSize:(NSInteger)blockSize familyName:(NSString * _Nonnull)familyName format:(NSInteger)format height:(NSInteger)height sizex100:(NSInteger)sizex100 width:(NSInteger)width OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8131,7 +8338,7 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOWatchDialParamModel")
 /// ID of the watch face to be set
 /// Dial id
 /// 0 invalid,currently supports1~4
-@property (nonatomic, readonly) NSInteger dialId;
+@property (nonatomic) NSInteger dialId;
 - (nonnull instancetype)initWithDialId:(NSInteger)dialId OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8142,11 +8349,11 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOWatchDialParamModel")
 SWIFT_CLASS("_TtC16protocol_channel20IDOWatchDialSortItem")
 @interface IDOWatchDialSortItem : NSObject
 /// Watch dial type 1: Normal Dial, 2: Wallpaper Dial, 3: Cloud Dial
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Serial number, starting from 0, not exceeding the total number of supported watch dials
-@property (nonatomic, readonly) NSInteger sortNumber;
+@property (nonatomic) NSInteger sortNumber;
 /// Watch dial ID, maximum 29 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull name;
 - (nonnull instancetype)initWithType:(NSInteger)type sortNumber:(NSInteger)sortNumber name:(NSString * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8156,9 +8363,9 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOWatchDialSortItem")
 SWIFT_CLASS("_TtC16protocol_channel26IDOWatchDialSortParamModel")
 @interface IDOWatchDialSortParamModel : NSObject
 /// Number of items in the watch dial sort list
-@property (nonatomic, readonly) NSInteger sortItemNumb;
+@property (nonatomic) NSInteger sortItemNumb;
 /// Array of watch dial sort items type, sort_number, and name
-@property (nonatomic, readonly, copy) NSArray<IDOWatchDialSortItem *> * _Nonnull pSortItem;
+@property (nonatomic, copy) NSArray<IDOWatchDialSortItem *> * _Nonnull pSortItem;
 - (nonnull instancetype)initWithSortItemNumb:(NSInteger)sortItemNumb pSortItem:(NSArray<IDOWatchDialSortItem *> * _Nonnull)pSortItem OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8169,16 +8376,16 @@ SWIFT_CLASS("_TtC16protocol_channel26IDOWatchDialSortParamModel")
 SWIFT_CLASS("_TtC16protocol_channel17IDOWatchFaceModel")
 @interface IDOWatchFaceModel : NSObject
 /// Error code, 0 for success, non-zero for error
-@property (nonatomic, readonly) NSInteger errCode;
+@property (nonatomic) NSInteger errCode;
 /// Operation:<br />0 - Query the currently used watch face<br />1 - Set watch face<br />2 - Delete watch face<br />3 - Dynamic request space to set the corresponding space size
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Watch face name, maximum 29 bytes
-@property (nonatomic, readonly, copy) NSString * _Nullable fileName;
+@property (nonatomic, copy) NSString * _Nullable fileName;
 /// Number of files<br /><br />Requires the firmware to enable the function table <code>v3WatchDailSetAddSize</code>
 /// If operate!=3, this data is the same as before, which is 1 and is saved as before
 /// If operate=3: dynamic request space to set the corresponding space size, this corresponds to a deleted file name column
 /// If <code>v3WatchDailSetAddSize</code> is not enabled, this field defaults to 1
-@property (nonatomic, readonly) NSInteger fileCount;
+@property (nonatomic) NSInteger fileCount;
 - (nonnull instancetype)initWithErrCode:(NSInteger)errCode operate:(NSInteger)operate fileName:(NSString * _Nullable)fileName fileCount:(NSInteger)fileCount OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8196,13 +8403,13 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOWatchFaceParamModel")
 /// 3 - Dynamic request space to set the corresponding space size
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger operate;
+@property (nonatomic) NSInteger operate;
 /// Watch face name, maximum 29 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull fileName;
+@property (nonatomic, copy) NSString * _Nonnull fileName;
 /// Uncompressed file length
 /// After the firmware opens the function table <code>v3WatchDailSetAddSize</code>, the app needs to send this field
 /// Before the watch face is transmitted, the firmware needs to allocate corresponding space to save it, and the uncompressed file length needs to be transmitted
-@property (nonatomic, readonly) NSInteger watchFileSize;
+@property (nonatomic) NSInteger watchFileSize;
 - (nonnull instancetype)initWithOperate:(NSInteger)operate fileName:(NSString * _Nonnull)fileName watchFileSize:(NSInteger)watchFileSize OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8216,17 +8423,17 @@ SWIFT_CLASS("_TtC16protocol_channel12IDOWatchItem")
 /// 1: Normal watch face
 /// 2: Wallpaper watch face
 /// 3: Cloud watch face
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Current version number of the watch face (applies to cloud watch faces)
-@property (nonatomic, readonly) NSInteger watchVersion;
+@property (nonatomic) NSInteger watchVersion;
 /// Watch face order number
 /// Start at 0
-@property (nonatomic, readonly) NSInteger sortNumber;
+@property (nonatomic) NSInteger sortNumber;
 /// Watch face name
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull name;
 /// Size of the watch face, in bytes
 /// Applies only if the firmware enables <code>v3SupportGetWatchSize</code>, otherwise the field is invalid
-@property (nonatomic, readonly) NSInteger size;
+@property (nonatomic) NSInteger size;
 - (nonnull instancetype)initWithType:(NSInteger)type watchVersion:(NSInteger)watchVersion sortNumber:(NSInteger)sortNumber name:(NSString * _Nonnull)name size:(NSInteger)size OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8236,34 +8443,34 @@ SWIFT_CLASS("_TtC16protocol_channel12IDOWatchItem")
 SWIFT_CLASS("_TtC16protocol_channel17IDOWatchListModel")
 @interface IDOWatchListModel : NSObject
 /// Total number of local watch faces
-@property (nonatomic, readonly) NSInteger localWatchNum;
+@property (nonatomic) NSInteger localWatchNum;
 /// Total number of cloud watch faces
-@property (nonatomic, readonly) NSInteger cloudWatchNum;
+@property (nonatomic) NSInteger cloudWatchNum;
 /// Total number of wallpaper watch faces
-@property (nonatomic, readonly) NSInteger wallpaperWatchNum;
+@property (nonatomic) NSInteger wallpaperWatchNum;
 /// Number of cloud watch faces used
-@property (nonatomic, readonly) NSInteger userCloudWatchNum;
+@property (nonatomic) NSInteger userCloudWatchNum;
 /// Number of wallpaper watch faces used
-@property (nonatomic, readonly) NSInteger userWallpaperWatchNum;
+@property (nonatomic) NSInteger userWallpaperWatchNum;
 /// ID of the currently displayed watch face, maximum 30 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull nowShowWatchName;
+@property (nonatomic, copy) NSString * _Nonnull nowShowWatchName;
 /// Framework version number, starting from 1
-@property (nonatomic, readonly) NSInteger watchFrameMainVersion;
+@property (nonatomic) NSInteger watchFrameMainVersion;
 /// Maximum size of a single file, in kilobytes(reserve)
-@property (nonatomic, readonly) NSInteger fileMaxSize;
+@property (nonatomic) NSInteger fileMaxSize;
 /// Total capacity of watch faces
 /// Uint:Byte
 /// Set to 0 if the firmware enables <code>setWatchCapacitySizeDisplay</code>
-@property (nonatomic, readonly) NSInteger watchCapacitySize;
+@property (nonatomic) NSInteger watchCapacitySize;
 /// Used capacity of watch faces
 /// Uint:Byte
 /// Set to 0 if the firmware enables <code>setWatchCapacitySizeDisplay</code>
-@property (nonatomic, readonly) NSInteger userWatchCapacitySize;
+@property (nonatomic) NSInteger userWatchCapacitySize;
 /// Maximum continuous space available for downloading watch faces
 /// Uint:Byte
 /// Set to 0 if the firmware enables <code>setWatchCapacitySizeDisplay</code>
-@property (nonatomic, readonly) NSInteger usableMaxDownloadSpaceSize;
-@property (nonatomic, readonly, copy) NSArray<IDOWatchItem *> * _Nonnull items;
+@property (nonatomic) NSInteger usableMaxDownloadSpaceSize;
+@property (nonatomic, copy) NSArray<IDOWatchItem *> * _Nonnull items;
 - (nonnull instancetype)initWithLocalWatchNum:(NSInteger)localWatchNum cloudWatchNum:(NSInteger)cloudWatchNum wallpaperWatchNum:(NSInteger)wallpaperWatchNum userCloudWatchNum:(NSInteger)userCloudWatchNum userWallpaperWatchNum:(NSInteger)userWallpaperWatchNum nowShowWatchName:(NSString * _Nonnull)nowShowWatchName watchFrameMainVersion:(NSInteger)watchFrameMainVersion fileMaxSize:(NSInteger)fileMaxSize watchCapacitySize:(NSInteger)watchCapacitySize userWatchCapacitySize:(NSInteger)userWatchCapacitySize usableMaxDownloadSpaceSize:(NSInteger)usableMaxDownloadSpaceSize items:(NSArray<IDOWatchItem *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8273,7 +8480,7 @@ SWIFT_CLASS("_TtC16protocol_channel17IDOWatchListModel")
 
 SWIFT_CLASS("_TtC16protocol_channel18IDOWatchListV2Item")
 @interface IDOWatchListV2Item : NSObject
-@property (nonatomic, readonly, copy) NSString * _Nonnull fileName;
+@property (nonatomic, copy) NSString * _Nonnull fileName;
 - (nonnull instancetype)initWithFileName:(NSString * _Nonnull)fileName OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8282,12 +8489,11 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOWatchListV2Item")
 
 SWIFT_CLASS("_TtC16protocol_channel19IDOWatchListV2Model")
 @interface IDOWatchListV2Model : NSObject
-@property (nonatomic, readonly) NSInteger version;
 /// Number of remaining available files
-@property (nonatomic, readonly) NSInteger availableCount;
+@property (nonatomic) NSInteger availableCount;
 /// Maximum size of a single file (in KB)
-@property (nonatomic, readonly) NSInteger fileMaxSize;
-@property (nonatomic, readonly, copy) NSArray<IDOWatchListV2Item *> * _Nonnull items;
+@property (nonatomic) NSInteger fileMaxSize;
+@property (nonatomic, copy) NSArray<IDOWatchListV2Item *> * _Nonnull items;
 - (nonnull instancetype)initWithAvailableCount:(NSInteger)availableCount fileMaxSize:(NSInteger)fileMaxSize items:(NSArray<IDOWatchListV2Item *> * _Nonnull)items OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8325,11 +8531,11 @@ SWIFT_CLASS("_TtC16protocol_channel20IDOWeatherDataFuture")
 /// 0x33    Tornado
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// future minimum temperature
-@property (nonatomic, readonly) NSInteger minTemp;
+@property (nonatomic) NSInteger minTemp;
 /// future maximum temperature
-@property (nonatomic, readonly) NSInteger maxTemp;
+@property (nonatomic) NSInteger maxTemp;
 - (nonnull instancetype)initWithType:(NSInteger)type minTemp:(NSInteger)minTemp maxTemp:(NSInteger)maxTemp OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -8366,20 +8572,20 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOWeatherDataParamModel")
 /// 0x33    Tornado
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger type;
+@property (nonatomic) NSInteger type;
 /// Current temperature
-@property (nonatomic, readonly) NSInteger temp;
+@property (nonatomic) NSInteger temp;
 /// Maximum temperature of the day
-@property (nonatomic, readonly) NSInteger maxTemp;
+@property (nonatomic) NSInteger maxTemp;
 /// Minimum temperature of the day
-@property (nonatomic, readonly) NSInteger minTemp;
+@property (nonatomic) NSInteger minTemp;
 /// Current humidity
-@property (nonatomic, readonly) NSInteger humidity;
+@property (nonatomic) NSInteger humidity;
 /// Current UV intensity
-@property (nonatomic, readonly) NSInteger uvIntensity;
+@property (nonatomic) NSInteger uvIntensity;
 /// Current air quality index (AQI)
-@property (nonatomic, readonly) NSInteger aqi;
-@property (nonatomic, readonly, copy) NSArray<IDOWeatherDataFuture *> * _Nonnull future;
+@property (nonatomic) NSInteger aqi;
+@property (nonatomic, copy) NSArray<IDOWeatherDataFuture *> * _Nonnull future;
 - (nonnull instancetype)initWithType:(NSInteger)type temp:(NSInteger)temp maxTemp:(NSInteger)maxTemp minTemp:(NSInteger)minTemp humidity:(NSInteger)humidity uvIntensity:(NSInteger)uvIntensity aqi:(NSInteger)aqi future:(NSArray<IDOWeatherDataFuture *> * _Nonnull)future OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8391,13 +8597,13 @@ SWIFT_CLASS("_TtC16protocol_channel24IDOWeatherDataParamModel")
 SWIFT_CLASS("_TtC16protocol_channel27IDOWeatherSunTimeParamModel")
 @interface IDOWeatherSunTimeParamModel : NSObject
 /// Hour of sunrise
-@property (nonatomic, readonly) NSInteger sunriseHour;
+@property (nonatomic) NSInteger sunriseHour;
 /// Minute of sunrise
-@property (nonatomic, readonly) NSInteger sunriseMin;
+@property (nonatomic) NSInteger sunriseMin;
 /// Hour of sunset
-@property (nonatomic, readonly) NSInteger sunsetHour;
+@property (nonatomic) NSInteger sunsetHour;
 /// Minute of sunset
-@property (nonatomic, readonly) NSInteger sunsetMin;
+@property (nonatomic) NSInteger sunsetMin;
 - (nonnull instancetype)initWithSunriseHour:(NSInteger)sunriseHour sunriseMin:(NSInteger)sunriseMin sunsetHour:(NSInteger)sunsetHour sunsetMin:(NSInteger)sunsetMin OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8408,15 +8614,15 @@ SWIFT_CLASS("_TtC16protocol_channel27IDOWeatherSunTimeParamModel")
 /// V3设置天气数据
 SWIFT_CLASS("_TtC16protocol_channel22IDOWeatherV3ParamModel")
 @interface IDOWeatherV3ParamModel : NSObject
-@property (nonatomic, readonly) NSInteger month;
-@property (nonatomic, readonly) NSInteger day;
-@property (nonatomic, readonly) NSInteger hour;
-@property (nonatomic, readonly) NSInteger min;
-@property (nonatomic, readonly) NSInteger sec;
+@property (nonatomic) NSInteger month;
+@property (nonatomic) NSInteger day;
+@property (nonatomic) NSInteger hour;
+@property (nonatomic) NSInteger min;
+@property (nonatomic) NSInteger sec;
 /// The day of the week
 /// bit0: Monday
 /// bit1: Tuesday and so on up to Sunday
-@property (nonatomic, readonly) NSInteger week;
+@property (nonatomic) NSInteger week;
 /// Weather type
 /// \code
 /// 0: Other
@@ -8445,42 +8651,42 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOWeatherV3ParamModel")
 /// 51: Tornado (realme custom weather type idw02)
 ///
 /// \endcode
-@property (nonatomic, readonly) NSInteger weatherType;
+@property (nonatomic) NSInteger weatherType;
 /// Current temperature in Celsius
 /// For negative temperatures, add 100 to the temperature and transmit
-@property (nonatomic, readonly) NSInteger todayTmp;
+@property (nonatomic) NSInteger todayTmp;
 /// Maximum temperature in Celsius
 /// For negative temperatures, add 100 to the temperature and transmit
-@property (nonatomic, readonly) NSInteger todayMaxTemp;
+@property (nonatomic) NSInteger todayMaxTemp;
 /// Minimum temperature in Celsius
 /// For negative temperatures, add 100 to the temperature and transmit
-@property (nonatomic, readonly) NSInteger todayMinTemp;
+@property (nonatomic) NSInteger todayMinTemp;
 /// City name
 /// Maximum of 74 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull cityName;
+@property (nonatomic, copy) NSString * _Nonnull cityName;
 /// Air quality
 /// Multiply by 10 for transmission
-@property (nonatomic, readonly) NSInteger airQuality;
+@property (nonatomic) NSInteger airQuality;
 /// Precipitation probability
 /// 0-100 percentage
-@property (nonatomic, readonly) NSInteger precipitationProbability;
-@property (nonatomic, readonly) NSInteger humidity;
+@property (nonatomic) NSInteger precipitationProbability;
+@property (nonatomic) NSInteger humidity;
 /// UV intensity
 /// Multiply by 10 for transmission
-@property (nonatomic, readonly) NSInteger todayUvIntensity;
-@property (nonatomic, readonly) NSInteger windSpeed;
-@property (nonatomic, readonly) NSInteger sunriseHour;
-@property (nonatomic, readonly) NSInteger sunriseMin;
-@property (nonatomic, readonly) NSInteger sunsetHour;
-@property (nonatomic, readonly) NSInteger sunsetMin;
+@property (nonatomic) NSInteger todayUvIntensity;
+@property (nonatomic) NSInteger windSpeed;
+@property (nonatomic) NSInteger sunriseHour;
+@property (nonatomic) NSInteger sunriseMin;
+@property (nonatomic) NSInteger sunsetHour;
+@property (nonatomic) NSInteger sunsetMin;
 /// Number of sunrise and sunset time details
 /// Currently, the maximum number of days is set to 7
 /// Invalid for version 1
-@property (nonatomic, readonly) NSInteger sunriseItemNum;
-@property (nonatomic, readonly, copy) NSString * _Nonnull airGradeItem;
-@property (nonatomic, readonly, copy) NSArray<IDOHoursWeatherItem *> * _Nonnull hoursWeatherItems;
-@property (nonatomic, readonly, copy) NSArray<IDOFutureItem *> * _Nonnull futureItems;
-@property (nonatomic, readonly, copy) NSArray<IDOSunriseItem *> * _Nonnull sunriseItem;
+@property (nonatomic) NSInteger sunriseItemNum;
+@property (nonatomic, copy) NSString * _Nonnull airGradeItem;
+@property (nonatomic, copy) NSArray<IDOHoursWeatherItem *> * _Nonnull hoursWeatherItems;
+@property (nonatomic, copy) NSArray<IDOFutureItem *> * _Nonnull futureItems;
+@property (nonatomic, copy) NSArray<IDOSunriseItem *> * _Nonnull sunriseItem;
 - (nonnull instancetype)initWithMonth:(NSInteger)month day:(NSInteger)day hour:(NSInteger)hour min:(NSInteger)min sec:(NSInteger)sec week:(NSInteger)week weatherType:(NSInteger)weatherType todayTmp:(NSInteger)todayTmp todayMaxTemp:(NSInteger)todayMaxTemp todayMinTemp:(NSInteger)todayMinTemp cityName:(NSString * _Nonnull)cityName airQuality:(NSInteger)airQuality precipitationProbability:(NSInteger)precipitationProbability humidity:(NSInteger)humidity todayUvIntensity:(NSInteger)todayUvIntensity windSpeed:(NSInteger)windSpeed sunriseHour:(NSInteger)sunriseHour sunriseMin:(NSInteger)sunriseMin sunsetHour:(NSInteger)sunsetHour sunsetMin:(NSInteger)sunsetMin sunriseItemNum:(NSInteger)sunriseItemNum airGradeItem:(NSString * _Nonnull)airGradeItem hoursWeatherItems:(NSArray<IDOHoursWeatherItem *> * _Nonnull)hoursWeatherItems futureItems:(NSArray<IDOFutureItem *> * _Nonnull)futureItems sunriseItem:(NSArray<IDOSunriseItem *> * _Nonnull)sunriseItem OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -8498,26 +8704,35 @@ typedef SWIFT_ENUM(NSInteger, IDOWeek, open) {
 };
 
 
+SWIFT_CLASS("_TtC16protocol_channel11IDOWeekObjc")
+@interface IDOWeekObjc : NSObject
+@property (nonatomic) enum IDOWeek week;
+- (nonnull instancetype)initWithWeek:(enum IDOWeek)week OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
 SWIFT_CLASS("_TtC16protocol_channel22IDOWorldTimeParamModel")
 @interface IDOWorldTimeParamModel : NSObject
 /// Detail ID,Uniqueness
-@property (nonatomic, readonly) NSInteger id;
+@property (nonatomic) NSInteger id;
 /// Minute offset from current time to UTC 0
-@property (nonatomic, readonly) NSInteger minOffset;
+@property (nonatomic) NSInteger minOffset;
 /// City name, up to 59 bytes
-@property (nonatomic, readonly, copy) NSString * _Nonnull cityName;
-@property (nonatomic, readonly) NSInteger sunriseHour;
-@property (nonatomic, readonly) NSInteger sunriseMin;
-@property (nonatomic, readonly) NSInteger sunsetHour;
-@property (nonatomic, readonly) NSInteger sunsetMin;
+@property (nonatomic, copy) NSString * _Nonnull cityName;
+@property (nonatomic) NSInteger sunriseHour;
+@property (nonatomic) NSInteger sunriseMin;
+@property (nonatomic) NSInteger sunsetHour;
+@property (nonatomic) NSInteger sunsetMin;
 /// 1: East longitude 2: West longitude
-@property (nonatomic, readonly) NSInteger longitudeFlag;
+@property (nonatomic) NSInteger longitudeFlag;
 /// Longitude, multiplied by 100, with 2 decimal places
-@property (nonatomic, readonly) NSInteger longitude;
+@property (nonatomic) NSInteger longitude;
 /// 1: North latitude 2: South latitude
-@property (nonatomic, readonly) NSInteger latitudeFlag;
+@property (nonatomic) NSInteger latitudeFlag;
 /// Latitude, multiplied by 100, with 2 decimal places
-@property (nonatomic, readonly) NSInteger latitude;
+@property (nonatomic) NSInteger latitude;
 - (nonnull instancetype)initWithId:(NSInteger)id minOffset:(NSInteger)minOffset cityName:(NSString * _Nonnull)cityName sunriseHour:(NSInteger)sunriseHour sunriseMin:(NSInteger)sunriseMin sunsetHour:(NSInteger)sunsetHour sunsetMin:(NSInteger)sunsetMin longitudeFlag:(NSInteger)longitudeFlag longitude:(NSInteger)longitude latitudeFlag:(NSInteger)latitudeFlag latitude:(NSInteger)latitude OBJC_DESIGNATED_INITIALIZER;
 - (NSString * _Nullable)toJsonString SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;

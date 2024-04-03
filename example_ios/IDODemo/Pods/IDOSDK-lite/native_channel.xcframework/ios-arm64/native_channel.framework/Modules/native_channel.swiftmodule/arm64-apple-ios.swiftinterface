@@ -9,8 +9,8 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 @_exported import native_channel
-@objc @_inheritsConvenienceInitializers public class NativeChannelPlugin : ObjectiveC.NSObject, Flutter.FlutterPlugin {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class NativeChannelPlugin : ObjectiveC.NSObject, Flutter.FlutterPlugin {
+  public static let shared: native_channel.NativeChannelPlugin
   @objc public static func register(with registrar: Flutter.FlutterPluginRegistrar)
-  @objc override dynamic public init()
   @objc deinit
 }

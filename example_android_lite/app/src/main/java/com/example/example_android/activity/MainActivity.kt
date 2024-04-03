@@ -17,7 +17,6 @@ import com.clj.fastble.scan.BleScanRuleConfig
 import com.example.example_android.R
 import com.example.example_android.adapter.ScanDeviceAdapter
 import com.example.example_android.base.BaseActivity
-import com.example.example_android.data.BLEdata
 import com.example.example_android.data.CurrentDevice
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -111,6 +110,7 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         lv_device?.addItemDecoration(driver)
         lv_device?.layoutManager = LinearLayoutManager(this)
+
         mAdapter = ScanDeviceAdapter(mDeviceList)
         lv_device?.adapter = mAdapter
         mAdapter?.setOnSelectDeviceListenter(this)
@@ -148,6 +148,8 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
                 closeProgressDialog()
                 if (scanResultList != null) {
                     mDeviceList = scanResultList.toMutableList();
+                    mDeviceList.sortBy {
+                        Math.abs(it!!.rssi) }
                 }
                 mAdapter?.updateData(mDeviceList)
             }
@@ -157,7 +159,6 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     //第三方蓝牙，可以修改称自己的
     fun initconfig() {
         val scanRuleConfig = BleScanRuleConfig.Builder()
-            .setDeviceMac("00:A4:BD:D5:DB:1C")//过滤自己的mac
             .setScanTimeOut(10000)
             .build()
         BleManager.getInstance().initScanRule(scanRuleConfig)

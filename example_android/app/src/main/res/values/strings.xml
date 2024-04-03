@@ -47,8 +47,12 @@
     <string name="set_walk_remiders_time">Set time points for multiple walking reminders</string>
     <string name="set_weather_v3">V3 weather protocol issued by v3</string>
     <string name="v3_set_message_notification_status">V3 Set Message Notification Status</string>
+    <string name="v3_get_message_notification_status">V3 get Message Notification Status</string>
+    <string name="v3_updata_message_notification_status">V3 updata Message Notification Status</string>
     <string name="menu_log_export">Export Log</string>
     <string name="menu_log_app">App Log</string>
+
+
     <string name="sport">Sport</string>
     <string name="sport_start">Start Sport</string>
     <string name="sport_pause">Pause Sport</string>
@@ -93,7 +97,7 @@
     <string name="setbasesportparamsortv3">V3 Set the data arrangement of motion sub items</string>
     <string name="setschedulerreminderv3">V3 Set Schedule Reminder</string>
     <string name="set100sportsortv3">V3 New 100 Motion Sorting</string>
-    <string name="setwallpaperdialreplyv3">V3 Set wallpaper dial list</string>
+    <string name="setwallpaperdialreplyv3">V3 Set  the photo dial</string>
     <string name="setvoicereplytxtv3">V3 voice reply text</string>
     <string name="settime">set time</string>
     <string name="setfindphone">Set up search phone</string>
@@ -149,16 +153,35 @@
     <string name="getblemusicinfo">Obtain song names and folders for firmware</string>
     <string name="setnotificationcenter">Set up notification center</string>
     <string name="setwalkreminder">Set Walk Reminder</string>
-    <string name="enter_upgrade_mode">enter upgrade mode</string>
-    <string name="reboot_device">reboot device</string>
     <string name="restore_factory_settings">restore factory settings</string>
     <string name="find_devices">find devices</string>
-    <string name="set_activity_switch">set activity switch</string>
-    <string name="set_alarm">set alarm</string>
-    <string name="set_heart_rate_interval">set heart rate interval</string>
-    <string name="set_screen_brightness">set screen brightness</string>
-    <string name="set_menstrual_period">set menstrual period</string>
-    <string name="calories_and_distance_targets">calories and distance targets</string>
+    <string name="set_activity_switch">Sports switch settings</string>
+    <string name="set_alarm">set alarm V3</string>
+    <string name="set_heart_rate_interval">Set heart rate interval)</string>
+    <string name="set_screen_brightness">Set screen brightness</string>
+    <string name="set_menstrual_period">Set menstrual period</string>
+    <string name="set_long_city_name_v3">V3 Setting the Name of a Sports City event number</string>
+    <string name="set_historical_menstruation">Menstrual historical data delivery event number</string>
+    <string name="set_sport_sortV3">Sets the motion type ordering</string>
+    <string name="set_user_info">Sets the motion type ordering</string>
+    <string name="set_heart_rate_mode_smart">Set Smart Heart Rate Mode Event</string>
+    <string name="set_notDisturb">Set Do not Disturb mode</string>
+    <string name="set_menstruation_remind">set menstruation remind</string>
+    <string name="set_stress_switch">Set the pressure switch</string>
+    <string name="set_drinkwater_remind">Set drink water reminders</string>
+    <string name="set_over_find_phone">Set over find phone</string>
+    <string name="set_menu_list">Set menu list</string>
+    <string name="music_start">Set music start</string>
+    <string name="music_stop">Set music stop</string>
+    <string name="set_call_quick_reply_on_off">Set call quick reply on off</string>
+    <string name="set_voice_assistant_on_off">Set voice assistant on off</string>
+
+
+    <string name="calories_and_distance_targets">Calories and distance targets</string>
+    <string name="enter_upgrade_mode">Enter upgrade mode</string>
+    <string name="reboot_device">reboot device</string>
     <string name="getBtConnectPhoneModel">Obtain BT connected phone model</string>
+    <string name="getDefaultSportType">Obtain  default motion type</string>
+    <string name="getSportTypeV3">V3 Obtain  default motion type</string>
 
 </resources>

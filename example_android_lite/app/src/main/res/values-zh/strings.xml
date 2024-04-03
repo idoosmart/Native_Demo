@@ -5,6 +5,9 @@
     <string name="set_walk_remiders_time">设置多个走动提醒的时间点</string>
     <string name="set_weather_v3">v3 下发v3天气协议</string>
     <string name="v3_set_message_notification_status">v3 设置消息通知状态</string>
+    <string name="v3_get_message_notification_status">V3 获取消息通知状态</string>
+    <string name="v3_updata_message_notification_status">V3 修改消息通知状态</string>
+
     <string name="setmainuisortv3">v3 设置主界面控件排序</string>
     <string name="setwatchfacedata">设置表盘</string>
     <string name="setmusicoperate">操作歌曲或者文件夹</string>
@@ -44,7 +47,7 @@
     <string name="setbasesportparamsortv3">v3 设置运动子项数据排列</string>
     <string name="setschedulerreminderv3"> v3 设置日程提醒</string>
     <string name="set100sportsortv3"> v3 新的100种运动排序</string>
-    <string name="setwallpaperdialreplyv3"> v3 设置壁纸表盘列表</string>
+    <string name="setwallpaperdialreplyv3"> v3 设置照片表盘</string>
     <string name="setvoicereplytxtv3">v3 语音回复文本</string>
     <string name="settime">设置时间</string>
     <string name="setfindphone">设置寻找手机</string>
@@ -113,5 +116,24 @@
     <string name="set_menstrual_period">设定月经周期</string>
     <string name="calories_and_distance_targets">卡路里和距离目标</string>
     <string name="getBtConnectPhoneModel">获取BT连接手机型号</string>
+    <string name="getDefaultSportType">获取默认的运动类型</string>
+    <string name="getSportTypeV3">v3 获取默认的运动类型</string>
+
+    <string name="set_long_city_name_v3">V3 设置运动城市名称</string>
+    <string name="set_historical_menstruation">经期的历史数据下发</string>
+    <string name="set_sport_sortV3">v3 设置运动类型排序 </string>
+    <string name="set_user_info">设置用户信息</string>
+    <string name="set_heart_rate_mode_smart">智能心率模式设置</string>
+    <string name="set_notDisturb">勿扰模式</string>
+    <string name="set_menstruation_remind">设置经期提醒</string>
+    <string name="set_stress_switch">设置压力开关</string>
+    <string name="set_drinkwater_remind">设置喝水提醒</string>
+    <string name="set_over_find_phone">停止寻找手机</string>
+    <string name="set_menu_list">设置菜单列表</string>
+    <string name="music_start">音乐开始</string>
+    <string name="music_stop">停止音乐</string>
+    <string name="set_call_quick_reply_on_off">设置来电快捷回复开关</string>
+    <string name="set_voice_assistant_on_off">设置手机语音助手开关</string>
+
 
 </resources>

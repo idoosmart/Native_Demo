@@ -277,10 +277,11 @@ extension FunctionPageVC {
                 printXY(error ?? "", obj: self, line: #line)
             }
         } notifyClosure: { (data, error) in
-            if (data != nil) {
+            if var data = data, data.count > 0 {
                 //print("subscribeNotify receiveData:\(data!.hexadecimal())")
+                
                 // 将数据发送给协议库处理（!!!重要）
-                sdk.bridge.receiveDataFromBle(data: data!, macAddress: nil)
+                sdk.bridge.receiveDataFromBle(data: data, macAddress: nil)
             }
         }
     }
@@ -363,8 +364,31 @@ extension FunctionPageVC {
                 print("\(status)")
             case .failedOnGetDeviceInfo:
                 print("\(status)")
-            @unknown default:
-                fatalError()
+            case .timeout:
+                print("\(status)")
+            case .agreeDeleteDeviceData:
+                print("\(status)")
+            case .denyDeleteDeviceData:
+                print("\(status)")
+            case .timeoutOnNewAccount:
+                print("\(status)")
+            case .needConfirmByApp:
+                print("\(status)")
+                Cmds.sendBindResult(isSuccess: true).send {[weak self] rs in
+                    if case .success(_) = rs {
+                        print("success:")
+                        self?.isBinded = true
+                        SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                        UserDefaults.standard.setBind(macAddress, isBind: true)
+                        sdk.cmd.appMarkBindResult(success: true)
+                    }else {
+                        print("failure")
+                        //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                        UserDefaults.standard.setBind(macAddress, isBind: false)
+                        sdk.cmd.appMarkBindResult(success: false)
+                    }
+                    self?.tableView.reloadData()
+                }
             }
             self?.tableView.reloadData()
         }

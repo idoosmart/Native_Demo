@@ -230,7 +230,7 @@ class SportExchangeActivity : BaseActivity() {
     private fun exchangeData() {
         if (baseModel == null) return
         if (sdk.dataExchange.supportV3ActivityExchange) {
-            val mode = IDOAppIngV3ExchangeModel(0, 0/*gps status*/, distance, 0, duration, calories, baseModel)
+            val mode = IDOAppIngV3ExchangeModel( 0/*gps status*/, distance, 0, duration, calories, baseModel)
             sdk.dataExchange.appExec(IDOAppExecType.appIngV3(mode))
         } else {
             val mode = IDOAppIngExchangeModel(duration, calories, distance, 0/*gps status*/, baseModel)

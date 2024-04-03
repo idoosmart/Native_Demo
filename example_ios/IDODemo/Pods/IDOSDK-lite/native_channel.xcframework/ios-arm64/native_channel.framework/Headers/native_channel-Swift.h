@@ -256,8 +256,9 @@ using UInt = size_t;
 
 SWIFT_CLASS("_TtC14native_channel19NativeChannelPlugin")
 @interface NativeChannelPlugin : NSObject <FlutterPlugin>
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 + (void)registerWithRegistrar:(id <FlutterPluginRegistrar> _Nonnull)registrar;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 #endif

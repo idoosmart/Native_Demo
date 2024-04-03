@@ -138,6 +138,7 @@ typedef enum
 	VBUS_EVT_APP_BIND_REFUSE                         = 203,	   //绑定拒绝
 	VBUS_EVT_APP_SET_ENCRYPTED_AUTH                  = 204,    //发送计算好的授权数据     struct protocol_start_encrypted_auth,struct protocol_start_encrypted_auth_reply
     VBUS_EVT_APP_GET_ENCRYPTED_CODE                  = 205,    //获取授权数据 protocol_start_aut_code_reply
+    VBUS_EVT_APP_SEND_BIND_RESULTE                   = 206,    //APP下发配对结果 struct protocol_app_send_bind_resulte
     
 	VBUS_EVT_APP_APP_GET_MAC                         = 300,	   //获得mac struct protocol_device_mac
 	VBUS_EVT_APP_GET_DEVICE_INFO                     = 301,	   //获得设备信息 struct protocol_device_info
@@ -186,6 +187,9 @@ typedef enum
     VBUS_EVT_APP_GET_UNDELETEABLE_MEUN_LIST          = 340,    //获取固件不可删除的快捷应用列表
     VBUS_EVT_APP_GET_SN_INFO                         = 341,    //获取sn信息
     VBUS_EVT_APP_GET_UNIT                            = 342,    //获取固件单位
+    VBUS_EVT_APP_GET_HEART_RATE_MODE_SMART           = 343,    //APP智能心率模式获取
+    VBUS_EVT_APP_GET_SPO2                            = 344,    //获取血氧开关
+    VBUS_EVT_APP_GET_PRESSURE                        = 345,    //获取压力开关
     
     VBUS_EVT_CHECK_REBOOT                            = 350,	   //检查重启状态,非协议,用于内部状态处理
 	VBUS_EVT_APP_GET_UNREAD_APP_ONOFF                = 351,    //获取获取固件红点提示开关状态   struct protocol_head ,struct protocol_unread_app_reminder
@@ -386,6 +390,7 @@ typedef enum
 //  VBUS_EVT_FUNC_V3_SPORT_PLAN_GET_ACTIVITY_DATA          = 5058,  //运动计划中多运动数据交互最后一次多运动数据查询  废弃
 	VBUS_EVT_FUNC_V3_GET_HABIT_INFORMATION                 = 5059,  //获取用户习惯信息
     VBUS_EVT_FUNC_V3_GET_ALGORITHM_VERSION                 = 5060,  //V3获取固件算法版本号信息 struct protocol_get_3_level_alg_version_reply
+    VBUS_EVT_FUNC_V3_GET_BT_CONNECT_PHONE_MODEL            = 5061,  //V3获取BT连接手机型号 struct protocol_v3_get_bt_connect_phone_model_reply
 
 	VBUS_EVT_FUNC_V3_SET_HOT_START_PARAM                   = 5070,  //设置gps热启动参数 替代v2设置热启动参数 158事件
 	VBUS_EVT_FUNC_V3_GET_BLE_BEEP                          = 5071,  //获取固件本地提示音文件信息

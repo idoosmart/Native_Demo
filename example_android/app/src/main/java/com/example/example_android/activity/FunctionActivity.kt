@@ -25,6 +25,7 @@ import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
 import com.idosmart.model.IDOWriteStateModel
+import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
 import kotlinx.android.synthetic.main.layout_function_activity.tv_bin
 import kotlinx.android.synthetic.main.layout_function_activity.tv_connect
 import kotlinx.android.synthetic.main.layout_function_activity.tv_un_bin
+import kotlin.math.log
 
 class FunctionActivity : BaseActivity() {
     private var device: IDOBleDeviceModel? = null
@@ -60,7 +62,7 @@ class FunctionActivity : BaseActivity() {
 
     fun dis_connect(view: View) {
         sdk.ble.cancelConnect(device?.macAddress) {
-            if (it){
+            if (it) {
                 ll_un_bin?.visibility = View.GONE
                 rl_get_function?.visibility = View.GONE
                 rl_set_function?.visibility = View.GONE
@@ -72,6 +74,7 @@ class FunctionActivity : BaseActivity() {
         };
     }
 
+
     fun bind(view: View) {
         if (deviceState.state == IDODeviceStateType.CONNECTED) {
             if (bindState()) {
@@ -82,14 +85,16 @@ class FunctionActivity : BaseActivity() {
                     println("获取到设备信息 state$it");
                 }, {
                     println("获取到功能表 functableinterface state$it");
-                }, {
+                }, { it ->
                     closeProgressDialog()
+                    println("返回状态：$it")
                     when (it) {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
                             FunctionUtils.saveDeviceMac(device!!.macAddress.toString())
                             bindState()
+
                         }
 
                         IDOBindStatus.FAILED,
@@ -98,6 +103,22 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.REFUSEDBIND -> {
                             println("bind failed: ${it.name}")
                             toast("bind failed: ${it.name}")
+                        }
+
+                        IDOBindStatus.NEEDCONFIRMBYAPP -> {
+                            Cmds.sendBindResult(true).send {
+                                if (it.error.code == 0) {
+                                    toast("bind ok")
+                                    //save bind info
+                                    FunctionUtils.saveDeviceMac(device!!.macAddress.toString())
+                                    bindState()
+                                    sdk.cmd.appMarkBindResult(true)
+                                } else {
+                                    println("bind failed: ")
+                                    toast("bind failed: ")
+                                    sdk.cmd.appMarkBindResult(false)
+                                }
+                            }
                         }
 
                         else -> {

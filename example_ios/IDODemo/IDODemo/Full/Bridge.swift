@@ -20,7 +20,7 @@ extension MainPageVC {
 
 
         // protocol library
-        sdk.bridge.setupBridge(delegate: self, logType: .release)
+        sdk.bridge.setupBridge(delegate: self, logType: .debug)
         
         // alexa
         sdk.alexa.setupAlexa(delegate: self, clientId: clientId)

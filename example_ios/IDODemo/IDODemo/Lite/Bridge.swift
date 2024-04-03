@@ -20,7 +20,7 @@ extension MainPageVC {
     // Register sdk, 只执行一次
     func registerSDK() {
         // protocol library 注册（必需）（!!!重要）
-        sdk.bridge.setupBridge(delegate: self, logType: .release)
+        sdk.bridge.setupBridge(delegate: self, logType: .debug)
         
         // 如需使用Alexa， 需先注册
         sdk.alexa.setupAlexa(delegate: self, clientId: clientId)

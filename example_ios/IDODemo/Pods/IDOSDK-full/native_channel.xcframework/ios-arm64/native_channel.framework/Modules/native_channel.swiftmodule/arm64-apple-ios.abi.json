@@ -105,6 +105,57 @@
         "printedName": "NativeChannelPlugin",
         "children": [
           {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NativeChannelPlugin",
+                "printedName": "native_channel.NativeChannelPlugin",
+                "usr": "c:@M@native_channel@objc(cs)NativeChannelPlugin"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14native_channel19NativeChannelPluginC6sharedACvpZ",
+            "mangledName": "$s14native_channel19NativeChannelPluginC6sharedACvpZ",
+            "moduleName": "native_channel",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "NativeChannelPlugin",
+                    "printedName": "native_channel.NativeChannelPlugin",
+                    "usr": "c:@M@native_channel@objc(cs)NativeChannelPlugin"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14native_channel19NativeChannelPluginC6sharedACvgZ",
+                "mangledName": "$s14native_channel19NativeChannelPluginC6sharedACvgZ",
+                "moduleName": "native_channel",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
             "kind": "Function",
             "name": "register",
             "printedName": "register(with:)",
@@ -133,32 +184,6 @@
               "AccessControl"
             ],
             "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "NativeChannelPlugin",
-                "printedName": "native_channel.NativeChannelPlugin",
-                "usr": "c:@M@native_channel@objc(cs)NativeChannelPlugin"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "c:@M@native_channel@objc(cs)NativeChannelPlugin(im)init",
-            "mangledName": "$s14native_channel19NativeChannelPluginCACycfc",
-            "moduleName": "native_channel",
-            "overriding": true,
-            "implicit": true,
-            "objc_name": "init",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Override"
-            ],
-            "init_kind": "Designated"
           }
         ],
         "declKind": "Class",
@@ -170,6 +195,7 @@
           "ObjC"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
         "inheritsConvenienceInitializers": true,
         "superclassNames": [
           "ObjectiveC.NSObject"
@@ -233,21 +259,21 @@
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "BooleanLiteral",
-      "offset": 15087,
+      "offset": 16737,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "Array",
-      "offset": 15133,
+      "offset": 16783,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk_tmp2\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "StringLiteral",
-      "offset": 15171,
+      "offset": 16821,
       "length": 4,
       "value": "\"US\""
     }

@@ -25,29 +25,8 @@ class GetFunctionVC: UIViewController {
     private lazy var items: [GetCmd] = [
         GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information"),
         GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information"),
-        GetCmd(type: .getBtName, title: "getBtName", desc: "Get bt bluetooth name"),
-        GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: "Get MTU Information event number"),
-        GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"),
-        GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"),
         GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number"),
-        GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: "Get Font Library Information event number"),
-        GetCmd(type: .getBtNotice, title: "getBtNotice", desc: "Query BT pairing switch, connection, A2DP connection, HFP connection status (Only Supported on devices with BT Bluetooth) event number"),
-        GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: "Get wrist up gesture data event number"),
-        GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: "Get Do Not Disturb mode status event number"),
-        GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: "Get Set Calorie/Distance/Mid-High Sport Time Goal event number"),
-        GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: "Get screen brightness event number"),
-        GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: "Get maximum number of settings supported by firmware event number"),
-        GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: "Get walk reminder event number"),
-        GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: "Get firmware local contact file modification time event number"),
-        GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number"),
-        GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number"),
-        GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number"),
-        GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List"),
-        GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"),
-        GetCmd(type: .getAlarm, title: "getAlarm", desc: "Getting Alarms for V3APP Devices"),
         GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information"),
-        GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)"),
-        GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2"),
     ]
     
     override func viewDidLoad() {
@@ -56,58 +35,147 @@ class GetFunctionVC: UIViewController {
         title = "Get Function"
         view.backgroundColor = .white
         
-        // 根据功能表添加
+        // !!!: 部分接口需根据功能表判定后调用（sdk兼容所有设备，功能表不支持的请勿调用）
         
-        if (sdk.funcTable.getRealtimeData) {
-            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number"))
+        // 内部全量测试专用（客户使用需保持此值为false）
+        let innerTest = false
+        
+        if (innerTest || sdk.funcTable.getNewWatchList) {
+            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)"))
+        }else {
+            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2"))
         }
-        if (sdk.funcTable.getFlashLog) {
+        
+        if (innerTest || sdk.funcTable.getHeartRateModeV2) {
+            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number"))
+        }
+        if (innerTest || sdk.funcTable.getBatteryInfo) {
+            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number"))
+        }
+        if (innerTest || sdk.funcTable.getDeviceLogState) {
+            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number"))
+        }
+        if (innerTest || sdk.funcTable.getMenuList) {
+            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List"))
+        }
+        if (innerTest || sdk.funcTable.reminderAncs) {
+            items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"))
+        }
+        if (innerTest || sdk.funcTable.syncV3SyncAlarm) {
+            items.append(GetCmd(type: .getAlarm, title: "getAlarm", desc: "Getting Alarms for V3APP Devices"))
+        }
+        
+        if (innerTest || sdk.funcTable.reminderGetAllContact) {
+            items.append(GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: "Get firmware local contact file modification time event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getWalkReminderV3) {
+            items.append(GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: "Get walk reminder event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getSetMaxItemsNum) {
+            items.append(GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: "Get maximum number of settings supported by firmware event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getScreenBrightnessMain9) {
+            items.append(GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: "Get screen brightness event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getSupportGetMainSportGoalV3) {
+            items.append(GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: "Get Set Calorie/Distance/Mid-High Sport Time Goal event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getDoNotDisturbMain3) {
+            items.append(GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: "Get Do Not Disturb mode status event number"))
+        }
+        
+        
+        if (innerTest || sdk.funcTable.getUpHandGestureEx) {
+            items.append(GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: "Get wrist up gesture data event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getBleAndBtVersion) {
+            items.append( GetCmd(type: .getBtNotice, title: "getBtNotice", desc: "Query BT pairing switch, connection, A2DP connection, HFP connection status (Only Supported on devices with BT Bluetooth) event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getFlashLog) {
+            items.append(GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: "Get Font Library Information event number"))
+        }
+        
+        if (innerTest || sdk.funcTable.getActivitySwitch) {
+            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"))
+        }
+        
+        if (innerTest || sdk.funcTable.getActivitySwitch) {
+            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"))
+        }
+        
+        if (innerTest || sdk.funcTable.getBtAddrV2) {
+            items.append(GetCmd(type: .getBtName, title: "getBtName", desc: "Get bt bluetooth name"))
+        }
+        if (innerTest || sdk.funcTable.getMtu) {
+            items.append(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: "Get MTU Information event number"))
+        }
+        if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
+            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"))
+        }
+        
+        if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
+            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"))
+        }
+        
+//        if (innerTest || sdk.funcTable.getRealtimeData) {
+//            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number")) // 已废弃
+//        }
+        if (innerTest || sdk.funcTable.getFlashLog) {
             items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: "Get error record"))
         }
-        if (sdk.funcTable.getSupportUpdateGps) {
+        if (innerTest || sdk.funcTable.getSupportUpdateGps) {
             items.append(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: "Get GPS Information event number"))
         }
-        if (sdk.funcTable.getVersionInfo) {
-            items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: "Get version information event number"))
-        }
-        if (sdk.funcTable.getSupportUpdateGps) {
+//        if (innerTest || sdk.funcTable.getVersionInfo) {
+//            items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: "Get version information event number"))
+//        }
+        if (innerTest || sdk.funcTable.getSupportUpdateGps) {
             items.append(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: "Get GPS Status event number"))
         }
-        if (sdk.funcTable.getDeletableMenuListV2) {
+        if (innerTest || sdk.funcTable.getDeletableMenuListV2) {
             items.append(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: "Get non-deletable menu list in firmware event number"))
         }
-        if (sdk.funcTable.setSupportV3Bp) {
+        if (innerTest || sdk.funcTable.setSupportV3Bp) {
             items.append(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: "Get blood pressure algorithm version information event number"))
         }
-        if (sdk.funcTable.getDeviceUpdateState) {
+        if (innerTest || sdk.funcTable.getDeviceUpdateState) {
             items.append(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: "Get device update status event number"))
         }
-        if (sdk.funcTable.getDownloadLanguage) {
+        if (innerTest || sdk.funcTable.getDownloadLanguage) {
             items.append(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: "Get Download Language Support"))
         }
-        if (sdk.funcTable.getSupportGetBleMusicInfoVerV3) {
+        if (innerTest || (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3)) {
             items.append(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: "Get Firmware Song Names and Folders"))
         }
-        if (sdk.funcTable.getLangLibraryV3) {
+        if (innerTest || sdk.funcTable.getLangLibraryV3) {
             items.append(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: "Get Language Library List"))
         }
-        if (sdk.funcTable.getSupportGetBleBeepV3) {
+        if (innerTest || sdk.funcTable.getSupportGetBleBeepV3) {
             items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: "Getting firmware local beep file information for V3"))
         }
-        if (sdk.funcTable.getStepDataTypeV2) {
+        if (innerTest || sdk.funcTable.getStepDataTypeV2) {
             items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"))
         }
-        if (sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
+        if (innerTest || sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
             items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号"))
         }
         
         
-        //GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number"),
-        //GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number"),
-        //GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number"),
-        //GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number"),
-        //GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"),
-        //GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3"),
+        //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用
+        //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用
+        //items.append(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number")) // 未启用
+        //items.append(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number")) // 已废弃
+        //items.append(GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"))
+        //items.append(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3")) // 未启用
+        
+        items = items.sorted { $0.title < $1.title }
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -208,7 +276,7 @@ fileprivate struct GetCmd {
     }
 }
 
-fileprivate enum CmdType {
+fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 获取设备信息
     /// Get Device Information
     case getDeviceInfo
@@ -357,7 +425,7 @@ extension CmdType {
         case .getErrorRecord:
             return OtherParamModel(dic: ["type": 0])
         case .getAlarm:
-            return OtherParamModel(dic: ["flag": 2])
+            return OtherParamModel(dic: ["flag": 0])
         default:
             return nil
         }
@@ -633,7 +701,13 @@ private class FunctionDetailVC: UIViewController {
         case .getAlarm:
             let flag = (cmd.type.param() as! OtherParamModel).dic!["flag"] as! Int
             cancellable = Cmds.getAlarm(flag: flag).send { [weak self] res in
-                self?.doPrint(res)
+                self?.btnCall.isEnabled = true
+                if case .success(let obj) = res {
+                    self?.textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
+                }else if case .failure(let err) = res {
+                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
+                //self?.doPrint(res)
             }
         case .getHabitInfo:
             cancellable = Cmds.getHabitInfo().send { [weak self] res in
@@ -692,3 +766,4 @@ private class FunctionDetailVC: UIViewController {
         }
     }
 }
+

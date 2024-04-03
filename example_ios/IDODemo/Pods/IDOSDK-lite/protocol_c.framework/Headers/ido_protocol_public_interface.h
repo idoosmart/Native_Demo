@@ -639,15 +639,23 @@ extern int initType(int motion_type_in);
 extern void initParameter(void);
 
 /**
- * @brief gps数据实时处理入口,需要对输出的数据进行判断，若纬度为-180则为错误值，不应该输出
+ * @brief gps数据实时处理入口,需要对输出的数据进行判断，若纬度为-180则为错误值，不应该输出 ，每次只会传进来一个坐标
  * @param data json字符串
- * @param len 字符串长度
+ * @param len 字符串长度 不超过2MByte
  * json字符串内容:
+ * android:
  * { lon,经度,数据类型double
  *   lat,纬度,数据类型double
  *   timestamp,时间戳,数据类型int
  *   accuracy,定位精度,数据类型double
  *   gpsaccuracystatus,定位等级，0 = 定位未知, 1 = 定位好, 2 = 定位差,数据类型int}
+ *   ios:
+ * { lon,经度,数据类型double
+ *   lat,纬度,数据类型double
+ *   timestamp,时间戳,数据类型int
+ *   hor_accuracy,水平精度,数据类型double
+ *   ver_accuracy,垂直精度,数据类型double
+ * }
  * @return json字符串 内容与上面json字符串内容一致
  */
 extern char *appGpsAlgProcessRealtime(char *data,int len);
@@ -966,6 +974,12 @@ extern char *simulatorReceiveBinary2Json(const char *data,int data_len);
  * @return 输出2个字节的CRC校验码
  */
 extern uint16_t getCrc16(const char *data,int data_len);
+
+/**
+ * @brief 获取是否支持断点续传的功能表
+ * @return 0不支持 1支持
+ * */
+extern int getIsSupportTranContinue(void);
 
 // ------------------------------ v2闹钟同步 ------------------------------
 

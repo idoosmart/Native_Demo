@@ -2,7 +2,6 @@ package com.example.example_android.data
 
 
 import android.util.Log
-import com.idosmart.model.IDOActivitySwitchModel
 import com.idosmart.model.IDOActivitySwitchParamModel
 import com.idosmart.model.IDOAlarmModel
 import com.idosmart.model.IDOBaseModel
@@ -12,20 +11,25 @@ import com.idosmart.model.IDOBpCalibrationParamModel
 import com.idosmart.model.IDOBpMeasurementParamModel
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
+import com.idosmart.model.IDODrinkWaterRemindModel
 import com.idosmart.model.IDOFitnessGuidanceParamModel
 import com.idosmart.model.IDOGpsControlParamModel
 import com.idosmart.model.IDOHandWashingReminderParamModel
 import com.idosmart.model.IDOHeartModeParamModel
 import com.idosmart.model.IDOHeartRateIntervalModel
 import com.idosmart.model.IDOHeartRateModeSmartParamModel
+import com.idosmart.model.IDOHistoricalMenstruationParamModel
 import com.idosmart.model.IDOLongSitParamModel
 import com.idosmart.model.IDOLostFindParamModel
 import com.idosmart.model.IDOMainSportGoalModel
 import com.idosmart.model.IDOMainUISortParamModel
 import com.idosmart.model.IDOMenstruationModel
+import com.idosmart.model.IDOMenstruationRemindParamModel
+import com.idosmart.model.IDOMenuListParamModel
 import com.idosmart.model.IDOMusicControlParamModel
 import com.idosmart.model.IDOMusicOnOffParamModel
 import com.idosmart.model.IDOMusicOpearteParamModel
+import com.idosmart.model.IDONotDisturbParamModel
 import com.idosmart.model.IDONoticeMesaageParamModel
 import com.idosmart.model.IDONoticeMessageParamModel
 import com.idosmart.model.IDONoticeMessageStateParamModel
@@ -35,6 +39,7 @@ import com.idosmart.model.IDORunPlanParamModel
 import com.idosmart.model.IDOSchedulerReminderParamModel
 import com.idosmart.model.IDOScientificSleepSwitchParamModel
 import com.idosmart.model.IDOScreenBrightnessModel
+import com.idosmart.model.IDOSetNoticeStatusModel
 import com.idosmart.model.IDOShortcutParamModel
 import com.idosmart.model.IDOSleepPeriodParamModel
 import com.idosmart.model.IDOSpo2SwitchParamModel
@@ -42,14 +47,17 @@ import com.idosmart.model.IDOSport100SortParamModel
 import com.idosmart.model.IDOSportGoalParamModel
 import com.idosmart.model.IDOSportModeSelectParamModel
 import com.idosmart.model.IDOSportModeSortParamModel
+import com.idosmart.model.IDOSportParamModel
 import com.idosmart.model.IDOSportSortParamModel
 import com.idosmart.model.IDOSportType
 import com.idosmart.model.IDOStressCalibrationParamModel
+import com.idosmart.model.IDOStressSwitchParamModel
 import com.idosmart.model.IDOSyncContactParamModel
 import com.idosmart.model.IDOTakingMedicineReminderParamModel
 import com.idosmart.model.IDOTemperatureSwitchParamModel
 import com.idosmart.model.IDOUnitParamModel
 import com.idosmart.model.IDOUpHandGestureParamModel
+import com.idosmart.model.IDOUserInfoPramModel
 import com.idosmart.model.IDOV3NoiseParamModel
 import com.idosmart.model.IDOVoiceReplyParamModel
 import com.idosmart.model.IDOWalkRemindModel
@@ -64,9 +72,16 @@ import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWorldTimeParamModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDOCmdSetResponseModel
+import com.idosmart.protocol_channel.sdk
 
 object CmdSet {
-    fun set(evtType: CustomEvtType?, idoBaseModel: IDOBaseModel?, request: (String) -> Unit, result: (String) -> Unit) {
+    fun set(
+        evtType: CustomEvtType?,
+        idoBaseModel: IDOBaseModel?,
+        request: (String) -> Unit,
+        result: (String) -> Unit
+    ) {
+
         val cmd = when (evtType) {
             CustomEvtType.SETSENDRUNPLAN -> Cmds.setSendRunPlan(idoBaseModel as IDORunPlanParamModel)
             CustomEvtType.SETWALKREMIND -> Cmds.setWalkReminder(idoBaseModel as IDOWalkRemindModel)
@@ -90,7 +105,7 @@ object CmdSet {
             CustomEvtType.SETLOSTFIND -> Cmds.setLostFind(idoBaseModel as IDOLostFindParamModel)
             CustomEvtType.SETSPORTGOAL -> Cmds.setSportGoal(idoBaseModel as IDOSportGoalParamModel)
             CustomEvtType.SETUNIT -> Cmds.setUnit(idoBaseModel as IDOUnitParamModel)
-            CustomEvtType.SETNOTIFICATIONCENTER -> Cmds.setNotificationCenter(idoBaseModel as IDONotificationCenterParamModel)
+           CustomEvtType.SETNOTIFICATIONCENTER -> Cmds.setNoticeStatus(idoBaseModel as IDOSetNoticeStatusModel)
             CustomEvtType.SETUPHANDGESTURE -> Cmds.setUpHandGesture(idoBaseModel as IDOUpHandGestureParamModel)
             CustomEvtType.SETMUSICONOFF -> Cmds.setMusicOnOff(idoBaseModel as IDOMusicOnOffParamModel)
             CustomEvtType.SETDISPLAYMODE -> Cmds.setDisplayMode(idoBaseModel as IDODisplayModeParamModel)
@@ -142,6 +157,21 @@ object CmdSet {
             CustomEvtType.SETRRESPIRATETURN -> Cmds.setRRespiRateTurn(false)
             CustomEvtType.SETBODYPOWERTURN -> Cmds.setBodyPowerTurn(false)
             CustomEvtType.SETHAND -> Cmds.setHand(false)
+            CustomEvtType.SETLONGCITYNAMEV3 -> Cmds.setLongCityNameV3("深圳")
+            CustomEvtType.GETHISTORICALMENSTRUATION -> Cmds.setHistoricalMenstruation(idoBaseModel as IDOHistoricalMenstruationParamModel)
+            CustomEvtType.SETSPORTSORTV3 -> Cmds.setSportSortV3(idoBaseModel as IDOSportParamModel)
+            CustomEvtType.SETUSERINFO -> Cmds.setUserInfo(idoBaseModel as IDOUserInfoPramModel)
+            CustomEvtType.SETNOTDISTURB -> Cmds.setNotDisturb(idoBaseModel as IDONotDisturbParamModel)
+            CustomEvtType.SETMENSTRUATIONREMIND -> Cmds.setMenstruationRemind(idoBaseModel as IDOMenstruationRemindParamModel)
+            CustomEvtType.SETSTRESSSWITCH -> Cmds.setStressSwitch(idoBaseModel as IDOStressSwitchParamModel)
+            CustomEvtType.SETDRINKWATERREMIND -> Cmds.setDrinkWaterRemind(idoBaseModel as IDODrinkWaterRemindModel)
+            CustomEvtType.SETOVERFINDPHONE -> Cmds.setOverFindPhone()
+            CustomEvtType.SETMENULIST -> Cmds.setMenuList(idoBaseModel as IDOMenuListParamModel)
+            CustomEvtType.SETALARM -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
+            CustomEvtType.MUSICSTART -> Cmds.musicStart()
+            CustomEvtType.MUSICSTOP -> Cmds.musicStop()
+            CustomEvtType.SETCALLQUICKREPLYONOFF -> Cmds.setCallQuickReplyOnOff(true)
+            CustomEvtType.SETVOICEASSISTANTONOFF -> Cmds.setVoiceAssistantOnOff(true)
             CustomEvtType.SETWORLDTIMEV3 -> Cmds.setWorldTimeV3(
                 listOf(
                     IDOWorldTimeParamModel(
@@ -158,8 +188,7 @@ object CmdSet {
                         4
                     )
                 )
-            )
-
+                )
             CustomEvtType.SETSPORTMODESORT -> Cmds.setSportModeSort(
                 listOf(
                     IDOSportModeSortParamModel(
@@ -173,9 +202,16 @@ object CmdSet {
                 null
             }
         }
+
         request(cmd?.json ?: "")
         cmd?.send {
-            result(it.error.message ?: "")
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{}"
+                result("${it.error.message}\n\n$res")
+            } else {
+                val res = it.res?.toJsonString() ?: "{}"
+                result("${it.error.message}\n\n$res")
+            }
         }
         result("")
     }

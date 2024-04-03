@@ -3,12 +3,14 @@ package com.example.example_android.activity
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
+import com.example.example_android.R
 import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
 import com.idosmart.model.IDOAlarmItem
+import com.idosmart.model.IDOWatchDialSortItem
+import com.idosmart.model.IDOWatchDialSortParamModel
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
@@ -23,24 +25,52 @@ class SetFunctionDetailActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView() {
         super.initView()
-        setFuncData = intent.getSerializableExtra(SetFuntionActivity.SET_FUNCTION_DATA) as SetFuncData
+        setFuncData =
+            intent.getSerializableExtra(SetFuntionActivity.SET_FUNCTION_DATA) as SetFuncData
         supportActionBar?.setTitle(setFuncData?.title)
         val myType = setFuncData?.type
         var idoBaseModel = setFuncData?.idoBaseModel
-        Log.e("alarm","$myType----${CustomEvtType.SETALARMV3}")
-        if(myType== CustomEvtType.SETALARMV3){
-            Cmds.getAlarm().send {
-                idoBaseModel  = it.res
-                Log.e("alarm",idoBaseModel.toString())
-                //闹钟首先要从固件拿到列表，然后对列表修改用户设置的，然后下发即可，
-                var idoAlarmModel: IDOAlarmItem = it.res?.items?.get(0) as IDOAlarmItem
-                idoAlarmModel.hour = 9
-                idoAlarmModel.minute = 10
-                idoAlarmModel.name = "dddd"
-                idoAlarmModel.repeatTimes = 1;
-                Log.e("alarm",idoBaseModel.toString())
+        Log.e("alarm", "$myType----${CustomEvtType.SETALARMV3}")
+        when (myType) {
+            CustomEvtType.SETALARMV3 -> {
+                Cmds.getAlarm().send {
+                    idoBaseModel = it.res
+                    idoBaseModel?.toJsonString()?.let { it1 -> Log.e("alarm11111", it1) }
+                    //闹钟首先要从固件拿到列表，然后对列表修改用户设置的，然后下发即可，
+                    var idoAlarmModel: IDOAlarmItem = it.res?.items?.get(0) as IDOAlarmItem
+                    idoAlarmModel.hour = 9
+                    idoAlarmModel.minute = 10
+                    idoAlarmModel.name = "dddd"
+                    idoAlarmModel.repeatTimes = 1;
+                    idoBaseModel?.toJsonString()?.let { it1 -> Log.e("alarm11111", it1) }
+
+                }
+
             }
+
+            CustomEvtType.SETWATCHDIALSORT -> {
+                Cmds.getWatchListV2().send { it ->
+
+                    var size = it.res?.items?.size
+                    var list = mutableListOf<IDOWatchDialSortItem>()
+                    var i = 0
+                    it.res?.items?.forEach {
+                        list.add(IDOWatchDialSortItem(1, i++, it.fileName))
+                    }
+                    idoBaseModel = IDOWatchDialSortParamModel(size!!, list)
+
+                }
+
+
+            }
+
+
+            else -> {}
         }
+
+
+
+
         send_btn.setOnClickListener {
             CmdSet.set(myType, idoBaseModel, {
                 paramter_tv.text = it

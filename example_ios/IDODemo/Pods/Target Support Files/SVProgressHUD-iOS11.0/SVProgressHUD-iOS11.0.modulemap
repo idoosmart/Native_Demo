@@ -1,0 +1,6 @@
+framework module SVProgressHUD {
+  umbrella header "SVProgressHUD-iOS11.0-umbrella.h"
+
+  export *
+  module * { export * }
+}

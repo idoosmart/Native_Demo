@@ -259,6 +259,11 @@ import _StringProcessing
   case canceled
   case failedOnGetFunctionTable
   case failedOnGetDeviceInfo
+  case timeout
+  case agreeDeleteDeviceData
+  case denyDeleteDeviceData
+  case timeoutOnNewAccount
+  case needConfirmByApp
   public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
@@ -1107,6 +1112,30 @@ public struct Cmds {
     public func send(completion: @escaping protocol_channel.IDOCmdResponse<Swift.String>) -> protocol_channel.IDOCancellable
     public typealias DataType = Swift.String
   }
+  public struct setActivitySwitch : protocol_channel.IDOCmdProtocol {
+    public init(_ param: protocol_channel.IDOActivitySwitchParamModel)
+    @discardableResult
+    public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> protocol_channel.IDOCancellable
+    public typealias DataType = protocol_channel.IDOCmdSetResponseModel
+  }
+  public struct musicStart : protocol_channel.IDOCmdProtocol {
+    public init()
+    @discardableResult
+    public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> protocol_channel.IDOCancellable
+    public typealias DataType = protocol_channel.IDOCmdSetResponseModel
+  }
+  public struct musicStop : protocol_channel.IDOCmdProtocol {
+    public init()
+    @discardableResult
+    public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> protocol_channel.IDOCancellable
+    public typealias DataType = protocol_channel.IDOCmdSetResponseModel
+  }
+  public struct sendBindResult : protocol_channel.IDOCmdProtocol {
+    public init(isSuccess: Swift.Bool)
+    @discardableResult
+    public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> protocol_channel.IDOCancellable
+    public typealias DataType = protocol_channel.IDOCmdSetResponseModel
+  }
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class Cmdoc : ObjectiveC.NSObject {
   @objc @discardableResult
@@ -1156,7 +1185,7 @@ public struct Cmds {
   @objc @discardableResult
   public static func getSupportMaxSetItemsNum(_ completion: @escaping (_ err: protocol_channel.CmdError, _ maxSetItemsModel: protocol_channel.IDOSupportMaxSetItemsNumModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func getWalkRemind(_ completion: @escaping (_ err: protocol_channel.CmdError, _ walkRemindModel: protocol_channel.IDOWalkRemindModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func getWalkRemind(_ completion: @escaping (_ err: protocol_channel.CmdError, _ walkRemindModel: protocol_channel.IDOWalkRemindModelObjc?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func getStepGoal(_ completion: @escaping (_ err: protocol_channel.CmdError, _ stepGoalModel: protocol_channel.IDOStepGoalModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
@@ -1182,7 +1211,7 @@ public struct Cmds {
   @objc @discardableResult
   public static func setStressCalibration(_ stressCalibration: protocol_channel.IDOStressCalibrationParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ stressCalibration: protocol_channel.IDOStressCalibrationModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setHandWashingReminder(_ handWashingParam: protocol_channel.IDOHandWashingReminderParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setHandWashingReminder(_ handWashingParam: protocol_channel.IDOHandWashingReminderParamModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setSportGoal(_ sportGoalParam: protocol_channel.IDOSportGoalParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ liveData: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
@@ -1242,19 +1271,19 @@ public struct Cmds {
   @objc @discardableResult
   public static func setUpHandGesture(_ upHandGesture: protocol_channel.IDOUpHandGestureParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setTakingMedicineReminder(_ takingMedicine: protocol_channel.IDOTakingMedicineReminderParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setTakingMedicineReminder(_ takingMedicine: protocol_channel.IDOTakingMedicineReminderParamModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setSpo2Switch(_ spo2Switch: protocol_channel.IDOSpo2SwitchParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setWeatherCityName(_ cityName: Swift.String, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func getAlarm(_ flag: Swift.Int, completion: @escaping (_ err: protocol_channel.CmdError, _ alarmModel: protocol_channel.IDOAlarmModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func getAlarm(_ flag: Swift.Int, completion: @escaping (_ err: protocol_channel.CmdError, _ alarmModel: protocol_channel.IDOAlarmModelObjc?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setAlarm(_ alarm: protocol_channel.IDOAlarmModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setAlarm(_ alarm: protocol_channel.IDOAlarmModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func getHabitInfo(_ completion: @escaping (_ err: protocol_channel.CmdError, _ habitInfo: protocol_channel.IDOHabitInfoModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setFitnessGuidance(_ fitness: protocol_channel.IDOFitnessGuidanceParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setFitnessGuidance(_ fitness: protocol_channel.IDOFitnessGuidanceParamModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setDisplayMode(_ displayMode: protocol_channel.IDODisplayModeParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
@@ -1344,17 +1373,17 @@ public struct Cmds {
   @objc @discardableResult
   public static func setCalorieDistanceGoal(_ sportGoal: protocol_channel.IDOMainSportGoalModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setWalkRemind(_ walkRemind: protocol_channel.IDOWalkRemindModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setWalkRemind(_ walkRemind: protocol_channel.IDOWalkRemindModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setMenstruation(_ menstruation: protocol_channel.IDOMenstruationModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func getDefaultSportType(_ completion: @escaping (_ err: protocol_channel.CmdError, _ sportTypeModel: protocol_channel.IDODefaultSportTypeModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setDrinkWaterRemind(_ drinkWaterRemind: protocol_channel.IDODrinkWaterRemindModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setDrinkWaterRemind(_ drinkWaterRemind: protocol_channel.IDODrinkWaterRemindModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setMenstruationRemind(_ menstruationRemind: protocol_channel.IDOMenstruationRemindParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
-  public static func setStressSwitch(_ stressSwitchParam: protocol_channel.IDOStressSwitchParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  public static func setStressSwitch(_ stressSwitchParam: protocol_channel.IDOStressSwitchParamModelObjc, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func setVoiceAssistantOnOff(_ isOpen: Swift.Bool, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
@@ -1369,6 +1398,14 @@ public struct Cmds {
   public static func getSportTypeV3(_ completion: @escaping (_ err: protocol_channel.CmdError, _ sportTypeModel: protocol_channel.IDODefaultSportTypeModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func getBtConnectPhoneModel(_ completion: @escaping (_ err: protocol_channel.CmdError, _ phoneModel: Swift.String?) -> ()) -> protocol_channel.IDOCancellable
+  @objc @discardableResult
+  public static func setActivitySwitch(_ switchParam: protocol_channel.IDOActivitySwitchParamModel, completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  @objc @discardableResult
+  public static func musicStart(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  @objc @discardableResult
+  public static func musicStop(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
+  @objc @discardableResult
+  public static func sendBindResult(_ isSuccess: Swift.Bool, _ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> protocol_channel.IDOCancellable
   @objc override dynamic public init()
   @objc deinit
 }
@@ -2015,7 +2052,7 @@ public typealias BlockFileTransProgress = (_ currentIndex: Swift.Int, _ totalCou
   @objc final public let musicId: Swift.Int
   @objc final public let singerName: Swift.String?
   @objc final public let useSpp: Swift.Bool
-  @objc public init(filePath: Swift.String!, fileName: Swift.String, fileSize: Swift.Int = 0, musicId: Swift.Int, singerName: Swift.String? = nil, useSpp: Swift.Bool = false)
+  @objc public init(filePath: Swift.String!, fileName: Swift.String, fileSize: Swift.Int = 0, musicId: Swift.Int, singerName: Swift.String? = nil)
   @objc deinit
 }
 @objc @objcMembers public class IDOTransSportModel : protocol_channel.IDOTransBaseModel {
@@ -2026,44 +2063,60 @@ public typealias BlockFileTransProgress = (_ currentIndex: Swift.Int, _ totalCou
   @objc deinit
 }
 @objc @objcMembers public class IDOActivitySwitchModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let autoIdentifySportWalk: Swift.Int
-  @objc final public let autoIdentifySportRun: Swift.Int
-  @objc final public let autoIdentifySportBicycle: Swift.Int
-  @objc final public let autoPauseOnOff: Swift.Int
-  @objc final public let autoEndRemindOnOffOnOff: Swift.Int
-  @objc final public let autoIdentifySportElliptical: Swift.Int
-  @objc final public let autoIdentifySportRowing: Swift.Int
-  @objc final public let autoIdentifySportSwim: Swift.Int
-  @objc final public let autoIdentifySportSmartRope: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var autoIdentifySportWalk: Swift.Int
+  @objc public var autoIdentifySportRun: Swift.Int
+  @objc public var autoIdentifySportBicycle: Swift.Int
+  @objc public var autoPauseOnOff: Swift.Int
+  @objc public var autoEndRemindOnOffOnOff: Swift.Int
+  @objc public var autoIdentifySportElliptical: Swift.Int
+  @objc public var autoIdentifySportRowing: Swift.Int
+  @objc public var autoIdentifySportSwim: Swift.Int
+  @objc public var autoIdentifySportSmartRope: Swift.Int
   @objc public init(errCode: Swift.Int, autoIdentifySportWalk: Swift.Int, autoIdentifySportRun: Swift.Int, autoIdentifySportBicycle: Swift.Int, autoPauseOnOff: Swift.Int, autoEndRemindOnOffOnOff: Swift.Int, autoIdentifySportElliptical: Swift.Int, autoIdentifySportRowing: Swift.Int, autoIdentifySportSwim: Swift.Int, autoIdentifySportSmartRope: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDOAlarmModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let items: [protocol_channel.IDOAlarmItem]
-  @objc public init(items: [protocol_channel.IDOAlarmItem])
+@objc @objcMembers public class IDOActivitySwitchParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var autoIdentifySportWalk: Swift.Int
+  @objc public var autoIdentifySportRun: Swift.Int
+  @objc public var autoIdentifySportBicycle: Swift.Int
+  @objc public var autoPauseOnOff: Swift.Int
+  @objc public var autoEndRemindOnOffOnOff: Swift.Int
+  @objc public var autoIdentifySportElliptical: Swift.Int
+  @objc public var autoIdentifySportRowing: Swift.Int
+  @objc public var autoIdentifySportSwim: Swift.Int
+  @objc public var autoIdentifySportSmartRope: Swift.Int
+  @objc public init(autoIdentifySportWalk: Swift.Int, autoIdentifySportRun: Swift.Int, autoIdentifySportBicycle: Swift.Int, autoPauseOnOff: Swift.Int, autoEndRemindOnOffOnOff: Swift.Int, autoIdentifySportElliptical: Swift.Int, autoIdentifySportRowing: Swift.Int, autoIdentifySportSwim: Swift.Int, autoIdentifySportSmartRope: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDOAlarmItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let alarmID: Swift.Int
-  @objc final public let delayMin: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let minute: Swift.Int
-  @objc final public let name: Swift.String
+@objc public class IDOAlarmModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var items: [protocol_channel.IDOAlarmItem]
+  public init(items: [protocol_channel.IDOAlarmItem])
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+@objc public class IDOAlarmItem : ObjectiveC.NSObject, Swift.Codable {
+  public var alarmID: Swift.Int
+  public var delayMin: Swift.Int
+  public var hour: Swift.Int
+  public var minute: Swift.Int
+  public var name: Swift.String
   public var repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc public var isOpenRepeat: Swift.Bool
-  @objc final public let repeatTimes: Swift.Int
-  @objc final public let shockOnOff: Swift.Int
-  @objc final public let status: protocol_channel.IDOAlarmStatus
-  @objc final public let tsnoozeDuration: Swift.Int
-  @objc final public let type: protocol_channel.IDOAlarmType
-  public init(alarmID: Swift.Int, delayMin: Swift.Int, hour: Swift.Int, minute: Swift.Int, name: Swift.String, repeats: Swift.Set<protocol_channel.IDOWeek>, isOpenRepeat: Swift.Bool, repeatTimes: Swift.Int, shockOnOff: Swift.Int, status: protocol_channel.IDOAlarmStatus, tsnoozeDuration: Swift.Int, type: protocol_channel.IDOAlarmType)
+  public var isOpen: Swift.Bool
+  public var repeatTimes: Swift.Int
+  public var shockOnOff: Swift.Int
+  public var status: protocol_channel.IDOAlarmStatus
+  public var tsnoozeDuration: Swift.Int
+  public var type: protocol_channel.IDOAlarmType
+  public init(alarmID: Swift.Int, delayMin: Swift.Int, hour: Swift.Int, minute: Swift.Int, name: Swift.String, repeats: Swift.Set<protocol_channel.IDOWeek>, isOpen: Swift.Bool, repeatTimes: Swift.Int, shockOnOff: Swift.Int, status: protocol_channel.IDOAlarmStatus, tsnoozeDuration: Swift.Int, type: protocol_channel.IDOAlarmType)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc deinit
@@ -2101,6 +2154,37 @@ public typealias BlockFileTransProgress = (_ currentIndex: Swift.Int, _ totalCou
     get
   }
 }
+@objc @objcMembers public class IDOAlarmModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var items: [protocol_channel.IDOAlarmItemObjc]
+  @objc public init(items: [protocol_channel.IDOAlarmItemObjc])
+  @objc public func toJsonString() -> Swift.String?
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+@objc @objcMembers public class IDOAlarmItemObjc : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var alarmID: Swift.Int
+  @objc public var delayMin: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var minute: Swift.Int
+  @objc public var name: Swift.String
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var isOpen: Swift.Bool
+  @objc public var repeatTimes: Swift.Int
+  @objc public var shockOnOff: Swift.Int
+  @objc public var status: protocol_channel.IDOAlarmStatus
+  @objc public var tsnoozeDuration: Swift.Int
+  @objc public var type: protocol_channel.IDOAlarmType
+  @objc public init(alarmID: Swift.Int, delayMin: Swift.Int, hour: Swift.Int, minute: Swift.Int, name: Swift.String, repeats: [protocol_channel.IDOWeekObjc], isOpen: Swift.Bool, repeatTimes: Swift.Int, shockOnOff: Swift.Int, status: protocol_channel.IDOAlarmStatus, tsnoozeDuration: Swift.Int, type: protocol_channel.IDOAlarmType)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  @objc deinit
+}
+@objc @objcMembers public class IDOWeekObjc : ObjectiveC.NSObject {
+  @objc public var week: protocol_channel.IDOWeek
+  @objc public init(week: protocol_channel.IDOWeek)
+  @objc deinit
+}
 @objc public protocol IDOAlexaInterface {
   @objc func onNetworkChanged(hasNetwork: Swift.Bool)
   @objc func setupAlexa(delegate: protocol_channel.IDOAlexaDelegate, clientId: Swift.String)
@@ -2111,24 +2195,24 @@ public typealias BlockFileTransProgress = (_ currentIndex: Swift.Int, _ totalCou
   @objc func logout()
 }
 @objc @objcMembers public class IDOAllHealthSwitchStateModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let heartMode: Swift.Int
-  @objc final public let pressureMode: Swift.Int
-  @objc final public let spo2Mode: Swift.Int
-  @objc final public let scienceMode: Swift.Int
-  @objc final public let temperatureMode: Swift.Int
-  @objc final public let noiseMode: Swift.Int
-  @objc final public let menstrualMode: Swift.Int
-  @objc final public let walkMode: Swift.Int
-  @objc final public let handwashingMode: Swift.Int
-  @objc final public let respirRateState: Swift.Int
-  @objc final public let bodyPowerState: Swift.Int
-  @objc final public let drinkwaterMode: Swift.Int
-  @objc final public let heartmodeNotifyFlag: Swift.Int
-  @objc final public let pressureNotifyFlag: Swift.Int
-  @objc final public let spo2NotifyFlag: Swift.Int
-  @objc final public let menstrualNotifyFlag: Swift.Int
-  @objc final public let guidanceNotifyFlag: Swift.Int
-  @objc final public let reminderNotifyFlag: Swift.Int
+  @objc public var heartMode: Swift.Int
+  @objc public var pressureMode: Swift.Int
+  @objc public var spo2Mode: Swift.Int
+  @objc public var scienceMode: Swift.Int
+  @objc public var temperatureMode: Swift.Int
+  @objc public var noiseMode: Swift.Int
+  @objc public var menstrualMode: Swift.Int
+  @objc public var walkMode: Swift.Int
+  @objc public var handwashingMode: Swift.Int
+  @objc public var respirRateState: Swift.Int
+  @objc public var bodyPowerState: Swift.Int
+  @objc public var drinkwaterMode: Swift.Int
+  @objc public var heartmodeNotifyFlag: Swift.Int
+  @objc public var pressureNotifyFlag: Swift.Int
+  @objc public var spo2NotifyFlag: Swift.Int
+  @objc public var menstrualNotifyFlag: Swift.Int
+  @objc public var guidanceNotifyFlag: Swift.Int
+  @objc public var reminderNotifyFlag: Swift.Int
   @objc public init(heartMode: Swift.Int, pressureMode: Swift.Int, spo2Mode: Swift.Int, scienceMode: Swift.Int, temperatureMode: Swift.Int, noiseMode: Swift.Int, menstrualMode: Swift.Int, walkMode: Swift.Int, handwashingMode: Swift.Int, respirRateState: Swift.Int, bodyPowerState: Swift.Int, drinkwaterMode: Swift.Int, heartmodeNotifyFlag: Swift.Int, pressureNotifyFlag: Swift.Int, spo2NotifyFlag: Swift.Int, menstrualNotifyFlag: Swift.Int, guidanceNotifyFlag: Swift.Int, reminderNotifyFlag: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2139,17 +2223,17 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   func toJsonString() -> Swift.String?
 }
 @objc @objcMembers public class IDOBatteryInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let type: Swift.Int
-  @objc final public let voltage: Swift.Int
-  @objc final public let status: Swift.Int
-  @objc final public let level: Swift.Int
-  @objc final public let lastChargingYear: Swift.Int
-  @objc final public let lastChargingMonth: Swift.Int
-  @objc final public let lastChargingDay: Swift.Int
-  @objc final public let lastChargingHour: Swift.Int
-  @objc final public let lastChargingMinute: Swift.Int
-  @objc final public let lastChargingSecond: Swift.Int
-  @objc final public let mode: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var voltage: Swift.Int
+  @objc public var status: Swift.Int
+  @objc public var level: Swift.Int
+  @objc public var lastChargingYear: Swift.Int
+  @objc public var lastChargingMonth: Swift.Int
+  @objc public var lastChargingDay: Swift.Int
+  @objc public var lastChargingHour: Swift.Int
+  @objc public var lastChargingMinute: Swift.Int
+  @objc public var lastChargingSecond: Swift.Int
+  @objc public var mode: Swift.Int
   @objc public init(type: Swift.Int, voltage: Swift.Int, status: Swift.Int, level: Swift.Int, lastChargingYear: Swift.Int, lastChargingMonth: Swift.Int, lastChargingDay: Swift.Int, lastChargingHour: Swift.Int, lastChargingMinute: Swift.Int, lastChargingSecond: Swift.Int, mode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2157,8 +2241,8 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBleBeepModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let items: [protocol_channel.IDOBleBeepItem]
+  @objc public var errCode: Swift.Int
+  @objc public var items: [protocol_channel.IDOBleBeepItem]
   @objc public init(errCode: Swift.Int, items: [protocol_channel.IDOBleBeepItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2166,7 +2250,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBleBeepItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let name: Swift.String
+  @objc public var name: Swift.String
   @objc public init(name: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
@@ -2188,6 +2272,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   @objc func connectSPP(btMacAddress: Swift.String)
   @objc func disconnectSPP(btMacAddress: Swift.String)
   @objc func startNordicDFU(config: protocol_channel.IDODfuConfig)
+  @objc func exportLog(completion: @escaping (Swift.String?) -> Swift.Void)
 }
 @objc public protocol IDODfuDelegate : ObjectiveC.NSObjectProtocol {
   @objc func dfuComplete()
@@ -2200,8 +2285,8 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   @objc func deviceState(state: protocol_channel.IDODeviceStateModel)
 }
 @objc @objcMembers public class IDOBleVoiceParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let totalVolume: Swift.Int
-  @objc final public let currentVolume: Swift.Int
+  @objc public var totalVolume: Swift.Int
+  @objc public var currentVolume: Swift.Int
   @objc public init(totalVolume: Swift.Int, currentVolume: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2209,9 +2294,9 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpAlgVersionModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let bpVersion1: Swift.Int
-  @objc final public let bpVersion2: Swift.Int
-  @objc final public let bpVersion3: Swift.Int
+  @objc public var bpVersion1: Swift.Int
+  @objc public var bpVersion2: Swift.Int
+  @objc public var bpVersion3: Swift.Int
   @objc public init(bpVersion1: Swift.Int, bpVersion2: Swift.Int, bpVersion3: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2219,12 +2304,12 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpCalControlModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errorCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let sbpPpgFeatureNum: Swift.Int
-  @objc final public let dbpPpgFeatureNum: Swift.Int
-  @objc final public let sbpPpgFeatureItems: [Swift.Int]
-  @objc final public let dbpPpgFeatureItems: [Swift.Int]
+  @objc public var errorCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var sbpPpgFeatureNum: Swift.Int
+  @objc public var dbpPpgFeatureNum: Swift.Int
+  @objc public var sbpPpgFeatureItems: [Swift.Int]
+  @objc public var dbpPpgFeatureItems: [Swift.Int]
   @objc public init(errorCode: Swift.Int, operate: Swift.Int, sbpPpgFeatureNum: Swift.Int, dbpPpgFeatureNum: Swift.Int, sbpPpgFeatureItems: [Swift.Int], dbpPpgFeatureItems: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2232,7 +2317,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpCalibrationModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let retCode: Swift.Int
+  @objc public var retCode: Swift.Int
   @objc public init(retCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2240,9 +2325,9 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpCalibrationParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let flag: Swift.Int
-  @objc final public let diastolic: Swift.Int
-  @objc final public let systolic: Swift.Int
+  @objc public var flag: Swift.Int
+  @objc public var diastolic: Swift.Int
+  @objc public var systolic: Swift.Int
   @objc public init(flag: Swift.Int, diastolic: Swift.Int, systolic: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2250,9 +2335,9 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpMeasurementModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let status: Swift.Int
-  @objc final public let systolicBp: Swift.Int
-  @objc final public let diastolicBp: Swift.Int
+  @objc public var status: Swift.Int
+  @objc public var systolicBp: Swift.Int
+  @objc public var diastolicBp: Swift.Int
   @objc public init(status: Swift.Int, systolicBp: Swift.Int, diastolicBp: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2260,7 +2345,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOBpMeasurementParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let flag: Swift.Int
+  @objc public var flag: Swift.Int
   @objc public init(flag: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2276,10 +2361,10 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   @objc func checkDeviceBindState(macAddress: Swift.String) -> Swift.Bool
 }
 @objc @objcMembers public class IDOBtNoticeModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let btConnectStates: Swift.Int
-  @objc final public let btPairStates: Swift.Int
-  @objc final public let a2dpConnectStates: Swift.Int
-  @objc final public let hfpConnectStates: Swift.Int
+  @objc public var btConnectStates: Swift.Int
+  @objc public var btPairStates: Swift.Int
+  @objc public var a2dpConnectStates: Swift.Int
+  @objc public var hfpConnectStates: Swift.Int
   @objc public init(btConnectStates: Swift.Int, btPairStates: Swift.Int, a2dpConnectStates: Swift.Int, hfpConnectStates: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2287,7 +2372,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOCmdGetResponseModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
+  @objc public var onOff: Swift.Int
   @objc public init(onOff: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2304,6 +2389,7 @@ public protocol IDOCmdProtocol {
   @objc var isBinding: Swift.Bool { get }
   @objc func bind(osVersion: Swift.Int, onDeviceInfo: ((protocol_channel.IDODeviceInterface) -> Swift.Void)?, onFuncTable: ((protocol_channel.IDOFuncTableInterface) -> Swift.Void)?, completion: @escaping (protocol_channel.IDOBindStatus) -> Swift.Void)
   @objc func cancelBind()
+  @objc func appMarkBindResult(success: Swift.Bool)
   @objc func unbind(macAddress: Swift.String, isForceRemove: Swift.Bool, completion: @escaping (Swift.Bool) -> Swift.Void)
   @objc func setAuthCode(code: Swift.String, osVersion: Swift.Int, completion: @escaping (Swift.Bool) -> Swift.Void)
   @objc func setV2CallEvt(contactText: Swift.String, phoneNumber: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
@@ -2312,7 +2398,7 @@ public protocol IDOCmdProtocol {
   @objc func missedV2MissedCallEvt(completion: @escaping (Swift.Bool) -> Swift.Void)
 }
 @objc @objcMembers public class IDOCmdOTAResponseModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errFlag: Swift.Int
+  @objc public var errFlag: Swift.Int
   @objc public init(errFlag: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2320,7 +2406,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOCmdSetResponseModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let isSuccess: Swift.Int
+  @objc public var isSuccess: Swift.Int
   @objc public init(isSuccess: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2328,7 +2414,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOContactReviseTimeModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let result: Swift.Int
+  @objc public var result: Swift.Int
   @objc public init(result: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2346,18 +2432,18 @@ public protocol IDOCmdProtocol {
   @objc func getActivityGpsData()
 }
 @objc @objcMembers public class IDODataTranConfigModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let type: Swift.Int
-  @objc final public let evtType: Swift.Int
-  @objc final public let sportType: Swift.Int
-  @objc final public let iconWidth: Swift.Int
-  @objc final public let iconHeight: Swift.Int
-  @objc final public let format: Swift.Int
-  @objc final public let blockSize: Swift.Int
-  @objc final public let bigSportsNum: Swift.Int
-  @objc final public let msgNum: Swift.Int
-  @objc final public let smallSportsAndAnimationNum: Swift.Int
-  @objc final public let mediumNum: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var evtType: Swift.Int
+  @objc public var sportType: Swift.Int
+  @objc public var iconWidth: Swift.Int
+  @objc public var iconHeight: Swift.Int
+  @objc public var format: Swift.Int
+  @objc public var blockSize: Swift.Int
+  @objc public var bigSportsNum: Swift.Int
+  @objc public var msgNum: Swift.Int
+  @objc public var smallSportsAndAnimationNum: Swift.Int
+  @objc public var mediumNum: Swift.Int
   @objc public init(errCode: Swift.Int, type: Swift.Int, evtType: Swift.Int, sportType: Swift.Int, iconWidth: Swift.Int, iconHeight: Swift.Int, format: Swift.Int, blockSize: Swift.Int, bigSportsNum: Swift.Int, msgNum: Swift.Int, smallSportsAndAnimationNum: Swift.Int, mediumNum: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2365,10 +2451,10 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDODateTimeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let year: Swift.Int, monuth: Swift.Int, day: Swift.Int, hour: Swift.Int
-  @objc final public let minute: Swift.Int, second: Swift.Int
-  @objc final public let week: Swift.Int
-  @objc final public let timeZone: Swift.Int
+  @objc public var year: Swift.Int, monuth: Swift.Int, day: Swift.Int, hour: Swift.Int
+  @objc public var minute: Swift.Int, second: Swift.Int
+  @objc public var week: Swift.Int
+  @objc public var timeZone: Swift.Int
   @objc public init(year: Swift.Int, monuth: Swift.Int, day: Swift.Int, hour: Swift.Int, minute: Swift.Int, second: Swift.Int, week: Swift.Int, timeZone: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2376,6 +2462,11 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDODefaultSportTypeModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var defaultShowNum: Swift.Int
+  @objc public var minShowNum: Swift.Int
+  @objc public var maxShowNum: Swift.Int
+  @objc public var isSupportsSort: Swift.Int
+  @objc public var sportTypes: [protocol_channel.IDOSportTypeItem]
   @objc public init(defaultShowNum: Swift.Int, minShowNum: Swift.Int, maxShowNum: Swift.Int, isSupportsSort: Swift.Int, sportTypes: [protocol_channel.IDOSportTypeItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2383,6 +2474,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportTypeItem : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var type: protocol_channel.IDOSportType
   @objc public init(type: protocol_channel.IDOSportType)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2435,8 +2527,8 @@ public protocol IDOCmdProtocol {
   @objc deinit
 }
 @objc @objcMembers public class IDODeviceLogStateModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let type: Swift.Int
-  @objc final public let errCode: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var errCode: Swift.Int
   @objc public init(type: Swift.Int, errCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2444,7 +2536,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDODisplayModeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
+  @objc public var mode: Swift.Int
   @objc public init(mode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2452,11 +2544,11 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDODownloadLanguageModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let useLang: Swift.Int
-  @objc final public let defaultLang: Swift.Int
-  @objc final public let fixedLang: Swift.Int
-  @objc final public let maxStorageLang: Swift.Int
-  @objc final public let langArray: [protocol_channel.IDODownloadLanguageType]
+  @objc public var useLang: Swift.Int
+  @objc public var defaultLang: Swift.Int
+  @objc public var fixedLang: Swift.Int
+  @objc public var maxStorageLang: Swift.Int
+  @objc public var langArray: [protocol_channel.IDODownloadLanguageType]
   @objc public init(useLang: Swift.Int, defaultLang: Swift.Int, fixedLang: Swift.Int, maxStorageLang: Swift.Int, langArray: [protocol_channel.IDODownloadLanguageType])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2464,37 +2556,56 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDODownloadLanguageType : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
+  @objc public var type: Swift.Int
   @objc public init(type: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDODrinkWaterRemindModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  final public let repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc final public let isOpenRepeat: Swift.Bool
-  @objc final public let interval: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let doNotDisturbOnOff: Swift.Int
-  @objc final public let noDisturbStartHour: Swift.Int
-  @objc final public let noDisturbStartMinute: Swift.Int
-  @objc final public let noDisturbEndHour: Swift.Int
-  @objc final public let noDisturbEndMinute: Swift.Int
-  public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, isOpenRepeat: Swift.Bool, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
+@objc public class IDODrinkWaterRemindModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var onOff: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public var interval: Swift.Int
+  public var notifyFlag: Swift.Int
+  public var doNotDisturbOnOff: Swift.Int
+  public var noDisturbStartHour: Swift.Int
+  public var noDisturbStartMinute: Swift.Int
+  public var noDisturbEndHour: Swift.Int
+  public var noDisturbEndMinute: Swift.Int
+  public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDODrinkWaterRemindModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var interval: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var doNotDisturbOnOff: Swift.Int
+  @objc public var noDisturbStartHour: Swift.Int
+  @objc public var noDisturbStartMinute: Swift.Int
+  @objc public var noDisturbEndHour: Swift.Int
+  @objc public var noDisturbEndMinute: Swift.Int
+  @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: [protocol_channel.IDOWeekObjc], interval: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
 }
 @objc @objcMembers public class IDOErrorRecordModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let type: Swift.Int
-  @objc final public let resetFlag: Swift.Int
-  @objc final public let hwError: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var resetFlag: Swift.Int
+  @objc public var hwError: Swift.Int
   @objc public init(type: Swift.Int, resetFlag: Swift.Int, hwError: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2512,27 +2623,42 @@ public protocol IDOCmdProtocol {
   @objc public init(type: protocol_channel.IDOTransType)
   @objc deinit
 }
-@objc @objcMembers public class IDOFitnessGuidanceParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let goMode: Swift.Int
-  final public let repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc final public let isOpenRepeat: Swift.Bool
-  @objc final public let targetSteps: Swift.Int
-  public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, notifyFlag: Swift.Int, goMode: Swift.Int, isOpenRepeat: Swift.Bool, repeats: Swift.Set<protocol_channel.IDOWeek>, targetSteps: Swift.Int)
+@objc public class IDOFitnessGuidanceParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var mode: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var notifyFlag: Swift.Int
+  public var goMode: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public var targetSteps: Swift.Int
+  public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, notifyFlag: Swift.Int, goMode: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek>, targetSteps: Swift.Int)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDOFitnessGuidanceParamModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var mode: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var goMode: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var targetSteps: Swift.Int
+  @objc public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, notifyFlag: Swift.Int, goMode: Swift.Int, repeats: [protocol_channel.IDOWeekObjc], targetSteps: Swift.Int)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
 }
 @objc @objcMembers public class IDOFlashBinInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let status: Swift.Int
-  @objc final public let matchVersion: Swift.Int
-  @objc final public let checkCode: Swift.Int
+  @objc public var status: Swift.Int
+  @objc public var matchVersion: Swift.Int
+  @objc public var checkCode: Swift.Int
   @objc public init(status: Swift.Int, matchVersion: Swift.Int, checkCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2540,9 +2666,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOFuncSimpleFileOptModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let error: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let index: Swift.Int
+  @objc public var error: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var index: Swift.Int
   @objc public init(error: Swift.Int, operate: Swift.Int, index: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2550,9 +2676,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOFuncSimpleFileOptParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let index: Swift.Int
-  @objc final public let destIndex: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var index: Swift.Int
+  @objc public var destIndex: Swift.Int
   @objc public init(operate: Swift.Int, index: Swift.Int, destIndex: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -2777,6 +2903,7 @@ public protocol IDOCmdProtocol {
   @objc var getSupportDataTranGetNewErrorCodeV3: Swift.Bool { get }
   @objc var getAutoActivityEndSwitchNotDisplay: Swift.Bool { get }
   @objc var getAutoActivityPauseSwitchNotDisplay: Swift.Bool { get }
+  @objc var getV3AutoActivitySwitch: Swift.Bool { get }
   @objc var getAutoActivitySwitchAddBicycle: Swift.Bool { get }
   @objc var getAutoActivitySwitchAddSmartRope: Swift.Bool { get }
   @objc var getAutoActivitySetGetUseNewStructExchange: Swift.Bool { get }
@@ -2802,6 +2929,7 @@ public protocol IDOCmdProtocol {
   @objc var getSupportSendGpsLongitudeAndLatitude: Swift.Bool { get }
   @objc var getSupportGetV3DeviceBtConnectPhoneModel: Swift.Bool { get }
   @objc var getSupportBloodPressureModelFileUpdate: Swift.Bool { get }
+  @objc var getSupportDisturbHaveRangRepeat: Swift.Bool { get }
   @objc var setNoticeMessageStateUseVersion0x20: Swift.Bool { get }
   @objc var setScientificSleepSwitch: Swift.Bool { get }
   @objc var setTemperatureSwitchHealth: Swift.Bool { get }
@@ -2898,6 +3026,7 @@ public protocol IDOCmdProtocol {
   @objc var setSupportSetV3WeatcherAddSnowfall: Swift.Bool { get }
   @objc var setSupportSetV3WeatcherSendStructVersion04: Swift.Bool { get }
   @objc var setSendCalibrationThreshold: Swift.Bool { get }
+  @objc var getNotSupportAppSendRunPlan: Swift.Bool { get }
   @objc var languageCh: Swift.Bool { get }
   @objc var languageCzech: Swift.Bool { get }
   @objc var languageEnglish: Swift.Bool { get }
@@ -2992,9 +3121,9 @@ public protocol IDOCmdProtocol {
   @objc func printProperties() -> Swift.String?
 }
 @objc @objcMembers public class IDOGpsControlModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let type: Swift.Int
-  @objc final public let status: Swift.Int
-  @objc final public let errorCode: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var status: Swift.Int
+  @objc public var errorCode: Swift.Int
   @objc public init(type: Swift.Int, status: Swift.Int, errorCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3002,8 +3131,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOGpsControlParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let type: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var type: Swift.Int
   @objc public init(operate: Swift.Int, type: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3011,18 +3140,18 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOGpsInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let fwVersion: Swift.Int
-  @objc final public let agpsInfo: Swift.Int
-  @objc final public let agpsErrCode: Swift.Int
-  @objc final public let utcYear: Swift.Int
-  @objc final public let utcMonth: Swift.Int
-  @objc final public let utcDay: Swift.Int
-  @objc final public let utcHour: Swift.Int
-  @objc final public let utcMinute: Swift.Int
-  @objc final public let startMode: Swift.Int
-  @objc final public let gns: Swift.Int
-  @objc final public let fixStartBit: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var fwVersion: Swift.Int
+  @objc public var agpsInfo: Swift.Int
+  @objc public var agpsErrCode: Swift.Int
+  @objc public var utcYear: Swift.Int
+  @objc public var utcMonth: Swift.Int
+  @objc public var utcDay: Swift.Int
+  @objc public var utcHour: Swift.Int
+  @objc public var utcMinute: Swift.Int
+  @objc public var startMode: Swift.Int
+  @objc public var gns: Swift.Int
+  @objc public var fixStartBit: Swift.Int
   @objc public init(errCode: Swift.Int, fwVersion: Swift.Int, agpsInfo: Swift.Int, agpsErrCode: Swift.Int, utcYear: Swift.Int, utcMonth: Swift.Int, utcDay: Swift.Int, utcHour: Swift.Int, utcMinute: Swift.Int, startMode: Swift.Int, gns: Swift.Int, fixStartBit: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3030,8 +3159,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOGpsStatusModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let gpsRunStatus: Swift.Int
-  @objc final public let agpsIsValid: Swift.Int
+  @objc public var gpsRunStatus: Swift.Int
+  @objc public var agpsIsValid: Swift.Int
   @objc public init(gpsRunStatus: Swift.Int, agpsIsValid: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3039,10 +3168,10 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHabitInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let browseCount: Swift.Int
-  @objc final public let implementCount: Swift.Int
-  @objc final public let broItems: [protocol_channel.IDOHabitBroItem]
-  @objc final public let impItems: [protocol_channel.IDOHabitImpItem]
+  @objc public var browseCount: Swift.Int
+  @objc public var implementCount: Swift.Int
+  @objc public var broItems: [protocol_channel.IDOHabitBroItem]
+  @objc public var impItems: [protocol_channel.IDOHabitImpItem]
   @objc public init(browseCount: Swift.Int, implementCount: Swift.Int, broItems: [protocol_channel.IDOHabitBroItem], impItems: [protocol_channel.IDOHabitImpItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3050,70 +3179,83 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHabitBroItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let evt: Swift.Int
-  @objc final public let year: Swift.Int
-  @objc final public let month: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
-  @objc final public let sec: Swift.Int
-  @objc final public let count: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var evt: Swift.Int
+  @objc public var year: Swift.Int
+  @objc public var month: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
+  @objc public var sec: Swift.Int
+  @objc public var count: Swift.Int
   @objc public init(type: Swift.Int, evt: Swift.Int, year: Swift.Int, month: Swift.Int, day: Swift.Int, hour: Swift.Int, min: Swift.Int, sec: Swift.Int, count: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHabitImpItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let evt: Swift.Int
-  @objc final public let startYear: Swift.Int
-  @objc final public let startMonth: Swift.Int
-  @objc final public let startDay: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMin: Swift.Int
-  @objc final public let startSEC: Swift.Int
-  @objc final public let endYear: Swift.Int
-  @objc final public let endMonth: Swift.Int
-  @objc final public let endDay: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMin: Swift.Int
-  @objc final public let endSEC: Swift.Int
-  @objc final public let completionRate: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var evt: Swift.Int
+  @objc public var startYear: Swift.Int
+  @objc public var startMonth: Swift.Int
+  @objc public var startDay: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMin: Swift.Int
+  @objc public var startSEC: Swift.Int
+  @objc public var endYear: Swift.Int
+  @objc public var endMonth: Swift.Int
+  @objc public var endDay: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMin: Swift.Int
+  @objc public var endSEC: Swift.Int
+  @objc public var completionRate: Swift.Int
   @objc public init(type: Swift.Int, evt: Swift.Int, startYear: Swift.Int, startMonth: Swift.Int, startDay: Swift.Int, startHour: Swift.Int, startMin: Swift.Int, startSEC: Swift.Int, endYear: Swift.Int, endMonth: Swift.Int, endDay: Swift.Int, endHour: Swift.Int, endMin: Swift.Int, endSEC: Swift.Int, completionRate: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDOHandWashingReminderParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  final public let repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc final public let isOpenRepeat: Swift.Bool
-  @objc final public let interval: Swift.Int
-  public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, isOpenRepeat: Swift.Bool, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int)
+@objc public class IDOHandWashingReminderParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var onOff: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public var interval: Swift.Int
+  public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDOHandWashingReminderParamModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var interval: Swift.Int
+  @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: [protocol_channel.IDOWeekObjc], interval: Swift.Int)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
 }
 @objc @objcMembers public class IDOHeartModeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let updateTime: Swift.Int
-  @objc final public let mode: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let measurementInterval: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let highHeartMode: Swift.Int
-  @objc final public let lowHeartMode: Swift.Int
-  @objc final public let highHeartValue: Swift.Int
-  @objc final public let lowHeartValue: Swift.Int
+  @objc public var updateTime: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var measurementInterval: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var highHeartMode: Swift.Int
+  @objc public var lowHeartMode: Swift.Int
+  @objc public var highHeartValue: Swift.Int
+  @objc public var lowHeartValue: Swift.Int
   @objc public init(updateTime: Swift.Int, mode: Swift.Int, hasTimeRange: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, measurementInterval: Swift.Int, notifyFlag: Swift.Int, highHeartMode: Swift.Int, lowHeartMode: Swift.Int, highHeartValue: Swift.Int, lowHeartValue: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3121,21 +3263,21 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHeartModeModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let updateTime: Swift.Int
-  @objc final public let mode: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let measurementInterval: Swift.Int
-  @objc final public let getSECMode: Swift.Int
-  @objc final public let getMinMode: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let highHeartMode: Swift.Int
-  @objc final public let lowHeartMode: Swift.Int
-  @objc final public let highHeartValue: Swift.Int
-  @objc final public let lowHeartValue: Swift.Int
+  @objc public var updateTime: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var measurementInterval: Swift.Int
+  @objc public var getSECMode: Swift.Int
+  @objc public var getMinMode: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var highHeartMode: Swift.Int
+  @objc public var lowHeartMode: Swift.Int
+  @objc public var highHeartValue: Swift.Int
+  @objc public var lowHeartValue: Swift.Int
   @objc public init(updateTime: Swift.Int, mode: Swift.Int, hasTimeRange: Swift.Int, getMinMode: Swift.Int, getSECMode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, measurementInterval: Swift.Int, notifyFlag: Swift.Int, highHeartMode: Swift.Int, lowHeartMode: Swift.Int, highHeartValue: Swift.Int, lowHeartValue: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3143,22 +3285,22 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHeartRateIntervalModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let burnFatThreshold: Swift.Int
-  @objc final public let aerobicThreshold: Swift.Int
-  @objc final public let limitThreshold: Swift.Int
-  @objc final public let userMaxHr: Swift.Int
-  @objc final public let range1: Swift.Int
-  @objc final public let range2: Swift.Int
-  @objc final public let range3: Swift.Int
-  @objc final public let range4: Swift.Int
-  @objc final public let range5: Swift.Int
-  @objc final public let minHr: Swift.Int
-  @objc final public let maxHrRemind: Swift.Int
-  @objc final public let minHrRemind: Swift.Int
-  @objc final public let remindStartHour: Swift.Int
-  @objc final public let remindStartMinute: Swift.Int
-  @objc final public let remindStopHour: Swift.Int
-  @objc final public let remindStopMinute: Swift.Int
+  @objc public var burnFatThreshold: Swift.Int
+  @objc public var aerobicThreshold: Swift.Int
+  @objc public var limitThreshold: Swift.Int
+  @objc public var userMaxHr: Swift.Int
+  @objc public var range1: Swift.Int
+  @objc public var range2: Swift.Int
+  @objc public var range3: Swift.Int
+  @objc public var range4: Swift.Int
+  @objc public var range5: Swift.Int
+  @objc public var minHr: Swift.Int
+  @objc public var maxHrRemind: Swift.Int
+  @objc public var minHrRemind: Swift.Int
+  @objc public var remindStartHour: Swift.Int
+  @objc public var remindStartMinute: Swift.Int
+  @objc public var remindStopHour: Swift.Int
+  @objc public var remindStopMinute: Swift.Int
   @objc public init(burnFatThreshold: Swift.Int, aerobicThreshold: Swift.Int, limitThreshold: Swift.Int, userMaxHr: Swift.Int, range1: Swift.Int, range2: Swift.Int, range3: Swift.Int, range4: Swift.Int, range5: Swift.Int, minHr: Swift.Int, maxHrRemind: Swift.Int, minHrRemind: Swift.Int, remindStartHour: Swift.Int, remindStartMinute: Swift.Int, remindStopHour: Swift.Int, remindStopMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3166,13 +3308,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHeartRateModeModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let measurementInterval: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var measurementInterval: Swift.Int
   @objc public init(mode: Swift.Int, hasTimeRange: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, measurementInterval: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3180,13 +3322,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHeartRateModeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let measurementInterval: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var measurementInterval: Swift.Int
   @objc public init(mode: Swift.Int, hasTimeRange: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, measurementInterval: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3194,16 +3336,16 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHeartRateModeSmartParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let highHeartMode: Swift.Int
-  @objc final public let lowHeartMode: Swift.Int
-  @objc final public let highHeartValue: Swift.Int
-  @objc final public let lowHeartValue: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var highHeartMode: Swift.Int
+  @objc public var lowHeartMode: Swift.Int
+  @objc public var highHeartValue: Swift.Int
+  @objc public var lowHeartValue: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
   @objc public init(mode: Swift.Int, notifyFlag: Swift.Int, highHeartMode: Swift.Int, lowHeartMode: Swift.Int, highHeartValue: Swift.Int, lowHeartValue: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3211,9 +3353,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHistoricalMenstruationParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let avgMenstrualDay: Swift.Int
-  @objc final public let avgCycleDay: Swift.Int
-  @objc final public let items: [protocol_channel.IDOHistoricalMenstruationParamItem]
+  @objc public var avgMenstrualDay: Swift.Int
+  @objc public var avgCycleDay: Swift.Int
+  @objc public var items: [protocol_channel.IDOHistoricalMenstruationParamItem]
   @objc public init(avgMenstrualDay: Swift.Int, avgCycleDay: Swift.Int, items: [protocol_channel.IDOHistoricalMenstruationParamItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3221,24 +3363,24 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHistoricalMenstruationParamItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let year: Swift.Int
-  @objc final public let mon: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let menstrualDay: Swift.Int
-  @objc final public let cycleDay: Swift.Int
-  @objc final public let ovulationIntervalDay: Swift.Int
-  @objc final public let ovulationBeforeDay: Swift.Int
-  @objc final public let ovulationAfterDay: Swift.Int
+  @objc public var year: Swift.Int
+  @objc public var mon: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var menstrualDay: Swift.Int
+  @objc public var cycleDay: Swift.Int
+  @objc public var ovulationIntervalDay: Swift.Int
+  @objc public var ovulationBeforeDay: Swift.Int
+  @objc public var ovulationAfterDay: Swift.Int
   @objc public init(year: Swift.Int, mon: Swift.Int, day: Swift.Int, menstrualDay: Swift.Int, cycleDay: Swift.Int, ovulationIntervalDay: Swift.Int, ovulationBeforeDay: Swift.Int, ovulationAfterDay: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHotStartParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let tcxoOffset: Swift.Int
-  @objc final public let longitude: Swift.Int
-  @objc final public let latitude: Swift.Int
-  @objc final public let altitude: Swift.Int
+  @objc public var tcxoOffset: Swift.Int
+  @objc public var longitude: Swift.Int
+  @objc public var latitude: Swift.Int
+  @objc public var altitude: Swift.Int
   @objc public init(tcxoOffset: Swift.Int, longitude: Swift.Int, latitude: Swift.Int, altitude: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3246,12 +3388,12 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOLanguageLibraryModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let useLang: Swift.Int
-  @objc final public let defaultLang: Swift.Int
-  @objc final public let fixedLang: Swift.Int
-  @objc final public let maxStorageLang: Swift.Int
-  @objc final public let items: [protocol_channel.IDOLanguageLibraryItem]
-  @objc final public let itemsUser: [protocol_channel.IDOLanguageLibraryItem]
+  @objc public var useLang: Swift.Int
+  @objc public var defaultLang: Swift.Int
+  @objc public var fixedLang: Swift.Int
+  @objc public var maxStorageLang: Swift.Int
+  @objc public var items: [protocol_channel.IDOLanguageLibraryItem]
+  @objc public var itemsUser: [protocol_channel.IDOLanguageLibraryItem]
   @objc public init(useLang: Swift.Int, defaultLang: Swift.Int, fixedLang: Swift.Int, maxStorageLang: Swift.Int, items: [protocol_channel.IDOLanguageLibraryItem], itemsUser: [protocol_channel.IDOLanguageLibraryItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3259,8 +3401,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOLanguageLibraryItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let languageType: protocol_channel.IDOLanguageType
-  @objc final public let languageVersion: Swift.Int
+  @objc public var languageType: protocol_channel.IDOLanguageType
+  @objc public var languageVersion: Swift.Int
   @objc public init(languageType: protocol_channel.IDOLanguageType, languageVersion: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
@@ -3310,11 +3452,11 @@ public protocol IDOCmdProtocol {
   }
 }
 @objc @objcMembers public class IDOLiveDataModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let totalStep: Swift.Int
-  @objc final public let totalCalories: Swift.Int
-  @objc final public let totalDistances: Swift.Int
-  @objc final public let totalActiveTime: Swift.Int
-  @objc final public let heartRate: Swift.Int
+  @objc public var totalStep: Swift.Int
+  @objc public var totalCalories: Swift.Int
+  @objc public var totalDistances: Swift.Int
+  @objc public var totalActiveTime: Swift.Int
+  @objc public var heartRate: Swift.Int
   @objc public init(totalStep: Swift.Int, totalCalories: Swift.Int, totalDistances: Swift.Int, totalActiveTime: Swift.Int, heartRate: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3322,12 +3464,12 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOLongSitParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let interval: Swift.Int
-  @objc final public let repetitions: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var interval: Swift.Int
+  @objc public var repetitions: Swift.Int
   @objc public init(startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, interval: Swift.Int, repetitions: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3335,7 +3477,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOLostFindParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
+  @objc public var mode: Swift.Int
   @objc public init(mode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3343,13 +3485,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMainSportGoalModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let calorie: Swift.Int
-  @objc final public let distance: Swift.Int
-  @objc final public let calorieMin: Swift.Int
-  @objc final public let calorieMax: Swift.Int
-  @objc final public let midHighTimeGoal: Swift.Int
-  @objc final public let walkGoalTime: Swift.Int
-  @objc final public let timeGoalType: Swift.Int
+  @objc public var calorie: Swift.Int
+  @objc public var distance: Swift.Int
+  @objc public var calorieMin: Swift.Int
+  @objc public var calorieMax: Swift.Int
+  public var midHighTimeGoal: Swift.Int?
+  @objc public var walkGoalTime: Swift.Int
+  public var timeGoalType: Swift.Int?
   @objc public init(calorie: Swift.Int = 0, distance: Swift.Int, calorieMin: Swift.Int, calorieMax: Swift.Int, midHighTimeGoal: Swift.Int = 0, walkGoalTime: Swift.Int, timeGoalType: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3357,12 +3499,12 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMainUISortParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let items: [Swift.Int]
-  @objc final public let locationX: Swift.Int
-  @objc final public let locationY: Swift.Int
-  @objc final public let sizeType: Swift.Int
-  @objc final public let widgetsType: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var items: [Swift.Int]
+  @objc public var locationX: Swift.Int
+  @objc public var locationY: Swift.Int
+  @objc public var sizeType: Swift.Int
+  @objc public var widgetsType: Swift.Int
   @objc public init(operate: Swift.Int, items: [Swift.Int], locationX: Swift.Int, locationY: Swift.Int, sizeType: Swift.Int, widgetsType: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3370,15 +3512,15 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMainUISortModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let allNum: Swift.Int
-  @objc final public let supportItems: [protocol_channel.IDOMainUISortSupportItem]
-  @objc final public let items: [protocol_channel.IDOMainUISortItem]
-  @objc final public let locationX: Swift.Int
-  @objc final public let locationY: Swift.Int
-  @objc final public let sizeType: Swift.Int
-  @objc final public let widgetsType: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var allNum: Swift.Int
+  @objc public var supportItems: [protocol_channel.IDOMainUISortSupportItem]
+  @objc public var items: [protocol_channel.IDOMainUISortItem]
+  @objc public var locationX: Swift.Int
+  @objc public var locationY: Swift.Int
+  @objc public var sizeType: Swift.Int
+  @objc public var widgetsType: Swift.Int
   @objc public init(errCode: Swift.Int, operate: Swift.Int, allNum: Swift.Int, supportItems: [protocol_channel.IDOMainUISortSupportItem], items: [protocol_channel.IDOMainUISortItem], locationX: Swift.Int, locationY: Swift.Int, sizeType: Swift.Int, widgetsType: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3386,36 +3528,36 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMainUISortItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let locationX: Swift.Int
-  @objc final public let locationY: Swift.Int
-  @objc final public let sizeType: Swift.Int
-  @objc final public let widgetsType: Swift.Int
-  @objc final public let supportSizeType: Swift.Int
+  @objc public var locationX: Swift.Int
+  @objc public var locationY: Swift.Int
+  @objc public var sizeType: Swift.Int
+  @objc public var widgetsType: Swift.Int
+  @objc public var supportSizeType: Swift.Int
   @objc public init(locationX: Swift.Int, locationY: Swift.Int, sizeType: Swift.Int, widgetsType: Swift.Int, supportSizeType: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMainUISortSupportItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let widgetsType: Swift.Int
-  @objc final public let supportSizeType: Swift.Int
+  @objc public var widgetsType: Swift.Int
+  @objc public var supportSizeType: Swift.Int
   @objc public init(supportSizeType: Swift.Int, widgetsType: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMenstruationModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let menstrualLength: Swift.Int
-  @objc final public let menstrualCycle: Swift.Int
-  @objc final public let lastMenstrualYear: Swift.Int
-  @objc final public let lastMenstrualMonth: Swift.Int
-  @objc final public let lastMenstrualDay: Swift.Int
-  @objc final public let ovulationIntervalDay: Swift.Int
-  @objc final public let ovulationBeforeDay: Swift.Int
-  @objc final public let ovulationAfterDay: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let menstrualReminderOnOff: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var menstrualLength: Swift.Int
+  @objc public var menstrualCycle: Swift.Int
+  @objc public var lastMenstrualYear: Swift.Int
+  @objc public var lastMenstrualMonth: Swift.Int
+  @objc public var lastMenstrualDay: Swift.Int
+  @objc public var ovulationIntervalDay: Swift.Int
+  @objc public var ovulationBeforeDay: Swift.Int
+  @objc public var ovulationAfterDay: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var menstrualReminderOnOff: Swift.Int
   @objc public init(onOff: Swift.Int, menstrualLength: Swift.Int, menstrualCycle: Swift.Int, lastMenstrualYear: Swift.Int, lastMenstrualMonth: Swift.Int, lastMenstrualDay: Swift.Int, ovulationIntervalDay: Swift.Int, ovulationBeforeDay: Swift.Int, ovulationAfterDay: Swift.Int, notifyFlag: Swift.Int, menstrualReminderOnOff: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3423,13 +3565,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMenstruationRemindParamModel : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let startDay: Swift.Int
-  @objc final public let ovulationDay: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let minute: Swift.Int
-  @objc final public let pregnancyDayBeforeRemind: Swift.Int
-  @objc final public let pregnancyDayEndRemind: Swift.Int
-  @objc final public let menstrualDayEndRemind: Swift.Int
+  @objc public var startDay: Swift.Int
+  @objc public var ovulationDay: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var minute: Swift.Int
+  @objc public var pregnancyDayBeforeRemind: Swift.Int
+  @objc public var pregnancyDayEndRemind: Swift.Int
+  @objc public var menstrualDayEndRemind: Swift.Int
   @objc public init(startDay: Swift.Int, ovulationDay: Swift.Int, hour: Swift.Int, minute: Swift.Int, pregnancyDayBeforeRemind: Swift.Int, pregnancyDayEndRemind: Swift.Int, menstrualDayEndRemind: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3437,11 +3579,11 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMenuListModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let currentShowNum: Swift.Int
-  @objc final public let items: [protocol_channel.IDOMenuItem]
-  @objc final public let maxNum: Swift.Int
-  @objc final public let maxShowNum: Swift.Int
-  @objc final public let minShowNum: Swift.Int
+  @objc public var currentShowNum: Swift.Int
+  @objc public var items: [protocol_channel.IDOMenuItem]
+  @objc public var maxNum: Swift.Int
+  @objc public var maxShowNum: Swift.Int
+  @objc public var minShowNum: Swift.Int
   @objc public init(currentShowNum: Swift.Int, items: [protocol_channel.IDOMenuItem], maxNum: Swift.Int, maxShowNum: Swift.Int, minShowNum: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3449,15 +3591,15 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMenuItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let index: Swift.Int
-  @objc final public let value: Swift.Int
+  @objc public var index: Swift.Int
+  @objc public var value: Swift.Int
   @objc public init(index: Swift.Int, value: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMenuListParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let items: [Swift.Int]
+  @objc public var items: [Swift.Int]
   @objc public init(items: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3474,11 +3616,11 @@ public protocol IDOCmdProtocol {
   @objc func resetIconInfoData(macAddress: Swift.String, deleteIcon: Swift.Bool, completion: @escaping (Swift.Bool) -> Swift.Void)
 }
 @objc @objcMembers public class IDOMtuInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let status: Swift.Int
-  @objc final public let rxMtu: Swift.Int
-  @objc final public let txMtu: Swift.Int
-  @objc final public let phySpeed: Swift.Int
-  @objc final public let dleLength: Swift.Int
+  @objc public var status: Swift.Int
+  @objc public var rxMtu: Swift.Int
+  @objc public var txMtu: Swift.Int
+  @objc public var phySpeed: Swift.Int
+  @objc public var dleLength: Swift.Int
   @objc public init(status: Swift.Int, rxMtu: Swift.Int, txMtu: Swift.Int, phySpeed: Swift.Int, dleLength: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3486,11 +3628,11 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicControlParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let status: Swift.Int
-  @objc final public let curTimeSecond: Swift.Int
-  @objc final public let totalTimeSecond: Swift.Int
-  @objc final public let musicName: Swift.String
-  @objc final public let singerName: Swift.String
+  @objc public var status: Swift.Int
+  @objc public var curTimeSecond: Swift.Int
+  @objc public var totalTimeSecond: Swift.Int
+  @objc public var musicName: Swift.String
+  @objc public var singerName: Swift.String
   @objc public init(status: Swift.Int, curTimeSecond: Swift.Int, totalTimeSecond: Swift.Int, musicName: Swift.String, singerName: Swift.String)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3498,8 +3640,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicOnOffParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let showInfoStatus: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var showInfoStatus: Swift.Int
   @objc public init(onOff: Swift.Int, showInfoStatus: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3507,22 +3649,22 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicOpearteParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let musicOperate: Swift.Int
-  @objc final public let folderOperate: Swift.Int
-  @objc final public let folderItems: [protocol_channel.IDOMusicFolderItem]
-  @objc final public let musicItems: [protocol_channel.IDOMusicItem]
-  @objc public init(musicOperate: Swift.Int, folderOperate: Swift.Int, folderItems: [protocol_channel.IDOMusicFolderItem], musicItems: [protocol_channel.IDOMusicItem])
+  @objc public var musicOperate: Swift.Int
+  @objc public var folderOperate: Swift.Int
+  @objc public var folderItem: protocol_channel.IDOMusicFolderItem
+  @objc public var musicItem: protocol_channel.IDOMusicItem
+  @objc public init(musicOperate: Swift.Int, folderOperate: Swift.Int, folderItem: protocol_channel.IDOMusicFolderItem, musicItem: protocol_channel.IDOMusicItem)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let allMemory: Swift.Int
-  @objc final public let folderItems: [protocol_channel.IDOMusicFolderItem]
-  @objc final public let musicItems: [protocol_channel.IDOMusicItem]
-  @objc final public let usedMemory: Swift.Int
-  @objc final public let usefulMemory: Swift.Int
+  @objc public var allMemory: Swift.Int
+  @objc public var folderItems: [protocol_channel.IDOMusicFolderItem]
+  @objc public var musicItems: [protocol_channel.IDOMusicItem]
+  @objc public var usedMemory: Swift.Int
+  @objc public var usefulMemory: Swift.Int
   @objc public init(allMemory: Swift.Int, folderItems: [protocol_channel.IDOMusicFolderItem], musicItems: [protocol_channel.IDOMusicItem], usedMemory: Swift.Int, usefulMemory: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3530,30 +3672,30 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicFolderItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let folderID: Swift.Int
-  @objc final public let musicNum: Swift.Int
-  @objc final public let folderName: Swift.String
-  @objc final public let musicIndex: [Swift.Int]
+  @objc public var folderID: Swift.Int
+  @objc public var musicNum: Swift.Int
+  @objc public var folderName: Swift.String
+  @objc public var musicIndex: [Swift.Int]
   @objc public init(folderID: Swift.Int, musicNum: Swift.Int, folderName: Swift.String, musicIndex: [Swift.Int])
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let musicID: Swift.Int
-  @objc final public let musicMemory: Swift.Int
-  @objc final public let musicName: Swift.String
-  @objc final public let singerName: Swift.String
+  @objc public var musicID: Swift.Int
+  @objc public var musicMemory: Swift.Int
+  @objc public var musicName: Swift.String
+  @objc public var singerName: Swift.String
   @objc public init(musicID: Swift.Int, musicMemory: Swift.Int, musicName: Swift.String, singerName: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOMusicOperateModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operateType: Swift.Int
-  @objc final public let version: Swift.Int
-  @objc final public let errCode: Swift.Int
-  @objc final public let musicId: Swift.Int
+  @objc public var operateType: Swift.Int
+  @objc public var version: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var musicId: Swift.Int
   @objc public init(operateType: Swift.Int, version: Swift.Int, errCode: Swift.Int, musicId: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3561,19 +3703,19 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONotDisturbParamModel : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let switchFlag: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let haveTimeRange: Swift.Int
-  @objc final public let noontimeRESTOnOff: Swift.Int
-  @objc final public let noontimeRESTStartHour: Swift.Int
-  @objc final public let noontimeRESTStartMinute: Swift.Int
-  @objc final public let noontimeRESTEndHour: Swift.Int
-  @objc final public let noontimeRESTEndMinute: Swift.Int
-  @objc final public let allDayOnOff: Swift.Int
-  @objc final public let intelligentOnOff: Swift.Int
+  @objc public var switchFlag: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var haveTimeRange: Swift.Int
+  @objc public var noontimeRESTOnOff: Swift.Int
+  @objc public var noontimeRESTStartHour: Swift.Int
+  @objc public var noontimeRESTStartMinute: Swift.Int
+  @objc public var noontimeRESTEndHour: Swift.Int
+  @objc public var noontimeRESTEndMinute: Swift.Int
+  @objc public var allDayOnOff: Swift.Int
+  @objc public var intelligentOnOff: Swift.Int
   @objc public init(switchFlag: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, haveTimeRange: Swift.Int = 0, noontimeRESTOnOff: Swift.Int, noontimeRESTStartHour: Swift.Int, noontimeRESTStartMinute: Swift.Int, noontimeRESTEndHour: Swift.Int, noontimeRESTEndMinute: Swift.Int, allDayOnOff: Swift.Int = 0, intelligentOnOff: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3581,20 +3723,20 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONotDisturbStatusModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let switchFlag: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let haveTimeRange: Swift.Int
-  @objc final public let weekRepeat: Swift.Int
-  @objc final public let noontimeRestOnOff: Swift.Int
-  @objc final public let noontimeRestStartHour: Swift.Int
-  @objc final public let noontimeRestStartMinute: Swift.Int
-  @objc final public let noontimeRestEndHour: Swift.Int
-  @objc final public let noontimeRestEndMinute: Swift.Int
-  @objc final public let allDayOnOff: Swift.Int
-  @objc final public let intelligentOnOff: Swift.Int
+  @objc public var switchFlag: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var haveTimeRange: Swift.Int
+  @objc public var weekRepeat: Swift.Int
+  @objc public var noontimeRestOnOff: Swift.Int
+  @objc public var noontimeRestStartHour: Swift.Int
+  @objc public var noontimeRestStartMinute: Swift.Int
+  @objc public var noontimeRestEndHour: Swift.Int
+  @objc public var noontimeRestEndMinute: Swift.Int
+  @objc public var allDayOnOff: Swift.Int
+  @objc public var intelligentOnOff: Swift.Int
   @objc public init(switchFlag: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, haveTimeRange: Swift.Int, weekRepeat: Swift.Int, noontimeRestOnOff: Swift.Int, noontimeRestStartHour: Swift.Int, noontimeRestStartMinute: Swift.Int, noontimeRestEndHour: Swift.Int, noontimeRestEndMinute: Swift.Int, allDayOnOff: Swift.Int, intelligentOnOff: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3602,52 +3744,50 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMesaageParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let verison: Swift.Int
-  @objc final public let osPlatform: Swift.Int
-  @objc final public let evtType: Swift.Int
-  @objc final public let notifyType: Swift.Int
-  @objc final public let msgID: Swift.Int
-  @objc final public let appItemsLen: Swift.Int
-  @objc final public let contact: Swift.String
-  @objc final public let phoneNumber: Swift.String
-  @objc final public let msgData: Swift.String
-  @objc final public let items: [protocol_channel.IDONoticeMesaageParamItem]
-  @objc public init(verison: Swift.Int, osPlatform: Swift.Int, evtType: Swift.Int, notifyType: Swift.Int, msgID: Swift.Int, appItemsLen: Swift.Int, contact: Swift.String, phoneNumber: Swift.String, msgData: Swift.String, items: [protocol_channel.IDONoticeMesaageParamItem])
+  @objc public var osPlatform: Swift.Int
+  @objc public var evtType: Swift.Int
+  @objc public var notifyType: Swift.Int
+  @objc public var msgID: Swift.Int
+  @objc public var appItemsLen: Swift.Int
+  @objc public var contact: Swift.String
+  @objc public var phoneNumber: Swift.String
+  @objc public var msgData: Swift.String
+  @objc public var items: [protocol_channel.IDONoticeMesaageParamItem]
+  @objc public init(osPlatform: Swift.Int, evtType: Swift.Int, notifyType: Swift.Int, msgID: Swift.Int, appItemsLen: Swift.Int, contact: Swift.String, phoneNumber: Swift.String, msgData: Swift.String, items: [protocol_channel.IDONoticeMesaageParamItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMesaageParamItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let language: Swift.Int
-  @objc final public let name: Swift.String
+  @objc public var language: Swift.Int
+  @objc public var name: Swift.String
   @objc public init(language: Swift.Int, name: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMessageParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let verison: Swift.Int
-  @objc final public let evtType: Swift.Int
-  @objc final public let msgID: Swift.Int
-  @objc final public let supportAnswering: Swift.Bool
-  @objc final public let supportMute: Swift.Bool
-  @objc final public let supportHangUp: Swift.Bool
-  @objc final public let msgData: Swift.String
-  @objc final public let contact: Swift.String
-  @objc final public let phoneNumber: Swift.String
-  @objc final public let dataText: Swift.String
-  @objc public init(verison: Swift.Int, evtType: Swift.Int, msgID: Swift.Int, supportAnswering: Swift.Bool, supportMute: Swift.Bool, supportHangUp: Swift.Bool, msgData: Swift.String, contact: Swift.String, phoneNumber: Swift.String, dataText: Swift.String)
+  @objc public var evtType: Swift.Int
+  @objc public var msgID: Swift.Int
+  @objc public var supportAnswering: Swift.Bool
+  @objc public var supportMute: Swift.Bool
+  @objc public var supportHangUp: Swift.Bool
+  @objc public var msgData: Swift.String
+  @objc public var contact: Swift.String
+  @objc public var phoneNumber: Swift.String
+  @objc public var dataText: Swift.String
+  @objc public init(evtType: Swift.Int, msgID: Swift.Int, supportAnswering: Swift.Bool, supportMute: Swift.Bool, supportHangUp: Swift.Bool, msgData: Swift.String, contact: Swift.String, phoneNumber: Swift.String, dataText: Swift.String)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMessageStateModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operat: Swift.Int
-  @objc final public let allOnOff: Swift.Int
-  @objc final public let items: [protocol_channel.IDONoticeMessageStateItem]
+  @objc public var errCode: Swift.Int
+  @objc public var operat: Swift.Int
+  @objc public var allOnOff: Swift.Int
+  @objc public var items: [protocol_channel.IDONoticeMessageStateItem]?
   @objc public init(errCode: Swift.Int, operat: Swift.Int, allOnOff: Swift.Int, items: [protocol_channel.IDONoticeMessageStateItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3655,23 +3795,21 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMessageStateParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let version: Swift.Int
-  @objc final public let itemsNum: Swift.Int
-  @objc final public let operat: Swift.Int
-  @objc final public let allOnOff: Swift.Int
-  @objc final public let allSendNum: Swift.Int
-  @objc final public let nowSendIndex: Swift.Int
-  @objc final public let items: [protocol_channel.IDONoticeMessageStateItem]
-  @objc public init(version: Swift.Int, itemsNum: Swift.Int, operat: Swift.Int, allOnOff: Swift.Int, allSendNum: Swift.Int, nowSendIndex: Swift.Int, items: [protocol_channel.IDONoticeMessageStateItem])
+  @objc public var operat: Swift.Int
+  @objc public var allOnOff: Swift.Int
+  @objc public var allSendNum: Swift.Int
+  @objc public var nowSendIndex: Swift.Int
+  @objc public var items: [protocol_channel.IDONoticeMessageStateItem]
+  @objc public init(operat: Swift.Int, allOnOff: Swift.Int, allSendNum: Swift.Int, nowSendIndex: Swift.Int, items: [protocol_channel.IDONoticeMessageStateItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONoticeMessageStateItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let evtType: Swift.Int
-  @objc final public let notifyState: Swift.Int
-  @objc final public let picFlag: Swift.Int
+  @objc public var evtType: Swift.Int
+  @objc public var notifyState: Swift.Int
+  @objc public var picFlag: Swift.Int
   @objc public init(evtType: Swift.Int, notifyState: Swift.Int, picFlag: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
@@ -3800,9 +3938,9 @@ public protocol IDOCmdProtocol {
   }
 }
 @objc @objcMembers public class IDONotificationCenterModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let notifySwitch: Swift.Int
-  @objc final public let statusCode: Swift.Int
-  @objc final public let errCode: Swift.Int
+  @objc public var notifySwitch: Swift.Int
+  @objc public var statusCode: Swift.Int
+  @objc public var errCode: Swift.Int
   @objc public init(notifySwitch: Swift.Int, statusCode: Swift.Int, errCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3810,7 +3948,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDONotificationStatusParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let notifyFlag: Swift.Int
+  @objc public var notifyFlag: Swift.Int
   @objc public init(notifyFlag: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3818,17 +3956,17 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDORunPlanParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let verison: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let type: Swift.Int
-  @objc final public let year: Swift.Int
-  @objc final public let month: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
-  @objc final public let sec: Swift.Int
-  @objc final public let dayNum: Swift.Int
-  @objc final public let items: [protocol_channel.IDOGpsInfoModelItem]
+  @objc public var verison: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var year: Swift.Int
+  @objc public var month: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
+  @objc public var sec: Swift.Int
+  @objc public var dayNum: Swift.Int
+  @objc public var items: [protocol_channel.IDOGpsInfoModelItem]
   @objc public init(verison: Swift.Int, operate: Swift.Int, type: Swift.Int, year: Swift.Int, month: Swift.Int, day: Swift.Int, hour: Swift.Int, min: Swift.Int, sec: Swift.Int, dayNum: Swift.Int, items: [protocol_channel.IDOGpsInfoModelItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3836,27 +3974,27 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOGpsInfoModelItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let num: Swift.Int
-  @objc final public let item: [protocol_channel.IDOItemItem]
+  @objc public var type: Swift.Int
+  @objc public var num: Swift.Int
+  @objc public var item: [protocol_channel.IDOItemItem]
   @objc public init(type: Swift.Int, num: Swift.Int, item: [protocol_channel.IDOItemItem])
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOItemItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let time: Swift.Int
-  @objc final public let heightHeart: Swift.Int
-  @objc final public let lowHeart: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var time: Swift.Int
+  @objc public var heightHeart: Swift.Int
+  @objc public var lowHeart: Swift.Int
   @objc public init(type: Swift.Int, time: Swift.Int, heightHeart: Swift.Int, lowHeart: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSchedulerReminderParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let items: [protocol_channel.IDOSchedulerReminderItem]
+  @objc public var operate: Swift.Int
+  @objc public var items: [protocol_channel.IDOSchedulerReminderItem]
   @objc public init(operate: Swift.Int, items: [protocol_channel.IDOSchedulerReminderItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3864,9 +4002,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSchedulerReminderModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let errCode: Swift.Int
-  @objc final public let items: [protocol_channel.IDOSchedulerReminderItem]
+  @objc public var operate: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var items: [protocol_channel.IDOSchedulerReminderItem]?
   @objc public init(operate: Swift.Int, errCode: Swift.Int, items: [protocol_channel.IDOSchedulerReminderItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3874,29 +4012,29 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSchedulerReminderItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let id: Swift.Int
-  @objc final public let year: Swift.Int
-  @objc final public let mon: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
-  @objc final public let sec: Swift.Int
-  @objc final public let repeatType: Swift.Int
-  @objc final public let remindOnOff: Swift.Int
-  @objc final public let state: Swift.Int
-  @objc final public let title: Swift.String
-  @objc final public let note: Swift.String
+  @objc public var id: Swift.Int
+  @objc public var year: Swift.Int
+  @objc public var mon: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
+  @objc public var sec: Swift.Int
+  @objc public var repeatType: Swift.Int
+  @objc public var remindOnOff: Swift.Int
+  @objc public var state: Swift.Int
+  @objc public var title: Swift.String
+  @objc public var note: Swift.String
   @objc public init(id: Swift.Int, year: Swift.Int, mon: Swift.Int, day: Swift.Int, hour: Swift.Int, min: Swift.Int, sec: Swift.Int, repeatType: Swift.Int, remindOnOff: Swift.Int, state: Swift.Int, title: Swift.String, note: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOScientificSleepSwitchParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
   @objc public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3904,16 +4042,16 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOScreenBrightnessModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let level: Swift.Int
-  @objc final public let opera: Swift.Int
-  @objc final public let mode: Swift.Int
-  @objc final public let autoAdjustNight: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let nightLevel: Swift.Int
-  @objc final public let showInterval: Swift.Int
+  @objc public var level: Swift.Int
+  @objc public var opera: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var autoAdjustNight: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var nightLevel: Swift.Int
+  @objc public var showInterval: Swift.Int
   @objc public init(level: Swift.Int, opera: Swift.Int, mode: Swift.Int, autoAdjustNight: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, nightLevel: Swift.Int, showInterval: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -3997,16 +4135,16 @@ public protocol IDOCmdProtocol {
   @objc func cancel()
 }
 @objc @objcMembers public class IDOSendRunPlanModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let version: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let type: Swift.Int
-  @objc final public let year: Swift.Int
-  @objc final public let month: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
-  @objc final public let sec: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var version: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var year: Swift.Int
+  @objc public var month: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
+  @objc public var sec: Swift.Int
   @objc public init(errCode: Swift.Int, version: Swift.Int, operate: Swift.Int, type: Swift.Int, year: Swift.Int, month: Swift.Int, day: Swift.Int, hour: Swift.Int, min: Swift.Int, sec: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4014,7 +4152,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOShortcutParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
+  @objc public var mode: Swift.Int
   @objc public init(mode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4022,11 +4160,11 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSleepPeriodParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
   @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4034,14 +4172,14 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSpo2SwitchParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let lowSpo2OnOff: Swift.Int
-  @objc final public let lowSpo2Value: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var lowSpo2OnOff: Swift.Int
+  @objc public var lowSpo2Value: Swift.Int
+  @objc public var notifyFlag: Swift.Int
   @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, lowSpo2OnOff: Swift.Int = 0, lowSpo2Value: Swift.Int = 0, notifyFlag: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4049,9 +4187,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportGoalParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let sportStep: Swift.Int
-  @objc final public let walkGoalSteps: Swift.Int
-  @objc final public let targetType: Swift.Int
+  @objc public var sportStep: Swift.Int
+  @objc public var walkGoalSteps: Swift.Int
+  @objc public var targetType: Swift.Int
   @objc public init(sportStep: Swift.Int, walkGoalSteps: Swift.Int, targetType: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4059,43 +4197,43 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportModeSelectParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let flag: Swift.Int
-  @objc final public let sportType1: Swift.Int
-  @objc final public let sportType2: Swift.Int
-  @objc final public let sportType3: Swift.Int
-  @objc final public let sportType4: Swift.Int
-  @objc final public let sportType0Walk: Swift.Bool
-  @objc final public let sportType0Run: Swift.Bool
-  @objc final public let sportType0ByBike: Swift.Bool
-  @objc final public let sportType0OnFoot: Swift.Bool
-  @objc final public let sportType0Swim: Swift.Bool
-  @objc final public let sportType0MountainClimbing: Swift.Bool
-  @objc final public let sportType0Badminton: Swift.Bool
-  @objc final public let sportType0Other: Swift.Bool
-  @objc final public let sportType1Fitness: Swift.Bool
-  @objc final public let sportType1Spinning: Swift.Bool
-  @objc final public let sportType1Ellipsoid: Swift.Bool
-  @objc final public let sportType1Treadmill: Swift.Bool
-  @objc final public let sportType1SitUp: Swift.Bool
-  @objc final public let sportType1PushUp: Swift.Bool
-  @objc final public let sportType1Dumbbell: Swift.Bool
-  @objc final public let sportType1Weightlifting: Swift.Bool
-  @objc final public let sportType2BodybuildingExercise: Swift.Bool
-  @objc final public let sportType2Yoga: Swift.Bool
-  @objc final public let sportType2RopeSkipping: Swift.Bool
-  @objc final public let sportType2TableTennis: Swift.Bool
-  @objc final public let sportType2Basketball: Swift.Bool
-  @objc final public let sportType2Football: Swift.Bool
-  @objc final public let sportType2Volleyball: Swift.Bool
-  @objc final public let sportType2Tennis: Swift.Bool
-  @objc final public let sportType3Golf: Swift.Bool
-  @objc final public let sportType3Baseball: Swift.Bool
-  @objc final public let sportType3Skiing: Swift.Bool
-  @objc final public let sportType3RollerSkating: Swift.Bool
-  @objc final public let sportType3Dance: Swift.Bool
-  @objc final public let sportType3StrengthTraining: Swift.Bool
-  @objc final public let sportType3CoreTraining: Swift.Bool
-  @objc final public let sportType3TidyUpRelax: Swift.Bool
+  @objc public var flag: Swift.Int
+  @objc public var sportType1: Swift.Int
+  @objc public var sportType2: Swift.Int
+  @objc public var sportType3: Swift.Int
+  @objc public var sportType4: Swift.Int
+  @objc public var sportType0Walk: Swift.Bool
+  @objc public var sportType0Run: Swift.Bool
+  @objc public var sportType0ByBike: Swift.Bool
+  @objc public var sportType0OnFoot: Swift.Bool
+  @objc public var sportType0Swim: Swift.Bool
+  @objc public var sportType0MountainClimbing: Swift.Bool
+  @objc public var sportType0Badminton: Swift.Bool
+  @objc public var sportType0Other: Swift.Bool
+  @objc public var sportType1Fitness: Swift.Bool
+  @objc public var sportType1Spinning: Swift.Bool
+  @objc public var sportType1Ellipsoid: Swift.Bool
+  @objc public var sportType1Treadmill: Swift.Bool
+  @objc public var sportType1SitUp: Swift.Bool
+  @objc public var sportType1PushUp: Swift.Bool
+  @objc public var sportType1Dumbbell: Swift.Bool
+  @objc public var sportType1Weightlifting: Swift.Bool
+  @objc public var sportType2BodybuildingExercise: Swift.Bool
+  @objc public var sportType2Yoga: Swift.Bool
+  @objc public var sportType2RopeSkipping: Swift.Bool
+  @objc public var sportType2TableTennis: Swift.Bool
+  @objc public var sportType2Basketball: Swift.Bool
+  @objc public var sportType2Football: Swift.Bool
+  @objc public var sportType2Volleyball: Swift.Bool
+  @objc public var sportType2Tennis: Swift.Bool
+  @objc public var sportType3Golf: Swift.Bool
+  @objc public var sportType3Baseball: Swift.Bool
+  @objc public var sportType3Skiing: Swift.Bool
+  @objc public var sportType3RollerSkating: Swift.Bool
+  @objc public var sportType3Dance: Swift.Bool
+  @objc public var sportType3StrengthTraining: Swift.Bool
+  @objc public var sportType3CoreTraining: Swift.Bool
+  @objc public var sportType3TidyUpRelax: Swift.Bool
   @objc public init(flag: Swift.Int, sportType1: Swift.Int, sportType2: Swift.Int, sportType3: Swift.Int, sportType4: Swift.Int, sportType0Walk: Swift.Bool, sportType0Run: Swift.Bool, sportType0ByBike: Swift.Bool, sportType0OnFoot: Swift.Bool, sportType0Swim: Swift.Bool, sportType0MountainClimbing: Swift.Bool, sportType0Badminton: Swift.Bool, sportType0Other: Swift.Bool, sportType1Fitness: Swift.Bool, sportType1Spinning: Swift.Bool, sportType1Ellipsoid: Swift.Bool, sportType1Treadmill: Swift.Bool, sportType1SitUp: Swift.Bool, sportType1PushUp: Swift.Bool, sportType1Dumbbell: Swift.Bool, sportType1Weightlifting: Swift.Bool, sportType2BodybuildingExercise: Swift.Bool, sportType2Yoga: Swift.Bool, sportType2RopeSkipping: Swift.Bool, sportType2TableTennis: Swift.Bool, sportType2Basketball: Swift.Bool, sportType2Football: Swift.Bool, sportType2Volleyball: Swift.Bool, sportType2Tennis: Swift.Bool, sportType3Golf: Swift.Bool, sportType3Baseball: Swift.Bool, sportType3Skiing: Swift.Bool, sportType3RollerSkating: Swift.Bool, sportType3Dance: Swift.Bool, sportType3StrengthTraining: Swift.Bool, sportType3CoreTraining: Swift.Bool, sportType3TidyUpRelax: Swift.Bool)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4103,7 +4241,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let items: [protocol_channel.IDOSportModeSortParamModel]
+  @objc public var items: [protocol_channel.IDOSportModeSortParamModel]
   @objc public init(items: [protocol_channel.IDOSportModeSortParamModel])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4111,8 +4249,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportModeSortParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let index: Swift.Int
-  @objc final public let type: protocol_channel.IDOSportType
+  @objc public var index: Swift.Int
+  @objc public var type: protocol_channel.IDOSportType
   @objc public init(index: Swift.Int, type: protocol_channel.IDOSportType)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4120,10 +4258,10 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportSortParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let sportType: protocol_channel.IDOSportType
-  @objc final public let nowUserLocation: Swift.Int
-  @objc final public let items: [Swift.Int]
+  @objc public var operate: Swift.Int
+  @objc public var sportType: protocol_channel.IDOSportType
+  @objc public var nowUserLocation: Swift.Int
+  @objc public var items: [Swift.Int]
   @objc public init(operate: Swift.Int, sportType: protocol_channel.IDOSportType, nowUserLocation: Swift.Int, items: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4131,9 +4269,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSport100SortParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let nowUserLocation: Swift.Int
-  @objc final public let items: [Swift.Int]
+  @objc public var operate: Swift.Int
+  @objc public var nowUserLocation: Swift.Int
+  @objc public var items: [Swift.Int]
   @objc public init(operate: Swift.Int, nowUserLocation: Swift.Int, items: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4141,12 +4279,12 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSport100SortModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let minShowNum: Swift.Int
-  @objc final public let maxShowNum: Swift.Int
-  @objc final public let nowUserLocation: Swift.Int
-  @objc final public let items: [protocol_channel.IDOSport100SortItem]
+  @objc public var errCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var minShowNum: Swift.Int
+  @objc public var maxShowNum: Swift.Int
+  @objc public var nowUserLocation: Swift.Int
+  @objc public var items: [protocol_channel.IDOSport100SortItem]
   @objc public init(errCode: Swift.Int, operate: Swift.Int, minShowNum: Swift.Int, maxShowNum: Swift.Int, nowUserLocation: Swift.Int, items: [protocol_channel.IDOSport100SortItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4154,19 +4292,19 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSport100SortItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: protocol_channel.IDOSportType
-  @objc final public let flag: Swift.Int
+  @objc public var type: protocol_channel.IDOSportType
+  @objc public var flag: Swift.Int
   @objc public init(type: protocol_channel.IDOSportType, flag: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSportSortModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let sportType: protocol_channel.IDOSportType
-  @objc final public let nowUserLocation: Swift.Int
-  @objc final public let items: [Swift.Int]
+  @objc public var errCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var sportType: protocol_channel.IDOSportType
+  @objc public var nowUserLocation: Swift.Int
+  @objc public var items: [Swift.Int]
   @objc public init(operate: Swift.Int, errCode: Swift.Int, sportType: protocol_channel.IDOSportType, nowUserLocation: Swift.Int, items: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4314,8 +4452,8 @@ public protocol IDOCmdProtocol {
   }
 }
 @objc @objcMembers public class IDOStepGoalModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let step: Swift.Int
-  @objc final public let stepWeek: Swift.Int
+  @objc public var step: Swift.Int
+  @objc public var stepWeek: Swift.Int
   @objc public init(step: Swift.Int, stepWeek: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4323,7 +4461,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOStressCalibrationModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let retCode: Swift.Int
+  @objc public var retCode: Swift.Int
   @objc public init(retCode: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4331,34 +4469,53 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOStressCalibrationParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let stressScore: Swift.Int
-  @objc final public let status: Swift.Int
+  @objc public var stressScore: Swift.Int
+  @objc public var status: Swift.Int
   @objc public init(stressScore: Swift.Int, status: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDOStressSwitchParamModel : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let remindOnOff: Swift.Int
-  @objc final public let interval: Swift.Int
-  @objc final public let highThreshold: Swift.Int
-  @objc final public let stressThreshold: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, remindOnOff: Swift.Int, interval: Swift.Int, highThreshold: Swift.Int, stressThreshold: Swift.Int = 0, notifyFlag: Swift.Int)
+@objc public class IDOStressSwitchParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var onOff: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var remindOnOff: Swift.Int
+  public var interval: Swift.Int
+  public var highThreshold: Swift.Int
+  public var stressThreshold: Swift.Int
+  public var notifyFlag: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, remindOnOff: Swift.Int, interval: Swift.Int, highThreshold: Swift.Int, stressThreshold: Swift.Int = 0, notifyFlag: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek> = [.monday])
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDOStressSwitchParamModelObjc : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var remindOnOff: Swift.Int
+  @objc public var interval: Swift.Int
+  @objc public var highThreshold: Swift.Int
+  @objc public var stressThreshold: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public init(onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, remindOnOff: Swift.Int, interval: Swift.Int, highThreshold: Swift.Int, stressThreshold: Swift.Int = 0, notifyFlag: Swift.Int, repeats: [protocol_channel.IDOWeekObjc])
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOStressValModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let stressVal: Swift.Int
-  @objc final public let threshold: Swift.Int
+  @objc public var stressVal: Swift.Int
+  @objc public var threshold: Swift.Int
   @objc public init(stressVal: Swift.Int, threshold: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4366,9 +4523,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSupportMaxSetItemsNumModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let contactMaxSetNum: Swift.Int
-  @objc final public let reminderMaxSetNum: Swift.Int
-  @objc final public let msgMaxBuffSize: Swift.Int
+  @objc public var contactMaxSetNum: Swift.Int
+  @objc public var reminderMaxSetNum: Swift.Int
+  @objc public var msgMaxBuffSize: Swift.Int
   @objc public init(contactMaxSetNum: Swift.Int, reminderMaxSetNum: Swift.Int, msgMaxBuffSize: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4376,8 +4533,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSyncContactParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operat: Swift.Int
-  @objc final public let items: [protocol_channel.IDOContactItem]
+  @objc public var operat: Swift.Int
+  @objc public var items: [protocol_channel.IDOContactItem]
   @objc public init(operat: Swift.Int, items: [protocol_channel.IDOContactItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4385,9 +4542,9 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSyncContactModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operat: Swift.Int
-  @objc final public let items: [protocol_channel.IDOContactItem]?
+  @objc public var errCode: Swift.Int
+  @objc public var operat: Swift.Int
+  @objc public var items: [protocol_channel.IDOContactItem]?
   @objc public init(errCode: Swift.Int, operat: Swift.Int, items: [protocol_channel.IDOContactItem]?)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4395,8 +4552,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOContactItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let phone: Swift.String
-  @objc final public let name: Swift.String
+  @objc public var phone: Swift.String
+  @objc public var name: Swift.String
   @objc public init(phone: Swift.String, name: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
@@ -4407,34 +4564,53 @@ public protocol IDOCmdProtocol {
   @objc func startSync(funcProgress: @escaping protocol_channel.BlockDataSyncProgress, funcData: @escaping protocol_channel.BlockDataSyncData, funcCompleted: @escaping protocol_channel.BlockDataSyncCompleted)
   @objc func stopSync()
 }
-@objc @objcMembers public class IDOTakingMedicineReminderParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let takingMedicineId: Swift.Int
-  @objc final public let onOff: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  final public let repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc final public let isOpenRepeat: Swift.Bool
-  @objc final public let interval: Swift.Int
-  @objc final public let doNotDisturbOnOff: Swift.Int
-  @objc final public let doNotDisturbStartHour: Swift.Int
-  @objc final public let doNotDisturbStartMinute: Swift.Int
-  @objc final public let doNotDisturbEndHour: Swift.Int
-  @objc final public let doNotDisturbEndMinute: Swift.Int
-  public init(takingMedicineId: Swift.Int, onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, isOpenRepeat: Swift.Bool, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int, doNotDisturbOnOff: Swift.Int, doNotDisturbStartHour: Swift.Int, doNotDisturbStartMinute: Swift.Int, doNotDisturbEndHour: Swift.Int, doNotDisturbEndMinute: Swift.Int)
+@objc public class IDOTakingMedicineReminderParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var takingMedicineId: Swift.Int
+  public var onOff: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public var interval: Swift.Int
+  public var doNotDisturbOnOff: Swift.Int
+  public var doNotDisturbStartHour: Swift.Int
+  public var doNotDisturbStartMinute: Swift.Int
+  public var doNotDisturbEndHour: Swift.Int
+  public var doNotDisturbEndMinute: Swift.Int
+  public init(takingMedicineId: Swift.Int, onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek>, interval: Swift.Int, doNotDisturbOnOff: Swift.Int, doNotDisturbStartHour: Swift.Int, doNotDisturbStartMinute: Swift.Int, doNotDisturbEndHour: Swift.Int, doNotDisturbEndMinute: Swift.Int)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDOTakingMedicineReminderParamModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var takingMedicineId: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var interval: Swift.Int
+  @objc public var doNotDisturbOnOff: Swift.Int
+  @objc public var doNotDisturbStartHour: Swift.Int
+  @objc public var doNotDisturbStartMinute: Swift.Int
+  @objc public var doNotDisturbEndHour: Swift.Int
+  @objc public var doNotDisturbEndMinute: Swift.Int
+  @objc public init(takingMedicineId: Swift.Int, onOff: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: [protocol_channel.IDOWeekObjc], interval: Swift.Int, doNotDisturbOnOff: Swift.Int, doNotDisturbStartHour: Swift.Int, doNotDisturbStartMinute: Swift.Int, doNotDisturbEndHour: Swift.Int, doNotDisturbEndMinute: Swift.Int)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
 }
 @objc @objcMembers public class IDOTemperatureSwitchParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let unit: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var unit: Swift.Int
   @objc public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, unit: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4455,7 +4631,7 @@ public protocol IDOCmdProtocol {
   @objc func loadDeviceExtListByDisk(sortDesc: Swift.Bool, completion: @escaping ([Swift.String]) -> Swift.Void)
 }
 @objc @objcMembers public class IDOUnerasableMeunListModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let itemList: [Swift.Int]
+  @objc public var itemList: [Swift.Int]
   @objc public init(itemList: [Swift.Int])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4463,19 +4639,19 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOUnitParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let distUnit: Swift.Int
-  @objc final public let weightUnit: Swift.Int
-  @objc final public let temp: Swift.Int
-  @objc final public let stride: Swift.Int
-  @objc final public let language: Swift.Int
-  @objc final public let is12HourFormat: Swift.Int
-  @objc final public let strideRun: Swift.Int
-  @objc final public let strideGpsCal: Swift.Int
-  @objc final public let weekStartDate: Swift.Int
-  @objc final public let calorieUnit: Swift.Int
-  @objc final public let swimPoolUnit: Swift.Int
-  @objc final public let cyclingUnit: Swift.Int
-  @objc final public let walkingRunningUnit: Swift.Int
+  @objc public var distUnit: Swift.Int
+  @objc public var weightUnit: Swift.Int
+  @objc public var temp: Swift.Int
+  @objc public var stride: Swift.Int
+  @objc public var language: Swift.Int
+  @objc public var is12HourFormat: Swift.Int
+  @objc public var strideRun: Swift.Int
+  @objc public var strideGpsCal: Swift.Int
+  @objc public var weekStartDate: Swift.Int
+  @objc public var calorieUnit: Swift.Int
+  @objc public var swimPoolUnit: Swift.Int
+  @objc public var cyclingUnit: Swift.Int
+  @objc public var walkingRunningUnit: Swift.Int
   @objc public init(distUnit: Swift.Int, weightUnit: Swift.Int, temp: Swift.Int, stride: Swift.Int, language: Swift.Int, is12HourFormat: Swift.Int, strideRun: Swift.Int, strideGpsCal: Swift.Int, weekStartDate: Swift.Int, calorieUnit: Swift.Int, swimPoolUnit: Swift.Int, cyclingUnit: Swift.Int, walkingRunningUnit: Swift.Int = 0)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4483,8 +4659,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOUpdateStatusModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let devVesion: Swift.Int
-  @objc final public let state: Swift.Int
+  @objc public var devVesion: Swift.Int
+  @objc public var state: Swift.Int
   @objc public init(devVesion: Swift.Int, state: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4492,13 +4668,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOUpHandGestureModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let onOff: Swift.Int
-  @objc final public let showSecond: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var showSecond: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
   @objc public init(endHour: Swift.Int, endMinute: Swift.Int, hasTimeRange: Swift.Int, onOff: Swift.Int, showSecond: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4506,13 +4682,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOUpHandGestureParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let showSecond: Swift.Int
-  @objc final public let hasTimeRange: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
+  @objc public var onOff: Swift.Int
+  @objc public var showSecond: Swift.Int
+  @objc public var hasTimeRange: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
   @objc public init(onOff: Swift.Int, showSecond: Swift.Int, hasTimeRange: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4520,10 +4696,10 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOUserInfoPramModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let year: Swift.Int, monuth: Swift.Int, day: Swift.Int
-  @objc final public let heigh: Swift.Int
-  @objc final public let weigh: Swift.Int
-  @objc final public let gender: Swift.Int
+  @objc public var year: Swift.Int, monuth: Swift.Int, day: Swift.Int
+  @objc public var heigh: Swift.Int
+  @objc public var weigh: Swift.Int
+  @objc public var gender: Swift.Int
   @objc public init(year: Swift.Int, monuth: Swift.Int, day: Swift.Int, heigh: Swift.Int, weigh: Swift.Int, gender: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4531,13 +4707,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOV3NoiseParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let mode: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  @objc final public let highNoiseOnOff: Swift.Int
-  @objc final public let highNoiseValue: Swift.Int
+  @objc public var mode: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var highNoiseOnOff: Swift.Int
+  @objc public var highNoiseValue: Swift.Int
   @objc public init(mode: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, highNoiseOnOff: Swift.Int, highNoiseValue: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4545,23 +4721,23 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOVersionInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let sdkVersion: Swift.Int
-  @objc final public let hrAlgorithmVersion: Swift.Int
-  @objc final public let sleepAlgorithmVersion: Swift.Int
-  @objc final public let stepAlgorithmVersion: Swift.Int
-  @objc final public let gestureRecognitionVersion: Swift.Int
-  @objc final public let pcbVersion: Swift.Int
-  @objc final public let spo2Version: Swift.Int
-  @objc final public let wearVersion: Swift.Int
-  @objc final public let stressVersion: Swift.Int
-  @objc final public let kcalVersion: Swift.Int
-  @objc final public let disVersion: Swift.Int
-  @objc final public let axle3SwimVersion: Swift.Int
-  @objc final public let axle6SwimVersion: Swift.Int
-  @objc final public let actModeTypeVersion: Swift.Int
-  @objc final public let allDayHrVersion: Swift.Int
-  @objc final public let gpsVersion: Swift.Int
-  @objc final public let peripheralsVersion: Swift.Int
+  @objc public var sdkVersion: Swift.Int
+  @objc public var hrAlgorithmVersion: Swift.Int
+  @objc public var sleepAlgorithmVersion: Swift.Int
+  @objc public var stepAlgorithmVersion: Swift.Int
+  @objc public var gestureRecognitionVersion: Swift.Int
+  @objc public var pcbVersion: Swift.Int
+  @objc public var spo2Version: Swift.Int
+  @objc public var wearVersion: Swift.Int
+  @objc public var stressVersion: Swift.Int
+  @objc public var kcalVersion: Swift.Int
+  @objc public var disVersion: Swift.Int
+  @objc public var axle3SwimVersion: Swift.Int
+  @objc public var axle6SwimVersion: Swift.Int
+  @objc public var actModeTypeVersion: Swift.Int
+  @objc public var allDayHrVersion: Swift.Int
+  @objc public var gpsVersion: Swift.Int
+  @objc public var peripheralsVersion: Swift.Int
   @objc public init(sdkVersion: Swift.Int, hrAlgorithmVersion: Swift.Int, sleepAlgorithmVersion: Swift.Int, stepAlgorithmVersion: Swift.Int, gestureRecognitionVersion: Swift.Int, pcbVersion: Swift.Int, spo2Version: Swift.Int, wearVersion: Swift.Int, stressVersion: Swift.Int, kcalVersion: Swift.Int, disVersion: Swift.Int, axle3SwimVersion: Swift.Int, axle6SwimVersion: Swift.Int, actModeTypeVersion: Swift.Int, allDayHrVersion: Swift.Int, gpsVersion: Swift.Int, peripheralsVersion: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4569,40 +4745,60 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOVoiceReplyParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let flagIsContinue: Swift.Int
-  @objc final public let title: Swift.String
-  @objc final public let textContent: Swift.String
+  @objc public var flagIsContinue: Swift.Int
+  @objc public var title: Swift.String
+  @objc public var textContent: Swift.String
   @objc public init(flagIsContinue: Swift.Int, title: Swift.String, textContent: Swift.String)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
-@objc @objcMembers public class IDOWalkRemindModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let goalStep: Swift.Int
-  @objc final public let startHour: Swift.Int
-  @objc final public let startMinute: Swift.Int
-  @objc final public let endHour: Swift.Int
-  @objc final public let endMinute: Swift.Int
-  final public let repeats: Swift.Set<protocol_channel.IDOWeek>
-  @objc final public let isOpenRepeat: Swift.Bool
-  @objc final public let goalTime: Swift.Int
-  @objc final public let notifyFlag: Swift.Int
-  @objc final public let doNotDisturbOnOff: Swift.Int
-  @objc final public let noDisturbStartHour: Swift.Int
-  @objc final public let noDisturbStartMinute: Swift.Int
-  @objc final public let noDisturbEndHour: Swift.Int
-  @objc final public let noDisturbEndMinute: Swift.Int
-  public init(onOff: Swift.Int, goalStep: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, isOpenRepeat: Swift.Bool, repeats: Swift.Set<protocol_channel.IDOWeek>, goalTime: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
+@objc public class IDOWalkRemindModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  public var onOff: Swift.Int
+  public var goalStep: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var repeats: Swift.Set<protocol_channel.IDOWeek>
+  public var goalTime: Swift.Int
+  public var notifyFlag: Swift.Int
+  public var doNotDisturbOnOff: Swift.Int
+  public var noDisturbStartHour: Swift.Int
+  public var noDisturbStartMinute: Swift.Int
+  public var noDisturbEndHour: Swift.Int
+  public var noDisturbEndMinute: Swift.Int
+  public init(onOff: Swift.Int, goalStep: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: Swift.Set<protocol_channel.IDOWeek>, goalTime: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public func toJsonString() -> Swift.String?
+  @objc deinit
+}
+@objc @objcMembers public class IDOWalkRemindModelObjc : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
+  @objc public var onOff: Swift.Int
+  @objc public var goalStep: Swift.Int
+  @objc public var startHour: Swift.Int
+  @objc public var startMinute: Swift.Int
+  @objc public var endHour: Swift.Int
+  @objc public var endMinute: Swift.Int
+  @objc public var repeats: [protocol_channel.IDOWeekObjc]
+  @objc public var goalTime: Swift.Int
+  @objc public var notifyFlag: Swift.Int
+  @objc public var doNotDisturbOnOff: Swift.Int
+  @objc public var noDisturbStartHour: Swift.Int
+  @objc public var noDisturbStartMinute: Swift.Int
+  @objc public var noDisturbEndHour: Swift.Int
+  @objc public var noDisturbEndMinute: Swift.Int
+  @objc public init(onOff: Swift.Int, goalStep: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, repeats: [protocol_channel.IDOWeekObjc], goalTime: Swift.Int, notifyFlag: Swift.Int = 0, doNotDisturbOnOff: Swift.Int = 0, noDisturbStartHour: Swift.Int = 0, noDisturbStartMinute: Swift.Int = 0, noDisturbEndHour: Swift.Int = 0, noDisturbEndMinute: Swift.Int = 0)
   required public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
 }
 @objc @objcMembers public class IDOWalkRemindTimesParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let onOff: Swift.Int
-  @objc final public let items: [protocol_channel.IDOWalkRemindTimesItem]
+  @objc public var onOff: Swift.Int
+  @objc public var items: [protocol_channel.IDOWalkRemindTimesItem]
   @objc public init(onOff: Swift.Int, items: [protocol_channel.IDOWalkRemindTimesItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4610,22 +4806,22 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWalkRemindTimesItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
   @objc public init(hour: Swift.Int, min: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWallpaperDialReplyV3Model : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let location: Swift.Int
-  @objc final public let hideType: Swift.Int
-  @objc final public let timeColor: Swift.Int
-  @objc final public let widgetType: Swift.Int
-  @objc final public let widgetIconColor: Swift.Int
-  @objc final public let widgetNumColor: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var location: Swift.Int
+  @objc public var hideType: Swift.Int
+  @objc public var timeColor: Swift.Int
+  @objc public var widgetType: Swift.Int
+  @objc public var widgetIconColor: Swift.Int
+  @objc public var widgetNumColor: Swift.Int
   @objc public init(errCode: Swift.Int, operate: Swift.Int, location: Swift.Int, hideType: Swift.Int, timeColor: Swift.Int, widgetType: Swift.Int, widgetIconColor: Swift.Int, widgetNumColor: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4633,13 +4829,13 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWallpaperDialReplyV3ParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let location: Swift.Int
-  @objc final public let hideType: Swift.Int
-  @objc final public let timeColor: Swift.Int
-  @objc final public let widgetType: Swift.Int
-  @objc final public let widgetIconColor: Swift.Int
-  @objc final public let widgetNumColor: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var location: Swift.Int
+  @objc public var hideType: Swift.Int
+  @objc public var timeColor: Swift.Int
+  @objc public var widgetType: Swift.Int
+  @objc public var widgetIconColor: Swift.Int
+  @objc public var widgetNumColor: Swift.Int
   @objc public init(operate: Swift.Int, location: Swift.Int, hideType: Swift.Int, timeColor: Swift.Int, widgetType: Swift.Int, widgetIconColor: Swift.Int, widgetNumColor: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4647,7 +4843,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchDialIdModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let watchId: Swift.Int
+  @objc public var watchId: Swift.Int
   @objc public init(watchId: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4655,12 +4851,12 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchDialInfoModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let blockSize: Swift.Int
-  @objc final public let familyName: Swift.String
-  @objc final public let format: Swift.Int
-  @objc final public let height: Swift.Int
-  @objc final public let sizex100: Swift.Int
-  @objc final public let width: Swift.Int
+  @objc public var blockSize: Swift.Int
+  @objc public var familyName: Swift.String
+  @objc public var format: Swift.Int
+  @objc public var height: Swift.Int
+  @objc public var sizex100: Swift.Int
+  @objc public var width: Swift.Int
   @objc public init(blockSize: Swift.Int, familyName: Swift.String, format: Swift.Int, height: Swift.Int, sizex100: Swift.Int, width: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4668,7 +4864,7 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchDialParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let dialId: Swift.Int
+  @objc public var dialId: Swift.Int
   @objc public init(dialId: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4676,8 +4872,8 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchDialSortParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let sortItemNumb: Swift.Int
-  @objc final public let pSortItem: [protocol_channel.IDOWatchDialSortItem]
+  @objc public var sortItemNumb: Swift.Int
+  @objc public var pSortItem: [protocol_channel.IDOWatchDialSortItem]
   @objc public init(sortItemNumb: Swift.Int, pSortItem: [protocol_channel.IDOWatchDialSortItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4685,29 +4881,29 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchDialSortItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let sortNumber: Swift.Int
-  @objc final public let name: Swift.String
+  @objc public var type: Swift.Int
+  @objc public var sortNumber: Swift.Int
+  @objc public var name: Swift.String
   @objc public init(type: Swift.Int, sortNumber: Swift.Int, name: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchFaceModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let errCode: Swift.Int
-  @objc final public let operate: Swift.Int
-  @objc final public let fileName: Swift.String?
-  @objc final public let fileCount: Swift.Int
+  @objc public var errCode: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var fileName: Swift.String?
+  @objc public var fileCount: Swift.Int
   @objc public init(errCode: Swift.Int, operate: Swift.Int, fileName: Swift.String?, fileCount: Swift.Int = 0)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
-  public func encode(to encoder: Swift.Encoder) throws
-  required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchFaceParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let operate: Swift.Int
-  @objc final public let fileName: Swift.String
-  @objc final public let watchFileSize: Swift.Int
+  @objc public var operate: Swift.Int
+  @objc public var fileName: Swift.String
+  @objc public var watchFileSize: Swift.Int
   @objc public init(operate: Swift.Int, fileName: Swift.String, watchFileSize: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4715,18 +4911,18 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchListModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let localWatchNum: Swift.Int
-  @objc final public let cloudWatchNum: Swift.Int
-  @objc final public let wallpaperWatchNum: Swift.Int
-  @objc final public let userCloudWatchNum: Swift.Int
-  @objc final public let userWallpaperWatchNum: Swift.Int
-  @objc final public let nowShowWatchName: Swift.String
-  @objc final public let watchFrameMainVersion: Swift.Int
-  @objc final public let fileMaxSize: Swift.Int
-  @objc final public let watchCapacitySize: Swift.Int
-  @objc final public let userWatchCapacitySize: Swift.Int
-  @objc final public let usableMaxDownloadSpaceSize: Swift.Int
-  @objc final public let items: [protocol_channel.IDOWatchItem]
+  @objc public var localWatchNum: Swift.Int
+  @objc public var cloudWatchNum: Swift.Int
+  @objc public var wallpaperWatchNum: Swift.Int
+  @objc public var userCloudWatchNum: Swift.Int
+  @objc public var userWallpaperWatchNum: Swift.Int
+  @objc public var nowShowWatchName: Swift.String
+  @objc public var watchFrameMainVersion: Swift.Int
+  @objc public var fileMaxSize: Swift.Int
+  @objc public var watchCapacitySize: Swift.Int
+  @objc public var userWatchCapacitySize: Swift.Int
+  @objc public var usableMaxDownloadSpaceSize: Swift.Int
+  @objc public var items: [protocol_channel.IDOWatchItem]
   @objc public init(localWatchNum: Swift.Int, cloudWatchNum: Swift.Int, wallpaperWatchNum: Swift.Int, userCloudWatchNum: Swift.Int, userWallpaperWatchNum: Swift.Int, nowShowWatchName: Swift.String, watchFrameMainVersion: Swift.Int, fileMaxSize: Swift.Int, watchCapacitySize: Swift.Int, userWatchCapacitySize: Swift.Int, usableMaxDownloadSpaceSize: Swift.Int, items: [protocol_channel.IDOWatchItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4734,21 +4930,20 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let watchVersion: Swift.Int
-  @objc final public let sortNumber: Swift.Int
-  @objc final public let name: Swift.String
-  @objc final public let size: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var watchVersion: Swift.Int
+  @objc public var sortNumber: Swift.Int
+  @objc public var name: Swift.String
+  @objc public var size: Swift.Int
   @objc public init(type: Swift.Int, watchVersion: Swift.Int, sortNumber: Swift.Int, name: Swift.String, size: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchListV2Model : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let version: Swift.Int
-  @objc final public let availableCount: Swift.Int
-  @objc final public let fileMaxSize: Swift.Int
-  @objc final public let items: [protocol_channel.IDOWatchListV2Item]
+  @objc public var availableCount: Swift.Int
+  @objc public var fileMaxSize: Swift.Int
+  @objc public var items: [protocol_channel.IDOWatchListV2Item]
   @objc public init(availableCount: Swift.Int, fileMaxSize: Swift.Int, items: [protocol_channel.IDOWatchListV2Item])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4756,21 +4951,21 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWatchListV2Item : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let fileName: Swift.String
+  @objc public var fileName: Swift.String
   @objc public init(fileName: Swift.String)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWeatherDataParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let type: Swift.Int
-  @objc final public let temp: Swift.Int
-  @objc final public let maxTemp: Swift.Int
-  @objc final public let minTemp: Swift.Int
-  @objc final public let humidity: Swift.Int
-  @objc final public let uvIntensity: Swift.Int
-  @objc final public let aqi: Swift.Int
-  @objc final public let future: [protocol_channel.IDOWeatherDataFuture]
+  @objc public var type: Swift.Int
+  @objc public var temp: Swift.Int
+  @objc public var maxTemp: Swift.Int
+  @objc public var minTemp: Swift.Int
+  @objc public var humidity: Swift.Int
+  @objc public var uvIntensity: Swift.Int
+  @objc public var aqi: Swift.Int
+  @objc public var future: [protocol_channel.IDOWeatherDataFuture]
   @objc public init(type: Swift.Int, temp: Swift.Int, maxTemp: Swift.Int, minTemp: Swift.Int, humidity: Swift.Int, uvIntensity: Swift.Int, aqi: Swift.Int, future: [protocol_channel.IDOWeatherDataFuture])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4778,19 +4973,19 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWeatherDataFuture : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let type: Swift.Int
-  @objc final public let minTemp: Swift.Int
-  @objc final public let maxTemp: Swift.Int
+  @objc public var type: Swift.Int
+  @objc public var minTemp: Swift.Int
+  @objc public var maxTemp: Swift.Int
   @objc public init(type: Swift.Int, minTemp: Swift.Int, maxTemp: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWeatherSunTimeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let sunriseHour: Swift.Int
-  @objc final public let sunriseMin: Swift.Int
-  @objc final public let sunsetHour: Swift.Int
-  @objc final public let sunsetMin: Swift.Int
+  @objc public var sunriseHour: Swift.Int
+  @objc public var sunriseMin: Swift.Int
+  @objc public var sunsetHour: Swift.Int
+  @objc public var sunsetMin: Swift.Int
   @objc public init(sunriseHour: Swift.Int, sunriseMin: Swift.Int, sunsetHour: Swift.Int, sunsetMin: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4798,31 +4993,31 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWeatherV3ParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let month: Swift.Int
-  @objc final public let day: Swift.Int
-  @objc final public let hour: Swift.Int
-  @objc final public let min: Swift.Int
-  @objc final public let sec: Swift.Int
-  @objc final public let week: Swift.Int
-  @objc final public let weatherType: Swift.Int
-  @objc final public let todayTmp: Swift.Int
-  @objc final public let todayMaxTemp: Swift.Int
-  @objc final public let todayMinTemp: Swift.Int
-  @objc final public let cityName: Swift.String
-  @objc final public let airQuality: Swift.Int
-  @objc final public let precipitationProbability: Swift.Int
-  @objc final public let humidity: Swift.Int
-  @objc final public let todayUvIntensity: Swift.Int
-  @objc final public let windSpeed: Swift.Int
-  @objc final public let sunriseHour: Swift.Int
-  @objc final public let sunriseMin: Swift.Int
-  @objc final public let sunsetHour: Swift.Int
-  @objc final public let sunsetMin: Swift.Int
-  @objc final public let sunriseItemNum: Swift.Int
-  @objc final public let airGradeItem: Swift.String
-  @objc final public let hoursWeatherItems: [protocol_channel.IDOHoursWeatherItem]
-  @objc final public let futureItems: [protocol_channel.IDOFutureItem]
-  @objc final public let sunriseItem: [protocol_channel.IDOSunriseItem]
+  @objc public var month: Swift.Int
+  @objc public var day: Swift.Int
+  @objc public var hour: Swift.Int
+  @objc public var min: Swift.Int
+  @objc public var sec: Swift.Int
+  @objc public var week: Swift.Int
+  @objc public var weatherType: Swift.Int
+  @objc public var todayTmp: Swift.Int
+  @objc public var todayMaxTemp: Swift.Int
+  @objc public var todayMinTemp: Swift.Int
+  @objc public var cityName: Swift.String
+  @objc public var airQuality: Swift.Int
+  @objc public var precipitationProbability: Swift.Int
+  @objc public var humidity: Swift.Int
+  @objc public var todayUvIntensity: Swift.Int
+  @objc public var windSpeed: Swift.Int
+  @objc public var sunriseHour: Swift.Int
+  @objc public var sunriseMin: Swift.Int
+  @objc public var sunsetHour: Swift.Int
+  @objc public var sunsetMin: Swift.Int
+  @objc public var sunriseItemNum: Swift.Int
+  @objc public var airGradeItem: Swift.String
+  @objc public var hoursWeatherItems: [protocol_channel.IDOHoursWeatherItem]
+  @objc public var futureItems: [protocol_channel.IDOFutureItem]
+  @objc public var sunriseItem: [protocol_channel.IDOSunriseItem]
   @objc public init(month: Swift.Int, day: Swift.Int, hour: Swift.Int, min: Swift.Int, sec: Swift.Int, week: Swift.Int, weatherType: Swift.Int, todayTmp: Swift.Int, todayMaxTemp: Swift.Int, todayMinTemp: Swift.Int, cityName: Swift.String, airQuality: Swift.Int, precipitationProbability: Swift.Int, humidity: Swift.Int, todayUvIntensity: Swift.Int, windSpeed: Swift.Int, sunriseHour: Swift.Int, sunriseMin: Swift.Int, sunsetHour: Swift.Int, sunsetMin: Swift.Int, sunriseItemNum: Swift.Int, airGradeItem: Swift.String, hoursWeatherItems: [protocol_channel.IDOHoursWeatherItem], futureItems: [protocol_channel.IDOFutureItem], sunriseItem: [protocol_channel.IDOSunriseItem])
   @objc public func toJsonString() -> Swift.String?
   @objc deinit
@@ -4830,45 +5025,45 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOFutureItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let weatherType: Swift.Int
-  @objc final public let maxTemp: Swift.Int
-  @objc final public let minTemp: Swift.Int
+  @objc public var weatherType: Swift.Int
+  @objc public var maxTemp: Swift.Int
+  @objc public var minTemp: Swift.Int
   @objc public init(weatherType: Swift.Int, maxTemp: Swift.Int, minTemp: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOHoursWeatherItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let weatherType: Swift.Int
-  @objc final public let temperature: Swift.Int
-  @objc final public let probability: Swift.Int
+  @objc public var weatherType: Swift.Int
+  @objc public var temperature: Swift.Int
+  @objc public var probability: Swift.Int
   @objc public init(weatherType: Swift.Int, temperature: Swift.Int, probability: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOSunriseItem : ObjectiveC.NSObject, Swift.Codable {
-  @objc final public let sunriseHour: Swift.Int
-  @objc final public let sunriseMin: Swift.Int
-  @objc final public let sunsetHour: Swift.Int
-  @objc final public let sunsetMin: Swift.Int
+  @objc public var sunriseHour: Swift.Int
+  @objc public var sunriseMin: Swift.Int
+  @objc public var sunsetHour: Swift.Int
+  @objc public var sunsetMin: Swift.Int
   @objc public init(sunriseHour: Swift.Int, sunriseMin: Swift.Int, sunsetHour: Swift.Int, sunsetMin: Swift.Int)
   @objc deinit
   public func encode(to encoder: Swift.Encoder) throws
   required public init(from decoder: Swift.Decoder) throws
 }
 @objc @objcMembers public class IDOWorldTimeParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
-  @objc final public let id: Swift.Int
-  @objc final public let minOffset: Swift.Int
-  @objc final public let cityName: Swift.String
-  @objc final public let sunriseHour: Swift.Int
-  @objc final public let sunriseMin: Swift.Int
-  @objc final public let sunsetHour: Swift.Int
-  @objc final public let sunsetMin: Swift.Int
-  @objc final public let longitudeFlag: Swift.Int
-  @objc final public let longitude: Swift.Int
-  @objc final public let latitudeFlag: Swift.Int
-  @objc final public let latitude: Swift.Int
+  @objc public var id: Swift.Int
+  @objc public var minOffset: Swift.Int
+  @objc public var cityName: Swift.String
+  @objc public var sunriseHour: Swift.Int
+  @objc public var sunriseMin: Swift.Int
+  @objc public var sunsetHour: Swift.Int
+  @objc public var sunsetMin: Swift.Int
+  @objc public var longitudeFlag: Swift.Int
+  @objc public var longitude: Swift.Int
+  @objc public var latitudeFlag: Swift.Int
+  @objc public var latitude: Swift.Int
   @objc public init(id: Swift.Int, minOffset: Swift.Int, cityName: Swift.String, sunriseHour: Swift.Int, sunriseMin: Swift.Int, sunsetHour: Swift.Int, sunsetMin: Swift.Int, longitudeFlag: Swift.Int, longitude: Swift.Int, latitudeFlag: Swift.Int, latitude: Swift.Int)
   @objc public func toJsonString() -> Swift.String?
   @objc deinit

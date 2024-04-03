@@ -84,7 +84,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onResume()
         if (device != null) {
             var connected = BleManager.getInstance().isConnected(device!!.mac)
-            Log.d("TAG", "deviceStatus -- blestatus: "+connected+"  "+device!!.mac)
+            Log.d("TAG", "deviceStatus -- blestatus: " + connected + "  " + device!!.mac)
             updateBleStatus(connected)
         }
     }
@@ -94,7 +94,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mMenuBleStatus = menu?.get(0)
         if (device != null) {
             var connected = BleManager.getInstance().isConnected(device!!.mac)
-            Log.d("TAG", "deviceStatus -- blestatus: "+connected+"  "+device!!.mac)
+            Log.d("TAG", "deviceStatus -- blestatus: " + connected + "  " + device!!.mac)
             updateBleStatus(connected)
         }
         return super.onCreateOptionsMenu(menu)
@@ -127,7 +127,18 @@ abstract class BaseActivity : AppCompatActivity() {
                         var simpleDateFormat =
                             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                         var fileName = simpleDateFormat.format(currentTimeMillis)
-                        var filePath = filesDir.parentFile.path.plus("/ido_sdk").plus("/devices")
+                        var filePath =
+                            filesDir.parentFile.path.plus("/ido_sdk").plus("/devices/logs")
+
+                        var file = File(filePath)
+                        if (file.exists()) {
+                            if (file.isDirectory) {
+                                file.deleteRecursively() // 删除目录及其内容
+                            } else {
+                                file.delete() // 删除文件
+                            }
+                        }
+
                         ZipUtil.zip(path, filePath, fileName.plus("_log.zip"))
                         Log.d("TAG", "onOptionsItemSelected filePath: $filePath")
                         BaseUtil.share(this, filePath.plus("/".plus(fileName.plus("_log.zip"))))
@@ -149,7 +160,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     open fun updateBleStatus(state: Boolean) {
-        Log.d("TAG", "updateBleStatus: "+state+ mMenuBleStatus)
+        Log.d("TAG", "updateBleStatus: " + state + mMenuBleStatus)
         mMenuBleStatus?.setIcon(if (state) R.drawable.ble_connect else R.drawable.ble_disconnect)
     }
 }

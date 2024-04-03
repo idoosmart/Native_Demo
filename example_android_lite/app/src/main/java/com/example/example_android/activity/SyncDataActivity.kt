@@ -27,7 +27,8 @@ class SyncDataActivity : BaseActivity() {
         sdk.syncData.startSync({
 
         }, { type, jsonStr, errorCode ->
-            result += jsonStr + "\n"
+            result += jsonStr + "\n errorCode" +
+                    ""+errorCode
         }, {
             tv_response?.text = result
         })
