@@ -29,7 +29,7 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                 ),
                 GetFuntionData(
                     CustomEvtType.FINDDEVICESTOP,
-                    context.getString(R.string.getdeviceinfo),
+                    context.getString(R.string.end_device_search),
                     ""
                 ),
 

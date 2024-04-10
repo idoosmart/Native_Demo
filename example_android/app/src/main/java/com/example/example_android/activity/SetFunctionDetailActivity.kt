@@ -1,5 +1,6 @@
 package com.example.example_android.activity
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -8,7 +9,9 @@ import com.example.example_android.R
 import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
+import com.google.gson.GsonBuilder
 import com.idosmart.model.IDOAlarmItem
+import com.idosmart.model.IDOBaseModel
 import com.idosmart.model.IDOWatchDialSortItem
 import com.idosmart.model.IDOWatchDialSortParamModel
 import com.idosmart.pigeon_implement.Cmds
@@ -72,6 +75,12 @@ class SetFunctionDetailActivity : BaseActivity() {
 
 
         send_btn.setOnClickListener {
+            if (paramter_et.text.isNotEmpty()) {
+
+                idoBaseModel = GsonBuilder().create()
+                    .fromJson(paramter_et.text.toString(), setFuncData!!.idoBaseModel::class.java)
+
+            }
             CmdSet.set(myType, idoBaseModel, {
                 paramter_tv.text = it
             }) {

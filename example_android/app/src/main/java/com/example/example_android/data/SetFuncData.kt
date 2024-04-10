@@ -16,6 +16,9 @@ import com.idosmart.model.IDOContactItem
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
 import com.idosmart.model.IDODrinkWaterRemindModel
+import com.idosmart.model.IDOFastMsgItem
+import com.idosmart.model.IDOFastMsgSettingModel
+import com.idosmart.model.IDOFastMsgUpdateParamModel
 import com.idosmart.model.IDOFitnessGuidanceParamModel
 import com.idosmart.model.IDOFutureItem
 import com.idosmart.model.IDOGpsInfoModelItem
@@ -80,6 +83,7 @@ import com.idosmart.model.IDOWeatherSunTimeParamModel
 import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOWorldTimeParamModel
+import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDOCmdSetResponseModel
 import com.idosmart.protocol_channel.sdk
 
@@ -96,11 +100,11 @@ class SetFuncData(
                     context.getString(R.string.set_activity_switch),
                     IDOActivitySwitchParamModel(
                         1,
-                        2, 10,
-                        9, 7,
-                        9, 7,
-                        5,
-                        4
+                        1, 1,
+                        1, 1,
+                        1, 1,
+                        1,
+                        1
                     )
                 ),
                 SetFuncData(
@@ -132,49 +136,49 @@ class SetFuncData(
                     CustomEvtType.SETHEARTRATEINTERVAL,
                     context.getString(R.string.set_heart_rate_interval),
                     IDOHeartRateIntervalModel(
-                        1,
-                        2,
-                        4,
-                        5,
-                        6,
-                        8,
-                        9,
-                        10,
-                        7,
-                        6,
-                        5, 5,
-                        5, 5, 5,
-                        5
+                        113,
+                        132,
+                        170,
+                        220,
+                        94,
+                        113,
+                        132,
+                        151,
+                        170,
+                        20,
+                        1, 0,
+                        0, 0, 23,
+                        59
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETSCREENBRIGHTNESS,
                     context.getString(R.string.set_screen_brightness),
                     IDOScreenBrightnessModel(
-                        1,
-                        2,
-                        4,
-                        5,
-                        6,
-                        8,
-                        9,
-                        10,
-                        7,
-                        6,
+                        20,
+                        0,
+                        0,
+                        3,
+                        18,
+                        0,
+                        23,
+                        0,
+                        20,
+                        0,
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETMENSTRUATION, context.getString(R.string.set_menstrual_period),
                     IDOMenstruationModel(
-                        66, 4, 15, 89, 90, 90, 90,
-                        80, 70, 76, 6
+                        1, 7, 21, 2022, 12, 19, 15,
+                        5, 5, 1, 1
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETCALORIEDISTANCEGOAL,
                     context.getString(R.string.calories_and_distance_targets),
                     IDOMainSportGoalModel(
-                        66, 4, 15, 89, 90, 90, 90,
+                        500, 200, 200, 666, 600, 600, 0,
                     )
                 ),
                 SetFuncData(
@@ -184,17 +188,17 @@ class SetFuncData(
                         operate = 1,
                         type = 1,
                         year = 2020,
-                        month = 1,
-                        day = 1,
-                        hour = 0,
-                        min = 0,
+                        month = 12,
+                        day = 26,
+                        hour = 17,
+                        min = 36,
                         sec = 0,
-                        dayNum = 0,
+                        dayNum = 1,
                         items = listOf(
                             IDOGpsInfoModelItem(
-                                type = 186, num = 0, items = listOf(
+                                type = 186, num = 1, items = listOf(
                                     IDOItemItem(
-                                        type = 1, time = 0, heightHeart = 0, lowHeart = 0
+                                        type = 1, time = 200, heightHeart = 110, lowHeart = 80
                                     )
                                 )
                             )
@@ -206,18 +210,18 @@ class SetFuncData(
                     context.getString(R.string.setwalkreminder),
                     IDOWalkRemindModel(
                         1,
-                        100,
-                        9,
-                        0,
-                        18,
-                        0,
-                        hashSetOf(IDOWeek.MONDAY, IDOWeek.SUNDAY),
-                        0,
-                        1,
-                        0,
+                        2000,
                         14,
                         0,
-                        15,
+                        20,
+                        0,
+                        hashSetOf(IDOWeek.MONDAY, IDOWeek.SUNDAY),
+                        60,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
                         0
                     )
                 ),
@@ -336,7 +340,7 @@ class SetFuncData(
                     CustomEvtType.SETFITNESSGUIDANCE,
                     context.getString(R.string.setfitnessguidance),
                     IDOFitnessGuidanceParamModel(
-                        1, 2, 4, 5, 6, 7, 8, hashSetOf(
+                        1, 9, 0, 18, 0, 1, 0, hashSetOf(
                             IDOWeek.MONDAY,
                             IDOWeek.TUESDAY,
                             IDOWeek.WEDNESDAY,
@@ -344,28 +348,28 @@ class SetFuncData(
                             IDOWeek.FRIDAY,
                             IDOWeek.SATURDAY,
                             IDOWeek.SUNDAY
-                        ), 10
+                        ), 2000
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETSCIENTIFICSLEEPSWITCH,
                     context.getString(R.string.setscientificsleepswitch),
                     IDOScientificSleepSwitchParamModel(
-                        1, 1, 2, 3, 4
+                        1, 23, 23, 9, 0
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETTEMPERATURESWITCH,
                     context.getString(R.string.settemperatureswitch),
                     IDOTemperatureSwitchParamModel(
-                        1, 1, 2, 3, 4, 6
+                        1, 19, 0, 23, 0, 1
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETV3NOISE,
                     context.resources.getString(R.string.setv3noise),
                     IDOV3NoiseParamModel(
-                        3, 0, 0, 23, 59, 1, 5
+                        1, 15, 0, 20, 0, 1, 100
                     )
                 ),
 
@@ -403,44 +407,44 @@ class SetFuncData(
                 SetFuncData(
                     CustomEvtType.SETBLEVOICE,
                     context.getString(R.string.setblevoiceble),
-                    IDOBleVoiceParamModel(5, 6)
+                    IDOBleVoiceParamModel(100, 85)
                 ),
                 SetFuncData(
                     CustomEvtType.SETLONGSIT,
                     context.getString(R.string.setlongsit),
                     IDOLongSitParamModel(
-                        10, 4, 10, 19, 10, 39
+                        15, 40, 23, 26, 15, 254
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETLOSTFIND,
                     context.getString(R.string.setlostfind),
-                    IDOLostFindParamModel(8)
+                    IDOLostFindParamModel(0)
                 ),
                 SetFuncData(
                     CustomEvtType.SETSPORTGOAL,
                     context.getString(R.string.setsportgoal),
                     IDOSportGoalParamModel(
-                        10,
-                        4,
-                        10,
+                        2000,
+                        15,
+                        1,
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETUNIT, context.getString(R.string.setunit), IDOUnitParamModel(
-                        10,
-                        4,
-                        10,
-                        19,
-                        10,
-                        39,
-                        49,
-                        98,
-                        99,
-                        100,
-                        101,
-                        6,
-                        7,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
                     )
                 ),
 
@@ -448,13 +452,13 @@ class SetFuncData(
                     CustomEvtType.SETUPHANDGESTURE,
                     context.getString(R.string.setuphandgesture),
                     IDOUpHandGestureParamModel(
+                        1,
                         10,
-                        4,
-                        10,
-                        19,
-                        10,
-                        39,
-                        10,
+                        1,
+                        8,
+                        0,
+                        18,
+                        0,
                     )
                 ),
                 SetFuncData(
@@ -519,11 +523,11 @@ class SetFuncData(
                     CustomEvtType.SETSLEEPPERIOD,
                     context.getString(R.string.setsleepperiod),
                     IDOSleepPeriodParamModel(
-                        10,
-                        4,
-                        10,
-                        19,
-                        10,
+                        1,
+                        23,
+                        0,
+                        8,
+                        0,
                     )
                 ),
 
@@ -531,24 +535,24 @@ class SetFuncData(
                     CustomEvtType.SETWEATHERSUNTIME,
                     context.getString(R.string.setweathersuntime),
                     IDOWeatherSunTimeParamModel(
-                        10,
-                        4,
-                        10,
-                        19,
+                        6,
+                        12,
+                        18,
+                        30,
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETWATCHDIAL,
                     context.getString(R.string.setwatchdial),
                     IDOWatchDialParamModel(
-                        10,
+                        1,
                     )
                 ),
                 SetFuncData(
                     CustomEvtType.SETSHORTCUT,
                     context.getString(R.string.setshortcut),
                     IDOShortcutParamModel(
-                        1
+                        2
                     )
                 ),
 
@@ -570,9 +574,9 @@ class SetFuncData(
                     CustomEvtType.SETNOTICEAPPNAME,
                     context.getString(R.string.setnoticeappname),
                     IDONoticeMesaageParamModel(
-                        4, 10, 19, 10, 39, "ido", "ido_demo", "ido_demo", listOf(
+                        1, 1, 19, 1, 7, "ido", "ido_demo", "ido_demo", listOf(
                             IDONoticeMesaageParamItem(
-                                0, "ido"
+                                1, "china"
                             )
                         )
                     )
@@ -592,7 +596,7 @@ class SetFuncData(
                     CustomEvtType.MUSICCONTROL,
                     context.getString(R.string.musiccontrol),
                     IDOMusicControlParamModel(
-                        1, 5, 2, "ido", "ido"
+                        1, 5, 360, "ido.mp3", "ido"
 
                     )
                 ),
@@ -612,17 +616,17 @@ class SetFuncData(
                         1, listOf(
                             IDOSchedulerReminderItem(
                                 0,
-                                2020,
-                                1,
-                                1,
-                                0,
+                                2022,
+                                12,
+                                26,
+                                15,
+                                51,
+                                20,
+                                255,
                                 1,
                                 2,
-                                0,
-                                0,
-                                1,
-                                "ddd",
-                                "ddd",
+                                "提醒事项1",
+                                "记得完成工作",
                             )
                         )
                     )
@@ -631,7 +635,7 @@ class SetFuncData(
                     CustomEvtType.SET100SPORTSORTV3,
                     context.getString(R.string.set100sportsortv3),
                     IDOSport100SortParamModel(
-                        1, 2, listOf(
+                        2, 2, listOf(
                             1, 2
                         )
                     )
@@ -747,15 +751,17 @@ class SetFuncData(
                 SetFuncData(
                     CustomEvtType.SETSTRESSSWITCH,
                     context.resources.getString(R.string.set_stress_switch),
-                    IDOStressSwitchParamModel(1, 14, 3, 20, 5, 1, 60, 170, 80, 1, hashSetOf(
-                        IDOWeek.MONDAY,
-                        IDOWeek.TUESDAY,
-                        IDOWeek.WEDNESDAY,
-                        IDOWeek.THURSDAY,
-                        IDOWeek.FRIDAY,
-                        IDOWeek.SATURDAY,
-                        IDOWeek.SUNDAY
-                    ))
+                    IDOStressSwitchParamModel(
+                        1, 14, 3, 20, 5, 1, 60, 170, 80, 1, hashSetOf(
+                            IDOWeek.MONDAY,
+                            IDOWeek.TUESDAY,
+                            IDOWeek.WEDNESDAY,
+                            IDOWeek.THURSDAY,
+                            IDOWeek.FRIDAY,
+                            IDOWeek.SATURDAY,
+                            IDOWeek.SUNDAY
+                        )
+                    )
                 ),
 
                 SetFuncData(
@@ -793,8 +799,22 @@ class SetFuncData(
                     IDOCmdSetResponseModel(1)
                 ),
 
+                SetFuncData(
+                    CustomEvtType.SETFASTMSGV3,
+                    context.resources.getString(R.string.set_fast_msg_setting),
+                    IDOFastMsgSettingModel(0, listOf(
+                        IDOFastMsgItem(1, "test1"),
+                        IDOFastMsgItem(2, "test2"),
+                        IDOFastMsgItem(3, "test3"),
+                        IDOFastMsgItem(4, "test4"),
+                        IDOFastMsgItem(5, "test5")
+                    ))
+                ),
+
 
                 )
+
+
 
 
 //            if (sdk.funcTable.setWalkReminderTimeGoal) {
@@ -1023,3 +1043,4 @@ class SetFuncData(
         }
     }
 }
+

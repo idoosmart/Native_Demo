@@ -16,6 +16,9 @@ import com.idosmart.model.IDOContactItem
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
 import com.idosmart.model.IDODrinkWaterRemindModel
+import com.idosmart.model.IDOFastMsgItem
+import com.idosmart.model.IDOFastMsgSettingModel
+import com.idosmart.model.IDOFastMsgUpdateParamModel
 import com.idosmart.model.IDOFitnessGuidanceParamModel
 import com.idosmart.model.IDOFutureItem
 import com.idosmart.model.IDOGpsInfoModelItem
@@ -81,6 +84,7 @@ import com.idosmart.model.IDOWeatherSunTimeParamModel
 import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOWorldTimeParamModel
+import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDOCmdSetResponseModel
 import com.idosmart.protocol_channel.sdk
 
@@ -571,9 +575,9 @@ class SetFuncData(
                     CustomEvtType.SETNOTICEAPPNAME,
                     context.getString(R.string.setnoticeappname),
                     IDONoticeMesaageParamModel(
-                        4, 10, 19, 10, 39, "ido", "ido_demo", "ido_demo", listOf(
+                        1, 1, 19, 1, 7, "ido", "ido_demo", "ido_demo", listOf(
                             IDONoticeMesaageParamItem(
-                                0, "ido"
+                                1, "china"
                             )
                         )
                     )
@@ -795,6 +799,17 @@ class SetFuncData(
                 ),
 
 
+                SetFuncData(
+                    CustomEvtType.SETFASTMSGV3,
+                    context.resources.getString(R.string.set_fast_msg_setting),
+                    IDOFastMsgSettingModel(0, listOf(
+                        IDOFastMsgItem(1, "test1"),
+                        IDOFastMsgItem(2, "test2"),
+                        IDOFastMsgItem(3, "test3"),
+                        IDOFastMsgItem(4, "test4"),
+                        IDOFastMsgItem(5, "test5")
+                    ))
+                ),
                 )
 
 

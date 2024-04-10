@@ -12,6 +12,8 @@ import com.idosmart.model.IDOBpMeasurementParamModel
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
 import com.idosmart.model.IDODrinkWaterRemindModel
+import com.idosmart.model.IDOFastMsgSettingModel
+import com.idosmart.model.IDOFastMsgUpdateParamModel
 import com.idosmart.model.IDOFitnessGuidanceParamModel
 import com.idosmart.model.IDOGpsControlParamModel
 import com.idosmart.model.IDOHandWashingReminderParamModel
@@ -172,6 +174,8 @@ object CmdSet {
             CustomEvtType.MUSICSTOP -> Cmds.musicStop()
             CustomEvtType.SETCALLQUICKREPLYONOFF -> Cmds.setCallQuickReplyOnOff(true)
             CustomEvtType.SETVOICEASSISTANTONOFF -> Cmds.setVoiceAssistantOnOff(true)
+            CustomEvtType.SETFASTMSGUPDATE -> Cmds.setFastMsgUpdate(idoBaseModel as IDOFastMsgUpdateParamModel)
+            CustomEvtType.SETFASTMSGV3 -> Cmds.setDefaultQuickMsgReplyList(idoBaseModel as IDOFastMsgSettingModel)
             CustomEvtType.SETWORLDTIMEV3 -> Cmds.setWorldTimeV3(
                 listOf(
                     IDOWorldTimeParamModel(

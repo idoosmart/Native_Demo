@@ -13,11 +13,15 @@ import com.clj.fastble.exception.BleException
 import com.example.example_android.MyApplication
 import com.example.example_android.util.ByteUtil
 import com.example.example_android.util.Logutil
+import com.google.gson.Gson
 import com.idosmart.enum.IDOLogType
 import com.idosmart.enum.IDOOtaType
 import com.idosmart.enum.IDOStatusNotification
 import com.idosmart.model.IDOBleDataRequest
 import com.idosmart.model.IDODeviceNotificationModel
+import com.idosmart.model.IDOFastMsgUpdateModel
+import com.idosmart.model.IDOFastMsgUpdateParamModel
+import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOBridgeDelegate
 import io.flutter.Log
@@ -98,6 +102,32 @@ object BLEdata  {
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
             Logutil.logMessage("bledata","listenDeviceNotification:${status}")
+
+            // 快速短信回复
+            if (status.controlEvt == 580 && status.controlJson != null) {
+                println("status.controlJson: ${status.controlJson}")
+                val gson = Gson()
+                val msgItem = gson.fromJson(status.controlJson, IDOFastMsgUpdateModel::class.java)
+                // 1 表示来电快捷回复
+                if (msgItem.msgType == 1) {
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // val isSuccess = if (回复结果) 1 else 0
+                    var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
+                    Cmds.setFastMsgUpdate(param).send {
+                        println("setFastMsgUpdate ${it.res?.toJsonString()}")
+                    }
+                }else{
+                    // 第三方消息
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // val isSuccess = if (回复结果) 1 else 0
+                    var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
+                    Cmds.setFastMsgUpdate(param).send {
+                        println("setFastMsgUpdate ${it.res?.toJsonString()}")
+                    }
+                }
+
+
+            }
         }
 
         private fun getCharacteristic(

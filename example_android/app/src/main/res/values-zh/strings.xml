@@ -31,7 +31,7 @@
     <string name="setsleepperiod">设置睡眠时间段</string>
     <string name="setweatherdata">设置天气数据</string>
     <string name="setweathersuntime">设置日出日落时间</string>
-    <string name="setwatchdial">设置表盘</string>
+    <string name="setwatchdial">设置dial表盘</string>
     <string name="setshortcut">设置快捷方式</string>
     <string name="setbpcalibration">血压校准</string>
     <string name="setbpmeasurement">血压测量</string>
@@ -87,6 +87,9 @@
     <string name="getdevicelogstate">获取设备的日志状态</string>
     <string name="getallhealthswitchstate">获取所有的健康监测开关</string>
     <string name="getactivityswitch">运动模式自动识别开关获取</string>
+    <string name="end_device_search">结束寻找设备</string>
+
+
     <string name="getstressval">获取压力值</string>
     <string name="getbpalgversion">获取血压算法三级版本号信息事件号</string>
     <string name="getheartratemode">获取心率监测模式</string>
@@ -114,11 +117,13 @@
     <string name="set_heart_rate_interval">设定心率间隔</string>
     <string name="set_screen_brightness">设置屏幕亮度</string>
     <string name="set_menstrual_period">设定月经周期</string>
+    <string name="setyour_period_reminders">设置经期提醒</string>
     <string name="calories_and_distance_targets">卡路里和距离目标</string>
     <string name="getBtConnectPhoneModel">获取BT连接手机型号</string>
     <string name="getDefaultSportType">获取默认的运动类型</string>
     <string name="getSportTypeV3">v3 获取默认的运动类型</string>
-
+    <string name="set_fast_msg_update">设置快捷回复更新</string>
+    <string name="set_fast_msg_setting">快捷回复设置</string>
     <string name="set_long_city_name_v3">V3 设置运动城市名称</string>
     <string name="set_historical_menstruation">经期的历史数据下发</string>
     <string name="set_sport_sortV3">v3 设置运动类型排序 </string>

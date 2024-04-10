@@ -183,5 +183,6 @@
     <string name="getBtConnectPhoneModel">Obtain BT connected phone model</string>
     <string name="getDefaultSportType">Obtain  default motion type</string>
     <string name="getSportTypeV3">V3 Obtain  default motion type</string>
-
+    <string name="set_fast_msg_update">Set fast message update</string>
+    <string name="set_fast_msg_setting">Set fast message setting</string>
 </resources>

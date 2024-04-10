@@ -41,6 +41,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/parameter_et"
+        android:textColor="@color/color_808080" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fillViewport="true"
+        android:background="@color/color_808080">
+
+        <EditText
+            android:id="@+id/paramter_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_808080"
+             />
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:text="@string/response"
         android:textColor="@color/color_808080" />

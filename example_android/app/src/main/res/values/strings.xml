@@ -24,6 +24,7 @@
     <string name="setdatetime">setDateTime</string>
     <string name="set_time">set Time</string>
     <string name="parameter">Parameter</string>
+    <string name="parameter_et">Parameter import</string>
     <string name="send">send</string>
     <string name="response">Response</string>
     <string name="start_sync_data">Start Sync Data</string>
@@ -135,6 +136,9 @@
     <string name="getdevicelogstate">Obtain the log status of the device</string>
     <string name="getallhealthswitchstate">Obtain all health monitoring switches</string>
     <string name="getactivityswitch">Acquisition of automatic recognition switch for sports mode</string>
+    <string name="end_device_search">End device search</string>
+
+
     <string name="getstressval">Obtain pressure values</string>
     <string name="getbpalgversion">Obtain Level 3 version number information of blood pressure algorithm Event number</string>
     <string name="getheartratemode">Obtain heart rate monitoring mode</string>
@@ -160,6 +164,9 @@
     <string name="set_heart_rate_interval">Set heart rate interval)</string>
     <string name="set_screen_brightness">Set screen brightness</string>
     <string name="set_menstrual_period">Set menstrual period</string>
+    <string name="setyour_period_reminders">Set your period reminders</string>
+    <string name="set_fast_msg_update">Set fast message update</string>
+    <string name="set_fast_msg_setting">Set fast message setting</string>
     <string name="set_long_city_name_v3">V3 Setting the Name of a Sports City event number</string>
     <string name="set_historical_menstruation">Menstrual historical data delivery event number</string>
     <string name="set_sport_sortV3">Sets the motion type ordering</string>

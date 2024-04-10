@@ -134,6 +134,7 @@
     <string name="music_stop">停止音乐</string>
     <string name="set_call_quick_reply_on_off">设置来电快捷回复开关</string>
     <string name="set_voice_assistant_on_off">设置手机语音助手开关</string>
-
+    <string name="set_fast_msg_update">快速消息回复</string>
+    <string name="set_fast_msg_setting">快速消息回复设置</string>
 
 </resources>
