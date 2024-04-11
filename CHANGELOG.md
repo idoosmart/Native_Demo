@@ -16,6 +16,24 @@ iOS SDK： [Podfile](https://gitee.com/idoosmart/Native_Demo/blob/main/example_i
 
 
 
+## 4.0.25<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/11</span>
+
+##### 更新内容：
+
+- 修复天气设置失败问题
+
+
+
+## 4.0.24<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/10</span>
+
+##### 更新内容：
+
+- 补充[快速消息回复](https://idoosmart.github.io/Native_GitBook/zh/doc/logicDescription/quickMsgReplyList.html)、默认快速消息回复列表指令（android）
+- 适配取消绑定功能
+- 修复iOS Objective-C 部分指令接口参数异常问题（iOS）
+
+
+
 ## 4.0.23<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/03</span>
 
 ##### 更新内容：
