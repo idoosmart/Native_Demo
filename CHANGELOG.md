@@ -16,6 +16,15 @@ iOS SDK： [Podfile](https://gitee.com/idoosmart/Native_Demo/blob/main/example_i
 
 
 
+## 4.0.26<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/18</span>
+
+##### 更新内容：
+
+- 补充接口：获取单位、设置热启动参数、获取spp mtu长度
+- 修复蓝牙库日志记录问题
+
+
+
 ## 4.0.25<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/11</span>
 
 ##### 更新内容：

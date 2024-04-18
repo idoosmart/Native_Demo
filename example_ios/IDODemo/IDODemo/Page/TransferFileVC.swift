@@ -258,7 +258,7 @@ private class FunctionDetailVC: UIViewController {
     private func _bin() {
         print("开始时间：\(Date())")
         //let picFilePath = bundlePath + "/bin/gtx03_ota_full_1.0.1.bin"
-        let picFilePath = bundlePath + "/bin/ota_firmware.bin"
+        let picFilePath = bundlePath + "/ota/gtx03/ota_full.bin"
         _trans([
             IDOTransNormalModel(fileType: .bin, filePath: picFilePath, fileName: "ota_firmware.bin")
         ])

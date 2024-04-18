@@ -45,7 +45,6 @@ class SetFunctionVC: UIViewController {
         
         
 //        SetCmd(type: .setMusicOperate, title: "setMusicOperate", desc: "Operation for songs or folders event"),
-//        SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: "Notification message reminder event number"),
         
         SetCmd(type: .setNoticeAppName, title: "setNoticeAppName", desc: "V3 dynamic notification message event number"),
         
@@ -128,6 +127,10 @@ class SetFunctionVC: UIViewController {
        
         if (funcTable.getSupportV3LongCityName) {
             items.append(SetCmd(type: .setLongCityNameV3, title: "setLongCityNameV3", desc: "V3 Setting the Name of a Sports City event number"))
+        }
+        
+        if (funcTable.getNotifyMsgV3) {
+            items.append(SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: "Notification message reminder event number"))
         }
         
         if (funcTable.setWeatherCity) {
@@ -775,9 +778,9 @@ extension CmdType {
                                           sec: 0,
                                           week: 1,
                                           weatherType: 7,
-                                          todayTmp: 9,
-                                          todayMaxTemp: 33,
-                                          todayMinTemp: 3,
+                                          todayTmp: 9+100,
+                                          todayMaxTemp: 33+100,
+                                          todayMinTemp: 3+100,
                                           cityName: "shenzhen",
                                           airQuality: 7,
                                           precipitationProbability: 40,
@@ -848,7 +851,7 @@ extension CmdType {
             return nil
         case .setSchedulerReminder:
             let item = IDOSchedulerReminderItem(id: 1,
-                                                year: 2023,
+                                                year: 2024,
                                                 mon: 11,
                                                 day: 26,
                                                 hour: 8,
@@ -859,7 +862,7 @@ extension CmdType {
                                                 state: 2,
                                                 title: "title1",
                                                 note: "note1")
-            return IDOSchedulerReminderParamModel(operate: 1, items: [item])
+            return IDOSchedulerReminderParamModel(operate: 3, items: [item])
         case .setBpCalControlV3:
             return OtherParamModel(dic: ["operate": 1, "filePath": "xx/xx/xx"])
         case .setWatchFaceData:

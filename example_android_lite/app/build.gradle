@@ -53,6 +53,7 @@ dependencies {
 //    implementation 'com.idosmart.protocol_native:flutter_release:1.0'
     implementation "io.flutter:flutter_embedding_release:1.0.0-0f359063c487ee70787e58b4b011cbb3c2f53fd6"
     implementation "io.flutter:arm64_v8a_release:1.0.0-0f359063c487ee70787e58b4b011cbb3c2f53fd6"
+    implementation "io.flutter:armeabi_v7a_release:1.0.0-0f359063c487ee70787e58b4b011cbb3c2f53fd6"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation project(':FastBleLib')
 }
