@@ -16,6 +16,14 @@ iOS SDK： [Podfile](https://gitee.com/idoosmart/Native_Demo/blob/main/example_i
 
 
 
+## 4.0.27<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/24</span>
+
+##### 更新内容：
+
+- 修复时间设置接口时区各周参数错误问题
+
+  
+
 ## 4.0.26<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/18</span>
 
 ##### 更新内容：
