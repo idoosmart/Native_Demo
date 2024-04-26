@@ -2,8 +2,8 @@ package com.example.example_android.activity
 
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
-import com.idosmart.enum.IDOTransStatus
-import com.idosmart.enum.IDOTransType
+import com.idosmart.enums.IDOTransStatus
+import com.idosmart.enums.IDOTransType
 import com.idosmart.pigeon_implement.IDOTransNormalModel
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOCancellable

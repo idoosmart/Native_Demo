@@ -16,11 +16,20 @@ iOS SDK： [Podfile](https://gitee.com/idoosmart/Native_Demo/blob/main/example_i
 
 
 
+## 4.0.28<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/24</span>
+
+##### 更新内容：
+
+- 包名中关键字enum替换为enums（enum在java中是保留字）（android)
+- 设备绑定成功添加清除v3健康数据缓存逻辑
+
+
+
 ## 4.0.27<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/24</span>
 
 ##### 更新内容：
 
-- 修复时间设置接口时区各周参数错误问题
+- 修复时间设置接口时区和周参数错误问题
 
   
 

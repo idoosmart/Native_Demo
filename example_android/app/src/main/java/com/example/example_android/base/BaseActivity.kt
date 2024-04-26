@@ -16,8 +16,8 @@ import com.example.example_android.callback.BleManager
 import com.example.example_android.callback.ConnectCallback
 import com.example.example_android.util.BaseUtil
 import com.example.example_android.util.ZipUtil
-import com.idosmart.enum.IDODeviceLogType
-import com.idosmart.enum.IDODeviceStateType
+import com.idosmart.enums.IDODeviceLogType
+import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.protocol_channel.sdk
 import java.io.File

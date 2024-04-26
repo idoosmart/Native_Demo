@@ -8,8 +8,8 @@ import android.net.Uri
 import androidx.appcompat.app.AlertDialog
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
-import com.idosmart.enum.IDOAlexaLoginState
-import com.idosmart.enum.IDOGetValueType
+import com.idosmart.enums.IDOAlexaLoginState
+import com.idosmart.enums.IDOGetValueType
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_sdk.IDOAlexaDelegate
 import com.idosmart.protocol_sdk.IDOCancellable

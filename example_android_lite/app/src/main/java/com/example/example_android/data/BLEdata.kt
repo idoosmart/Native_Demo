@@ -14,9 +14,9 @@ import com.example.example_android.MyApplication
 import com.example.example_android.util.ByteUtil
 import com.example.example_android.util.Logutil
 import com.google.gson.Gson
-import com.idosmart.enum.IDOLogType
-import com.idosmart.enum.IDOOtaType
-import com.idosmart.enum.IDOStatusNotification
+import com.idosmart.enums.IDOLogType
+import com.idosmart.enums.IDOOtaType
+import com.idosmart.enums.IDOStatusNotification
 import com.idosmart.model.IDOBleDataRequest
 import com.idosmart.model.IDODeviceNotificationModel
 import com.idosmart.model.IDOFastMsgUpdateModel

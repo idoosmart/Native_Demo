@@ -46,9 +46,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                     idoAlarmModel.name = "dddd"
                     idoAlarmModel.repeatTimes = 1;
                     idoBaseModel?.toJsonString()?.let { it1 -> Log.e("alarm11111", it1) }
-
                 }
-
             }
 
             CustomEvtType.SETWATCHDIALSORT -> {

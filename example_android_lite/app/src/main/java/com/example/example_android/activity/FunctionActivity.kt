@@ -22,7 +22,7 @@ import com.example.example_android.data.GetFuntionData
 import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.Logutil
 import com.google.gson.GsonBuilder
-import com.idosmart.enum.IDOBindStatus
+import com.idosmart.enums.IDOBindStatus
 import com.idosmart.model.IDOMtuInfoModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk

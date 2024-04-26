@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
+import com.idosmart.enums.IDOSyncDataType
 import com.idosmart.protocol_channel.sdk
 import kotlinx.android.synthetic.main.layout_comme_exchange_data.*
 
@@ -25,10 +26,9 @@ class SyncDataActivity : BaseActivity() {
     fun start(view: View) {
         result = ""
         sdk.syncData.startSync({
-
         }, { type, jsonStr, errorCode ->
             result += jsonStr + "\n"
-        }, {
+           }, {
             tv_response?.text = result
 
         })

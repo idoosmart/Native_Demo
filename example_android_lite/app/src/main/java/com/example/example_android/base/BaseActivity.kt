@@ -19,8 +19,8 @@ import com.clj.fastble.data.BleDevice
 import com.example.example_android.R
 import com.example.example_android.util.BaseUtil
 import com.example.example_android.util.ZipUtil
-import com.idosmart.enum.IDODeviceLogType
-import com.idosmart.enum.IDODeviceStateType
+import com.idosmart.enums.IDODeviceLogType
+import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.protocol_channel.sdk
 import java.io.File

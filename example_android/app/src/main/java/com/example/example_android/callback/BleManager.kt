@@ -1,7 +1,7 @@
 package com.example.example_android.callback
 
-import com.idosmart.enum.IDOBluetoothStateType
-import com.idosmart.enum.IDODeviceStateType
+import com.idosmart.enums.IDOBluetoothStateType
+import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.model.IDOBleDeviceModel
 import com.idosmart.model.IDOBluetoothStateModel
 import com.idosmart.model.IDODeviceStateModel
