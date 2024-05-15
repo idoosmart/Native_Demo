@@ -21,8 +21,7 @@ class SportVC: UIViewController {
     private var duration = 0
     private var calories = 0
     private var distance = 0
-    // 0 停止， 1 启动， 2 暂停
-    @objc dynamic private var exchangeType = 0
+    @objc dynamic private var exchangeType: SportStatus = .stopped
     lazy var btnSportStart: UIButton = {
         let btn = UIButton.createNormalButton(title: "Start Sport")
         btn.rx.tap.subscribe(onNext: { [weak self] in
@@ -143,22 +142,49 @@ class SportVC: UIViewController {
 extension SportVC {
     
     private func refreshState() {
-        // 0 停止， 1 启动， 2 暂停
-        switch exchangeType {
-        case 0:
+        
+        // !!!: 设备主动发起的运动，暂时不支持与app状态联动，忽略状态刷新
+        if (baseModel == nil) {
+            print("ignore")
+            stopTimer()
+            textConsole.text = ""
             btnSportStart.isEnabled = true
             btnSportPause.isEnabled = false
             btnSportResume.isEnabled = false
             btnSportStop.isEnabled = false
-        case 1:
+            return
+        }
+        
+        switch exchangeType {
+        case .stopped:
+            print("end")
+            stopTimer()
+            textConsole.text = ""
+            btnSportStart.isEnabled = true
+            btnSportPause.isEnabled = false
+            btnSportResume.isEnabled = false
+            btnSportStop.isEnabled = false
+        case .started:
+            print("start")
+            startTimer()
+            textConsole.text = ""
             btnSportStart.isEnabled = false
             btnSportPause.isEnabled = true
             btnSportResume.isEnabled = false
             btnSportStop.isEnabled = true
-        case 2:
+        case .paused:
+            print("pause")
+            stopTimer()
             btnSportStart.isEnabled = false
             btnSportPause.isEnabled = false
             btnSportResume.isEnabled = true
+            btnSportStop.isEnabled = true
+        case .resumed:
+            print("resume")
+            startTimer()
+            btnSportStart.isEnabled = false
+            btnSportPause.isEnabled = true
+            btnSportResume.isEnabled = false
             btnSportStop.isEnabled = true
         default:
             break
@@ -186,24 +212,18 @@ extension SportVC {
             forceStart: 1
         )
         sdk.dataExchange.appExec(model: obj)
-        print("start")
-        textConsole.text = ""
-        exchangeType = 1
     }
     
     private func _sportPause() {
         guard let baseModel = baseModel else { return }
         let obj = IDOAppPauseExchangeModel(baseModel: baseModel)
         sdk.dataExchange.appExec(model: obj)
-        print("pause")
-        exchangeType = 2
     }
     
     private func _sportResume() {
-        guard baseModel != nil else { return }
-        sdk.dataExchange.appExec(model: IDOAppRestoreExchangeModel(baseModel: baseModel))
-        print("resume")
-        exchangeType = 1
+        guard let baseModel = baseModel else { return }
+        let obj = IDOAppRestoreExchangeModel(baseModel: baseModel)
+        sdk.dataExchange.appExec(model: obj)
     }
     
     private func _sportStop() {
@@ -216,12 +236,10 @@ extension SportVC {
             isSave: 1
         )
         sdk.dataExchange.appExec(model: obj)
-        disposeTimer = DisposeBag()
-        print("end")
-        textConsole.text = ""
-        exchangeType = 0
     }
     
+    /// Synchronize brief sports data for app display
+    /// Sync every 2 seconds
     private func exchangeData() {
         guard baseModel != nil else {
             return
@@ -235,20 +253,72 @@ extension SportVC {
         }
     }
     
+    /// Synchronize complete data once
+    /// Sync every 40 seconds
     private func exchangeCompleteData() {
             sdk.dataExchange.getLastActivityData()
     }
     
+    /// Sync exercise heart rate data
+    /// Sync every 30 seconds
     private func exchangeV3HrData() {
         if (sdk.dataExchange.supportV3ActivityExchange) {
             sdk.dataExchange.getActivityHrData()
         }
     }
+    
+    private func startTimer() {
+        textConsole.text = "sport launched successfully"
+        disposeTimer = DisposeBag()
+        Observable<Int>.interval(.seconds(Constant.intervalExchangeData), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                guard self.exchangeType == .started || self.exchangeType == .resumed else { return }
+                self.exchangeData()
+            })
+            .disposed(by: disposeTimer)
+        
+        Observable<Int>.interval(.seconds(Constant.intervalExchangeCompleteData), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                guard self.exchangeType == .started || self.exchangeType == .resumed else { return }
+                self.exchangeCompleteData()
+            })
+            .disposed(by: disposeTimer)
+        
+        Observable<Int>.interval(.seconds(Constant.intervalExchangeHrData), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                guard self.exchangeType == .started || self.exchangeType == .resumed else { return }
+                self.exchangeV3HrData()
+            })
+            .disposed(by: disposeTimer)
+    }
+    
+    private func stopTimer() {
+        disposeTimer = DisposeBag()
+    }
+    
         
 }
 
 
 extension SportVC: IDOExchangeDataOCDelegate {
+    
+    /// ble发起运动 app监听ble
+    /// - Parameter model: 监听ble执行数据实体
+    /// ```
+    /// 数据实体包括：
+    /// ble设备发送交换运动数据开始 IDOBleStartExchangeModel
+    /// ble设备交换运动数据过程中 IDOBleIngExchangeModel
+    /// ble设备发送交换运动数据结束 IDOBleEndExchangeModel
+    /// ble设备发送交换运动数据暂停 IDOBlePauseExchangeModel
+    /// ble设备发送交换运动数据恢复 IDOBleRestoreExchangeModel
+    /// ble设备操作运动计划 IDOBleOperatePlanExchangeModel
+    /// app发起运动 app监听ble
+    /// ble设备发送交换运动数据暂停 IDOAppBlePauseExchangeModel
+    /// ble设备发送交换运动数据恢复 IDOAppBleRestoreExchangeModel
+    /// ble设备发送交换运动数据结束 IDOAppBleEndExchangeModel
     func appListenBleExec(model: NSObject) {
         if (model is IDOBleStartExchangeModel) {
             guard let obj = model as? IDOBleStartExchangeModel else {
@@ -256,7 +326,10 @@ extension SportVC: IDOExchangeDataOCDelegate {
                 return
             }
             let sendModel = IDOBleStartReplyExchangeModel(baseModel: obj.baseModel, operate: obj.operate, retCode: 0)
+            // !!!: 暂时不支持设备启动运动和app联动
+            //baseModel = obj.baseModel
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .started
         }
         else if (model is IDOBleIngExchangeModel) {
             let obj = model as? IDOBleIngExchangeModel
@@ -267,26 +340,31 @@ extension SportVC: IDOExchangeDataOCDelegate {
             let obj = model as? IDOBleEndExchangeModel
             let sendModel = IDOBleEndReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .stopped
         }
         else if (model is IDOBlePauseExchangeModel) {
             let obj = model as? IDOBlePauseExchangeModel
             let sendModel = IDOBlePauseReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .paused
         }
         else if (model is IDOBleRestoreExchangeModel) {
             let obj = model as? IDOBleRestoreExchangeModel
             let sendModel = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .resumed
         }
         else if (model is IDOAppBlePauseExchangeModel) {
             let obj = model as? IDOAppBlePauseExchangeModel
             let sendModel = IDOAppBlePauseReplyExchangeModel(baseModel: obj?.baseModel, errCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .paused
         }
         else if (model is IDOAppBleRestoreExchangeModel) {
             let obj = model as? IDOAppBleRestoreExchangeModel
-            let sendModel = IDOBleRestoreReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
+            let sendModel = IDOAppRestoreReplyExchangeModel(baseModel: obj?.baseModel, errCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .resumed
         }
         else if (model is IDOAppBleEndExchangeModel) {
             guard let obj = model as? IDOAppBleEndExchangeModel else {
@@ -299,6 +377,7 @@ extension SportVC: IDOExchangeDataOCDelegate {
                                                            calories: obj.calories,
                                                            distance: obj.distance)
             sdk.dataExchange.appReplyExec(model: sendModel)
+            exchangeType = .stopped
         }
     }
     
@@ -329,29 +408,13 @@ extension SportVC: IDOExchangeDataOCDelegate {
                 textConsole.text = "sport failed to launch, because of \(String(describing: obj?.retCode))"
                 return
             }
-            textConsole.text = "sport launched successfully"
-            disposeTimer = DisposeBag()
-            Observable<Int>.interval(.seconds(Constant.intervalExchangeData), scheduler: MainScheduler.instance)
-                .subscribe(onNext: { [weak self] value in
-                    self?.exchangeData()
-                })
-                .disposed(by: disposeTimer)
-            
-            Observable<Int>.interval(.seconds(Constant.intervalExchangeCompleteData), scheduler: MainScheduler.instance)
-                .subscribe(onNext: { [weak self] value in
-                    self?.exchangeCompleteData()
-                })
-                .disposed(by: disposeTimer)
-            
-            Observable<Int>.interval(.seconds(Constant.intervalExchangeHrData), scheduler: MainScheduler.instance)
-                .subscribe(onNext: { [weak self] value in
-                    self?.exchangeV3HrData()
-                })
-                .disposed(by: disposeTimer)
+            exchangeType = .started
         }
         else if (model is IDOAppEndReplyExchangeModel) {
             let obj = model as? IDOAppEndReplyExchangeModel
             print("reply for app's end reply: \(String(describing: obj))")
+            exchangeType = .stopped
+            baseModel = nil
         }
         else if (model is IDOAppIngReplyExchangeModel) {
             let obj = model as? IDOAppIngReplyExchangeModel
@@ -360,10 +423,12 @@ extension SportVC: IDOExchangeDataOCDelegate {
         else if (model is IDOAppPauseReplyExchangeModel) {
             let obj = model as? IDOAppPauseReplyExchangeModel
             print("reply for app's pause cmd: \(String(describing: obj))")
+            exchangeType = .paused
         }
         else if (model is IDOAppRestoreReplyExchangeModel) {
             let obj = model as? IDOAppRestoreReplyExchangeModel
             print("reply for app's restore cmd: \(String(describing: obj))")
+            exchangeType = .resumed
         }
         else if (model is IDOAppIngV3ReplyExchangeModel) {
             let obj = model as? IDOAppIngV3ReplyExchangeModel
@@ -391,12 +456,18 @@ extension SportVC: IDOExchangeDataOCDelegate {
     }
     
     func exchangeV2Data(model: IDOExchangeV2Model) {
-        
+        print("exchangeV2Data: \(model)")
     }
     
     func exchangeV3Data(model: IDOExchangeV3Model) {
-        
+        print("exchangeV3Data: \(model)")
     }
     
     
+}
+
+
+@objc
+private enum SportStatus: Int {
+    case stopped, started, paused, resumed
 }

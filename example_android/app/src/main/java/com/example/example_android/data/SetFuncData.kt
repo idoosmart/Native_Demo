@@ -95,43 +95,8 @@ class SetFuncData(
     companion object {
         fun getFunctions(context: Context): MutableList<SetFuncData> {
             var mutableListOf = mutableListOf<SetFuncData>(
-                SetFuncData(
-                    CustomEvtType.SETACTIVITYSWITCH,
-                    context.getString(R.string.set_activity_switch),
-                    IDOActivitySwitchParamModel(
-                        1,
-                        1, 1,
-                        1, 1,
-                        1, 1,
-                        1,
-                        1
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETALARMV3, context.getString(R.string.set_alarm), IDOAlarmModel(
-                        listOf(
-                            IDOAlarmItem(
-                                14,
-                                5,
-                                12,
-                                54,
-                                "dsdgf",
-                                false,
-                                hashSetOf(
-                                    IDOWeek.FRIDAY,
-                                    IDOWeek.FRIDAY,
-                                    IDOWeek.FRIDAY,
-                                    IDOWeek.FRIDAY,
-                                ),
-                                3,
-                                10,
-                                IDOAlarmStatus.DISPLAYED,
-                                10,
-                                IDOAlarmType.DATE
-                            )
-                        )
-                    )
-                ),
+
+
                 SetFuncData(
                     CustomEvtType.SETHEARTRATEINTERVAL,
                     context.getString(R.string.set_heart_rate_interval),
@@ -151,29 +116,8 @@ class SetFuncData(
                         59
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETSCREENBRIGHTNESS,
-                    context.getString(R.string.set_screen_brightness),
-                    IDOScreenBrightnessModel(
-                        20,
-                        0,
-                        0,
-                        3,
-                        18,
-                        0,
-                        23,
-                        0,
-                        20,
-                        0,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETMENSTRUATION, context.getString(R.string.set_menstrual_period),
-                    IDOMenstruationModel(
-                        1, 7, 21, 2022, 12, 19, 15,
-                        5, 5, 1, 1
-                    )
-                ),
+
+
                 SetFuncData(
                     CustomEvtType.SETCALORIEDISTANCEGOAL,
                     context.getString(R.string.calories_and_distance_targets),
@@ -181,183 +125,8 @@ class SetFuncData(
                         500, 200, 200, 666, 600, 600, 0,
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETSENDRUNPLAN,
-                    context.getString(R.string.set_send_run_plan),
-                    IDORunPlanParamModel(
-                        operate = 1,
-                        type = 1,
-                        year = 2020,
-                        month = 12,
-                        day = 26,
-                        hour = 17,
-                        min = 36,
-                        sec = 0,
-                        dayNum = 1,
-                        items = listOf(
-                            IDOGpsInfoModelItem(
-                                type = 186, num = 1, items = listOf(
-                                    IDOItemItem(
-                                        type = 1, time = 200, heightHeart = 110, lowHeart = 80
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETWALKREMIND,
-                    context.getString(R.string.setwalkreminder),
-                    IDOWalkRemindModel(
-                        1,
-                        2000,
-                        14,
-                        0,
-                        20,
-                        0,
-                        hashSetOf(IDOWeek.MONDAY, IDOWeek.SUNDAY),
-                        60,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    )
-                ),
 
-                SetFuncData(
-                    CustomEvtType.SETWATCHDIALSORT,
-                    context.getString(R.string.set_dial_order),
-                    IDOWatchDialSortParamModel(
-                        sortItemNumb = 2, pSortItem = listOf(
-                            IDOWatchDialSortItem(
-                                type = 1, sortNumber = 0, name = "w6.iwf"
-                            ),
-                            IDOWatchDialSortItem(
-                                type = 1, sortNumber = 1, name = "w96.iwf"
-                            )
-                        )
-                    )
-                ),
 
-                SetFuncData(
-                    CustomEvtType.SETWEATHERV3,
-                    context.getString(R.string.set_weather_v3),
-                    IDOWeatherV3ParamModel(
-                        11,
-                        29,
-                        16,
-                        2,
-                        2,
-                        1,
-                        7,
-                        9,
-                        33,
-                        3,
-                        "shenzhen",
-                        7,
-                        40,
-                        32,
-                        10,
-                        5,
-                        5,
-                        37,
-                        18,
-                        49,
-                        3,
-                        "big",
-                        listOf(
-                            IDOHoursWeatherItem(
-                                weatherType = 7, temperature = 8, probability = 40
-                            )
-                        ),
-                        listOf(
-                            IDOFutureItem(
-                                weatherType = 6, maxTemp = 33, minTemp = 8
-                            )
-                        ),
-                        listOf(
-                            IDOSunriseItem(
-                                sunriseHour = 5, sunriseMin = 35, sunsetHour = 15, sunsetMin = 35
-                            ), IDOSunriseItem(
-                                sunriseHour = 6, sunriseMin = 36, sunsetHour = 16, sunsetMin = 36
-                            ), IDOSunriseItem(
-                                sunriseHour = 7, sunriseMin = 37, sunsetHour = 17, sunsetMin = 37
-                            )
-                        )
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETNOTICEMESSAGESTATE,
-                    context.getString(R.string.v3_set_message_notification_status),
-                    IDONoticeMessageStateParamModel(
-                        1, 1, 3, 1, 1, listOf(
-                            IDONoticeMessageStateItemItem(
-                                evtType = 1, notifyState = 1, picFlag = 1
-                            )
-                        )
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETNOTICEMESSAGESTATE,
-                    context.getString(R.string.v3_get_message_notification_status),
-                    IDONoticeMessageStateParamModel(
-                        1, 3, 1, 1, 1, listOf(
-                            IDONoticeMessageStateItemItem(
-                                evtType = 1, notifyState = 1, picFlag = 1
-                            )
-                        )
-                    )
-                ),
-
-                SetFuncData(
-                    CustomEvtType.SETNOTICEMESSAGESTATE,
-                    context.getString(R.string.v3_updata_message_notification_status),
-                    IDONoticeMessageStateParamModel(
-                        1, 2, 1, 1, 1, listOf(
-                            IDONoticeMessageStateItemItem(
-                                evtType = 1, notifyState = 1, picFlag = 1
-                            )
-                        )
-                    )
-                ),
-
-                SetFuncData(
-                    CustomEvtType.SETWATCHFACEDATA,
-                    context.getString(R.string.setwatchfacedata),
-                    IDOWatchFaceParamModel(
-                        1, "w63.iwf", 2024
-                    )
-                ),
-
-                SetFuncData(
-                    CustomEvtType.SETNOTIFICATIONSTATUS,
-                    context.getString(R.string.setnotificationstatus),
-                    IDONotificationStatusParamModel(1)
-                ),
-                SetFuncData(
-                    CustomEvtType.SETFITNESSGUIDANCE,
-                    context.getString(R.string.setfitnessguidance),
-                    IDOFitnessGuidanceParamModel(
-                        1, 9, 0, 18, 0, 1, 0, hashSetOf(
-                            IDOWeek.MONDAY,
-                            IDOWeek.TUESDAY,
-                            IDOWeek.WEDNESDAY,
-                            IDOWeek.THURSDAY,
-                            IDOWeek.FRIDAY,
-                            IDOWeek.SATURDAY,
-                            IDOWeek.SUNDAY
-                        ), 2000
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETSCIENTIFICSLEEPSWITCH,
-                    context.getString(R.string.setscientificsleepswitch),
-                    IDOScientificSleepSwitchParamModel(
-                        1, 23, 23, 9, 0
-                    )
-                ),
                 SetFuncData(
                     CustomEvtType.SETTEMPERATURESWITCH,
                     context.getString(R.string.settemperatureswitch),
@@ -365,30 +134,8 @@ class SetFuncData(
                         1, 19, 0, 23, 0, 1
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETV3NOISE,
-                    context.resources.getString(R.string.setv3noise),
-                    IDOV3NoiseParamModel(
-                        1, 15, 0, 20, 0, 1, 100
-                    )
-                ),
 
-                SetFuncData(
-                    CustomEvtType.SETHEARTRATEMODESMART,
-                    context.getString(R.string.setheartratemodesmart),
-                    IDOHeartRateModeSmartParamModel(
-                        1,
-                        0,
-                        0,
-                        23,
-                        59,
-                        1,
-                        4,
-                        4,
-                        49,
-                        98,
-                    )
-                ),
+
 //                SetFuncData(
 //                    CustomEvtType.SETTAKINGMEDICINEREMINDER,
 //                    context.getString(R.string.settakingmedicinereminder),
@@ -404,23 +151,8 @@ class SetFuncData(
 //                        ), 49, 98, 99, 100, 101, 9
 //                    )
 //                ),
-                SetFuncData(
-                    CustomEvtType.SETBLEVOICE,
-                    context.getString(R.string.setblevoiceble),
-                    IDOBleVoiceParamModel(100, 85)
-                ),
-                SetFuncData(
-                    CustomEvtType.SETLONGSIT,
-                    context.getString(R.string.setlongsit),
-                    IDOLongSitParamModel(
-                        15, 40, 23, 26, 15, 254
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETLOSTFIND,
-                    context.getString(R.string.setlostfind),
-                    IDOLostFindParamModel(0)
-                ),
+
+
                 SetFuncData(
                     CustomEvtType.SETSPORTGOAL,
                     context.getString(R.string.setsportgoal),
@@ -476,49 +208,7 @@ class SetFuncData(
                         10,
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETSPORTMODESELECT,
-                    context.getString(R.string.setsportmodeselect),
-                    IDOSportModeSelectParamModel(
-                        10,
-                        4,
-                        10,
-                        19,
-                        10,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                    )
-                ),
+
                 SetFuncData(
                     CustomEvtType.SETSLEEPPERIOD,
                     context.getString(R.string.setsleepperiod),
@@ -562,13 +252,7 @@ class SetFuncData(
 //                    context.getString(R.string.setgpscontrol),
 //                    IDOGpsControlParamModel(1, 1)
 //                ),
-                SetFuncData(
-                    CustomEvtType.SETSPO2SWITCH,
-                    context.getString(R.string.setspo2switch),
-                    IDOSpo2SwitchParamModel(
-                        1, 14, 0, 20, 0, 1, 20, 1
-                    )
-                ),
+
 
                 SetFuncData(
                     CustomEvtType.SETNOTICEAPPNAME,
@@ -581,73 +265,8 @@ class SetFuncData(
                         )
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETSYNCCONTACT,
-                    context.getString(R.string.setsynccontact),
-                    IDOSyncContactParamModel(
-                        1, listOf(
-                            IDOContactItem(
-                                "18888888888", "ido"
-                            )
-                        )
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.MUSICCONTROL,
-                    context.getString(R.string.musiccontrol),
-                    IDOMusicControlParamModel(
-                        1, 5, 360, "ido.mp3", "ido"
-
-                    )
-                ),
-//                SetFuncData(
-//                    CustomEvtType.NOTICEMESSAGEV3,
-//                    context.getString(R.string.noticemessagev3),
-//                    IDONoticeMessageParamModel(
-//                        2, 4, 10, false, false, false, "xmm", "ddd", "13340216580", "xiao"
-//                    )
-//                ),
 
 
-                SetFuncData(
-                    CustomEvtType.SETSCHEDULERREMINDERV3,
-                    context.getString(R.string.setschedulerreminderv3),
-                    IDOSchedulerReminderParamModel(
-                        1, listOf(
-                            IDOSchedulerReminderItem(
-                                0,
-                                2022,
-                                12,
-                                26,
-                                15,
-                                51,
-                                20,
-                                255,
-                                1,
-                                2,
-                                "提醒事项1",
-                                "记得完成工作",
-                            )
-                        )
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SET100SPORTSORTV3,
-                    context.getString(R.string.set100sportsortv3),
-                    IDOSport100SortParamModel(
-                        2, 2, listOf(
-                            1, 2
-                        )
-                    )
-                ),
-
-                SetFuncData(
-                    CustomEvtType.SETVOICEREPLYTXTV3,
-                    context.getString(R.string.setvoicereplytxtv3),
-                    IDOVoiceReplyParamModel(
-                        1, "dsdf", "sdf"
-                    )
-                ),
                 SetFuncData(
                     CustomEvtType.SETTIME,
                     context.getString(R.string.settime),
@@ -655,168 +274,764 @@ class SetFuncData(
                         2022, 10, 3, 5, 19, 16, 10, 29
                     )
                 ),
-                SetFuncData(
-                    CustomEvtType.SETFINDPHONE,
-                    context.getString(R.string.setfindphone),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETONEKEYSOS,
-                    context.getString(R.string.setonekeysos),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETWEATHERSWITCH,
-                    context.getString(R.string.setweatherswitch),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETUNREADAPPREMINDER,
-                    context.getString(R.string.setunreadappreminder),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETWEATHERCITYNAME,
-                    context.getString(R.string.setweathercityname),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETSPORTMODESORT,
-                    context.getString(R.string.setsportmodesort),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETRRESPIRATETURN,
-                    context.getString(R.string.setrrespirateturn),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETBODYPOWERTURN,
-                    context.getString(R.string.setbodypowerturn),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
-                SetFuncData(
-                    CustomEvtType.SETWORLDTIMEV3,
-                    context.resources.getString(R.string.setworldtimev3),
-                    IDOCmdSetResponseModel(
-                        1,
-                    )
-                ),
+
+
 //                SetFuncData(
 //                    CustomEvtType.SETLONGCITYNAMEV3,
 //                    context.resources.getString(R.string.set_long_city_name_v3),
 //                    IDOCmdSetResponseModel(1)
 //                ),
-                SetFuncData(
-                    CustomEvtType.GETHISTORICALMENSTRUATION,
-                    context.resources.getString(R.string.set_historical_menstruation),
-                    IDOHistoricalMenstruationParamModel(
-                        7, 29, listOf(
-                            IDOHistoricalMenstruationParamItem(2023, 8, 1, 7, 30, 14, 5, 5)
-                        )
-                    )
-                ),
+
 
                 SetFuncData(
                     CustomEvtType.SETUSERINFO, context.resources.getString(R.string.set_user_info),
                     IDOUserInfoPramModel(2022, 12, 16, 173, 7400, 0)
                 ),
-                SetFuncData(
-                    CustomEvtType.SETNOTDISTURB,
-                    context.resources.getString(R.string.set_notDisturb),
-                    IDONotDisturbParamModel(1, 15, 23, 30, 2, 127, 1, 9, 0, 12, 0, 0, 0)
-                ),
-                SetFuncData(
-                    CustomEvtType.SETMENSTRUATIONREMIND,
-                    context.resources.getString(R.string.set_menstrual_period),
-                    IDOMenstruationRemindParamModel(8, 8, 21, 0, 5, 5, 1)
-                ),
 
-                SetFuncData(
-                    CustomEvtType.SETSTRESSSWITCH,
-                    context.resources.getString(R.string.set_stress_switch),
-                    IDOStressSwitchParamModel(
-                        1, 14, 3, 20, 5, 1, 60, 170, 80, 1, hashSetOf(
-                            IDOWeek.MONDAY,
-                            IDOWeek.TUESDAY,
-                            IDOWeek.WEDNESDAY,
-                            IDOWeek.THURSDAY,
-                            IDOWeek.FRIDAY,
-                            IDOWeek.SATURDAY,
-                            IDOWeek.SUNDAY
-                        )
-                    )
-                ),
 
-                SetFuncData(
-                    CustomEvtType.SETDRINKWATERREMIND,
-                    context.resources.getString(R.string.set_drinkwater_remind),
-                    IDODrinkWaterRemindModel(
-                        1, 18, 7, 23, 12, hashSetOf(
-                            IDOWeek.MONDAY,
-                            IDOWeek.TUESDAY,
-                            IDOWeek.WEDNESDAY,
-                            IDOWeek.THURSDAY,
-                            IDOWeek.FRIDAY,
-                            IDOWeek.SATURDAY,
-                        ), 1, 1, 9, 0, 12, 0, 0
-                    )
-                ),
                 SetFuncData(
                     CustomEvtType.SETOVERFINDPHONE,
                     context.resources.getString(R.string.set_over_find_phone),
                     IDOCmdSetResponseModel(1)
                 ),
 
-                SetFuncData(
-                    CustomEvtType.SETMENULIST, context.resources.getString(R.string.set_menu_list),
-                    IDOMenuListParamModel(listOf(1, 2, 3, 4, 5, 6, 7))
-                ),
-                SetFuncData(
-                    CustomEvtType.MUSICSTART,
-                    context.resources.getString(R.string.music_start),
-                    IDOCmdSetResponseModel(1)
-                ),
-                SetFuncData(
-                    CustomEvtType.MUSICSTOP,
-                    context.resources.getString(R.string.music_stop),
-                    IDOCmdSetResponseModel(1)
-                ),
 
                 SetFuncData(
                     CustomEvtType.SETFASTMSGV3,
                     context.resources.getString(R.string.set_fast_msg_setting),
-                    IDOFastMsgSettingModel(0, listOf(
-                        IDOFastMsgItem(1, "test1"),
-                        IDOFastMsgItem(2, "test2"),
-                        IDOFastMsgItem(3, "test3"),
-                        IDOFastMsgItem(4, "test4"),
-                        IDOFastMsgItem(5, "test5")
-                    ))
-                ),
+                    IDOFastMsgSettingModel(
+                        0, listOf(
+                            IDOFastMsgItem(1, "test1"),
+                            IDOFastMsgItem(2, "test2"),
+                            IDOFastMsgItem(3, "test3"),
+                            IDOFastMsgItem(4, "test4"),
+                            IDOFastMsgItem(5, "test5")
+                        )
+                    )
+                )
+            )
+
+            if (sdk.funcTable.syncV3SyncAlarm) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETALARMV3,
+                        context.getString(R.string.set_alarm),
+                        IDOAlarmModel(
+                            listOf(
+                                IDOAlarmItem(
+                                    14,
+                                    5,
+                                    12,
+                                    54,
+                                    "dsdgf",
+                                    false,
+                                    hashSetOf(
+                                        IDOWeek.FRIDAY,
+                                        IDOWeek.FRIDAY,
+                                        IDOWeek.FRIDAY,
+                                        IDOWeek.FRIDAY,
+                                    ),
+                                    3,
+                                    10,
+                                    IDOAlarmStatus.DISPLAYED,
+                                    10,
+                                    IDOAlarmType.DATE
+                                )
+                            )
+                        )
+                    )
+                )
+            }
 
 
+            if (sdk.funcTable.setScreenBrightness) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSCREENBRIGHTNESS,
+                        context.getString(R.string.set_screen_brightness),
+                        IDOScreenBrightnessModel(
+                            20,
+                            0,
+                            0,
+                            3,
+                            18,
+                            0,
+                            23,
+                            0,
+                            20,
+                            0,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setMenstruation) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETMENSTRUATION,
+                        context.getString(R.string.set_menstrual_period),
+                        IDOMenstruationModel(
+                            1, 7, 21, 2022, 12, 19, 15,
+                            5, 5, 1, 1
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSupportSportPlan) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSENDRUNPLAN,
+                        context.getString(R.string.set_send_run_plan),
+                        IDORunPlanParamModel(
+                            operate = 1,
+                            type = 1,
+                            year = 2020,
+                            month = 12,
+                            day = 26,
+                            hour = 17,
+                            min = 36,
+                            sec = 0,
+                            dayNum = 1,
+                            items = listOf(
+                                IDOGpsInfoModelItem(
+                                    type = 186, num = 1, items = listOf(
+                                        IDOItemItem(
+                                            type = 1, time = 200, heightHeart = 110, lowHeart = 80
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setWalkReminder) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWALKREMIND,
+                        context.getString(R.string.setwalkreminder),
+                        IDOWalkRemindModel(
+                            1,
+                            2000,
+                            14,
+                            0,
+                            20,
+                            0,
+                            hashSetOf(IDOWeek.MONDAY, IDOWeek.SUNDAY),
+                            60,
+                            1,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setWatchDialSort) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWATCHDIALSORT,
+                        context.getString(R.string.set_dial_order),
+                        IDOWatchDialSortParamModel(
+                            sortItemNumb = 2, pSortItem = listOf(
+                                IDOWatchDialSortItem(
+                                    type = 1, sortNumber = 0, name = "w6.iwf"
+                                ),
+                                IDOWatchDialSortItem(
+                                    type = 1, sortNumber = 1, name = "w96.iwf"
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetV3Weather) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWEATHERV3,
+                        context.getString(R.string.set_weather_v3),
+                        IDOWeatherV3ParamModel(
+                            11,
+                            29,
+                            16,
+                            2,
+                            2,
+                            1,
+                            7,
+                            9,
+                            33,
+                            3,
+                            "shenzhen",
+                            7,
+                            40,
+                            32,
+                            10,
+                            5,
+                            5,
+                            37,
+                            18,
+                            49,
+                            3,
+                            "big",
+                            listOf(
+                                IDOHoursWeatherItem(
+                                    weatherType = 7, temperature = 8, probability = 40
+                                )
+                            ),
+                            listOf(
+                                IDOFutureItem(
+                                    weatherType = 6, maxTemp = 33, minTemp = 8
+                                )
+                            ),
+                            listOf(
+                                IDOSunriseItem(
+                                    sunriseHour = 5,
+                                    sunriseMin = 35,
+                                    sunsetHour = 15,
+                                    sunsetMin = 35
+                                ), IDOSunriseItem(
+                                    sunriseHour = 6,
+                                    sunriseMin = 36,
+                                    sunsetHour = 16,
+                                    sunsetMin = 36
+                                ), IDOSunriseItem(
+                                    sunriseHour = 7,
+                                    sunriseMin = 37,
+                                    sunsetHour = 17,
+                                    sunsetMin = 37
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setSetNotificationStatus) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETNOTICEMESSAGESTATE,
+                        context.getString(R.string.v3_updata_message_notification_status),
+                        IDONoticeMessageStateParamModel(
+                            1, 2, 1, 1, 1, listOf(
+                                IDONoticeMessageStateItemItem(
+                                    evtType = 1, notifyState = 1, picFlag = 1
+                                )
+                            )
+                        )
+                    )
                 )
 
 
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETNOTICEMESSAGESTATE,
+                        context.getString(R.string.v3_get_message_notification_status),
+                        IDONoticeMessageStateParamModel(
+                            1, 3, 1, 1, 1, listOf(
+                                IDONoticeMessageStateItemItem(
+                                    evtType = 1, notifyState = 1, picFlag = 1
+                                )
+                            )
+                        )
+                    )
+                )
+
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETNOTICEMESSAGESTATE,
+                        context.getString(R.string.v3_set_message_notification_status),
+                        IDONoticeMessageStateParamModel(
+                            1, 1, 3, 1, 1, listOf(
+                                IDONoticeMessageStateItemItem(
+                                    evtType = 1, notifyState = 1, picFlag = 1
+                                )
+                            )
+                        )
+                    )
+                )
+
+            }
 
 
+            if (sdk.funcTable.getMultiDial) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWATCHFACEDATA,
+                        context.getString(R.string.setwatchfacedata),
+                        IDOWatchFaceParamModel(
+                            1, "w63.iwf", 2024
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetNotificationStatus) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETNOTIFICATIONSTATUS,
+                        context.getString(R.string.setnotificationstatus),
+                        IDONotificationStatusParamModel(1)
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetFitnessGuidance) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETFITNESSGUIDANCE,
+                        context.getString(R.string.setfitnessguidance),
+                        IDOFitnessGuidanceParamModel(
+                            1, 9, 0, 18, 0, 1, 0, hashSetOf(
+                                IDOWeek.MONDAY,
+                                IDOWeek.TUESDAY,
+                                IDOWeek.WEDNESDAY,
+                                IDOWeek.THURSDAY,
+                                IDOWeek.FRIDAY,
+                                IDOWeek.SATURDAY,
+                                IDOWeek.SUNDAY
+                            ), 2000
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setScientificSleepSwitch) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSCIENTIFICSLEEPSWITCH,
+                        context.getString(R.string.setscientificsleepswitch),
+                        IDOScientificSleepSwitchParamModel(
+                            1, 23, 23, 9, 0
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.syncV3Noise) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETV3NOISE,
+                        context.resources.getString(R.string.setv3noise),
+                        IDOV3NoiseParamModel(
+                            1, 15, 0, 20, 0, 1, 100
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSmartHeartRate) {
+
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETHEARTRATEMODESMART,
+                        context.getString(R.string.setheartratemodesmart),
+                        IDOHeartRateModeSmartParamModel(
+                            1,
+                            0,
+                            0,
+                            23,
+                            59,
+                            1,
+                            4,
+                            4,
+                            49,
+                            98,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetPhoneVoice) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETBLEVOICE,
+                        context.getString(R.string.setblevoiceble),
+                        IDOBleVoiceParamModel(100, 85)
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSedentariness) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETLONGSIT,
+                        context.getString(R.string.setlongsit),
+                        IDOLongSitParamModel(
+                            15, 40, 23, 26, 15, 254
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.supportSetAntilost) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETLOSTFIND,
+                        context.getString(R.string.setlostfind),
+                        IDOLostFindParamModel(0)
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.syncTimeLine) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSPORTMODESELECT,
+                        context.getString(R.string.setsportmodeselect),
+                        IDOSportModeSelectParamModel(
+                            10,
+                            4,
+                            10,
+                            19,
+                            10,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSpo2Data) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSPO2SWITCH,
+                        context.getString(R.string.setspo2switch),
+                        IDOSpo2SwitchParamModel(
+                            1, 14, 0, 20, 0, 1, 20, 1
+                        )
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setSyncContact && sdk.funcTable.reminderCallContact) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSYNCCONTACT,
+                        context.getString(R.string.setsynccontact),
+                        IDOSyncContactParamModel(
+                            1, listOf(
+                                IDOContactItem(
+                                    "18888888888", "ido"
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setBleControlMusic) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.MUSICCONTROL,
+                        context.getString(R.string.musiccontrol),
+                        IDOMusicControlParamModel(
+                            1, 5, 360, "ido.mp3", "ido"
+
+                        )
+                    )
+                )
+
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.MUSICSTART,
+                        context.resources.getString(R.string.music_start),
+                        IDOCmdSetResponseModel(1)
+                    )
+                )
+
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.MUSICSTOP,
+                        context.resources.getString(R.string.music_stop),
+                        IDOCmdSetResponseModel(1)
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setScheduleReminder) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSCHEDULERREMINDERV3,
+                        context.getString(R.string.setschedulerreminderv3),
+                        IDOSchedulerReminderParamModel(
+                            1, listOf(
+                                IDOSchedulerReminderItem(
+                                    0,
+                                    2022,
+                                    12,
+                                    26,
+                                    15,
+                                    51,
+                                    20,
+                                    255,
+                                    1,
+                                    2,
+                                    "提醒事项1",
+                                    "记得完成工作",
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.getSportsTypeV3) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SET100SPORTSORTV3,
+                        context.getString(R.string.set100sportsortv3),
+                        IDOSport100SortParamModel(
+                            2, 2, listOf(
+                                1, 2
+                            )
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.getSportsTypeV3) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETVOICEREPLYTXTV3,
+                        context.getString(R.string.setvoicereplytxtv3),
+                        IDOVoiceReplyParamModel(
+                            1, "dsdf", "sdf"
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.getFindPhone) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETFINDPHONE,
+                        context.getString(R.string.setfindphone),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+            if (sdk.funcTable.supportSetOnetouchCalling) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETONEKEYSOS,
+                        context.getString(R.string.setonekeysos),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetV3Weather) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWEATHERSWITCH,
+                        context.getString(R.string.setweatherswitch),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetUnreadAppReminder) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETUNREADAPPREMINDER,
+                        context.getString(R.string.setunreadappreminder),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setWeatherCity) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWEATHERCITYNAME,
+                        context.getString(R.string.setweathercityname),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSportModeSort) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSPORTMODESORT,
+                        context.getString(R.string.setsportmodesort),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setRespirationRate) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETRRESPIRATETURN,
+                        context.getString(R.string.setrrespirateturn),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+            if (sdk.funcTable.syncV3BodyPower) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETBODYPOWERTURN,
+                        context.getString(R.string.setbodypowerturn),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setSetV3WorldTime) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWORLDTIMEV3,
+                        context.resources.getString(R.string.setworldtimev3),
+                        IDOCmdSetResponseModel(
+                            1,
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setHistoryMenstrual) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.GETHISTORICALMENSTRUATION,
+                        context.resources.getString(R.string.set_historical_menstruation),
+                        IDOHistoricalMenstruationParamModel(
+                            7, 29, listOf(
+                                IDOHistoricalMenstruationParamItem(2023, 8, 1, 7, 30, 14, 5, 5)
+                            )
+                        )
+                    )
+                )
+
+            }
+
+            if (sdk.funcTable.setDoNotDisturb) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETNOTDISTURB,
+                        context.resources.getString(R.string.set_notDisturb),
+                        IDONotDisturbParamModel(1, 15, 23, 30, 2, 127, 1, 9, 0, 12, 0, 0, 0)
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setMenuListMain7) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETMENULIST,
+                        context.resources.getString(R.string.set_menu_list),
+                        IDOMenuListParamModel(listOf(1, 2, 3, 4, 5, 6, 7))
+                    )
+                )
+            }
+
+
+            if (sdk.funcTable.setNoReminderOnDrinkReminder && sdk.funcTable.setDrinkWaterAddNotifyFlag) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETDRINKWATERREMIND,
+                        context.resources.getString(R.string.set_drinkwater_remind),
+                        IDODrinkWaterRemindModel(
+                            1, 18, 7, 23, 12, hashSetOf(
+                                IDOWeek.MONDAY,
+                                IDOWeek.TUESDAY,
+                                IDOWeek.WEDNESDAY,
+                                IDOWeek.THURSDAY,
+                                IDOWeek.FRIDAY,
+                                IDOWeek.SATURDAY,
+                            ), 1, 1, 9, 0, 12, 0, 0
+                        )
+                    )
+                )
+            }
+            if (sdk.funcTable.setPressureData) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSTRESSSWITCH,
+                        context.resources.getString(R.string.set_stress_switch),
+                        IDOStressSwitchParamModel(
+                            1, 14, 3, 20, 5, 1, 60, 170, 80, 1, hashSetOf(
+                                IDOWeek.MONDAY,
+                                IDOWeek.TUESDAY,
+                                IDOWeek.WEDNESDAY,
+                                IDOWeek.THURSDAY,
+                                IDOWeek.FRIDAY,
+                                IDOWeek.SATURDAY,
+                                IDOWeek.SUNDAY
+                            )
+                        )
+                    )
+                )
+            }
+
+            if (sdk.funcTable.setMenstruation) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETMENSTRUATIONREMIND,
+                        context.resources.getString(R.string.set_menstrual_period),
+                        IDOMenstruationRemindParamModel(8, 8, 21, 0, 5, 5, 1)
+                    )
+                )
+            }
 //            if (sdk.funcTable.setWalkReminderTimeGoal) {
 //                mutableListOf.add(
 //                    SetFuncData(
@@ -832,6 +1047,42 @@ class SetFuncData(
 //                    )
 //                )
 //            }
+
+
+            if (sdk.funcTable.setActivitySwitch) {
+                if (sdk.funcTable.getAutoActivitySetGetUseNewStructExchange) {
+                    mutableListOf.add(
+                        SetFuncData(
+                            CustomEvtType.SETACTIVITYSWITCH,
+                            context.getString(R.string.set_activity_switch),
+                            IDOActivitySwitchParamModel(
+                                1,
+                                1, 1,
+                                1, 1,
+                                1, 1,
+                                1,
+                                1
+                            )
+                        )
+                    )
+                } else {
+                    mutableListOf.add(
+                        SetFuncData(
+                            CustomEvtType.SETACTIVITYSWITCH,
+                            context.getString(R.string.set_activity_switch),
+                            IDOActivitySwitchParamModel(
+                                -1,
+                                -1, -1,
+                                -1, -1,
+                                -1, -1,
+                                -1,
+                                -1
+                            )
+                        )
+                    )
+                }
+            }
+
             if (sdk.funcTable.setSetMainUiSort) {
                 mutableListOf.add(
                     SetFuncData(

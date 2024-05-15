@@ -6,13 +6,24 @@ IDOSDK 版本更新日志
 
 ## 资源
 
-文档：https://idoosmart.github.io/Native_GitBook/zh/
+文档：[中文](https://idoosmart.github.io/Native_GitBook/zh/) | [English](https://idoosmart.github.io/Native_GitBook/en/)
 
-Demo：https://gitee.com/idoosmart/Native_Demo.git
+Demo：[Gitee](https://gitee.com/idoosmart/Native_Demo) | [Github](https://github.com/idoosmart/Native_Demo)
 
-Android SDK：https://gitee.com/idoosmart/android_sdk.git
+Android SDK：[Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https://github.com/idoosmart/android_sdk)
 
-iOS SDK： [Podfile](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile)文件
+iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile) | [Github](https://github.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile)
+
+
+
+## 4.0.29<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/14</span>
+
+##### 更新内容：
+
+- 解决部分包冲突问题（android)
+- 修复实时运动显示失败问题（android)
+- 修复实时运动代理未回调问题（iOS）
+- 移除path_provider_xx三方库
 
 
 
