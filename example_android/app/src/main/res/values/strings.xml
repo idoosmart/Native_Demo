@@ -190,5 +190,5 @@
     <string name="getBtConnectPhoneModel">Obtain BT connected phone model</string>
     <string name="getDefaultSportType">Obtain  default motion type</string>
     <string name="getSportTypeV3">V3 Obtain  default motion type</string>
-
+    <string name="epo_file">epo</string>
 </resources>

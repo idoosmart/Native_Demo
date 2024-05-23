@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
+import kotlinx.android.synthetic.main.layout_function_activity.rl_epo
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
@@ -153,13 +154,15 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun getFunction(view: View) {
-        val intent = Intent(this, GetFuntionActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, GetFuntionActivity::class.java)
+//        startActivity(intent)
+        sdk.ble.setBtPair(device!!)
     }
 
     fun setFunction(view: View) {
-        val intent = Intent(this, SetFuntionActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, SetFuntionActivity::class.java)
+//        startActivity(intent)
+        sdk.ble.cancelPair(device!!)
     }
 
     fun syncdata(view: View) {
@@ -179,6 +182,11 @@ class FunctionActivity : BaseActivity() {
 
     fun sport(view: View) {
         val intent = Intent(this, SportExchangeActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun epo_transfer(view: View){
+        val intent = Intent(this, GpsMainActivity::class.java)
         startActivity(intent)
     }
 
@@ -281,6 +289,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.VISIBLE
             rl_alexa?.visibility = View.VISIBLE
             rl_sport?.visibility = View.VISIBLE
+            rl_epo?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -291,6 +300,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.GONE
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
+            rl_epo?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
