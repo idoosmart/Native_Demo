@@ -27,13 +27,13 @@ struct Constant {
     static let bindKey = "bind-state"
     
     /// 2秒一次交换简要运动数据
-    static let intervalExchangeData = 2 * 1000
+    static let intervalExchangeData = 2
 
     /// 40秒一次交换运动完整数据
-    static let intervalExchangeCompleteData = 40 * 1000
+    static let intervalExchangeCompleteData = 40
 
     /// 30秒一次交换V3心率数据
-    static let intervalExchangeHrData = 30 * 1000
+    static let intervalExchangeHrData = 30
 }
 
 
