@@ -252,6 +252,41 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_epo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="epo_transfer"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/epo_file"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/v_right_s" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
         android:id="@+id/rl_alexa"
         android:layout_width="match_parent"
         android:layout_height="40dp"

@@ -185,4 +185,5 @@
     <string name="getSportTypeV3">V3 Obtain  default motion type</string>
     <string name="set_fast_msg_update">Set fast message update</string>
     <string name="set_fast_msg_setting">Set fast message setting</string>
+    <string name="epo_file">epo</string>
 </resources>

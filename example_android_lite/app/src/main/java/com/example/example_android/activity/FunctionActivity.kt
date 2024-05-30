@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
+import kotlinx.android.synthetic.main.layout_function_activity.rl_epo
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
@@ -248,6 +249,11 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    fun epo_transfer(view: View){
+        val intent = Intent(this, GpsMainActivity::class.java)
+        startActivity(intent)
+    }
+
 
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -273,6 +279,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.VISIBLE
             rl_alexa?.visibility = View.VISIBLE
             rl_sport?.visibility = View.VISIBLE
+            rl_epo?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -283,6 +290,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.GONE
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
+            rl_epo?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }

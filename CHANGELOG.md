@@ -16,6 +16,19 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.30<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/30</span>
+
+##### 更新内容：
+
+- 添加同步指定类型数据接口；
+- 设备信息添加sn、btName、gpsPlatform字段；
+- 添加获取智能心率模式、获取血氧开关、获取压力开关、设置默认消息应用列表接口；
+- 修复调用bt配对无效问题（android）
+- 修复固件返回异常数据导致获取闹钟闪退问题
+- 修复无法修改设备音量问题
+
+
+
 ## 4.0.29<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/14</span>
 
 ##### 更新内容：
