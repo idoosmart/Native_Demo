@@ -49,6 +49,9 @@ typedef enum
 	SYNC_EVT_DATA_TRAN_PROCESSING_SPP                = 20,     //数据传输的进度  spp传输进度
 	SYNC_EVT_DATA_TRAN_COMPLETE_SPP                  = 21,     //数据传输完成,注意错误值  spp传输进度完成
 	SYNC_EVT_V3_HEALTH_EACH_TYPE_ITEMS_COMPLETE      = 22,     //v3健康数据同步单项数据完成通知 2022-7-26
+    SYNC_EVT_DEVICE_TRAN_FILE_2_APP_PROGRESS         = 24,     //24 设备上传文件进度上报事件
+    SYNC_EVT_DEVICE_TRAN_FILE_2_APP_COMPELETE        = 25,     //25 设备上传文件结果上报事件
+    SYNC_EVT_DEVICE_TRAN_FILE_2_APP_INFO             = 26,     //26 设备上传文件信息上报事件
 
 	VBUS_EVT_APP_SET_ALARM                           = 100,    //设置闹钟
 	VBUS_EVT_APP_SET_LONG_SIT                        = 101,	   //设置久坐 struct protocol_long_sit
@@ -397,6 +400,17 @@ typedef enum
 	VBUS_EVT_FUNC_V3_BP_CAL_CONTROL                        = 5072,  //V3血压校准控制 struct protocol_v3_bp_cal_control struct protocol_v3_bp_cal_control_reply
 	VBUS_EVT_FUNC_V3_BP_CAL_COMPLETE                       = 5073,  //V3血压校准完成
     VBUS_EVT_FUNC_SMART_COMPETITOR_CONFIG_INFO             = 5080,  //智能陪跑配置信息
+    VBUS_EVT_FUNC_MAKE_SMART_COMPETITOR_FILE               = 5081,  //制作isf & isf.slz文件 泰坦06定制
+    VBUS_EVT_FUNC_AI_SEND_TXT                              = 5082,	//发送AI语音转换文本
+    VBUS_EVT_FUNC_SLEEP_PLAN                               = 5083,  //睡眠计划
+    VBUS_EVT_FUNC_DRINK_PLAN                               = 5084,  //喝水计划
+    VBUS_EVT_FUNC_V3_ECARD_CONTROL                         = 5085,  //电子卡片
+    VBUS_EVT_FUNC_V3_VOICE_MEMO                            = 5086,  //语音备忘录
+    VBUS_EVT_FUNC_V3_MORNING_EDITION                       = 5087,  //晨报
+    VBUS_EVT_FUNC_V3_CALENDEAR_REMINDER                    = 5088,  //日历提醒
+    VBUS_EVT_FUNC_V3_CONFIG_MES_LIST                       = 5089,  //配置默认的消息应用列表
+    VBUS_EVT_FUNC_V3_SET_ECI                               = 5090,  //设置紧急联系人（ECI）方式
+
 
 	VBUS_EVT_FUNC_MAKE_PHOTO                               = 5500,	//制作照片
 	VBUS_EVT_FUNC_GPS_FILE                                 = 5501,	//制作gps文件

@@ -47,12 +47,6 @@ variant_for_slice()
   "native_channel.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
-  "path_provider_foundation.xcframework/ios-arm64")
-    echo ""
-    ;;
-  "path_provider_foundation.xcframework/ios-arm64_x86_64-simulator")
-    echo "simulator"
-    ;;
   "protocol_channel.xcframework/ios-arm64")
     echo ""
     ;;
@@ -93,12 +87,6 @@ archs_for_slice()
     echo "arm64"
     ;;
   "native_channel.xcframework/ios-arm64_x86_64-simulator")
-    echo "arm64 x86_64"
-    ;;
-  "path_provider_foundation.xcframework/ios-arm64")
-    echo "arm64"
-    ;;
-  "path_provider_foundation.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
   "protocol_channel.xcframework/ios-arm64")
@@ -194,6 +182,5 @@ install_xcframework "${PODS_ROOT}/IDOSDK-full/flutter_bluetooth.xcframework" "ID
 install_xcframework "${PODS_ROOT}/IDOSDK-full/Flutter.xcframework" "IDOSDK-full" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 install_xcframework "${PODS_ROOT}/IDOSDK-full/FlutterPluginRegistrant.xcframework" "IDOSDK-full" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 install_xcframework "${PODS_ROOT}/IDOSDK-full/native_channel.xcframework" "IDOSDK-full" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/IDOSDK-full/path_provider_foundation.xcframework" "IDOSDK-full" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 install_xcframework "${PODS_ROOT}/IDOSDK-full/protocol_channel.xcframework" "IDOSDK-full" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

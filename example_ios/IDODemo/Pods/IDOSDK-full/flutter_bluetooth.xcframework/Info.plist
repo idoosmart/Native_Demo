@@ -5,6 +5,8 @@
 	<key>AvailableLibraries</key>
 	<array>
 		<dict>
+			<key>BinaryPath</key>
+			<string>flutter_bluetooth.framework/flutter_bluetooth</string>
 			<key>DebugSymbolsPath</key>
 			<string>dSYMs</string>
 			<key>LibraryIdentifier</key>
@@ -19,6 +21,8 @@
 			<string>ios</string>
 		</dict>
 		<dict>
+			<key>BinaryPath</key>
+			<string>flutter_bluetooth.framework/flutter_bluetooth</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>

@@ -1,7 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
-// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name flutter_bluetooth
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name flutter_bluetooth
 import Compression
 import CoreBluetooth
 import CoreFoundation
@@ -13,6 +12,7 @@ import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
+import _SwiftConcurrencyShims
 @_exported import flutter_bluetooth
 public let defaultReadChunkSize: Swift.UInt32
 public let defaultWriteChunkSize: Swift.UInt32
@@ -235,10 +235,10 @@ extension Foundation.Data {
   @objc func dfuError(_ error: flutter_bluetooth.DFUError, didOccurWithMessage message: Swift.String)
 }
 @objc public class DFUServiceInitiator : ObjectiveC.NSObject {
-  @objc weak public var delegate: flutter_bluetooth.DFUServiceDelegate?
-  @objc weak public var progressDelegate: flutter_bluetooth.DFUProgressDelegate?
-  @objc weak public var logger: flutter_bluetooth.LoggerDelegate?
-  @objc public var peripheralSelector: flutter_bluetooth.DFUPeripheralSelectorDelegate
+  @objc weak public var delegate: (any flutter_bluetooth.DFUServiceDelegate)?
+  @objc weak public var progressDelegate: (any flutter_bluetooth.DFUProgressDelegate)?
+  @objc weak public var logger: (any flutter_bluetooth.LoggerDelegate)?
+  @objc public var peripheralSelector: any flutter_bluetooth.DFUPeripheralSelectorDelegate
   @objc public var packetReceiptNotificationParameter: Swift.UInt16
   @objc public var forceDfu: Swift.Bool
   @objc public var alternativeAdvertisingNameEnabled: Swift.Bool
@@ -613,19 +613,19 @@ public struct Attributes {
   final public class func allItems(_ itemClass: flutter_bluetooth.ItemClass) -> [[Swift.String : Any]]
   final public func allItems() -> [[Swift.String : Any]]
   @available(iOS 8.0, *)
-  final public func getSharedPassword(_ completion: @escaping (_ account: Swift.String?, _ password: Swift.String?, _ error: Swift.Error?) -> () = { account, password, error -> () in })
+  final public func getSharedPassword(_ completion: @escaping (_ account: Swift.String?, _ password: Swift.String?, _ error: (any Swift.Error)?) -> () = { account, password, error -> () in })
   @available(iOS 8.0, *)
-  final public func getSharedPassword(_ account: Swift.String, completion: @escaping (_ password: Swift.String?, _ error: Swift.Error?) -> () = { password, error -> () in })
+  final public func getSharedPassword(_ account: Swift.String, completion: @escaping (_ password: Swift.String?, _ error: (any Swift.Error)?) -> () = { password, error -> () in })
   @available(iOS 8.0, *)
-  final public func setSharedPassword(_ password: Swift.String, account: Swift.String, completion: @escaping (_ error: Swift.Error?) -> () = { e -> () in })
+  final public func setSharedPassword(_ password: Swift.String, account: Swift.String, completion: @escaping (_ error: (any Swift.Error)?) -> () = { e -> () in })
   @available(iOS 8.0, *)
-  final public func removeSharedPassword(_ account: Swift.String, completion: @escaping (_ error: Swift.Error?) -> () = { e -> () in })
+  final public func removeSharedPassword(_ account: Swift.String, completion: @escaping (_ error: (any Swift.Error)?) -> () = { e -> () in })
   @available(iOS 8.0, *)
-  final public class func requestSharedWebCredential(_ completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: Swift.Error?) -> () = { credentials, error -> () in })
+  final public class func requestSharedWebCredential(_ completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: (any Swift.Error)?) -> () = { credentials, error -> () in })
   @available(iOS 8.0, *)
-  final public class func requestSharedWebCredential(domain: Swift.String, completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: Swift.Error?) -> () = { credentials, error -> () in })
+  final public class func requestSharedWebCredential(domain: Swift.String, completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: (any Swift.Error)?) -> () = { credentials, error -> () in })
   @available(iOS 8.0, *)
-  final public class func requestSharedWebCredential(domain: Swift.String, account: Swift.String, completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: Swift.Error?) -> () = { credentials, error -> () in })
+  final public class func requestSharedWebCredential(domain: Swift.String, account: Swift.String, completion: @escaping (_ credentials: [[Swift.String : Swift.String]], _ error: (any Swift.Error)?) -> () = { credentials, error -> () in })
   @available(iOS 8.0, *)
   final public class func generatePassword() -> Swift.String
   @objc deinit
@@ -1139,7 +1139,7 @@ extension flutter_bluetooth.Status : Foundation.CustomNSError {
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class SwiftFlutterBluetoothPlugin : ObjectiveC.NSObject, Flutter.FlutterPlugin {
-  @objc public static func register(with registrar: Flutter.FlutterPluginRegistrar)
+  @objc public static func register(with registrar: any Flutter.FlutterPluginRegistrar)
   @objc public func handle(_ call: Flutter.FlutterMethodCall, result: @escaping Flutter.FlutterResult)
   @objc override dynamic public init()
   @objc deinit

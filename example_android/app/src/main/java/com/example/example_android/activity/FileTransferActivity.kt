@@ -34,7 +34,7 @@ class FileTransferActivity : BaseActivity() {
                 val file = File("${resourceDir}/imgs/0.png")
                 tasks.add(
                     IDOTransNormalModel(
-                        fileType = IDOTransType.WALLPAPERZ,
+                        fileType = IDOTransType.WATCH,
                         filePath = "${resourceDir}/imgs/0.png",
                         fileName = "wallpaper.z",
                         fileSize = file.length().toInt()

@@ -4,5 +4,4 @@ ${PODS_ROOT}/IDOSDK-full/flutter_bluetooth.xcframework
 ${PODS_ROOT}/IDOSDK-full/Flutter.xcframework
 ${PODS_ROOT}/IDOSDK-full/FlutterPluginRegistrant.xcframework
 ${PODS_ROOT}/IDOSDK-full/native_channel.xcframework
-${PODS_ROOT}/IDOSDK-full/path_provider_foundation.xcframework
 ${PODS_ROOT}/IDOSDK-full/protocol_channel.xcframework

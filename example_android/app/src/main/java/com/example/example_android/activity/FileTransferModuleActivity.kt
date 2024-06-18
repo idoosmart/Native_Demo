@@ -5,9 +5,7 @@ import android.view.View
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.activity.FileTransferActivity
 import com.example.example_android.R
-import kotlinx.android.synthetic.main.activity_transfer_module_file.tvContact
-import kotlinx.android.synthetic.main.activity_transfer_module_file.tvMusic
-import kotlinx.android.synthetic.main.activity_transfer_module_file.tvWallpaper
+import kotlinx.android.synthetic.main.activity_transfer_module_file.*
 
 class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
 
@@ -21,6 +19,7 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
         tvWallpaper.setOnClickListener(this)
         tvContact.setOnClickListener(this)
         tvMusic.setOnClickListener(this)
+        tvOta.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -35,6 +34,9 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
 
             R.id.tvMusic -> {
                 startActivity(Intent(this, FileTransferActivity::class.java).putExtra("type", 3))
+            }
+            R.id.tvOta -> {
+                startActivity(Intent(this, OtaFileTransferActivity::class.java))
             }
         }
     }

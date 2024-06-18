@@ -1,6 +1,6 @@
 PODS:
-  - IDOSDK-full (4.0.23)
-  - IDOSDK-lite (4.0.23)
+  - IDOSDK-full (4.0.30)
+  - IDOSDK-lite (4.0.30)
   - ReachabilitySwift (5.0.0)
   - RxCocoa (6.6.0):
     - RxRelay (= 6.6.0)
@@ -13,8 +13,8 @@ PODS:
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
-  - IDOSDK-full (~> 4.0.23)
-  - IDOSDK-lite (~> 4.0.23)
+  - IDOSDK-full (~> 4.0.30)
+  - IDOSDK-lite (~> 4.0.30)
   - ReachabilitySwift
   - RxCocoa
   - RxSwift
@@ -36,8 +36,8 @@ SPEC REPOS:
     - SVProgressHUD
 
 SPEC CHECKSUMS:
-  IDOSDK-full: c7bdd6cf55c8e774e68ae461ebf3d35c3e53dba0
-  IDOSDK-lite: dbab03d4e52165981429ce0c6e839f0d9846fdba
+  IDOSDK-full: 8cb286bad125666d0b1e82e9dd596497c4118551
+  IDOSDK-lite: fef7a7d56ca6378520b50ad21161cd6dabf60d9c
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
@@ -46,6 +46,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: c66c6507b9b819d9987ed00bfdb2fed9171f5a07
+PODFILE CHECKSUM: ed068720713dab58dd1e801cea6676f360752521
 
 COCOAPODS: 1.13.0

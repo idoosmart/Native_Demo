@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".MyApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -61,6 +62,9 @@
             android:name="com.example.example_android.activity.SetFuntionActivity"
             android:exported="false" />
         <activity
+            android:name="com.example.example_android.activity.OtaFileTransferActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.example_android.activity.SetFunctionDetailActivity"
             android:exported="false" />
         <activity
@@ -74,6 +78,9 @@
             android:exported="false" />
         <activity
             android:name="com.example.example_android.activity.GetFunctionDetailActivity"
+            android:exported="false" />
+        <service
+            android:name="com.sifli.siflidfu.SifliDFUService"
             android:exported="false" />
         <activity
             android:name="com.example.example_android.activity.AlexaActivity"
