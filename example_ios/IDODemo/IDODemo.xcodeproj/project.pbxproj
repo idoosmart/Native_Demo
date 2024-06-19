@@ -31,8 +31,6 @@
 		4738B0932B3545B200D6BBEC /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738B0922B3545B200D6BBEC /* Bridge.swift */; };
 		4738B0952B3545C000D6BBEC /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738B0942B3545C000D6BBEC /* Bridge.swift */; };
 		4738B0972B35658800D6BBEC /* FunctionPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738B0962B35658800D6BBEC /* FunctionPageVC.swift */; };
-		4781FAD72C106A8100F9A007 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781FAD62C106A8100F9A007 /* WatchFaceVC.swift */; };
-		4781FAD82C106A8100F9A007 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781FAD62C106A8100F9A007 /* WatchFaceVC.swift */; };
 		47C4E1AD2B35669D0088A1E1 /* FunctionPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738B0982B35659000D6BBEC /* FunctionPageVC.swift */; };
 		47C9DE082AF0D335006F7CB8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C9DE072AF0D334006F7CB8 /* AVFoundation.framework */; };
 		47C9DE0A2AF0D353006F7CB8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C9DE092AF0D353006F7CB8 /* MediaPlayer.framework */; };
@@ -68,7 +66,6 @@
 		4738B0942B3545C000D6BBEC /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		4738B0962B35658800D6BBEC /* FunctionPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionPageVC.swift; sourceTree = "<group>"; };
 		4738B0982B35659000D6BBEC /* FunctionPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionPageVC.swift; sourceTree = "<group>"; };
-		4781FAD62C106A8100F9A007 /* WatchFaceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchFaceVC.swift; sourceTree = "<group>"; };
 		47C9DE072AF0D334006F7CB8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		47C9DE092AF0D353006F7CB8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		47C9DE0B2AF0F7D4006F7CB8 /* TransferFileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFileVC.swift; sourceTree = "<group>"; };
@@ -206,7 +203,6 @@
 				470498D22AEA5D4400ADA589 /* SetFunctionVC.swift */,
 				470498DA2AEA7FB300ADA589 /* SyncDataVC.swift */,
 				47C9DE0B2AF0F7D4006F7CB8 /* TransferFileVC.swift */,
-				4781FAD62C106A8100F9A007 /* WatchFaceVC.swift */,
 				47EAC8CC2B200CB000B88684 /* SportVC.swift */,
 			);
 			path = Page;
@@ -447,7 +443,6 @@
 				47E95DC12B4D0210006C8B99 /* TestOC.m in Sources */,
 				47D514B22B393BF300E0AC21 /* XYCBBase.swift in Sources */,
 				47D514B42B397D9200E0AC21 /* MainPageVC.swift in Sources */,
-				4781FAD82C106A8100F9A007 /* WatchFaceVC.swift in Sources */,
 				4738B07A2B3538EC00D6BBEC /* AppDelegate.swift in Sources */,
 				47D514B02B393BF300E0AC21 /* XYCentralManager.swift in Sources */,
 				4738B0972B35658800D6BBEC /* FunctionPageVC.swift in Sources */,
@@ -466,7 +461,6 @@
 				470498D32AEA5D4400ADA589 /* SetFunctionVC.swift in Sources */,
 				470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */,
 				47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */,
-				4781FAD72C106A8100F9A007 /* WatchFaceVC.swift in Sources */,
 				470498DE2AEA804500ADA589 /* Extensions.swift in Sources */,
 				47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */,
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,
@@ -734,10 +728,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.idoosdk.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ido.standrandProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.ido.standrandProject";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -778,10 +772,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.idoosdk.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ido.standrandProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.ido.standrandProject";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

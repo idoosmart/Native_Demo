@@ -32,11 +32,6 @@ class TransferFileVC: UIViewController {
         if sdk.funcTable.getSupportV3BleMusic {
             list.append(.mp3)
         }
-        
-        // 7787 GTX13
-        if (sdk.device.deviceId == 7877) {
-            list.append(.watchFace)
-        }
         return list
     }()
     
@@ -86,12 +81,6 @@ extension TransferFileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cmd = items[indexPath.row]
-        if (cmd == .watchFace) {
-            // 表盘特殊处理
-            let vc = WatchFaceVC();
-            navigationController?.pushViewController(vc, animated: true)
-            return
-        }
         let vc = FunctionDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -105,7 +94,6 @@ fileprivate enum TransType {
     case wallpaper
     case contact
     case bin
-    case watchFace
 }
 
 extension TransType {
@@ -120,8 +108,6 @@ extension TransType {
             return "Contact"
         case .bin:
             return "bin文件升级"
-        case .watchFace:
-            return "Watch face(GTX13 only)"
         }
     }
 }
@@ -238,8 +224,6 @@ private class FunctionDetailVC: UIViewController {
         case .bin:
             _bin()
             break
-        case .watchFace:
-            break
         }
     }
     
@@ -274,7 +258,7 @@ private class FunctionDetailVC: UIViewController {
     private func _bin() {
         print("开始时间：\(Date())")
         //let picFilePath = bundlePath + "/bin/gtx03_ota_full_1.0.1.bin"
-        let picFilePath = bundlePath + "/ota/gtx03/ota_full_V1.00.18_0419.bin"
+        let picFilePath = bundlePath + "/ota/gtx03/ota_full.bin"
         _trans([
             IDOTransNormalModel(fileType: .bin, filePath: picFilePath, fileName: "ota_firmware.bin")
         ])
