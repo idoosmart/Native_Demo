@@ -40,4 +40,6 @@ struct Constant {
 struct Notify {
     static let onSdkStatusChanged = Notification.Name("ido-sdk-onSdkStatusChanged")
     static let onSdkDeviceStateChanged = Notification.Name("ido-sdk-onSdkDeviceStateChanged")
+    static let onBleDeviceStateChanged = Notification.Name("ido-sdk-onBleDeviceStateChanged")
+    static let onBleStateChanged = Notification.Name("ido-sdk-onBleStateChanged")
 }

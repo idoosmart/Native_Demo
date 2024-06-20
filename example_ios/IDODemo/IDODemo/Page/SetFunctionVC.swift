@@ -72,11 +72,10 @@ class SetFunctionVC: UIViewController {
         //SetCmd(type: .otaStart, title: "otaStart", desc: "进入升级模式"), // 未启用
         SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: "设置心率区间"),
         
-        
-        
-       
         SetCmd(type: .factoryReset, title: "factoryReset", desc: "恢复出厂设置"),
-        SetCmd(type: .reboot, title: "reboot", desc: "重启设备")
+        SetCmd(type: .reboot, title: "reboot", desc: "重启设备"),
+        
+        SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: "设置热启动参数")
         
     ]
     
@@ -231,7 +230,7 @@ class SetFunctionVC: UIViewController {
         
         
 //        let setUnit = funcTable.setSupportFahrenheit ||
-//        addToItemsbyFunctable(funcTable.,  SetCmd(type: .setUnit, title: "setUnit", desc: "Set Unit event number"))
+        addToItemsbyFunctable(true,  SetCmd(type: .setUnit, title: "setUnit", desc: "Set Unit event number"))
         
         addToItemsbyFunctable(funcTable.getFindPhone, SetCmd(type: .setFindPhone, title: "setFindPhone", desc: "Set Find Phone"))
         
@@ -295,7 +294,7 @@ extension SetFunctionVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cmd = items[indexPath.row]
-        let vc = FunctionDetailVC(cmd: cmd)
+        let vc = SetFunctionDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -531,6 +530,9 @@ private enum CmdType: CaseIterable{
     case reboot
     ///  设置压力开关
     case setStressSwitch
+    /// 设置热启动参数
+    /// Set hot boot parameters
+    case setHotStartParam
 }
 
 extension CmdType {
@@ -612,19 +614,19 @@ extension CmdType {
         case .setWeatherSwitch:
             return OtherParamModel(dic: ["open": true])
         case .setUnit:
-            return IDOUnitParamModel(distUnit: 10,
-                                     weightUnit: 4,
-                                     temp: 10,
-                                     stride: 19,
-                                     language: 10,
-                                     is12HourFormat: 39,
-                                     strideRun: 49,
-                                     strideGpsCal: 98,
-                                     weekStartDate: 99,
-                                     calorieUnit: 100,
-                                     swimPoolUnit: 101,
-                                     cyclingUnit: 6,
-                                     walkingRunningUnit: 7)
+            return IDOUnitParamModel(distUnit: 1,
+                                     weightUnit: 1,
+                                     temp: 1,
+                                     stride: 1,
+                                     language: 2,
+                                     is12HourFormat: 1,
+                                     strideRun: 1,
+                                     strideGpsCal: 1,
+                                     weekStartDate: 1,
+                                     calorieUnit: 1,
+                                     swimPoolUnit: 1,
+                                     cyclingUnit: 1,
+                                     walkingRunningUnit: 1)
         case .setFindPhone:
             return OtherParamModel(dic: ["open": true])
         case .setOverFindPhone:
@@ -777,10 +779,10 @@ extension CmdType {
                                           min: 30,
                                           sec: 0,
                                           week: 1,
-                                          weatherType: 7,
-                                          todayTmp: 9+100,
+                                          weatherType: 1,
+                                          todayTmp: 19+100,
                                           todayMaxTemp: 33+100,
-                                          todayMinTemp: 3+100,
+                                          todayMinTemp: 15+100,
                                           cityName: "shenzhen",
                                           airQuality: 7,
                                           precipitationProbability: 40,
@@ -794,10 +796,10 @@ extension CmdType {
                                           sunriseItemNum: 3,
                                           airGradeItem: "big",
                                           hoursWeatherItems: [
-                                              IDOHoursWeatherItem(weatherType: 7, temperature: 8, probability: 40)
+                                              IDOHoursWeatherItem(weatherType: 7, temperature: 8+100, probability: 40)
                                           ],
                                           futureItems: [
-                                              IDOFutureItem(weatherType: 6, maxTemp: 33, minTemp: 8)
+                                              IDOFutureItem(weatherType: 6, maxTemp: 33+100, minTemp: 8+100)
                                           ],
                                           sunriseItem: [
                                               IDOSunriseItem(sunriseHour: 5, sunriseMin: 35, sunsetHour: 15, sunsetMin: 35),
@@ -1015,6 +1017,8 @@ extension CmdType {
             return nil
         case .setStressSwitch:
             return IDOStressSwitchParamModel(onOff: 1, startHour: 3, startMinute: 5, endHour: 4, endMinute: 6, remindOnOff: 1, interval: 60, highThreshold: 30, notifyFlag: 1, repeats: [.monday, .tuesday])
+        case .setHotStartParam:
+            return IDOGpsHotStartParamModel(longitude: 2, latitude: Int(42.6511674 * 1000000) , altitude: Int(-73.754968 * 1000000), tcxoOffset: 0*10)
         }
     }
     
@@ -1031,9 +1035,9 @@ extension CmdType {
     }
 }
 
-// MARK: - FunctionDetailVC
+// MARK: - SetFunctionDetailVC
 
-private class FunctionDetailVC: UIViewController {
+private class SetFunctionDetailVC: UIViewController {
     private var cmd: SetCmd
     private let disposeBag = DisposeBag()
     private var cancellable: IDOCancellable?
@@ -1610,6 +1614,11 @@ private class FunctionDetailVC: UIViewController {
         case .setStressSwitch:
             let obj = cmd.type.param() as! IDOStressSwitchParamModel
             cancellable = Cmds.setStressSwitch(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setHotStartParam:
+            let obj = cmd.type.param() as! IDOGpsHotStartParamModel
+            cancellable = Cmds.setHotStartParam(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         }

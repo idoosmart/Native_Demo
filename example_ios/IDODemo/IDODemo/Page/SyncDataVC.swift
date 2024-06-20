@@ -144,7 +144,7 @@ extension SyncDataVC {
             IDOSyncDataTypeClass(type: .v2GPS),
         ]
         
-        // 可以用以下方法获取支持的类型（该方法稍后启用）
+        // 可以用以下方法获取支持的类型
 //        sdk.syncData.getSupportSyncDataTypeList { list in
 //            print("getSupportSyncDataTypeList list:\(list)")
 //        }

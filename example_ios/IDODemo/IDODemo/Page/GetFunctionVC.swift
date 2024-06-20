@@ -23,10 +23,10 @@ class GetFunctionVC: UIViewController {
     }()
     
     private lazy var items: [GetCmd] = [
-        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information"),
-        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information"),
-        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number"),
-        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information"),
+        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information", descCn: "获取设备信息"),
+        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information", descCn: "获取功能表"),
+        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number", descCn: "获取红点提醒开关"),
+        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information", descCn: "获取屏幕信息"),
     ]
     
     override func viewDidLoad() {
@@ -41,22 +41,22 @@ class GetFunctionVC: UIViewController {
         let innerTest = false
         
         if (innerTest || sdk.funcTable.getNewWatchList) {
-            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)"))
+            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)", descCn: "获取表盘列表"))
         }else {
-            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2"))
+            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2", descCn: "获取表盘列表"))
         }
         
         if (innerTest || sdk.funcTable.getHeartRateModeV2) {
-            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number"))
+            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number", descCn: "获取心率监测模式"))
         }
         if (innerTest || sdk.funcTable.getBatteryInfo) {
-            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number"))
+            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number", descCn: "获取电池信息"))
         }
         if (innerTest || sdk.funcTable.getDeviceLogState) {
-            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number"))
+            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number", descCn: "获取设备的日志状态"))
         }
         if (innerTest || sdk.funcTable.getMenuList) {
-            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List"))
+            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List", descCn: "获取设备支持的列表"))
         }
         if (innerTest || sdk.funcTable.reminderAncs) {
             items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"))
@@ -167,6 +167,26 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号"))
         }
         
+        if (innerTest || sdk.funcTable.setScheduleReminder) {
+            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: "Get schedule reminder", descCn: "获取日程提醒"))
+        }
+        
+        if (innerTest || sdk.funcTable.getSupportGetUnit) {
+            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: "Get Unit event number", descCn: "获取单位"))
+        }
+        
+        if (sdk.funcTable.setSmartHeartRate) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
+            print("setSmartHeartRate")
+            //Cmds.setHeartRateModeSmart(IDOHeartRateModeSmartParamModel)
+        }else if(sdk.funcTable.syncV3Hr) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html?h=setHeartMode
+            print("syncV3Hr")
+        }else if(sdk.funcTable.syncHeartRateMonitor) {
+            //https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetHeartRateMode.html?h=setHeartRateMode
+            print("syncHeartRateMonitor")
+        }
+        
         
         //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用
         //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用
@@ -215,13 +235,13 @@ extension GetFunctionVC: UITableViewDelegate, UITableViewDataSource {
         cell.detailTextLabel?.numberOfLines = 2
         let cmd = items[indexPath.row]
         cell.textLabel?.text = cmd.title
-        cell.detailTextLabel?.text = cmd.desc
+        cell.detailTextLabel?.text = cmd.desc + "\n" + cmd.descCn
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cmd = items[indexPath.row]
-        let vc = FunctionDetailVC(cmd: cmd)
+        let vc = GetFunctionDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -268,11 +288,13 @@ fileprivate struct GetCmd {
     let type: CmdType
     let title: String
     let desc: String
+    let descCn: String
     
-    init(type: CmdType, title: String, desc: String) {
+    init(type: CmdType, title: String, desc: String, descCn: String = "") {
         self.title = title
         self.desc = desc
         self.type = type
+        self.descCn = descCn
     }
 }
 
@@ -412,6 +434,10 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 获取BT连接手机型号
     /// Get BT connected mobile phone model
      case getBtConnectPhoneModel
+    /// 获取日程提醒
+    case setScheduleReminder
+    /// 获取单位
+    case getUnit
     
 }
 
@@ -426,6 +452,8 @@ extension CmdType {
             return OtherParamModel(dic: ["type": 0])
         case .getAlarm:
             return OtherParamModel(dic: ["flag": 0])
+        case .setScheduleReminder:
+            return IDOSchedulerReminderParamModel(operate: 3, items: [])
         default:
             return nil
         }
@@ -433,9 +461,9 @@ extension CmdType {
     
 }
 
-// MARK: - FunctionDetailVC
+// MARK: - GetFunctionDetailVC
 
-private class FunctionDetailVC: UIViewController {
+private class GetFunctionDetailVC: UIViewController {
     private var cmd: GetCmd
     private let disposeBag = DisposeBag()
     private var cancellable: IDOCancellable?
@@ -747,6 +775,15 @@ private class FunctionDetailVC: UIViewController {
             break
         case .getBtConnectPhoneModel:
             cancellable = Cmds.getBtConnectPhoneModel().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setScheduleReminder:
+            let param = cmd.type.param() as! IDOSchedulerReminderParamModel
+            cancellable = Cmds.setSchedulerReminder(param ).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getUnit:
+            cancellable = Cmds.getUnit().send { [weak self] res in
                 self?.doPrint(res)
             }
         }

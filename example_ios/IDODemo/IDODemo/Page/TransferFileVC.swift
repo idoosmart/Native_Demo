@@ -25,13 +25,18 @@ class TransferFileVC: UIViewController {
     
     private lazy var items: [TransType] = {
         var list: [TransType] = [
-            .wallpaper,
             .contact,
-            .bin
+            .ota,
+            .watchFace
         ]
         if sdk.funcTable.getSupportV3BleMusic {
-            list.append(.mp3)
+            list.insert(.mp3, at: 0)
         }
+//        if sdk.device.deviceId != 7877 {
+//            // 7877暂不支持壁纸表盘
+//            list.append(.wallpaper)
+//        }
+        
         return list
     }()
     
@@ -53,6 +58,7 @@ class TransferFileVC: UIViewController {
             make.left.right.equalTo(0)
         }
     }
+
 }
 
 
@@ -81,7 +87,12 @@ extension TransferFileVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cmd = items[indexPath.row]
-        let vc = FunctionDetailVC(cmd: cmd)
+        if (cmd == .watchFace) {
+            let vc = WatchFaceVC();
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        let vc = TransferFileDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -93,7 +104,8 @@ fileprivate enum TransType {
     case mp3
     case wallpaper
     case contact
-    case bin
+    case watchFace
+    case ota
 }
 
 extension TransType {
@@ -101,20 +113,22 @@ extension TransType {
     func title() -> String {
         switch self {
         case .mp3:
-            return "Music"
+            return "传输音乐 Upload music"
         case .wallpaper:
-            return "Wallpaper"
+            return "壁纸表盘 Wallpaper watch face"
         case .contact:
-            return "Contact"
-        case .bin:
-            return "bin文件升级"
+            return "上传通讯录 Upload contacts"
+        case .watchFace:
+            return "表盘升级 Watch face upgrade"
+        case .ota:
+            return "固件升级 Firmware upgrade"
         }
     }
 }
 
-// MARK: - FunctionDetailVC
+// MARK: - TransferFileDetailVC
 
-private class FunctionDetailVC: UIViewController {
+private class TransferFileDetailVC: UIViewController {
     private var cmd: TransType
     private let disposeBag = DisposeBag()
     private var cancellable: IDOCancellable?
@@ -221,13 +235,19 @@ private class FunctionDetailVC: UIViewController {
         case .contact:
             _contact()
             break
-        case .bin:
-            _bin()
+        case .watchFace:
             break
+        case .ota:
+            _ota()
+            break;
         }
     }
     
     private func stop() {
+        if (cmd == .ota) {
+            SVProgressHUD.showInfo(withStatus: "OTA不支持取消\nThe upgrade process cannot be canceled")
+            return
+        }
         cancellable?.cancel()
         isTransferring = false
     }
@@ -255,17 +275,41 @@ private class FunctionDetailVC: UIViewController {
         ])
     }
     
-    private func _bin() {
-        print("开始时间：\(Date())")
-        //let picFilePath = bundlePath + "/bin/gtx03_ota_full_1.0.1.bin"
-        let picFilePath = bundlePath + "/ota/gtx03/ota_full.bin"
-        _trans([
-            IDOTransNormalModel(fileType: .bin, filePath: picFilePath, fileName: "ota_firmware.bin")
-        ])
+    private func _ota() {
+        // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
+        switch(sdk.device.deviceId) {
+        case 7877:
+            let contactFilePath = bundlePath + "/ota/7877/ota_7877_V01.01.00.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        case 7814:
+            let contactFilePath = bundlePath + "/ota/7814/ota_7814_V1.00.07.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        case 537:
+            let contactFilePath = bundlePath + "/ota/537/ota_full_537_V1.01.03.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        case 517:
+            let contactFilePath = bundlePath + "/ota/517/ota_full_517_V1.01.01.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        default:
+            SVProgressHUD.showInfo(withStatus: "需要在代码中替换你的固件文件地址\nYou need to replace your firmware file address in the code")
+            let contactFilePath = bundlePath + "/ota/xx/xx.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        }
     }
     
     private func _trans<T: IDOTransBaseModel>(_ items: [T]) {
         isTransferring = true
+        let startTime = CFAbsoluteTimeGetCurrent()
         cancellable = sdk.transfer.transferFiles(fileItems: items, cancelPrevTranTask: true) { [weak self] currentIndex, totalCount, currentProgress, totalProgress in
             let txt = (self?.textConsole.text ?? "")
             + "index: \(currentIndex + 1)/\(totalCount) progress: \(Int(currentProgress * 100))%/"
@@ -274,7 +318,7 @@ private class FunctionDetailVC: UIViewController {
             self?.textConsole.scrollToBottom()
         } transStatus: { [weak self] currentIndex, status, errorCode, _ in
             if status != .finished || errorCode != 0 {
-                let txt = (self?.textConsole.text ?? "") + "failure, currentIndex:\(currentIndex) errorCode:\(errorCode ?? -1)\n"
+                let txt = (self?.textConsole.text ?? "") + "failure, currentIndex:\(currentIndex) errorCode:\(errorCode)\n"
                 self?.textConsole.text = txt
                 self?.textConsole.scrollToBottom()
             }
@@ -283,7 +327,7 @@ private class FunctionDetailVC: UIViewController {
             let txt = (self?.textConsole.text ?? "") + "result: \(rs)\n"
             self?.textConsole.text = txt
             self?.textConsole.scrollToBottom()
-            print("结束时间：\(Date())")
+            print("耗时：\(CFAbsoluteTimeGetCurrent() - startTime) 秒")
         }
     }
     
