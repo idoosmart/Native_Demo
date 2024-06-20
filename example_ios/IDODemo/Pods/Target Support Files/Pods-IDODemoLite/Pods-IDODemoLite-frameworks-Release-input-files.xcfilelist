@@ -1,13 +1,12 @@
 ${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-frameworks.sh
-${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
-${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework
-${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
-${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework
-${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework
-${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
-${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift-iOS10.0/Reachability.framework
+${BUILT_PRODUCTS_DIR}/RxCocoa-iOS10.0/RxCocoa.framework
+${BUILT_PRODUCTS_DIR}/RxRelay-iOS10.0/RxRelay.framework
+${BUILT_PRODUCTS_DIR}/RxSwift-iOS10.0/RxSwift.framework
+${BUILT_PRODUCTS_DIR}/SSZipArchive-iOS10.0/SSZipArchive.framework
+${BUILT_PRODUCTS_DIR}/SVProgressHUD-iOS10.0/SVProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/SnapKit-iOS10.0/SnapKit.framework
 ${PODS_ROOT}/IDOSDK-lite/protocol_c.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/App.framework/App
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/Flutter.framework/Flutter
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/native_channel.framework/native_channel
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/protocol_channel.framework/protocol_channel

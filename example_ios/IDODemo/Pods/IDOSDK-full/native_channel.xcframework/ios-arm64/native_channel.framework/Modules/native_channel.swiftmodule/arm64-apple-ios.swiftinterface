@@ -9,6 +9,18 @@ import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
 @_exported import native_channel
+@objc @_inheritsConvenienceInitializers public class IdoSifliPlugin : ObjectiveC.NSObject, Flutter.FlutterPlugin, native_channel.ApiSifliHost, native_channel.IDOUpdateSFManagerDelegate {
+  @objc public static func register(with registrar: any Flutter.FlutterPluginRegistrar)
+  @objc public func startOTAFiles(_ files: [Any], deviceUUID: Swift.String, error: Swift.AutoreleasingUnsafeMutablePointer<Flutter.FlutterError?>)
+  @objc public func sifliEBin(fromPngPngDatas pngDatas: Flutter.FlutterStandardTypedData, eColor: Swift.String, type: Foundation.NSNumber, binType: Foundation.NSNumber, boardType: native_channel.IDOSFBoardType, error: Swift.AutoreleasingUnsafeMutablePointer<Flutter.FlutterError?>) -> Flutter.FlutterStandardTypedData?
+  @objc public func updateManage(_ state: native_channel.OTAUpdateState, updateDesc desc: Swift.String)
+  @objc public func updateManagerProgress(_ progress: Swift.Float, message: Swift.String?)
+  @objc public func logMessage(_ logMsg: Swift.String)
+  @objc public func startOTANorFiles(_ files: [Any], deviceUUID: Swift.String, platform: Foundation.NSNumber, isIndfu: Foundation.NSNumber, error: Swift.AutoreleasingUnsafeMutablePointer<Flutter.FlutterError?>)
+  @objc public func stopWithError(_ error: Swift.AutoreleasingUnsafeMutablePointer<Flutter.FlutterError?>)
+  @objc override dynamic public init()
+  @objc deinit
+}
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class NativeChannelPlugin : ObjectiveC.NSObject, Flutter.FlutterPlugin {
   public static let shared: native_channel.NativeChannelPlugin
   @objc public static func register(with registrar: any Flutter.FlutterPluginRegistrar)

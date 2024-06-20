@@ -620,7 +620,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 /// 设置防丢
 /// Set Lost Find Event
 + (id <IDOCancellable> _Nonnull)setLostFind:(IDOLostFindParamModel * _Nonnull)lostFindParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
-/// 设置表盘
+/// 设置表盘（废弃）
 /// Set watch face event number
 + (id <IDOCancellable> _Nonnull)setWatchDial:(IDOWatchDialParamModel * _Nonnull)watchDial completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置天气开关
@@ -1969,6 +1969,7 @@ SWIFT_CLASS("_TtC16protocol_channel10IDOBleData")
 @class IDODeviceModel;
 @class IDOBluetoothStateModel;
 @class IDODeviceStateModel;
+@class IDOReceiveData;
 
 SWIFT_PROTOCOL("_TtP16protocol_channel14IDOBleDelegate_")
 @protocol IDOBleDelegate <NSObject>
@@ -1978,6 +1979,8 @@ SWIFT_PROTOCOL("_TtP16protocol_channel14IDOBleDelegate_")
 - (void)bluetoothStateWithState:(IDOBluetoothStateModel * _Nonnull)state;
 /// 设备状态状态
 - (void)deviceStateWithState:(IDODeviceStateModel * _Nonnull)state;
+/// 接收到的蓝牙数据
+- (void)receiveDataWithData:(IDOReceiveData * _Nonnull)data;
 @end
 
 
@@ -2031,6 +2034,7 @@ SWIFT_CLASS("_TtC16protocol_channel27IDOBleIngReplyExchangeModel")
 @end
 
 @protocol IDODfuDelegate;
+@class IDOWriteStateModel;
 @class IDODfuConfig;
 
 /// 蓝牙接口
@@ -2066,6 +2070,18 @@ SWIFT_PROTOCOL("_TtP16protocol_channel15IDOBleInterface_")
 - (void)getBluetoothStateWithCompletion:(void (^ _Nonnull)(IDOBluetoothStateModel * _Nonnull))completion;
 /// 获取设备连接状态
 - (void)getDeviceStateWithDevice:(IDODeviceModel * _Nullable)device completion:(void (^ _Nonnull)(IDODeviceStateModel * _Nonnull))completion;
+/// 发送数据
+/// \param data 数据
+///
+/// \param device 发送数据的设备
+///
+/// \param type 0 BLE数据, 1 SPP数据
+///
+/// \param platform 0 爱都, 1 恒玄, 2 VC
+///
+/// \param completion 结果 IDOWriteStateModel
+///
+- (void)writeDataWithData:(NSData * _Nonnull)data device:(IDODeviceModel * _Nonnull)device type:(NSInteger)type platform:(NSInteger)platform completion:(void (^ _Nonnull)(IDOWriteStateModel * _Nonnull))completion;
 /// bt配对（android）
 - (void)setBtPairWithDevice:(IDODeviceModel * _Nonnull)device;
 /// 取消配对（android）
@@ -6357,7 +6373,9 @@ SWIFT_CLASS("_TtC16protocol_channel14IDOReceiveData")
 @property (nonatomic, readonly, copy) NSString * _Nullable macAddress;
 /// spp
 @property (nonatomic, readonly) BOOL spp;
-- (nonnull instancetype)initWithData:(NSData * _Nullable)data uuid:(NSString * _Nullable)uuid macAddress:(NSString * _Nullable)macAddress spp:(BOOL)spp OBJC_DESIGNATED_INITIALIZER;
+/// 0 爱都, 1 恒玄, 2 VC
+@property (nonatomic, readonly) NSInteger platform;
+- (nonnull instancetype)initWithData:(NSData * _Nullable)data uuid:(NSString * _Nullable)uuid macAddress:(NSString * _Nullable)macAddress spp:(BOOL)spp platform:(NSInteger)platform OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -7708,36 +7726,54 @@ SWIFT_PROTOCOL("_TtP16protocol_channel20IDOSyncDataInterface_")
 - (void)startSyncWithFuncProgress:(void (^ _Nonnull)(double))funcProgress funcData:(void (^ _Nonnull)(enum IDOSyncDataType, NSString * _Nonnull, NSInteger))funcData funcCompleted:(void (^ _Nonnull)(NSInteger))funcCompleted;
 /// 同步指定数据（无进度且不支持的类型不会回调）
 - (void)startSyncWithTypes:(NSArray<IDOSyncDataTypeClass *> * _Nonnull)types funcData:(void (^ _Nonnull)(enum IDOSyncDataType, NSString * _Nonnull, NSInteger))funcData funcCompleted:(void (^ _Nonnull)(NSInteger))funcCompleted;
-/// 获取支持的同步数据类型（该方法稍后启用）
+/// 获取支持的同步数据类型
 - (void)getSupportSyncDataTypeListWithCompletion:(void (^ _Nonnull)(NSArray<IDOSyncDataTypeClass *> * _Nonnull))completion;
 /// 停止同步所有数据
 - (void)stopSync;
 @end
 
 /// 同步数据类型
-/// 数据类型 1:步数 2:心率 3:睡眠 4:血压 5:血氧 6:压力 7:噪音 8:皮温 9:呼吸率 10:身体电量 11:HRV 12:多运动 13:GPS 14:游泳
-/// 15: V2步数 16: V2睡眠 17: V2心率 18: V2血压 19: V2 GPS 20: V2多运动
 typedef SWIFT_ENUM(NSInteger, IDOSyncDataType, open) {
   IDOSyncDataTypeNullType = 0,
+/// 步数
   IDOSyncDataTypeStepCount = 1,
+/// 心率
   IDOSyncDataTypeHeartRate = 2,
+/// 睡眠
   IDOSyncDataTypeSleep = 3,
+/// 血压
   IDOSyncDataTypeBloodPressure = 4,
+/// 血氧
   IDOSyncDataTypeBloodOxygen = 5,
+/// 压力
   IDOSyncDataTypePressure = 6,
+/// 噪音
   IDOSyncDataTypeNoise = 7,
+/// 皮温
   IDOSyncDataTypePiven = 8,
+/// 呼吸率
   IDOSyncDataTypeRespirationRate = 9,
+/// 身体电量
   IDOSyncDataTypeBodyPower = 10,
+/// HRV
   IDOSyncDataTypeHRV = 11,
+/// 多运动
   IDOSyncDataTypeActivity = 12,
+/// GPS
   IDOSyncDataTypeGPS = 13,
+/// 游泳
   IDOSyncDataTypeSwim = 14,
+/// V2步数（旧）
   IDOSyncDataTypeV2StepCount = 15,
+/// V2睡眠（旧）
   IDOSyncDataTypeV2Sleep = 16,
+/// V2心率（旧）
   IDOSyncDataTypeV2HeartRate = 17,
+/// V2血压（旧）
   IDOSyncDataTypeV2BloodPressure = 18,
+/// V2 GPS
   IDOSyncDataTypeV2GPS = 19,
+/// V2多运动
   IDOSyncDataTypeV2Activity = 20,
 };
 

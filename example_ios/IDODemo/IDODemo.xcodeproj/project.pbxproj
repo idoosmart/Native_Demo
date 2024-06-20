@@ -36,6 +36,8 @@
 		47C9DE0A2AF0D353006F7CB8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C9DE092AF0D353006F7CB8 /* MediaPlayer.framework */; };
 		47C9DE0C2AF0F7D4006F7CB8 /* TransferFileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C9DE0B2AF0F7D4006F7CB8 /* TransferFileVC.swift */; };
 		47C9DE0E2AF103D6006F7CB8 /* files_trans in Resources */ = {isa = PBXBuildFile; fileRef = 47C9DE0D2AF103D6006F7CB8 /* files_trans */; };
+		47CA6ECA2C243ACE00FB5248 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CA6EC92C243ACE00FB5248 /* WatchFaceVC.swift */; };
+		47CA6ECB2C243ACE00FB5248 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CA6EC92C243ACE00FB5248 /* WatchFaceVC.swift */; };
 		47D514B02B393BF300E0AC21 /* XYCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D514AD2B393BF300E0AC21 /* XYCentralManager.swift */; };
 		47D514B12B393BF300E0AC21 /* XYHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D514AE2B393BF300E0AC21 /* XYHelper.swift */; };
 		47D514B22B393BF300E0AC21 /* XYCBBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D514AF2B393BF300E0AC21 /* XYCBBase.swift */; };
@@ -70,6 +72,7 @@
 		47C9DE092AF0D353006F7CB8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		47C9DE0B2AF0F7D4006F7CB8 /* TransferFileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFileVC.swift; sourceTree = "<group>"; };
 		47C9DE0D2AF103D6006F7CB8 /* files_trans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = files_trans; sourceTree = "<group>"; };
+		47CA6EC92C243ACE00FB5248 /* WatchFaceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchFaceVC.swift; sourceTree = "<group>"; };
 		47D514AD2B393BF300E0AC21 /* XYCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYCentralManager.swift; sourceTree = "<group>"; };
 		47D514AE2B393BF300E0AC21 /* XYHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYHelper.swift; sourceTree = "<group>"; };
 		47D514AF2B393BF300E0AC21 /* XYCBBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYCBBase.swift; sourceTree = "<group>"; };
@@ -198,6 +201,7 @@
 		47D582412AE8B1E6007D9DCE /* Page */ = {
 			isa = PBXGroup;
 			children = (
+				47CA6EC92C243ACE00FB5248 /* WatchFaceVC.swift */,
 				47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */,
 				470498D02AEA5D1900ADA589 /* GetFunctionVC.swift */,
 				470498D22AEA5D4400ADA589 /* SetFunctionVC.swift */,
@@ -443,6 +447,7 @@
 				47E95DC12B4D0210006C8B99 /* TestOC.m in Sources */,
 				47D514B22B393BF300E0AC21 /* XYCBBase.swift in Sources */,
 				47D514B42B397D9200E0AC21 /* MainPageVC.swift in Sources */,
+				47CA6ECB2C243ACE00FB5248 /* WatchFaceVC.swift in Sources */,
 				4738B07A2B3538EC00D6BBEC /* AppDelegate.swift in Sources */,
 				47D514B02B393BF300E0AC21 /* XYCentralManager.swift in Sources */,
 				4738B0972B35658800D6BBEC /* FunctionPageVC.swift in Sources */,
@@ -461,6 +466,7 @@
 				470498D32AEA5D4400ADA589 /* SetFunctionVC.swift in Sources */,
 				470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */,
 				47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */,
+				47CA6ECA2C243ACE00FB5248 /* WatchFaceVC.swift in Sources */,
 				470498DE2AEA804500ADA589 /* Extensions.swift in Sources */,
 				47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */,
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,

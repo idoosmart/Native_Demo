@@ -14,7 +14,10 @@
 #import "AlexaDownStream.h"
 #import "AlexaStreamManager.h"
 #import "AlexaUpStream.h"
+#import "native_channel.h"
 #import "Alexa.g.h"
+#import "Sifli.g.h"
+#import "IDOUpdateSFManager.h"
 
 FOUNDATION_EXPORT double native_channelVersionNumber;
 FOUNDATION_EXPORT const unsigned char native_channelVersionString[];

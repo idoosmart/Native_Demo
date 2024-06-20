@@ -150,6 +150,57 @@ class FunctionPageVC: UIViewController {
                 }
             }
         }).disposed(by: disposeBag)
+        
+        _ = NotificationCenter.default.rx.notification(Notify.onBleDeviceStateChanged).subscribe(onNext: { [weak self] notification in
+            if notification.object != nil, let status = notification.object as? IDODeviceStateType {
+                guard let self = self else { return }
+                print("\(status)")
+                switch status {
+                case .disconnected:
+                    if (self.isViewLoaded) {
+                        SVProgressHUD.showInfo(withStatus: "连接已断开")
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                    break
+                case .connecting:
+                    break
+                case .connected:
+                    break
+                case .disconnecting:
+                    break
+                @unknown default:
+                    break
+                }
+            }
+        }).disposed(by: disposeBag)
+        
+        _ = NotificationCenter.default.rx.notification(Notify.onBleStateChanged).subscribe(onNext: { [weak self] notification in
+            if notification.object != nil, let status = notification.object as? IDOBluetoothStateType {
+                guard let self = self else { return }
+                print("\(status)")
+                switch status {
+                case .unknown:
+                    break
+                case .resetting:
+                    break
+                case .unsupported:
+                    break
+                case .unauthorized:
+                    break
+                case .poweredOff:
+                    if (self.isViewLoaded) {
+                        SVProgressHUD.showInfo(withStatus: "蓝牙已关闭")
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                    break
+                case .poweredOn:
+                    break
+                @unknown default:
+                    break
+                }
+            }
+        }).disposed(by: disposeBag)
+        
     }
     
     deinit {

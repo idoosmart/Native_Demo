@@ -620,7 +620,7 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 /// 设置防丢
 /// Set Lost Find Event
 + (id <IDOCancellable> _Nonnull)setLostFind:(IDOLostFindParamModel * _Nonnull)lostFindParam completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
-/// 设置表盘
+/// 设置表盘（废弃）
 /// Set watch face event number
 + (id <IDOCancellable> _Nonnull)setWatchDial:(IDOWatchDialParamModel * _Nonnull)watchDial completion:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 设置天气开关
@@ -7470,36 +7470,54 @@ SWIFT_PROTOCOL("_TtP16protocol_channel20IDOSyncDataInterface_")
 - (void)startSyncWithFuncProgress:(void (^ _Nonnull)(double))funcProgress funcData:(void (^ _Nonnull)(enum IDOSyncDataType, NSString * _Nonnull, NSInteger))funcData funcCompleted:(void (^ _Nonnull)(NSInteger))funcCompleted;
 /// 同步指定数据（无进度且不支持的类型不会回调）
 - (void)startSyncWithTypes:(NSArray<IDOSyncDataTypeClass *> * _Nonnull)types funcData:(void (^ _Nonnull)(enum IDOSyncDataType, NSString * _Nonnull, NSInteger))funcData funcCompleted:(void (^ _Nonnull)(NSInteger))funcCompleted;
-/// 获取支持的同步数据类型（该方法稍后启用）
+/// 获取支持的同步数据类型
 - (void)getSupportSyncDataTypeListWithCompletion:(void (^ _Nonnull)(NSArray<IDOSyncDataTypeClass *> * _Nonnull))completion;
 /// 停止同步所有数据
 - (void)stopSync;
 @end
 
 /// 同步数据类型
-/// 数据类型 1:步数 2:心率 3:睡眠 4:血压 5:血氧 6:压力 7:噪音 8:皮温 9:呼吸率 10:身体电量 11:HRV 12:多运动 13:GPS 14:游泳
-/// 15: V2步数 16: V2睡眠 17: V2心率 18: V2血压 19: V2 GPS 20: V2多运动
 typedef SWIFT_ENUM(NSInteger, IDOSyncDataType, open) {
   IDOSyncDataTypeNullType = 0,
+/// 步数
   IDOSyncDataTypeStepCount = 1,
+/// 心率
   IDOSyncDataTypeHeartRate = 2,
+/// 睡眠
   IDOSyncDataTypeSleep = 3,
+/// 血压
   IDOSyncDataTypeBloodPressure = 4,
+/// 血氧
   IDOSyncDataTypeBloodOxygen = 5,
+/// 压力
   IDOSyncDataTypePressure = 6,
+/// 噪音
   IDOSyncDataTypeNoise = 7,
+/// 皮温
   IDOSyncDataTypePiven = 8,
+/// 呼吸率
   IDOSyncDataTypeRespirationRate = 9,
+/// 身体电量
   IDOSyncDataTypeBodyPower = 10,
+/// HRV
   IDOSyncDataTypeHRV = 11,
+/// 多运动
   IDOSyncDataTypeActivity = 12,
+/// GPS
   IDOSyncDataTypeGPS = 13,
+/// 游泳
   IDOSyncDataTypeSwim = 14,
+/// V2步数（旧）
   IDOSyncDataTypeV2StepCount = 15,
+/// V2睡眠（旧）
   IDOSyncDataTypeV2Sleep = 16,
+/// V2心率（旧）
   IDOSyncDataTypeV2HeartRate = 17,
+/// V2血压（旧）
   IDOSyncDataTypeV2BloodPressure = 18,
+/// V2 GPS
   IDOSyncDataTypeV2GPS = 19,
+/// V2多运动
   IDOSyncDataTypeV2Activity = 20,
 };
 

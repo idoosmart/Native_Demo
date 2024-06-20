@@ -134,7 +134,8 @@ typedef enum
     VBUS_EVT_APP_SET_BODY_POWER_ON_OFF               = 192,    //手机app通过这个命令开关，设置身体电量开关  struct protocol_set_body_power_on_off
     VBUS_EVT_APP_SET_VOICE_ASSISTANT_ON_OFF          = 193,    //手机app通过这个命令开关，设置手机语音助手开关  struct protocol_set_voice_assistant_on_off
     VBUS_EVT_APP_SET_NOTICE_CALL_QUICK_REPLY_ON_OFF  = 194,    //手机app通过这个命令开关，设置来电快捷回复开关  struct protocol_set_call_quick_reply_on_off
-
+    VBUS_EVT_APP_SET_VERSION_INFORMATION             = 195,    //手机app通过这个命令开关，设置固件版本信息     struct protocol_set_version_information
+    
 	VBUS_EVT_APP_BIND_START                          = 200,    //绑定 struct protocol_start_bind,struct protocol_start_bind_reply
 	VBUS_EVT_APP_BIND_REMOVE                         = 201,	   //解绑
 	VBUS_EVT_APP_AUTH                                = 202,	   //开始授权 struct protocol_start_auth,struct protocol_start_auth_reply
@@ -409,7 +410,7 @@ typedef enum
     VBUS_EVT_FUNC_V3_MORNING_EDITION                       = 5087,  //晨报
     VBUS_EVT_FUNC_V3_CALENDEAR_REMINDER                    = 5088,  //日历提醒
     VBUS_EVT_FUNC_V3_CONFIG_MES_LIST                       = 5089,  //配置默认的消息应用列表
-    VBUS_EVT_FUNC_V3_SET_ECI                               = 5090,  //设置紧急联系人（ECI）方式
+    VBUS_EVT_FUNC_V3_SET_ICE                               = 5090,  //设置紧急联系人（ECI）方式
 
 
 	VBUS_EVT_FUNC_MAKE_PHOTO                               = 5500,	//制作照片

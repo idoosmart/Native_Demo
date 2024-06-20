@@ -194,7 +194,8 @@ import _SwiftConcurrencyShims
   @objc final public let uuid: Swift.String?
   @objc final public let macAddress: Swift.String?
   @objc final public let spp: Swift.Bool
-  @objc public init(data: Foundation.Data?, uuid: Swift.String?, macAddress: Swift.String?, spp: Swift.Bool)
+  @objc final public let platform: Swift.Int
+  @objc public init(data: Foundation.Data?, uuid: Swift.String?, macAddress: Swift.String?, spp: Swift.Bool, platform: Swift.Int)
   @objc deinit
 }
 @objc @objcMembers public class IDOSppStateModel : ObjectiveC.NSObject {
@@ -2335,6 +2336,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   @objc func cancelConnect(macAddress: Swift.String?, completion: @escaping (Swift.Bool) -> Swift.Void)
   @objc func getBluetoothState(completion: @escaping (protocol_channel.IDOBluetoothStateModel) -> Swift.Void)
   @objc func getDeviceState(device: protocol_channel.IDODeviceModel?, completion: @escaping (protocol_channel.IDODeviceStateModel) -> Swift.Void)
+  @objc func writeData(data: Foundation.Data, device: protocol_channel.IDODeviceModel, type: Swift.Int, platform: Swift.Int, completion: @escaping (protocol_channel.IDOWriteStateModel) -> Swift.Void)
   @objc func setBtPair(device: protocol_channel.IDODeviceModel)
   @objc func cancelPair(device: protocol_channel.IDODeviceModel?)
   @objc func connectSPP(btMacAddress: Swift.String)
@@ -2351,6 +2353,7 @@ public protocol IDOBaseModel : Swift.Decodable, Swift.Encodable {
   @objc func scanResult(list: [protocol_channel.IDODeviceModel]?)
   @objc func bluetoothState(state: protocol_channel.IDOBluetoothStateModel)
   @objc func deviceState(state: protocol_channel.IDODeviceStateModel)
+  @objc func receiveData(data: protocol_channel.IDOReceiveData)
 }
 @objc @objcMembers public class IDOBleVoiceParamModel : ObjectiveC.NSObject, protocol_channel.IDOBaseModel {
   @objc public var totalVolume: Swift.Int

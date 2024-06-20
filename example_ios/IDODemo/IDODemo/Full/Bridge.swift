@@ -61,6 +61,10 @@ extension MainPageVC {
 // MARK: - IDOBleDelegate
 
 extension MainPageVC: IDOBleDelegate {
+    func receiveData(data: protocol_channel.IDOReceiveData) {
+        print("receive ble Data: \(data.data?.count ?? 0) Byte")
+    }
+    
     
     func scanResult(list: [IDODeviceModel]?) {
         print("scanResult list count:\(String(describing: list?.count))")
