@@ -37,13 +37,8 @@ object ZipUtil {
             )
         )
 
-        val outputDir: File = if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            // 复制到公共存储空间的示例
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        } else {
-            // 复制到应用私有目录的示例
-            ContextWrapper(context).getDir("zip_files", Context.MODE_PRIVATE)
-        }
+        val outputDir: File = context.filesDir
+
 
         val outputFile = File(outputDir, "${rawZipFileName}${FileExtension}")
 
@@ -62,6 +57,7 @@ object ZipUtil {
             return outputFile
         } catch (e: IOException) {
             e.printStackTrace()
+            Log.e("tag","copyRawZipFile =="+e)
         }
 
         return null

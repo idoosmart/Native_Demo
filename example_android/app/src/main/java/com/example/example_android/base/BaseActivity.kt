@@ -19,6 +19,7 @@ import com.example.example_android.util.ZipUtil
 import com.idosmart.enums.IDODeviceLogType
 import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.model.IDODeviceStateModel
+import com.idosmart.model.IDOReceiveData
 import com.idosmart.protocol_channel.sdk
 import java.io.File
 import java.text.SimpleDateFormat
@@ -141,6 +142,10 @@ abstract class BaseActivity : AppCompatActivity() {
             println("设备状态变化：$state")
             super.deviceState(state)
             updateBleStatus(state)
+        }
+
+        override fun receiveData(data: IDOReceiveData) {
+
         }
 
     }

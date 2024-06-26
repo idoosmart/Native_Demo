@@ -154,15 +154,13 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun getFunction(view: View) {
-//        val intent = Intent(this, GetFuntionActivity::class.java)
-//        startActivity(intent)
-        sdk.ble.setBtPair(device!!)
+        val intent = Intent(this, GetFuntionActivity::class.java)
+        startActivity(intent)
     }
 
     fun setFunction(view: View) {
-//        val intent = Intent(this, SetFuntionActivity::class.java)
-//        startActivity(intent)
-        sdk.ble.cancelPair(device!!)
+        val intent = Intent(this, SetFuntionActivity::class.java)
+        startActivity(intent)
     }
 
     fun syncdata(view: View) {
@@ -345,6 +343,10 @@ class FunctionActivity : BaseActivity() {
                 closeProgressDialog()
 
             }
+        }
+
+        override fun receiveData(data: IDOReceiveData) {
+
         }
 
         override fun stateSPP(state: IDOSppStateModel) {

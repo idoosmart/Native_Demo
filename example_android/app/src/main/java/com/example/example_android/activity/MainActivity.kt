@@ -107,6 +107,10 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
         }
 
+        override fun receiveData(data: IDOReceiveData) {
+
+        }
+
         override fun stateSPP(state: IDOSppStateModel) {
 
         }

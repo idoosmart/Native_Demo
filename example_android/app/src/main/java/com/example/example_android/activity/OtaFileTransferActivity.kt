@@ -1,7 +1,9 @@
 package com.example.example_android.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,6 +45,10 @@ class OtaFileTransferActivity : BaseActivity() {
                  rawZipFileName = "ota_7877_v01_01_00"
                 FileExtension =".zip"
             }
+            543->{
+                 rawZipFileName = "ota_543_v01_61_99"
+                 FileExtension =".zip"
+            }
             7814->{
                 rawZipFileName = "ota_7814_v1_00_07"
                 FileExtension =".bin"
@@ -58,21 +64,8 @@ class OtaFileTransferActivity : BaseActivity() {
         }
 
         // 检查是否已经授予 WRITE_EXTERNAL_STORAGE 权限
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // 请求权限
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_CODE_STORAGE_PERMISSION
-            )
-        } else {
             // 已经具有权限，执行读写操作
              copiedFile = copyRawZipFile(this, rawZipFileName,FileExtension)
-        }
 //        try {
 
             val filePath = copiedFile?.path

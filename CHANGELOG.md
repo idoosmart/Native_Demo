@@ -16,6 +16,22 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.32<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/06/26</span>
+
+##### 更新内容：
+
+- 解决缺省消息图标读取异常问题；
+
+
+
+## 4.0.31<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/06/20</span>
+
+##### 更新内容：
+
+- 适配新设备OTA升级；
+
+
+
 ## 4.0.30<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/30</span>
 
 ##### 更新内容：
