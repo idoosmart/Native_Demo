@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.33<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/01</span>
+
+##### 更新内容：
+
+- 适配新的特殊服务；
+
+  
+
 ## 4.0.32<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/06/26</span>
 
 ##### 更新内容：

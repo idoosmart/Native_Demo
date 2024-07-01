@@ -771,21 +771,21 @@
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk.git\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "BooleanLiteral",
-      "offset": 16741,
+      "offset": 16740,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk.git\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "Array",
-      "offset": 16787,
+      "offset": 16786,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/hc\/Documents\/works\/protocol_sdk.git\/plugins\/native_channel\/ios\/Classes\/GetAppInfoImpl.swift",
       "kind": "StringLiteral",
-      "offset": 16825,
+      "offset": 16824,
       "length": 4,
       "value": "\"US\""
     }

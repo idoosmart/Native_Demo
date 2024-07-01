@@ -827,6 +827,9 @@ SWIFT_CLASS("_TtC16protocol_channel5Cmdoc")
 + (id <IDOCancellable> _Nonnull)reboot:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 恢复出厂设置
 + (id <IDOCancellable> _Nonnull)factoryReset:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
+/// 关机
+/// Shutdown
++ (id <IDOCancellable> _Nonnull)shutdown:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 控制寻找设备开始
 + (id <IDOCancellable> _Nonnull)findDeviceStart:(void (^ _Nonnull)(CmdError * _Nonnull, IDOCmdSetResponseModel * _Nullable))completion;
 /// 控制寻找设备结束
@@ -4102,6 +4105,14 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL getSupportSyncOverHighLowHeartData;
 /// 间隔一分钟同步新增（206设备）
 @property (nonatomic, readonly) BOOL getSupportPerMinuteOne;
+/// 支持全天步数目标达成提醒开关
+@property (nonatomic, readonly) BOOL getSupportAchievedRemindOnOff;
+/// 支持喝水计划
+@property (nonatomic, readonly) BOOL getSupportDrinkPlan;
+/// 支持表盘包打包jpg图片
+@property (nonatomic, readonly) BOOL getSupportMakeWatchDialDecodeJpg;
+/// 支持睡眠计划
+@property (nonatomic, readonly) BOOL getSupportSleepPlan;
 /// 设置获取消息应用状态使用version0x20版本下发
 @property (nonatomic, readonly) BOOL setNoticeMessageStateUseVersion0x20;
 /// 科学睡眠开关
@@ -4314,6 +4325,24 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL getSupportSyncHealthHrUseVersionCompatible;
 /// v3天气设置增加下发48小时天气数据
 @property (nonatomic, readonly) BOOL getSupportSetV3Add48HourWeatherData;
+/// 功能表开启后,室内跑步不支持获取最大摄氧量,app室内跑步不展示此数据
+@property (nonatomic, readonly) BOOL getNotSupportIndoorRunGetVo2max;
+/// 支持app设置心电图测量提醒
+@property (nonatomic, readonly) BOOL getSupportSetEcgReminder;
+/// 支持同步心电图(ecg)数据
+@property (nonatomic, readonly) BOOL getSupportSyncEcg;
+/// 支持游戏时间设置
+@property (nonatomic, readonly) BOOL getSupportSetGameTimeReminder;
+/// 支持配置默认的消息应用列表
+@property (nonatomic, readonly) BOOL getSupportConfigDefaultMegApplicationList;
+/// 支持app设置eci
+@property (nonatomic, readonly) BOOL getSupportSetEciReminder;
+/// 环境音量支持设置通知类型
+@property (nonatomic, readonly) BOOL setSupportNoiseSetNotifyFlag;
+/// 环境音量支持设置过高提醒
+@property (nonatomic, readonly) BOOL setSupportNoiseSetOverWarning;
+/// 支持设置版本信息
+@property (nonatomic, readonly) BOOL setSupportSetVersionInformation;
 /// 中文
 @property (nonatomic, readonly) BOOL languageCh;
 /// 捷克文
@@ -4392,6 +4421,10 @@ SWIFT_PROTOCOL("_TtP16protocol_channel21IDOFuncTableInterface_")
 @property (nonatomic, readonly) BOOL languageMalay;
 /// 巴西葡语
 @property (nonatomic, readonly) BOOL languageBrazilianPortuguese;
+/// 希伯来语
+@property (nonatomic, readonly) BOOL languageHebrew;
+/// 塞尔维亚语
+@property (nonatomic, readonly) BOOL languageSerbian;
 /// v3 心率
 @property (nonatomic, readonly) BOOL syncV3Hr;
 /// v3 游泳
@@ -6939,67 +6972,67 @@ SWIFT_CLASS("_TtC16protocol_channel22IDOSportSortParamModel")
 
 typedef SWIFT_ENUM(NSInteger, IDOSportType, open) {
 /// 无运动类型
-  IDOSportTypeSportTypeNull = 0x00,
+  IDOSportTypeSportTypeNull = 0,
 /// 走路
-  IDOSportTypeSportTypeWalk = 0x01,
+  IDOSportTypeSportTypeWalk = 1,
 /// 跑步
-  IDOSportTypeSportTypeRun = 0x02,
+  IDOSportTypeSportTypeRun = 2,
 /// 骑行
-  IDOSportTypeSportTypeCycling = 0x03,
+  IDOSportTypeSportTypeCycling = 3,
 /// 徒步
-  IDOSportTypeSportTypeOnFoot = 0x04,
+  IDOSportTypeSportTypeOnFoot = 4,
 /// 游泳
-  IDOSportTypeSportTypeSwim = 0x05,
+  IDOSportTypeSportTypeSwim = 5,
 /// 爬山
-  IDOSportTypeSportTypeClimb = 0x06,
+  IDOSportTypeSportTypeClimb = 6,
 /// 羽毛球
-  IDOSportTypeSportTypeBadminton = 0x07,
+  IDOSportTypeSportTypeBadminton = 7,
 /// 其他
-  IDOSportTypeSportTypeOther = 0x08,
+  IDOSportTypeSportTypeOther = 8,
 /// 健身
-  IDOSportTypeSportTypeFitness = 0x09,
+  IDOSportTypeSportTypeFitness = 9,
 /// 动感单车
-  IDOSportTypeSportTypeDynamic = 0x0a,
+  IDOSportTypeSportTypeDynamic = 10,
 /// 椭圆球
-  IDOSportTypeSportTypeEllipsoid = 0x0b,
+  IDOSportTypeSportTypeEllipsoid = 11,
 /// 跑步机
-  IDOSportTypeSportTypeTreadmill = 0x0c,
+  IDOSportTypeSportTypeTreadmill = 12,
 /// 仰卧起坐
-  IDOSportTypeSportTypeSitUp = 0x0d,
+  IDOSportTypeSportTypeSitUp = 13,
 /// 俯卧撑
-  IDOSportTypeSportTypePushUp = 0x0e,
+  IDOSportTypeSportTypePushUp = 14,
 /// 哑铃
-  IDOSportTypeSportTypeDumbbells = 0x0f,
+  IDOSportTypeSportTypeDumbbells = 15,
 /// 举重
-  IDOSportTypeSportTypeLifting = 0x10,
+  IDOSportTypeSportTypeLifting = 16,
 /// 健身操
-  IDOSportTypeSportTypeAerobics = 0x11,
+  IDOSportTypeSportTypeAerobics = 17,
 /// 瑜伽
-  IDOSportTypeSportTypeYoga = 0x12,
+  IDOSportTypeSportTypeYoga = 18,
 /// 跳绳
-  IDOSportTypeSportTypeRope = 0x13,
+  IDOSportTypeSportTypeRope = 19,
 /// 乒乓球
-  IDOSportTypeSportTypePingPong = 0x14,
+  IDOSportTypeSportTypePingPong = 20,
 /// 篮球
-  IDOSportTypeSportTypeBasketball = 0x15,
+  IDOSportTypeSportTypeBasketball = 21,
 /// 足球
-  IDOSportTypeSportTypeSoccer = 0x16,
+  IDOSportTypeSportTypeSoccer = 22,
 /// 排球
-  IDOSportTypeSportTypeVolleyball = 0x17,
+  IDOSportTypeSportTypeVolleyball = 23,
 /// 网球
-  IDOSportTypeSportTypeTennisBall = 0x18,
+  IDOSportTypeSportTypeTennisBall = 24,
 /// 高尔夫球
-  IDOSportTypeSportTypeGolf = 0x19,
+  IDOSportTypeSportTypeGolf = 25,
 /// 棒球
-  IDOSportTypeSportTypeBaseball = 0x1a,
+  IDOSportTypeSportTypeBaseball = 26,
 /// 滑雪
-  IDOSportTypeSportTypeSki = 0x1b,
+  IDOSportTypeSportTypeSki = 27,
 /// 轮滑
-  IDOSportTypeSportTypeRoller = 0x1c,
+  IDOSportTypeSportTypeRoller = 28,
 /// 跳舞
-  IDOSportTypeSportTypeDancing = 0x1d,
+  IDOSportTypeSportTypeDancing = 29,
 /// 室内划船
-  IDOSportTypeSportTypeRollerMachine = 0x1f,
+  IDOSportTypeSportTypeRollerMachine = 31,
 /// 普拉提
   IDOSportTypeSportTypePilates = 32,
 /// 交叉训练
@@ -7179,31 +7212,119 @@ typedef SWIFT_ENUM(NSInteger, IDOSportType, open) {
 /// 站立划水
   IDOSportTypeSportTypeStandingStroke = 188,
 /// 卷腹
-  IDOSportTypeSportTypeCrunch = 0xbe,
+  IDOSportTypeSportTypeCrunch = 190,
 /// 波比跳
-  IDOSportTypeSportTypeBurpee = 0xbf,
-/// 蹦床
-  IDOSportTypeSportTypeTrampoline = 0xc3,
-/// 赛车
-  IDOSportTypeSportTypeMotorcycle = 0xc5,
-/// 卡巴迪
-  IDOSportTypeSportTypeKabaddi = 0xc0,
-/// 战绳
-  IDOSportTypeSportTypeBattleRope = 198,
-/// 跳伞
-  IDOSportTypeSportTypeParachuting = 199,
-/// 定向越野
-  IDOSportTypeSportTypeOrienteering = 200,
-/// 山地骑行
-  IDOSportTypeSportTypeMountainBiking = 201,
-/// 板球运动cricket
-  IDOSportTypeSportTypeCricket = 0x4b,
-/// 户外玩耍
-  IDOSportTypeSportTypeOutdoorFun = 0xc1,
-/// 其他运动
-  IDOSportTypeSportTypeOtherActivity = 0xc2,
-/// 越野跑
-  IDOSportTypeSportTypeCrossRunning = 189,
+  IDOSportTypeSportType = 191,
+/// 呼啦圈
+  IDOSportTypeHulaHoop = 196,
+/// 沙滩网球
+  IDOSportTypeBeachTennis = 202,
+/// 智能跳绳
+  IDOSportTypeSmartJumpRope = 203,
+/// 匹克球
+  IDOSportTypePickleball = 204,
+/// 轮椅运动
+  IDOSportTypeWheelchairSport = 205,
+/// 体能训练
+  IDOSportTypeFitnessTraining = 206,
+/// 壶铃训练
+  IDOSportTypeKettlebellTraining = 207,
+/// 团体操
+  IDOSportTypeGroupExercise = 208,
+/// Cross fit
+  IDOSportTypeCrossFit = 209,
+/// 障碍赛
+  IDOSportTypeObstacleCourse = 210,
+/// 滑板车
+  IDOSportTypeScooter = 211,
+/// 滑翔车
+  IDOSportTypeGlider = 212,
+/// 滑雪
+  IDOSportTypeSkiing = 213,
+/// 雪板滑雪
+  IDOSportTypeSnowboarding = 214,
+/// 搏击操
+  IDOSportTypeCombatAerobics = 215,
+/// 剑道
+  IDOSportTypeKendo = 216,
+/// 太极拳
+  IDOSportTypeTaiChi = 217,
+/// 综合格斗
+  IDOSportTypeMma = 218,
+/// 角力
+  IDOSportTypeWrestling = 219,
+/// 肚皮舞
+  IDOSportTypeBellyDance = 220,
+/// 爵士舞
+  IDOSportTypeJazzDance = 221,
+/// 拉丁舞
+  IDOSportTypeLatinDance = 222,
+/// 踢踏舞
+  IDOSportTypeTapDance = 223,
+/// 其他舞蹈
+  IDOSportTypeOtherDance = 224,
+/// 沙滩排球
+  IDOSportTypeBeachVolleyball = 225,
+/// 门球
+  IDOSportTypeGateBall = 226,
+/// 马球
+  IDOSportTypePolo = 227,
+/// 袋棍球
+  IDOSportTypeLacrosse = 228,
+/// 皮划艇
+  IDOSportTypeKayaking = 229,
+/// 桨板冲浪
+  IDOSportTypeSupSurfing = 230,
+/// 对战游戏
+  IDOSportTypeCombatGame = 231,
+/// 拔河
+  IDOSportTypeTugOfWar = 232,
+/// 秋千
+  IDOSportTypeSwing = 233,
+/// 马术运动
+  IDOSportTypeEquestrian = 234,
+/// 田径
+  IDOSportTypeTrackAndField = 235,
+/// 爬楼机
+  IDOSportTypeStairClimber = 236,
+/// 柔韧训练
+  IDOSportTypeFlexibilityTraining = 237,
+/// 国际象棋
+  IDOSportTypeChess = 238,
+/// 国际跳棋
+  IDOSportTypeCheckers = 239,
+/// 围棋
+  IDOSportTypeGo = 240,
+/// 桥牌
+  IDOSportTypeBridge = 241,
+/// 桌游
+  IDOSportTypeBoardGame = 242,
+/// 民族舞
+  IDOSportTypeEthnicDance = 243,
+/// 嘻哈舞
+  IDOSportTypeHipHopDance = 244,
+/// 钢管舞
+  IDOSportTypePoleDance = 245,
+/// 霹雳舞
+  IDOSportTypeBreakDance = 246,
+/// 现代舞
+  IDOSportTypeModernDance = 247,
+/// 泰拳
+  IDOSportTypeMuayThai = 248,
+/// 柔道
+  IDOSportTypeJudo = 249,
+/// 柔术
+  IDOSportTypeJiuJitsu = 250,
+/// 回力球
+  IDOSportTypeJaiAlai = 251,
+/// 雪地摩托
+  IDOSportTypeSnowmobiling = 252,
+/// 滑翔伞
+  IDOSportTypeParagliding = 253,
+/// 长曲棍球
+  IDOSportTypeLacrosseField = 254,
+/// 美式橄榄球
+  IDOSportTypeAmericanFootball = 255,
 };
 
 
@@ -7813,33 +7934,196 @@ SWIFT_CLASS("_TtC16protocol_channel18IDOTransSportModel")
 @interface IDOTransSportModel : IDOTransBaseModel
 /// 运动模式
 /// \code
-///  以前运动类型:
-///  0:无，1:走路，2:跑步，3:骑行，4:徒步，5:游泳，6:爬山，7:羽毛球，8:其他，
-///  9:健身，10:动感单车，11:椭圆机，12:跑步机，13:仰卧起坐，14:俯卧撑，15:哑铃，16:举重，
-///  17:健身操，18:瑜伽，19:跳绳，20:乒乓球，21:篮球，22:足球 ，23:排球，24:网球，
-///  25:高尔夫球，26:棒球，27:滑雪，28:轮滑，29:跳舞，31：室内划船/roller machine， 32：普拉提/pilates， 33:交叉训练/cross train,
-///  34:有氧运动/cardio，35：尊巴舞/Zumba, 36:广场舞/square dance, 37:平板支撑/Plank, 38:健身房/gym 48:户外跑步，49:室内跑步，
-///  50:户外骑行，51:室内骑行，52:户外走路，53:室内走路，54:泳池游泳，55:开放水域游泳，56:椭圆机，57:划船机，58:高强度间歇训练法，75:板球运动
-///  基础运动：
-///  101：功能性力量训练，102：核心训练，103：踏步机，104：整理放松
-///  健身（25种）
-///  110：传统力量训练，112：引体向上，114：开合跳，115：深蹲，116：高抬腿，117：拳击，118：杠铃，119：武术，
-///  120：太极，121：跆拳道，122：空手道，123：自由搏击，124：击剑，125：射箭，126：体操，127:单杠，128:双杠,129:漫步机,
-///  130:登山机
-///  球类:
-///  131:保龄球,132:台球,133:曲棍球,134:橄榄球,135:壁球,136:垒球,137:手球,138:毽球,139:沙滩足球,
-///  140:藤球,141:躲避球
-///  休闲运动
-///  152:街舞,153:芭蕾,154:社交舞,155:飞盘,156:飞镖,157:骑马,158:爬楼,159:放风筝,
-///  160:钓鱼
-///  冰雪运动
-///  161:雪橇,162:雪车,163:单板滑雪,164:雪上运动,165:高山滑雪,166:越野滑雪,167:冰壶,168:冰球,169:冬季两项
-///  水上运动（10种）
-///  170:冲浪,171:帆船,172:帆板,173:皮艇,174:摩托艇,175:划艇,176:赛艇,177:龙舟,178:水球,179:漂流,
-///  极限运动（5种）
-///  180:滑板,181:攀岩,182:蹦极,183:跑酷,184:BMX,
-///  kr01定制项目
-///  193:Outdoor Fun（户外玩耍）, 194:Other Activity（其他运动）
+/// | 代码 | 运动类型               |
+/// | ---- | ---------------------- |
+/// | 0x00 | 无                     |
+/// | 0x01 | 走路                   |
+/// | 0x02 | 跑步                   |
+/// | 0x03 | 骑行                   |
+/// | 0x04 | 徒步                   |
+/// | 0x05 | 游泳                   |
+/// | 0x06 | 爬山                   |
+/// | 0x07 | 羽毛球                 |
+/// | 0x08 | 其他(other)            |
+/// | 0x09 | 健身                   |
+/// | 0x0A | 动感单车               |
+/// | 0x0B | 椭圆球                 |
+/// | 0x0C | 跑步机                 |
+/// | 0x0D | 仰卧起坐               |
+/// | 0x0E | 俯卧撑                 |
+/// | 0x0F | 哑铃                   |
+/// | 0x10 | 举重                   |
+/// | 0x11 | 健身操                 |
+/// | 0x12 | 瑜伽                   |
+/// | 0x13 | 跳绳                   |
+/// | 0x14 | 乒乓球                 |
+/// | 0x15 | 篮球                   |
+/// | 0x16 | 足球                   |
+/// | 0x17 | 排球                   |
+/// | 0x18 | 网球                   |
+/// | 0x19 | 高尔夫                 |
+/// | 0x1A | 棒球                   |
+/// | 0x1B | 滑冰                   |
+/// | 0x1C | 轮滑                   |
+/// | 0x1D | 跳舞                   |
+/// | 0x1F | 滚轮训练机             |
+/// | 0x20 | 普拉提                 |
+/// | 0x21 | 交叉训练               |
+/// | 0x22 | 有氧运动               |
+/// | 0x23 | 尊巴舞                 |
+/// | 0x24 | 广场舞                 |
+/// | 0x25 | 平板支撑               |
+/// | 0x26 | 健身房                 |
+/// | 0x27 | 有氧健身操             |
+/// | 0x30 | 户外跑步               |
+/// | 0x31 | 室内跑步               |
+/// | 0x32 | 户外骑行               |
+/// | 0x33 | 室内骑行               |
+/// | 0x34 | 户外走路               |
+/// | 0x35 | 室内走路               |
+/// | 0x36 | 室内游泳(泳池游泳)     |
+/// | 0x37 | 室外游泳(开放水域游泳) |
+/// | 0x38 | 椭圆机                 |
+/// | 0x39 | 划船机                 |
+/// | 0x3A | 高强度间歇训练法       |
+/// | 0x4B | 板球运动               |
+/// | 0x64 | 自由训练               |
+/// | 0x65 | 功能性力量训练         |
+/// | 0x66 | 核心训练               |
+/// | 0x67 | 踏步机                 |
+/// | 0x68 | 整理放松               |
+/// | 0x6E | 传统力量训练           |
+/// | 0x70 | 引体向上               |
+/// | 0x72 | 开合跳                 |
+/// | 0x73 | 深蹲                   |
+/// | 0x74 | 高抬腿                 |
+/// | 0x75 | 拳击                   |
+/// | 0x76 | 杠铃                   |
+/// | 0x77 | 武术                   |
+/// | 0x78 | 太极                   |
+/// | 0x79 | 跆拳道                 |
+/// | 0x7A | 空手道                 |
+/// | 0x7B | 自由搏击               |
+/// | 0x7C | 击剑                   |
+/// | 0x7D | 射箭                   |
+/// | 0x7E | 体操                   |
+/// | 0x7F | 单杠                   |
+/// | 0x80 | 双杠                   |
+/// | 0x81 | 漫步机                 |
+/// | 0x82 | 登山机                 |
+/// | 0x83 | 保龄球                 |
+/// | 0x84 | 台球                   |
+/// | 0x85 | 曲棍球                 |
+/// | 0x86 | 橄榄球                 |
+/// | 0x87 | 壁球                   |
+/// | 0x88 | 垒球                   |
+/// | 0x89 | 手球                   |
+/// | 0x8A | 毽球                   |
+/// | 0x8B | 沙滩足球               |
+/// | 0x8C | 藤球                   |
+/// | 0x8D | 躲避球                 |
+/// | 0x98 | 街舞                   |
+/// | 0x99 | 芭蕾                   |
+/// | 0x9A | 社交舞                 |
+/// | 0x9B | 飞盘                   |
+/// | 0x9C | 飞镖                   |
+/// | 0x9D | 骑马                   |
+/// | 0x9E | 爬楼                   |
+/// | 0x9F | 放风筝                 |
+/// | 0xA0 | 钓鱼                   |
+/// | 0xA1 | 雪橇                   |
+/// | 0xA2 | 雪车                   |
+/// | 0xA3 | 单板滑雪               |
+/// | 0xA4 | 雪上运动               |
+/// | 0xA5 | 高山滑雪               |
+/// | 0xA6 | 越野滑雪               |
+/// | 0xA7 | 冰壶                   |
+/// | 0xA8 | 冰球                   |
+/// | 0xA9 | 冬季两项               |
+/// | 0xAA | 冲浪                   |
+/// | 0xAB | 帆船                   |
+/// | 0xAC | 帆板                   |
+/// | 0xAD | 皮艇                   |
+/// | 0xAE | 摩托艇                 |
+/// | 0xAF | 划艇                   |
+/// | 0xB0 | 赛艇                   |
+/// | 0xB1 | 龙舟                   |
+/// | 0xB2 | 水球                   |
+/// | 0xB3 | 漂流                   |
+/// | 0xB4 | 滑板                   |
+/// | 0xB5 | 攀岩                   |
+/// | 0xB6 | 蹦极                   |
+/// | 0xB7 | 跑酷                   |
+/// | 0xB8 | BMX                    |
+/// | 0xBB | 足排球                 |
+/// | 0xBC | 站立滑水               |
+/// | 0xBD | 越野跑                 |
+/// | 0xBE | 卷腹                   |
+/// | 0xBF | 波比跳                 |
+/// | 0xC0 | 卡巴迪                 |
+/// | 0xC1 | 户外玩耍(KR01)         |
+/// | 0xC2 | 其他运动(KR01)         |
+/// | 0xC3 | 蹦床                   |
+/// | 0xC4 | 呼啦圈                 |
+/// | 0xC5 | 赛车                   |
+/// | 0xC6 | 战绳                   |
+/// | 0xC7 | 跳伞                   |
+/// | 0xC8 | 定向越野               |
+/// | 0xC9 | 山地骑行               |
+/// | 0xCA | 沙滩网球               |
+/// | 0xCB | 智能跳绳               |
+/// | 0xCC | 匹克球                 |
+/// | 0xCD | 轮椅运动               |
+/// | 0xCE | 体能训练               |
+/// | 0xCF | 壶铃训练               |
+/// | 0xD0 | 团体操                 |
+/// | 0xD1 | Cross fit              |
+/// | 0xD2 | 障碍赛                 |
+/// | 0xD3 | 滑板车                 |
+/// | 0xD4 | 滑翔车                 |
+/// | 0xD5 | 滑雪                   |
+/// | 0xD6 | 雪板滑雪               |
+/// | 0xD7 | 搏击操                 |
+/// | 0xD8 | 剑道                   |
+/// | 0xD9 | 太极拳                 |
+/// | 0xDA | 综合格斗               |
+/// | 0xDB | 角力                   |
+/// | 0xDC | 肚皮舞                 |
+/// | 0xDD | 爵士舞                 |
+/// | 0xDE | 拉丁舞                 |
+/// | 0xDF | 踢踏舞                 |
+/// | 0xE0 | 其他舞蹈               |
+/// | 0xE1 | 沙滩排球               |
+/// | 0xE2 | 门球                   |
+/// | 0xE3 | 马球                   |
+/// | 0xE4 | 袋棍球                 |
+/// | 0xE5 | 皮划艇                 |
+/// | 0xE6 | 桨板冲浪               |
+/// | 0xE7 | 对战游戏               |
+/// | 0xE8 | 拔河                   |
+/// | 0xE9 | 秋千                   |
+/// | 0xEA | 马术运动               |
+/// | 0xEB | 田径                   |
+/// | 0xEC | 爬楼机                 |
+/// | 0xED | 柔韧训练               |
+/// | 0xEE | 国际象棋               |
+/// | 0xEF | 国际跳棋               |
+/// | 0xF0 | 围棋                   |
+/// | 0xF1 | 桥牌                   |
+/// | 0xF2 | 桌游                   |
+/// | 0xF3 | 民族舞                 |
+/// | 0xF4 | 嘻哈舞                 |
+/// | 0xF5 | 钢管舞                 |
+/// | 0xF6 | 霹雳舞                 |
+/// | 0xF7 | 现代舞                 |
+/// | 0xF8 | 泰拳                   |
+/// | 0xF9 | 柔道                   |
+/// | 0xFA | 柔术                   |
+/// | 0xFB | 回力球                 |
+/// | 0xFC | 雪地摩托               |
+/// | 0xFD | 滑翔伞                 |
+/// | 0xFE | 长曲棍球               |
+/// | 0xFF | 美式橄榄球             |
 ///
 /// \endcode
 @property (nonatomic, readonly) NSInteger sportType;

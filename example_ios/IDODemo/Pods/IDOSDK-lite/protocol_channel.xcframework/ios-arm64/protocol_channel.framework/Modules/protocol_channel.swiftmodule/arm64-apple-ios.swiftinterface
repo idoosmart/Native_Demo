@@ -841,6 +841,12 @@ public struct Cmds {
     public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> any protocol_channel.IDOCancellable
     public typealias DataType = protocol_channel.IDOCmdSetResponseModel
   }
+  public struct shutdown : protocol_channel.IDOCmdProtocol {
+    public init()
+    @discardableResult
+    public func send(completion: @escaping protocol_channel.IDOCmdResponse<protocol_channel.IDOCmdSetResponseModel>) -> any protocol_channel.IDOCancellable
+    public typealias DataType = protocol_channel.IDOCmdSetResponseModel
+  }
   public struct findDeviceStart : protocol_channel.IDOCmdProtocol {
     public init()
     @discardableResult
@@ -1251,6 +1257,8 @@ public struct Cmds {
   public static func reboot(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> any protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func factoryReset(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> any protocol_channel.IDOCancellable
+  @objc @discardableResult
+  public static func shutdown(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> any protocol_channel.IDOCancellable
   @objc @discardableResult
   public static func findDeviceStart(_ completion: @escaping (_ err: protocol_channel.CmdError, _ response: protocol_channel.IDOCmdSetResponseModel?) -> ()) -> any protocol_channel.IDOCancellable
   @objc @discardableResult
@@ -2903,6 +2911,10 @@ public protocol IDOCmdProtocol {
   @objc var getWatchDailSetAddSize: Swift.Bool { get }
   @objc var getSupportSyncOverHighLowHeartData: Swift.Bool { get }
   @objc var getSupportPerMinuteOne: Swift.Bool { get }
+  @objc var getSupportAchievedRemindOnOff: Swift.Bool { get }
+  @objc var getSupportDrinkPlan: Swift.Bool { get }
+  @objc var getSupportMakeWatchDialDecodeJpg: Swift.Bool { get }
+  @objc var getSupportSleepPlan: Swift.Bool { get }
   @objc var setNoticeMessageStateUseVersion0x20: Swift.Bool { get }
   @objc var setScientificSleepSwitch: Swift.Bool { get }
   @objc var setTemperatureSwitchHealth: Swift.Bool { get }
@@ -3009,6 +3021,15 @@ public protocol IDOCmdProtocol {
   @objc var getSupportGetSpo2SwitchInfo: Swift.Bool { get }
   @objc var getSupportSyncHealthHrUseVersionCompatible: Swift.Bool { get }
   @objc var getSupportSetV3Add48HourWeatherData: Swift.Bool { get }
+  @objc var getNotSupportIndoorRunGetVo2max: Swift.Bool { get }
+  @objc var getSupportSetEcgReminder: Swift.Bool { get }
+  @objc var getSupportSyncEcg: Swift.Bool { get }
+  @objc var getSupportSetGameTimeReminder: Swift.Bool { get }
+  @objc var getSupportConfigDefaultMegApplicationList: Swift.Bool { get }
+  @objc var getSupportSetEciReminder: Swift.Bool { get }
+  @objc var setSupportNoiseSetNotifyFlag: Swift.Bool { get }
+  @objc var setSupportNoiseSetOverWarning: Swift.Bool { get }
+  @objc var setSupportSetVersionInformation: Swift.Bool { get }
   @objc var languageCh: Swift.Bool { get }
   @objc var languageCzech: Swift.Bool { get }
   @objc var languageEnglish: Swift.Bool { get }
@@ -3048,6 +3069,8 @@ public protocol IDOCmdProtocol {
   @objc var languageKhmer: Swift.Bool { get }
   @objc var languageMalay: Swift.Bool { get }
   @objc var languageBrazilianPortuguese: Swift.Bool { get }
+  @objc var languageHebrew: Swift.Bool { get }
+  @objc var languageSerbian: Swift.Bool { get }
   @objc var syncV3Hr: Swift.Bool { get }
   @objc var syncV3Swim: Swift.Bool { get }
   @objc var syncV3Spo2: Swift.Bool { get }
@@ -4333,37 +4356,37 @@ public protocol IDOCmdProtocol {
   required public init(from decoder: any Swift.Decoder) throws
 }
 @objc public enum IDOSportType : Swift.Int, Swift.Codable {
-  case sportTypeNull = 0x00
-  case sportTypeWalk = 0x01
-  case sportTypeRun = 0x02
-  case sportTypeCycling = 0x03
-  case sportTypeOnFoot = 0x04
-  case sportTypeSwim = 0x05
-  case sportTypeClimb = 0x06
-  case sportTypeBadminton = 0x07
-  case sportTypeOther = 0x08
-  case sportTypeFitness = 0x09
-  case sportTypeDynamic = 0x0a
-  case sportTypeEllipsoid = 0x0b
-  case sportTypeTreadmill = 0x0c
-  case sportTypeSitUp = 0x0d
-  case sportTypePushUp = 0x0e
-  case sportTypeDumbbells = 0x0f
-  case sportTypeLifting = 0x10
-  case sportTypeAerobics = 0x11
-  case sportTypeYoga = 0x12
-  case sportTypeRope = 0x13
-  case sportTypePingPong = 0x14
-  case sportTypeBasketball = 0x15
-  case sportTypeSoccer = 0x16
-  case sportTypeVolleyball = 0x17
-  case sportTypeTennisBall = 0x18
-  case sportTypeGolf = 0x19
-  case sportTypeBaseball = 0x1a
-  case sportTypeSki = 0x1b
-  case sportTypeRoller = 0x1c
-  case sportTypeDancing = 0x1d
-  case sportTypeRollerMachine = 0x1f
+  case sportTypeNull = 0
+  case sportTypeWalk = 1
+  case sportTypeRun = 2
+  case sportTypeCycling = 3
+  case sportTypeOnFoot = 4
+  case sportTypeSwim = 5
+  case sportTypeClimb = 6
+  case sportTypeBadminton = 7
+  case sportTypeOther = 8
+  case sportTypeFitness = 9
+  case sportTypeDynamic = 10
+  case sportTypeEllipsoid = 11
+  case sportTypeTreadmill = 12
+  case sportTypeSitUp = 13
+  case sportTypePushUp = 14
+  case sportTypeDumbbells = 15
+  case sportTypeLifting = 16
+  case sportTypeAerobics = 17
+  case sportTypeYoga = 18
+  case sportTypeRope = 19
+  case sportTypePingPong = 20
+  case sportTypeBasketball = 21
+  case sportTypeSoccer = 22
+  case sportTypeVolleyball = 23
+  case sportTypeTennisBall = 24
+  case sportTypeGolf = 25
+  case sportTypeBaseball = 26
+  case sportTypeSki = 27
+  case sportTypeRoller = 28
+  case sportTypeDancing = 29
+  case sportTypeRollerMachine = 31
   case sportTypePilates = 32
   case sportTypeCrossTrain = 33
   case sportTypeCardio = 34
@@ -4453,19 +4476,63 @@ public protocol IDOCmdProtocol {
   case sportTypeBMX = 184
   case sportTypeFootVolley = 187
   case sportTypeStandingStroke = 188
-  case sportTypeCrunch = 0xbe
-  case sportTypeBurpee = 0xbf
-  case sportTypeTrampoline = 0xc3
-  case sportTypeMotorcycle = 0xc5
-  case sportTypeKabaddi = 0xc0
-  case sportTypeBattleRope = 198
-  case sportTypeParachuting = 199
-  case sportTypeOrienteering = 200
-  case sportTypeMountainBiking = 201
-  case sportTypeCricket = 0x4b
-  case sportTypeOutdoorFun = 0xc1
-  case sportTypeOtherActivity = 0xc2
-  case sportTypeCrossRunning = 189
+  case sportTypeCrunch = 190
+  case sportType
+  case hulaHoop = 196
+  case beachTennis = 202
+  case smartJumpRope = 203
+  case pickleball = 204
+  case wheelchairSport = 205
+  case fitnessTraining = 206
+  case kettlebellTraining = 207
+  case groupExercise = 208
+  case crossFit = 209
+  case obstacleCourse = 210
+  case scooter = 211
+  case glider = 212
+  case skiing = 213
+  case snowboarding = 214
+  case combatAerobics = 215
+  case kendo = 216
+  case taiChi = 217
+  case mma = 218
+  case wrestling = 219
+  case bellyDance = 220
+  case jazzDance = 221
+  case latinDance = 222
+  case tapDance = 223
+  case otherDance = 224
+  case beachVolleyball = 225
+  case gateBall = 226
+  case polo = 227
+  case lacrosse = 228
+  case kayaking = 229
+  case supSurfing = 230
+  case combatGame = 231
+  case tugOfWar = 232
+  case swing = 233
+  case equestrian = 234
+  case trackAndField = 235
+  case stairClimber = 236
+  case flexibilityTraining = 237
+  case chess = 238
+  case checkers = 239
+  case go = 240
+  case bridge = 241
+  case boardGame = 242
+  case ethnicDance = 243
+  case hipHopDance = 244
+  case poleDance = 245
+  case breakDance = 246
+  case modernDance = 247
+  case muayThai = 248
+  case judo = 249
+  case jiuJitsu = 250
+  case jaiAlai = 251
+  case snowmobiling = 252
+  case paragliding = 253
+  case lacrosseField = 254
+  case americanFootball = 255
   public init?(rawValue: Swift.Int)
   public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
