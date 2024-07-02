@@ -64,13 +64,8 @@ class SetFunctionDetailActivity : BaseActivity() {
 
 
             }
-
-
             else -> {}
         }
-
-
-
 
         send_btn.setOnClickListener {
             if (paramter_et.text.isNotEmpty()) {

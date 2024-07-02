@@ -53,7 +53,7 @@ object BleManager {
         }
 
         override fun receiveData(data: IDOReceiveData) {
-
+            delegates.forEach { it.receiveData(data) }
         }
 
         override fun stateSPP(state: IDOSppStateModel) {

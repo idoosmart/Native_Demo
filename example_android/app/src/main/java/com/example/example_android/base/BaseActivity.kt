@@ -145,7 +145,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         override fun receiveData(data: IDOReceiveData) {
-
+            println("收到数据：$data")
         }
 
     }

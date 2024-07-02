@@ -20,6 +20,7 @@ struct Word {
     static let sport = "Sport"
     static let testOC = "Test OC"
     static let exportLog = "Export logs"
+    static let testBleChannel = "Test ble channel"
 }
 
 
@@ -42,4 +43,5 @@ struct Notify {
     static let onSdkDeviceStateChanged = Notification.Name("ido-sdk-onSdkDeviceStateChanged")
     static let onBleDeviceStateChanged = Notification.Name("ido-sdk-onBleDeviceStateChanged")
     static let onBleStateChanged = Notification.Name("ido-sdk-onBleStateChanged")
+    static let onBleReceiveDataChanged = Notification.Name("ido-sdk-onBleReceiveDataChanged")
 }

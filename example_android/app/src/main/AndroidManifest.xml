@@ -4,32 +4,29 @@
     package="com.example.example_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- android 13 add -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> <!-- android 13 add -->
+
     <application
         android:name=".MyApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher"
         android:label="IDO DEMO"
         android:supportsRtl="true"
         android:theme="@style/Theme.Example_android"
         tools:targetApi="31">
         <activity
-            android:name=".activity.SportExchangeActivity"
-            android:label="@string/sport"
+            android:name=".activity.TestActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.SportExchangeActivity"
+            android:exported="false"
+            android:label="@string/sport" />
         <activity
             android:name=".activity.FileTransferActivity"
-            android:label="@string/transfer_file"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/transfer_file" />
         <activity
-            android:name="com.example.example_android.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -53,56 +50,39 @@
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
         -->
         <activity
-            android:name="com.example.example_android.activity.FunctionListActivity"
+            android:name=".activity.FunctionListActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.FunctionActivity"
+            android:name=".activity.FunctionActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.GetFuntionActivity"
+            android:name=".activity.GetFuntionActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.SetFuntionActivity"
+            android:name=".activity.SetFuntionActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.OtaFileTransferActivity"
+            android:name=".activity.SetFunctionDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.SetFunctionDetailActivity"
+            android:name=".activity.SyncDataActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.SyncDataActivity"
+            android:name=".activity.FileTransferModuleActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.FileTransferModuleActivity"
+            android:name=".activity.SetBleVoiceActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.SetBleVoiceActivity"
+            android:name=".activity.GetFunctionDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.example_android.activity.GetFunctionDetailActivity"
+            android:name=".activity.AlexaActivity"
             android:exported="false" />
-        <service
-            android:name="com.sifli.siflidfu.SifliDFUService"
-            android:exported="false" />
-        <activity
-            android:name="com.example.example_android.activity.AlexaActivity"
-            android:exported="false" />
-        <activity android:name=".activity.GpsMainActivity"
-            android:exported="false" />
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.example_android.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
     </application>
 
 </manifest>

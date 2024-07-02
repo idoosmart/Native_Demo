@@ -39,11 +39,11 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
-import kotlinx.android.synthetic.main.layout_function_activity.rl_epo
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
+import kotlinx.android.synthetic.main.layout_function_activity.rl_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
 import kotlinx.android.synthetic.main.layout_function_activity.tv_bin
 import kotlinx.android.synthetic.main.layout_function_activity.tv_connect
@@ -74,10 +74,11 @@ class FunctionActivity : BaseActivity() {
                 rl_transfer_file?.visibility = View.GONE
                 rl_alexa?.visibility = View.GONE
                 rl_sport?.visibility = View.GONE
+                rl_test?.visibility = View.GONE
+
             }
         };
     }
-
 
     fun bind(view: View) {
         if (deviceState.state == IDODeviceStateType.CONNECTED) {
@@ -183,9 +184,13 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    fun epo_transfer(view: View){
-        val intent = Intent(this, GpsMainActivity::class.java)
-        startActivity(intent)
+    fun testActivity(view: View){
+        if (sdk.device.deviceId == 859) {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
+        } else {
+            toast("此设备不支持 / not support")
+        }
     }
 
 
@@ -257,15 +262,25 @@ class FunctionActivity : BaseActivity() {
                 if (msgItem.msgType == 1) {
                     // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
                     // val isSuccess = if (回复结果) 1 else 0
-                    var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
+                    var param = IDOFastMsgUpdateParamModel(
+                        1,
+                        msgItem.msgID,
+                        msgItem.msgType,
+                        msgItem.msgNotice
+                    )
                     Cmds.setFastMsgUpdate(param).send {
                         println("setFastMsgUpdate ${it.res?.toJsonString()}")
                     }
-                }else{
+                } else {
                     // 第三方消息
                     // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
                     // val isSuccess = if (回复结果) 1 else 0
-                    var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
+                    var param = IDOFastMsgUpdateParamModel(
+                        1,
+                        msgItem.msgID,
+                        msgItem.msgType,
+                        msgItem.msgNotice
+                    )
                     Cmds.setFastMsgUpdate(param).send {
                         println("setFastMsgUpdate ${it.res?.toJsonString()}")
                     }
@@ -287,7 +302,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.VISIBLE
             rl_alexa?.visibility = View.VISIBLE
             rl_sport?.visibility = View.VISIBLE
-            rl_epo?.visibility = View.VISIBLE
+            rl_test?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -298,7 +313,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.GONE
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
-            rl_epo?.visibility = View.GONE
+            rl_test?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
@@ -306,15 +321,10 @@ class FunctionActivity : BaseActivity() {
 
 
     inner class Blelisten : IDOBleDelegate {
-
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
-
         }
-
         override fun bluetoothState(state: IDOBluetoothStateModel) {
-
         }
-
         override fun deviceState(idoDeviceStateModel: IDODeviceStateModel) {
             println("state------------${idoDeviceStateModel.macAddress}");
             deviceState = idoDeviceStateModel
@@ -330,7 +340,6 @@ class FunctionActivity : BaseActivity() {
                 } else if (isTlwOta) {
                     type = IDOOtaType.TELINK
                 }
-
                 ll_connect?.visibility = View.GONE
                 ll_dis_connect?.visibility = View.VISIBLE
                 //sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
@@ -341,12 +350,11 @@ class FunctionActivity : BaseActivity() {
                 ll_connect?.visibility = View.VISIBLE
                 ll_dis_connect?.visibility = View.GONE
                 closeProgressDialog()
-
             }
         }
 
         override fun receiveData(data: IDOReceiveData) {
-
+            println("data------------${data.data}");
         }
 
         override fun stateSPP(state: IDOSppStateModel) {

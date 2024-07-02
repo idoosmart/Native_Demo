@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".activity.TestActivity">
+
+    <EditText
+        android:id="@+id/test_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="15"
+        android:text="02 03"
+        android:hint="Input Content"
+        />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="send"
+        android:textColor="@color/white"
+        android:onClick="sendData"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/test_tv"
+        android:background="@color/color_808080"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+</LinearLayout>
