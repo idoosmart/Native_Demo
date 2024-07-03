@@ -1,5 +1,0 @@
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/App.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/Flutter.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/FlutterPluginRegistrant.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/native_channel.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-lite/protocol_channel.framework

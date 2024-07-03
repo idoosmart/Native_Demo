@@ -1,6 +1,0 @@
-framework module Pods_IDODemoFull {
-  umbrella header "Pods-IDODemoFull-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,6 +1,0 @@
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/App.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/flutter_bluetooth.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/Flutter.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/FlutterPluginRegistrant.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/native_channel.framework
-${PODS_XCFRAMEWORKS_BUILD_DIR}/IDOSDK-full/protocol_channel.framework

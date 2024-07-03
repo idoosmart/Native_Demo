@@ -1,6 +1,0 @@
-${PODS_ROOT}/Target Support Files/IDOSDK-lite/IDOSDK-lite-xcframeworks.sh
-${PODS_ROOT}/IDOSDK-lite/App.xcframework
-${PODS_ROOT}/IDOSDK-lite/Flutter.xcframework
-${PODS_ROOT}/IDOSDK-lite/FlutterPluginRegistrant.xcframework
-${PODS_ROOT}/IDOSDK-lite/native_channel.xcframework
-${PODS_ROOT}/IDOSDK-lite/protocol_channel.xcframework
