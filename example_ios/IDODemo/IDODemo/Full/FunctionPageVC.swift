@@ -49,6 +49,7 @@ class FunctionPageVC: UIViewController {
         Word.sport,
         Word.alexa,
         Word.testOC,
+        Word.testBleChannel,
         Word.exportLog
     ]
     
@@ -115,7 +116,7 @@ class FunctionPageVC: UIViewController {
         
         _ = NotificationCenter.default.rx.notification(Notify.onSdkStatusChanged).subscribe(onNext: { [weak self] notification in
             if notification.object != nil, let status = notification.object as? IDOStatusNotification {
-                print(status)
+                print(status.rawValue)
                 switch status {
                 case .protocolConnectCompleted:
                     break
@@ -152,14 +153,25 @@ class FunctionPageVC: UIViewController {
         }).disposed(by: disposeBag)
         
         _ = NotificationCenter.default.rx.notification(Notify.onBleDeviceStateChanged).subscribe(onNext: { [weak self] notification in
-            if notification.object != nil, let status = notification.object as? IDODeviceStateType {
-                guard let self = self else { return }
-                print("\(status)")
-                switch status {
+            guard let self = self else { return }
+            if let stateModel = notification.object as? IDODeviceStateModel {
+                print("\(stateModel.state)")
+                switch stateModel.state {
                 case .disconnected:
                     if (self.isViewLoaded) {
-                        SVProgressHUD.showInfo(withStatus: "连接已断开")
-                        self.navigationController?.popToRootViewController(animated: true)
+                        if (stateModel.errorState == .pairFail) {
+                            // 配对异常提示去忽略设备
+                            SVProgressHUD.dismiss()
+                            let alert = UIAlertController(title: "Tips", message: "配对异常，需要手动忽略设备（设置-蓝牙-找到设备-\"!\")-忽略此设备\nPairing is abnormal, you need to manually ignore the device (Settings-Bluetooth-Find Device-\"!\")-Ignore this device", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                                guard let self = self else { return }
+                                self.navigationController?.popToRootViewController(animated: true)
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        }else {
+                            SVProgressHUD.showInfo(withStatus: "连接已断开")
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
                     }
                     break
                 case .connecting:
@@ -200,7 +212,6 @@ class FunctionPageVC: UIViewController {
                 }
             }
         }).disposed(by: disposeBag)
-        
     }
     
     deinit {
@@ -275,10 +286,17 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.sport:
             navigationController?.pushViewController(SportVC(), animated: true)
             break
+        case Word.testBleChannel:
+            if (sdk.device.deviceId == 859) {
+                let vc = TestBleChannelVC()
+                vc.deviceModel = deviceModel
+                navigationController?.pushViewController(vc, animated: true)
+            }else {
+                print("不支持 / not support")
+            }
         case Word.testOC:
             let test = TestOC()
             test.testCommand()
-            test.testSync()
             break
         case Word.exportLog:
             doExportLog()
@@ -300,15 +318,14 @@ extension FunctionPageVC {
             let isBinded = UserDefaults.standard.isBind(deviceModel.macAddress ?? "")
             self.isConnected = true
             self.isBinded = isBinded
-            if (!isBinded) {
-                SVProgressHUD.dismiss()
-                self.tableView.reloadData()
-            }
+            self.tableView.reloadData()
+            SVProgressHUD.dismiss()
         } else if deviceState.state == .disconnected {
             self.isConnected = false
             print("disconnected")
+            self.tableView.reloadData()
         }
-        self.lblConnectState.text = "Connect State:\(deviceState.state ?? .disconnected)"
+        self.lblConnectState.text = "Connect State:\(deviceState.state )"
     }
     
     private func onBleStateChanged() {
@@ -342,6 +359,8 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.exportLog:
             return isConnected && isBinded
+        case Word.testBleChannel:
+            return isConnected && isBinded
         default:
             break
         }
@@ -351,7 +370,8 @@ extension FunctionPageVC {
     private func canPush(_ funName: String) -> Bool {
         return !(funName == Word.deviceConnect || funName == Word.deviceDisconnect
                  || funName == Word.deviceBind || funName == Word.deviceUnbind
-                 || funName == Word.testOC || funName == Word.exportLog)
+                 || funName == Word.testOC || funName == Word.exportLog
+                 || funName == Word.testBleChannel)
     }
     
     private func bind() {
@@ -404,20 +424,23 @@ extension FunctionPageVC {
                 print("\(status)")
             case .needConfirmByApp:
                 print("\(status)")
-                Cmds.sendBindResult(isSuccess: true).send {[weak self] rs in
-                    if case .success(_) = rs {
-                        print("success:")
-                        self?.isBinded = true
-                        SVProgressHUD.showSuccess(withStatus: "绑定成功")
-                        UserDefaults.standard.setBind(macAddress, isBind: true)
-                        sdk.cmd.appMarkBindResult(success: true)
-                    }else {
-                        print("failure")
-                        //SVProgressHUD.showSuccess(withStatus: "绑定失败")
-                        UserDefaults.standard.setBind(macAddress, isBind: false)
-                        sdk.cmd.appMarkBindResult(success: false)
+                let delay = DispatchTime.now() + 1.0
+                DispatchQueue.main.asyncAfter(deadline: delay) {
+                    Cmds.sendBindResult(isSuccess: true).send {[weak self] rs in
+                        if case .success(_) = rs {
+                            print("success:")
+                            self?.isBinded = true
+                            SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                            UserDefaults.standard.setBind(macAddress, isBind: true)
+                            sdk.cmd.appMarkBindResult(success: true)
+                        }else {
+                            print("failure")
+                            //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                            UserDefaults.standard.setBind(macAddress, isBind: false)
+                            sdk.cmd.appMarkBindResult(success: false)
+                        }
+                        self?.tableView.reloadData()
                     }
-                    self?.tableView.reloadData()
                 }
             }
             self?.tableView.reloadData()

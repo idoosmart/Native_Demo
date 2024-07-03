@@ -62,9 +62,11 @@ extension MainPageVC {
 
 extension MainPageVC: IDOBleDelegate {
     func receiveData(data: protocol_channel.IDOReceiveData) {
-        print("receive ble Data: \(data.data?.count ?? 0) Byte")
+        print("IDOBleDelegate - receiveData: \(data.data?.count ?? 0) Byte platform:\(data.platform)")
+        if (data.platform == 2) {
+            NotificationCenter.default.post(name: Notify.onBleReceiveDataChanged, object: data)
+        }
     }
-    
     
     func scanResult(list: [IDODeviceModel]?) {
         print("scanResult list count:\(String(describing: list?.count))")
@@ -78,13 +80,15 @@ extension MainPageVC: IDOBleDelegate {
     func bluetoothState(state: IDOBluetoothStateModel) {
         bleState = state
         funcPage?.bleState = state
-        print("on bluetoothState callback: \(String(describing: state.scanType.rawValue))")
+        print("on bluetoothState callback: \(String(describing: state.type.rawValue))")
+        NotificationCenter.default.post(name: Notify.onBleStateChanged, object: state.type)
     }
     
     func deviceState(state: IDODeviceStateModel) {
         deviceState = state
         funcPage?.deviceState = state
         print("on deviceState callback: \(String(describing: state.state))")
+        NotificationCenter.default.post(name: Notify.onBleDeviceStateChanged, object: state)
     }
 }
 
@@ -162,3 +166,4 @@ extension MainPageVC: IDOAlexaDelegate {
     
     func functionControl(funType: Int) {}
 }
+

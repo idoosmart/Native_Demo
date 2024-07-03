@@ -20,6 +20,7 @@ class TestBleChannelVC: UIViewController {
         v.layer.borderWidth = 1.0
         v.layer.borderColor = UIColor.gray.cgColor
         v.layer.cornerRadius = 8.0
+        v.placeholder = "02 03"
         v.text = "02 03"
         return v
     }()
@@ -114,7 +115,9 @@ class TestBleChannelVC: UIViewController {
         _ = NotificationCenter.default.rx.notification(Notify.onBleReceiveDataChanged).subscribe(onNext: { [weak self] notification in
             guard let self = self else { return }
             if let obj = notification.object as? IDOReceiveData {
-                self.txtResponse.text = obj.data?.hexString() ?? "" + "\n" + self.txtResponse.text
+                let s = obj.data?.hexString() ?? ""
+                // debugPrint("s = \(s)")
+                self.txtResponse.text = s + "\n" + self.txtResponse.text
             }
         }).disposed(by: disposeBag)
     }
