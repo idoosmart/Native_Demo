@@ -31,6 +31,7 @@
         android:id="@+id/test_tv"
         android:background="@color/color_808080"
         android:layout_width="match_parent"
+        android:textColor="@color/white"
         android:layout_height="200dp"/>
 
 </LinearLayout>

@@ -37,6 +37,10 @@ class TransferFileVC: UIViewController {
 //            list.append(.wallpaper)
 //        }
         
+        if (sdk.device.deviceId == 859) {
+            list.append(.app)
+        }
+        
         return list
     }()
     
@@ -106,6 +110,7 @@ fileprivate enum TransType {
     case contact
     case watchFace
     case ota
+    case app
 }
 
 extension TransType {
@@ -122,6 +127,8 @@ extension TransType {
             return "表盘升级 Watch face upgrade"
         case .ota:
             return "固件升级 Firmware upgrade"
+        case .app:
+            return "小程序 App"
         }
     }
 }
@@ -240,6 +247,8 @@ private class TransferFileDetailVC: UIViewController {
         case .ota:
             _ota()
             break;
+        case .app:
+            _app()
         }
     }
     
@@ -279,11 +288,17 @@ private class TransferFileDetailVC: UIViewController {
         // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
         switch(sdk.device.deviceId) {
         case 7877:
-            let contactFilePath = bundlePath + "/ota/7877/ota_7877_V01.01.00.zip"
+            /*
+             ota_7877_V01.01.00.zip
+             ota_7877_full_V01.01.00_all.zip
+             ota_7877_V01.01.01.zip
+             */
+            let contactFilePath = bundlePath + "/ota/7877/ota_7877_V01.01.01.zip"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
             ])
         case 7814:
+            // ota_7814_V1.00.07.bin
             let contactFilePath = bundlePath + "/ota/7814/ota_7814_V1.00.07.bin"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
@@ -298,12 +313,46 @@ private class TransferFileDetailVC: UIViewController {
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
             ])
-        default:
-            SVProgressHUD.showInfo(withStatus: "需要在代码中替换你的固件文件地址\nYou need to replace your firmware file address in the code")
-            let contactFilePath = bundlePath + "/ota/xx/xx.bin"
+        case 543:
+            /*
+             ota_543_v01.61.89.zip
+             ota_543_v01.61.99.zip
+             */
+            let contactFilePath = bundlePath + "/ota/543/ota_543_v01.61.89.zip"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
             ])
+        case 7902:
+            let contactFilePath = bundlePath + "/ota/7902/gtx13_ota_packet_v01.61.89_all.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+            ])
+        default:
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func _app() {
+        switch(sdk.device.deviceId) {
+        case 859:
+            let contactFilePath = bundlePath + "/app/859/dyn_test.app"
+            _trans([
+                IDOTransNormalModel(fileType: .app, filePath: contactFilePath, fileName: "dyn_test.app")
+            ])
+        default:
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
+import kotlinx.android.synthetic.main.layout_function_activity.rl_appletTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
@@ -75,6 +76,7 @@ class FunctionActivity : BaseActivity() {
                 rl_alexa?.visibility = View.GONE
                 rl_sport?.visibility = View.GONE
                 rl_test?.visibility = View.GONE
+                rl_appletTransfer?.visibility = View.GONE
 
             }
         };
@@ -184,7 +186,16 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    fun testActivity(view: View){
+    fun appletTransfer(view: View) {
+        if (sdk.device.deviceId == 859) {
+            val intent = Intent(this, AppletTransferActivity::class.java)
+            startActivity(intent)
+        } else {
+            toast("此设备不支持 / not support")
+        }
+    }
+
+    fun testActivity(view: View) {
         if (sdk.device.deviceId == 859) {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
@@ -303,6 +314,7 @@ class FunctionActivity : BaseActivity() {
             rl_alexa?.visibility = View.VISIBLE
             rl_sport?.visibility = View.VISIBLE
             rl_test?.visibility = View.VISIBLE
+            rl_appletTransfer?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -314,6 +326,7 @@ class FunctionActivity : BaseActivity() {
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
             rl_test?.visibility = View.GONE
+            rl_appletTransfer?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
@@ -323,8 +336,10 @@ class FunctionActivity : BaseActivity() {
     inner class Blelisten : IDOBleDelegate {
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
         }
+
         override fun bluetoothState(state: IDOBluetoothStateModel) {
         }
+
         override fun deviceState(idoDeviceStateModel: IDODeviceStateModel) {
             println("state------------${idoDeviceStateModel.macAddress}");
             deviceState = idoDeviceStateModel
@@ -364,6 +379,11 @@ class FunctionActivity : BaseActivity() {
         override fun writeSPPCompleteState(btMacAddress: String) {
 
         }
+
+    }
+
+
+    private fun deviceID() {
 
     }
 }

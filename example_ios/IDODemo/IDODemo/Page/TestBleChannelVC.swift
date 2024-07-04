@@ -20,6 +20,9 @@ class TestBleChannelVC: UIViewController {
         v.layer.borderWidth = 1.0
         v.layer.borderColor = UIColor.gray.cgColor
         v.layer.cornerRadius = 8.0
+        v.font = .systemFont(ofSize: 14)
+        v.textColor = .gray
+        v.textAlignment = .left
         v.placeholder = "02 03"
         v.text = "02 03"
         return v

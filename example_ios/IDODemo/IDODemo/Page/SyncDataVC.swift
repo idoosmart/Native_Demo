@@ -138,10 +138,8 @@ extension SyncDataVC {
         // 方式二：同步指定类型
         let types = [
             IDOSyncDataTypeClass(type: .activity),
-            IDOSyncDataTypeClass(type: .v2Sleep),
             IDOSyncDataTypeClass(type: .stepCount),
             IDOSyncDataTypeClass(type: .sleep),
-            IDOSyncDataTypeClass(type: .v2GPS),
         ]
         
         // 可以用以下方法获取支持的类型
