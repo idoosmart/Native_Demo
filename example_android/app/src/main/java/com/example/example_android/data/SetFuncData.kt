@@ -7,6 +7,7 @@ import com.idosmart.model.IDOAlarmItem
 import com.idosmart.model.IDOAlarmModel
 import com.idosmart.model.IDOAlarmStatus
 import com.idosmart.model.IDOAlarmType
+import com.idosmart.model.IDOAppletControlModel
 import com.idosmart.model.IDOBaseModel
 import com.idosmart.model.IDOBleVoiceParamModel
 import com.idosmart.model.IDOBpCalControlModel
@@ -528,8 +529,6 @@ class SetFuncData(
                         )
                     )
                 )
-
-
                 mutableListOf.add(
                     SetFuncData(
                         CustomEvtType.SETNOTICEMESSAGESTATE,
@@ -543,7 +542,6 @@ class SetFuncData(
                         )
                     )
                 )
-
                 mutableListOf.add(
                     SetFuncData(
                         CustomEvtType.SETNOTICEMESSAGESTATE,
@@ -1289,6 +1287,26 @@ class SetFuncData(
                     )
                 )
             }
+
+            if (sdk.funcTable.setSupportControlMiniProgram){
+                //获取小程序列表
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETAPPLETCONTROL,
+                        context.getString(R.string.getapplet),
+                        IDOAppletControlModel(3,"")
+                    )
+                )
+                //设置之前需要先获取小程序列表，然后根据获取的小程序列表名称进行设置操作
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETAPPLETCONTROL,
+                        context.getString(R.string.setapplet),
+                        IDOAppletControlModel(1,"dyn_test")
+                    )
+                )
+            }
+
             return mutableListOf
 
         }

@@ -63,8 +63,6 @@ class SetFunctionVC: UIViewController {
 //        SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: "Set wallpaper dial list event number"),
         SetCmd(type: .setDateTime, title: "setDateTime", desc: "Set Time"),
         SetCmd(type: .setUserInfo, title: "setUserInfo", desc: "设置用户信息"),
-        SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: "控制寻找设备开始"),
-        SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: "控制寻找设备结束"),
         SetCmd(type: .photoStart, title: "photoStart", desc: "开始拍照 (app -> ble)"),
         SetCmd(type: .photoStop, title: "photoStop", desc: "结束拍照 (app -> ble)"),
         SetCmd(type: .setHand, title: "setHand", desc: "设置左右手"),
@@ -122,6 +120,11 @@ class SetFunctionVC: UIViewController {
         let funcTable = sdk.funcTable
         func addToItems(_ setCmd: SetCmd) {
             items.append(setCmd)
+        }
+        
+        if (funcTable.getFindDevice) {
+            items.append(SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: "控制寻找设备开始"))
+            items.append(SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: "控制寻找设备结束"))
         }
        
         if (funcTable.getSupportV3LongCityName) {
@@ -243,10 +246,10 @@ class SetFunctionVC: UIViewController {
         
 //        addToItemsbyFunctable(funcTable.setSedentariness, SetCmd(type: .setLongSit, title: "setLongSit", desc: "Set Long Sit Event"))
         
-        
-        
-       
-        
+        //addToItemsbyFunctable(funcTable.getSupportConfigDefaultMegApplicationList , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
+        addToItemsbyFunctable(true , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
+
+        addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: "Operation of applet information (obtain, start, delete)"))
         
     }
     
@@ -533,6 +536,10 @@ private enum CmdType: CaseIterable{
     /// 设置热启动参数
     /// Set hot boot parameters
     case setHotStartParam
+    ///  设置默认的消息应用列表
+    case setDefaultMsgList
+    /// 发送小程序操作
+    case setAppletControl
 }
 
 extension CmdType {
@@ -819,7 +826,6 @@ extension CmdType {
                                               supportAnswering: false,
                                               supportMute: false,
                                               supportHangUp: false,
-                                              msgData: "message body1",
                                               contact: "xx001",
                                               phoneNumber: "xx003",
                                               dataText: "data text1")
@@ -1019,6 +1025,13 @@ extension CmdType {
             return IDOStressSwitchParamModel(onOff: 1, startHour: 3, startMinute: 5, endHour: 4, endMinute: 6, remindOnOff: 1, interval: 60, highThreshold: 30, notifyFlag: 1, repeats: [.monday, .tuesday])
         case .setHotStartParam:
             return IDOGpsHotStartParamModel(longitude: 2, latitude: Int(42.6511674 * 1000000) , altitude: Int(-73.754968 * 1000000), tcxoOffset: 0*10)
+        case .setDefaultMsgList:
+            return IDODefaultMessageConfigParamModel(operate: 1, items: [
+                IDODefaultMessageItem(packageName: "com.tencent.xin"),
+                IDODefaultMessageItem(packageName: "com.facebook.Facebook")
+            ])
+        case .setAppletControl:
+            return nil
         }
     }
     
@@ -1620,6 +1633,29 @@ private class SetFunctionDetailVC: UIViewController {
             let obj = cmd.type.param() as! IDOGpsHotStartParamModel
             cancellable = Cmds.setHotStartParam(obj).send { [weak self] res in
                 self?.doPrint(res)
+            }
+        case .setDefaultMsgList:
+            let obj = cmd.type.param() as! IDODefaultMessageConfigParamModel
+            cancellable = Cmds.setDefaultMsgList(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setAppletControl:
+            // 步骤1：先获取小程序
+            Cmds.setAppleControl(IDOAppletControlModel(operate: 3)).send { [weak self] res in
+                guard let self = self else { return }
+                if case .success(let val) = res {
+                    if let appletItem = val?.infoItem?.first {
+                        // 步骤2：启动小程序
+                        self.cancellable = Cmds.setAppleControl(IDOAppletControlModel(operate: 1, appName: appletItem.appName)).send { [weak self] res in
+                            self?.doPrint(res)
+                        }
+                    }else {
+                        textResponse.text = "Mini Program Not Found"
+                    }
+                    //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
+                } else if case .failure(let err) = res {
+                    textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
             }
         }
     }

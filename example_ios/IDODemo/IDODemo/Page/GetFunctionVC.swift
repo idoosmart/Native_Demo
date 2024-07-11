@@ -175,6 +175,10 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getUnit, title: "getUnit", desc: "Get Unit event number", descCn: "获取单位"))
         }
         
+        if (innerTest || sdk.funcTable.setSupportControlMiniProgram) {
+            items.append(GetCmd(type: .setAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
+        }
+        
         if (sdk.funcTable.setSmartHeartRate) {
             //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
             print("setSmartHeartRate")
@@ -438,6 +442,8 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case setScheduleReminder
     /// 获取单位
     case getUnit
+    /// 发送小程序操作
+    case setAppletControl
     
 }
 
@@ -454,6 +460,8 @@ extension CmdType {
             return OtherParamModel(dic: ["flag": 0])
         case .setScheduleReminder:
             return IDOSchedulerReminderParamModel(operate: 3, items: [])
+        case .setAppletControl:
+            return IDOAppletControlModel(operate: 3)
         default:
             return nil
         }
@@ -779,11 +787,16 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .setScheduleReminder:
             let param = cmd.type.param() as! IDOSchedulerReminderParamModel
-            cancellable = Cmds.setSchedulerReminder(param ).send { [weak self] res in
+            cancellable = Cmds.setSchedulerReminder(param).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .getUnit:
             cancellable = Cmds.getUnit().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setAppletControl:
+            let param = cmd.type.param() as! IDOAppletControlModel
+            cancellable = Cmds.setAppleControl(param).send { [weak self] res in
                 self?.doPrint(res)
             }
         }

@@ -36,6 +36,9 @@
     <string name="setbpcalibration">血压校准</string>
     <string name="setbpmeasurement">血压测量</string>
     <string name="setstresscalibration">压力校准</string>
+    <string name="getapplet"> 获取小程序</string>
+    <string name="setapplet"> 设置小程序</string>
+
     <string name="setgpscontrol">控制gps</string>
     <string name="setspo2switch">设置血氧开关</string>
     <string name="sethandwashingreminder">设置洗手提醒</string>

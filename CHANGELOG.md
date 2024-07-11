@@ -16,11 +16,27 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.35<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/11</span>
+
+##### 更新内容：
+
+- 添加小程序操作接口（获取版本、启动小程序）；
+
+  
+
+## 4.0.34<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/04</span>
+
+##### 更新内容：
+
+- 添加小程序升级功能；
+
+  
+
 ## 4.0.33<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/01</span>
 
 ##### 更新内容：
 
-- 适配新的特殊服务；
+- 适配新的BLE服务特征；
 
   
 

@@ -3,6 +3,7 @@ package com.example.example_android.data
 import android.util.Log
 import com.idosmart.model.IDOActivitySwitchParamModel
 import com.idosmart.model.IDOAlarmModel
+import com.idosmart.model.IDOAppletControlModel
 import com.idosmart.model.IDOBaseModel
 import com.idosmart.model.IDOBleVoiceParamModel
 import com.idosmart.model.IDOBpCalControlModel
@@ -118,6 +119,7 @@ object CmdSet {
             CustomEvtType.MUSICCONTROL -> Cmds.musicControl(idoBaseModel as IDOMusicControlParamModel)
             CustomEvtType.NOTICEMESSAGEV3 -> Cmds.noticeMessageV3(idoBaseModel as IDONoticeMessageParamModel)
             CustomEvtType.SETBPCALCONTROLV3 -> Cmds.setBpCalControlV3(idoBaseModel as IDOBpCalControlModel)
+            CustomEvtType.SETAPPLETCONTROL ->Cmds.setAppletControl(idoBaseModel as IDOAppletControlModel)
             CustomEvtType.SETBASESPORTPARAMSORTV3 -> Cmds.setSportParamSort(
                 IDOSportSortParamModel(
                     1,

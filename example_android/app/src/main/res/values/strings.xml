@@ -87,6 +87,8 @@
     <string name="setbpcalibration"> Blood pressure calibration </string>
     <string name="setbpmeasurement"> Blood pressure measurement</string>
     <string name="setstresscalibration"> pressure calibration</string>
+    <string name="getapplet"> get Applet</string>
+    <string name="setapplet"> set Applet</string>
     <string name="setgpscontrol">Control GPS</string>
     <string name="setspo2switch">Set blood oxygen switch</string>
     <string name="sethandwashingreminder">Set hand washing reminder</string>
