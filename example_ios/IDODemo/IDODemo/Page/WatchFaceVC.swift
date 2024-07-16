@@ -124,12 +124,18 @@ extension WatchFaceVC {
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/537/w130.zip", fileName: "w130")
         case 517:
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/517/w130.zip", fileName: "w130")
+        case 543:
+            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/543/wf_w58.watch", fileName: "wf_w58.watch")
+        case 7883:
+            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7883/GTX02_1.zip", fileName: "GTX02_1")
         default:
-            SVProgressHUD.showInfo(withStatus: "需要指定设备的表盘文件\nYou need to specify the watch face file for your device in the code")
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/xx/xx.xx", fileName: "xx.xx")
-            SVProgressHUD.dismiss(withDelay: 5) { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            }
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
             return false
         }
         return true

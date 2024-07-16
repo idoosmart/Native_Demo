@@ -106,20 +106,12 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"))
         }
         
-        if (innerTest || sdk.funcTable.getActivitySwitch) {
-            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"))
-        }
-        
         if (innerTest || sdk.funcTable.getBtAddrV2) {
             items.append(GetCmd(type: .getBtName, title: "getBtName", desc: "Get bt bluetooth name"))
         }
         if (innerTest || sdk.funcTable.getMtu) {
             items.append(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: "Get MTU Information event number"))
         }
-        if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
-            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"))
-        }
-        
         if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
             items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"))
         }
@@ -176,7 +168,7 @@ class GetFunctionVC: UIViewController {
         }
         
         if (innerTest || sdk.funcTable.setSupportControlMiniProgram) {
-            items.append(GetCmd(type: .setAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
+            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
         }
         
         if (sdk.funcTable.setSmartHeartRate) {
@@ -442,8 +434,8 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case setScheduleReminder
     /// 获取单位
     case getUnit
-    /// 发送小程序操作
-    case setAppletControl
+    /// 获取小程序信息
+    case getAppletControl
     
 }
 
@@ -460,7 +452,7 @@ extension CmdType {
             return OtherParamModel(dic: ["flag": 0])
         case .setScheduleReminder:
             return IDOSchedulerReminderParamModel(operate: 3, items: [])
-        case .setAppletControl:
+        case .getAppletControl:
             return IDOAppletControlModel(operate: 3)
         default:
             return nil
@@ -794,7 +786,7 @@ private class GetFunctionDetailVC: UIViewController {
             cancellable = Cmds.getUnit().send { [weak self] res in
                 self?.doPrint(res)
             }
-        case .setAppletControl:
+        case .getAppletControl:
             let param = cmd.type.param() as! IDOAppletControlModel
             cancellable = Cmds.setAppleControl(param).send { [weak self] res in
                 self?.doPrint(res)

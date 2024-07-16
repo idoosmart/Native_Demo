@@ -23,7 +23,7 @@ class TestBleChannelVC: UIViewController {
         v.font = .systemFont(ofSize: 14)
         v.textColor = .gray
         v.textAlignment = .left
-        v.placeholder = "02 03"
+        v.placeholder = "FA FB FC FD"
         v.text = "02 03"
         return v
     }()

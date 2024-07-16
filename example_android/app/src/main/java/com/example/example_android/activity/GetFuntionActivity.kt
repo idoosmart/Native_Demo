@@ -9,6 +9,7 @@ import com.example.example_android.adapter.GetFuntionAdapter
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
 import com.example.example_android.data.IDoDataBean
+import com.idosmart.model.IDOBleDeviceModel
 import com.idosmart.protocol_channel.sdk
 import kotlinx.android.synthetic.main.layout_get_funtion.ry_view
 

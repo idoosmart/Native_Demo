@@ -41,6 +41,10 @@ class TransferFileVC: UIViewController {
             list.append(.app)
         }
         
+        if (sdk.device.deviceId == 7883 || sdk.device.deviceId == 7882) {
+            list.append(.gps)
+        }
+        
         return list
     }()
     
@@ -111,6 +115,7 @@ fileprivate enum TransType {
     case watchFace
     case ota
     case app
+    case gps
 }
 
 extension TransType {
@@ -129,6 +134,8 @@ extension TransType {
             return "固件升级 Firmware upgrade"
         case .app:
             return "小程序 App"
+        case .gps:
+            return "GPS"
         }
     }
 }
@@ -249,6 +256,8 @@ private class TransferFileDetailVC: UIViewController {
             break;
         case .app:
             _app()
+        case .gps:
+            _gps();
         }
     }
     
@@ -263,17 +272,54 @@ private class TransferFileDetailVC: UIViewController {
     
     private func _mp3() {
         let mp3Path = bundlePath + "/mp3"
-        _trans([
-            IDOTransMusicModel(filePath: "\(mp3Path)/3.mp3", fileName: "mp3_1", musicId: 1),
-            IDOTransMusicModel(filePath: "\(mp3Path)/2.mp3", fileName: "mp3_2", musicId: 2),
-            IDOTransMusicModel(filePath: "\(mp3Path)/1.mp3", fileName: "mp3_3", musicId: 3)
-        ])
+        /*
+         !!!: 音乐传输注意事项：
+         1、只支持44.1k采样率的mp3文件
+         2、相同音乐（名称)，需要先删除设备上的该音乐，再创建
+         3、音乐传输前需要先调用接口创建相关音乐，提供musicID + 文件大小 + 名称
+         4、执行音乐传输时，需提供musicID + 文件大小 + 名称
+         */
+        
+        // 获取音乐文件大小
+        let musicFilePath = "\(mp3Path)/3.mp3"
+        var musicFileSize = 0
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: musicFilePath)
+            if let fileSize = attributes[.size] as? Int64 {
+                musicFileSize = Int(fileSize)
+            }
+        } catch {
+            SVProgressHUD.showError(withStatus: "获取音乐大小出错！Error getting music size")
+            return
+        }
+        
+        let musicItem = IDOMusicItem(musicID: 1, musicMemory: musicFileSize, musicName: "m1.mp3", singerName: "singer1")
+        // 1、先删除设备上的该音乐（如果存在）
+        let param = IDOMusicOpearteParamModel(musicOperate: 1, folderOperate: 0, folderItem: nil, musicItem: musicItem)
+        Cmds.setMusicOperate(param).send { [weak self] res in
+            // 2、创建音乐
+            let param = IDOMusicOpearteParamModel(musicOperate: 2, folderOperate: 0, folderItem: nil, musicItem: musicItem)
+            Cmds.setMusicOperate(param).send { [weak self] res in
+                if case .success(let val) = res {
+                    if (val?.errCode == 0) {
+                        // 3、执行传输
+                        self?._trans([
+                            IDOTransMusicModel(filePath: musicFilePath, fileName: musicItem.musicName, musicId: musicItem.musicID)
+                        ])
+                    }else {
+                        SVProgressHUD.showError(withStatus: "创建歌曲信息出错\n Error creating song information\ncode:\(String(describing: val?.errCode))")
+                    }
+                } else if case .failure(let err) = res {
+                    SVProgressHUD.showError(withStatus: err.message)
+                }
+            }
+        }
     }
     
     private func _contact() {
-        let contactFilePath = bundlePath + "/contact/a.json"
+        let aPath = bundlePath + "/contact/a.json"
         _trans([
-            IDOTransNormalModel(fileType: .ml, filePath: contactFilePath, fileName: "a")
+            IDOTransNormalModel(fileType: .ml, filePath: aPath, fileName: "a")
         ])
     }
     
@@ -293,39 +339,44 @@ private class TransferFileDetailVC: UIViewController {
              ota_7877_full_V01.01.00_all.zip
              ota_7877_V01.01.01.zip
              */
-            let contactFilePath = bundlePath + "/ota/7877/ota_7877_V01.01.01.zip"
+            let aPath = bundlePath + "/ota/7877/ota_7877_V01.01.01.zip"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 7814:
             // ota_7814_V1.00.07.bin
-            let contactFilePath = bundlePath + "/ota/7814/ota_7814_V1.00.07.bin"
+            let aPath = bundlePath + "/ota/7814/ota_7814_V1.00.07.bin"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 537:
-            let contactFilePath = bundlePath + "/ota/537/ota_full_537_V1.01.03.bin"
+            let aPath = bundlePath + "/ota/537/ota_full_537_V1.01.03.bin"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 517:
-            let contactFilePath = bundlePath + "/ota/517/ota_full_517_V1.01.01.bin"
+            let aPath = bundlePath + "/ota/517/ota_full_517_V1.01.01.bin"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 543:
             /*
              ota_543_v01.61.89.zip
              ota_543_v01.61.99.zip
              */
-            let contactFilePath = bundlePath + "/ota/543/ota_543_v01.61.89.zip"
+            let aPath = bundlePath + "/ota/543/ota_543_v01.61.89.zip"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 7902:
-            let contactFilePath = bundlePath + "/ota/7902/gtx13_ota_packet_v01.61.89_all.zip"
+            let aPath = bundlePath + "/ota/7902/gtx13_ota_packet_v01.61.89_all.zip"
             _trans([
-                IDOTransNormalModel(fileType: .fw, filePath: contactFilePath, fileName: "test")
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
+        case 7883:
+            let aPath = bundlePath + "/ota/7883/ota_full_7883-V1.0.0.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         default:
             SVProgressHUD.dismiss()
@@ -341,9 +392,9 @@ private class TransferFileDetailVC: UIViewController {
     private func _app() {
         switch(sdk.device.deviceId) {
         case 859:
-            let contactFilePath = bundlePath + "/app/859/dyn_test.app"
+            let aPath = bundlePath + "/app/859/dyn_test.app"
             _trans([
-                IDOTransNormalModel(fileType: .app, filePath: contactFilePath, fileName: "dyn_test.app")
+                IDOTransNormalModel(fileType: .app, filePath: aPath, fileName: "dyn_test.app")
             ])
         default:
             SVProgressHUD.dismiss()
@@ -355,6 +406,27 @@ private class TransferFileDetailVC: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
+    
+    
+    private func _gps() {
+        // !!!:  epo传输完需要等设备通知安装完成，所以会看到进度走到100%时后等待一会儿（大概40秒左右）
+        switch(sdk.device.deviceId) {
+        case 7883, 7882:
+            let aPath = bundlePath + "/gps/7883/EPO.DAT"
+            _trans([
+                IDOTransNormalModel(fileType: .epo, filePath: aPath, fileName: "EPO.DAT")
+            ])
+        default:
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     
     private func _trans<T: IDOTransBaseModel>(_ items: [T]) {
         isTransferring = true

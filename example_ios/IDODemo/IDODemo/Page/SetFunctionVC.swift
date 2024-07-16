@@ -248,7 +248,6 @@ class SetFunctionVC: UIViewController {
         
         //addToItemsbyFunctable(funcTable.getSupportConfigDefaultMegApplicationList , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
         addToItemsbyFunctable(true , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
-
         addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: "Operation of applet information (obtain, start, delete)"))
         
     }
