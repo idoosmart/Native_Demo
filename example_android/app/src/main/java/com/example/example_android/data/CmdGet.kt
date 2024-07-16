@@ -63,16 +63,12 @@ object CmdGet {
             CustomEvtType.FACTORYRESET -> Cmds.factoryReset()
             CustomEvtType.FINDDEVICESTART -> Cmds.findDeviceStart()
             CustomEvtType.FINDDEVICESTOP -> Cmds.findDeviceStop()
-
-
             CustomEvtType.GETDEFAULTSPORTTYPE -> Cmds.getDefaultSportType()
             CustomEvtType.GETSPORTTYPEV3 -> Cmds.getSportTypeV3()
 
             else -> {
                 null
             }
-
-
         }
         val cmds = when (evtType) {
             CustomEvtType.GETHIDINFO -> Cmds.getHidInfo()

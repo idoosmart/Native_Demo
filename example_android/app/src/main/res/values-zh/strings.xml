@@ -142,6 +142,12 @@
     <string name="music_stop">停止音乐</string>
     <string name="set_call_quick_reply_on_off">设置来电快捷回复开关</string>
     <string name="set_voice_assistant_on_off">设置手机语音助手开关</string>
+    <string name="app_nt_sendMsg">模拟发送动态消息</string>
+    <string name="app_nt_sendMsg_q">模拟发送动态消息(快捷回复)</string>
+    <string name="app_nt_allow">允许通知</string>
+    <string name="app_nt_silent">静默通知</string>
+    <string name="app_nt_clos">关闭通知</string>
+    <string name="app_nt_clos_back">关闭</string>
 
 
 </resources>

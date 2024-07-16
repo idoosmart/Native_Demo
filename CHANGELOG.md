@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.36<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/16</span>
+
+##### 更新内容：
+
+- 修复IDOBleDeviceModel只读属性无法赋值问题（android）；
+
+- 音乐实体类部分属性调整为可选属性
+
+  
+
 ## 4.0.35<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/11</span>
 
 ##### 更新内容：

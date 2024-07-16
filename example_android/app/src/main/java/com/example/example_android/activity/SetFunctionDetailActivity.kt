@@ -10,10 +10,80 @@ import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
 import com.google.gson.GsonBuilder
+import com.idosmart.model.IDOActivitySwitchParamModel
 import com.idosmart.model.IDOAlarmItem
+import com.idosmart.model.IDOAlarmModel
+import com.idosmart.model.IDOAppletControlModel
 import com.idosmart.model.IDOBaseModel
+import com.idosmart.model.IDOBleVoiceParamModel
+import com.idosmart.model.IDOBpCalControlModel
+import com.idosmart.model.IDOBpCalibrationParamModel
+import com.idosmart.model.IDOBpMeasurementParamModel
+import com.idosmart.model.IDODateTimeParamModel
+import com.idosmart.model.IDODisplayModeParamModel
+import com.idosmart.model.IDODrinkWaterRemindModel
+import com.idosmart.model.IDOFastMsgSettingModel
+import com.idosmart.model.IDOFastMsgUpdateParamModel
+import com.idosmart.model.IDOFitnessGuidanceParamModel
+import com.idosmart.model.IDOGpsControlParamModel
+import com.idosmart.model.IDOHandWashingReminderParamModel
+import com.idosmart.model.IDOHeartModeParamModel
+import com.idosmart.model.IDOHeartRateIntervalModel
+import com.idosmart.model.IDOHeartRateModeSmartParamModel
+import com.idosmart.model.IDOHistoricalMenstruationParamModel
+import com.idosmart.model.IDOLongSitParamModel
+import com.idosmart.model.IDOLostFindParamModel
+import com.idosmart.model.IDOMainSportGoalModel
+import com.idosmart.model.IDOMainUISortParamModel
+import com.idosmart.model.IDOMenstruationModel
+import com.idosmart.model.IDOMenstruationRemindParamModel
+import com.idosmart.model.IDOMenuListParamModel
+import com.idosmart.model.IDOMusicControlParamModel
+import com.idosmart.model.IDOMusicFolderItem
+import com.idosmart.model.IDOMusicOnOffParamModel
+import com.idosmart.model.IDOMusicOpearteParamModel
+import com.idosmart.model.IDONotDisturbParamModel
+import com.idosmart.model.IDONoticeMesaageParamModel
+import com.idosmart.model.IDONoticeMessageParamModel
+import com.idosmart.model.IDONoticeMessageStateParamModel
+import com.idosmart.model.IDONotificationStatusParamModel
+import com.idosmart.model.IDORunPlanParamModel
+import com.idosmart.model.IDOSchedulerReminderParamModel
+import com.idosmart.model.IDOScientificSleepSwitchParamModel
+import com.idosmart.model.IDOScreenBrightnessModel
+import com.idosmart.model.IDOShortcutParamModel
+import com.idosmart.model.IDOSleepPeriodParamModel
+import com.idosmart.model.IDOSpo2SwitchParamModel
+import com.idosmart.model.IDOSport100SortParamModel
+import com.idosmart.model.IDOSportGoalParamModel
+import com.idosmart.model.IDOSportModeSelectParamModel
+import com.idosmart.model.IDOSportModeSortParamModel
+import com.idosmart.model.IDOSportParamModel
+import com.idosmart.model.IDOSportSortParamModel
+import com.idosmart.model.IDOSportType
+import com.idosmart.model.IDOStressCalibrationParamModel
+import com.idosmart.model.IDOStressSwitchParamModel
+import com.idosmart.model.IDOSyncContactParamModel
+import com.idosmart.model.IDOTakingMedicineReminderParamModel
+import com.idosmart.model.IDOTemperatureSwitchParamModel
+import com.idosmart.model.IDOUnitParamModel
+import com.idosmart.model.IDOUpHandGestureParamModel
+import com.idosmart.model.IDOUserInfoPramModel
+import com.idosmart.model.IDOV3NoiseParamModel
+import com.idosmart.model.IDOVoiceReplyParamModel
+import com.idosmart.model.IDOWalkRemindModel
+import com.idosmart.model.IDOWalkRemindTimesParamModel
+import com.idosmart.model.IDOWallpaperDialReplyV3ParamModel
+import com.idosmart.model.IDOWatchDialParamModel
 import com.idosmart.model.IDOWatchDialSortItem
 import com.idosmart.model.IDOWatchDialSortParamModel
+import com.idosmart.model.IDOWatchFaceParamModel
+import com.idosmart.model.IDOWeatherDataFuture
+import com.idosmart.model.IDOWeatherDataParamModel
+import com.idosmart.model.IDOWeatherSunTimeParamModel
+import com.idosmart.model.IDOWeatherV3ParamModel
+import com.idosmart.model.IDOWeek
+import com.idosmart.model.IDOWorldTimeParamModel
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
@@ -64,58 +134,443 @@ class SetFunctionDetailActivity : BaseActivity() {
 
 
             }
+
             else -> {}
+
+
         }
 
         send_btn.setOnClickListener {
-            if (paramter_et.text.isNotEmpty()) {
+//            if (paramter_et.text.isNotEmpty()) {
+//                idoBaseModel = GsonBuilder().create()
+//                    .fromJson(paramter_et.text.toString(), setFuncData!!.idoBaseModel::class.java)
+//            }
+//            CmdSet.set(myType, idoBaseModel, {
+//                paramter_tv.text = it
+//            }) {
+//                tv_response.text = it
+//            }
 
-                idoBaseModel = GsonBuilder().create()
-                    .fromJson(paramter_et.text.toString(), setFuncData!!.idoBaseModel::class.java)
+            when (myType) {
+                CustomEvtType.SETSENDRUNPLAN -> Cmds.setSendRunPlan(idoBaseModel as IDORunPlanParamModel)
+                CustomEvtType.SETWALKREMIND -> Cmds.setWalkReminder(idoBaseModel as IDOWalkRemindModel)
+                CustomEvtType.SETWATCHDIALSORT -> Cmds.setWatchDialSort(idoBaseModel as IDOWatchDialSortParamModel)
+                CustomEvtType.SETWALKREMINDTIMES -> Cmds.setWalkRemindTimes(idoBaseModel as IDOWalkRemindTimesParamModel)
+                CustomEvtType.SETWEATHERV3 -> Cmds.setWeatherV3(idoBaseModel as IDOWeatherV3ParamModel)
+                CustomEvtType.SETNOTICEMESSAGESTATE -> Cmds.setNoticeMessageState(idoBaseModel as IDONoticeMessageStateParamModel)
+                CustomEvtType.SETMAINUISORTV3 -> Cmds.setMainUISortV3(idoBaseModel as IDOMainUISortParamModel)
+                CustomEvtType.SETWATCHFACEDATA -> Cmds.setWatchFaceData(idoBaseModel as IDOWatchFaceParamModel)
+                CustomEvtType.SETMUSICOPERATE -> setMusicOperate()
+                CustomEvtType.SETNOTIFICATIONSTATUS -> Cmds.setNotificationStatus(idoBaseModel as IDONotificationStatusParamModel)
+                CustomEvtType.SETFITNESSGUIDANCE -> Cmds.setFitnessGuidance(idoBaseModel as IDOFitnessGuidanceParamModel)
+                CustomEvtType.SETSCIENTIFICSLEEPSWITCH -> Cmds.setScientificSleepSwitch(idoBaseModel as IDOScientificSleepSwitchParamModel)
+                CustomEvtType.SETTEMPERATURESWITCH -> Cmds.setTemperatureSwitch(idoBaseModel as IDOTemperatureSwitchParamModel)
+                CustomEvtType.SETV3NOISE -> Cmds.setV3Noise(idoBaseModel as IDOV3NoiseParamModel)
+                CustomEvtType.SETHEARTMODE -> Cmds.setHeartMode(idoBaseModel as IDOHeartModeParamModel)
+                CustomEvtType.SETHEARTRATEMODESMART -> Cmds.setHeartRateModeSmart(idoBaseModel as IDOHeartRateModeSmartParamModel)
+                CustomEvtType.SETTAKINGMEDICINEREMINDER -> Cmds.setTakingMedicineReminder(
+                    idoBaseModel as IDOTakingMedicineReminderParamModel
+                )
 
+                CustomEvtType.SETBLEVOICE -> Cmds.setBleVoice(idoBaseModel as IDOBleVoiceParamModel)
+                CustomEvtType.SETLONGSIT -> Cmds.setLongSit(idoBaseModel as IDOLongSitParamModel)
+                CustomEvtType.SETLOSTFIND -> Cmds.setLostFind(idoBaseModel as IDOLostFindParamModel)
+                CustomEvtType.SETSPORTGOAL -> Cmds.setSportGoal(idoBaseModel as IDOSportGoalParamModel)
+                CustomEvtType.SETUNIT -> Cmds.setUnit(idoBaseModel as IDOUnitParamModel)
+//            CustomEvtType.SETNOTIFICATIONCENTER -> Cmds.setNotificationCenter(idoBaseModel as IDONotificationCenterParamModel)
+                CustomEvtType.SETUPHANDGESTURE -> Cmds.setUpHandGesture(idoBaseModel as IDOUpHandGestureParamModel)
+                CustomEvtType.SETMUSICONOFF -> Cmds.setMusicOnOff(idoBaseModel as IDOMusicOnOffParamModel)
+                CustomEvtType.SETDISPLAYMODE -> Cmds.setDisplayMode(idoBaseModel as IDODisplayModeParamModel)
+                CustomEvtType.SETSPORTMODESELECT -> Cmds.setSportModeSelect(idoBaseModel as IDOSportModeSelectParamModel)
+                CustomEvtType.SETSLEEPPERIOD -> Cmds.setSleepPeriod(idoBaseModel as IDOSleepPeriodParamModel)
+                CustomEvtType.SETWEATHERDATA -> setWeatherData()
+                CustomEvtType.SETWEATHERSUNTIME -> Cmds.setWeatherSunTime(idoBaseModel as IDOWeatherSunTimeParamModel)
+                CustomEvtType.SETWATCHDIAL -> Cmds.setWatchDial(idoBaseModel as IDOWatchDialParamModel)
+                CustomEvtType.SETSHORTCUT -> Cmds.setShortcut(idoBaseModel as IDOShortcutParamModel)
+                CustomEvtType.SETBPCALIBRATION -> setBpCalibration()
+                CustomEvtType.SETBPMEASUREMENT -> setBpMeasurement()
+                CustomEvtType.SETSTRESSCALIBRATION -> setStressCalibration()
+                CustomEvtType.SETGPSCONTROL -> Cmds.setGpsControl(idoBaseModel as IDOGpsControlParamModel)
+                CustomEvtType.SETSPO2SWITCH -> Cmds.setSpo2Switch(idoBaseModel as IDOSpo2SwitchParamModel)
+                CustomEvtType.SETHANDWASHINGREMINDER -> setHandWashingReminder()
+                CustomEvtType.SETNOTICEAPPNAME -> Cmds.setNoticeAppName(idoBaseModel as IDONoticeMesaageParamModel)
+                CustomEvtType.SETSYNCCONTACT -> Cmds.setSyncContact(idoBaseModel as IDOSyncContactParamModel)
+                CustomEvtType.MUSICCONTROL -> Cmds.musicControl(idoBaseModel as IDOMusicControlParamModel)
+                CustomEvtType.NOTICEMESSAGEV3 -> Cmds.noticeMessageV3(idoBaseModel as IDONoticeMessageParamModel)
+                CustomEvtType.SETBPCALCONTROLV3 -> setBpCalControlV3()
+                CustomEvtType.SETAPPLETCONTROL -> setAppletControl()
+                CustomEvtType.SETBASESPORTPARAMSORTV3 -> setSportParamSort(
+
+                )
+
+                CustomEvtType.SETSCHEDULERREMINDERV3 -> Cmds.setSchedulerReminder(idoBaseModel as IDOSchedulerReminderParamModel)
+                CustomEvtType.SET100SPORTSORTV3 -> Cmds.setSport100Sort(idoBaseModel as IDOSport100SortParamModel)
+                CustomEvtType.SETWALLPAPERDIALREPLYV3 -> Cmds.setWallpaperDialReply(idoBaseModel as IDOWallpaperDialReplyV3ParamModel)
+                CustomEvtType.SETVOICEREPLYTXTV3 -> Cmds.setVoiceReplyText(idoBaseModel as IDOVoiceReplyParamModel)
+                CustomEvtType.SETTIME -> Cmds.setDateTime(idoBaseModel as IDODateTimeParamModel)
+                CustomEvtType.SETFINDPHONE -> Cmds.setFindPhone(true)
+                CustomEvtType.SETWEATHERSWITCH -> Cmds.setWeatherSwitch(true)
+                CustomEvtType.SETONEKEYSOS -> Cmds.setOnekeySOS(false, 0)
+                CustomEvtType.SETUNREADAPPREMINDER -> Cmds.setUnreadAppReminder(true)
+                CustomEvtType.SETWEATHERCITYNAME -> Cmds.setWeatherCityName("dsdgf")
+                CustomEvtType.SETRRESPIRATETURN -> Cmds.setRRespiRateTurn(false)
+                CustomEvtType.SETBODYPOWERTURN -> Cmds.setBodyPowerTurn(false)
+                CustomEvtType.SETSCREENBRIGHTNESS -> Cmds.setScreenBrightness(idoBaseModel as IDOScreenBrightnessModel)
+                CustomEvtType.SETACTIVITYSWITCH -> Cmds.setActivitySwitch(idoBaseModel as IDOActivitySwitchParamModel)
+                CustomEvtType.SETALARMV3 -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
+                CustomEvtType.SETHEARTRATEINTERVAL -> Cmds.setHeartRateInterval(idoBaseModel as IDOHeartRateIntervalModel)
+                CustomEvtType.SETMENSTRUATION -> Cmds.setMenstruation(idoBaseModel as IDOMenstruationModel)
+                CustomEvtType.SETCALORIEDISTANCEGOAL -> Cmds.setCalorieDistanceGoal(idoBaseModel as IDOMainSportGoalModel)
+                CustomEvtType.SETWORLDTIMEV3 -> Cmds.setWorldTimeV3(
+                    listOf(
+                        IDOWorldTimeParamModel(
+                            1,
+                            2,
+                            "东京",
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            2,
+                            3,
+                            4
+                        )
+                    )
+                )
+
+                CustomEvtType.SETHAND -> Cmds.setHand(false)
+                CustomEvtType.SETLONGCITYNAMEV3 -> Cmds.setLongCityNameV3("深圳")
+                CustomEvtType.GETHISTORICALMENSTRUATION -> Cmds.setHistoricalMenstruation(
+                    idoBaseModel as IDOHistoricalMenstruationParamModel
+                )
+
+                CustomEvtType.SETSPORTSORTV3 -> setSportSortV3()
+                CustomEvtType.SETUSERINFO -> Cmds.setUserInfo(idoBaseModel as IDOUserInfoPramModel)
+                CustomEvtType.SETNOTDISTURB -> Cmds.setNotDisturb(idoBaseModel as IDONotDisturbParamModel)
+                CustomEvtType.SETMENSTRUATIONREMIND -> Cmds.setMenstruationRemind(idoBaseModel as IDOMenstruationRemindParamModel)
+                CustomEvtType.SETSTRESSSWITCH -> Cmds.setStressSwitch(idoBaseModel as IDOStressSwitchParamModel)
+                CustomEvtType.SETDRINKWATERREMIND -> Cmds.setDrinkWaterRemind(idoBaseModel as IDODrinkWaterRemindModel)
+                CustomEvtType.SETOVERFINDPHONE -> Cmds.setOverFindPhone()
+                CustomEvtType.SETMENULIST -> Cmds.setMenuList(idoBaseModel as IDOMenuListParamModel)
+                CustomEvtType.SETALARM -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
+                CustomEvtType.MUSICSTART -> Cmds.musicStart()
+                CustomEvtType.MUSICSTOP -> Cmds.musicStop()
+                CustomEvtType.SETCALLQUICKREPLYONOFF -> setCallQuickReplyOnOff()
+                CustomEvtType.SETVOICEASSISTANTONOFF -> setVoiceAssistantOnOff()
+                CustomEvtType.SETFASTMSGUPDATE -> Cmds.setFastMsgUpdate(idoBaseModel as IDOFastMsgUpdateParamModel)
+                CustomEvtType.SETFASTMSGV3 -> Cmds.setDefaultQuickMsgReplyList(idoBaseModel as IDOFastMsgSettingModel)
+                CustomEvtType.SETSPORTMODESORT -> Cmds.setSportModeSort(
+                    listOf(
+                        IDOSportModeSortParamModel(
+                            1,
+                            IDOSportType.SPORTTYPEAEROBICS
+                        )
+                    )
+                )
+
+                else -> {
+                    null
+                }
             }
-            CmdSet.set(myType, idoBaseModel, {
-                paramter_tv.text = it
-            }) {
-                tv_response.text = it
-            }
+
         }
 
-//        type = intent.getIntExtra(SetFuntionActivity.settypeInfo,SetFuntionActivity.setDateTime)
-//        when(type) {
-//            SetFuntionActivity.setDateTime -> supportActionBar?.setTitle("setDateTime")
-//            SetFuntionActivity.setBleVoice -> supportActionBar?.setTitle("setBleVoice")
-//        }
-//        send_btn.setOnClickListener {
-//            when(type) {
-//                SetFuntionActivity.setDateTime ->{
-//                    paramter_tv.text = "setDateTime:"
-//                    val currentDateTime = LocalDateTime.now()
-//                    val year = currentDateTime.year
-//                    val month = currentDateTime.month.value
-//                    val day = currentDateTime.dayOfMonth
-//                    val hour = currentDateTime.hour
-//                    val minute = currentDateTime.minute
-//                    val second = currentDateTime.second
-//                    val week = currentDateTime.dayOfWeek.value
-//                    val zoneId = 8
-//                    Cmds.setDateTime(IDODateTimeParamModel(year,month,day,hour,minute,second,week,zoneId)).send {
-//                        if (it.error.code == 0) {
-//                            tv_response.text = "set command success"
-//                        }else {
-//                            tv_response.text = "set command failed"
-//                        }
-//                    }
-//                }
-//                SetFuntionActivity.setBleVoice -> {
-//                    var idoBleVoiceParamModel : IDOBleVoiceParamModel = IDOBleVoiceParamModel(2,10)
-//                    paramter_tv.text = idoBleVoiceParamModel.toString()
-//                    Cmds.setBleVoice(idoBleVoiceParamModel).send {
-//                        tv_response.text = it.res.toString()
-//                    }
-//                }
-//            }
-//        }
+    }
+
+    private fun setMusicOperate() {
+        Cmds.setMusicOperate(
+            IDOMusicOpearteParamModel(
+                0, 2,
+                IDOMusicFolderItem(
+                    folderId = 1, musicNum = 0, folderName = "kd", musicIndex = listOf()
+                ), null
+            )
+        )
+    }
+
+    /**
+     *
+     * 设置天气数据
+     * IDOWeatherDataParamModel
+     * type	Int	天气类型
+     *          0x00 其他
+     *          0x01 晴
+     *          0x02 阴
+     *          0x03 阴
+     *          0x04 雨
+     *          0x05 大雨
+     *          0x06 雷雨
+     *          0x07雪
+     *          0x08雨夹雪
+     *          0x09台风
+     *          0x0A沙尘暴
+     *          0x0B晴夜
+     *          0x0C阴夜
+     *          0x0D炎热
+     *          0x0E寒冷
+     *          0x0F微风
+     *          0x10大风
+     *          0x11阴霾
+     *          0x12阵雨
+     *          0x13阴转晴
+     *          0x30雷
+     *          0x31冰雹
+     *          0x32沙尘
+     *          0x33 龙卷风
+     * temp	Int	当前温度
+     * maxTemp	Int	当日最高气温
+     * minTemp	Int	当日最低气温
+     * humidity	Int	当前湿度
+     * uvIntensity	Int	当前紫外线强度
+     * aqi	Int	当前空气质量指数（AQI）
+     * future    [IDOWeatherDataFuture]	未来三天的天气情况
+     *
+     * */
+    private fun setWeatherData() {
+        Cmds.setWeatherData(
+            IDOWeatherDataParamModel(
+                10, 4, 10, 19, 10, 4, 5, listOf(
+                    IDOWeatherDataFuture(
+                        0, 0, 0
+                    )
+                )
+            )
+        ).send { }
+    }
+
+
+    /**
+     * 血压测量
+     * IDOBpMeasurementParamModel
+     * flag	Int	1：开始测量
+     * 2：结束测量
+     * 3：获取血压数据
+     *
+     * */
+    private fun setBpMeasurement() {
+        Cmds.setBpMeasurement(
+            IDOBpMeasurementParamModel(
+                1,
+            )
+        ).send { }
+    }
+
+    /**
+     * 血压校准
+     * IDOBpCalibrationParamModel
+     * flag	Int	1：血压校准设置
+     * 2：血压校准查询结果
+     * diastolic	Int	收缩压
+     * systolic	Int	舒张压
+     * */
+    private fun setBpCalibration() {
+        Cmds.setBpCalibration(
+            IDOBpCalibrationParamModel(
+                1, 0, 0
+            )
+        ).send {
+
+        }
+    }
+
+    /**
+     * 设置洗手提醒
+     * IDOHandWashingReminderParamModel
+     * onOff	Int	0：关闭
+     * 1：打开
+     * 默认关闭
+     * startHour	Int	提醒的开始时间
+     * startMinute	Int	提醒的开始分钟
+     * endHour	Int	提醒结束时间
+     * endMinute	Int	提醒结束分钟
+     * repeats	Set	重复IDOWeek 集合
+     * interval	Int	提醒间隔（分钟）
+     * 默认为 60 分钟
+     *
+     *
+     * */
+    private fun setHandWashingReminder() {
+        Cmds.setHandWashingReminder(
+            IDOHandWashingReminderParamModel(
+                0, 0, 0, 23, 59, hashSetOf(
+                    IDOWeek.MONDAY,
+                    IDOWeek.TUESDAY,
+                    IDOWeek.WEDNESDAY,
+                    IDOWeek.THURSDAY,
+                    IDOWeek.FRIDAY,
+                    IDOWeek.SATURDAY,
+                ), 2
+            )
+        ).send {
+
+        }
+    }
+
+    /**
+     * v3血压校准控制
+     * IDOBpCalControlModel
+     * errorCode	Int	错误代码：0 表示成功，非 0 表示失败
+     * operate	Int	操作
+     * 0：无效
+     * 1：开始血压校准
+     * 2：停止血压校准
+     * 3：获取特征向量
+     * sbpPpgFeatureNum	Int	高血压PPG特征向量个数
+     * operate=3时有效
+     * dbpPpgFeatureNum	Int	低血压PPG特征向量个数
+     * operate=3时有效
+     * sbpPpgFeatureItems	List	高血压PPG特征向量集合
+     * dbpPpgFeatureItems	List	低血压PPG特征向量集合
+     *
+     * */
+    private fun setBpCalControlV3() {
+        Cmds.setBpCalControlV3(
+            IDOBpCalControlModel(
+                1, 0, 0, 23, listOf(
+                    0, 0, 1
+                ), listOf(
+                    0, 0, 1
+                )
+            )
+        ).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     *  v3 设置运动子项数据排列
+     * operate	Int	操作
+     * 0：无效 1：查询 2：设置
+     * sportType	IDOSportType	运动类型
+     * nowUserLocation	Int	显示的添加运动的当前位置
+     * items    [Int]	运动排序列表 最大值150个
+     * */
+    private fun setSportParamSort() {
+        Cmds.setSportParamSort(
+            IDOSportSortParamModel(
+                1,
+                IDOSportType.SPORTTYPEAEROBICS,
+                1,
+                listOf(
+                    1,
+                    2,
+                )
+            )
+        ).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     * 设置来电快捷回复开关
+     *
+     * */
+    private fun setCallQuickReplyOnOff() {
+        Cmds.setCallQuickReplyOnOff(true).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     * 设置手机语音助手开关
+     *
+     * */
+    private fun setVoiceAssistantOnOff() {
+        Cmds.setVoiceAssistantOnOff(true).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     * 设置运动排序
+     * IDOSportModeSortParamModel
+     * index	Int	排序索引（从1开始，0无效）
+     * type	IDOSportType	运动类型
+     *
+     * IDOSportParamModel
+     * num 数量
+     * items ：List<IDOSportModeSortParamModel> 运动类型排序详情（最大30个）
+     * */
+    private fun setSportSortV3() {
+        Cmds.setSportSortV3(
+            IDOSportParamModel(
+                1,
+                listOf(IDOSportModeSortParamModel(1, IDOSportType.SPORTTYPEBURPEE))
+            )
+        ).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     * 压力校准
+     * IDOStressCalibrationParamModel
+     * stressScore	Int	压力分数，范围从 1 到 10
+     * status	Int	0：开始校准设置 1：取消校准设置
+     *
+     * IDOStressCalibrationModel
+     * retCode	Int	0：成  1：失败-正在校准  2：失败-充电  失败-未佩戴 4：失败-运动场景
+     *
+     * */
+    private fun setStressCalibration() {
+        Cmds.setStressCalibration(
+            IDOStressCalibrationParamModel(
+                1,
+                0,
+            )
+        ).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+    }
+
+
+    /**
+     * 发送小程序操作
+     * operate	Int	0:无效 1:启动小程序 2:删除小程序 3:获取已安装的小程序列表
+     * appName	String	小程序名称 operate=0/operate=3无效,获取操作不需要下发名称，最大29个字节
+     */
+    private fun setAppletControl() {
+        Cmds.setAppletControl(IDOAppletControlModel(3, "")).send { it ->
+            if (it.error.code == 0) {
+                var appName = it.res?.infoItem?.get(0)?.appName
+                Cmds.setAppletControl(IDOAppletControlModel(1, appName)).send {
+                    paramter_tv.text = IDOAppletControlModel(1, appName).toJsonString()
+                    if (it.error.code == 0) {
+                        tv_response.text = it.res?.toJsonString()
+                    }
+                }
+            }
+        }
     }
 
 

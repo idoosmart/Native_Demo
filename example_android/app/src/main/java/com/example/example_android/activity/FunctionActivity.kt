@@ -41,6 +41,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
 import kotlinx.android.synthetic.main.layout_function_activity.rl_appletTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_notificationIconTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
@@ -77,6 +78,7 @@ class FunctionActivity : BaseActivity() {
                 rl_sport?.visibility = View.GONE
                 rl_test?.visibility = View.GONE
                 rl_appletTransfer?.visibility = View.GONE
+                rl_notificationIconTransfer?.visibility = View.GONE
 
             }
         };
@@ -147,6 +149,11 @@ class FunctionActivity : BaseActivity() {
                     FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
                     sdk.ble.cancelConnect(device?.macAddress) {}
                     bindState()
+                    // 解绑设备删除icon数据
+                    sdk.messageIcon.resetIconInfoData(macAddress = device?.macAddress.toString(), deleteIcon = true) { success ->
+                        // 在这里处理返回的结果
+                    }
+
                 } else {
                     toast("unbind failed")
                 }
@@ -191,7 +198,7 @@ class FunctionActivity : BaseActivity() {
             val intent = Intent(this, AppletTransferActivity::class.java)
             startActivity(intent)
         } else {
-            toast("此设备不支持 / not support")
+            toast("此设备不支持 / this device is not support")
         }
     }
 
@@ -200,10 +207,19 @@ class FunctionActivity : BaseActivity() {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
         } else {
-            toast("此设备不支持 / not support")
+            toast("此设备不支持 / this device is not support")
         }
     }
 
+    fun notificationIconTransfer(view: View) {
+        if (sdk.funcTable.setSetNotificationStatus){
+            val intent = Intent(this, NotificationIconTransferActivity::class.java)
+            startActivity(intent)
+        }else{
+            toast("此设备不支持 / this device is not support")
+        }
+
+    }
 
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -241,16 +257,6 @@ class FunctionActivity : BaseActivity() {
     }
 
     inner class BleData : IDOBridgeDelegate {
-//        override fun registerWriteDataToBle(bleData: IDOBleDataRequest) {
-//            println("registerWriteDataToBle $bleData");
-//            bleData?.run {
-//                //  if(deviceState?.macAddress == bleData.macAddress){
-//                sdk.ble.writeData(bleData.data, device, bleData.type) {
-//                    println("writeData $it");
-//                }
-//                //  }
-//            }
-//        }
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
@@ -315,6 +321,7 @@ class FunctionActivity : BaseActivity() {
             rl_sport?.visibility = View.VISIBLE
             rl_test?.visibility = View.VISIBLE
             rl_appletTransfer?.visibility = View.VISIBLE
+            rl_notificationIconTransfer?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -327,10 +334,13 @@ class FunctionActivity : BaseActivity() {
             rl_sport?.visibility = View.GONE
             rl_test?.visibility = View.GONE
             rl_appletTransfer?.visibility = View.GONE
+            rl_notificationIconTransfer?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
     }
+
+
 
 
     inner class Blelisten : IDOBleDelegate {

@@ -131,7 +131,6 @@ object CmdSet {
                     )
                 )
             )
-
             CustomEvtType.SETSCHEDULERREMINDERV3 -> Cmds.setSchedulerReminder(idoBaseModel as IDOSchedulerReminderParamModel)
             CustomEvtType.SET100SPORTSORTV3 -> Cmds.setSport100Sort(idoBaseModel as IDOSport100SortParamModel)
             CustomEvtType.SETWALLPAPERDIALREPLYV3 -> Cmds.setWallpaperDialReply(idoBaseModel as IDOWallpaperDialReplyV3ParamModel)
@@ -193,7 +192,6 @@ object CmdSet {
                     )
                 )
             )
-
             else -> {
                 null
             }

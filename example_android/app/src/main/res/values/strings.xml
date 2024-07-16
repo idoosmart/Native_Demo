@@ -193,4 +193,10 @@
     <string name="getDefaultSportType">Obtain  default motion type</string>
     <string name="getSportTypeV3">V3 Obtain  default motion type</string>
     <string name="epo_file">epo</string>
+    <string name="app_nt_sendMsg">Simulate sending dynamic messages</string>
+    <string name="app_nt_sendMsg_q">Simulate sending dynamic messages (quick reply)</string>
+    <string name="app_nt_allow">Allow notifications</string>
+    <string name="app_nt_silent">silent notifications</string>
+    <string name="app_nt_clos">clos notifications</string>
+    <string name="app_nt_clos_back">clos</string>
 </resources>

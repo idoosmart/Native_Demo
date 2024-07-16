@@ -96,8 +96,6 @@ class SetFuncData(
     companion object {
         fun getFunctions(context: Context): MutableList<SetFuncData> {
             var mutableListOf = mutableListOf<SetFuncData>(
-
-
                 SetFuncData(
                     CustomEvtType.SETHEARTRATEINTERVAL,
                     context.getString(R.string.set_heart_rate_interval),
@@ -296,20 +294,6 @@ class SetFuncData(
                     IDOCmdSetResponseModel(1)
                 ),
 
-
-                SetFuncData(
-                    CustomEvtType.SETFASTMSGV3,
-                    context.resources.getString(R.string.set_fast_msg_setting),
-                    IDOFastMsgSettingModel(
-                        0, listOf(
-                            IDOFastMsgItem(1, "test1"),
-                            IDOFastMsgItem(2, "test2"),
-                            IDOFastMsgItem(3, "test3"),
-                            IDOFastMsgItem(4, "test4"),
-                            IDOFastMsgItem(5, "test5")
-                        )
-                    )
-                )
             )
 
             if (sdk.funcTable.syncV3SyncAlarm) {
@@ -514,49 +498,6 @@ class SetFuncData(
                 )
             }
 
-
-            if (sdk.funcTable.setSetNotificationStatus) {
-                mutableListOf.add(
-                    SetFuncData(
-                        CustomEvtType.SETNOTICEMESSAGESTATE,
-                        context.getString(R.string.v3_updata_message_notification_status),
-                        IDONoticeMessageStateParamModel(
-                            1, 2, 1, 1, 1, listOf(
-                                IDONoticeMessageStateItemItem(
-                                    evtType = 1, notifyState = 1, picFlag = 1
-                                )
-                            )
-                        )
-                    )
-                )
-                mutableListOf.add(
-                    SetFuncData(
-                        CustomEvtType.SETNOTICEMESSAGESTATE,
-                        context.getString(R.string.v3_get_message_notification_status),
-                        IDONoticeMessageStateParamModel(
-                            1, 3, 1, 1, 1, listOf(
-                                IDONoticeMessageStateItemItem(
-                                    evtType = 1, notifyState = 1, picFlag = 1
-                                )
-                            )
-                        )
-                    )
-                )
-                mutableListOf.add(
-                    SetFuncData(
-                        CustomEvtType.SETNOTICEMESSAGESTATE,
-                        context.getString(R.string.v3_set_message_notification_status),
-                        IDONoticeMessageStateParamModel(
-                            1, 1, 3, 1, 1, listOf(
-                                IDONoticeMessageStateItemItem(
-                                    evtType = 1, notifyState = 1, picFlag = 1
-                                )
-                            )
-                        )
-                    )
-                )
-
-            }
 
 
             if (sdk.funcTable.getMultiDial) {
