@@ -16,6 +16,18 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.37<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/17</span>
+
+##### 更新内容：
+
+- 添加bt连接状态通知（android）；
+
+- 开放获取音频采样率接口；
+
+- 消息图标相关问题修复；
+
+
+
 ## 4.0.36<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/16</span>
 
 ##### 更新内容：

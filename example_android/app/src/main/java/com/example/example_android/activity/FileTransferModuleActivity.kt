@@ -33,7 +33,7 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.tvMusic -> {
-                startActivity(Intent(this, FileTransferActivity::class.java).putExtra("type", 3))
+                startActivity(Intent(this, MusicTransferActivity::class.java))
             }
             R.id.tvOta -> {
                 startActivity(Intent(this, OtaFileTransferActivity::class.java))

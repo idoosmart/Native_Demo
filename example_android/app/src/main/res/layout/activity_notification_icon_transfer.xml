@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.NotificationIconTransferActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/app_notification_rv"
+        />
+    <LinearLayout
+        android:background="#BABABA"
+        android:id="@+id/app_notification_pop_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/app_notification_pop_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:padding="10dp"
+            android:text="test content"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/app_notification_pop_sendMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_sendMsg"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/app_notification_pop_sendMsg_quick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_sendMsg_q"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/app_notification_pop_allow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_allow"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/app_notification_pop_silent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_silent"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/app_notification_pop_clos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_clos"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/app_notification_pop_clos_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_nt_clos_back"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

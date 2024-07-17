@@ -141,138 +141,17 @@ class SetFunctionDetailActivity : BaseActivity() {
         }
 
         send_btn.setOnClickListener {
-//            if (paramter_et.text.isNotEmpty()) {
-//                idoBaseModel = GsonBuilder().create()
-//                    .fromJson(paramter_et.text.toString(), setFuncData!!.idoBaseModel::class.java)
-//            }
-//            CmdSet.set(myType, idoBaseModel, {
-//                paramter_tv.text = it
-//            }) {
-//                tv_response.text = it
-//            }
-
-            when (myType) {
-                CustomEvtType.SETSENDRUNPLAN -> Cmds.setSendRunPlan(idoBaseModel as IDORunPlanParamModel)
-                CustomEvtType.SETWALKREMIND -> Cmds.setWalkReminder(idoBaseModel as IDOWalkRemindModel)
-                CustomEvtType.SETWATCHDIALSORT -> Cmds.setWatchDialSort(idoBaseModel as IDOWatchDialSortParamModel)
-                CustomEvtType.SETWALKREMINDTIMES -> Cmds.setWalkRemindTimes(idoBaseModel as IDOWalkRemindTimesParamModel)
-                CustomEvtType.SETWEATHERV3 -> Cmds.setWeatherV3(idoBaseModel as IDOWeatherV3ParamModel)
-                CustomEvtType.SETNOTICEMESSAGESTATE -> Cmds.setNoticeMessageState(idoBaseModel as IDONoticeMessageStateParamModel)
-                CustomEvtType.SETMAINUISORTV3 -> Cmds.setMainUISortV3(idoBaseModel as IDOMainUISortParamModel)
-                CustomEvtType.SETWATCHFACEDATA -> Cmds.setWatchFaceData(idoBaseModel as IDOWatchFaceParamModel)
-                CustomEvtType.SETMUSICOPERATE -> setMusicOperate()
-                CustomEvtType.SETNOTIFICATIONSTATUS -> Cmds.setNotificationStatus(idoBaseModel as IDONotificationStatusParamModel)
-                CustomEvtType.SETFITNESSGUIDANCE -> Cmds.setFitnessGuidance(idoBaseModel as IDOFitnessGuidanceParamModel)
-                CustomEvtType.SETSCIENTIFICSLEEPSWITCH -> Cmds.setScientificSleepSwitch(idoBaseModel as IDOScientificSleepSwitchParamModel)
-                CustomEvtType.SETTEMPERATURESWITCH -> Cmds.setTemperatureSwitch(idoBaseModel as IDOTemperatureSwitchParamModel)
-                CustomEvtType.SETV3NOISE -> Cmds.setV3Noise(idoBaseModel as IDOV3NoiseParamModel)
-                CustomEvtType.SETHEARTMODE -> Cmds.setHeartMode(idoBaseModel as IDOHeartModeParamModel)
-                CustomEvtType.SETHEARTRATEMODESMART -> Cmds.setHeartRateModeSmart(idoBaseModel as IDOHeartRateModeSmartParamModel)
-                CustomEvtType.SETTAKINGMEDICINEREMINDER -> Cmds.setTakingMedicineReminder(
-                    idoBaseModel as IDOTakingMedicineReminderParamModel
-                )
-
-                CustomEvtType.SETBLEVOICE -> Cmds.setBleVoice(idoBaseModel as IDOBleVoiceParamModel)
-                CustomEvtType.SETLONGSIT -> Cmds.setLongSit(idoBaseModel as IDOLongSitParamModel)
-                CustomEvtType.SETLOSTFIND -> Cmds.setLostFind(idoBaseModel as IDOLostFindParamModel)
-                CustomEvtType.SETSPORTGOAL -> Cmds.setSportGoal(idoBaseModel as IDOSportGoalParamModel)
-                CustomEvtType.SETUNIT -> Cmds.setUnit(idoBaseModel as IDOUnitParamModel)
-//            CustomEvtType.SETNOTIFICATIONCENTER -> Cmds.setNotificationCenter(idoBaseModel as IDONotificationCenterParamModel)
-                CustomEvtType.SETUPHANDGESTURE -> Cmds.setUpHandGesture(idoBaseModel as IDOUpHandGestureParamModel)
-                CustomEvtType.SETMUSICONOFF -> Cmds.setMusicOnOff(idoBaseModel as IDOMusicOnOffParamModel)
-                CustomEvtType.SETDISPLAYMODE -> Cmds.setDisplayMode(idoBaseModel as IDODisplayModeParamModel)
-                CustomEvtType.SETSPORTMODESELECT -> Cmds.setSportModeSelect(idoBaseModel as IDOSportModeSelectParamModel)
-                CustomEvtType.SETSLEEPPERIOD -> Cmds.setSleepPeriod(idoBaseModel as IDOSleepPeriodParamModel)
-                CustomEvtType.SETWEATHERDATA -> setWeatherData()
-                CustomEvtType.SETWEATHERSUNTIME -> Cmds.setWeatherSunTime(idoBaseModel as IDOWeatherSunTimeParamModel)
-                CustomEvtType.SETWATCHDIAL -> Cmds.setWatchDial(idoBaseModel as IDOWatchDialParamModel)
-                CustomEvtType.SETSHORTCUT -> Cmds.setShortcut(idoBaseModel as IDOShortcutParamModel)
-                CustomEvtType.SETBPCALIBRATION -> setBpCalibration()
-                CustomEvtType.SETBPMEASUREMENT -> setBpMeasurement()
-                CustomEvtType.SETSTRESSCALIBRATION -> setStressCalibration()
-                CustomEvtType.SETGPSCONTROL -> Cmds.setGpsControl(idoBaseModel as IDOGpsControlParamModel)
-                CustomEvtType.SETSPO2SWITCH -> Cmds.setSpo2Switch(idoBaseModel as IDOSpo2SwitchParamModel)
-                CustomEvtType.SETHANDWASHINGREMINDER -> setHandWashingReminder()
-                CustomEvtType.SETNOTICEAPPNAME -> Cmds.setNoticeAppName(idoBaseModel as IDONoticeMesaageParamModel)
-                CustomEvtType.SETSYNCCONTACT -> Cmds.setSyncContact(idoBaseModel as IDOSyncContactParamModel)
-                CustomEvtType.MUSICCONTROL -> Cmds.musicControl(idoBaseModel as IDOMusicControlParamModel)
-                CustomEvtType.NOTICEMESSAGEV3 -> Cmds.noticeMessageV3(idoBaseModel as IDONoticeMessageParamModel)
-                CustomEvtType.SETBPCALCONTROLV3 -> setBpCalControlV3()
-                CustomEvtType.SETAPPLETCONTROL -> setAppletControl()
-                CustomEvtType.SETBASESPORTPARAMSORTV3 -> setSportParamSort(
-
-                )
-
-                CustomEvtType.SETSCHEDULERREMINDERV3 -> Cmds.setSchedulerReminder(idoBaseModel as IDOSchedulerReminderParamModel)
-                CustomEvtType.SET100SPORTSORTV3 -> Cmds.setSport100Sort(idoBaseModel as IDOSport100SortParamModel)
-                CustomEvtType.SETWALLPAPERDIALREPLYV3 -> Cmds.setWallpaperDialReply(idoBaseModel as IDOWallpaperDialReplyV3ParamModel)
-                CustomEvtType.SETVOICEREPLYTXTV3 -> Cmds.setVoiceReplyText(idoBaseModel as IDOVoiceReplyParamModel)
-                CustomEvtType.SETTIME -> Cmds.setDateTime(idoBaseModel as IDODateTimeParamModel)
-                CustomEvtType.SETFINDPHONE -> Cmds.setFindPhone(true)
-                CustomEvtType.SETWEATHERSWITCH -> Cmds.setWeatherSwitch(true)
-                CustomEvtType.SETONEKEYSOS -> Cmds.setOnekeySOS(false, 0)
-                CustomEvtType.SETUNREADAPPREMINDER -> Cmds.setUnreadAppReminder(true)
-                CustomEvtType.SETWEATHERCITYNAME -> Cmds.setWeatherCityName("dsdgf")
-                CustomEvtType.SETRRESPIRATETURN -> Cmds.setRRespiRateTurn(false)
-                CustomEvtType.SETBODYPOWERTURN -> Cmds.setBodyPowerTurn(false)
-                CustomEvtType.SETSCREENBRIGHTNESS -> Cmds.setScreenBrightness(idoBaseModel as IDOScreenBrightnessModel)
-                CustomEvtType.SETACTIVITYSWITCH -> Cmds.setActivitySwitch(idoBaseModel as IDOActivitySwitchParamModel)
-                CustomEvtType.SETALARMV3 -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
-                CustomEvtType.SETHEARTRATEINTERVAL -> Cmds.setHeartRateInterval(idoBaseModel as IDOHeartRateIntervalModel)
-                CustomEvtType.SETMENSTRUATION -> Cmds.setMenstruation(idoBaseModel as IDOMenstruationModel)
-                CustomEvtType.SETCALORIEDISTANCEGOAL -> Cmds.setCalorieDistanceGoal(idoBaseModel as IDOMainSportGoalModel)
-                CustomEvtType.SETWORLDTIMEV3 -> Cmds.setWorldTimeV3(
-                    listOf(
-                        IDOWorldTimeParamModel(
-                            1,
-                            2,
-                            "东京",
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            2,
-                            3,
-                            4
-                        )
-                    )
-                )
-
-                CustomEvtType.SETHAND -> Cmds.setHand(false)
-                CustomEvtType.SETLONGCITYNAMEV3 -> Cmds.setLongCityNameV3("深圳")
-                CustomEvtType.GETHISTORICALMENSTRUATION -> Cmds.setHistoricalMenstruation(
-                    idoBaseModel as IDOHistoricalMenstruationParamModel
-                )
-
-                CustomEvtType.SETSPORTSORTV3 -> setSportSortV3()
-                CustomEvtType.SETUSERINFO -> Cmds.setUserInfo(idoBaseModel as IDOUserInfoPramModel)
-                CustomEvtType.SETNOTDISTURB -> Cmds.setNotDisturb(idoBaseModel as IDONotDisturbParamModel)
-                CustomEvtType.SETMENSTRUATIONREMIND -> Cmds.setMenstruationRemind(idoBaseModel as IDOMenstruationRemindParamModel)
-                CustomEvtType.SETSTRESSSWITCH -> Cmds.setStressSwitch(idoBaseModel as IDOStressSwitchParamModel)
-                CustomEvtType.SETDRINKWATERREMIND -> Cmds.setDrinkWaterRemind(idoBaseModel as IDODrinkWaterRemindModel)
-                CustomEvtType.SETOVERFINDPHONE -> Cmds.setOverFindPhone()
-                CustomEvtType.SETMENULIST -> Cmds.setMenuList(idoBaseModel as IDOMenuListParamModel)
-                CustomEvtType.SETALARM -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
-                CustomEvtType.MUSICSTART -> Cmds.musicStart()
-                CustomEvtType.MUSICSTOP -> Cmds.musicStop()
-                CustomEvtType.SETCALLQUICKREPLYONOFF -> setCallQuickReplyOnOff()
-                CustomEvtType.SETVOICEASSISTANTONOFF -> setVoiceAssistantOnOff()
-                CustomEvtType.SETFASTMSGUPDATE -> Cmds.setFastMsgUpdate(idoBaseModel as IDOFastMsgUpdateParamModel)
-                CustomEvtType.SETFASTMSGV3 -> Cmds.setDefaultQuickMsgReplyList(idoBaseModel as IDOFastMsgSettingModel)
-                CustomEvtType.SETSPORTMODESORT -> Cmds.setSportModeSort(
-                    listOf(
-                        IDOSportModeSortParamModel(
-                            1,
-                            IDOSportType.SPORTTYPEAEROBICS
-                        )
-                    )
-                )
-
-                else -> {
-                    null
-                }
+            if (paramter_et.text.isNotEmpty()) {
+                idoBaseModel = GsonBuilder().create()
+                    .fromJson(paramter_et.text.toString(), setFuncData!!.idoBaseModel::class.java)
             }
+            CmdSet.set(myType, idoBaseModel, {
+                paramter_tv.text = it
+            }) {
+                tv_response.text = it
+            }
+
+
 
         }
 
