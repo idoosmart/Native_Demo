@@ -7,6 +7,8 @@
 
 import Foundation
 
+#if IDOSDK_FULL
+
 import RxSwift
 import RxCocoa
 import protocol_channel
@@ -132,7 +134,7 @@ class TestBleChannelVC: UIViewController {
         }
     }
     
-    
+
 }
 
 fileprivate class HexTextField: UITextField {
@@ -203,3 +205,4 @@ extension Data {
         self = data
     }
 }
+#endif

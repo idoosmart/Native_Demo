@@ -32,6 +32,7 @@
         android:background="@color/color_808080">
 
         <TextView
+            android:textIsSelectable="true"
             android:id="@+id/paramter_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

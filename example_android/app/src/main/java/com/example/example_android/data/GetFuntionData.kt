@@ -75,7 +75,7 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     context.getString(R.string.getnotdisturbstatus),
                     ""
                 ),
-//                 GetFuntionData(CustomEvtType.GETDEFAULTSPORTTYPE,"获取默认的运动类型",""),
+                 GetFuntionData(CustomEvtType.GETDEFAULTSPORTTYPE,"获取默认的运动类型",""),
 
 
                 GetFuntionData(

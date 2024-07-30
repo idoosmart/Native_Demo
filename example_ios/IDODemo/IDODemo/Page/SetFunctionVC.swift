@@ -148,7 +148,8 @@ class SetFunctionVC: UIViewController {
         }
         
         if (funcTable.reminderAncs) {
-            items.append(SetCmd(type: .setNoticeStatus, title: "setNoticeStatus", desc: "Set Notification Center Event"))
+            items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: "Set Notification Center Event"))
+            items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: "Set Notification Center Event"))
         }
         
         if (funcTable.setPressureData) {
@@ -397,9 +398,12 @@ private enum CmdType: CaseIterable{
     /// 设置快捷方式
     /// Set shortcut
     case setShortcut
-    /// 设置通知中心
-    /// Set Notification Center Event
-    case setNoticeStatus
+    /// 设置通知中心(全开)
+    /// Set Notification Center Event(on)
+    case setNoticeStatusAllOn
+    /// 设置通知中心(全关)
+    /// Set Notification Center Event(all off)
+    case setNoticeStatusAllOff
     /// 设置夜间体温开关
     /// Set Night-time Temperature Switch Event Code
     case setTemperatureSwitch
@@ -669,8 +673,10 @@ extension CmdType {
             return IDOWeatherSunTimeParamModel(sunriseHour: 6, sunriseMin: 12, sunsetHour: 18, sunsetMin: 30)
         case .setShortcut:
             return IDOShortcutParamModel(mode: 2)
-        case .setNoticeStatus:
+        case .setNoticeStatusAllOn:
             return IDOSetNoticeStatusModel.createDefaultModel()
+        case .setNoticeStatusAllOff:
+            return IDOSetNoticeStatusModel.createAllOffModel()
         case .setTemperatureSwitch:
             return IDOTemperatureSwitchParamModel(mode: 1,
                                                   startHour: 19,
@@ -1314,8 +1320,17 @@ private class SetFunctionDetailVC: UIViewController {
             cancellable = Cmds.setShortcut(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
-        case .setNoticeStatus:
+        case .setNoticeStatusAllOn:
             let obj = cmd.type.param() as! IDOSetNoticeStatusModel
+            obj.msgAllSwitch = .on
+            obj.notifySwitch = .settingSubSwitch
+            cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setNoticeStatusAllOff:
+            let obj = cmd.type.param() as! IDOSetNoticeStatusModel
+            obj.msgAllSwitch = .off
+            obj.notifySwitch = .settingSubSwitch
             cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
                 self?.doPrint(res)
             }

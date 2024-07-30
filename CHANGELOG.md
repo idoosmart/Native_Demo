@@ -16,6 +16,22 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.39（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
+
+##### 更新内容：
+
+- 修复加载缓存的默认app应用信息返回不完整问题（ios）；
+
+
+
+## 4.0.38<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
+
+##### 更新内容：
+
+- 添加设置默认app应用信息列表接口（ios）；
+
+
+
 ## 4.0.37<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/17</span>
 
 ##### 更新内容：
