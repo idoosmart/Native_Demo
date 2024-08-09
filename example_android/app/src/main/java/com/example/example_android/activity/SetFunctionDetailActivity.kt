@@ -1155,7 +1155,7 @@ class SetFunctionDetailActivity : BaseActivity() {
         )
         heartMode.send {
             if (it.error.code == 0) {
-                tv_response.text = it.res?.toJsonString()
+                tv_response.text = it.res?.toString()
             } else {
                 tv_response.text = "设置失败 / Setup failure"
             }
@@ -2691,12 +2691,12 @@ class SetFunctionDetailActivity : BaseActivity() {
     private fun setActivitySwitch() {
         var activitySwitch = Cmds.setActivitySwitch(
             IDOActivitySwitchParamModel(
-                1,
-                1, 1,
-                1, 1,
-                1, 1,
-                1,
-                1
+                0,
+                0, 0,
+                0, 0,
+                0, 0,
+                0,
+                0
             )
         )
         activitySwitch.send {
@@ -4103,13 +4103,14 @@ class SetFunctionDetailActivity : BaseActivity() {
      * appName String Applet name operate=0/operate=3 Invalid. No name is required to obtain the operation. The value contains a maximum of 29 bytes
      */
     private fun setAppletControl() {
-        Cmds.setAppletControl(IDOAppletControlModel(3, "")).send { it ->
-            if (it.error.code == 0) {
-                var appName = it.res?.infoItem?.get(0)?.appName
+        Cmds.setAppletControl(IDOAppletControlModel(3, "")).send { data ->
+            if (data.error.code == 0) {
+
+                var appName = data.res?.infoItem?.get(0)?.appName
                 Cmds.setAppletControl(IDOAppletControlModel(1, appName)).send {
                     paramter_tv.text = IDOAppletControlModel(1, appName).toJsonString()
                     if (it.error.code == 0) {
-                        tv_response.text = it.res?.toJsonString()
+                        tv_response.text = it.res?.toJsonString() +"  \n"+data.res?.toJsonString()
                     }
                 }
             }

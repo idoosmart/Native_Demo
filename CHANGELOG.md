@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.40<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/09</span>
+
+##### 更新内容：
+
+- 添加acc算法日志和gps算法日志文件获取接口；
+- 内置EPO自动更新功能（部分设备支持）；
+
+
+
 ## 4.0.39（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
 
 ##### 更新内容：

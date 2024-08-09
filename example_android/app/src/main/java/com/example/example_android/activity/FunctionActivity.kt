@@ -67,6 +67,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun dis_connect(view: View) {
+        sdk.ble.cancelPair(device)
         sdk.ble.cancelConnect(device?.macAddress) {
             if (it) {
                 ll_un_bin?.visibility = View.GONE
@@ -82,6 +83,7 @@ class FunctionActivity : BaseActivity() {
 
             }
         };
+
     }
 
     fun bind(view: View) {
@@ -150,7 +152,10 @@ class FunctionActivity : BaseActivity() {
                     sdk.ble.cancelConnect(device?.macAddress) {}
                     bindState()
                     // 解绑设备删除icon数据
-                    sdk.messageIcon.resetIconInfoData(macAddress = device?.macAddress.toString(), deleteIcon = true) { success ->
+                    sdk.messageIcon.resetIconInfoData(
+                        macAddress = device?.macAddress.toString(),
+                        deleteIcon = true
+                    ) { success ->
                         // 在这里处理返回的结果
                     }
 
@@ -212,10 +217,10 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun notificationIconTransfer(view: View) {
-        if (sdk.funcTable.setSetNotificationStatus){
+        if (sdk.funcTable.setSetNotificationStatus) {
             val intent = Intent(this, NotificationIconTransferActivity::class.java)
             startActivity(intent)
-        }else{
+        } else {
             toast("此设备不支持 / this device is not support")
         }
 
@@ -237,10 +242,15 @@ class FunctionActivity : BaseActivity() {
         tv_device_rssl?.text = "rssi: " + device?.rssi.toString()
         tv_device_state?.text = "state: disconnect"
 
+
         val path1 = sdk.messageIcon.iconDirPath
         val path2 = sdk.deviceLog.logDirPath
         println("iconDirPath === $path1 logDirPath === $path2")
+
+
+
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -249,7 +259,7 @@ class FunctionActivity : BaseActivity() {
 
         }
         BleManager.unregisterBleDelegate(mBlelisten)
-
+        sdk.transfer.unregisterDeviceTranFileToApp()
     }
 
     override fun getLayoutId(): Int {
@@ -257,7 +267,6 @@ class FunctionActivity : BaseActivity() {
     }
 
     inner class BleData : IDOBridgeDelegate {
-
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
         }
@@ -268,13 +277,14 @@ class FunctionActivity : BaseActivity() {
         }
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
-            println("listenDeviceNotification $status");
+            println("listenDeviceNotification ${status.toString()}");
 
             // 快速短信回复
             if (status.controlEvt == 580 && status.controlJson != null) {
                 println("status.controlJson: ${status.controlJson}")
                 val gson = Gson()
-                val msgItem = gson.fromJson(status.controlJson, IDOFastMsgUpdateModel::class.java)
+                val msgItem =
+                    gson.fromJson(status.controlJson, IDOFastMsgUpdateModel::class.java)
                 // 1 表示来电快捷回复
                 if (msgItem.msgType == 1) {
                     // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
@@ -341,8 +351,6 @@ class FunctionActivity : BaseActivity() {
     }
 
 
-
-
     inner class Blelisten : IDOBleDelegate {
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
         }
@@ -367,6 +375,9 @@ class FunctionActivity : BaseActivity() {
                 }
                 ll_connect?.visibility = View.GONE
                 ll_dis_connect?.visibility = View.VISIBLE
+
+                device?.let { sdk.ble.setBtPair(it) }
+
                 //sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
             } else if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTING) {
                 tv_device_state?.text = "state: connecting"

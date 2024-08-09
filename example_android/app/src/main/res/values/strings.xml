@@ -121,6 +121,8 @@
     <string name="gethotstartparam">Obtain hot start parameters</string>
     <string name="getversioninfo">Obtain version information</string>
     <string name="getmtuinfo">Obtain mtu information</string>
+    <string name="getAlgFileInfo">Get firmware algorithm file information (ACC/GPS)</string>
+    <string name="requestAlgFile">Request firmware algorithm file information (ACC/GPS)</string>
     <string name="getnotdisturbstatus">Obtain Do Not Disturb Mode Status</string>
     <string name="getdownlanguage">Get download language support</string>
     <string name="geterrorrecord">Get error records</string>

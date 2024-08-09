@@ -350,6 +350,7 @@ class NotificationIconTransferActivity : BaseActivity() {
                 3,
                 idoNoticeMessageStateItemItem.size,
                 1,
+                1,
                 idoNoticeMessageStateItemItem
             )
         ).send { it ->

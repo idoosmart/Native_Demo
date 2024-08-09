@@ -400,6 +400,24 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
 
                 )
             }
+            if (sdk.funcTable.getSupportDeviceOperateAlgFile){
+                mutableListOf.add(
+                    GetFuntionData(
+                        CustomEvtType.GETALGFILE,
+                        context.getString(R.string.getAlgFileInfo),
+                        ""
+                    )
+
+                )
+
+                mutableListOf.add(
+                    GetFuntionData(
+                        CustomEvtType.REQUESTALGFILE,
+                        context.getString(R.string.requestAlgFile),
+                        ""
+                    )
+                )
+            }
 
 
 

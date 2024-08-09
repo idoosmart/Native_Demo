@@ -39,6 +39,7 @@
     </ScrollView>
 
     <TextView
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -51,6 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:visibility="gone"
+
         android:fillViewport="true"
         android:background="@color/color_808080">
 

@@ -110,12 +110,6 @@ class SetFuncData(
                 ),
 
 
-                SetFuncData(
-                    CustomEvtType.SETTEMPERATURESWITCH,
-                    context.getString(R.string.settemperatureswitch)
-                ),
-
-
 //                SetFuncData(
 //                    CustomEvtType.SETTAKINGMEDICINEREMINDER,
 //                    context.getString(R.string.settakingmedicinereminder),
@@ -145,39 +139,39 @@ class SetFuncData(
                     CustomEvtType.SETUPHANDGESTURE,
                     context.getString(R.string.setuphandgesture),
 
-                ),
+                    ),
                 SetFuncData(
                     CustomEvtType.SETMUSICONOFF,
                     context.getString(R.string.setmusiconoff),
 
-                ),
+                    ),
                 SetFuncData(
                     CustomEvtType.SETDISPLAYMODE,
                     context.getString(R.string.setdisplaymode),
 
-                ),
+                    ),
 
                 SetFuncData(
                     CustomEvtType.SETSLEEPPERIOD,
                     context.getString(R.string.setsleepperiod),
 
-                ),
+                    ),
 
                 SetFuncData(
                     CustomEvtType.SETWEATHERSUNTIME,
                     context.getString(R.string.setweathersuntime),
 
-                ),
+                    ),
                 SetFuncData(
                     CustomEvtType.SETWATCHDIAL,
                     context.getString(R.string.setwatchdial),
 
-                ),
+                    ),
                 SetFuncData(
                     CustomEvtType.SETSHORTCUT,
                     context.getString(R.string.setshortcut),
 
-                ),
+                    ),
 
 
 //                SetFuncData(
@@ -189,15 +183,14 @@ class SetFuncData(
 
                 SetFuncData(
                     CustomEvtType.SETNOTICEAPPNAME,
-                    context.getString(R.string.setnoticeappname),
+                    context.getString(R.string.setnoticeappname)
 
                 ),
 
 
                 SetFuncData(
                     CustomEvtType.SETTIME,
-                    context.getString(R.string.settime),
-
+                    context.getString(R.string.settime)
                 ),
 
 
@@ -218,7 +211,17 @@ class SetFuncData(
                     context.resources.getString(R.string.set_over_find_phone),
                 ),
 
-            )
+                )
+
+
+            if (sdk.funcTable.setTemperatureSwitchSupport) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETTEMPERATURESWITCH,
+                        context.getString(R.string.settemperatureswitch)
+                    ),
+                )
+            }
 
             if (sdk.funcTable.syncV3SyncAlarm) {
                 mutableListOf.add(
@@ -226,7 +229,7 @@ class SetFuncData(
                         CustomEvtType.SETALARMV3,
                         context.getString(R.string.set_alarm),
 
-                    )
+                        )
                 )
             }
 
@@ -237,7 +240,7 @@ class SetFuncData(
                         CustomEvtType.SETSCREENBRIGHTNESS,
                         context.getString(R.string.set_screen_brightness),
 
-                    )
+                        )
                 )
             }
 
@@ -247,7 +250,7 @@ class SetFuncData(
                         CustomEvtType.SETMENSTRUATION,
                         context.getString(R.string.set_menstrual_period),
 
-                    )
+                        )
                 )
             }
 
@@ -257,7 +260,7 @@ class SetFuncData(
                         CustomEvtType.SETSENDRUNPLAN,
                         context.getString(R.string.set_send_run_plan),
 
-                    )
+                        )
                 )
             }
 
@@ -268,7 +271,7 @@ class SetFuncData(
                         CustomEvtType.SETWALKREMIND,
                         context.getString(R.string.setwalkreminder),
 
-                    )
+                        )
                 )
             }
 
@@ -278,7 +281,7 @@ class SetFuncData(
                         CustomEvtType.SETWATCHDIALSORT,
                         context.getString(R.string.set_dial_order),
 
-                    )
+                        )
                 )
             }
 
@@ -607,21 +610,12 @@ class SetFuncData(
 
 
             if (sdk.funcTable.setActivitySwitch) {
-                if (sdk.funcTable.getAutoActivitySetGetUseNewStructExchange) {
-                    mutableListOf.add(
-                        SetFuncData(
-                            CustomEvtType.SETACTIVITYSWITCH,
-                            context.getString(R.string.set_activity_switch)
-                        )
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETACTIVITYSWITCH,
+                        context.getString(R.string.set_activity_switch)
                     )
-                } else {
-                    mutableListOf.add(
-                        SetFuncData(
-                            CustomEvtType.SETACTIVITYSWITCH,
-                            context.getString(R.string.set_activity_switch)
-                        )
-                    )
-                }
+                )
             }
 
             if (sdk.funcTable.setSetMainUiSort) {
@@ -643,10 +637,12 @@ class SetFuncData(
             }
             //----------------------------
             if (sdk.funcTable.syncHeartRateMonitor) {
-                mutableListOf.add(   SetFuncData(
-                    CustomEvtType.SETHEARTMODE,
-                    context.getString(R.string.setheartmode)
-                ))
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETHEARTMODE,
+                        context.getString(R.string.setheartmode)
+                    )
+                )
             }
             if (sdk.funcTable.setMsgAllSwitch) {
                 mutableListOf.add(
@@ -703,10 +699,12 @@ class SetFuncData(
                 )
             }
             if (sdk.funcTable.setWatchPhotoPositionMove) {
-                mutableListOf.add(   SetFuncData(
-                    CustomEvtType.SETWALLPAPERDIALREPLYV3,
-                    context.getString(R.string.setwallpaperdialreplyv3)
-                ))
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETWALLPAPERDIALREPLYV3,
+                        context.getString(R.string.setwallpaperdialreplyv3)
+                    )
+                )
             }
             if (sdk.funcTable.setSupportSetCallQuickReplyOnOff) {
                 mutableListOf.add(
@@ -743,7 +741,7 @@ class SetFuncData(
                 )
             }
 
-            if (sdk.funcTable.setSupportControlMiniProgram){
+            if (sdk.funcTable.setSupportControlMiniProgram) {
                 //获取小程序列表
                 mutableListOf.add(
                     SetFuncData(

@@ -1,10 +1,12 @@
 package com.example.example_android.activity
 
+import androidx.appcompat.app.AlertDialog
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
 import com.idosmart.pigeon_implement.Cmds
+import com.idosmart.pigeon_implement.IDODeviceFileToAppTask
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOCancellable
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
@@ -80,9 +82,80 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETBTCONNECTPHONEMODEL -> getBtConnectPhoneModel()
                 CustomEvtType.GETBTNAME -> getBtName()
                 CustomEvtType.GETDEVICENAME -> getDeviceName()
-
+                CustomEvtType.GETALGFILE-> getAlgFile()
+                CustomEvtType.REQUESTALGFILE-> requestAlgFile()
             }
         }
+
+        sdk.transfer.registerDeviceTranFileToApp {
+            deviceTransFileToApp(it)
+        }
+    }
+    private fun deviceTransFileToApp(task: IDODeviceFileToAppTask) {
+        println("收到设备传输文件 名称：${task.deviceTransItem.fileName} 大小：${task.deviceTransItem.fileSize} 到App")
+                task.acceptReceiveFile(onProgress = { progress ->
+                    // Handle progress updates here
+                    println("Progress: $progress")
+                    tv_response?.text ="Progress: $progress"
+                },
+                    onComplete = { isCompleted, receiveFilePath ->
+                        // Handle completion here
+                        if (isCompleted) {
+                            println("File received successfully at: $receiveFilePath")
+                            tv_response?.text ="File received successfully at: $receiveFilePath"
+                        } else {
+                            tv_response?.text ="File transfer failed."
+
+                        }
+                    })
+                /*
+                // Note: Receiving can be terminated at any time
+                // Abort receiving file
+                task.stopReceiveFile { rs ->
+                    println("已终止接收文件${task.deviceTransItem.fileName)")
+                }
+                 */
+            }
+
+    /**
+     * Request firmware algorithm file information (ACC/GPS)
+     * type: 1:ACC file 、2:GPS file
+     *
+     * */
+    private fun requestAlgFile() {
+        var rquestAlgFile = Cmds.rquestAlgFile(2)
+        rquestAlgFile.send {
+            if (it.error.code==0){
+                if (it.error.code == 0) {
+                    val res = it.res?.toJsonString() ?: "{ok}"
+                    tv_response?.text = res
+                } else {
+                    val res = it.res?.toJsonString() ?: "{erro}"
+                    tv_response?.text = "erro: $res"
+                }
+            }
+        }
+        paramter_tv?.text = rquestAlgFile?.json
+    }
+
+    /**
+     * Get firmware algorithm file information (ACC/GPS)
+     *
+     * */
+    private fun getAlgFile() {
+        var algFileInfo = Cmds.getAlgFileInfo()
+        algFileInfo.send {
+            if (it.error.code==0){
+                if (it.error.code == 0) {
+                    val res = it.res?.toJsonString() ?: "{ok}"
+                    tv_response?.text = res
+                } else {
+                    val res = it.res?.toJsonString() ?: "{erro}"
+                    tv_response?.text = "erro: $res"
+                }
+            }
+        }
+        paramter_tv?.text = algFileInfo?.json
     }
 
     /**

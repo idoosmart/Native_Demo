@@ -171,6 +171,11 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
         }
         
+        if (innerTest || sdk.funcTable.getSupportDeviceOperateAlgFile) {
+            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: "Get firmware algorithm file information (ACC/GPS)", descCn: "获取固件算法文件信息（ACC/GPS）"))
+            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: "Request firmware algorithm file information (ACC/GPS)", descCn: "请求固件算法文件信息（ACC/GPS）"))
+        }
+        
         if (sdk.funcTable.setSmartHeartRate) {
             //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
             print("setSmartHeartRate")
@@ -436,6 +441,10 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case getUnit
     /// 获取小程序信息
     case getAppletControl
+    ///  获取固件算法文件信息（ACC/GPS）
+    case getAlgFile
+    ///  请求固件算法文件信息（ACC/GPS）
+    case requestAlgFile
     
 }
 
@@ -526,6 +535,11 @@ private class GetFunctionDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 注册监听 设备传输文件到app任务
+        sdk.transfer.registerDeviceTranFileToApp { [weak self] task in
+            self?.deviceTransFileToApp(task)
+        }
+        
         title = cmd.title
         view.backgroundColor = .white
         
@@ -579,6 +593,10 @@ private class GetFunctionDetailVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         cancellable?.cancel()
         super.viewDidDisappear(animated)
+    }
+    
+    deinit {
+        sdk.transfer.unregisterDeviceTranFileToApp()
     }
     
     private func doCall() {
@@ -791,7 +809,28 @@ private class GetFunctionDetailVC: UIViewController {
             cancellable = Cmds.setAppleControl(param).send { [weak self] res in
                 self?.doPrint(res)
             }
+        case .getAlgFile:
+            cancellable = Cmds.getAlgFileInfo().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .requestAlgFile:
+            cancellable = Cmds.getAlgFileInfo().send { [weak self] res in
+                self?.doPrint(res)
+                if case .success(let val) = res {
+                    guard let item = val?.items?.filter({ $0.totalQuantity > 0 }).first else {
+                        SVProgressHUD.show(withStatus: "无可获取的文件 / There is no file to request download")
+                        return
+                    }
+                    self?.cancellable = Cmds.rquestAlgFile(type: item.type).send { [weak self] res in
+                        self?.doPrint(res)
+                    }
+                }else if case .failure(let err) = res {
+                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
+            }
+            
         }
+        
     }
     
     private func doPrint<T>(_ res: Result<T?, CmdError>) {
@@ -806,6 +845,30 @@ private class GetFunctionDetailVC: UIViewController {
         }else if case .failure(let err) = res {
             textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
         }
+    }
+    
+    private func deviceTransFileToApp(_ task: IDODeviceFileToAppTask) {
+        let txt = "\n\n收到设备传输文件 名称：\(task.deviceTransItem.fileName) 大小：\(task.deviceTransItem.fileSize) 到App"
+        print(txt)
+        textResponse.text += "\n\(txt)"
+        // 接收设备传输文件到app
+        task.acceptReceiveFile { [weak self] progress in
+            let s = "接收进度：\(progress * 100)%"
+            print(s)
+            self?.textResponse.text += "\n\(s)"
+        } onComplete: { [weak self] isCompleted, receiveFilePath in
+            let s = "接收结果：\(isCompleted) filePath:\(receiveFilePath ?? "")"
+            print(s)
+            self?.textResponse.text += "\n\(s)"
+        }
+        
+        /*
+        // 注：接收中 可随时终止接收
+        // 终止接收文件
+        task.stopReceiveFile { rs in
+            print("已终止接收文件\(task.deviceTransItem.fileName)")
+        }
+         */
     }
 }
 

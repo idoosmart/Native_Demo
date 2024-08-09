@@ -468,7 +468,9 @@ enum class CustomEvtType {
     /** 获取BT连接手机型号*/
     GETBTCONNECTPHONEMODEL,
     /** 操作小程序信息*/
-    SETAPPLETCONTROL;
-
-
+    SETAPPLETCONTROL,
+    /**获取固件算法文件信息（ACC/GPS）*/
+    GETALGFILE,
+    /**请求固件算法文件信息（ACC/GPS））*/
+    REQUESTALGFILE;
 }
