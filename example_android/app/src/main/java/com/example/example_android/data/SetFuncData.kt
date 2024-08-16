@@ -214,6 +214,18 @@ class SetFuncData(
                 )
 
 
+            if (sdk.funcTable.getNotifyMsgV3) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.NOTICEMESSAGEV3,
+                        context.getString(R.string.setv3noise)
+                    )
+                )
+            }
+
+
+
+
             if (sdk.funcTable.setTemperatureSwitchSupport) {
                 mutableListOf.add(
                     SetFuncData(

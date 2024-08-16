@@ -378,6 +378,11 @@ private class TransferFileDetailVC: UIViewController {
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
+        case 850:
+            let aPath = bundlePath + "/ota/850/205GPRO_ota_1.01.01_2024.06.27_16-56.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
         default:
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)

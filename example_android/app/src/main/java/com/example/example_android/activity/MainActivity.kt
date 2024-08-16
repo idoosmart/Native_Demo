@@ -22,6 +22,9 @@ import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
 import com.idosmart.model.IDOWriteStateModel
+import com.idosmart.pigeon_implement.IDOEpoManager
+import com.idosmart.pigeon_implement.IDOEpoManagerDelegate
+import com.idosmart.pigeon_implement.IDOOtaGpsInfo
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
@@ -121,6 +124,14 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
     }
 
+    inner class EpoListen : IDOEpoManagerDelegate {
+        override fun getAppGpsInfo(): IDOOtaGpsInfo {
+            // !!!: 此处的经纬度是伪代码 | The latitude and longitude here are pseudocode
+            return IDOOtaGpsInfo(114.0579f,  22.5431f, 10.0f)
+        }
+
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -141,6 +152,24 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     fun initSdk() {
         BleManager.initSdk()
         BleManager.registerBleDelegate(Blelisten())
+
+        // epo upgrade
+        IDOEpoManager.shared.enableAutoUpgrade = true
+        IDOEpoManager.shared.delegateGetGps = EpoListen()
+        IDOEpoManager.shared.listenEpoUpgrade(
+            { status ->
+                println("epo---- status: $status")
+            },
+            { progress ->
+                println("epo---- down progress: $progress")
+            },
+            { progress ->
+                println("epo---- send progress: $progress")
+            },
+            { errCode ->
+                println("epo---- complete: $errCode")
+            }
+        )
     }
 
     override fun initView() {

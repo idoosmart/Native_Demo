@@ -198,12 +198,48 @@ class SetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.SETFASTMSGUPDATE -> setFastMsgUpdate()
                 CustomEvtType.SETFASTMSGV3 -> setDefaultQuickMsgReplyList()
                 CustomEvtType.SETSPORTMODESORT -> setSportModeSort()
+                CustomEvtType.NOTICEMESSAGEV3 -> noticeMessageV3()
 
                 else -> {
                     null
                 }
             }
         }
+    }
+
+    /**
+     *IDONoticeMessageParamModel
+     * Attribute type declaration
+     * evtType Int Indicates the message application type
+     * msgID Int Message ID, which is used for quick reply. 0 indicates that quick reply is not supported
+     * supportAnswering Bool Answering Answering: 1
+     * Answer not supported: 0
+     * supportMute Bool Mute support: 1
+     * Mute: 0 is not supported
+     * supportHangUp Bool HangUp support: 1
+     * Hang-up: 0 is not supported
+     * contact String Contact name (maximum 63 bytes)
+     * phoneNumber String Phone number (maximum 31 bytes)
+     * dataText String Message content (Max. 249 bytes)
+     *
+     * */
+    private fun noticeMessageV3() {
+        var param =
+            IDONoticeMessageParamModel(0x01, 0,
+                true, true, true,
+                "Jeffry", "13200000000", "hello")
+
+
+        var noticeMessageV3 = Cmds.noticeMessageV3(param)
+        noticeMessageV3.send {
+
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+        paramter_tv.text = noticeMessageV3.json
     }
 
     /**
@@ -4110,7 +4146,8 @@ class SetFunctionDetailActivity : BaseActivity() {
                 Cmds.setAppletControl(IDOAppletControlModel(1, appName)).send {
                     paramter_tv.text = IDOAppletControlModel(1, appName).toJsonString()
                     if (it.error.code == 0) {
-                        tv_response.text = it.res?.toJsonString() +"  \n"+data.res?.toJsonString()
+                        tv_response.text =
+                            it.res?.toJsonString() + "  \n" + data.res?.toJsonString()
                     }
                 }
             }
