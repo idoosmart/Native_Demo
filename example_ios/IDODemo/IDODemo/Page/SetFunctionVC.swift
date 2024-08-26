@@ -801,6 +801,7 @@ extension CmdType {
                                           humidity: 32,
                                           todayUvIntensity: 10,
                                           windSpeed: 5,
+                                          windForce: 15,
                                           sunriseHour: 5,
                                           sunriseMin: 37,
                                           sunsetHour: 18,

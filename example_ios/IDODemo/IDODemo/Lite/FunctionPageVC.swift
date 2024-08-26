@@ -242,6 +242,14 @@ extension FunctionPageVC {
             }
             if (res) {
                 self.testReadData() // 注册数据接收
+                let otaType = sdk.bridge.checkOtaType(peripheral: deviceModel!.peripheral, advertisementData: deviceModel!.advertisementData)
+                if (otaType != .none) {
+                    // 设备处理ota模式时，需要进入到升级页
+                    SVProgressHUD.dismiss()
+                    _otaMode()
+                    return
+                }
+                
                 let uniqueId = self.deviceModel!.uuid
                 let isBinded = UserDefaults.standard.isBind(uniqueId)
                 self.isBinded = isBinded
@@ -406,6 +414,7 @@ extension FunctionPageVC {
                 SVProgressHUD.showError(withStatus: "unbind failure")
             }
             UserDefaults.standard.setBind(macAddress, isBind: false)
+            UserDefaults.standard.synchronize()
         })
     }
     
@@ -418,4 +427,56 @@ extension FunctionPageVC {
             self?.tableView.reloadData()
         }
     }
+    
+    private func _otaMode() {
+        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            let vc = TransferFileDetailVC(cmd: .ota)
+            navigationController?.pushViewController(vc, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
+
+
+//// MARK: - ota模式判定
+//
+//extension FunctionPageVC {
+//    
+//    private func _parseData(scanInfo: ScanInfo?) -> BleDeviceModeInfo? {
+//        let modeInfo = BleDeviceModeInfo()
+//        let manufacturerData = self.deviceModel!.advertisementData["kCBAdvDataManufacturerData"] as? Data
+//        guard let data = manufacturerData, data.count >= 16 else {
+//            return nil
+//        }
+//        let platform = Int(data[15])
+//        let dfuMode = Int(data[14])
+//        let version = Int(data[8])
+//        modeInfo.platform = platform
+//        modeInfo.deviceId = Int(data[0]) | Int(data[1]) << 8
+//        if (version == 3 && dfuMode == 1 && (platform == 98 || platform == 99)) {
+//            modeInfo.isInDfu = true
+//            modeInfo.isOta = true
+//        }else {
+//            // TODO: 其它设备升级状态判定
+//        }
+//        return modeInfo
+//    }
+//    
+//}
+//
+//private class BleDeviceModeInfo {
+//    
+//    var deviceId: Int = 0
+//    var platform: Int = -1
+//    var isOta: Bool = false
+//    var isTlwOta: Bool = false
+//    var isInDfu: Bool = false
+//    
+//}

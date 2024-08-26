@@ -570,6 +570,7 @@ class SetFunctionDetailActivity : BaseActivity() {
      * todayUvIntensity	int	紫外线强度
      * 扩大10倍传输
      * windSpeed	int	风速
+     * windSpeed	int	风力
      * sunriseHour	int	日出时间 时
      * sunriseMin	int	日出时间 分
      * sunsetHour	int	日出时间 时
@@ -718,6 +719,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 32,
                 10,
                 5,
+                10,
                 5,
                 37,
                 18,

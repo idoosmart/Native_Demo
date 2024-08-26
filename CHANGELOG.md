@@ -16,6 +16,24 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.42<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/09</span>
+
+##### 更新内容：
+
+- v3天气实体添加风力属性 windForce；
+- 优化文件传输速度；
+- 修复单项数据同步同步不到数据问题；
+
+
+
+## 4.0.41<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/16</span>
+
+##### 更新内容：
+
+- 添加EPO升级管理接口；
+
+
+
 ## 4.0.40<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/09</span>
 
 ##### 更新内容：

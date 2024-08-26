@@ -108,7 +108,7 @@ extension TransferFileVC: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - TransType
 
-fileprivate enum TransType {
+enum TransType {
     case mp3
     case wallpaper
     case contact
@@ -142,7 +142,7 @@ extension TransType {
 
 // MARK: - TransferFileDetailVC
 
-private class TransferFileDetailVC: UIViewController {
+class TransferFileDetailVC: UIViewController {
     private var cmd: TransType
     private let disposeBag = DisposeBag()
     private var cancellable: IDOCancellable?
@@ -345,7 +345,8 @@ private class TransferFileDetailVC: UIViewController {
             ])
         case 7814:
             // ota_7814_V1.00.07.bin
-            let aPath = bundlePath + "/ota/7814/ota_7814_V1.00.07.bin"
+            // ota_full_7814_V1.01.05_0716.bin
+            let aPath = bundlePath + "/ota/7814/ota_full_7814_V1.01.05_0716.bin"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
@@ -437,9 +438,8 @@ private class TransferFileDetailVC: UIViewController {
         isTransferring = true
         let startTime = CFAbsoluteTimeGetCurrent()
         cancellable = sdk.transfer.transferFiles(fileItems: items, cancelPrevTranTask: true) { [weak self] currentIndex, totalCount, currentProgress, totalProgress in
-            let txt = (self?.textConsole.text ?? "")
-            + "index: \(currentIndex + 1)/\(totalCount) progress: \(Int(currentProgress * 100))%/"
-            + String(format: "%.1f%%\n", totalProgress * 100)
+            let txt = "index: \(currentIndex + 1)/\(totalCount) "
+            + String(format: "%.2f% / %.2f%\n", currentProgress * 100, totalProgress * 100)
             self?.textConsole.text = txt
             self?.textConsole.scrollToBottom()
         } transStatus: { [weak self] currentIndex, status, errorCode, _ in

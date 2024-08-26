@@ -315,6 +315,12 @@ extension FunctionPageVC {
         guard let deviceState = deviceState else { return }
         
         if deviceState.state == .connected, deviceState.macAddress != nil, deviceState.macAddress!.count > 0 {
+            if(deviceModel.isOta) {
+                // 设备处理ota模式时，需要进入到升级页
+                SVProgressHUD.dismiss()
+                _otaMode()
+                return
+            }
             let isBinded = UserDefaults.standard.isBind(deviceModel.macAddress ?? "")
             self.isConnected = true
             self.isBinded = isBinded
@@ -449,7 +455,7 @@ extension FunctionPageVC {
     
     private func unbind() {
         SVProgressHUD.show(withStatus: "unbind...")
-        let macAddress = self.deviceModel!.macAddress!
+        let macAddress = sdk.device.macAddressFull
         sdk.cmd.unbind(macAddress: macAddress, isForceRemove: true, completion: { [weak self] rs in
             self?.isBinded = !rs
             self?.tableView.reloadData()
@@ -459,7 +465,22 @@ extension FunctionPageVC {
                 SVProgressHUD.showError(withStatus: "unbind failure")
             }
             UserDefaults.standard.setBind(macAddress, isBind: false)
+            UserDefaults.standard.synchronize()
         })
+    }
+    
+    private func _otaMode() {
+        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            let vc = TransferFileDetailVC(cmd: .ota)
+            navigationController?.pushViewController(vc, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
