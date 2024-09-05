@@ -34,7 +34,7 @@ class AppletTransferActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        appFile = ZipUtil.copyRawZipFile(this, "dyn_test", ".app")
+        appFile = ZipUtil.copyRawZipFile(this, "dyn_plane", ".app")
         var appFilemutableList = mutableListOf<IDOTransNormalModel>()
         appFilemutableList.add(
             IDOTransNormalModel(

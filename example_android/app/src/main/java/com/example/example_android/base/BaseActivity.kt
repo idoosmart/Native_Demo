@@ -132,6 +132,14 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             }
 
+            R.id.menu_log_ble -> {
+                sdk.ble.exportLog {
+                    if (it != null) {
+                        BaseUtil.share(this, it)
+                    }
+                }
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }

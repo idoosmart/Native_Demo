@@ -37,7 +37,7 @@ class TransferFileVC: UIViewController {
 //            list.append(.wallpaper)
 //        }
         
-        if (sdk.device.deviceId == 859) {
+        if (sdk.device.deviceId == 859 || sdk.device.deviceId == 7884) {
             list.append(.app)
         }
         
@@ -397,10 +397,10 @@ class TransferFileDetailVC: UIViewController {
     
     private func _app() {
         switch(sdk.device.deviceId) {
-        case 859:
-            let aPath = bundlePath + "/app/859/dyn_test.app"
+        case 859, 7884:
+            let aPath = bundlePath + "/app/dyn_plane.app"
             _trans([
-                IDOTransNormalModel(fileType: .app, filePath: aPath, fileName: "dyn_test.app")
+                IDOTransNormalModel(fileType: .app, filePath: aPath, fileName: "app0.app")
             ])
         default:
             SVProgressHUD.dismiss()
@@ -453,7 +453,6 @@ class TransferFileDetailVC: UIViewController {
             let txt = (self?.textConsole.text ?? "") + "result: \(rs)\n"
             self?.textConsole.text = txt
             self?.textConsole.scrollToBottom()
-            print("耗时：\(CFAbsoluteTimeGetCurrent() - startTime) 秒")
         }
     }
     

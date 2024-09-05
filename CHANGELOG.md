@@ -16,7 +16,19 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
-## 4.0.42<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/09</span>
+## 4.0.43<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/05</span>
+
+##### 更新内容：
+
+- 优化数据同步，屏蔽无效数据返回；
+
+- epo升级重试功能调整为每步重试，次数可指定；
+
+- 接口添加线程安全处理，支持非主线程调用；
+
+  
+
+## 4.0.42<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/26</span>
 
 ##### 更新内容：
 

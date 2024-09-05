@@ -86,12 +86,17 @@ extension FunctionPageVC {
     func doExportLog() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let appLogAction = UIAlertAction(title: "App日志", style: .default) { _ in
+        let appLogAction = UIAlertAction(title: "App log", style: .default) { _ in
             self.handleAppLogSelection()
         }
         alertController.addAction(appLogAction)
         
-        let flashLogAction = UIAlertAction(title: "设备日志", style: .default) { _ in
+        let bleLogAction = UIAlertAction(title: "Ble log", style: .default) { _ in
+            self.handleBleLogSelection()
+        }
+        alertController.addAction(bleLogAction)
+        
+        let flashLogAction = UIAlertAction(title: "Device log", style: .default) { _ in
             self.handleFlashLogSelection()
         }
         alertController.addAction(flashLogAction)
@@ -103,7 +108,7 @@ extension FunctionPageVC {
     }
     
     private func handleAppLogSelection() {
-        SVProgressHUD.show(withStatus: "导出app日志...")
+        SVProgressHUD.show(withStatus: "Export app logs...")
         sdk.tool.exportLog { [weak self] path in
             print("log path:\(path)")
             if (path.count > 0) {
@@ -115,8 +120,21 @@ extension FunctionPageVC {
         }
     }
     
+    private func handleBleLogSelection() {
+        SVProgressHUD.show(withStatus: "Export ble logs...")
+        sdk.ble.exportLog { [weak self] path in
+            print("log path:\(path ?? "")")
+            if (path != nil && path!.count > 0) {
+                // 成功
+                self?.share(filePath: path!)
+            }else {
+                SVProgressHUD.showError(withStatus: "操作失败")
+            }
+        }
+    }
+    
     private func handleFlashLogSelection() {
-        SVProgressHUD.show(withStatus: "导出设备日志...")
+        SVProgressHUD.show(withStatus: "Export device logs...")
         sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
             print("progress: \(progress)")
         } completion: { [weak self] rs in

@@ -42,7 +42,7 @@ import java.io.File
 class MusicTransferActivity : BaseActivity() {
     private val TAG = "MusicTransferActivity"
     private var cancelPre = false
-    private var getMusicPath: String? = null
+    private var getMusicPath: String = ""
     private var idoMusicInfoModel: IDOMusicInfoModel? = null
     private var musicIndex: List<Int>? = mutableListOf()
     var loadingManager = LoadingManager(this)
@@ -74,15 +74,15 @@ class MusicTransferActivity : BaseActivity() {
             folderId =
                 idoMusicInfoModel?.folderItems?.get(idoMusicInfoModel?.folderItems?.size!! - 1)?.folderId?.plus(
                     1
-                )
+                )?: 1
         } else {
             folderId = 1
         }
         musicOperate(
             0,
             2,
-            folderId!!,
-            getMusicPath!!,
+            folderId,
+            getMusicPath,
             etSheetName.text.toString()
         ).let {
             loadingManager.show()
@@ -105,7 +105,7 @@ class MusicTransferActivity : BaseActivity() {
             0,
             1,
             etSheetId.text.toString().toInt()!!,
-            getMusicPath!!,
+            getMusicPath,
             etSheetName.text.toString()
         ).let {
             loadingManager.show()
@@ -136,7 +136,7 @@ class MusicTransferActivity : BaseActivity() {
             musicId =
                 idoMusicInfoModel?.musicItems?.get(idoMusicInfoModel?.musicItems?.size!! - 1)?.musicId?.plus(
                     1
-                )
+                )?: 1
         } else {
             musicId = 1
         }
@@ -158,7 +158,10 @@ class MusicTransferActivity : BaseActivity() {
         }
 
         //添加歌曲至设备/ Add a song to the device
-        musicOperate(2, 0, musicId!!, getMusicPath!!, musicName).let {
+        musicOperate(2, 0,
+            musicId!!,
+            getMusicPath!!,
+            musicName).let {
             Cmds.setMusicOperate(it).send {
                 if (it.error.code == 0) {
                     Log.d(TAG, "btAddMusic: Added song successfully")

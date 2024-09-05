@@ -52,6 +52,7 @@
     <string name="v3_updata_message_notification_status">V3 updata Message Notification Status</string>
     <string name="menu_log_export">Export Log</string>
     <string name="menu_log_app">App Log</string>
+    <string name="menu_log_ble">Ble Log</string>
 
 
     <string name="sport">Sport</string>

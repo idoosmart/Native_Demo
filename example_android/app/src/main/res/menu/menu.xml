@@ -14,4 +14,8 @@
         android:id="@+id/menu_log_app"
         android:title="@string/menu_log_app"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_log_ble"
+        android:title="@string/menu_log_ble"
+        app:showAsAction="never" />
 </menu>

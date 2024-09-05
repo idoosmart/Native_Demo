@@ -589,7 +589,7 @@ class SetFunctionDetailActivity : BaseActivity() {
      * weatherType	int	天气类型
      * temperature	int	温度
      * 温度加100传输
-     * probability	int	温度出现的概率
+     * probability	int	降水出现的概率
      * 0-100 百分比
      * [IDOFutureItem]
      * 属性	类型	说明
@@ -753,7 +753,9 @@ class SetFunctionDetailActivity : BaseActivity() {
                         sunsetHour = 17,
                         sunsetMin = 37
                     )
-                )
+                ),
+                listOf(23,24,25,26,27),
+                listOf(51,52,53,54,55,56)
             )
         )
         weatherV3.send {

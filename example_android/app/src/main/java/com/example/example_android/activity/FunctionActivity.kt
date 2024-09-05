@@ -199,7 +199,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun appletTransfer(view: View) {
-        if (sdk.device.deviceId == 859) {
+        if (sdk.device.deviceId == 859 || sdk.device.deviceId == 7884) {
             val intent = Intent(this, AppletTransferActivity::class.java)
             startActivity(intent)
         } else {
@@ -208,7 +208,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun testActivity(view: View) {
-        if (sdk.device.deviceId == 859) {
+        if (sdk.device.deviceId == 859 || sdk.device.deviceId == 7884) {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
         } else {
