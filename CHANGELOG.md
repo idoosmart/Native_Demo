@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.44<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/12</span>
+
+##### 更新内容：
+
+- 升级指定平台的OTA相关so库（android）；
+- 修复热启动参数设置；
+
+
+
 ## 4.0.43<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/05</span>
 
 ##### 更新内容：

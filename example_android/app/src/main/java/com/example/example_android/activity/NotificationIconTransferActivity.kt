@@ -227,6 +227,8 @@ class NotificationIconTransferActivity : BaseActivity() {
     }
 
 
+
+
     /**
      * msg: 发送的内容
      * msgID: 0->普通通知  1:快捷回复消息
@@ -237,12 +239,8 @@ class NotificationIconTransferActivity : BaseActivity() {
         if (msgID != 0) {
 
             val param = IDOFastMsgSettingModel(
-                0, listOf(
-                    IDOFastMsgItem(1, "test1"),
-                    IDOFastMsgItem(2, "test2"),
-                    IDOFastMsgItem(3, "test3"),
-                    IDOFastMsgItem(4, "test4"),
-                    IDOFastMsgItem(5, "test5")
+                1, listOf(
+                    IDOFastMsgItem(1, "ok"),
                 )
             )
             //设置默认快捷消息回复列表

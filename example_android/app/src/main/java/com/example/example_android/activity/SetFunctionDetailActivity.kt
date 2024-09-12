@@ -1254,24 +1254,26 @@ class SetFunctionDetailActivity : BaseActivity() {
         var heartRateModeSmart = Cmds.setHeartRateModeSmart(
             IDOHeartRateModeSmartParamModel(
                 1,
+                1,
+                1,
+                0,
+                120,
+                50,
                 0,
                 0,
                 23,
                 59,
-                1,
-                4,
-                4,
-                49,
-                98,
             )
         )
-        heartRateModeSmart.send {
-            if (it.error.code == 0) {
-                tv_response.text = it.res?.toJsonString()
-            } else {
-                tv_response.text = "设置失败 / Setup failure"
+        runOnUiThread(Runnable {
+            heartRateModeSmart.send {
+                if (it.error.code == 0) {
+                    tv_response.text = it.res?.toJsonString()
+                } else {
+                    tv_response.text = "设置失败 / Setup failure"
+                }
             }
-        }
+        })
         paramter_tv.text = heartRateModeSmart.json
 
     }
@@ -3517,17 +3519,76 @@ class SetFunctionDetailActivity : BaseActivity() {
         Cmds.getAlarm().send {
             var idoAlarmModel: IDOAlarmItem = it.res?.items?.get(0) as IDOAlarmItem
             idoAlarmModel.hour = 9
+            idoAlarmModel.alarmId =1
             idoAlarmModel.minute = 10
             idoAlarmModel.name = "dddd"
             idoAlarmModel.repeatTimes = 1;
+            idoAlarmModel.isOpen = true
+            Log.d("TAG", "setAlarmV3: ${it.res?.items.toString()}")
+            var idoAlarmModel1: IDOAlarmItem = it.res?.items?.get(1) as IDOAlarmItem
+            idoAlarmModel1.isOpen = false
+            idoAlarmModel1.alarmId =2
+            idoAlarmModel1.status = IDOAlarmStatus.HIDDEN;
+            var idoAlarmModel2: IDOAlarmItem = it.res?.items?.get(2) as IDOAlarmItem
+            idoAlarmModel2.isOpen = false
+            idoAlarmModel2.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel2.alarmId =3
+
+            var idoAlarmModel3: IDOAlarmItem = it.res?.items?.get(3) as IDOAlarmItem
+            idoAlarmModel3.isOpen = false
+            idoAlarmModel3.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel3.alarmId =4
+
+            var idoAlarmModel4: IDOAlarmItem = it.res?.items?.get(4) as IDOAlarmItem
+            idoAlarmModel4.isOpen = false
+            idoAlarmModel4.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel4.alarmId =5
+
+            var idoAlarmModel5: IDOAlarmItem = it.res?.items?.get(5) as IDOAlarmItem
+            idoAlarmModel5.isOpen = false
+            idoAlarmModel5.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel5.alarmId =6
+
+
+            var idoAlarmModel6: IDOAlarmItem = it.res?.items?.get(6) as IDOAlarmItem
+            idoAlarmModel6.isOpen = false
+            idoAlarmModel6.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel6.alarmId =7
+
+            var idoAlarmModel7: IDOAlarmItem = it.res?.items?.get(7) as IDOAlarmItem
+            idoAlarmModel7.isOpen = false
+            idoAlarmModel7.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel7.alarmId =8
+
+            var idoAlarmModel8: IDOAlarmItem = it.res?.items?.get(8) as IDOAlarmItem
+            idoAlarmModel8.isOpen = false
+            idoAlarmModel8.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel8.alarmId =9
+
+            var idoAlarmModel9: IDOAlarmItem = it.res?.items?.get(9) as IDOAlarmItem
+            idoAlarmModel9.isOpen = false
+            idoAlarmModel9.status = IDOAlarmStatus.HIDDEN;
+            idoAlarmModel9.alarmId =10
 
             var alarmV3 = Cmds.setAlarmV3(
                 IDOAlarmModel(
                     listOf(
-                        idoAlarmModel
+                        idoAlarmModel,
+                        idoAlarmModel1,
+                        idoAlarmModel2,
+                        idoAlarmModel3,
+                        idoAlarmModel4,
+                        idoAlarmModel5,
+                        idoAlarmModel6,
+                        idoAlarmModel7,
+                        idoAlarmModel8,
+                        idoAlarmModel9
                     )
                 )
             )
+
+
+
             alarmV3.send {
                 if (it.error.code == 0) {
                     tv_response.text = it.res?.toJsonString()
