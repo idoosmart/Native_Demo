@@ -21,6 +21,7 @@ struct Word {
     static let testOC = "Test OC"
     static let exportLog = "Export logs"
     static let testBleChannel = "Test ble channel"
+    static let epoUpgrade = "Epo Upgrade"
 }
 
 

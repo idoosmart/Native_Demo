@@ -21,6 +21,7 @@ class SportVC: UIViewController {
     private var duration = 0
     private var calories = 0
     private var distance = 0
+    private var isSportEnd = false
     @objc dynamic private var exchangeType: SportStatus = .stopped
     lazy var btnSportStart: UIButton = {
         let btn = UIButton.createNormalButton(title: "Start Sport")
@@ -378,6 +379,9 @@ extension SportVC: IDOExchangeDataOCDelegate {
                                                            distance: obj.distance)
             sdk.dataExchange.appReplyExec(model: sendModel)
             exchangeType = .stopped
+            sdk.dataExchange.getActivityHrData()
+            sdk.dataExchange.getLastActivityData()
+            isSportEnd = true
         }
     }
     
@@ -415,6 +419,9 @@ extension SportVC: IDOExchangeDataOCDelegate {
             print("reply for app's end reply: \(String(describing: obj))")
             exchangeType = .stopped
             baseModel = nil
+            sdk.dataExchange.getActivityHrData()
+            sdk.dataExchange.getLastActivityData()
+            isSportEnd = true
         }
         else if (model is IDOAppIngReplyExchangeModel) {
             let obj = model as? IDOAppIngReplyExchangeModel
@@ -440,10 +447,15 @@ extension SportVC: IDOExchangeDataOCDelegate {
         }
         else if (model is IDOAppActivityDataV3ExchangeModel) {
             let obj = model as? IDOAppActivityDataV3ExchangeModel
-            print("appActivityDataReply: ${type.model}")
+            print("appActivityDataReply: \(String(describing: obj))")
             duration = max(duration, obj?.durations ?? 0)
             calories = max(calories, obj?.calories ?? 0)
             distance = max(distance, obj?.distance ?? 0)
+            if (isSportEnd) {
+                isSportEnd = false
+                // TODO: 运动任务结束
+                print("运动任务结束!! / Sports mission completed!!")
+            }
         }
         else if (model is IDOAppHrDataExchangeModel) {
             let obj = model as? IDOAppHrDataExchangeModel

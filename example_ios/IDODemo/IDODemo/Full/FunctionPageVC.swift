@@ -46,6 +46,7 @@ class FunctionPageVC: UIViewController {
         Word.setFunction,
         Word.syncData,
         Word.transFile,
+        Word.epoUpgrade,
         Word.sport,
         Word.alexa,
         Word.testOC,
@@ -79,7 +80,7 @@ class FunctionPageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Function"
         view.backgroundColor = .white
         
@@ -169,8 +170,10 @@ class FunctionPageVC: UIViewController {
                             }))
                             self.present(alert, animated: true, completion: nil)
                         }else {
-                            SVProgressHUD.showInfo(withStatus: "连接已断开")
-                            self.navigationController?.popToRootViewController(animated: true)
+                            if (sdk.device.platform != 98) {
+                                SVProgressHUD.showInfo(withStatus: "连接已断开")
+                                self.navigationController?.popToRootViewController(animated: true)
+                            }
                         }
                     }
                     break
@@ -212,6 +215,7 @@ class FunctionPageVC: UIViewController {
                 }
             }
         }).disposed(by: disposeBag)
+        
     }
     
     deinit {
@@ -282,6 +286,9 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             break
         case Word.transFile:
             navigationController?.pushViewController(TransferFileVC(), animated: true)
+            break
+        case Word.epoUpgrade:
+            navigationController?.pushViewController(EpoVC(), animated: true)
             break
         case Word.sport:
             navigationController?.pushViewController(SportVC(), animated: true)
@@ -358,6 +365,8 @@ extension FunctionPageVC {
         case Word.alexa:
             return isConnected && isBinded
         case Word.transFile:
+            return isConnected && isBinded
+        case Word.epoUpgrade:
             return isConnected && isBinded
         case Word.sport:
             return isConnected && isBinded
@@ -455,7 +464,7 @@ extension FunctionPageVC {
     
     private func unbind() {
         SVProgressHUD.show(withStatus: "unbind...")
-        let macAddress = sdk.device.macAddressFull
+        let macAddress = sdk.device.macAddressFull // self.deviceModel!.macAddress!
         sdk.cmd.unbind(macAddress: macAddress, isForceRemove: true, completion: { [weak self] rs in
             self?.isBinded = !rs
             self?.tableView.reloadData()
@@ -482,5 +491,4 @@ extension FunctionPageVC {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
 }

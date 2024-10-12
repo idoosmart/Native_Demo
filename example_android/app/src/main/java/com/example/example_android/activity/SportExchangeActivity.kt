@@ -54,6 +54,7 @@ class SportExchangeActivity : BaseActivity() {
     private var duration = 0
     private var calories = 0
     private var distance = 0
+    private var isSportEnd = false
 
     override fun getLayoutId(): Int {
         return R.layout.activity_sport_exchange
@@ -69,6 +70,9 @@ class SportExchangeActivity : BaseActivity() {
                         mHandler.removeCallbacksAndMessages(null)
                         val model = IDOAppBleEndReplyExchangeModel(0, duration, calories, distance, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.appBleEndReply(model))
+                        sdk.dataExchange.getActivityHrData()
+                        sdk.dataExchange.getLastActivityData()
+                        isSportEnd = true
                     }
 
                     is IDOBleExecType.appBlePause -> {
@@ -126,6 +130,9 @@ class SportExchangeActivity : BaseActivity() {
                     is IDOBleReplyType.appEndReply -> {
                         log("reply for app's end reply: ${type.model}")
                         mHandler.removeCallbacksAndMessages(null)
+                        sdk.dataExchange.getActivityHrData()
+                        sdk.dataExchange.getLastActivityData()
+                        isSportEnd = true
                     }
 
                     is IDOBleReplyType.appIngReply -> {
@@ -186,6 +193,11 @@ class SportExchangeActivity : BaseActivity() {
                         duration = max(duration, model?.durations ?: 0)
                         calories = max(calories, model?.calories ?: 0)
                         distance = max(distance, model?.distance ?: 0)
+                        if (isSportEnd) {
+                            isSportEnd = false
+                            // TODO: 运动任务结束
+                            log("运动任务结束!! / Sports mission completed!!")
+                        }
                     }
 
                     is IDOBleReplyType.appActivityGpsReply -> {
