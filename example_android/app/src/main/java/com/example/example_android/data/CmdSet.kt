@@ -135,7 +135,7 @@ object CmdSet {
             CustomEvtType.SET100SPORTSORTV3 -> Cmds.setSport100Sort(idoBaseModel as IDOSport100SortParamModel)
             CustomEvtType.SETWALLPAPERDIALREPLYV3 -> Cmds.setWallpaperDialReply(idoBaseModel as IDOWallpaperDialReplyV3ParamModel)
             CustomEvtType.SETVOICEREPLYTXTV3 -> Cmds.setVoiceReplyText(idoBaseModel as IDOVoiceReplyParamModel)
-            CustomEvtType.SETTIME -> Cmds.setDateTime(idoBaseModel as IDODateTimeParamModel)
+            CustomEvtType.SETTIME -> Cmds.setDateTime() // Cmds.setDateTime(idoBaseModel as IDODateTimeParamModel)
             CustomEvtType.SETFINDPHONE -> Cmds.setFindPhone(true)
             CustomEvtType.SETWEATHERSWITCH -> Cmds.setWeatherSwitch(true)
             CustomEvtType.SETONEKEYSOS -> Cmds.setOnekeySOS(false, 0)

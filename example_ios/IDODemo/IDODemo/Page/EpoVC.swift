@@ -134,6 +134,12 @@ extension EpoVC {
     }
     
     private func stop() {
+        guard epoMgr.status != .installing else {
+            let alert = UIAlertController(title: "Tips", message: "epo已传输到设备，设备正在执行升级中，这种情况无法中止 \n\n The epo has been transferred to the device and the device is in the process of upgrading. This situation cannot be aborted.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         epoMgr.stop()
         lblState.text = nil
         isDoing = false

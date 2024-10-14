@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.0.45<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/10/14</span>
+
+##### 更新内容：
+
+- 升级指定平台的表盘相关so库（android）；
+- 添加icon_assets.bundle资源文件加载异常捕获（iOS）；
+- 修复部分已知bug；
+
+
+
 ## 4.0.44<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/12</span>
 
 ##### 更新内容：

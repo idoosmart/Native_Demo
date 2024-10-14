@@ -785,12 +785,20 @@ extension CmdType {
                                         dayNum: 0,
                                         items: [gpsInfo])
         case .setWeatherV3:
-            return IDOWeatherV3ParamModel(month: 11,
-                                          day: 29,
-                                          hour: 16,
-                                          min: 30,
-                                          sec: 0,
-                                          week: 1,
+            let currentDate = Date()
+            let calendar = Calendar.current
+            let month = calendar.component(.month, from: currentDate)
+            let day = calendar.component(.day, from: currentDate)
+            let hour = calendar.component(.hour, from: currentDate)
+            let minute = Int(arc4random_uniform(59)) + 1
+            let second = calendar.component(.second, from: currentDate)
+            let weekday = calendar.component(.weekday, from: currentDate)
+            return IDOWeatherV3ParamModel(month: month,
+                                          day: day,
+                                          hour: hour,
+                                          min: minute,
+                                          sec: second,
+                                          week: weekday,
                                           weatherType: 1,
                                           todayTmp: 19+100,
                                           todayMaxTemp: 33+100,
@@ -809,16 +817,18 @@ extension CmdType {
                                           sunriseItemNum: 3,
                                           airGradeItem: "big",
                                           hoursWeatherItems: [
-                                              IDOHoursWeatherItem(weatherType: 7, temperature: 8+100, probability: 40)
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 8+100, probability: 40)
                                           ],
                                           futureItems: [
-                                              IDOFutureItem(weatherType: 6, maxTemp: 33+100, minTemp: 8+100)
+                                            IDOFutureItem(weatherType: 6, maxTemp: 33+100, minTemp: 8+100)
                                           ],
                                           sunriseItem: [
-                                              IDOSunriseItem(sunriseHour: 5, sunriseMin: 35, sunsetHour: 15, sunsetMin: 35),
-                                              IDOSunriseItem(sunriseHour: 6, sunriseMin: 36, sunsetHour: 16, sunsetMin: 36),
-                                              IDOSunriseItem(sunriseHour: 7, sunriseMin: 37, sunsetHour: 17, sunsetMin: 37)
-                                          ])
+                                            IDOSunriseItem(sunriseHour: 5, sunriseMin: 35, sunsetHour: 15, sunsetMin: 35),
+                                            IDOSunriseItem(sunriseHour: 6, sunriseMin: 36, sunsetHour: 16, sunsetMin: 36),
+                                            IDOSunriseItem(sunriseHour: 7, sunriseMin: 37, sunsetHour: 17, sunsetMin: 37)
+                                          ],
+                                          aqiFutureItem: [20, 30, 41, 51, 61,77,90],
+                                          aqiHistoryItem: [22,33,44,55,66,77,88])
         case .musicControl:
             return IDOMusicControlParamModel(status: 1, curTimeSecond: 10, totalTimeSecond: 30, musicName: "m1", singerName: "s1")
         case .setMusicOperate:
