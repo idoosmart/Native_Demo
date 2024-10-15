@@ -99,6 +99,7 @@ import com.idosmart.model.IDOWorldTimeParamModel
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
+import java.time.LocalDateTime
 
 class SetFunctionDetailActivity : BaseActivity() {
     private var type: Int = SetFuntionActivity.setDateTime
@@ -167,7 +168,17 @@ class SetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.SETVOICEREPLYTXTV3 -> setVoiceReplyText()
                 CustomEvtType.SETTIME -> setDateTime()
                 CustomEvtType.SETFINDPHONE -> Cmds.setFindPhone(true)
-                CustomEvtType.SETWEATHERSWITCH -> Cmds.setWeatherSwitch(true)
+                CustomEvtType.SETWEATHERSWITCH -> {
+                    Cmds.setWeatherSwitch(true).apply {
+                        paramter_tv.text=json
+                    }.send {
+                        if (it.error.code == 0) {
+                            tv_response.text = it.res?.toJsonString()
+                        } else {
+                            tv_response.text = "设置失败 / Setup failure"
+                        }
+                    }
+                }
                 CustomEvtType.SETONEKEYSOS -> Cmds.setOnekeySOS(false, 0)
                 CustomEvtType.SETUNREADAPPREMINDER -> Cmds.setUnreadAppReminder(true)
                 CustomEvtType.SETWEATHERCITYNAME -> Cmds.setWeatherCityName("dsdgf")
@@ -701,14 +712,16 @@ class SetFunctionDetailActivity : BaseActivity() {
      */
 
     private fun setWeatherV3() {
-        var weatherV3 = Cmds.setWeatherV3(
+        // 获取当前时间
+        val now = LocalDateTime.now()
+        val weatherV3 = Cmds.setWeatherV3(
             IDOWeatherV3ParamModel(
-                11,
-                29,
-                16,
-                2,
-                2,
-                1,
+                now.monthValue,
+                now.dayOfMonth,
+                now.hour,
+                now.minute,
+                now.second,
+                now.dayOfWeek.value,
                 7,
                 9,
                 33,
@@ -754,8 +767,8 @@ class SetFunctionDetailActivity : BaseActivity() {
                         sunsetMin = 37
                     )
                 ),
-                listOf(23,24,25,26,27),
-                listOf(51,52,53,54,55,56)
+                listOf(23,24,25,26,27,28,29),
+                listOf(51,52,53,54,55,56,57)
             )
         )
         weatherV3.send {
