@@ -9,6 +9,7 @@ import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDODeviceFileToAppTask
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOCancellable
+import com.idosmart.protocol_sdk.IDOCmdPriority
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 
 class GetFunctionDetailActivity : BaseActivity() {
@@ -163,7 +164,7 @@ class GetFunctionDetailActivity : BaseActivity() {
      *  v3 app obtains the ble alarm clock
      * */
     private fun getAlarm() {
-        var alarm = Cmds.getAlarm()
+        var alarm = Cmds.getAlarm(IDOCmdPriority.HIGH)
         alarm.send {
             if (it.error.code == 0) {
                 val res = it.res?.toJsonString() ?: "{ok}"

@@ -714,7 +714,7 @@ class SetFunctionDetailActivity : BaseActivity() {
     private fun setWeatherV3() {
         // 获取当前时间
         val now = LocalDateTime.now()
-        val weatherV3 = Cmds.setWeatherV3(
+        var weatherV3 = Cmds.setWeatherV3(
             IDOWeatherV3ParamModel(
                 now.monthValue,
                 now.dayOfMonth,
@@ -722,17 +722,17 @@ class SetFunctionDetailActivity : BaseActivity() {
                 now.minute,
                 now.second,
                 now.dayOfWeek.value,
-                7,
-                9,
-                33,
-                3,
+                1,
+                19+100,
+                33+100,
+                15+100,
                 "shenzhen",
                 7,
                 40,
                 32,
                 10,
                 5,
-                10,
+                15,
                 5,
                 37,
                 18,
@@ -741,12 +741,12 @@ class SetFunctionDetailActivity : BaseActivity() {
                 "big",
                 listOf(
                     IDOHoursWeatherItem(
-                        weatherType = 7, temperature = 8, probability = 40
+                        weatherType = 7, temperature = 8+100, probability = 40
                     )
                 ),
                 listOf(
                     IDOFutureItem(
-                        weatherType = 6, maxTemp = 33, minTemp = 8
+                        weatherType = 6, maxTemp = 33+100, minTemp = 8+100
                     )
                 ),
                 listOf(
@@ -767,8 +767,8 @@ class SetFunctionDetailActivity : BaseActivity() {
                         sunsetMin = 37
                     )
                 ),
-                listOf(23,24,25,26,27,28,29),
-                listOf(51,52,53,54,55,56,57)
+                listOf(20, 30, 41, 51, 61,77,90),
+                listOf(22,33,44,55,66,77,88)
             )
         )
         weatherV3.send {
@@ -3025,10 +3025,10 @@ class SetFunctionDetailActivity : BaseActivity() {
                     4,
                     5,
                     6,
-                    7,
-                    2,
-                    3,
-                    4
+                    1,
+                    (22.55*100).toInt(),
+                    1,
+                    (144.52*100).toInt()
                 )
             )
         )
@@ -4166,7 +4166,6 @@ class SetFunctionDetailActivity : BaseActivity() {
     private fun setSportSortV3() {
         var sportSortV3 = Cmds.setSportSortV3(
             IDOSportParamModel(
-                1,
                 listOf(IDOSportModeSortParamModel(1, IDOSportType.SPORTTYPEBURPEE))
             )
         )

@@ -67,6 +67,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun dis_connect(view: View) {
+        println("dis_connect device btMacAddress: ${device?.btMacAddress}");
         sdk.ble.cancelPair(device)
         sdk.ble.cancelConnect(device?.macAddress) {
             if (it) {
@@ -100,6 +101,7 @@ class FunctionActivity : BaseActivity() {
                     closeProgressDialog()
                     println("返回状态：$it")
                     when (it) {
+                        IDOBindStatus.BINDED,
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
@@ -109,7 +111,6 @@ class FunctionActivity : BaseActivity() {
                         }
 
                         IDOBindStatus.FAILED,
-                        IDOBindStatus.BINDED,
                         IDOBindStatus.NEEDAUTH,
                         IDOBindStatus.REFUSEDBIND -> {
                             println("bind failed: ${it.name}")
@@ -149,6 +150,7 @@ class FunctionActivity : BaseActivity() {
                 if (it) {
                     toast("unbind ok")
                     FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
+                    sdk.ble.cancelPair(device);
                     sdk.ble.cancelConnect(device?.macAddress) {}
                     bindState()
                     // 解绑设备删除icon数据
@@ -269,6 +271,9 @@ class FunctionActivity : BaseActivity() {
     inner class BleData : IDOBridgeDelegate {
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
+            if (status == IDOStatusNotification.FASTSYNCCOMPLETED) {
+                device?.let { sdk.ble.setBtPair(it) }
+            }
         }
 
         override fun checkDeviceBindState(macAddress: String): Boolean {
@@ -375,8 +380,6 @@ class FunctionActivity : BaseActivity() {
                 }
                 ll_connect?.visibility = View.GONE
                 ll_dis_connect?.visibility = View.VISIBLE
-
-                device?.let { sdk.ble.setBtPair(it) }
 
                 //sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
             } else if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTING) {
