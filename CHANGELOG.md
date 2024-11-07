@@ -15,12 +15,24 @@ Android SDK：[Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https:
 iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile) | [Github](https://github.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile)
 
 
+
+## 4.1.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/07</span>
+
+##### 更新内容：
+
+- 补充新增功能表；
+- 解决数据同步状态未刷新问题；
+- 解决android非主线程调用异常问题；
+
+
+
 ## 4.0.46<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/10/25</span>
 
 ##### 更新内容：
 
 - 修复世界时钟设置接口参数实体转json问题（android）；
 - 获取闹钟接口添加指定优先级支持；
+
 
 
 ## 4.0.45<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/10/14</span>

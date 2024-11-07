@@ -157,7 +157,7 @@ class FunctionPageVC: UIViewController {
         _ = NotificationCenter.default.rx.notification(Notify.onBleDeviceStateChanged).subscribe(onNext: { [weak self] notification in
             guard let self = self else { return }
             if let stateModel = notification.object as? IDODeviceStateModel {
-                print("\(stateModel.state)")
+                print("onBleDeviceStateChanged：\(stateModel.state)")
                 switch stateModel.state {
                 case .disconnected:
                     if (self.isViewLoaded) {
