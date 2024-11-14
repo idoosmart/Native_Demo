@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios
 
 
 
+## 4.2.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/14</span>
+
+##### 更新内容：
+
+- 兼容Android14 (Android)；
+- 解决framework签名问题 (iOS)；
+- 调整icon_assets.bundle资源包的管理方式（手动集成时需关注)(iOS)；
+
+
+
 ## 4.1.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/07</span>
 
 ##### 更新内容：

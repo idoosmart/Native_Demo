@@ -1,26 +1,48 @@
-# IDODemo 使用说明
+# IDODemo Instructions
 
-介绍Demo、SDK说明及注意事件
-IDOSDK-full和IDOSDK-lite根据实际场景二选一
+Introduction to Demo, SDK description and events to note
+Choose between IDOSDK-full and IDOSDK-lite according to the actual scenario
 
-SDK API文档：https://idoosmart.github.io/Native_GitBook/zh/
+SDK API documentation: https://idoosmart.github.io/Native_GitBook/zh/
 
-### IDODemo
+> ##### IDOSDK-full
+>
+> Complete SDK, built-in Bluetooth library, ready to use
+>
+> ##### IDOSDK-lite
+>
+> Simple SDK, removes Bluetooth library related dependencies, bridges with external Bluetooth library, and is no different from full
 
-Demo 工程，使用Target区分两种IDOSDK使用方式
+### IDODemo-Manual
 
-IDODemoFull - 使用内置蓝牙库
+Manually integrate SDK into IDODemo-Manual project, which uses Target to distinguish two ways to use IDOSDK
 
-IDODemoLite - 使用自定义蓝牙库方式
+IDODemoFull - Use built-in Bluetooth library
 
+IDODemoLite - Use custom Bluetooth library
 
+Execute script to pull corresponding SDK before use:
 
-### IDOSDK-full
+```shell
+cd IDODemo-Manual
+sh clone_sdk.sh
+```
 
-完整SDK，内置蓝牙库，开箱即用
+Open `IDODemo.xcworkspace`
 
+### IDODemo-Cocoapods
 
+Use Cococapods to integrate SDK into IDODemo-Manual project, and use Target to distinguish two ways of using IDOSDK
 
-### IDOSDK-lite
+IDODemoFull - Use built-in Bluetooth library
 
-简版SDK，移除蓝牙库相关依赖，与外部蓝牙库桥接后使用
+IDODemoLite - Use custom Bluetooth library
+
+Execute the script to pull the corresponding SDK before use:
+
+```shell
+cd IDODemo-Cocoapods
+pod install
+```
+
+Open `IDODemo.xcworkspace`
