@@ -13,7 +13,6 @@ rm -rf ${tmp_path}
 mkdir -p ${tmp_path}
 pushd ${tmp_path} || exit 1
 
-clone sdk
 git clone -b main "${git_url_full}" IDOSDK-full --depth 1
 clone_full_result=$?
 if [ $clone_full_result -ne 0 ]; then
