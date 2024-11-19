@@ -746,7 +746,7 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getAlarm:
             let flag = (cmd.type.param() as! OtherParamModel).dic!["flag"] as! Int
-            cancellable = Cmds.getAlarm(flag: flag).send { [weak self] res in
+            cancellable = Cmds.getAlarm(flag: flag, priority: .veryHigh).send { [weak self] res in
                 self?.btnCall.isEnabled = true
                 if case .success(let obj) = res {
                     self?.textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"

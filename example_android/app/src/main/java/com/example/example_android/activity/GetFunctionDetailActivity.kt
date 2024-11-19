@@ -85,6 +85,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETDEVICENAME -> getDeviceName()
                 CustomEvtType.GETALGFILE-> getAlgFile()
                 CustomEvtType.REQUESTALGFILE-> requestAlgFile()
+                else -> {}
             }
         }
 

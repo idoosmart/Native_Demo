@@ -1,371 +1,390 @@
-# 更新日志
+# Update log
 
-IDOSDK 版本更新日志
+IDOSDK version update log
 
 ---
 
-## 资源
+## Resources
 
-文档：[中文](https://idoosmart.github.io/Native_GitBook/zh/) | [English](https://idoosmart.github.io/Native_GitBook/en/)
+Document: [Chinese](https://idoosmart.github.io/Native_GitBook/zh/) | [English](https://idoosmart.github.io/Native_GitBook/en/)
 
-Demo：[Gitee](https://gitee.com/idoosmart/Native_Demo) | [Github](https://github.com/idoosmart/Native_Demo)
+Demo: [Gitee](https://gitee.com/idoosmart/Native_Demo) | [Github](https://github.com/idoosmart/Native_Demo)
 
-Android SDK：[Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https://github.com/idoosmart/android_sdk)
+Android SDK: [Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https://github.com/idoosmart/android_sdk)
 
-iOS SDK： [Gitee](https://gitee.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile) | [Github](https://github.com/idoosmart/Native_Demo/blob/main/example_ios/IDODemo/Podfile)
+iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://github.com/idoosmart/ios_sdk_full)
+
+
+
+## 4.2.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/19</span>
+
+##### Update content:
+
+- Remove the built-in tencent icon (Android);
+- Modify some parameters in the IDOHeartModeParamModel construction method to be optional;
 
 
 
 ## 4.2.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/14</span>
 
-##### 更新内容：
+##### Updates:
 
-- 兼容Android14 (Android)；
-- 解决framework签名问题 (iOS)；
-- 调整icon_assets.bundle资源包的管理方式（手动集成时需关注)(iOS)；
+- Compatible with Android14 (Android);
+
+- Solve framework signature problem (iOS);
+
+- Adjust the management method of icon_assets.bundle resource package (pay attention when manually integrating) (iOS);
 
 
 
 ## 4.1.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/07</span>
 
-##### 更新内容：
+##### Update content:
 
-- 补充新增功能表；
-- 解决数据同步状态未刷新问题；
-- 解决android非主线程调用异常问题；
+- Added new function table;
+
+- Solved the problem of data synchronization status not being refreshed;
+
+- Solved the problem of Android non-main thread call exception;
 
 
 
 ## 4.0.46<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/10/25</span>
 
-##### 更新内容：
+##### Update content:
 
-- 修复世界时钟设置接口参数实体转json问题（android）；
-- 获取闹钟接口添加指定优先级支持；
+- Fixed the problem of converting world clock setting interface parameter entity to json (android);
+
+- Added support for specifying priority in the alarm interface;
 
 
 
 ## 4.0.45<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/10/14</span>
 
-##### 更新内容：
+##### Update content:
 
-- 升级指定平台的表盘相关so库（android）；
-- 添加icon_assets.bundle资源文件加载异常捕获（iOS）；
-- 修复部分已知bug；
+- Upgrade the dial-related so library of the specified platform (android);
+
+- Add icon_assets.bundle resource file loading exception capture (iOS);
+
+- Fix some known bugs;
 
 
 
 ## 4.0.44<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/12</span>
 
-##### 更新内容：
+##### Update content:
 
-- 升级指定平台的OTA相关so库（android）；
-- 修复热启动参数设置；
+- Upgrade the OTA-related so library of the specified platform (android);
+
+- Fix the hot start parameter setting;
 
 
 
 ## 4.0.43<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/09/05</span>
 
-##### 更新内容：
+##### Update content:
 
-- 优化数据同步，屏蔽无效数据返回；
+- Optimize data synchronization and block invalid data return;
 
-- epo升级重试功能调整为每步重试，次数可指定；
+- The epo upgrade retry function is adjusted to retry every step, and the number of times can be specified;
 
-- 接口添加线程安全处理，支持非主线程调用；
-
-  
+- Add thread safety processing to the interface and support non-main thread calls;
 
 ## 4.0.42<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/26</span>
 
-##### 更新内容：
+##### Update content:
 
-- v3天气实体添加风力属性 windForce；
-- 优化文件传输速度；
-- 修复单项数据同步同步不到数据问题；
+- Add wind attribute windForce to v3 weather entity;
+
+- Optimize file transfer speed;
+
+- Fix the problem that single data synchronization cannot synchronize data;
 
 
 
 ## 4.0.41<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/16</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加EPO升级管理接口；
+- Add EPO upgrade management interface;
 
 
 
 ## 4.0.40<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/08/09</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加acc算法日志和gps算法日志文件获取接口；
-- 内置EPO自动更新功能（部分设备支持）；
+- Added acc algorithm log and gps algorithm log file acquisition interface;
 
+- Built-in EPO automatic update function (supported by some devices);
 
+## 4.0.39 (iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
 
-## 4.0.39（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
+##### Update content:
 
-##### 更新内容：
-
-- 修复加载缓存的默认app应用信息返回不完整问题（ios）；
+- Fixed the problem of incomplete return of default app application information for loading cache (ios);
 
 
 
 ## 4.0.38<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/22</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加设置默认app应用信息列表接口（ios）；
+- Added interface for setting default app application information list (ios);
 
 
 
 ## 4.0.37<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/17</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加bt连接状态通知（android）；
+- Added BT connection status notification (android);
 
-- 开放获取音频采样率接口；
+- Open access to audio sampling rate interface;
 
-- 消息图标相关问题修复；
+- Fixed issues related to message icons;
 
 
 
 ## 4.0.36<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/16</span>
 
-##### 更新内容：
+##### Update content:
 
-- 修复IDOBleDeviceModel只读属性无法赋值问题（android）；
+- Fixed the problem that IDOBleDeviceModel read-only attributes cannot be assigned (android);
 
-- 音乐实体类部分属性调整为可选属性
+- Adjusted some attributes of the music entity class to optional attributes
 
-  
+
 
 ## 4.0.35<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/11</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加小程序操作接口（获取版本、启动小程序）；
+- Add mini program operation interface (get version, start mini program);
 
-  
+
 
 ## 4.0.34<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/04</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加小程序升级功能；
+- Add mini program upgrade function;
 
-  
+
 
 ## 4.0.33<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/07/01</span>
 
-##### 更新内容：
+##### Update content:
 
-- 适配新的BLE服务特征；
+- Adapt to new BLE service characteristics;
 
-  
+
 
 ## 4.0.32<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/06/26</span>
 
-##### 更新内容：
+##### Update content:
 
-- 解决缺省消息图标读取异常问题；
+- Solve the problem of abnormal reading of default message icon;
 
 
 
 ## 4.0.31<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/06/20</span>
 
-##### 更新内容：
+##### Update content:
 
-- 适配新设备OTA升级；
+- Adapt to OTA upgrade of new devices;
 
 
 
 ## 4.0.30<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/30</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加同步指定类型数据接口；
-- 设备信息添加sn、btName、gpsPlatform字段；
-- 添加获取智能心率模式、获取血氧开关、获取压力开关、设置默认消息应用列表接口；
-- 修复调用bt配对无效问题（android）
-- 修复固件返回异常数据导致获取闹钟闪退问题
-- 修复无法修改设备音量问题
+- Add synchronization interface for data of specified type;
+
+- Add sn, btName, gpsPlatform fields to device information;
+
+- Added interfaces for obtaining smart heart rate mode, obtaining blood oxygen switch, obtaining pressure switch, and setting the default message application list;
+- Fixed the problem of invalid call to BT pairing (Android)
+- Fixed the problem of flash back when obtaining alarm due to abnormal data returned by firmware
+- Fixed the problem of being unable to modify device volume
 
 
 
 ## 4.0.29<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/05/14</span>
 
-##### 更新内容：
+##### Update content:
 
-- 解决部分包冲突问题（android)
-- 修复实时运动显示失败问题（android)
-- 修复实时运动代理未回调问题（iOS）
-- 移除path_provider_xx三方库
+- Solve some package conflicts (Android)
+- Fixed the problem of real-time motion display failure (Android)
+- Fixed the problem of real-time motion agent not being called back (iOS)
+- Removed path_provider_xx third-party library
 
 
 
 ## 4.0.28<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/24</span>
 
-##### 更新内容：
+##### Update content:
 
-- 包名中关键字enum替换为enums（enum在java中是保留字）（android)
-- 设备绑定成功添加清除v3健康数据缓存逻辑
+- The keyword enum in the package name is replaced with enums (enum is a reserved word in Java) (Android)
+- Device binding successfully adds the logic of clearing v3 health data cache
 
 
 
 ## 4.0.27<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/24</span>
 
-##### 更新内容：
+##### Update content:
 
-- 修复时间设置接口时区和周参数错误问题
+- Fix the time zone and week parameter errors in the time setting interface
 
-  
+
 
 ## 4.0.26<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/18</span>
 
-##### 更新内容：
+##### Update content:
 
-- 补充接口：获取单位、设置热启动参数、获取spp mtu长度
-- 修复蓝牙库日志记录问题
+- Supplementary interface: Get unit, set hot start parameters, get spp mtu length
+- Fix Bluetooth library logging issues
 
 
 
 ## 4.0.25<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/11</span>
 
-##### 更新内容：
+##### Update content:
 
-- 修复天气设置失败问题
+- Fix the problem of weather setting failure
 
 
 
 ## 4.0.24<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/10</span>
 
-##### 更新内容：
+##### Update content:
 
-- 补充[快速消息回复](https://idoosmart.github.io/Native_GitBook/zh/doc/logicDescription/quickMsgReplyList.html)、默认快速消息回复列表指令（android）
-- 适配取消绑定功能
-- 修复iOS Objective-C 部分指令接口参数异常问题（iOS）
+- Supplement [Quick Message Reply](https://idoosmart.github.io/Native_GitBook/zh/doc/logicDescription/quickMsgReplyList.html), default quick message reply list command (android)
+
+- Adapt the unbinding function
+- Fix the abnormal parameter problem of some command interfaces of iOS Objective-C (iOS)
 
 
 
 ## 4.0.23<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/04/03</span>
 
-##### 更新内容：
+##### Update content:
 
-- 设置压力开关接口实体添加周重复参数
-- 修复设置通知中心json序列化问题（android)
-- 协议库添加非v3协议的回复数据补齐20字节
+- Add weekly repetition parameters to the pressure switch interface entity
+
+- Fix the json serialization problem of setting the notification center (android)
+
+- Add 20 bytes to the reply data of the non-v3 protocol in the protocol library
 
 
 
 ## 4.0.22<span style="font-size:12px;">&nbsp;&nbsp;2024/03/29</span>
 
-##### 更新内容：
+##### Update content:
 
-- 修复部分json解析异常问题
-- 修复闹钟、提醒类周提醒解析问题
-- 调整实体属性为可读写（iOS）
+- Fix some json parsing exceptions
+- Fix the parsing problem of alarm and reminder weekly reminders
+- Adjust the entity attributes to read and write (iOS)
 
 
 
 ## 4.0.21<span style="font-size:12px;">&nbsp;&nbsp;2024/03/26</span>
 
-##### 更新内容：
+##### Update content:
 
-- 解决部分json字段解析问题
-- 补充开始/结束拍照接口（Android）
+- Solve some json field parsing issues
+- Add start/end photo taking interface (Android)
 
 
 
 ## 4.0.20<span style="font-size:12px;">&nbsp;&nbsp;2024/03/21</span>
 
-##### 更新内容：
+##### Update content:
 
-- 添加蓝牙库日志导出接口
-- 完善取消当前绑定请求接口
-- 修复天气实体部分字段错误（iOS）
+- Add Bluetooth library log export interface
+
+- Improve the interface for canceling the current binding request
+
+- Fix some field errors of weather entity (iOS)
 
 
 
 ## 4.0.19<span style="font-size:12px;">&nbsp;&nbsp;2024/03/08</span>
 
-##### 更新内容：
+##### Update content:
 
-- 新增APP下发配对结果指令接口
-- 新增APP下发绑定结果方法接口
-- 适配定制项目绑定流程需求
+- Add APP to send pairing result command interface
 
+- Add APP to send binding result method interface
 
-
-## 4.0.18（android only)
-
-##### 更新内容：
-
-- 公开设备信息获取接口
+- Adapt to the binding process requirements of customized projects
 
 
 
-## 4.0.18（iOS only)
+## 4.0.18 (android only)
 
-##### 更新内容：
+##### Update content:
 
-- 适配OC（补充oc无法适配的swift classs可选属性）
+- Public device information acquisition interface
+
+
+
+## 4.0.18 (iOS only)
+
+##### Update content:
+
+- Adapt OC (supplement swift classes optional attributes that OC cannot adapt)
 
 
 
 ## 4.0.17
 
-##### 更新内容：
+##### Update content:
 
-- 补充接口：
+- Supplementary interface:
 
-  - 获取默认的运动类型 - getDefaultSportType
+- Get the default sport type - getDefaultSportType
 
-  - 获取运动默认的类型 V3 - getSportTypeV3
+- Get the default sport type V3 - getSportTypeV3
 
-  - 获取BT连接手机型号 - getBtConnectPhoneModel
+- Get the BT connected phone model - getBtConnectPhoneModel
 
-  - 设置喝水提醒 - setDrinkWaterRemind
+- Set a water drinking reminder - setDrinkWaterRemind
 
-  - 设置经期提醒 - setMenstruationRemind
+- Set a menstrual period reminder - setMenstruationRemind
 
-  - 设置压力开关 - setStressSwitch
+- Set a pressure switch - setStressSwitch
 
-  - 设置语音助手开关 - setVoiceAssistantOnOff
+- Set the voice assistant switch - setVoiceAssistantOnOff
 
-  - 设置勿扰模式 - setNotDisturb
+- Set the do not disturb mode - setNotDisturb
 
-  - 设置菜单列表 - setMenuList
+- Set the menu list - setMenuList
 
-  - 设置运动类型排序 - setSportSortV3
+- Set the sport type sort - setSportSortV3
 
-  - 设置固件来电快捷回复开关 - setCallQuickReplyOnOff
+- Set the firmware call quick reply switch - setCallQuickReplyOnOff
 
-- 添加版本信息 (sdk.info.versionLib)
-
-
+- Add version information (sdk.info.versionLib)
 
 ##### iOS:
 
-- 添加代理方法：
-
+- Add proxy method:
 
 ```swift
-/// 根据设备macAddress查询绑定状态
+/// Query the binding status based on the device macAddress
 func checkDeviceBindState(macAddress: String) -> Bool
 ```
 
-- 适配OC
-
-  
+- Adapt to OC
 
 ##### Android:
 
-- 添加代理方法：
+- Add proxy method:
 
 ```kotlin
-/// 根据设备macAddress查询绑定状态
-fun checkDeviceBindState(macAddress: String): Boolean
+/// Query the binding status based on the device macAddress
+func checkDeviceBindState(macAddress: String): Boolean
 ```
-
