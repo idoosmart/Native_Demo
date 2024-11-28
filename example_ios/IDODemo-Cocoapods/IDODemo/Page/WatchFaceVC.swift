@@ -15,6 +15,51 @@ import SVProgressHUD
 
 import protocol_channel
 
+/*
+ 自定义表盘：
+ custom表盘设置步骤：
+ private var currentWatchFaceListModel: IDOWatchListModel?
+ let watchName = "custom1" // 需要与表盘包中的iwf.json中name值相同
+
+ 1、获取表盘列表:
+     Cmds.getWatchListV3().send { [weak self] res in
+         if case .success(let val) = res {
+             self?.currentWatchFaceListModel = val
+         }else if case .failure(_) = res {
+             // Failed to obtain the watch face list
+         }
+     }
+
+ 2、判断表盘列表中是否存在将要上传的表盘，如果存在，需要先删除该表盘
+     if (currentWatchFaceListModel?.items.contains { $0.name.hasPrefix(watchName) }) {
+         let param = IDOWatchFaceParamModel(operate: 2, fileName: watchName, watchFileSize: 0)
+         Cmds.setWatchFaceData(param).send { [weak self] res in
+             if case .success(let val) = res {
+                 if (val == nil || val!.errCode == 0) {
+                    // successful
+                    // Uninstall watch face successful
+                 }
+             }else if case .failure(let err) = res {
+                 // Failed to obtain the watch face list err
+             }
+         }
+     }
+     
+
+ 3、上传custom表盘
+     let fileItem = IDOTransNormalModel(fileType: .iwfLz, filePath:"/xx/xx/**/watch.zip", fileName: watchName)
+     sdk.transfer.transferFiles(fileItems: [fileItem], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
+         SVProgressHUD.showProgress(totalProgress);
+     } transStatus: { currentIndex, status, errorCode, finishingTime in
+         // print("status: (status) errorCode: (errorCode)")
+     } completion: { [weak self] rs in
+         if (rs.first ?? false) {
+             // success
+         }else {
+             // fail
+         }
+     }
+ */
 
 class WatchFaceVC: UIViewController {
     private lazy var bundlePath = Bundle.main.bundlePath + "/files_trans"
@@ -128,6 +173,8 @@ extension WatchFaceVC {
             testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/543/wf_w58.watch", fileName: "wf_w58.watch")
         case 7883:
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7883/GTX02_1.zip", fileName: "GTX02_1")
+        case 7892:
+            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/custom2.zip", fileName: "custom1")
         default:
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
@@ -199,26 +246,27 @@ extension WatchFaceVC {
                     // 传输完成
                     // 设备安装表盘需要时间，此处延迟2秒再刷新表盘列表
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self?._getWatchList() // 重新获取表盘列表
+                        
+//                        // 2、设置列表生效（可选）
+//                        let param = IDOWatchFaceParamModel(operate: 1, fileName: self?.testWatchModel?.fileName ?? "", watchFileSize: 0)
+//                        Cmds.setWatchFaceData(param).send { res in
+//                            if case .success(let val) = res {
+//                                if (val == nil || val!.errCode == 0) {
+//                                    // successful
+//                                    
+//                                }
+//                            }else if case .failure(let err) = res {
+//                                SVProgressHUD.showError(withStatus: "Failed to obtain the watch face list")
+//                            }
+//                        }
+                        
+                        // 重新获取表盘列表
+                        self?._getWatchList()
                     }
                 }else{
                     SVProgressHUD.dismiss()
                 }
             }
-
-            
-//            //2、设置列表生效（可选）
-//            let param = IDOWatchFaceParamModel(operate: 1, fileName: testWatchModel.fileName, watchFileSize: 0)
-//            Cmds.setWatchFaceData(param).send { res in
-//                if case .success(let val) = res {
-//                    if (val == nil || val!.errCode == 0) {
-//                        // successful
-//                        
-//                    }
-//                }else if case .failure(let err) = res {
-//                    SVProgressHUD.showError(withStatus: "Failed to obtain the watch face list")
-//                }
-//            }
         }
     }
     
@@ -228,7 +276,11 @@ extension IDOWatchListModel {
     
     /// 是否已安装
     func isInstalled(watchName: String) -> Bool {
-        return items.contains { $0.name == watchName.replacingOccurrences(of: ".watch", with: "") }
+        let name = watchName.replacingOccurrences(of: ".watch", with: "")
+        return items.contains {
+            print("isInstalled：\($0.name) name:\(name) \($0.name.hasPrefix(name))")
+            return $0.name.hasPrefix(name)
+        }
     }
     
     /// 设备表盘空间是否已满

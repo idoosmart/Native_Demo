@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/28</span>
+
+##### 更新内容：
+
+- 添加手机系统设置中关闭Bluetooth时更新deviceState代理回调 (iOS)；
+
+
+
 ## 4.2.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/19</span>
 
 ##### 更新内容：

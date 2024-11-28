@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/28</span>
+
+##### Update content:
+
+- Added update of deviceState delegatge callback when Bluetooth is turned off in the phone system settings (iOS);
+
+  
+
 ## 4.2.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/19</span>
 
 ##### Update content:
