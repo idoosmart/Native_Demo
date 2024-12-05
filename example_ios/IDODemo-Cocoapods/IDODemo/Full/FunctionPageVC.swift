@@ -283,7 +283,8 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(SyncDataVC(), animated: true)
             break
         case Word.alexa:
-            navigationController?.pushViewController(AlexaPageVC(), animated: true)
+            //navigationController?.pushViewController(AlexaPageVC(), animated: true)
+            bind()
             break
         case Word.transFile:
             navigationController?.pushViewController(TransferFileVC(), animated: true)

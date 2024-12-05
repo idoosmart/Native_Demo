@@ -122,6 +122,9 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
         }
 
+        override fun stateBT(isPair: Boolean) {
+            Log.d(TAG, "stateBT:$isPair")
+        }
     }
 
     inner class EpoListen : IDOEpoManagerDelegate {

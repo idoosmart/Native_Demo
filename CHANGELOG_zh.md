@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/05</span>
+
+##### 更新内容：
+
+- 数据同步当天心率数据添加未来时间数据清洗逻辑（仅限部分老设备）；
+
+- 数据同步超时时长调整为120秒（仅限部分老设备）
+
+  
+
 ## 4.2.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/28</span>
 
 ##### 更新内容：

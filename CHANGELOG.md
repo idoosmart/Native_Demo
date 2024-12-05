@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/05</span>
+
+##### Update content:
+
+- Add future time data cleaning logic to the heart rate data of the day of data synchronization (only for some old devices);
+
+- Adjust the data synchronization timeout to 120 seconds (only for some old devices)
+
+  
+
 ## 4.2.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/11/28</span>
 
 ##### Update content:

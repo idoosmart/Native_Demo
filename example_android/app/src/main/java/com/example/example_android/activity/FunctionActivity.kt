@@ -191,41 +191,15 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun alexa(view: View) {
-        Thread {
-            // 在子线程中执行的代码
-            println("I'm in a thread：${Thread.currentThread().name}")
-
-            Cmds.getMenuList().send {
-                if (it.error.code == 0) {
-                    val res = it.res?.toJsonString() ?: "{ok}"
-                    println("getMenuList $res")
-                } else {
-                    val res = it.res?.toJsonString() ?: "{erro}"
-                    println("getMenuList $res")
-                }
-            }
-
-            sdk.syncData.startSync({
-            }, { type, jsonStr, errorCode ->
-                println("startSync $type $jsonStr $errorCode")
-            }, {
-                println("startSync end, rs: $it")
-                sdk.ble.exportLog {
-                    println("exportLog $it")
-                }
-            })
-
-
-
-        }.start()
-
-//        val intent = Intent(this, AlexaActivity::class.java)
-//        startActivity(intent)
+        val intent = Intent(this, AlexaActivity::class.java)
+        startActivity(intent)
+        //sdk.ble.setBtPair(device!!)
     }
 
     fun sport(view: View) {
         val intent = Intent(this, SportExchangeActivity::class.java)
         startActivity(intent)
+        //sdk.ble.cancelPair(device!!)
     }
 
     fun appletTransfer(view: View) {

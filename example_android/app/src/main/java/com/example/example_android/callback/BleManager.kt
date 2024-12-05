@@ -64,6 +64,10 @@ object BleManager {
             delegates.forEach { it.writeSPPCompleteState(btMacAddress) }
         }
 
+        override fun stateBT(isPair: Boolean) {
+            delegates.forEach { it.stateBT(isPair) }
+        }
+
     }
 
     fun initSdk() {
