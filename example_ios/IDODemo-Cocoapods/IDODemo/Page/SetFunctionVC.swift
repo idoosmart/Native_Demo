@@ -66,9 +66,8 @@ class SetFunctionVC: UIViewController {
         SetCmd(type: .photoStart, title: "photoStart", desc: "开始拍照 (app -> ble)"),
         SetCmd(type: .photoStop, title: "photoStop", desc: "结束拍照 (app -> ble)"),
         SetCmd(type: .setHand, title: "setHand", desc: "设置左右手"),
-        SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: "设置屏幕亮度"),
         //SetCmd(type: .otaStart, title: "otaStart", desc: "进入升级模式"), // 未启用
-        SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: "设置心率区间"),
+        //SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: "设置心率区间"),
         
         SetCmd(type: .factoryReset, title: "factoryReset", desc: "恢复出厂设置"),
         SetCmd(type: .reboot, title: "reboot", desc: "重启设备"),
@@ -143,10 +142,6 @@ class SetFunctionVC: UIViewController {
             addToItems(SetCmd(type: .setBleVoice, title: "setBleVoice", desc: "Set phone volume for device event number"))
         }
         
-        if funcTable.setSmartHeartRate {
-            addToItems(SetCmd(type: .setHeartRateModeSmart, title: "setHeartRateModeSmart", desc: "Set Smart Heart Rate Mode Event"))
-        }
-        
         if (funcTable.reminderAncs) {
             items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: "Set Notification Center Event"))
             items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: "Set Notification Center Event"))
@@ -188,7 +183,7 @@ class SetFunctionVC: UIViewController {
         
         addToItemsbyFunctable(funcTable.setTemperatureSwitchSupport, SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: "Set Night-time Temperature Switch Event Code"))
         
-        addToItemsbyFunctable(funcTable.getUpHandGesture, SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: "Raise-to-wake gesture event number"))
+        addToItemsbyFunctable(funcTable.getUpHandGestureEx, SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: "Raise-to-wake gesture event number"))
         
         addToItemsbyFunctable(funcTable.setSpo2Data,  SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: "Set SpO2 switch event"))
         
@@ -251,11 +246,31 @@ class SetFunctionVC: UIViewController {
         addToItemsbyFunctable(true , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
         addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: "Operation of applet information (obtain, start, delete)"))
         
+        
+        // 因为demo要适配所有设备，此处示例适配多种情况。
+        // 当只适配一种设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+        if (sdk.funcTable.setSmartHeartRate) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
+            print("setSmartHeartRate")
+            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: "Set heart rate mode"))
+        }else if(sdk.funcTable.syncV3Hr) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html?h=setHeartMode
+            print("syncV3Hr")
+            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: "Set heart rate mode"))
+        }else if(sdk.funcTable.syncHeartRateMonitor) {
+            //https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetHeartRateMode.html?h=setHeartRateMode
+            print("syncHeartRateMonitor")
+        }
+        
+        if funcTable.setScreenBrightness {
+            items.append(SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: "设置屏幕亮度"))
+        }
+        
     }
     
     
     fileprivate func addToItemsbyFunctable(_ functable: Bool, _ item: SetCmd) {
-        let funcTable = sdk.funcTable
+        //let funcTable = sdk.funcTable
         func addToItems(_ setCmd: SetCmd) {
             items.append(setCmd)
         }
@@ -687,7 +702,7 @@ extension CmdType {
         case .setSleepPeriod:
             return IDOSleepPeriodParamModel(onOff: 0, startHour: 23, startMinute: 0, endHour: 7, endMinute: 0)
         case .setUpHandGesture:
-            return IDOUpHandGestureParamModel(onOff: 1, showSecond: 10, hasTimeRange: 1, startHour: 8, startMinute: 0, endHour: 18, endMinute: 0)
+            return IDOUpHandGestureParamModel(onOff: 1, showSecond: 5, hasTimeRange: 1, startHour: 0, startMinute: 0, endHour: 23, endMinute: 59)
         case .setTakingMedicineReminder:
             return IDOTakingMedicineReminderParamModel(takingMedicineId: 1,
                                                        onOff: 1,
@@ -714,44 +729,25 @@ extension CmdType {
         case .setWeatherCityName:
             return OtherParamModel(dic: ["cityName": "beijing"])
         case .setAlarm:
-            let items = [
-                IDOAlarmItem(alarmID: 1,
-                             delayMin: 1,
-                             hour: 2,
-                             minute: 0,
-                             name: "a1",
-                             repeats: [.monday, .tuesday, .wednesday],
-                             isOpen: true,
-                             repeatTimes: 1,
-                             shockOnOff: 1,
-                             status: .displayed,
-                             tsnoozeDuration: 0,
-                             type: .wakeUp),
-//                IDOAlarmItem(alarmID: 2,
-//                             delayMin: 1,
-//                             hour: 4,
-//                             minute: 0,
-//                             name: "a2",
-//                             repeats: [.monday, .tuesday],
-//                             isOpen: true,
-//                             repeatTimes: 1,
-//                             shockOnOff: 1,
-//                             status: .displayed,
-//                             tsnoozeDuration: 0,
-//                             type: .wakeUp),
-//                IDOAlarmItem(alarmID: 3,
-//                             delayMin: 1,
-//                             hour: 6,
-//                             minute: 0,
-//                             name: "a3",
-//                             repeats: [.monday, .tuesday],
-//                             isOpen: true,
-//                             repeatTimes: 1,
-//                             shockOnOff: 1,
-//                             status: .displayed,
-//                             tsnoozeDuration: 0,
-//                             type: .wakeUp)
-            ]
+            let maxCount = sdk.funcTable.alarmCount
+            let items = (0..<maxCount).map { idx in
+                let alarmID = idx + 1
+                let futureDate = Date().addingTimeInterval(Double(alarmID) * 60)
+                let (hour, minute) = (Calendar.current.component(.hour, from: futureDate),
+                                      Calendar.current.component(.minute, from: futureDate))
+                return IDOAlarmItem(alarmID: alarmID,
+                                    delayMin: 1,
+                                    hour: hour,
+                                    minute: minute,
+                                    name: "Alarm-\(alarmID)",
+                                    repeats: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday],
+                                    isOpen: true,
+                                    repeatTimes: 0,
+                                    shockOnOff: 1,
+                                    status: .displayed,
+                                    tsnoozeDuration: 0,
+                                    type: .other)
+            }
             return IDOAlarmModel(items: items)
         case .setFitnessGuidance:
             return IDOFitnessGuidanceParamModel(mode: 1,
@@ -940,19 +936,48 @@ extension CmdType {
         case .setLongCityNameV3:
             return OtherParamModel(dic: ["cityName": "北京"])
         case .setHeartMode:
-            return IDOHeartModeParamModel(updateTime: 8,
-                                          mode: 1,
-                                          hasTimeRange: 0,
-                                          startHour: 23,
-                                          startMinute: 59,
-                                          endHour: 1,
-                                          endMinute: 4,
-                                          measurementInterval: 4,
-                                          notifyFlag: 1,
-                                          highHeartMode: 98,
-                                          lowHeartMode: 50,
-                                          highHeartValue: 100,
-                                          lowHeartValue: 60)
+            // 因为demo要适配所有设备，此处示例适配多种情况。
+            // 当只适配一种设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+            if (sdk.funcTable.setSmartHeartRate) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
+                print("setSmartHeartRate")
+                return IDOHeartRateModeSmartParamModel(mode: 1,
+                                                notifyFlag: 1,
+                                                highHeartMode: 1,
+                                                lowHeartMode: 1,
+                                                highHeartValue: 160,
+                                                lowHeartValue: 50,
+                                                startHour: 7,
+                                                startMinute: 0,
+                                                endHour: 19,
+                                                endMinute: 0)
+            }else if(sdk.funcTable.syncV3Hr) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html?h=setHeartMode
+                print("syncV3Hr")
+                // 注：设置updateTime， 如果updateTime=0，该指令只进行获取
+                let param = IDOHeartModeParamModel(updateTime: Int(Date().timeIntervalSince1970))
+                // 示例1
+                // 关闭 （注：单次运动开启默认进行心率实时监测，不受此开关影响）
+                // param.mode = 3
+                
+                
+                // 示例2
+                // 持续监测 （比较耗电）
+                // param.mode = 5 // 固定5秒（支持固定5秒的持续监测）
+                // param.measurementInterval = 5
+                
+                
+                // 示例3
+                // 自动监测
+                param.mode = 5 // 固定5分钟（支持固定5分钟的自动监测）
+                param.measurementInterval = 300
+                
+                return param
+            }else if(sdk.funcTable.syncHeartRateMonitor) {
+                //https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetHeartRateMode.html?h=setHeartRateMode
+                print("syncHeartRateMonitor")
+            }
+            return nil
         case .setVoiceReplyText:
             return IDOVoiceReplyParamModel(flagIsContinue: 0, title: "title1", textContent: "textContent1")
         case .setWatchDialSort:
@@ -983,16 +1008,47 @@ extension CmdType {
         case .setHand:
             return OtherParamModel(dic: ["isRightHand": true])
         case .setScreenBrightness:
-            return IDOScreenBrightnessModel(level: 60,
+            let model = IDOScreenBrightnessModel(level: 80, // 20|40|60|80|100
                                             opera: 1,
                                             mode: 0,
-                                            autoAdjustNight: 2,
-                                            startHour: 8,
+                                            autoAdjustNight: 1,
+                                            startHour: 0,
                                             startMinute: 0,
-                                            endHour: 6,
+                                            endHour: 0,
                                             endMinute: 0,
-                                            nightLevel: 30,
-                                            showInterval: 0)
+                                            nightLevel: 0,
+                                            showInterval: 5)
+            
+            
+            // 可选
+            // 支持夜间自动亮度 (可开关、指定时间区间）
+            if (sdk.funcTable.setNightAutoBrightness) {
+                /*夜间自动亮度调节
+                 0 无效，由固件定义
+                 1 关闭
+                 2 夜间自动亮度调节
+                 3 夜间亮度降低使用设定时间
+                 功能表：setNightAutoBrightness开启有效*/
+                model.autoAdjustNight = 2
+                model.startHour = 19
+                model.startMinute = 0
+                model.endHour = 6
+                model.endMinute = 0
+              
+            }
+            
+            
+            // 可选
+            // 支持夜间亮度等级设置
+            if (sdk.funcTable.getSupportAddNightLevelV2) {
+                model.nightLevel = 40
+            }
+            
+            // 可选
+            // 亮屏时⻓：5-20秒
+            model.showInterval = 15
+            
+            return model
         case .otaStart:
             return nil
         case .setHeartRateInterval:
@@ -1359,6 +1415,7 @@ private class SetFunctionDetailVC: UIViewController {
             let obj = cmd.type.param() as! IDOUpHandGestureParamModel
             cancellable = Cmds.setUpHandGesture(obj).send { [weak self] res in
                 self?.doPrint(res)
+                Cmds.getUpHandGesture().send { _ in }
             }
         case .setTakingMedicineReminder:
             let obj = cmd.type.param() as! IDOTakingMedicineReminderParamModel
@@ -1376,33 +1433,46 @@ private class SetFunctionDetailVC: UIViewController {
                 self?.doPrint(res)
             }
         case .setAlarm:
-            //let obj = cmd.type.param() as! IDOAlarmModel
-            // 1 闹钟需要先获取，再全量更新
-            cancellable = Cmds.getAlarm(flag: 1).send { [weak self] res in
-                if case .success(let obj) = res {
-                    if let alarmModel = obj {
-                        if (alarmModel.items.count > 0) {
-                            let alarmItem = alarmModel.items.first
-                            alarmItem?.alarmID = 1
-                            alarmItem?.isOpen = true
-                            alarmItem?.repeats = [.sunday, .saturday]
-                            alarmItem?.status = .displayed
-                            // 2 修改
-                            self?.cancellable = Cmds.setAlarm(alarm: alarmModel).send { [weak self] res in
-                                self?.btnCall.isEnabled = true
-                                if case .success(let val) = res {
-                                    self?.textResponse.text = "\(val?.toJsonString() ?? "")\n\n\n" + "\(printProperties(val) ?? "")"
-                                } else if case .failure(let err) = res {
-                                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
-                                }
-                            }
-                        }
-                    }
-                }else if case .failure(let err) = res {
+            let obj = cmd.type.param() as! IDOAlarmModel
+            cancellable = Cmds.setAlarm(alarm: obj).send { [weak self] res in
+                self?.btnCall.isEnabled = true
+                if case .success(let val) = res {
+                    self?.textResponse.text = "\(val?.toJsonString() ?? "")\n\n\n" + "\(printProperties(val) ?? "")"
+                } else if case .failure(let err) = res {
                     self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
-                //self?.doPrint(res)
             }
+            
+            
+            // 注意：实际场景是 先获取到设备的闹钟列表，再进行修改
+            // 1 闹钟需要先获取，再全量更新
+//            cancellable = Cmds.getAlarm(flag: 0).send { [weak self] res in
+//                if case .success(let obj) = res {
+//                    if let alarmModel = obj {
+//                        if (alarmModel.items.count > 0) {
+//                            let alarmItem = alarmModel.items.first
+//                            alarmItem?.alarmID = 1
+//                            alarmItem?.isOpen = true
+//                            alarmItem?.hour = 17
+//                            alarmItem?.minute = 43
+//                            alarmItem?.repeats = [.sunday, .saturday, .monday]
+//                            alarmItem?.status = .displayed
+//                            // 2 修改
+//                            self?.cancellable = Cmds.setAlarm(alarm: alarmModel).send { [weak self] res in
+//                                self?.btnCall.isEnabled = true
+//                                if case .success(let val) = res {
+//                                    self?.textResponse.text = "\(val?.toJsonString() ?? "")\n\n\n" + "\(printProperties(val) ?? "")"
+//                                } else if case .failure(let err) = res {
+//                                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+//                                }
+//                            }
+//                        }
+//                    }
+//                }else if case .failure(let err) = res {
+//                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+//                }
+//                //self?.doPrint(res)
+//            }
         case .setFitnessGuidance:
             let obj = cmd.type.param() as! IDOFitnessGuidanceParamModel
             cancellable = Cmds.setFitnessGuidance(obj).send { [weak self] res in
@@ -1557,9 +1627,27 @@ private class SetFunctionDetailVC: UIViewController {
                 self?.doPrint(res)
             }
         case .setHeartMode:
-            let obj = cmd.type.param() as! IDOHeartModeParamModel
-            cancellable = Cmds.setHeartMode(obj).send { [weak self] res in
-                self?.doPrint(res)
+            guard let obj = cmd.type.param() else {
+                print("需要配置参数")
+                return
+            }
+            
+            if (sdk.funcTable.setSmartHeartRate) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
+                print("setSmartHeartRate")
+                let param = obj as! IDOHeartRateModeSmartParamModel
+                cancellable = Cmds.setHeartRateModeSmart(param).send { [weak self] res in
+                    self?.doPrint(res)
+                }
+            }else if(sdk.funcTable.syncV3Hr) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html?h=setHeartMode
+                let param = obj as! IDOHeartModeParamModel
+                cancellable = Cmds.setHeartMode(param).send { [weak self] res in
+                    self?.doPrint(res)
+                }
+            }else if(sdk.funcTable.syncHeartRateMonitor) {
+                //https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetHeartRateMode.html?h=setHeartRateMode
+                print("syncHeartRateMonitor")
             }
         case .setVoiceReplyText:
             let obj = cmd.type.param() as! IDOVoiceReplyParamModel

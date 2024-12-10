@@ -46,9 +46,9 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2", descCn: "获取表盘列表"))
         }
         
-        if (innerTest || sdk.funcTable.getHeartRateModeV2) {
-            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number", descCn: "获取心率监测模式"))
-        }
+//        if (innerTest || sdk.funcTable.getHeartRateModeV2) {
+//            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: "Get Heart Rate Monitoring Mode event number", descCn: "获取心率监测模式"))
+//        }
         if (innerTest || sdk.funcTable.getBatteryInfo) {
             items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number", descCn: "获取电池信息"))
         }
@@ -176,13 +176,15 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: "Request firmware algorithm file information (ACC/GPS)", descCn: "请求固件算法文件信息（ACC/GPS）"))
         }
         
-        if (sdk.funcTable.setSmartHeartRate) {
-            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
-            print("setSmartHeartRate")
+        if (sdk.funcTable.getSupportGetSmartHeartRate) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateModeSmart.html
+            print("getSupportGetSmartHeartRate")
             //Cmds.setHeartRateModeSmart(IDOHeartRateModeSmartParamModel)
-        }else if(sdk.funcTable.syncV3Hr) {
-            //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html?h=setHeartMode
-            print("syncV3Hr")
+            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: " Get Heart Rate Monitoring Mode event number", descCn: "获取心率模式"))
+        }else if(sdk.funcTable.getHeartRateModeV2) {
+            //https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
+            print("getHeartRateModeV2")
+            items.append(GetCmd(type: .getHeartRateMode, title: "getHeartRateMode", desc: " Get Heart Rate Monitoring Mode event number", descCn: "获取心率模式"))
         }else if(sdk.funcTable.syncHeartRateMonitor) {
             //https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetHeartRateMode.html?h=setHeartRateMode
             print("syncHeartRateMonitor")
@@ -721,8 +723,20 @@ private class GetFunctionDetailVC: UIViewController {
                 self?.doPrint(res)
             }
         case .getHeartRateMode:
-            cancellable = Cmds.getHeartRateMode().send { [weak self] res in
-                self?.doPrint(res)
+            if (sdk.funcTable.getSupportGetSmartHeartRate) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateModeSmart.html
+                print("getSupportGetSmartHeartRate")
+                cancellable = Cmds.getSmartHeartRateMode().send { [weak self] res in
+                    self?.doPrint(res)
+                }
+            }else if(sdk.funcTable.getHeartRateModeV2) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
+                cancellable = Cmds.getHeartRateMode().send { [weak self] res in
+                    self?.doPrint(res)
+                }
+            }else if(sdk.funcTable.getHeartRateModeV2) {
+                //https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
+                print("syncHeartRateMonitor")
             }
         case .getBatteryInfo:
             cancellable = Cmds.getBatteryInfo().send { [weak self] res in
