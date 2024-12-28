@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import MapKit
-import CoreLocation
 
 import RxCocoa
 import RxSwift
@@ -23,17 +21,10 @@ class SportVC: UIViewController {
     private var duration = 0
     private var calories = 0
     private var distance = 0
+    private var gpsSignal = 0x00
     private var isSportEnd = false
     @objc dynamic private var exchangeType: SportStatus = .stopped
-    
-    // CoreLocation
-    private let locationManager = CLLocationManager()
-    private var previousLocation: CLLocation?
-    
-    // 路线和距离
-    private var routeCoordinates: [CLLocationCoordinate2D] = []
-    private var totalDistance: CLLocationDistance = 0.0
-    
+    lazy var locationMgr = LocationManager.shared
     lazy var btnSportStart: UIButton = {
         let btn = UIButton.createNormalButton(title: "Start")
         btn.rx.tap.subscribe(onNext: { [weak self] in
@@ -65,13 +56,6 @@ class SportVC: UIViewController {
         }).disposed(by: disposeBag)
         return btn
     }()
-    lazy var mapView: MKMapView = {
-        let v = MKMapView(frame: view.bounds)
-        v.delegate = self
-        v.showsUserLocation = true
-        v.showsScale = true
-        return v
-    }()
     
     private lazy var lblState: UILabel = {
         let v = UILabel()
@@ -97,33 +81,44 @@ class SportVC: UIViewController {
         title = "Sport"
         view.backgroundColor = .white
         
+        view.addSubview(btnSportStart)
+        view.addSubview(btnSportPause)
+        view.addSubview(btnSportResume)
+        view.addSubview(btnSportStop)
         view.addSubview(lblState)
         view.addSubview(textConsole)
-        view.addSubview(mapView)
         
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        
-        stackView.addArrangedSubview(btnSportStart)
-        stackView.addArrangedSubview(btnSportPause)
-        stackView.addArrangedSubview(btnSportResume)
-        stackView.addArrangedSubview(btnSportStop)
-        view.addSubview(stackView)
-
-        stackView.snp.makeConstraints { make in
+        btnSportStart.snp.makeConstraints { make in
+            make.height.equalTo(44)
+            make.centerX.equalTo(view)
+            make.width.equalTo(200)
             if #available(iOS 11.0, *) {
                 make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(35)
             } else {
                 make.top.equalTo(35)
             }
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(44)
+        }
+        
+        btnSportPause.snp.makeConstraints { make in
+            make.size.equalTo(btnSportStart)
+            make.centerX.equalTo(btnSportStart)
+            make.top.equalTo(btnSportStart.snp.bottom).offset(25)
+        }
+        
+        btnSportResume.snp.makeConstraints { make in
+            make.size.equalTo(btnSportStart)
+            make.centerX.equalTo(btnSportStart)
+            make.top.equalTo(btnSportPause.snp.bottom).offset(25)
+        }
+        
+        btnSportStop.snp.makeConstraints { make in
+            make.size.equalTo(btnSportStart)
+            make.centerX.equalTo(btnSportStart)
+            make.top.equalTo(btnSportResume.snp.bottom).offset(25)
         }
         
         lblState.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(25)
+            make.top.equalTo(btnSportStop.snp.bottom).offset(25)
             make.right.equalTo(-20)
             make.left.equalTo(20)
         }
@@ -132,16 +127,10 @@ class SportVC: UIViewController {
             make.left.equalTo(15)
             make.right.equalTo(-15)
             make.top.equalTo(lblState.snp.bottom)
-            make.bottom.equalTo(mapView.snp.top).offset(-8)
-        }
-        
-        mapView.snp.makeConstraints { make in
-            make.left.right.equalTo(textConsole)
-            make.height.equalTo((navigationController?.view.window?.frame.height ?? 440) / 2)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             }else {
-                make.bottom.equalTo(5)
+                make.bottom.equalTo(0)
             }
         }
         
@@ -150,8 +139,6 @@ class SportVC: UIViewController {
         self.rx.observeWeakly(Int.self, "exchangeType").subscribe(onNext: { [weak self] _ in
             self?.refreshState()
         }).disposed(by: disposeBag)
-        
-        setupLocationManager()
     }
 }
 
@@ -208,33 +195,42 @@ extension SportVC {
     }
     
     private func _sportStart() {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        let day = calendar.component(.day, from: currentDate)
-        let hour = calendar.component(.hour, from: currentDate)
-        let minute = calendar.component(.minute, from: currentDate)
-        let second = calendar.component(.second, from: currentDate)
         
-        let baseModel = IDOExchangeBaseModel(
-            day: day,
-            hour: hour,
-            minute: minute,
-            second: second,
-            sportType: 48
-        )
-        self.baseModel = baseModel
-        let obj = IDOAppStartExchangeModel(
-            baseModel: baseModel,
-            forceStart: 1
-        )
-        sdk.dataExchange.appExec(model: obj)
-        /*
-         https://idoosmart.github.io/Native_GitBook/en/doc/IDOTools.html?h=gpsInitType
-         1、户外走路 = 52, 走路 = 1, 徒步 = 4, 运动类型设为 0
-         2、户外跑步 = 48, 跑步 = 2, 运动类型设为 1
-         3、户外骑行 = 50, 骑行 = 3, 运动型性设为 2
-         */
-        sdk.tool.gpsInitType(motionTypeIn: 1) { _ in }
+        func doit() {
+            SVProgressHUD.show()
+            let currentDate = Date()
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: currentDate)
+            let hour = calendar.component(.hour, from: currentDate)
+            let minute = calendar.component(.minute, from: currentDate)
+            let second = calendar.component(.second, from: currentDate)
+            
+            // sportType: https://idoosmart.github.io/Native_GitBook/en/doc/enum/IDOSportType.html
+            let baseModel = IDOExchangeBaseModel(
+                day: day,
+                hour: hour,
+                minute: minute,
+                second: second,
+                sportType: 0x32 // Outdoor cycling
+            )
+            self.baseModel = baseModel
+            let obj = IDOAppStartExchangeModel(
+                baseModel: baseModel,
+                forceStart: 1
+            )
+            sdk.dataExchange.appExec(model: obj)
+        }
+        
+        guard locationMgr.checkLocationAuthorization() else {
+            locationMgr.didChangeAuthorization = { [weak self] status in
+                if status == .authorizedWhenInUse || status == .authorizedAlways  {
+                    doit()
+                }
+                self?.locationMgr.didChangeAuthorization = nil
+            }
+            return
+        }
+        doit()
     }
     
     private func _sportPause() {
@@ -268,7 +264,7 @@ extension SportVC {
             return
         }
         if (sdk.dataExchange.supportV3ActivityExchange) {
-            let obj = IDOAppIngV3ExchangeModel(baseModel: baseModel, version: 2, signal: 0, distance: distance, speed: 0, duration: duration, calories: calories)
+            let obj = IDOAppIngV3ExchangeModel(baseModel: baseModel, version: 2, signal: gpsSignal, distance: distance, speed: 0, duration: duration, calories: calories)
             sdk.dataExchange.appExec(model: obj)
         } else {
             let obj = IDOAppIngExchangeModel(baseModel: baseModel, duration: duration, calories: calories, distance: distance, status: 0)
@@ -279,7 +275,7 @@ extension SportVC {
     /// Synchronize complete data once
     /// Sync every 40 seconds
     private func exchangeCompleteData() {
-            sdk.dataExchange.getLastActivityData()
+        sdk.dataExchange.getLastActivityData()
     }
     
     /// Sync exercise heart rate data
@@ -322,7 +318,6 @@ extension SportVC {
         disposeTimer = DisposeBag()
     }
     
-        
 }
 
 
@@ -427,6 +422,7 @@ extension SportVC: IDOExchangeDataOCDelegate {
         if (model is IDOAppStartReplyExchangeModel) {
             let obj = model as? IDOAppStartReplyExchangeModel
             print("sport started now : \(String(describing: obj))")
+            SVProgressHUD.dismiss()
             //* - 0:成功; 1:设备已经进入运动模式失败;
             //* - 2:设备电量低失败;3:手环正在充电
             //* - 4:正在使用Alexa 5:通话中
@@ -435,6 +431,13 @@ extension SportVC: IDOExchangeDataOCDelegate {
                 return
             }
             exchangeType = .started
+            locationMgr.locationUpdateBlock = { [weak self] locations in
+                guard let self = self else { return }
+                self.distance = Int(self.locationMgr.totalDistance)
+                self.gpsSignal = locations.first?.gpsSignal() ?? 0x00
+                print("self.locationMgr.totalDistance:\(self.locationMgr.totalDistance) self.distance:\(self.distance) self.gpsSignal:\(self.gpsSignal)")
+            }
+            locationMgr.startUpdatingLocation()
         }
         else if (model is IDOAppEndReplyExchangeModel) {
             let obj = model as? IDOAppEndReplyExchangeModel
@@ -504,145 +507,4 @@ extension SportVC: IDOExchangeDataOCDelegate {
 @objc
 private enum SportStatus: Int {
     case stopped, started, paused, resumed
-}
-
-
-extension SportVC: CLLocationManagerDelegate, MKMapViewDelegate {
-    // 配置定位管理器
-    private func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.startUpdatingLocation()
-    }
-    
-    // CLLocationManagerDelegate - 获取位置更新
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let newLocation = locations.last else { return }
-        
-        // 计算距离
-        if let previousLocation = previousLocation {
-            let distance = newLocation.distance(from: previousLocation)
-            totalDistance += distance
-        }
-        previousLocation = newLocation
-        
-        let fliterGps = extractLocationData(from: newLocation)
-        
-        // 更新路线
-        updateRoute(with: newLocation.coordinate)
-        
-        // 更新距离标签
-        lblState.text = String(format: "Distance: %.1f m", totalDistance)
-        distance = Int(totalDistance)
-    }
-    
-    // 更新路线并绘制到地图上
-    private func updateRoute(with coordinate: CLLocationCoordinate2D) {
-//        sdk.tool.gpsSmoothData(json: <#T##String#>) { <#String#> in
-//            <#code#>
-//        }
-        
-        routeCoordinates.append(coordinate)
-        
-        // 绘制折线
-        let polyline = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
-        mapView.addOverlay(polyline)
-    }
-    
-    // MARK: - CLLocationManagerDelegate
-    
-    // 错误处理
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location Manager Error: \(error)")
-    }
-    
-    // MARK: - MKMapViewDelegate 
-    
-    // 绘制折线
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let polyline = overlay as? MKPolyline {
-            let renderer = MKPolylineRenderer(polyline: polyline)
-            renderer.strokeColor = .blue
-            renderer.lineWidth = 2.0
-            return renderer
-        }
-        return MKOverlayRenderer(overlay: overlay)
-    }
-    
-    func startLocations () {
-        locationManager.startUpdatingLocation()
-    }
-    
-    func stopLocations() {
-        locationManager.stopUpdatingLocation()
-        routeCoordinates.removeAll()
-        totalDistance = 0
-    }
-    
-    fileprivate func extractLocationData(from location: CLLocation) -> FilterGps {
-        let lon = location.coordinate.longitude
-        let lat = location.coordinate.latitude
-        let timestamp = Int(location.timestamp.timeIntervalSince1970)
-        let horAccuracy = location.horizontalAccuracy
-        let verAccuracy = location.verticalAccuracy
-        let filterGps = FilterGps(lat: lat, lon: lon, timestamp: timestamp, horAccuracy: horAccuracy, verAccuracy: verAccuracy)
-        return filterGps
-    }
-}
-
-// MARK: - FilterGps
-
-fileprivate struct FilterGps: Codable {
-    /// 纬度
-    let lat: Double
-    
-    /// 经度
-    let lon: Double
-    
-    /// 时间戳
-    let timestamp: Int
-    
-    /// 水平定位精度
-    let horAccuracy: Double
-    
-    /// 垂直定位精度
-    let verAccuracy: Double
-    
-    // CodingKeys 用于自定义 JSON 键名（如果需要）
-    enum CodingKeys: String, CodingKey {
-        case lat
-        case lon
-        case timestamp
-        case horAccuracy
-        case verAccuracy
-    }
-    
-    init(lat: Double, lon: Double, timestamp: Int, horAccuracy: Double, verAccuracy: Double) {
-        self.lat = lat
-        self.lon = lon
-        self.timestamp = timestamp
-        self.horAccuracy = horAccuracy
-        self.verAccuracy = verAccuracy
-    }
-}
-
-extension FilterGps {
-    func toJson() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-    
-    func toJsonString() throws -> String? {
-        let data = try self.toJson()
-        return String(data: data, encoding: .utf8)
-    }
-    
-    static func fromJson(_ data: Data) throws -> FilterGps {
-        return try JSONDecoder().decode(FilterGps.self, from: data)
-    }
-    
-    static func fromJsonString(_ jsonString: String) throws -> FilterGps? {
-        guard let data = jsonString.data(using: .utf8) else { return nil }
-        return try fromJson(data)
-    }
 }
