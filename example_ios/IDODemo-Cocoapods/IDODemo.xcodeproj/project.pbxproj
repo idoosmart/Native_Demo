@@ -12,6 +12,12 @@
 		470498D92AEA5F7300ADA589 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498D82AEA5F7300ADA589 /* Constants.swift */; };
 		470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498DA2AEA7FB300ADA589 /* SyncDataVC.swift */; };
 		470498DE2AEA804500ADA589 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498DD2AEA804500ADA589 /* Extensions.swift */; };
+		4724AEC02D1F92B1005B6F71 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724AEBF2D1F92B1005B6F71 /* LocationManager.swift */; };
+		4724AEC12D1F92B1005B6F71 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724AEBF2D1F92B1005B6F71 /* LocationManager.swift */; };
+		4724AEC32D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */; };
+		4724AEC42D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */; };
+		4724AF572D1F9788005B6F71 /* imgs in Resources */ = {isa = PBXBuildFile; fileRef = 4724AF562D1F9788005B6F71 /* imgs */; };
+		4724AF582D1F9788005B6F71 /* imgs in Resources */ = {isa = PBXBuildFile; fileRef = 4724AF562D1F9788005B6F71 /* imgs */; };
 		4735BCD32C21336B006E26C9 /* files_trans in Resources */ = {isa = PBXBuildFile; fileRef = 4735BCD22C21336B006E26C9 /* files_trans */; };
 		4735BCD42C21336B006E26C9 /* files_trans in Resources */ = {isa = PBXBuildFile; fileRef = 4735BCD22C21336B006E26C9 /* files_trans */; };
 		4738B0742B3538EC00D6BBEC /* SetFunctionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498D22AEA5D4400ADA589 /* SetFunctionVC.swift */; };
@@ -69,6 +75,9 @@
 		470498D82AEA5F7300ADA589 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		470498DA2AEA7FB300ADA589 /* SyncDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDataVC.swift; sourceTree = "<group>"; };
 		470498DD2AEA804500ADA589 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4724AEBF2D1F92B1005B6F71 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageNoticeVC.swift; sourceTree = "<group>"; };
+		4724AF562D1F9788005B6F71 /* imgs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imgs; sourceTree = "<group>"; };
 		4735BCD22C21336B006E26C9 /* files_trans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = files_trans; sourceTree = "<group>"; };
 		4738B08B2B3538EC00D6BBEC /* IDODemoLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDODemoLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4738B0922B3545B200D6BBEC /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
@@ -131,6 +140,7 @@
 		470498D72AEA5F4300ADA589 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				4724AEBF2D1F92B1005B6F71 /* LocationManager.swift */,
 				470498D82AEA5F7300ADA589 /* Constants.swift */,
 				470498DD2AEA804500ADA589 /* Extensions.swift */,
 			);
@@ -214,6 +224,7 @@
 				470498DA2AEA7FB300ADA589 /* SyncDataVC.swift */,
 				47C9DE0B2AF0F7D4006F7CB8 /* TransferFileVC.swift */,
 				4781FAD32C1067F400F9A007 /* WatchFaceVC.swift */,
+				4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */,
 				47EAC8CC2B200CB000B88684 /* SportVC.swift */,
 				4762EA052C33EBC9000C1A0C /* TestBleChannelVC.swift */,
 			);
@@ -223,6 +234,7 @@
 		47D582482AE8B21E007D9DCE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4724AF562D1F9788005B6F71 /* imgs */,
 				4735BCD22C21336B006E26C9 /* files_trans */,
 				47E596682B3C14C2001DC0B1 /* Full-Info.plist */,
 				47E596672B3C14C2001DC0B1 /* Lite-Info.plist */,
@@ -267,6 +279,7 @@
 				4738B07E2B3538EC00D6BBEC /* Frameworks */,
 				4738B0822B3538EC00D6BBEC /* Resources */,
 				A183B33A0BAA4B6C12839889 /* [CP] Embed Pods Frameworks */,
+				03F71285951944127C02882A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,6 +355,7 @@
 			files = (
 				4738B0832B3538EC00D6BBEC /* LaunchScreen.storyboard in Resources */,
 				4738B0852B3538EC00D6BBEC /* Assets.xcassets in Resources */,
+				4724AF582D1F9788005B6F71 /* imgs in Resources */,
 				47E5966A2B3C14C2001DC0B1 /* Lite-Info.plist in Resources */,
 				4738B0862B3538EC00D6BBEC /* Main.storyboard in Resources */,
 				4735BCD42C21336B006E26C9 /* files_trans in Resources */,
@@ -354,6 +368,7 @@
 			files = (
 				47D582392AE8ACA7007D9DCE /* LaunchScreen.storyboard in Resources */,
 				47D582362AE8ACA7007D9DCE /* Assets.xcassets in Resources */,
+				4724AF572D1F9788005B6F71 /* imgs in Resources */,
 				47D582342AE8ACA5007D9DCE /* Main.storyboard in Resources */,
 				47E5966B2B3C14C2001DC0B1 /* Full-Info.plist in Resources */,
 				4735BCD32C21336B006E26C9 /* files_trans in Resources */,
@@ -363,6 +378,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		03F71285951944127C02882A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1F6E0690BCC2EA5ED6FBCE36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -477,10 +509,12 @@
 				4781FAD52C1067F400F9A007 /* WatchFaceVC.swift in Sources */,
 				4738B07A2B3538EC00D6BBEC /* AppDelegate.swift in Sources */,
 				47D514B02B393BF300E0AC21 /* XYCentralManager.swift in Sources */,
+				4724AEC12D1F92B1005B6F71 /* LocationManager.swift in Sources */,
 				4738B0972B35658800D6BBEC /* FunctionPageVC.swift in Sources */,
 				4738B0952B3545C000D6BBEC /* Bridge.swift in Sources */,
 				47D514B12B393BF300E0AC21 /* XYHelper.swift in Sources */,
 				4738B07B2B3538EC00D6BBEC /* SportVC.swift in Sources */,
+				4724AEC42D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */,
 				4738B07C2B3538EC00D6BBEC /* TransferFileVC.swift in Sources */,
 				4738B07D2B3538EC00D6BBEC /* Constants.swift in Sources */,
 				477303142CBA58E500F9609D /* EpoVC.swift in Sources */,
@@ -492,12 +526,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				470498D32AEA5D4400ADA589 /* SetFunctionVC.swift in Sources */,
+				4724AEC02D1F92B1005B6F71 /* LocationManager.swift in Sources */,
 				470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */,
 				4762EA062C33EBC9000C1A0C /* TestBleChannelVC.swift in Sources */,
 				477303132CBA58E500F9609D /* EpoVC.swift in Sources */,
 				47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */,
 				4781FAD42C1067F400F9A007 /* WatchFaceVC.swift in Sources */,
 				470498DE2AEA804500ADA589 /* Extensions.swift in Sources */,
+				4724AEC32D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */,
 				47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */,
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,
 				47D5822D2AE8ACA5007D9DCE /* AppDelegate.swift in Sources */,

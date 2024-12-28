@@ -16,6 +16,18 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/28</span>
+
+##### 更新内容：
+
+- 完善app启动户外骑行，补充手机gps信号及距离参数；
+
+- 添加动态消息图标及通知开关设置完整示例（iOS）；
+
+- 添加静态消息通知开关完整示例（iOS）；
+
+
+
 ## 4.2.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/05</span>
 
 ##### 更新内容：

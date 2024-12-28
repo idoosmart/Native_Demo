@@ -16,7 +16,6 @@ import SSZipArchive
 
 import protocol_channel
 
-
 class FunctionPageVC: UIViewController {
     private var isBinded = false
     private var isConnected = false
@@ -48,6 +47,7 @@ class FunctionPageVC: UIViewController {
         Word.syncData,
         Word.transFile,
         Word.epoUpgrade,
+        Word.messageNotice,
         Word.sport,
         Word.alexa,
         Word.testOC,
@@ -139,6 +139,15 @@ class FunctionPageVC: UIViewController {
                     self?.tableView.reloadData()
                     break
                 case .fastSyncFailed:
+                    SVProgressHUD.dismiss()
+                    let alert = UIAlertController(title: "Warn", message: "快速配置失败，需要重新连接", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                        SVProgressHUD.show()
+                        sdk.ble.cancelConnect(macAddress: self?.deviceModel?.macAddress) { _ in
+                            SVProgressHUD.dismiss()
+                        }
+                    }))
+                    self?.present(alert, animated: true, completion: nil)
                     break
                 case .deviceInfoBtAddressUpdateCompleted:
                     break
@@ -147,6 +156,9 @@ class FunctionPageVC: UIViewController {
                 case .syncHealthDataIng:
                     break
                 case .syncHealthDataCompleted:
+                    break
+                case .fastSyncStarting:
+                    SVProgressHUD.show(withStatus: "on fast config...")
                     break
                 @unknown default:
                     break
@@ -157,7 +169,7 @@ class FunctionPageVC: UIViewController {
         _ = NotificationCenter.default.rx.notification(Notify.onBleDeviceStateChanged).subscribe(onNext: { [weak self] notification in
             guard let self = self else { return }
             if let stateModel = notification.object as? IDODeviceStateModel {
-                print("onBleDeviceStateChanged：\(stateModel.state)")
+                print("\(stateModel.state)")
                 switch stateModel.state {
                 case .disconnected:
                     if (self.isViewLoaded) {
@@ -283,14 +295,16 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(SyncDataVC(), animated: true)
             break
         case Word.alexa:
-            //navigationController?.pushViewController(AlexaPageVC(), animated: true)
-            bind()
+            navigationController?.pushViewController(AlexaPageVC(), animated: true)
             break
         case Word.transFile:
             navigationController?.pushViewController(TransferFileVC(), animated: true)
             break
         case Word.epoUpgrade:
             navigationController?.pushViewController(EpoVC(), animated: true)
+            break
+        case Word.messageNotice:
+            navigationController?.pushViewController(MessageNoticeVC(), animated: true)
             break
         case Word.sport:
             navigationController?.pushViewController(SportVC(), animated: true)
@@ -368,7 +382,7 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.transFile:
             return isConnected && isBinded
-        case Word.epoUpgrade:
+        case Word.epoUpgrade, Word.messageNotice:
             return isConnected && isBinded
         case Word.sport:
             return isConnected && isBinded
@@ -590,5 +604,4 @@ extension FunctionPageVC {
         }
         return nil
     }
-    
 }

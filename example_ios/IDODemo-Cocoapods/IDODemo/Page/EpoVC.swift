@@ -41,7 +41,7 @@ class EpoVC: UIViewController {
         let v = UILabel()
         v.font = .systemFont(ofSize: 14)
         v.textColor = .gray
-        v.textAlignment = .left
+        v.textAlignment = .right
         return v
     }()
     
@@ -105,6 +105,8 @@ class EpoVC: UIViewController {
         self.rx.observeWeakly(Bool.self, "isDoing").subscribe(onNext: { [weak self] _ in
             self?.refreshState()
         }).disposed(by: disposeBag)
+        
+        refreshLastUpdateTime()
     }
 }
 
@@ -120,6 +122,7 @@ extension EpoVC {
         } funcComplete: { [weak self] errCode in
             self?.isDoing = false
             self?.textConsole.text += "\ncomplete:\(errCode == 0 ? "success" : "failure") errCode:\(errCode)"
+            self?.refreshLastUpdateTime()
         }
     }
     
@@ -134,20 +137,24 @@ extension EpoVC {
     }
     
     private func stop() {
-        guard epoMgr.status != .installing else {
-            let alert = UIAlertController(title: "Tips", message: "epo已传输到设备，设备正在执行升级中，这种情况无法中止 \n\n The epo has been transferred to the device and the device is in the process of upgrading. This situation cannot be aborted.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in }))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
         epoMgr.stop()
-        lblState.text = nil
         isDoing = false
     }
     
     private func refreshState() {
         self.btnStart.isEnabled = !self.isDoing
         self.btnStop.isEnabled = self.isDoing
+    }
+    
+    private func refreshLastUpdateTime() {
+        IDOEpoManager.shared.lastUpdateTimestamp(completion: { [weak self] sec in
+            self?.lblState.text = "Last update time："
+            if (sec != 0) {
+                self?.lblState.text! += secondsToDate(seconds: Double(sec/1000))
+            } else {
+                self?.lblState.text! += "none"
+            }
+        })
     }
 }
 
@@ -172,4 +179,11 @@ extension IDOEpoUpgradeStatus {
             return ".failure"
         }
     }
+}
+
+private func secondsToDate(seconds: TimeInterval) -> String {
+    let date = Date(timeIntervalSince1970: seconds)
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return dateFormatter.string(from: date)
 }

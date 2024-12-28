@@ -29,6 +29,9 @@ import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
@@ -102,12 +105,12 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         }
 
         override fun bluetoothState(state: IDOBluetoothStateModel) {
-            println(state.toString())
+            println("bluetoothState: ${state.toString()}")
 
         }
 
         override fun deviceState(state: IDODeviceStateModel) {
-
+            println("deviceState: ${state.toString()} errorState:${state.errorState}")
         }
 
         override fun receiveData(data: IDOReceiveData) {
@@ -159,20 +162,6 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         // epo upgrade
         IDOEpoManager.shared.enableAutoUpgrade = true
         IDOEpoManager.shared.delegateGetGps = EpoListen()
-        IDOEpoManager.shared.listenEpoUpgrade(
-            { status ->
-                println("epo---- status: $status")
-            },
-            { progress ->
-                println("epo---- down progress: $progress")
-            },
-            { progress ->
-                println("epo---- send progress: $progress")
-            },
-            { errCode ->
-                println("epo---- complete: $errCode")
-            }
-        )
     }
 
     override fun initView() {

@@ -281,7 +281,7 @@ class TransferFileDetailVC: UIViewController {
          */
         
         // 获取音乐文件大小
-        let musicFilePath = "\(mp3Path)/3.mp3"
+        let musicFilePath = "\(mp3Path)/2.mp3"
         var musicFileSize = 0
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: musicFilePath)
@@ -381,6 +381,11 @@ class TransferFileDetailVC: UIViewController {
             ])
         case 850:
             let aPath = bundlePath + "/ota/850/205GPRO_ota_1.01.01_2024.06.27_16-56.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
+        case 845:
+            let aPath = bundlePath + "/ota/845/idw26_ota_V1.00.10_20241029.fw"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])

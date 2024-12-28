@@ -1327,6 +1327,7 @@ private class SetFunctionDetailVC: UIViewController {
             let obj = cmd.type.param() as! IDOSetNoticeStatusModel
             obj.msgAllSwitch = .on
             obj.notifySwitch = .settingSubSwitch
+            obj.isOnOther = false
             cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
                 self?.doPrint(res)
             }

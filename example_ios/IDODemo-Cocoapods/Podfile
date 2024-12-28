@@ -9,11 +9,11 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'IDODemoFull' do
-  pod 'IDOSDK-full', '~> 4.2.3'
+  pod 'IDOSDK-full', '~> 4.2.4'
 end
 
 target 'IDODemoLite' do
-  pod 'IDOSDK-lite', '~> 4.2.3'
+  pod 'IDOSDK-lite', '~> 4.2.4'
 end
 
 

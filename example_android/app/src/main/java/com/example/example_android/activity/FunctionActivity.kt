@@ -29,6 +29,7 @@ import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
 import com.idosmart.model.IDOWriteStateModel
 import com.idosmart.pigeon_implement.Cmds
+import com.idosmart.pigeon_implement.IDOEpoManager
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
@@ -50,6 +51,10 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
 import kotlinx.android.synthetic.main.layout_function_activity.tv_bin
 import kotlinx.android.synthetic.main.layout_function_activity.tv_connect
 import kotlinx.android.synthetic.main.layout_function_activity.tv_un_bin
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlin.math.log
 
 class FunctionActivity : BaseActivity() {
@@ -194,6 +199,7 @@ class FunctionActivity : BaseActivity() {
         val intent = Intent(this, AlexaActivity::class.java)
         startActivity(intent)
         //sdk.ble.setBtPair(device!!)
+        printLastUpdateTime()
     }
 
     fun sport(view: View) {
@@ -251,10 +257,35 @@ class FunctionActivity : BaseActivity() {
         val path2 = sdk.deviceLog.logDirPath
         println("iconDirPath === $path1 logDirPath === $path2")
 
-
+        IDOEpoManager.shared.listenEpoUpgrade(
+            { status ->
+                println("epo---- status: $status")
+            },
+            { progress ->
+                println("epo---- down progress: $progress")
+            },
+            { progress ->
+                println("epo---- send progress: $progress")
+            },
+            { errCode ->
+                println("epo---- complete: $errCode")
+                printLastUpdateTime()
+            }
+        )
+        printLastUpdateTime()
 
     }
 
+
+    private fun printLastUpdateTime() {
+        IDOEpoManager.shared.lastUpdateTimestamp {
+            if (it != 0L) {
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                val formattedDate = formatter.format(it)
+                println("epo---- lastUpdateTimestamp: $formattedDate")
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

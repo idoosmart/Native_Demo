@@ -16,6 +16,18 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/28</span>
+
+##### Update content:
+
+- Improve the app to start outdoor cycling, and add mobile phone GPS signal and distance parameters;
+
+- Add dynamic message icon and notification switch setting complete example (iOS);
+
+- Add static message notification switch complete example (iOS);
+
+
+
 ## 4.2.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/05</span>
 
 ##### Update content:
