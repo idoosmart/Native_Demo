@@ -16,6 +16,18 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.5（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/01/17</span>
+
+##### 更新内容：
+
+- Demo补充国际化支持；
+
+- Demo修复动态/静态消息图标及通知列表页获取失败后跳转问题；
+
+- 修复关闭蓝牙时未触发markDisconnect方法调用问题；
+
+
+
 ## 4.2.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2024/12/28</span>
 
 ##### 更新内容：

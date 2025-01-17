@@ -19,7 +19,7 @@ let clientId = "amzn1.application-oa2-client.e45ff1ade6064c24a265fe6924c6f75d"
 
 // MARK: - MainPageVC
 
-class MainPageVC: UIViewController {
+class MainPageVC: BaseVC {
     var dataList = [IDODeviceModel]()
     var bleState: IDOBluetoothStateModel?
     var deviceState: IDODeviceStateModel?
@@ -35,7 +35,7 @@ class MainPageVC: UIViewController {
     
     lazy var btnReload: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("Refresh", for: .normal)
+        btn.setTitle(L10n.refresh, for: .normal)
         btn.addTarget(self, action: #selector(_reload), for: .touchUpInside)
         return btn
     }()
@@ -67,6 +67,12 @@ class MainPageVC: UIViewController {
         super.viewDidDisappear(animated)
         
         stopScan()
+    }
+    
+    override func languageChanged() {
+        super.languageChanged()
+        
+        btnReload.setTitle(L10n.refresh, for: .normal)
     }
 }
 

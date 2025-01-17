@@ -23,10 +23,10 @@ class GetFunctionVC: UIViewController {
     }()
     
     private lazy var items: [GetCmd] = [
-        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information", descCn: "获取设备信息"),
-        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information", descCn: "获取功能表"),
-        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number", descCn: "获取红点提醒开关"),
-        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information", descCn: "获取屏幕信息"),
+        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: L10n.getDeviceInfo),
+        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: L10n.getFunctionTable),
+        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: L10n.getUnreadAppReminder),
+        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: L10n.getWatchDialInfo),
     ]
     
     override func viewDidLoad() {
@@ -41,138 +41,137 @@ class GetFunctionVC: UIViewController {
         let innerTest = false
         
         if (innerTest || sdk.funcTable.getNewWatchList) {
-            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)", descCn: "获取表盘列表"))
-        }else {
-            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2", descCn: "获取表盘列表"))
+            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: L10n.getWatchListV3))
+        } else {
+            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: L10n.getWatchListV2))
         }
-        
+
         if (innerTest || sdk.funcTable.getBatteryInfo) {
-            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number", descCn: "获取电池信息"))
+            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: L10n.getBatteryInfo))
         }
         if (innerTest || sdk.funcTable.getDeviceLogState) {
-            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number", descCn: "获取设备的日志状态"))
+            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: L10n.getDeviceLogState))
         }
         if (innerTest || sdk.funcTable.getMenuList) {
-            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List", descCn: "获取设备支持的列表"))
+            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: L10n.getMenuList))
         }
         if (innerTest || sdk.funcTable.reminderAncs) {
-            items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"))
+            items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: L10n.getNoticeStatus))
         }
         if (innerTest || sdk.funcTable.syncV3SyncAlarm) {
-            items.append(GetCmd(type: .getAlarm, title: "getAlarm", desc: "Getting Alarms for V3APP Devices"))
+            items.append(GetCmd(type: .getAlarm, title: "getAlarm", desc: L10n.getAlarm))
         }
-        
+
         if (innerTest || sdk.funcTable.reminderGetAllContact) {
-            items.append(GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: "Get firmware local contact file modification time event number"))
+            items.append(GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: L10n.getContactReviseTime))
         }
-        
+
         if (innerTest || sdk.funcTable.getWalkReminderV3) {
-            items.append(GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: "Get walk reminder event number"))
+            items.append(GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: L10n.getWalkRemind))
         }
-        
+
         if (innerTest || sdk.funcTable.getSetMaxItemsNum) {
-            items.append(GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: "Get maximum number of settings supported by firmware event number"))
+            items.append(GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: L10n.getSupportMaxSetItemsNum))
         }
-        
+
         if (innerTest || sdk.funcTable.getScreenBrightnessMain9) {
-            items.append(GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: "Get screen brightness event number"))
+            items.append(GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: L10n.getScreenBrightness))
         }
-        
+
         if (innerTest || sdk.funcTable.getSupportGetMainSportGoalV3) {
-            items.append(GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: "Get Set Calorie/Distance/Mid-High Sport Time Goal event number"))
+            items.append(GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: L10n.getMainSportGoal))
         }
-        
+
         if (innerTest || sdk.funcTable.getDoNotDisturbMain3) {
-            items.append(GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: "Get Do Not Disturb mode status event number"))
+            items.append(GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: L10n.getNotDisturbStatus))
         }
-        
-        
+
         if (innerTest || sdk.funcTable.getUpHandGestureEx) {
-            items.append(GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: "Get wrist up gesture data event number"))
+            items.append(GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: L10n.getUpHandGesture))
         }
-        
+
         if (innerTest || sdk.funcTable.getBleAndBtVersion) {
-            items.append( GetCmd(type: .getBtNotice, title: "getBtNotice", desc: "Query BT pairing switch, connection, A2DP connection, HFP connection status (Only Supported on devices with BT Bluetooth) event number"))
+            items.append(GetCmd(type: .getBtNotice, title: "getBtNotice", desc: L10n.getBtNotice))
         }
-        
+
         if (innerTest || sdk.funcTable.getFlashLog) {
-            items.append(GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: "Get Font Library Information event number"))
+            items.append(GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: L10n.getFlashBinInfo))
         }
-        
+
         if (innerTest || sdk.funcTable.getActivitySwitch) {
-            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: "Get event number for activity switch"))
+            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: L10n.getActivitySwitch))
         }
-        
+
         if (innerTest || sdk.funcTable.getBtAddrV2) {
-            items.append(GetCmd(type: .getBtName, title: "getBtName", desc: "Get bt bluetooth name"))
+            items.append(GetCmd(type: .getBtName, title: "getBtName", desc: L10n.getBtName))
         }
         if (innerTest || sdk.funcTable.getMtu) {
-            items.append(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: "Get MTU Information event number"))
+            items.append(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: L10n.getMtuInfo))
         }
         if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
-            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: "Get event number for all health monitoring switches"))
+            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: L10n.getAllHealthSwitchState))
         }
-        
-//        if (innerTest || sdk.funcTable.getRealtimeData) {
-//            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number")) // 已废弃
-//        }
+
+        // if (innerTest || sdk.funcTable.getRealtimeData) {
+        //     items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: L10n.getLiveData)) // 已废弃
+        // }
         if (innerTest || sdk.funcTable.getFlashLog) {
-            items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: "Get error record"))
+            items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: L10n.getErrorRecord))
         }
         if (innerTest || sdk.funcTable.getSupportUpdateGps) {
-            items.append(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: "Get GPS Information event number"))
+            items.append(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: L10n.getGpsInfo))
         }
-//        if (innerTest || sdk.funcTable.getVersionInfo) {
-//            items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: "Get version information event number"))
-//        }
+        // if (innerTest || sdk.funcTable.getVersionInfo) {
+        //     items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: L10n.getVersionInfo))
+        // }
         if (innerTest || sdk.funcTable.getSupportUpdateGps) {
-            items.append(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: "Get GPS Status event number"))
+            items.append(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: L10n.getGpsStatus))
         }
         if (innerTest || sdk.funcTable.getDeletableMenuListV2) {
-            items.append(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: "Get non-deletable menu list in firmware event number"))
+            items.append(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: L10n.getUnerasableMeunList))
         }
         if (innerTest || sdk.funcTable.setSupportV3Bp) {
-            items.append(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: "Get blood pressure algorithm version information event number"))
+            items.append(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: L10n.getBpAlgVersion))
         }
         if (innerTest || sdk.funcTable.getDeviceUpdateState) {
-            items.append(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: "Get device update status event number"))
+            items.append(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: L10n.getUpdateStatus))
         }
         if (innerTest || sdk.funcTable.getDownloadLanguage) {
-            items.append(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: "Get Download Language Support"))
+            items.append(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: L10n.getDownloadLanguage))
         }
         if (innerTest || (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3)) {
-            items.append(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: "Get Firmware Song Names and Folders"))
+            items.append(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: L10n.getBleMusicInfo))
         }
         if (innerTest || sdk.funcTable.getLangLibraryV3) {
-            items.append(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: "Get Language Library List"))
+            items.append(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: L10n.getLanguageLibrary))
         }
         if (innerTest || sdk.funcTable.getSupportGetBleBeepV3) {
-            items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: "Getting firmware local beep file information for V3"))
+            items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: L10n.getBleBeep))
         }
         if (innerTest || sdk.funcTable.getStepDataTypeV2) {
-            items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"))
+            items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: L10n.getStepGoal))
         }
         if (innerTest || sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
-            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号"))
+            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: L10n.getBtConnectPhoneModel))
         }
-        
+
         if (innerTest || sdk.funcTable.setScheduleReminder) {
-            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: "Get schedule reminder", descCn: "获取日程提醒"))
+            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: L10n.getScheduleReminder))
         }
-        
+
         if (innerTest || sdk.funcTable.getSupportGetUnit) {
-            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: "Get Unit event number", descCn: "获取单位"))
+            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: L10n.getUnit))
         }
-        
+
         if (innerTest || sdk.funcTable.setSupportControlMiniProgram) {
-            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
+            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: L10n.getAppletControl))
         }
-        
+
         if (innerTest || sdk.funcTable.getSupportDeviceOperateAlgFile) {
-            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: "Get firmware algorithm file information (ACC/GPS)", descCn: "获取固件算法文件信息（ACC/GPS）"))
-            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: "Request firmware algorithm file information (ACC/GPS)", descCn: "请求固件算法文件信息（ACC/GPS）"))
+            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: L10n.getAlgFileInfo))
+            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: L10n.requestAlgFile))
         }
-        
+
         // NOTE:
         // 因为demo要适配所有设备，此处示例适配多种情况。
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
@@ -180,19 +179,19 @@ class GetFunctionVC: UIViewController {
             if (sdk.funcTable.getSupportGetSmartHeartRate) {
                 //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
                 print("getSupportGetSmartHeartRate")
-                items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
-            }else {
+                items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
+            } else {
                 // !!!: - 该设备不支持获取心率模式，需要app自行记录
                 print("该设备不支持获取心率模式，需要app自行记录")
             }
-        }else if(sdk.funcTable.syncV3Hr) {
+        } else if (sdk.funcTable.syncV3Hr) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html
             print("syncV3Hr")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
-        }else if(sdk.funcTable.getHeartRateModeV2) {
+            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
+        } else if (sdk.funcTable.getHeartRateModeV2) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
             print("getHeartRateModeV2")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
+            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
         }
         
         
@@ -243,7 +242,7 @@ extension GetFunctionVC: UITableViewDelegate, UITableViewDataSource {
         cell.detailTextLabel?.numberOfLines = 2
         let cmd = items[indexPath.row]
         cell.textLabel?.text = cmd.title
-        cell.detailTextLabel?.text = cmd.desc + "\n" + cmd.descCn
+        cell.detailTextLabel?.text = cmd.desc
         return cell
     }
     
@@ -296,13 +295,13 @@ fileprivate struct GetCmd {
     let type: CmdType
     let title: String
     let desc: String
-    let descCn: String
+    let isSupported: Bool
     
-    init(type: CmdType, title: String, desc: String, descCn: String = "") {
+    init(type: CmdType, title: String, desc: String, isSupported: Bool = false) {
         self.title = title
         self.desc = desc
         self.type = type
-        self.descCn = descCn
+        self.isSupported = isSupported
     }
 }
 

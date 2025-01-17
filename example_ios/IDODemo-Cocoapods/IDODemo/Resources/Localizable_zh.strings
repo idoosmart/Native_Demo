@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  IDODemo
+
+  Created by hc on 2024/12/31.
+  
+*/
+
+"getDeviceInfo" = "获取设备信息";

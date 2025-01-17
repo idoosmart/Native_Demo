@@ -154,7 +154,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
 
         var body: some View {
             List {
-                Section(header: Text("注：iOS13以上版本，需要打开手机系统中的[共享系统通知]")) {
+                Section(header: Text(L10n.systemNotifyTips)) {
                     HStack {
                         Image(systemName: "settings")
                             .resizable()
@@ -162,7 +162,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                             .foregroundColor(.blue)
                             .frame(width: 30, height: 30)
                         
-                        Text("总开关")
+                        Text(L10n.mainSwitch)
                             .font(.system(size: 17))
                         
                         Spacer()
@@ -178,7 +178,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                     .padding(.vertical, 8)
                 }
                 
-                Section(header: Text("来电提醒")) {
+                Section(header: Text(L10n.callRemind)) {
                     HStack {
                         Image(systemName: "phone")
                             .resizable()
@@ -186,7 +186,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                             .foregroundColor(.blue)
                             .frame(width: 30, height: 30)
                         
-                        Text("来电提醒")
+                        Text(L10n.callRemind)
                             .font(.system(size: 17))
                             .foregroundColor(allSwitch ? .black : .gray)
                         
@@ -234,7 +234,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                     if await fetchData() {
                         await SVProgressHUD.dismiss()
                     }else {
-                        SVProgressHUD.showError(withStatus: "获取失败")
+                        SVProgressHUD.showError(withStatus: L10n.fetchFail)
                         presentationMode.wrappedValue.dismiss()
                         NotificationCenter.default.post(name: Notification.Name("popToUIKitView"), object: nil)
                     }
@@ -397,9 +397,9 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
     }
     
     private enum NotificationStatus: String {
-        case allowed = "允许"
-        case silent = "静默"
-        case disabled = "关闭"
+        case allowed = "allowed"
+        case silent = "silent"
+        case disabled = "disabled"
     }
 
     private struct AppItem: Identifiable {
@@ -426,7 +426,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
 
         var body: some View {
             List {
-                Section(header: Text("注：iOS13以上版本，需要打开手机系统中的[共享系统通知]")) {
+                Section(header: Text(L10n.systemNotifyTips)) {
                     HStack {
                         Image(systemName: "settings")
                             .resizable()
@@ -434,7 +434,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                             .foregroundColor(.blue)
                             .frame(width: 30, height: 30)
                         
-                        Text("总开关")
+                        Text(L10n.mainSwitch)
                             .font(.system(size: 17))
                         
                         Spacer()
@@ -450,7 +450,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                     .padding(.vertical, 8)
                 }
                 
-                Section(header: Text("来电提醒")) {
+                Section(header: Text(L10n.callRemind)) {
                     HStack {
                         Image(systemName: "phone")
                             .resizable()
@@ -458,7 +458,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                             .foregroundColor(.blue)
                             .frame(width: 30, height: 30)
                         
-                        Text("来电提醒")
+                        Text(L10n.callRemind)
                             .font(.system(size: 17))
                             .foregroundColor(allSwitch ? .black : .gray)
                         
@@ -506,19 +506,19 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
             .listStyle(GroupedListStyle())
             .actionSheet(isPresented: $showingActionSheet) {
                 ActionSheet(
-                    title: Text("通知设置"),
+                    title: Text(L10n.notifySettings),
                     message: Text(selectedApp?.name ?? ""),
                     buttons: [
-                        .default(Text("允许通知")) {
+                        .default(Text(L10n.notifyAllowed)) {
                             self.updateNotificationStatus(.allowed)
                         },
-                        .default(Text("静默通知")) {
+                        .default(Text(L10n.notifySilent)) {
                             self.updateNotificationStatus(.silent)
                         },
-                        .default(Text("关闭通知")) {
+                        .default(Text(L10n.notifyDisabled)) {
                             self.updateNotificationStatus(.disabled)
                         },
-                        .cancel(Text("取消"))
+                        .cancel(Text(L10n.cancel))
                     ]
                 )
             }
@@ -528,7 +528,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                     if await fetchData() {
                         await SVProgressHUD.dismiss()
                     }else {
-                        SVProgressHUD.showError(withStatus: "获取失败")
+                        SVProgressHUD.showError(withStatus: L10n.fetchFail)
                         presentationMode.wrappedValue.dismiss()
                         NotificationCenter.default.post(name: Notification.Name("popToUIKitView"), object: nil)
                     }

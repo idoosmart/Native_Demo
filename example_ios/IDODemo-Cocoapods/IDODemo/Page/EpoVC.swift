@@ -20,7 +20,7 @@ class EpoVC: UIViewController {
     @objc dynamic private var isDoing = false
     
     private lazy var btnStart: UIButton = {
-        let btn = UIButton.createNormalButton(title: "Start Epo Upgrade")
+        let btn = UIButton.createNormalButton(title: L10n.epoStart)
         btn.isEnabled = true
         btn.rx.tap.subscribe(onNext: { [weak self] in
             self?.start()
@@ -29,7 +29,7 @@ class EpoVC: UIViewController {
     }()
     
     private lazy var btnStop: UIButton = {
-        let btn = UIButton.createNormalButton(title: "Stop Epo Upgrade")
+        let btn = UIButton.createNormalButton(title: L10n.epoStop)
         btn.isEnabled = false
         btn.rx.tap.subscribe(onNext: { [weak self] in
             self?.stop()
@@ -128,7 +128,7 @@ extension EpoVC {
     
     private func start() {
         guard epoMgr.isSupported else {
-            SVProgressHUD.showInfo(withStatus: "该设备不支持 / This device does not support")
+            SVProgressHUD.showInfo(withStatus: L10n.nonsupport)
             return
         }
         isDoing = true

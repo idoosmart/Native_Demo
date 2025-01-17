@@ -140,7 +140,7 @@ class FunctionPageVC: UIViewController {
                     break
                 case .fastSyncFailed:
                     SVProgressHUD.dismiss()
-                    let alert = UIAlertController(title: "Warn", message: "快速配置失败，需要重新连接", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Warn", message: L10n.fastconfigFail, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
                         SVProgressHUD.show()
                         sdk.ble.cancelConnect(macAddress: self?.deviceModel?.macAddress) { _ in
@@ -158,7 +158,7 @@ class FunctionPageVC: UIViewController {
                 case .syncHealthDataCompleted:
                     break
                 case .fastSyncStarting:
-                    SVProgressHUD.show(withStatus: "on fast config...")
+                    SVProgressHUD.show(withStatus: L10n.onFastconfig)
                     break
                 @unknown default:
                     break
@@ -176,7 +176,7 @@ class FunctionPageVC: UIViewController {
                         if (stateModel.errorState == .pairFail) {
                             // 配对异常提示去忽略设备
                             SVProgressHUD.dismiss()
-                            let alert = UIAlertController(title: "Tips", message: "配对异常，需要手动忽略设备（设置-蓝牙-找到设备-\"!\")-忽略此设备\nPairing is abnormal, you need to manually ignore the device (Settings-Bluetooth-Find Device-\"!\")-Ignore this device", preferredStyle: .alert)
+                            let alert = UIAlertController(title: "Tips", message: L10n.needIgnorePair, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
                                 guard let self = self else { return }
                                 self.navigationController?.popToRootViewController(animated: true)
@@ -217,7 +217,7 @@ class FunctionPageVC: UIViewController {
                     break
                 case .poweredOff:
                     if (self.isViewLoaded) {
-                        SVProgressHUD.showInfo(withStatus: "蓝牙已关闭")
+                        SVProgressHUD.showInfo(withStatus: L10n.bleOff)
                         self.navigationController?.popToRootViewController(animated: true)
                     }
                     break

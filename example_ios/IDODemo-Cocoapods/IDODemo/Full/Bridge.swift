@@ -45,6 +45,7 @@ extension MainPageVC {
     }
     
     @objc func _reload() {
+        print("reload \(L10n.refresh)")  
         if case .scanning = bleState?.scanType {
             sdk.ble.stopScan()
         } else {
@@ -75,7 +76,7 @@ extension MainPageVC: IDOBleDelegate {
     }
     
     func scanResult(list: [IDODeviceModel]?) {
-        print("scanResult list count:\(String(describing: list?.count))")
+        //print("scanResult list count:\(String(describing: list?.count))")
         dataList.removeAll()
         if list != nil {
             dataList.append(contentsOf: list!)

@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  IDODemo
+
+  Created by hc on 2024/12/31.
+  
+*/
+
+// 获取指令
+
+"getDeviceInfo" = "Get device information";
+
+
+// 设置指令
+
