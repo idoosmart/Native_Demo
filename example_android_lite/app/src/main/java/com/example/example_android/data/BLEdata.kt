@@ -1,6 +1,7 @@
 package com.example.example_android.data
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.content.pm.PackageManager
@@ -69,31 +70,17 @@ object BLEdata  {
             Logutil.logMessage("bledata","status:$status")
         }
 
+        @SuppressLint("MissingPermission")
         override fun writeDataToBle(request: IDOBleDataRequest) {
             Logutil.logMessage("bledata","writeDataToBle:${ByteUtil.bytesToHexString(request.data)}")
-            var bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
+            val bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
 
-            var characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
+            val characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
                 CurrentDevice.uuid_service
             ), UUID.fromString(CurrentDevice.uuid_characteristic_write))
             characteristic?.value =request.data
             characteristic?.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
-            if (ActivityCompat.checkSelfPermission(
-                    MyApplication.instance.applicationContext,
-                    Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
             bluetoothGatt.writeCharacteristic(characteristic)
-
         }
 
         override fun checkDeviceBindState(macAddress: String): Boolean {
