@@ -18,6 +18,9 @@ import com.example.example_android.R
 import com.example.example_android.adapter.ScanDeviceAdapter
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.data.CurrentDevice
+import com.idosmart.pigeon_implement.IDOEpoManager
+import com.idosmart.pigeon_implement.IDOEpoManagerDelegate
+import com.idosmart.pigeon_implement.IDOOtaGpsInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -106,6 +109,9 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         lv_device = findViewById(R.id.lv_device)
         intPermission();
+        // epo upgrade
+        IDOEpoManager.shared.enableAutoUpgrade = true
+        IDOEpoManager.shared.delegateGetGps = EpoListen()
         var driver: DividerItemDecoration =
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         lv_device?.addItemDecoration(driver)
@@ -180,5 +186,12 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         BleManager.getInstance().cancelScan()
     }
 
+    inner class EpoListen : IDOEpoManagerDelegate {
+        override fun getAppGpsInfo(): IDOOtaGpsInfo {
+            // !!!: 此处的经纬度是伪代码 | The latitude and longitude here are pseudocode
+            return IDOOtaGpsInfo(114.0579f,  22.5431f, 10.0f)
+        }
+
+    }
 }
 

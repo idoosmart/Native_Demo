@@ -1,6 +1,5 @@
 package com.example.example_android.util
 
-import com.clj.fastble.data.BleDevice
 import com.idosmart.model.IDOBleDeviceModel
 
 object FunctionUtils {

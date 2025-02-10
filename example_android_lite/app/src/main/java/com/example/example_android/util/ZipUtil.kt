@@ -1,5 +1,8 @@
 package com.example.example_android.util
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import java.io.BufferedInputStream
@@ -21,6 +24,45 @@ object ZipUtil {
 
     private val BUFF_SIZE = 4 * 1024
     private var zip: Zip? = null
+
+    /**
+     * 复制 raw 目录下的 ZIP 文件到应用私有目录或公共存储空间
+     */
+    fun copyRawZipFile(context: Context, rawZipFileName: String,FileExtension:String): File? {
+        val inputStream: InputStream = context.resources.openRawResource(
+            context.resources.getIdentifier(
+                rawZipFileName,
+                "raw",
+                context.packageName
+            )
+        )
+
+        val outputDir: File = context.filesDir
+
+
+        val outputFile = File(outputDir, "${rawZipFileName}${FileExtension}")
+
+        try {
+            val outputStream = FileOutputStream(outputFile)
+
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (inputStream.read(buffer).also { length = it } > 0) {
+                outputStream.write(buffer, 0, length)
+            }
+
+            outputStream.close()
+            inputStream.close()
+
+            return outputFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.e("tag","copyRawZipFile =="+e)
+        }
+
+        return null
+    }
+
 
     /**
      * 解压Zip文件

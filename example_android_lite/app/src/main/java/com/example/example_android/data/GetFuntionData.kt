@@ -3,6 +3,13 @@ package com.example.example_android.data
 import android.content.Context
 import com.example.example_android.R
 import com.idosmart.protocol_channel.sdk
+/**
+ * 此类做用是统一管理各功能列表操作
+ * 实际开发时，根据事件类型，关注单个功能直接调用接口即可，在使用前请参考该类中的功能表判断逻辑
+ * This class is used to manage the list of functions in a unified manner
+ * In actual development, you can directly invoke the interface of a single function based on the event type.
+ * You can refer to the function table in this class to determine the logic before using it
+ * */
 
 class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: String? = null) :
     IDoDataBean(type, title, sub_title) {
@@ -29,7 +36,7 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                 ),
                 GetFuntionData(
                     CustomEvtType.FINDDEVICESTOP,
-                    context.getString(R.string.getdeviceinfo),
+                    context.getString(R.string.end_device_search),
                     ""
                 ),
 
@@ -68,7 +75,7 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     context.getString(R.string.getnotdisturbstatus),
                     ""
                 ),
-//                 GetFuntionData(CustomEvtType.GETDEFAULTSPORTTYPE,"获取默认的运动类型",""),
+                 GetFuntionData(CustomEvtType.GETDEFAULTSPORTTYPE,"获取默认的运动类型",""),
 
 
                 GetFuntionData(
@@ -391,6 +398,24 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                         ""
                     )
 
+                )
+            }
+            if (sdk.funcTable.getSupportDeviceOperateAlgFile){
+                mutableListOf.add(
+                    GetFuntionData(
+                        CustomEvtType.GETALGFILE,
+                        context.getString(R.string.getAlgFileInfo),
+                        ""
+                    )
+
+                )
+
+                mutableListOf.add(
+                    GetFuntionData(
+                        CustomEvtType.REQUESTALGFILE,
+                        context.getString(R.string.requestAlgFile),
+                        ""
+                    )
                 )
             }
 

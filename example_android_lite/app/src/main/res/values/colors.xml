@@ -11,4 +11,8 @@
     <color name="color_0000FF">#0000FF</color>
     <color name="red">#ff0000</color>
     <color name="green">#00ff00</color>
+    <color name="add_bookmark">#ff222222</color>
+    <color name="add_bookmark_disable">#ffa7a7a7</color>
+    <color name="color_FF4A00">#FF4A00</color>
+    <color name="translate">#00000000</color>
 </resources>

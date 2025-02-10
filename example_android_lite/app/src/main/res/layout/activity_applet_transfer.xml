@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".activity.AppletTransferActivity">
+
+    <TextView
+        android:id="@+id/applet_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/applet_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        />
+    <ProgressBar
+        android:layout_marginTop="10dp"
+        android:id="@+id/applet_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+      />
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/applet_progress_tv"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/applet_response"
+        android:background="@color/color_808080"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+</LinearLayout>

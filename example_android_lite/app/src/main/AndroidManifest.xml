@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
@@ -15,7 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
         android:name=".MyApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,6 +28,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.MusicTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.NotificationIconTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AppletTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TestActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SportExchangeActivity"
             android:label="@string/sport"
@@ -57,6 +72,9 @@
  Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
         -->
+        <activity
+            android:name=".activity.OtaFileTransferActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.example_android.activity.FunctionListActivity"
             android:exported="false" />

@@ -36,6 +36,9 @@ const val EPO_FILE_FAILED = 5;
 const val ICOE_EPO_FILE_TRANSFER_FAILED = 6;
 const val EPO_FILE_TRANSFER_FAILED = 6;
 const val DEVICE_SIDE_EPO_UPGREADE_FAILED = 7;
+
+// https://idoosmart.github.io/Native_GitBook/en/doc/IDODeviceEPO.html
+@Deprecated("废弃，使用IDOEpoManager / Deprecated, use IDOEpoManager")
 class EpoUpgradeHelper {
     private val TAG = "EpoUpgradeHelper"
 
@@ -392,6 +395,8 @@ class EpoUpgradeHelper {
     fun isUpgrading() = mUpgrading
 }
 
+// https://idoosmart.github.io/Native_GitBook/en/doc/IDODeviceEPO.html
+@Deprecated("废弃，使用IDOEpoManager / Deprecated, use IDOEpoManager")
 interface EpoUpgradeListener {
     fun onDownloadStart()
     fun onDownloadProgress(index: Int, totalCount: Int, progress: Int)

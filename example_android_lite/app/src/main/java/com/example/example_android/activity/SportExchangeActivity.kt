@@ -1,11 +1,22 @@
 package com.example.example_android.activity
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Criteria
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import com.example.example_android.base.BaseActivity
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.example_android.R
+import com.example.example_android.base.BaseActivity
 import com.idosmart.model.IDOAppBleEndReplyExchangeModel
 import com.idosmart.model.IDOAppBlePauseReplyExchangeModel
 import com.idosmart.model.IDOAppBleRestoreReplyExchangeModel
@@ -20,7 +31,6 @@ import com.idosmart.model.IDOAppStartExchangeModel
 import com.idosmart.model.IDOBleEndReplyExchangeModel
 import com.idosmart.model.IDOBleExecType
 import com.idosmart.model.IDOBleIngReplyExchangeModel
-import com.idosmart.model.IDOBleOperatePlanReplyExchangeModel
 import com.idosmart.model.IDOBlePauseReplyExchangeModel
 import com.idosmart.model.IDOBleReplyType
 import com.idosmart.model.IDOBleRestoreReplyExchangeModel
@@ -32,7 +42,11 @@ import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOExchangeDataDelegate
 import kotlinx.android.synthetic.main.activity_sport_exchange.tv_response
 import java.util.Calendar
+import kotlin.math.asin
+import kotlin.math.cos
 import kotlin.math.max
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class SportExchangeActivity : BaseActivity() {
     companion object {
@@ -44,6 +58,7 @@ class SportExchangeActivity : BaseActivity() {
 
         //30秒一次交换V3心率数据
         const val INTERVAL_EXCHANGE_HR_DATA = 30 * 1000L
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1;
     }
 
     private var baseModel: IDOExchangeBaseModel? = null
@@ -53,7 +68,10 @@ class SportExchangeActivity : BaseActivity() {
     private var duration = 0
     private var calories = 0
     private var distance = 0
-
+    private var isSportEnd = false
+    private var mLocationManager: LocationManager? = null
+    private var lastLocation: Location? = null
+    private var signal: Int = 0
     override fun getLayoutId(): Int {
         return R.layout.activity_sport_exchange
     }
@@ -68,6 +86,9 @@ class SportExchangeActivity : BaseActivity() {
                         mHandler.removeCallbacksAndMessages(null)
                         val model = IDOAppBleEndReplyExchangeModel(0, duration, calories, distance, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.appBleEndReply(model))
+                        sdk.dataExchange.getActivityHrData()
+                        sdk.dataExchange.getLastActivityData()
+                        isSportEnd = true
                     }
 
                     is IDOBleExecType.appBlePause -> {
@@ -125,6 +146,9 @@ class SportExchangeActivity : BaseActivity() {
                     is IDOBleReplyType.appEndReply -> {
                         log("reply for app's end reply: ${type.model}")
                         mHandler.removeCallbacksAndMessages(null)
+                        sdk.dataExchange.getActivityHrData()
+                        sdk.dataExchange.getLastActivityData()
+                        isSportEnd = true
                     }
 
                     is IDOBleReplyType.appIngReply -> {
@@ -185,6 +209,11 @@ class SportExchangeActivity : BaseActivity() {
                         duration = max(duration, model?.durations ?: 0)
                         calories = max(calories, model?.calories ?: 0)
                         distance = max(distance, model?.distance ?: 0)
+                        if (isSportEnd) {
+                            isSportEnd = false
+                            // TODO: 运动任务结束
+                            log("运动任务结束!! / Sports mission completed!!")
+                        }
                     }
 
                     is IDOBleReplyType.appActivityGpsReply -> {
@@ -209,6 +238,11 @@ class SportExchangeActivity : BaseActivity() {
     }
 
     fun start(view: View) {
+        enableMyLocation()
+    }
+
+    fun startSport() {
+        startLocation()
         val calendar = Calendar.getInstance()
         baseModel = IDOExchangeBaseModel(
             calendar.get(Calendar.DAY_OF_MONTH),
@@ -223,6 +257,143 @@ class SportExchangeActivity : BaseActivity() {
         tv_response.text = ""
     }
 
+    fun getBaseProvider(): String {
+        val criteria = Criteria()
+        // Criteria是一组筛选条件
+        criteria.accuracy = Criteria.ACCURACY_FINE
+        //设置定位精准度
+        criteria.isAltitudeRequired = true
+        //是否要求速度
+        criteria.powerRequirement = Criteria.NO_REQUIREMENT
+        //设置电池耗电要求
+        criteria.bearingAccuracy = Criteria.ACCURACY_HIGH
+        criteria.horizontalAccuracy = Criteria.ACCURACY_HIGH
+        //设置水平方向精确度
+        criteria.verticalAccuracy = Criteria.ACCURACY_HIGH
+        // 获取GPS信息
+        return mLocationManager!!.getBestProvider(criteria, true) ?: ""
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun startLocation() {
+        if (mLocationManager == null) mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        val provider: String = getBaseProvider()
+        val location = mLocationManager!!.getLastKnownLocation(provider)
+        if (location != null) {
+            updateLocation(location)
+        }
+        mLocationManager?.requestLocationUpdates(provider, 3000, 1f, mLocationListener)
+    }
+
+    private val mLocationListener = LocationListener { location -> updateLocation(location) }
+
+    private fun stopLocation() {
+    }
+
+    //户外骑行
+    private fun updateLocation(location: Location?) {
+        if (location != null) {
+            if (lastLocation != null) {
+                distance = calculateLineDistance(location, lastLocation!!).toInt()
+            }
+            signal = translateGps(location.accuracy)
+            lastLocation = location
+        }
+    }
+
+    val GPS_INVALID: Int = 0x00 //无效
+    val GPS_VALID: Int = 0x01 //有效
+    val GPS_BAD: Int = 0x02 //GPS信号弱
+    private fun translateGps(accuracy: Float): Int {
+        var gpsSignValue: Int = GPS_INVALID
+        if (accuracy < 19) {
+            gpsSignValue = GPS_VALID
+        } else if (accuracy < 30) {
+            gpsSignValue = GPS_BAD
+        }
+        return gpsSignValue
+    }
+
+    fun calculateLineDistance(var0: Location, var1: Location): Float {
+        try {
+            var var2: Double = var0.longitude
+            var var4: Double = var0.latitude
+            var var6: Double = var1.longitude
+            var var8: Double = var1.latitude
+            var2 *= 0.01745329251994329
+            var4 *= 0.01745329251994329
+            var6 *= 0.01745329251994329
+            var8 *= 0.01745329251994329
+            val var10 = sin(var2)
+            val var12 = sin(var4)
+            val var14 = cos(var2)
+            val var16 = cos(var4)
+            val var18 = sin(var6)
+            val var20 = sin(var8)
+            val var22 = cos(var6)
+            val var24 = cos(var8)
+            val var26 = DoubleArray(3)
+            val var27 = DoubleArray(3)
+            var26[0] = var16 * var14
+            var26[1] = var16 * var10
+            var26[2] = var12
+            var27[0] = var24 * var22
+            var27[1] = var24 * var18
+            var27[2] = var20
+            val var28 =
+                sqrt((var26[0] - var27[0]) * (var26[0] - var27[0]) + ((var26[1] - var27[1]) * (var26[1] - var27[1])) + ((var26[2] - var27[2]) * (var26[2] - var27[2])))
+            return (asin(var28 / 2.0) * 1.27420015798544E7).toFloat()
+        } catch (var30: Throwable) {
+            var30.printStackTrace()
+            return 0.0f
+        }
+    }
+
+    private fun enableMyLocation(): Boolean {
+        // 1. Check if permissions are granted, if so, enable the my location layer
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            startSport()
+            return true
+        }
+
+        // 2. If if a permission rationale dialog should be shown
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) || ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        ) {
+            Toast.makeText(this, "no location permissions", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // 3. Otherwise, request permission
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+            ), LOCATION_PERMISSION_REQUEST_CODE
+        )
+        return false
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            super.onRequestPermissionsResult(
+                requestCode, permissions, grantResults
+            )
+            return
+        }
+
+        enableMyLocation()
+    }
+
     /**
      * Synchronize brief sports data for app display
      * Sync every 2 seconds
@@ -230,10 +401,10 @@ class SportExchangeActivity : BaseActivity() {
     private fun exchangeData() {
         if (baseModel == null) return
         if (sdk.dataExchange.supportV3ActivityExchange) {
-            val mode = IDOAppIngV3ExchangeModel( 0/*gps status*/, distance, 0, duration, calories, baseModel)
+            val mode = IDOAppIngV3ExchangeModel(signal, distance, 0, duration, calories, baseModel)
             sdk.dataExchange.appExec(IDOAppExecType.appIngV3(mode))
         } else {
-            val mode = IDOAppIngExchangeModel(duration, calories, distance, 0/*gps status*/, baseModel)
+            val mode = IDOAppIngExchangeModel(duration, calories, distance, signal, baseModel)
             sdk.dataExchange.appExec(IDOAppExecType.appIng(mode))
         }
     }

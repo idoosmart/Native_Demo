@@ -24,6 +24,7 @@
     <string name="setdatetime">setDateTime</string>
     <string name="set_time">set Time</string>
     <string name="parameter">Parameter</string>
+    <string name="parameter_et">Parameter import</string>
     <string name="send">send</string>
     <string name="response">Response</string>
     <string name="start_sync_data">Start Sync Data</string>
@@ -51,6 +52,7 @@
     <string name="v3_updata_message_notification_status">V3 updata Message Notification Status</string>
     <string name="menu_log_export">Export Log</string>
     <string name="menu_log_app">App Log</string>
+    <string name="menu_log_ble">Ble Log</string>
 
 
     <string name="sport">Sport</string>
@@ -86,6 +88,8 @@
     <string name="setbpcalibration"> Blood pressure calibration </string>
     <string name="setbpmeasurement"> Blood pressure measurement</string>
     <string name="setstresscalibration"> pressure calibration</string>
+    <string name="getapplet"> get Applet</string>
+    <string name="setapplet"> set Applet</string>
     <string name="setgpscontrol">Control GPS</string>
     <string name="setspo2switch">Set blood oxygen switch</string>
     <string name="sethandwashingreminder">Set hand washing reminder</string>
@@ -118,6 +122,8 @@
     <string name="gethotstartparam">Obtain hot start parameters</string>
     <string name="getversioninfo">Obtain version information</string>
     <string name="getmtuinfo">Obtain mtu information</string>
+    <string name="getAlgFileInfo">Get firmware algorithm file information (ACC/GPS)</string>
+    <string name="requestAlgFile">Request firmware algorithm file information (ACC/GPS)</string>
     <string name="getnotdisturbstatus">Obtain Do Not Disturb Mode Status</string>
     <string name="getdownlanguage">Get download language support</string>
     <string name="geterrorrecord">Get error records</string>
@@ -135,6 +141,9 @@
     <string name="getdevicelogstate">Obtain the log status of the device</string>
     <string name="getallhealthswitchstate">Obtain all health monitoring switches</string>
     <string name="getactivityswitch">Acquisition of automatic recognition switch for sports mode</string>
+    <string name="end_device_search">End device search</string>
+
+
     <string name="getstressval">Obtain pressure values</string>
     <string name="getbpalgversion">Obtain Level 3 version number information of blood pressure algorithm Event number</string>
     <string name="getheartratemode">Obtain heart rate monitoring mode</string>
@@ -160,6 +169,7 @@
     <string name="set_heart_rate_interval">Set heart rate interval)</string>
     <string name="set_screen_brightness">Set screen brightness</string>
     <string name="set_menstrual_period">Set menstrual period</string>
+    <string name="setyour_period_reminders">Set your period reminders</string>
     <string name="set_long_city_name_v3">V3 Setting the Name of a Sports City event number</string>
     <string name="set_historical_menstruation">Menstrual historical data delivery event number</string>
     <string name="set_sport_sortV3">Sets the motion type ordering</string>
@@ -186,4 +196,77 @@
     <string name="set_fast_msg_update">Set fast message update</string>
     <string name="set_fast_msg_setting">Set fast message setting</string>
     <string name="epo_file">epo</string>
+    <string name="app_nt_sendMsg">Simulate sending dynamic messages</string>
+    <string name="app_nt_sendMsg_q">Simulate sending dynamic messages (quick reply)</string>
+    <string name="app_nt_allow">Allow notifications</string>
+    <string name="app_nt_silent">silent notifications</string>
+    <string name="app_nt_clos">clos notifications</string>
+    <string name="app_nt_clos_back">clos</string>
+
+
+    <string name="music_query">Query song information</string>
+    <string name="music_sheet_title">Playlist management</string>
+    <string name="music_input_sheet_name">Enter playlist name</string>
+    <string name="music_new_sheet">New Playlist</string>
+    <string name="music_input_sheet_id">Enter the playlist ID (obtained in the query result)</string>
+    <string name="music_delete_sheet">delete playlist</string>
+    <string name="music_title">song management\n仅支持44.1hz采样率的歌曲</string>
+    <string name="music_select_file">Please select a song file...</string>
+    <string name="music_select">choose</string>
+    <string name="music_input_music_name">Enter the song file name (suffix.mp3)</string>
+    <string name="music_add_2_sheet">add playlist</string>
+    <string name="music_add_music">add song</string>
+    <string name="music_clean_transfer">clean transfer</string>
+    <string name="music_delete">delete song</string>
+    <string name="music_input_music_id">Enter the song ID (obtained in the query result)</string>
+    <string name="music_add_music_2_sheet_btn">Add song to playlist</string>
+
+    <string name="music_tips_query_first">Please click \"Query Song Information\"</string>
+    <string name="music_tips_no_sheet">You haven\'t created playlist yet</string>
+    <string name="music_tips_delete_success">Song deleted successfully！</string>
+    <string name="music_tips_delete_failed">Song deletion failed！</string>
+    <string name="music_tips_add_success">Song added successfully！</string>
+    <string name="music_tips_add_failed">Failed to add song！</string>
+    <string name="music_tips_delete_sheet_success">Playlist deleted successfully！</string>
+    <string name="music_tips_delete_sheet_failed">Failed to delete playlist！</string>
+    <string name="music_tips_new_sheet_success">Playlist created successfully！</string>
+    <string name="music_tips_new_sheet_failed">Failed to create playlist！</string>
+    <string name="music_tips_edit_sheet_success">Song list edited successfully！</string>
+    <string name="music_tips_edit_sheet_failed">Failed to edit playlist！</string>
+    <string name="music_tips_import_success">Song imported successfully！</string>
+    <string name="music_tips_import_failed">Song import failed！</string>
+    <string name="music_tips_delete_sheet_music_success">successfully deleted！</string>
+    <string name="music_tips_delete_sheet_music_failed">failed to delete！</string>
+    <string name="music_tips_empty_music">Transfer song information is empty！</string>
+    <string name="music_tips_tranferring">transferring songs...</string>
+    <string name="music_tips_tranfer_success">Song file transfer complete！</string>
+    <string name="music_tips_tranfer_failed">The song file transfer failed, please confirm whether the BT bluetooth connection is normal！</string>
+    <string name="music_tips_input_sheet_name">Please enter the playlist name</string>
+    <string name="music_tips_input_sheet_id">Please enter playlist ID</string>
+    <string name="music_tips_error_sheet_id">The song list ID can only be a number, refer to the song information！</string>
+    <string name="music_tips_sheet_not_exist">playlist does not exist！</string>
+    <string name="music_tips_select_file_first">Please select a song file</string>
+    <string name="music_tips_input_music_name">Please enter the song name</string>
+    <string name="music_tips_only_mp3">Song files only support MP3</string>
+    <string name="music_tips_file_not_exist">song file does not exist！</string>
+    <string name="music_tips_input_music_id">Please enter the song ID</string>
+    <string name="music_tips_musid_id_only_digst">The song ID can only be a number, refer to the song information！</string>
+    <string name="music_tips_new_sheet_first">Please create playlist first！</string>
+    <string name="music_tips_music_not_exist">song does not exist！</string>
+    <string name="music_tips_music_exist_in_sheet">The song already exists in the playlist！</string>
+    <string name="music_start_query_music">start query music...</string>
+
+    <string name="music_control">music control</string>
+    <string name="music_manager">Device music management</string>
+    <string name="music_control_switch_title">Music control switch:</string>
+    <string name="music_control_listener">Send music information:</string>
+    <string name="music_control_tips">hint</string>
+    <string name="music_control_msg">To listen to media playback data, you need to enable the [Notification Access] of [%s], how to enable it?</string>
+    <string name="music_player">Current player list:</string>
+    <string name="music_pre">previous song</string>
+    <string name="music_pause">pause</string>
+    <string name="music_next">next song</string>
+    <string name="music_play">play</string>
+    <string name="music_buffering">buffering...</string>
+
 </resources>

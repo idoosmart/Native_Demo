@@ -466,5 +466,11 @@ enum class CustomEvtType {
     /**  设置手机语音助手开关*/
     SETVOICEASSISTANTONOFF,
     /** 获取BT连接手机型号*/
-    GETBTCONNECTPHONEMODEL;
+    GETBTCONNECTPHONEMODEL,
+    /** 操作小程序信息*/
+    SETAPPLETCONTROL,
+    /**获取固件算法文件信息（ACC/GPS）*/
+    GETALGFILE,
+    /**请求固件算法文件信息（ACC/GPS））*/
+    REQUESTALGFILE;
 }

@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
+import com.idosmart.enums.IDOSyncDataType
 import com.idosmart.protocol_channel.sdk
 import kotlinx.android.synthetic.main.layout_comme_exchange_data.*
 
@@ -24,18 +25,20 @@ class SyncDataActivity : BaseActivity() {
 
     fun start(view: View) {
         result = ""
+        println("start sync data status: ${sdk.syncData.status}")
         sdk.syncData.startSync({
-
         }, { type, jsonStr, errorCode ->
-            result += jsonStr + "\n errorCode" +
-                    ""+errorCode
+            println("start sync data status: ${sdk.syncData.status} type:$type errCode:$errorCode")
+            result += jsonStr + "\n"
         }, {
             tv_response?.text = result
+            println("start sync complete data status: ${sdk.syncData.status} rs:${it == 0}")
         })
     }
 
     fun stop(view: View) {
         sdk.syncData.stopSync()
+        println("stop sync data status: ${sdk.syncData.status}")
     }
 
 }
