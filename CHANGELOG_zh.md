@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.5（Android only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
+
+##### 更新内容：
+
+- 修复BT配对时点取消后，状态回调两次问题；
+
+
+
+
 ## 4.2.5（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/01/17</span>
 
 ##### 更新内容：
