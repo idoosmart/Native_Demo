@@ -172,6 +172,10 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: L10n.requestAlgFile))
         }
 
+        if (innerTest || sdk.funcTable.getSportsTypeV3) {
+            items.append(GetCmd(type: .getSportsTypeV3, title: "getSportsTypeV3", desc: L10n.getSportsTypeV3))
+        }
+        
         // NOTE:
         // 因为demo要适配所有设备，此处示例适配多种情况。
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
@@ -450,6 +454,8 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case requestAlgFile
     ///  心率模式
     case getHeartMode
+    /// 运动排序
+    case getSportsTypeV3
     
 }
 
@@ -856,6 +862,10 @@ private class GetFunctionDetailVC: UIViewController {
                 cancellable = Cmds.getHeartRateMode().send { [weak self] res in
                     self?.doPrint(res)
                 }
+            }
+        case .getSportsTypeV3:
+            cancellable = Cmds.getSportTypeV3().send { [weak self] res in
+                self?.doPrint(res)
             }
         }
         

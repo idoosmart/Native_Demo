@@ -92,6 +92,8 @@ internal enum L10n {
   internal static let getScheduleReminder = L10n.tr("Localizable", "getScheduleReminder", fallback: "Get schedule reminder")
   /// Get screen brightness event number
   internal static let getScreenBrightness = L10n.tr("Localizable", "getScreenBrightness", fallback: "Get screen brightness event number")
+  /// Get sports list
+  internal static let getSportsTypeV3 = L10n.tr("Localizable", "getSportsTypeV3", fallback: "Get sports list")
   /// Get daily step goal event number
   internal static let getStepGoal = L10n.tr("Localizable", "getStepGoal", fallback: "Get daily step goal event number")
   /// Get maximum number of settings supported by firmware event number
@@ -220,6 +222,8 @@ internal enum L10n {
   internal static let setSportModeSelect = L10n.tr("Localizable", "setSportModeSelect", fallback: "Set sport mode select event number")
   /// Set Sport Mode Sorting
   internal static let setSportModeSort = L10n.tr("Localizable", "setSportModeSort", fallback: "Set Sport Mode Sorting")
+  /// Modify the sports list (sort/delete/add)
+  internal static let setSportsTypeV3 = L10n.tr("Localizable", "setSportsTypeV3", fallback: "Modify the sports list (sort/delete/add)")
   /// Set stress switch
   internal static let setStressSwitch = L10n.tr("Localizable", "setStressSwitch", fallback: "Set stress switch")
   /// Synchronization Protocol Bluetooth Call Common Contacts

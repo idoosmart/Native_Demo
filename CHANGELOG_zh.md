@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
+
+##### 更新内容：
+
+- 修复Cmds.getSportTypeV3()返回数据解析异常问题；
+- 调整单项数据同步超时时长（10s -> 30s);
+
+
+
 ## 4.2.5（Android only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
 
 ##### 更新内容：

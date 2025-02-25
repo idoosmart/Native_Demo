@@ -238,7 +238,8 @@ class SetFunctionVC: UIViewController {
         
         addToItemsbyFunctable(true, SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: L10n.setDefaultMsgList))
         addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: L10n.setAppletControl))
-        
+     
+        addToItemsbyFunctable(sdk.funcTable.getSportsTypeV3, SetCmd(type: .setSportsTypeV3, title: "setSportsTypeV3", desc: L10n.setSportsTypeV3))
     }
     
     
@@ -528,6 +529,8 @@ private enum CmdType: CaseIterable{
     case setDefaultMsgList
     /// 发送小程序操作
     case setAppletControl
+    /// 运动列表修改、排序、删除
+    case setSportsTypeV3
 }
 
 extension CmdType {
@@ -1019,6 +1022,9 @@ extension CmdType {
                 IDODefaultMessageItem(packageName: "com.facebook.Facebook")
             ])
         case .setAppletControl:
+            return nil
+        case .setSportsTypeV3:
+            //IDOSport100SortParamModel(operate: <#T##Int#>, nowUserLocation: <#T##Int#>, items: <#T##[Int]#>)
             return nil
         }
         return nil
@@ -1669,6 +1675,30 @@ private class SetFunctionDetailVC: UIViewController {
                         }
                     }else {
                         textResponse.text = "Mini Program Not Found"
+                    }
+                    //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
+                } else if case .failure(let err) = res {
+                    textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
+            }
+        case .setSportsTypeV3:
+            // 步骤1: 获取运动列表
+            Cmds.getSportTypeV3().send { [weak self] res in
+                guard let self = self else { return }
+                if case .success(let val) = res {
+                    if let item = val {
+                        item.sportTypes.shuffle() // 随机排序
+                        var items = [IDOSportModeSortParamModel]()
+                        var i = 1
+                        item.sportTypes.forEach {
+                            items.append(IDOSportModeSortParamModel(index: i, type: $0))
+                            i += 1
+                        }
+                        self.cancellable = Cmds.setSportSortV3(IDOSportParamModel(items: items)).send { [weak self] res in
+                            self?.doPrint(res)
+                        }
+                    }else {
+                        
                     }
                     //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
                 } else if case .failure(let err) = res {

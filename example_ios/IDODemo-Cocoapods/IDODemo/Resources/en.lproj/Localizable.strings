@@ -61,6 +61,7 @@
 "getHeartMode" = "Get heart rate mode";
 "getNoticeStatus" = "Get notification center status event number";
 "getAlarm" = "App gets the alarm of ble";
+"getSportsTypeV3" = "Get sports list";
 
 // set
 "setWeatherSunTime" = "Set sunrise and sunset time event number";
@@ -126,3 +127,4 @@
 "setSportModeSort" = "Set Sport Mode Sorting";
 "setDefaultMsgList" = "Set the default messaging app list";
 "setAppletControl" = "Operation of applet information (obtain, start, delete)";
+"setSportsTypeV3" = "Modify the sports list (sort/delete/add)";

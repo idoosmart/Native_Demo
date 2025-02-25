@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
+
+##### Update content:
+
+- Fix the abnormal data parsing problem returned by Cmds.getSportTypeV3();
+- Adjust the timeout of single data synchronization (10s -> 30s);
+
+
+
 ## 4.2.5 (Android only) <span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
 
 ##### Update content:

@@ -61,7 +61,7 @@
 "getHeartMode" = "获取心率模式";
 "getNoticeStatus" = "获取通知中心开关";
 "getAlarm" = "app获取ble的闹钟";
-
+"getSportsTypeV3" = "获取运动列表";
 
 // set
 "setWeatherSunTime" = "设置日出和日落时间事件编号";
@@ -127,3 +127,4 @@
 "setSportModeSort" = "设置运动模式排序";
 "setDefaultMsgList" = "设置默认消息应用列表";
 "setAppletControl" = "操作小程序信息（获取、启动、删除）";
+"setSportsTypeV3" = "修改运动列表（排序/删除/添加）";

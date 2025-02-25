@@ -360,7 +360,7 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     )
                 )
             }
-            if (sdk.funcTable.setV3GetSportSortField) {
+            if (sdk.funcTable.getSportsTypeV3) {
                 mutableListOf.add(
                     GetFuntionData(
                         CustomEvtType.GETSPORTTYPEV3,
