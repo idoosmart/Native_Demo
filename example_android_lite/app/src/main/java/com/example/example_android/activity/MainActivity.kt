@@ -18,11 +18,13 @@ import com.example.example_android.R
 import com.example.example_android.adapter.ScanDeviceAdapter
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.data.CurrentDevice
+import com.example.example_android.util.AdvUtils
 import com.idosmart.pigeon_implement.IDOEpoManager
 import com.idosmart.pigeon_implement.IDOEpoManagerDelegate
 import com.idosmart.pigeon_implement.IDOOtaGpsInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.math.abs
 
 /**
  * 扫描设备，为了程序能运行，使用了第三方的蓝牙，接入的时候可以使用自己的
@@ -140,24 +142,30 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
     //第三方蓝牙，可以修改称自己的
     fun startScan() {
-        showProgressDialog("scan ing...")
+//        showProgressDialog("scan ing...")
         BleManager.getInstance().scan(object : BleScanCallback() {
             override fun onScanStarted(success: Boolean) {
 
             }
 
             override fun onScanning(bleDevice: BleDevice?) {
-
+                if (bleDevice != null && AdvUtils.isInNormalMode(bleDevice.scanRecord)) {
+                    mDeviceList.add(bleDevice)
+                    mDeviceList.sortBy {
+                        abs(it!!.rssi)
+                    }
+                    mAdapter?.updateData(mDeviceList)
+                }
             }
 
             override fun onScanFinished(scanResultList: List<BleDevice?>?) {
-                closeProgressDialog()
-                if (scanResultList != null) {
-                    mDeviceList = scanResultList.toMutableList();
-                    mDeviceList.sortBy {
-                        Math.abs(it!!.rssi) }
-                }
-                mAdapter?.updateData(mDeviceList)
+//                closeProgressDialog()
+//                if (scanResultList != null) {
+//                    mDeviceList = scanResultList.toMutableList();
+//                    mDeviceList.sortBy {
+//                        Math.abs(it!!.rssi) }
+//                }
+//                mAdapter?.updateData(mDeviceList)
             }
         })
     }
@@ -172,6 +180,7 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
     override fun select(position: Int) {
         Log.d(TAG, "select:" + position)
+        BleManager.getInstance().cancelScan()
         mDevice = mDeviceList.get(position)
         mAdapter?.setSelectDevice(mDevice!!)
         val intent = Intent(lv_device?.context, FunctionActivity::class.java)

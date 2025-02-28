@@ -54,7 +54,7 @@ public class BleManager {
     private static final int DEFAULT_CONNECT_RETRY_INTERVAL = 5000;
     private static final int DEFAULT_MTU = 23;
     private static final int DEFAULT_MAX_MTU = 512;
-    private static final int DEFAULT_WRITE_DATA_SPLIT_COUNT = 20;
+    private static final int DEFAULT_WRITE_DATA_SPLIT_COUNT = 1000000;
     private static final int DEFAULT_CONNECT_OVER_TIME = 10000;
 
     private int maxConnectCount = DEFAULT_MAX_MULTIPLE_DEVICE;
@@ -63,6 +63,8 @@ public class BleManager {
     private long reConnectInterval = DEFAULT_CONNECT_RETRY_INTERVAL;
     private int splitWriteNum = DEFAULT_WRITE_DATA_SPLIT_COUNT;
     private long connectOverTime = DEFAULT_CONNECT_OVER_TIME;
+
+    private SplitWriter writer = new SplitWriter();
 
     public static BleManager getInstance() {
         return BleManagerHolder.sBleManager;
@@ -564,8 +566,9 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
+                      int writeType,
                       BleWriteCallback callback) {
-        write(bleDevice, uuid_service, uuid_write, data, true, callback);
+        write(bleDevice, uuid_service, uuid_write, data, writeType,true, callback);
     }
 
     /**
@@ -582,10 +585,11 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
+                      int writeType,
                       boolean split,
                       BleWriteCallback callback) {
 
-        write(bleDevice, uuid_service, uuid_write, data, split, true, 0, callback);
+        write(bleDevice, uuid_service, uuid_write, data,writeType, split, true, 10, callback);
     }
 
     /**
@@ -604,6 +608,7 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
+                      int writeType,
                       boolean split,
                       boolean sendNextWhenLastSuccess,
                       long intervalBetweenTwoPackage,
@@ -627,13 +632,13 @@ public class BleManager {
         if (bleBluetooth == null) {
             callback.onWriteFailure(new OtherException("This device not connect!"));
         } else {
-            if (split && data.length > getSplitWriteNum()) {
-                new SplitWriter().splitWrite(bleBluetooth, uuid_service, uuid_write, data,
+            if (split) {
+                writer.splitWrite(bleBluetooth, uuid_service, uuid_write, data,writeType,
                         sendNextWhenLastSuccess, intervalBetweenTwoPackage, callback);
             } else {
                 bleBluetooth.newBleConnector()
                         .withUUIDString(uuid_service, uuid_write)
-                        .writeCharacteristic(data, callback, uuid_write);
+                        .writeCharacteristic(data, callback, uuid_write,writeType);
             }
         }
     }

@@ -4,6 +4,7 @@ package com.clj.fastble.bluetooth;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleWriteCallback;
@@ -11,11 +12,24 @@ import com.clj.fastble.data.BleMsg;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.exception.OtherException;
 import com.clj.fastble.utils.BleLog;
+import com.clj.fastble.utils.HexUtil;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SplitWriter {
+
+    private static class Data {
+        public byte[] mData;
+        public int mWriteType;
+
+        public Data(byte[] mData, int mWriteType) {
+            this.mData = mData;
+            this.mWriteType = mWriteType;
+        }
+    }
 
     private HandlerThread mHandlerThread;
     private Handler mHandler;
@@ -23,12 +37,12 @@ public class SplitWriter {
     private BleBluetooth mBleBluetooth;
     private String mUuid_service;
     private String mUuid_write;
-    private byte[] mData;
-    private int mCount;
+    private Data mSendingData;
     private boolean mSendNextWhenLastSuccess;
     private long mIntervalBetweenTwoPackage;
     private BleWriteCallback mCallback;
-    private Queue<byte[]> mDataQueue;
+    private Queue<Data> mDataQueue = new ConcurrentLinkedDeque<>();
+    private AtomicBoolean mSending = new AtomicBoolean(false);
     private int mTotalNum;
 
     public SplitWriter() {
@@ -40,6 +54,7 @@ public class SplitWriter {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == BleMsg.MSG_SPLIT_WRITE_NEXT) {
+                    Log.d("","send next");
                     write();
                 }
             }
@@ -50,71 +65,80 @@ public class SplitWriter {
                            String uuid_service,
                            String uuid_write,
                            byte[] data,
+                           int writeType,
                            boolean sendNextWhenLastSuccess,
                            long intervalBetweenTwoPackage,
                            BleWriteCallback callback) {
         mBleBluetooth = bleBluetooth;
         mUuid_service = uuid_service;
         mUuid_write = uuid_write;
-        mData = data;
         mSendNextWhenLastSuccess = sendNextWhenLastSuccess;
         mIntervalBetweenTwoPackage = intervalBetweenTwoPackage;
-        mCount = BleManager.getInstance().getSplitWriteNum();
         mCallback = callback;
-
-        splitWrite();
+        Log.e("Splite","发送数据："+HexUtil.formatHexString(data,true));
+        splitWrite(data, writeType);
     }
 
-    private void splitWrite() {
-        if (mData == null) {
-            throw new IllegalArgumentException("data is Null!");
-        }
-        if (mCount < 1) {
-            throw new IllegalArgumentException("split count should higher than 0!");
-        }
-        mDataQueue = splitByte(mData, mCount);
-        mTotalNum = mDataQueue.size();
+    private void splitWrite(byte[] data, int writeType) {
+        mDataQueue.add(new Data(data, writeType));
         write();
     }
 
     private void write() {
+        Log.d("SplitWriter","queue size = "+mDataQueue.size());
+        if (mSending.get()) {
+            Log.d("SplitWriter", "is sending: " + HexUtil.formatHexString(mSendingData.mData, true));
+            return;
+        }
+        mSending.set(true);
         if (mDataQueue.peek() == null) {
-            release();
+            mSending.set(false);
             return;
         }
 
-        byte[] data = mDataQueue.poll();
+        mSendingData = mDataQueue.poll();
+        if (mSendingData == null||mSendingData.mData==null){
+            mSending.set(false);
+            return;
+        }
+        Log.d("SplitWriter","send => "+HexUtil.formatHexString(mSendingData.mData,true));
         mBleBluetooth.newBleConnector()
                 .withUUIDString(mUuid_service, mUuid_write)
                 .writeCharacteristic(
-                        data,
+                        mSendingData.mData,
                         new BleWriteCallback() {
                             @Override
                             public void onWriteSuccess(int current, int total, byte[] justWrite) {
-                                int position = mTotalNum - mDataQueue.size();
+                                Log.d("BLEData","onWriteSuccess: "+HexUtil.formatHexString(justWrite,true));
                                 if (mCallback != null) {
-                                    mCallback.onWriteSuccess(position, mTotalNum, justWrite);
+                                    mCallback.onWriteSuccess(0, mTotalNum, justWrite);
                                 }
+                                mSending.set(false);
                                 if (mSendNextWhenLastSuccess) {
                                     Message message = mHandler.obtainMessage(BleMsg.MSG_SPLIT_WRITE_NEXT);
                                     mHandler.sendMessageDelayed(message, mIntervalBetweenTwoPackage);
                                 }
+
                             }
 
                             @Override
                             public void onWriteFailure(BleException exception) {
+                                Log.e("BLEData","onWriteFailure: "+exception);
                                 if (mCallback != null) {
                                     mCallback.onWriteFailure(new OtherException("exception occur while writing: " + exception.getDescription()));
                                 }
+                                mSending.set(false);
                                 if (mSendNextWhenLastSuccess) {
                                     Message message = mHandler.obtainMessage(BleMsg.MSG_SPLIT_WRITE_NEXT);
                                     mHandler.sendMessageDelayed(message, mIntervalBetweenTwoPackage);
                                 }
+
                             }
                         },
-                        mUuid_write);
+                        mUuid_write, mSendingData.mWriteType);
 
         if (!mSendNextWhenLastSuccess) {
+            mSending.set(false);
             Message message = mHandler.obtainMessage(BleMsg.MSG_SPLIT_WRITE_NEXT);
             mHandler.sendMessageDelayed(message, mIntervalBetweenTwoPackage);
         }

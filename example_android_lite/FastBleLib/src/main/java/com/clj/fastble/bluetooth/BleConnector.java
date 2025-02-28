@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleIndicateCallback;
@@ -24,6 +25,7 @@ import com.clj.fastble.data.BleWriteState;
 import com.clj.fastble.exception.GattException;
 import com.clj.fastble.exception.OtherException;
 import com.clj.fastble.exception.TimeoutException;
+import com.clj.fastble.utils.HexUtil;
 
 import java.util.UUID;
 
@@ -394,7 +396,7 @@ public class BleConnector {
     /**
      * write
      */
-    public void writeCharacteristic(byte[] data, BleWriteCallback bleWriteCallback, String uuid_write) {
+    public void writeCharacteristic(byte[] data, BleWriteCallback bleWriteCallback, String uuid_write,int writeType) {
         if (data == null || data.length <= 0) {
             if (bleWriteCallback != null)
                 bleWriteCallback.onWriteFailure(new OtherException("the data to be written is empty"));
@@ -409,11 +411,12 @@ public class BleConnector {
         }
 
         if (mCharacteristic.setValue(data)) {
-            handleCharacteristicWriteCallback(bleWriteCallback, uuid_write);
+            mCharacteristic.setWriteType(writeType);
+            handleCharacteristicWriteCallback(bleWriteCallback, uuid_write,data);
             if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) {
                 writeMsgInit();
                 if (bleWriteCallback != null)
-                    bleWriteCallback.onWriteFailure(new OtherException("gatt writeCharacteristic fail"));
+                    bleWriteCallback.onWriteFailure(new OtherException("gatt writeCharacteristic fail: "+ HexUtil.formatHexString(data,true)));
             }
         } else {
             if (bleWriteCallback != null)
@@ -524,15 +527,19 @@ public class BleConnector {
     /**
      * write
      */
-    private void handleCharacteristicWriteCallback(BleWriteCallback bleWriteCallback,
-                                                   String uuid_write) {
+    private void handleCharacteristicWriteCallback(final BleWriteCallback bleWriteCallback,
+                                                   String uuid_write,final byte[] data) {
         if (bleWriteCallback != null) {
             writeMsgInit();
             bleWriteCallback.setKey(uuid_write);
             bleWriteCallback.setHandler(mHandler);
             mBleBluetooth.addWriteCallback(uuid_write, bleWriteCallback);
+            Message msg = mHandler.obtainMessage(BleMsg.MSG_CHA_WRITE_START, bleWriteCallback);
+            Bundle bundle = new Bundle();
+            bundle.putByteArray("data",data);
+            msg.setData(bundle);
             mHandler.sendMessageDelayed(
-                    mHandler.obtainMessage(BleMsg.MSG_CHA_WRITE_START, bleWriteCallback),
+                    msg,
                     BleManager.getInstance().getOperateTimeout());
         }
     }

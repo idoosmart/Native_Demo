@@ -83,8 +83,7 @@ class FunctionActivity : BaseActivity() {
                 updateBleStatus(isConnect)
 
 
-
-                BLEdata.notifyData(bleDevice, false)
+                BLEdata.notifyData(bleDevice, FunctionUtils.isBind(bleDevice.mac))
 
 
 
@@ -147,7 +146,7 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
-                            FunctionUtils.saveDeviceMac(device!!.mac.toString())
+                            FunctionUtils.saveBindState(device!!.mac.toString())
                             bindState()
 
 
@@ -174,7 +173,7 @@ class FunctionActivity : BaseActivity() {
                                 if (it.error.code == 0) {
                                     toast("bind ok")
                                     //save bind info
-                                    FunctionUtils.saveDeviceMac(device!!.mac.toString())
+                                    FunctionUtils.saveBindState(device!!.mac.toString())
                                     bindState()
                                     sdk.cmd.appMarkBindResult(true)
                                 } else {
@@ -201,7 +200,7 @@ class FunctionActivity : BaseActivity() {
             sdk.cmd.unbind(device?.mac.toString(), true) {
                 if (it) {
                     toast("unbind ok")
-                    FunctionUtils.upDataDeviceMac(device!!.mac.toString())
+                    FunctionUtils.removeBindState(device!!.mac.toString())
                     BleManager.getInstance().disconnect(device);
                     tv_device_state?.text = "state: connected"
                     bindState()
@@ -271,7 +270,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun bindState(): Boolean {
-        if (FunctionUtils.getDeviceMac(device!!.mac.toString())) {
+        if (FunctionUtils.isBind(device!!.mac.toString())) {
             ll_un_bin?.visibility = View.VISIBLE
             rl_get_function?.visibility = View.VISIBLE
             rl_set_function?.visibility = View.VISIBLE

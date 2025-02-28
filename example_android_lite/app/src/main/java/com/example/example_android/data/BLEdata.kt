@@ -1,17 +1,14 @@
 package com.example.example_android.data
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
+import android.util.Log
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
-import com.example.example_android.MyApplication
 import com.example.example_android.util.ByteUtil
 import com.example.example_android.util.Logutil
 import com.google.gson.Gson
@@ -25,9 +22,7 @@ import com.idosmart.model.IDOFastMsgUpdateParamModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOBridgeDelegate
-import io.flutter.Log
 import java.util.*
-import java.util.logging.Handler
 
 /**
  * 蓝牙数据桥接
@@ -73,18 +68,25 @@ object BLEdata  {
         @SuppressLint("MissingPermission")
         override fun writeDataToBle(request: IDOBleDataRequest) {
             Logutil.logMessage("bledata","writeDataToBle:${ByteUtil.bytesToHexString(request.data)}")
-            val bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
+//            var bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
+            val writeType = if (isNoNeedWaitResponseCmd(request.data))BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE else BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+            BleManager.getInstance().write(CurrentDevice.bleDevice,CurrentDevice.uuid_service, CurrentDevice.uuid_characteristic_write,request.data,writeType,this)
+//            var characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
+//                CurrentDevice.uuid_service
+//            ), UUID.fromString(CurrentDevice.uuid_characteristic_write))
+//            characteristic?.value =request.data
+//            characteristic?.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+//            bluetoothGatt.writeCharacteristic(characteristic)
 
-            val characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
-                CurrentDevice.uuid_service
-            ), UUID.fromString(CurrentDevice.uuid_characteristic_write))
-            characteristic?.value =request.data
-            characteristic?.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
-            bluetoothGatt.writeCharacteristic(characteristic)
+        }
+
+        private fun isNoNeedWaitResponseCmd(data: ByteArray): Boolean {
+            //针对Agps文件的协议、Alexa语音
+            return (data[0].toInt() and 0xff) == 0xD1 || (data[0].toInt() and 0xff) == 0x13
         }
 
         override fun checkDeviceBindState(macAddress: String): Boolean {
-            TODO("Not yet implemented")
+            return false
         }
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
@@ -137,7 +139,7 @@ object BLEdata  {
         }
 
         override fun onWriteFailure(exception: BleException?) {
-
+            sdk.bridge.writeDataComplete()
         }
 
     }
