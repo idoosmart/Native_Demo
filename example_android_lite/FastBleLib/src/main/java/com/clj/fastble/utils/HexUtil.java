@@ -50,7 +50,7 @@ public class HexUtil {
         if (data == null || data.length < 1)
             return null;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < (Math.min(data.length, 20)); i++) {
             String hex = Integer.toHexString(data[i] & 0xFF);
             if (hex.length() == 1) {
                 hex = '0' + hex;

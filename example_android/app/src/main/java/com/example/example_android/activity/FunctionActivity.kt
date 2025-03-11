@@ -279,7 +279,7 @@ class FunctionActivity : BaseActivity() {
 
     private fun printLastUpdateTime() {
         IDOEpoManager.shared.lastUpdateTimestamp {
-            if (it != 0L) {
+            if (it != 0) {
                 val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 val formattedDate = formatter.format(it)
                 println("epo---- lastUpdateTimestamp: $formattedDate")

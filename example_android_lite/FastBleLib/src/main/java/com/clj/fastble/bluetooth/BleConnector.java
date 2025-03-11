@@ -25,13 +25,15 @@ import com.clj.fastble.data.BleWriteState;
 import com.clj.fastble.exception.GattException;
 import com.clj.fastble.exception.OtherException;
 import com.clj.fastble.exception.TimeoutException;
+import com.clj.fastble.logs.ConnectConstants;
+import com.clj.fastble.logs.LogTool;
+import com.clj.fastble.utils.BleLog;
 import com.clj.fastble.utils.HexUtil;
 
 import java.util.UUID;
 
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BleConnector {
+public class BleConnector extends BytesDataConnect {
 
     private static final String UUID_CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR = "00002902-0000-1000-8000-00805f9b34fb";
 
@@ -126,11 +128,11 @@ public class BleConnector {
 
                     case BleMsg.MSG_CHA_WRITE_RESULT: {
                         writeMsgInit();
-
                         BleWriteCallback writeCallback = (BleWriteCallback) msg.obj;
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt(BleMsg.KEY_WRITE_BUNDLE_STATUS);
                         byte[] value = bundle.getByteArray(BleMsg.KEY_WRITE_BUNDLE_VALUE);
+                        deviceResponseOnLastSend(value,status);
                         if (writeCallback != null) {
                             if (status == BluetoothGatt.GATT_SUCCESS) {
                                 writeCallback.onWriteSuccess(BleWriteState.DATA_WRITE_SINGLE, BleWriteState.DATA_WRITE_SINGLE, value);
@@ -396,32 +398,47 @@ public class BleConnector {
     /**
      * write
      */
-    public void writeCharacteristic(byte[] data, BleWriteCallback bleWriteCallback, String uuid_write,int writeType) {
+    public void writeCharacteristic(byte[] data, BleWriteCallback bleWriteCallback, String uuid_write) {
+        BleLog.i("writeCharacteristic");
         if (data == null || data.length <= 0) {
             if (bleWriteCallback != null)
                 bleWriteCallback.onWriteFailure(new OtherException("the data to be written is empty"));
             return;
         }
 
-        if (mCharacteristic == null
-                || (mCharacteristic.getProperties() & (BluetoothGattCharacteristic.PROPERTY_WRITE | BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) == 0) {
+        if (mCharacteristic == null) {
             if (bleWriteCallback != null)
                 bleWriteCallback.onWriteFailure(new OtherException("this characteristic not support write!"));
             return;
         }
+        handleCharacteristicWriteCallback(bleWriteCallback, uuid_write, data);
+//        if (mCharacteristic.setValue(data)) {
+//            mCharacteristic.setWriteType(writeType);
+//            handleCharacteristicWriteCallback(bleWriteCallback, uuid_write, data);
+//            if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) {
+//                writeMsgInit();
+//                if (bleWriteCallback != null)
+//                    bleWriteCallback.onWriteFailure(new OtherException("gatt writeCharacteristic fail: " + HexUtil.formatHexString(data,
+//                            true)));
+//            }
+//        } else {
+//            if (bleWriteCallback != null)
+//                bleWriteCallback.onWriteFailure(new OtherException("Updates the locally stored value of this characteristic fail"));
+//        }
+        BleLog.i("writeCharacteristic 1: "+HexUtil.formatHexString(data,true));
+        ByteDataRequest request = new ByteDataRequest();
+        request.setSendData(data);
+        addCmdData(request, false);
+    }
 
-        if (mCharacteristic.setValue(data)) {
-            mCharacteristic.setWriteType(writeType);
-            handleCharacteristicWriteCallback(bleWriteCallback, uuid_write,data);
-            if (!mBluetoothGatt.writeCharacteristic(mCharacteristic)) {
-                writeMsgInit();
-                if (bleWriteCallback != null)
-                    bleWriteCallback.onWriteFailure(new OtherException("gatt writeCharacteristic fail: "+ HexUtil.formatHexString(data,true)));
-            }
-        } else {
-            if (bleWriteCallback != null)
-                bleWriteCallback.onWriteFailure(new OtherException("Updates the locally stored value of this characteristic fail"));
-        }
+    @Override
+    protected BluetoothGattCharacteristic getGattWriteCharacteristic() {
+        return mCharacteristic;
+    }
+
+    @Override
+    protected BluetoothGatt getRealGatt() {
+        return mBluetoothGatt;
     }
 
     /**
@@ -528,7 +545,7 @@ public class BleConnector {
      * write
      */
     private void handleCharacteristicWriteCallback(final BleWriteCallback bleWriteCallback,
-                                                   String uuid_write,final byte[] data) {
+                                                   String uuid_write, final byte[] data) {
         if (bleWriteCallback != null) {
             writeMsgInit();
             bleWriteCallback.setKey(uuid_write);
@@ -536,7 +553,7 @@ public class BleConnector {
             mBleBluetooth.addWriteCallback(uuid_write, bleWriteCallback);
             Message msg = mHandler.obtainMessage(BleMsg.MSG_CHA_WRITE_START, bleWriteCallback);
             Bundle bundle = new Bundle();
-            bundle.putByteArray("data",data);
+            bundle.putByteArray("data", data);
             msg.setData(bundle);
             mHandler.sendMessageDelayed(
                     msg,
@@ -612,4 +629,7 @@ public class BleConnector {
         mHandler.removeMessages(BleMsg.MSG_SET_MTU_START);
     }
 
+    public void close(){
+        reset();
+    }
 }

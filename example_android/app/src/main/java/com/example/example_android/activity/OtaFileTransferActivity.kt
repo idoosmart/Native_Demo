@@ -61,6 +61,10 @@ class OtaFileTransferActivity : BaseActivity() {
                 rawZipFileName = "ota_full_517_v1_01_01"
                 FileExtension =".bin"
             }
+            845->{
+                rawZipFileName = "ota_845_v1_00_10"
+                FileExtension = ".fw"
+            }
         }
 
         // 检查是否已经授予 WRITE_EXTERNAL_STORAGE 权限

@@ -822,19 +822,26 @@ extension CmdType {
         case .setWorldTimeV3:
             return nil
         case .setSchedulerReminder:
+            let futureDate = Date().addingTimeInterval(Double(1) * 60)
+            let (year, month, day, hour, minute, sec) = (Calendar.current.component(.year, from: futureDate),
+                                                         Calendar.current.component(.month, from: futureDate),
+                                                         Calendar.current.component(.day, from: futureDate),
+                                                         Calendar.current.component(.hour, from: futureDate),
+                                                         Calendar.current.component(.minute, from: futureDate),
+                                                         Calendar.current.component(.second, from: futureDate))
             let item = IDOSchedulerReminderItem(id: 1,
-                                                year: 2024,
-                                                mon: 11,
-                                                day: 26,
-                                                hour: 8,
-                                                min: 0,
-                                                sec: 0,
+                                                year: year,
+                                                mon: month,
+                                                day: day,
+                                                hour: hour,
+                                                min: minute,
+                                                sec: sec,
                                                 repeatType: 1,
                                                 remindOnOff: 1,
                                                 state: 2,
                                                 title: "title1",
                                                 note: "note1")
-            return IDOSchedulerReminderParamModel(operate: 3, items: [item])
+            return IDOSchedulerReminderParamModel(operate: 1, items: [item])
         case .setBpCalControlV3:
             return OtherParamModel(dic: ["operate": 1, "filePath": "xx/xx/xx"])
         case .setWatchFaceData:

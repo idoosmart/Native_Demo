@@ -1,6 +1,7 @@
 package com.example.example_android.data
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
@@ -9,8 +10,10 @@ import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
+import com.clj.fastble.utils.HexUtil
 import com.example.example_android.util.ByteUtil
 import com.example.example_android.util.Logutil
+import com.example.example_android.util.PairedDeviceUtils
 import com.google.gson.Gson
 import com.idosmart.enums.IDOLogType
 import com.idosmart.enums.IDOOtaType
@@ -35,6 +38,14 @@ object BLEdata  {
     fun registBridge(){
         Logutil.logMessage(TAG,"sdk.bridge.setupBridge")
         sdk.bridge.setupBridge(BleDataBrige(), IDOLogType.DEBUG)
+    }
+
+    fun createBtPair(mac:String){
+        PairedDeviceUtils.createBond(BluetoothAdapter.getDefaultAdapter().getRemoteDevice(mac))
+    }
+
+    fun notifyDisconnect(bleDevice: BleDevice){
+        sdk.bridge.markDisconnectedDevice(bleDevice.mac)
     }
     //使能通知
     fun notifyData(bleDevice: BleDevice,isBind:Boolean){
@@ -63,14 +74,17 @@ object BLEdata  {
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             Logutil.logMessage("bledata","status:$status")
+            if (status==IDOStatusNotification.FASTSYNCCOMPLETED){
+                createBtPair(CurrentDevice.bleDevice.mac)
+            }
         }
 
         @SuppressLint("MissingPermission")
         override fun writeDataToBle(request: IDOBleDataRequest) {
-            Logutil.logMessage("bledata","writeDataToBle:${ByteUtil.bytesToHexString(request.data)}")
+            Logutil.logMessage("bledata", "writeDataToBle:${HexUtil.formatHexString(request.data, true)}")
 //            var bluetoothGatt: BluetoothGatt =  BleManager.getInstance().getBleBluetooth(CurrentDevice.bleDevice).bluetoothGatt
-            val writeType = if (isNoNeedWaitResponseCmd(request.data))BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE else BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
-            BleManager.getInstance().write(CurrentDevice.bleDevice,CurrentDevice.uuid_service, CurrentDevice.uuid_characteristic_write,request.data,writeType,this)
+//            val writeType = if (isNoNeedWaitResponseCmd(request.data))BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE else BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+            BleManager.getInstance().write(CurrentDevice.bleDevice,CurrentDevice.uuid_service, CurrentDevice.uuid_characteristic_write,request.data,this)
 //            var characteristic: BluetoothGattCharacteristic? = getCharacteristic(bluetoothGatt, UUID.fromString(
 //                CurrentDevice.uuid_service
 //            ), UUID.fromString(CurrentDevice.uuid_characteristic_write))

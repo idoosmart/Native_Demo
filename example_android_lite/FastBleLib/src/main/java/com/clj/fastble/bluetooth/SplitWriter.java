@@ -135,7 +135,7 @@ public class SplitWriter {
 
                             }
                         },
-                        mUuid_write, mSendingData.mWriteType);
+                        mUuid_write);
 
         if (!mSendNextWhenLastSuccess) {
             mSending.set(false);

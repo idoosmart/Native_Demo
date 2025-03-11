@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Looper;
 
 import com.clj.fastble.bluetooth.BleBluetooth;
+import com.clj.fastble.bluetooth.BleConnector;
 import com.clj.fastble.bluetooth.MultipleBluetoothController;
 import com.clj.fastble.bluetooth.SplitWriter;
 import com.clj.fastble.callback.BleGattCallback;
@@ -30,10 +31,12 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.data.BleScanState;
+import com.clj.fastble.exception.BleException;
 import com.clj.fastble.exception.OtherException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.clj.fastble.scan.BleScanner;
 import com.clj.fastble.utils.BleLog;
+import com.clj.fastble.utils.HexUtil;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +49,7 @@ public class BleManager {
     private BluetoothAdapter bluetoothAdapter;
     private MultipleBluetoothController multipleBluetoothController;
     private BluetoothManager bluetoothManager;
+    private boolean enableLog = true;
 
     public static final int DEFAULT_SCAN_TIME = 10000;
     private static final int DEFAULT_MAX_MULTIPLE_DEVICE = 7;
@@ -65,6 +69,8 @@ public class BleManager {
     private long connectOverTime = DEFAULT_CONNECT_OVER_TIME;
 
     private SplitWriter writer = new SplitWriter();
+    private BleConnector bleConnector;
+    private BleBluetooth bleBluetooth;
 
     public static BleManager getInstance() {
         return BleManagerHolder.sBleManager;
@@ -84,6 +90,14 @@ public class BleManager {
             multipleBluetoothController = new MultipleBluetoothController();
             bleScanRuleConfig = new BleScanRuleConfig();
         }
+    }
+
+    public void setEnableLog(boolean enable) {
+        enableLog = enable;
+    }
+
+    public boolean isEnableLog() {
+        return enableLog;
     }
 
     /**
@@ -566,9 +580,8 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
-                      int writeType,
                       BleWriteCallback callback) {
-        write(bleDevice, uuid_service, uuid_write, data, writeType,true, callback);
+        write(bleDevice, uuid_service, uuid_write, data, true, callback);
     }
 
     /**
@@ -585,11 +598,10 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
-                      int writeType,
                       boolean split,
                       BleWriteCallback callback) {
 
-        write(bleDevice, uuid_service, uuid_write, data,writeType, split, true, 10, callback);
+        write(bleDevice, uuid_service, uuid_write, data, split, true, 10, callback);
     }
 
     /**
@@ -608,7 +620,6 @@ public class BleManager {
                       String uuid_service,
                       String uuid_write,
                       byte[] data,
-                      int writeType,
                       boolean split,
                       boolean sendNextWhenLastSuccess,
                       long intervalBetweenTwoPackage,
@@ -627,19 +638,44 @@ public class BleManager {
         if (data.length > 20 && !split) {
             BleLog.w("Be careful: data's length beyond 20! Ensure MTU higher than 23, or use spilt write!");
         }
-
-        BleBluetooth bleBluetooth = multipleBluetoothController.getBleBluetooth(bleDevice);
+        BleLog.w("start to write");
+        if (bleBluetooth == null) {
+            bleBluetooth = multipleBluetoothController.getBleBluetooth(bleDevice);
+        }
         if (bleBluetooth == null) {
             callback.onWriteFailure(new OtherException("This device not connect!"));
         } else {
-            if (split) {
-                writer.splitWrite(bleBluetooth, uuid_service, uuid_write, data,writeType,
-                        sendNextWhenLastSuccess, intervalBetweenTwoPackage, callback);
-            } else {
-                bleBluetooth.newBleConnector()
-                        .withUUIDString(uuid_service, uuid_write)
-                        .writeCharacteristic(data, callback, uuid_write,writeType);
+            if (bleConnector == null) {
+                bleConnector = bleBluetooth.newBleConnector()
+                        .withUUIDString(uuid_service, uuid_write);
+                bleBluetooth.addConnectGattCallback(new BleGattCallback() {
+                    @Override
+                    public void onStartConnect() {
+
+                    }
+
+                    @Override
+                    public void onConnectFail(BleDevice bleDevice, BleException exception) {
+
+                    }
+
+                    @Override
+                    public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+
+                    }
+
+                    @Override
+                    public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
+                        bleBluetooth.removeConnectGattCallback(this);
+                        BleLog.w("disconnect clear");
+                        bleBluetooth = null;
+                        bleConnector.close();
+                        bleConnector = null;
+                    }
+                });
             }
+            BleLog.w("start to writeCharacteristic");
+            bleConnector.writeCharacteristic(data, callback, uuid_write);
         }
     }
 
@@ -829,10 +865,10 @@ public class BleManager {
         return service.getCharacteristics();
     }
 
-    public void removeConnectGattCallback(BleDevice bleDevice) {
+    public void removeConnectGattCallback(BleDevice bleDevice,BleGattCallback callback) {
         BleBluetooth bleBluetooth = getBleBluetooth(bleDevice);
         if (bleBluetooth != null)
-            bleBluetooth.removeConnectGattCallback();
+            bleBluetooth.removeConnectGattCallback(callback);
     }
 
     public void removeRssiCallback(BleDevice bleDevice) {

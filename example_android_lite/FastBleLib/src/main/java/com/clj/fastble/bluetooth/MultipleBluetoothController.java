@@ -14,14 +14,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MultipleBluetoothController {
 
-    private final BleLruHashMap<String, BleBluetooth> bleLruHashMap;
+    private final ConcurrentHashMap<String, BleBluetooth> bleLruHashMap;
     private final HashMap<String, BleBluetooth> bleTempHashMap;
 
     public MultipleBluetoothController() {
-        bleLruHashMap = new BleLruHashMap<>(BleManager.getInstance().getMaxConnectCount());
+        bleLruHashMap = new ConcurrentHashMap<>();
         bleTempHashMap = new HashMap<>();
     }
 
@@ -70,9 +71,7 @@ public class MultipleBluetoothController {
 
     public synchronized BleBluetooth getBleBluetooth(BleDevice bleDevice) {
         if (bleDevice != null) {
-            if (bleLruHashMap.containsKey(bleDevice.getKey())) {
-                return bleLruHashMap.get(bleDevice.getKey());
-            }
+            return bleLruHashMap.get(bleDevice.getKey());
         }
         return null;
     }
