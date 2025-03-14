@@ -239,8 +239,7 @@ public class LogTool {
             if (sdCardExist) {
                 StringBuilder builder = new StringBuilder();
                 LOG_PATH_SDCARD_DIR = builder.append(
-                                getRootPath()).
-                        append("Log").toString();
+                                getRootPath()).toString();
             }
         }
         return LOG_PATH_SDCARD_DIR;
@@ -252,12 +251,12 @@ public class LogTool {
     public static String getRootPath() {
         if (TextUtils.isEmpty(APP_ROOT_PATH)) {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File file = BleManager.getInstance().getContext().getFilesDir();
+            File file = BleManager.getInstance().getContext().getDataDir();
             if (file != null) {
                 root = file.getAbsolutePath();
             }
             APP_ROOT_PATH = root
-                    + File.separator + "IDO_BLE_SDK" + File.separator;
+                    + File.separator + "ido_sdk" + File.separator + "logs" + File.separator + "bluetooth" + File.separator;
         }
         return APP_ROOT_PATH;
     }
