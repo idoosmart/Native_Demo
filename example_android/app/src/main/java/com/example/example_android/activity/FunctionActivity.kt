@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
+import com.example.example_android.sport.EditSportListActivity
 import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.SPUtil
 import com.google.gson.Gson
@@ -45,6 +46,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_notificationIconTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
 import kotlinx.android.synthetic.main.layout_function_activity.rl_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
@@ -86,7 +88,7 @@ class FunctionActivity : BaseActivity() {
                 rl_test?.visibility = View.GONE
                 rl_appletTransfer?.visibility = View.GONE
                 rl_notificationIconTransfer?.visibility = View.GONE
-
+                rl_sport_screen?.visibility = View.GONE
             }
         };
 
@@ -235,6 +237,15 @@ class FunctionActivity : BaseActivity() {
         }
 
     }
+    fun sportScreen(view: View) {
+        if (sdk.funcTable.supportOperateSetSportScreen) {
+            val intent = Intent(this, EditSportListActivity::class.java)
+            startActivity(intent)
+        } else {
+            toast("此设备不支持 / this device is not support")
+        }
+
+    }
 
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -279,7 +290,7 @@ class FunctionActivity : BaseActivity() {
 
     private fun printLastUpdateTime() {
         IDOEpoManager.shared.lastUpdateTimestamp {
-            if (it != 0) {
+            if (it != 0L) {
                 val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 val formattedDate = formatter.format(it)
                 println("epo---- lastUpdateTimestamp: $formattedDate")
@@ -370,6 +381,7 @@ class FunctionActivity : BaseActivity() {
             rl_test?.visibility = View.VISIBLE
             rl_appletTransfer?.visibility = View.VISIBLE
             rl_notificationIconTransfer?.visibility = View.VISIBLE
+            rl_sport_screen?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -383,6 +395,7 @@ class FunctionActivity : BaseActivity() {
             rl_test?.visibility = View.GONE
             rl_appletTransfer?.visibility = View.GONE
             rl_notificationIconTransfer?.visibility = View.GONE
+            rl_sport_screen?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }

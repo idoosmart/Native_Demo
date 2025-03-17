@@ -2,7 +2,7 @@
 
 IDOSDK 版本更新日志
 
----
+
 
 ## 资源
 
@@ -16,7 +16,17 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
-## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
+## 4.2.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/17</span>
+
+##### 更新内容：
+
+- 去除蓝牙库非必要的后台定位权限配置（Android）；
+- 自动EPO升级添加每30分钟更新热启动参数请求（启用自动EPO升级时有效）；
+- 部分功能优化;
+
+
+
+## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/25</span>
 
 ##### 更新内容：
 

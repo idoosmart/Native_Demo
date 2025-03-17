@@ -19,4 +19,9 @@
         <!--AlertDialog button英文小写-->
         <item name="android:textAllCaps">false</item>
     </style>
+    <!-- dialog 淡入淡出动画 -->
+    <style name="DialogAnimationsFade" parent="@android:style/Theme.Dialog">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

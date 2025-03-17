@@ -124,30 +124,16 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         mAdapter?.setOnSelectDeviceListenter(this)
         btn_refresh.setTextColor(Color.WHITE)
         btn_refresh.setOnClickListener {
-            refresh()
+            mAdapter?.clear()
+            mDeviceList.clear()
+            mDevice = null
+            BleManager.getInstance()
+                .enableLog(true)
+                .setReConnectCount(1, 5000)
+                .setConnectOverTime(20000).operateTimeout = 5000
+            startScan()
         }
         initconfig()
-    }
-
-    private fun refresh() {
-        mAdapter?.clear()
-        mDeviceList.clear()
-        mDevice = null
-        BleManager.getInstance()
-            .enableLog(true)
-            .setReConnectCount(1, 5000)
-            .setConnectOverTime(20000).operateTimeout = 5000
-        startScan()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        refresh()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        BleManager.getInstance().cancelScan()
     }
 
     override fun getLayoutId(): Int {

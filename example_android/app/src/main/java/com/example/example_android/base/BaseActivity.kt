@@ -50,6 +50,16 @@ abstract class BaseActivity : AppCompatActivity() {
         progressDialog!!.setCancelable(false)
         progressDialog!!.show()
     }
+    protected open fun showProgressCanCancelDialog(title: String?) {
+        if (progressDialog != null && progressDialog!!.isShowing) {
+            progressDialog!!.dismiss()
+        }
+        progressDialog = ProgressDialog(this)
+        progressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        progressDialog!!.setTitle(title)
+        progressDialog!!.setCancelable(true)
+        progressDialog!!.show()
+    }
 
     protected open fun closeProgressDialog() {
         if (progressDialog != null && progressDialog!!.isShowing) {

@@ -2,7 +2,7 @@
 
 IDOSDK version update log
 
----
+
 
 ## Resources
 
@@ -16,7 +16,17 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
-## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/11</span>
+## 4.2.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/17</span>
+
+##### Update content:
+
+- Remove unnecessary background location permission configuration of Bluetooth library (Android);
+- Automatic EPO upgrade adds hot start parameter update request every 30 minutes (valid when automatic EPO upgrade is enabled);
+- Optimize some functions;
+
+
+
+## 4.2.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/02/25</span>
 
 ##### Update content:
 

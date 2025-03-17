@@ -1,17 +1,15 @@
 package com.example.example_android.activity
 
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothProfile
 import android.content.Intent
 import android.graphics.Color
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
+import com.clj.fastble.callback.BleMtuChangedCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.example.example_android.R
@@ -23,7 +21,6 @@ import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
 import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.Logutil
-import com.example.example_android.util.PairedDeviceUtils
 import com.google.gson.GsonBuilder
 import com.idosmart.enums.IDOBindStatus
 import com.idosmart.model.IDOMtuInfoModel
@@ -50,10 +47,6 @@ class FunctionActivity : BaseActivity() {
     private var device: BleDevice? = null
     private var getFunctionData: GetFuntionData? = null
     private var isConnect: Boolean = false;
-
-    fun btPair(view:View){
-        BLEdata.createBtPair(CurrentDevice.bleDevice.mac)
-    }
 
     fun connect(view: View) {
         connectDevice()
@@ -92,9 +85,7 @@ class FunctionActivity : BaseActivity() {
 
                 BLEdata.notifyData(bleDevice, FunctionUtils.isBind(bleDevice.mac))
 
-                if (FunctionUtils.isBind(bleDevice.mac)) {
-                    BLEdata.createBtPair(bleDevice.mac)
-                }
+
 
             }
 
@@ -113,10 +104,10 @@ class FunctionActivity : BaseActivity() {
                 updateBleStatus(isConnect)
                 ll_connect?.visibility = View.VISIBLE
                 ll_dis_connect?.visibility = View.GONE
-                BLEdata.notifyDisconnect(bleDevice)
             }
         })
     }
+
 
     fun dis_connect(view: View) {
         Logutil.logMessage(TAG, "disconnect")
@@ -158,8 +149,8 @@ class FunctionActivity : BaseActivity() {
                             FunctionUtils.saveBindState(device!!.mac.toString())
                             bindState()
 
-                            //bt pair
-                            BLEdata.createBtPair(device!!.mac)
+
+
                         }
 
                         IDOBindStatus.FAILED,
@@ -214,9 +205,6 @@ class FunctionActivity : BaseActivity() {
                     tv_device_state?.text = "state: connected"
                     bindState()
                     tv_device_state.setTextColor(Color.parseColor("#ff0000"))
-                    Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                        PairedDeviceUtils.removeBondState(device!!.mac)
-                    }, 3000)
 
                 } else {
                     toast("unbind failed")

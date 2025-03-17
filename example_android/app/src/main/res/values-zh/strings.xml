@@ -215,4 +215,12 @@
     <string name="music_next">下一曲</string>
     <string name="music_play">播放</string>
     <string name="music_buffering">缓冲中...</string>
+
+    <string name="sport_edit">运动中数据项编辑</string>
+    <string name="sport_edit_save">保存</string>
+    <string name="sport_edit_restore">恢复默认数据</string>
+    <string name="sport_edit_move_up">上移</string>
+    <string name="sport_edit_move_down">下移</string>
+    <string name="sport_edit_new_screen">新增</string>
+    <string name="sport_edit_delete_screen">删除</string>
 </resources>

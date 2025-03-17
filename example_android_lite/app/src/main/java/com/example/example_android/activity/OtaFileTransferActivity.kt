@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.text.format.DateUtils
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_file_transfer.tv_response
 import kotlinx.android.synthetic.main.activity_file_transfer.tv_start
 import kotlinx.android.synthetic.main.activity_file_transfer.tv_stop
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 import kotlin.math.log
 
 class OtaFileTransferActivity : BaseActivity() {
@@ -89,16 +86,14 @@ class OtaFileTransferActivity : BaseActivity() {
             )
 
         tv_start.setOnClickListener {
-                result = "${format(System.currentTimeMillis())}\n"
-            val startTime = System.currentTimeMillis()
+                result = ""
                 tv_start.isEnabled = false
                 tv_response.text = "start..."
                 cancellable = sdk.transfer.transferFiles(tasks, cancelPre, { currentIndex, totalCount, currentProgress, totalProgress ->
-                    result += "index: ${currentIndex}/${totalCount} progress: ${currentProgress * 100}%/${totalProgress * 100}%, update time: ${(System.currentTimeMillis()-startTime)/1000}\n"
+                    result += "index: ${currentIndex}/${totalCount} progress: ${currentProgress * 100}%/${totalProgress * 100}%\n"
                     tv_response.text = result
                 }, { currentIndex: Int, status: IDOTransStatus, errorCode: Int?, finishingTime: Int? -> }) {
                     result += "result: [${it[0]}]\n"
-                    result+="${format(System.currentTimeMillis())}\n"
                     tv_response.text = result
                     tv_start.isEnabled = true
                 }
@@ -108,10 +103,5 @@ class OtaFileTransferActivity : BaseActivity() {
             cancellable?.cancel()
             tv_start.isEnabled = true
         }
-    }
-
-    fun format(time:Long):String{
-        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss")
-        return format.format(Date(time))
     }
 }

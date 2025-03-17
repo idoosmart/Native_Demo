@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <!-- 为刷新和标题高之和，即分60dp + 60dp -->
+    <!--<dimen name="sport_frgament_paddingTop">120dp</dimen>-->
+
+    <dimen name="size5dp">5dp</dimen>
+    <dimen name="size1dp">1dp</dimen>
+    <dimen name="size10dp">10dp</dimen>
+    <dimen name="size20dp">20dp</dimen>
+    <dimen name="size30dp">30dp</dimen>
+    <dimen name="size50dp">50dp</dimen>
+    <dimen name="size20sp">20sp</dimen>
+    <dimen name="size2dp">2dp</dimen>
+    <dimen name="size60dp">60dp</dimen>
+    <dimen name="size14sp">14sp</dimen>
+
+    <!---->
+    <!-- ViewPager的间隔 -->
+    <!-- 工具栏上按钮的间距 -->
+    <!-- 重新加载文字字体大小 -->
+    <!-- 图集标题字体大小 -->
+    <!-- 图集中图片数量字体大小 -->
+    <!-- 图集View的间隔 -->
+    <!-- 工具栏上显示1/6文字的字体大小 -->
+    <!-- 用户引导边距 -->
+    <!-- 正在加载文本上边距 -->
+    <!---->
+
+
+</resources>
