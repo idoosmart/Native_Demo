@@ -260,6 +260,20 @@ internal enum L10n {
   internal static let setWorldTimeV3 = L10n.tr("Localizable", "setWorldTimeV3", fallback: "v3 set v3 world time")
   /// Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system.
   internal static let systemNotifyTips = L10n.tr("Localizable", "system_notify_tips", fallback: "Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system.")
+  internal static let setEditSportScreenV3 = L10n.tr("Localizable", "setEditSportScreenV3", fallback: "v3 edit sport screene")
+    
+    
+    
+    
+    
+
+}
+
+extension String {
+    public var i18n: String {
+        L10n.tr("Localizable", self, fallback: "")
+    }
+    
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces
@@ -267,7 +281,7 @@ internal enum L10n {
 // MARK: - Implementation Details
 
 extension L10n {
-  private static func tr(_ table: String, _ key: String, _ args: CVarArg..., fallback value: String) -> String {
+    public static func tr(_ table: String, _ key: String, _ args: CVarArg..., fallback value: String) -> String {
     let format = BundleToken.bundle.localizedString(forKey: key, value: value, table: table)
     return String(format: format, locale: Locale.current, arguments: args)
   }

@@ -52,7 +52,7 @@ class FunctionPageVC: UIViewController {
         Word.alexa,
         Word.testOC,
         Word.testBleChannel,
-        Word.exportLog
+        Word.editSportScreen
     ]
     
     private lazy var tableView: UITableView = {
@@ -79,6 +79,16 @@ class FunctionPageVC: UIViewController {
         return v
     }()
     
+    private lazy var btnShareLog = {
+        let v = UIBarButtonItem(
+            title: Word.exportLog,
+            style: .plain,
+            target: self,
+            action: #selector(doExportLog)
+        )
+        return v
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,6 +98,8 @@ class FunctionPageVC: UIViewController {
         view.addSubview(lblDeviceInfo)
         view.addSubview(lblConnectState)
         view.addSubview(tableView)
+        
+        navigationItem.rightBarButtonItem = btnShareLog
         
         if let device = deviceModel {
             lblDeviceInfo.text = "Current Device: \(device.name ?? "-")\nMac Address\(device.macAddress ?? "-")\nRSSI: \(device.rssi)"
@@ -315,14 +327,18 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
                 vc.deviceModel = deviceModel
                 navigationController?.pushViewController(vc, animated: true)
             }else {
-                print("不支持 / not support")
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
             }
         case Word.testOC:
             let test = TestOC()
             test.testCommand()
             break
-        case Word.exportLog:
-            doExportLog()
+		case Word.editSportScreen:
+            if sdk.funcTable.supportOperateSetSportScreen {
+                navigationController?.pushViewController(SportListVC(), animated: true)
+            }else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
             break
         default: break
         }
@@ -388,9 +404,9 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.testOC:
             return isConnected && isBinded
-        case Word.exportLog:
-            return isConnected && isBinded
         case Word.testBleChannel:
+            return isConnected && isBinded
+        case Word.editSportScreen:
             return isConnected && isBinded
         default:
             break
@@ -401,7 +417,7 @@ extension FunctionPageVC {
     private func canPush(_ funName: String) -> Bool {
         return !(funName == Word.deviceConnect || funName == Word.deviceDisconnect
                  || funName == Word.deviceBind || funName == Word.deviceUnbind
-                 || funName == Word.testOC || funName == Word.exportLog
+                 || funName == Word.testOC
                  || funName == Word.testBleChannel)
     }
     
@@ -511,7 +527,12 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
-    func doExportLog() {
+    @objc func doExportLog() {
+        guard isConnected, isBinded else {
+            SVProgressHUD.showInfo(withStatus: "Please bind the device first")
+            return
+        }
+        
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let appLogAction = UIAlertAction(title: "App log", style: .default) { _ in

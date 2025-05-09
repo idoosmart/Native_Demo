@@ -65,7 +65,10 @@ object CmdGet {
             CustomEvtType.FINDDEVICESTOP -> Cmds.findDeviceStop()
             CustomEvtType.GETDEFAULTSPORTTYPE -> Cmds.getDefaultSportType()
             CustomEvtType.GETSPORTTYPEV3 -> Cmds.getSportTypeV3()
-
+            CustomEvtType.GETLEFTRIGHTWEARSETTINGS -> Cmds.getLeftRightWearSettings()
+            CustomEvtType.GETSETTINGSDURINGEXERCISE -> Cmds.getSettingsDuringExercise()
+            CustomEvtType.GETSIMPLEHEARTRATEZONE -> Cmds.getSimpleHeartRateZone()
+            CustomEvtType.SETSPORTINGREMINDSETTING -> Cmds.getSportingRemindSetting(listOf(48))
             else -> {
                 null
             }

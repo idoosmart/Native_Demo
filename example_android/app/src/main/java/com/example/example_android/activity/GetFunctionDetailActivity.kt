@@ -5,6 +5,8 @@ import com.example.example_android.base.BaseActivity
 import com.example.example_android.R
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDODeviceFileToAppTask
 import com.idosmart.protocol_channel.sdk
@@ -85,6 +87,10 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETDEVICENAME -> getDeviceName()
                 CustomEvtType.GETALGFILE-> getAlgFile()
                 CustomEvtType.REQUESTALGFILE-> requestAlgFile()
+                CustomEvtType.GETLEFTRIGHTWEARSETTINGS -> getLeftRightWearSettings()
+                CustomEvtType.GETSETTINGSDURINGEXERCISE -> getSettingsDuringExercise()
+                CustomEvtType.GETSIMPLEHEARTRATEZONE -> getSimpleHeartRateZone()
+                CustomEvtType.SETSPORTINGREMINDSETTING -> getSportingRemindSetting()
                 else -> {}
             }
         }
@@ -93,6 +99,59 @@ class GetFunctionDetailActivity : BaseActivity() {
             deviceTransFileToApp(it)
         }
     }
+
+    private fun getSportingRemindSetting(){
+        val param = listOf(48)
+        Cmds.getSportingRemindSetting(param).send {
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{ok}"
+                tv_response?.text = res
+            } else {
+                val res = it.res?.toJsonString() ?: "{erro}"
+                tv_response?.text = "erro: $res"
+            }
+        }
+        paramter_tv?.text = GsonBuilder().create().toJson(param).toString()
+    }
+
+    private fun getSimpleHeartRateZone(){
+        Cmds.getSimpleHeartRateZone().send {
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{ok}"
+                tv_response?.text = res
+            } else {
+                val res = it.res?.toJsonString() ?: "{erro}"
+                tv_response?.text = "erro: $res"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+    private fun getSettingsDuringExercise(){
+        Cmds.getSettingsDuringExercise().send {
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{ok}"
+                tv_response?.text = res
+            } else {
+                val res = it.res?.toJsonString() ?: "{erro}"
+                tv_response?.text = "erro: $res"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getLeftRightWearSettings(){
+        Cmds.getLeftRightWearSettings().send {
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{ok}"
+                tv_response?.text = res
+            } else {
+                val res = it.res?.toJsonString() ?: "{erro}"
+                tv_response?.text = "erro: $res"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
     private fun deviceTransFileToApp(task: IDODeviceFileToAppTask) {
         println("收到设备传输文件 名称：${task.deviceTransItem.fileName} 大小：${task.deviceTransItem.fileSize} 到App")
                 task.acceptReceiveFile(onProgress = { progress ->

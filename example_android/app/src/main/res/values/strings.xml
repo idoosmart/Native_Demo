@@ -350,4 +350,12 @@
     <string name="other_vo2max">最大摄氧量</string>
     <string name="other_battery_level">电池电量</string>
     <string name="other_battery_life_based_on_soc">基于剩余电量的电池寿命</string>
+
+    <string name="get_left_right_wear_settings">Get left and right hands</string>
+    <string name="get_settings_during_exercise">Get reminder switch during exercise</string>
+    <string name="set_settings_during_exercise">Set reminder switch during exercise</string>
+    <string name="get_simple_hr_zone_setting">Get maximum heart rate</string>
+    <string name="set_simple_hr_zone_setting">Set maximum heart rate</string>
+    <string name="get_sporting_remind_setting">Get reminder item during exercise</string>
+    <string name="set_sporting_remind_setting">Set reminder item during exercise</string>
 </resources>

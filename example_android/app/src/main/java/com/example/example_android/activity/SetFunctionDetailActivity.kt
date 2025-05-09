@@ -10,6 +10,8 @@ import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
 import com.google.gson.GsonBuilder
+import com.idosmart.model.CommonRangeRemind
+import com.idosmart.model.DistanceRemind
 import com.idosmart.model.IDOActivitySwitchParamModel
 import com.idosmart.model.IDOAlarmItem
 import com.idosmart.model.IDOAlarmModel
@@ -62,7 +64,9 @@ import com.idosmart.model.IDOSchedulerReminderItem
 import com.idosmart.model.IDOSchedulerReminderParamModel
 import com.idosmart.model.IDOScientificSleepSwitchParamModel
 import com.idosmart.model.IDOScreenBrightnessModel
+import com.idosmart.model.IDOSettingsDuringExerciseModel
 import com.idosmart.model.IDOShortcutParamModel
+import com.idosmart.model.IDOSimpleHeartRateZoneSettingModel
 import com.idosmart.model.IDOSleepPeriodParamModel
 import com.idosmart.model.IDOSpo2SwitchParamModel
 import com.idosmart.model.IDOSport100SortParamModel
@@ -72,6 +76,7 @@ import com.idosmart.model.IDOSportModeSortParamModel
 import com.idosmart.model.IDOSportParamModel
 import com.idosmart.model.IDOSportSortParamModel
 import com.idosmart.model.IDOSportType
+import com.idosmart.model.IDOSportingRemindSettingModel
 import com.idosmart.model.IDOStressCalibrationParamModel
 import com.idosmart.model.IDOStressSwitchParamModel
 import com.idosmart.model.IDOSunriseItem
@@ -96,6 +101,7 @@ import com.idosmart.model.IDOWeatherSunTimeParamModel
 import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOWorldTimeParamModel
+import com.idosmart.model.PaceRemind
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
@@ -210,12 +216,58 @@ class SetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.SETFASTMSGV3 -> setDefaultQuickMsgReplyList()
                 CustomEvtType.SETSPORTMODESORT -> setSportModeSort()
                 CustomEvtType.NOTICEMESSAGEV3 -> noticeMessageV3()
-
+                CustomEvtType.SETDURINGEXERCISE -> setDuringExercise()
+                CustomEvtType.SETSIMPLEHEARTRATEZONE -> setSimpleHeartRateZone()
+                CustomEvtType.SETSPORTINGREMINDSETTING -> setSportingRemindSetting()
                 else -> {
                     null
                 }
             }
         }
+    }
+
+    private fun setSportingRemindSetting() {
+        val model = arrayListOf(
+            IDOSportingRemindSettingModel(
+                sportType = 48,
+                distanceRemind = DistanceRemind(isOpen = true, isMetric = true, goalValOrg = 1000),
+                paceRemind = PaceRemind(isOpen = true, isMetric = true, fastThresholdOrg = 120, slowThresholdOrg = 200),
+                heartRateRemind = CommonRangeRemind(isOpen = true, maxThreshold = 120, minThreshold = 40),
+                stepFreqRemind = CommonRangeRemind(isOpen = true, maxThreshold = 20, minThreshold = 5)
+            )
+        )
+        Cmds.setSportingRemindSetting(model).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+        paramter_tv.text = GsonBuilder().create().toJson(model).toString()
+    }
+
+    private fun setSimpleHeartRateZone() {
+        val model =IDOSimpleHeartRateZoneSettingModel(110)
+        Cmds.setSimpleHeartRateZone(model).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+        paramter_tv.text = model.toJsonString()
+    }
+
+    private fun setDuringExercise() {
+        val model = IDOSettingsDuringExerciseModel(0x55)
+        Cmds.setDuringExercise(model).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "设置失败 / Setup failure"
+            }
+        }
+        paramter_tv.text = model.toJsonString()
     }
 
     /**
@@ -1632,7 +1684,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 1,
                 1,
                 1,
-            )
+            ).apply { heightUnit = 2 }
         )
         unit.send {
             if (it.error.code == 0) {

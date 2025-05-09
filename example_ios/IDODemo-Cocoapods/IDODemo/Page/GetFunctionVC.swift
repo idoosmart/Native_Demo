@@ -198,6 +198,23 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
         }
         
+        if (sdk.funcTable.getLeftRightHandWearSettings){
+            items.append(GetCmd(type: .getLeftRightWearSettings, title: "getLeftRightWearSettings", desc: "getLeftRightWearSettings"))
+        }
+        
+        if (sdk.funcTable.supportSimpleHrZoneSetting){
+            items.append(GetCmd(type: .getSimpleHeartRateZone, title: "getSimpleHeartRateZone", desc: "getSimpleHeartRateZone"))
+        }
+        
+        
+        if (sdk.funcTable.supportSportingRemindSetting){
+            items.append(GetCmd(type: .getSportingRemindSetting, title: "getSportingRemindSetting", desc: "getSportingRemindSetting"))
+        }
+        
+        if (sdk.funcTable.supportSettingsDuringExercise){
+            items.append(GetCmd(type: .getSettingsDuringExercise, title: "getSettingsDuringExercise", desc: "getSettingsDuringExercise"))
+        }
+        
         
         //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用
         //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用
@@ -456,7 +473,14 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case getHeartMode
     /// 运动排序
     case getSportsTypeV3
-    
+    ///  获取左右手佩戴设置
+    case getLeftRightWearSettings
+    ///  获取运动中设置提示音开关
+    case getSettingsDuringExercise
+    ///  获取简单心率区间设置
+    case getSimpleHeartRateZone
+    /// 运动中提醒设置
+    case getSportingRemindSetting
 }
 
 extension CmdType {
@@ -865,6 +889,26 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getSportsTypeV3:
             cancellable = Cmds.getSportTypeV3().send { [weak self] res in
+            self?.doPrint(res)
+        }
+
+        case .getLeftRightWearSettings:
+            cancellable = Cmds.getLeftRightWearSettings().send { [weak self] res in
+                self?.doPrint(res)
+            }
+
+        case .getSimpleHeartRateZone:
+            cancellable = Cmds.getSimpleHeartRateZone().send { [weak self] res in
+                self?.doPrint(res)
+            }
+
+        case .getSettingsDuringExercise:
+            cancellable = Cmds.getSettingsDuringExercise().send { [weak self] res in
+                self?.doPrint(res)
+            }
+
+        case .getSportingRemindSetting:
+            cancellable = Cmds.getSportingRemindSetting([48]).send { [weak self] res in
                 self?.doPrint(res)
             }
         }

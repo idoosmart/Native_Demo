@@ -240,6 +240,12 @@ class SetFunctionVC: UIViewController {
         addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: L10n.setAppletControl))
      
         addToItemsbyFunctable(sdk.funcTable.getSportsTypeV3, SetCmd(type: .setSportsTypeV3, title: "setSportsTypeV3", desc: L10n.setSportsTypeV3))
+
+        addToItemsbyFunctable(sdk.funcTable.supportSettingsDuringExercise, SetCmd(type: .setDuringExercise, title: "setDuringExercise", desc: L10n.setSportsTypeV3))
+        
+        addToItemsbyFunctable(sdk.funcTable.supportSimpleHrZoneSetting, SetCmd(type: .setSimpleHeartRateZone, title: "setSimpleHeartRateZone", desc: L10n.setSportsTypeV3))
+        
+        addToItemsbyFunctable(sdk.funcTable.supportSportingRemindSetting, SetCmd(type: .setSportingRemindSetting, title: "setSportingRemindSetting", desc: L10n.setSportsTypeV3))
     }
     
     
@@ -531,6 +537,12 @@ private enum CmdType: CaseIterable{
     case setAppletControl
     /// 运动列表修改、排序、删除
     case setSportsTypeV3
+    ///  运动中设置提示音开关
+    case setDuringExercise
+    ///  简单心率区间设置
+    case setSimpleHeartRateZone
+    ///  运动中提醒设置
+    case setSportingRemindSetting
 }
 
 extension CmdType {
@@ -613,7 +625,7 @@ extension CmdType {
                                      calorieUnit: 1,
                                      swimPoolUnit: 1,
                                      cyclingUnit: 1,
-                                     walkingRunningUnit: 1)
+                                     walkingRunningUnit: 1,heightUnit: 2)
         case .setFindPhone:
             return OtherParamModel(dic: ["open": true])
         case .setOverFindPhone:
@@ -822,26 +834,19 @@ extension CmdType {
         case .setWorldTimeV3:
             return nil
         case .setSchedulerReminder:
-            let futureDate = Date().addingTimeInterval(Double(1) * 60)
-            let (year, month, day, hour, minute, sec) = (Calendar.current.component(.year, from: futureDate),
-                                                         Calendar.current.component(.month, from: futureDate),
-                                                         Calendar.current.component(.day, from: futureDate),
-                                                         Calendar.current.component(.hour, from: futureDate),
-                                                         Calendar.current.component(.minute, from: futureDate),
-                                                         Calendar.current.component(.second, from: futureDate))
             let item = IDOSchedulerReminderItem(id: 1,
-                                                year: year,
-                                                mon: month,
-                                                day: day,
-                                                hour: hour,
-                                                min: minute,
-                                                sec: sec,
+                                                year: 2024,
+                                                mon: 11,
+                                                day: 26,
+                                                hour: 8,
+                                                min: 0,
+                                                sec: 0,
                                                 repeatType: 1,
                                                 remindOnOff: 1,
                                                 state: 2,
                                                 title: "title1",
                                                 note: "note1")
-            return IDOSchedulerReminderParamModel(operate: 1, items: [item])
+            return IDOSchedulerReminderParamModel(operate: 3, items: [item])
         case .setBpCalControlV3:
             return OtherParamModel(dic: ["operate": 1, "filePath": "xx/xx/xx"])
         case .setWatchFaceData:
@@ -963,7 +968,7 @@ extension CmdType {
         case .photoStop:
             return nil
         case .setHand:
-            return OtherParamModel(dic: ["isRightHand": true])
+            return OtherParamModel(dic: ["isRightHand": false])
         case .setScreenBrightness:
             return IDOScreenBrightnessModel(level: 60,
                                             opera: 1,
@@ -1033,6 +1038,15 @@ extension CmdType {
         case .setSportsTypeV3:
             //IDOSport100SortParamModel(operate: <#T##Int#>, nowUserLocation: <#T##Int#>, items: <#T##[Int]#>)
             return nil
+        case .setDuringExercise:
+            return IDOSettingsDuringExerciseModel(notificationSwitch: 0xAA)
+        case .setSimpleHeartRateZone:
+            return IDOSimpleHeartRateZoneSettingModel(maxHrValue: 100)
+        case .setSportingRemindSetting:
+            return IDOSportingRemindSettingModel(
+                    sportType: 48, distanceRemind: DistanceRemind(isOpen: true, isMetric: true, goalValOrg: 2000),
+                    heartRateRemind: CommonRangeRemind(isOpen: true, maxThreshold: 110, minThreshold: 30),
+                    paceRemind: PaceRemind(isOpen: true, isMetric: true, fastThresholdOrg: 60, slowThresholdOrg: 120), stepFreqRemind: CommonRangeRemind(isOpen: true, maxThreshold: 20, minThreshold: 10))
         }
         return nil
     }
@@ -1711,6 +1725,21 @@ private class SetFunctionDetailVC: UIViewController {
                 } else if case .failure(let err) = res {
                     textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
+            }
+        case .setDuringExercise:
+            let obj = cmd.type.param() as! IDOSettingsDuringExerciseModel
+            Cmds.setDuringExercise(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setSimpleHeartRateZone:
+            let obj = cmd.type.param() as! IDOSimpleHeartRateZoneSettingModel
+            Cmds.setSimpleHeartRateZone(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setSportingRemindSetting:
+            let obj = cmd.type.param() as! IDOSportingRemindSettingModel
+            Cmds.setSportingRemindSetting([obj]).send { [weak self] res in
+                self?.doPrint(res)
             }
         }
     }

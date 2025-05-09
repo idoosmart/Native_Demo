@@ -1,6 +1,8 @@
 package com.example.example_android.data
 
 import android.util.Log
+import com.idosmart.model.CommonRangeRemind
+import com.idosmart.model.DistanceRemind
 import com.idosmart.model.IDOActivitySwitchParamModel
 import com.idosmart.model.IDOAlarmModel
 import com.idosmart.model.IDOAppletControlModel
@@ -41,7 +43,9 @@ import com.idosmart.model.IDORunPlanParamModel
 import com.idosmart.model.IDOSchedulerReminderParamModel
 import com.idosmart.model.IDOScientificSleepSwitchParamModel
 import com.idosmart.model.IDOScreenBrightnessModel
+import com.idosmart.model.IDOSettingsDuringExerciseModel
 import com.idosmart.model.IDOShortcutParamModel
+import com.idosmart.model.IDOSimpleHeartRateZoneSettingModel
 import com.idosmart.model.IDOSleepPeriodParamModel
 import com.idosmart.model.IDOSpo2SwitchParamModel
 import com.idosmart.model.IDOSport100SortParamModel
@@ -51,6 +55,7 @@ import com.idosmart.model.IDOSportModeSortParamModel
 import com.idosmart.model.IDOSportParamModel
 import com.idosmart.model.IDOSportSortParamModel
 import com.idosmart.model.IDOSportType
+import com.idosmart.model.IDOSportingRemindSettingModel
 import com.idosmart.model.IDOStressCalibrationParamModel
 import com.idosmart.model.IDOStressSwitchParamModel
 import com.idosmart.model.IDOSyncContactParamModel
@@ -71,6 +76,7 @@ import com.idosmart.model.IDOWeatherDataParamModel
 import com.idosmart.model.IDOWeatherSunTimeParamModel
 import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWorldTimeParamModel
+import com.idosmart.model.PaceRemind
 import com.idosmart.pigeon_implement.Cmds
 
 object CmdSet {
@@ -189,6 +195,19 @@ object CmdSet {
                     IDOSportModeSortParamModel(
                         1,
                         IDOSportType.SPORTTYPEAEROBICS
+                    )
+                )
+            )
+            CustomEvtType.SETDURINGEXERCISE -> Cmds.setDuringExercise(IDOSettingsDuringExerciseModel(0x55))
+            CustomEvtType.SETSIMPLEHEARTRATEZONE -> Cmds.setSimpleHeartRateZone(IDOSimpleHeartRateZoneSettingModel(110))
+            CustomEvtType.SETSPORTINGREMINDSETTING -> Cmds.setSportingRemindSetting(
+                arrayListOf(
+                    IDOSportingRemindSettingModel(
+                        sportType = 48,
+                        distanceRemind = DistanceRemind(isOpen = true, isMetric = true, goalValOrg = 1000),
+                        paceRemind = PaceRemind(isOpen = true, isMetric = true, fastThresholdOrg = 120, slowThresholdOrg = 200),
+                        heartRateRemind = CommonRangeRemind(isOpen = true, maxThreshold = 120, minThreshold = 40),
+                        stepFreqRemind = CommonRangeRemind(isOpen = true, maxThreshold = 20, minThreshold = 5)
                     )
                 )
             )

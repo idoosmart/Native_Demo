@@ -38,7 +38,7 @@ class FunctionPageVC: UIViewController {
         Word.sport,
         Word.alexa,
         Word.testOC,
-        Word.exportLog
+        Word.editSportScreen
     ]
     
     private lazy var tableView: UITableView = {
@@ -65,6 +65,16 @@ class FunctionPageVC: UIViewController {
         return v
     }()
     
+    private lazy var btnShareLog = {
+        let v = UIBarButtonItem(
+            title: Word.exportLog,
+            style: .plain,
+            target: self,
+            action: #selector(doExportLog)
+        )
+        return v
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -74,6 +84,8 @@ class FunctionPageVC: UIViewController {
         view.addSubview(lblDeviceInfo)
         view.addSubview(lblConnectState)
         view.addSubview(tableView)
+        
+        navigationItem.rightBarButtonItem = btnShareLog
         
         if let device = deviceModel {
             lblDeviceInfo.text = "Current Device: \(device.peripheralName ?? "-")\nRSSI: \(device.rssi)"
@@ -225,8 +237,12 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             test.testCommand()
             test.testSync()
             break
-        case Word.exportLog:
-            doExportLog()
+        case Word.editSportScreen:
+            if sdk.funcTable.supportOperateSetSportScreen {
+                navigationController?.pushViewController(SportListVC(), animated: true)
+            }else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
             break
         default: break
         }
@@ -325,8 +341,6 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.testOC:
             return isConnected && isBinded
-        case Word.exportLog:
-            return isConnected && isBinded
         default:
             break
         }
@@ -336,7 +350,7 @@ extension FunctionPageVC {
     private func canPush(_ funName: String) -> Bool {
         return !(funName == Word.deviceConnect || funName == Word.deviceDisconnect
                  || funName == Word.deviceBind || funName == Word.deviceUnbind
-                 || funName == Word.testOC || funName == Word.exportLog)
+                 || funName == Word.testOC)
     }
     
     private func bind() {
@@ -454,7 +468,11 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
-    func doExportLog() {
+    @objc func doExportLog() {
+        guard isConnected, isBinded else {
+            SVProgressHUD.showInfo(withStatus: "Please bind the device first")
+            return
+        }
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let appLogAction = UIAlertAction(title: "App log", style: .default) { _ in
@@ -550,38 +568,3 @@ extension FunctionPageVC {
     
 }
 
-//// MARK: - ota模式判定
-//
-//extension FunctionPageVC {
-//    
-//    private func _parseData(scanInfo: ScanInfo?) -> BleDeviceModeInfo? {
-//        let modeInfo = BleDeviceModeInfo()
-//        let manufacturerData = self.deviceModel!.advertisementData["kCBAdvDataManufacturerData"] as? Data
-//        guard let data = manufacturerData, data.count >= 16 else {
-//            return nil
-//        }
-//        let platform = Int(data[15])
-//        let dfuMode = Int(data[14])
-//        let version = Int(data[8])
-//        modeInfo.platform = platform
-//        modeInfo.deviceId = Int(data[0]) | Int(data[1]) << 8
-//        if (version == 3 && dfuMode == 1 && (platform == 98 || platform == 99)) {
-//            modeInfo.isInDfu = true
-//            modeInfo.isOta = true
-//        }else {
-//            // TODO: 其它设备升级状态判定
-//        }
-//        return modeInfo
-//    }
-//    
-//}
-//
-//private class BleDeviceModeInfo {
-//    
-//    var deviceId: Int = 0
-//    var platform: Int = -1
-//    var isOta: Bool = false
-//    var isTlwOta: Bool = false
-//    var isInDfu: Bool = false
-//    
-//}

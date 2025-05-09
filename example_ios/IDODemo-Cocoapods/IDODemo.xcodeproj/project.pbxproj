@@ -41,6 +41,10 @@
 		4762EA072C33EBC9000C1A0C /* TestBleChannelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4762EA052C33EBC9000C1A0C /* TestBleChannelVC.swift */; };
 		477303132CBA58E500F9609D /* EpoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477303122CBA58E500F9609D /* EpoVC.swift */; };
 		477303142CBA58E500F9609D /* EpoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477303122CBA58E500F9609D /* EpoVC.swift */; };
+		47744CEA2D7E8799007048B7 /* DialZipParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47744CE92D7E8799007048B7 /* DialZipParser.swift */; };
+		47744CEB2D7E8799007048B7 /* DialZipParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47744CE92D7E8799007048B7 /* DialZipParser.swift */; };
+		47744CED2D7E891A007048B7 /* DialCustomizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47744CEC2D7E891A007048B7 /* DialCustomizationView.swift */; };
+		47744CEE2D7E891A007048B7 /* DialCustomizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47744CEC2D7E891A007048B7 /* DialCustomizationView.swift */; };
 		4781FAD42C1067F400F9A007 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781FAD32C1067F400F9A007 /* WatchFaceVC.swift */; };
 		4781FAD52C1067F400F9A007 /* WatchFaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781FAD32C1067F400F9A007 /* WatchFaceVC.swift */; };
 		479094832D23CDB4006D0164 /* Strings.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479094822D23CDB4006D0164 /* Strings.g.swift */; };
@@ -72,6 +76,16 @@
 		47EAC8CD2B200CB000B88684 /* SportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EAC8CC2B200CB000B88684 /* SportVC.swift */; };
 		997AAEB3BB9A4D18B5EDDE07 /* Pods_IDODemoFull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02DB0FE3F0217919ADAC702C /* Pods_IDODemoFull.framework */; };
 		D393A1519AAE2D30A6FC6CCC /* Pods_IDODemoLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DE7F6E52C64EF370157BDE /* Pods_IDODemoLite.framework */; };
+		D51A7E2A2D8579C400744DB7 /* SportDualTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A7E292D8579C400744DB7 /* SportDualTableViewController.swift */; };
+		D51A7E2B2D8579C400744DB7 /* SportDualTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A7E292D8579C400744DB7 /* SportDualTableViewController.swift */; };
+		D53FF6E12D83D56500DD15B9 /* SportScreenEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6DF2D83D56500DD15B9 /* SportScreenEditVC.swift */; };
+		D53FF6E22D83D56500DD15B9 /* SportListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6DE2D83D56500DD15B9 /* SportListVC.swift */; };
+		D53FF6E32D83D56500DD15B9 /* SportScreenEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6DF2D83D56500DD15B9 /* SportScreenEditVC.swift */; };
+		D53FF6E42D83D56500DD15B9 /* SportListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6DE2D83D56500DD15B9 /* SportListVC.swift */; };
+		D53FF6E62D84036400DD15B9 /* SportScreenEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6E52D84036400DD15B9 /* SportScreenEditCell.swift */; };
+		D53FF6E72D84036400DD15B9 /* SportScreenEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53FF6E52D84036400DD15B9 /* SportScreenEditCell.swift */; };
+		D59C4CFE2D89475800BDFBDE /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59C4CFD2D89475800BDFBDE /* Constant.swift */; };
+		D59C4CFF2D89475800BDFBDE /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59C4CFD2D89475800BDFBDE /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +109,8 @@
 		475EFFACE3F21CA46E6022E3 /* Pods-IDODemoLite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoLite.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite.debug.xcconfig"; sourceTree = "<group>"; };
 		4762EA052C33EBC9000C1A0C /* TestBleChannelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBleChannelVC.swift; sourceTree = "<group>"; };
 		477303122CBA58E500F9609D /* EpoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpoVC.swift; sourceTree = "<group>"; };
+		47744CE92D7E8799007048B7 /* DialZipParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialZipParser.swift; sourceTree = "<group>"; };
+		47744CEC2D7E891A007048B7 /* DialCustomizationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialCustomizationView.swift; sourceTree = "<group>"; };
 		4781FAD32C1067F400F9A007 /* WatchFaceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchFaceVC.swift; sourceTree = "<group>"; };
 		479094822D23CDB4006D0164 /* Strings.g.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Strings.g.swift; path = IDODemo/Common/Strings.g.swift; sourceTree = SOURCE_ROOT; };
 		479094862D23CE5F006D0164 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -123,6 +139,11 @@
 		47E95DBF2B4D0210006C8B99 /* TestOC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestOC.m; sourceTree = "<group>"; };
 		47EAC8CC2B200CB000B88684 /* SportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SportVC.swift; sourceTree = "<group>"; };
 		6A2BA39FADF86184BD26DC9B /* Pods-IDODemoFull.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.release.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.release.xcconfig"; sourceTree = "<group>"; };
+		D51A7E292D8579C400744DB7 /* SportDualTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportDualTableViewController.swift; sourceTree = "<group>"; };
+		D53FF6DE2D83D56500DD15B9 /* SportListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportListVC.swift; sourceTree = "<group>"; };
+		D53FF6DF2D83D56500DD15B9 /* SportScreenEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportScreenEditVC.swift; sourceTree = "<group>"; };
+		D53FF6E52D84036400DD15B9 /* SportScreenEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportScreenEditCell.swift; sourceTree = "<group>"; };
+		D59C4CFD2D89475800BDFBDE /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E81A8D49D47E0C13041F98E0 /* Pods-IDODemoFull.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IDODemoFull.debug.xcconfig"; path = "Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +174,8 @@
 		470498D72AEA5F4300ADA589 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				47744CE92D7E8799007048B7 /* DialZipParser.swift */,
+				D59C4CFD2D89475800BDFBDE /* Constant.swift */,
 				479094822D23CDB4006D0164 /* Strings.g.swift */,
 				4724AEBF2D1F92B1005B6F71 /* LocationManager.swift */,
 				470498D82AEA5F7300ADA589 /* Constants.swift */,
@@ -233,6 +256,7 @@
 		47D582412AE8B1E6007D9DCE /* Page */ = {
 			isa = PBXGroup;
 			children = (
+				D53FF6E02D83D56500DD15B9 /* EditSportScreen */,
 				477303122CBA58E500F9609D /* EpoVC.swift */,
 				47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */,
 				470498D02AEA5D1900ADA589 /* GetFunctionVC.swift */,
@@ -242,6 +266,7 @@
 				4781FAD32C1067F400F9A007 /* WatchFaceVC.swift */,
 				4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */,
 				47EAC8CC2B200CB000B88684 /* SportVC.swift */,
+				47744CEC2D7E891A007048B7 /* DialCustomizationView.swift */,
 				4762EA052C33EBC9000C1A0C /* TestBleChannelVC.swift */,
 			);
 			path = Page;
@@ -284,6 +309,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D53FF6E02D83D56500DD15B9 /* EditSportScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D53FF6DE2D83D56500DD15B9 /* SportListVC.swift */,
+				D53FF6DF2D83D56500DD15B9 /* SportScreenEditVC.swift */,
+				D51A7E292D8579C400744DB7 /* SportDualTableViewController.swift */,
+				D53FF6E52D84036400DD15B9 /* SportScreenEditCell.swift */,
+			);
+			path = EditSportScreen;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,7 +331,8 @@
 				4738B0722B3538EC00D6BBEC /* Sources */,
 				4738B07E2B3538EC00D6BBEC /* Frameworks */,
 				4738B0822B3538EC00D6BBEC /* Resources */,
-				A183B33A0BAA4B6C12839889 /* [CP] Embed Pods Frameworks */,
+				03F71285951944127C02882A /* [CP] Copy Pods Resources */,
+				84A4E246F7FCB75B2BA51C36 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -397,6 +434,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		03F71285951944127C02882A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		1F6E0690BCC2EA5ED6FBCE36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -436,7 +490,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoFull/Pods-IDODemoFull-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A183B33A0BAA4B6C12839889 /* [CP] Embed Pods Frameworks */ = {
+		84A4E246F7FCB75B2BA51C36 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -499,6 +553,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D51A7E2B2D8579C400744DB7 /* SportDualTableViewController.swift in Sources */,
 				4738B0742B3538EC00D6BBEC /* SetFunctionVC.swift in Sources */,
 				4738B0752B3538EC00D6BBEC /* SyncDataVC.swift in Sources */,
 				4762EA072C33EBC9000C1A0C /* TestBleChannelVC.swift in Sources */,
@@ -506,12 +561,15 @@
 				4738B0782B3538EC00D6BBEC /* Extensions.swift in Sources */,
 				4738B0792B3538EC00D6BBEC /* GetFunctionVC.swift in Sources */,
 				47E95DC12B4D0210006C8B99 /* TestOC.m in Sources */,
+				D59C4CFF2D89475800BDFBDE /* Constant.swift in Sources */,
 				47D514B22B393BF300E0AC21 /* XYCBBase.swift in Sources */,
 				47D514B42B397D9200E0AC21 /* MainPageVC.swift in Sources */,
 				4790948C2D23D092006D0164 /* LanguageManager.swift in Sources */,
+				47744CEB2D7E8799007048B7 /* DialZipParser.swift in Sources */,
 				4781FAD52C1067F400F9A007 /* WatchFaceVC.swift in Sources */,
 				4738B07A2B3538EC00D6BBEC /* AppDelegate.swift in Sources */,
 				47D514B02B393BF300E0AC21 /* XYCentralManager.swift in Sources */,
+				47744CEE2D7E891A007048B7 /* DialCustomizationView.swift in Sources */,
 				4724AEC12D1F92B1005B6F71 /* LocationManager.swift in Sources */,
 				4738B0972B35658800D6BBEC /* FunctionPageVC.swift in Sources */,
 				4738B0952B3545C000D6BBEC /* Bridge.swift in Sources */,
@@ -522,6 +580,9 @@
 				4738B07C2B3538EC00D6BBEC /* TransferFileVC.swift in Sources */,
 				479094842D23CDB4006D0164 /* Strings.g.swift in Sources */,
 				4738B07D2B3538EC00D6BBEC /* Constants.swift in Sources */,
+				D53FF6E72D84036400DD15B9 /* SportScreenEditCell.swift in Sources */,
+				D53FF6E32D83D56500DD15B9 /* SportScreenEditVC.swift in Sources */,
+				D53FF6E42D83D56500DD15B9 /* SportListVC.swift in Sources */,
 				477303142CBA58E500F9609D /* EpoVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47744CEA2D7E8799007048B7 /* DialZipParser.swift in Sources */,
 				470498D32AEA5D4400ADA589 /* SetFunctionVC.swift in Sources */,
 				4724AEC02D1F92B1005B6F71 /* LocationManager.swift in Sources */,
 				470498DB2AEA7FB300ADA589 /* SyncDataVC.swift in Sources */,
@@ -538,6 +600,11 @@
 				47D582462AE8B1E6007D9DCE /* AlexaPageVC.swift in Sources */,
 				4781FAD42C1067F400F9A007 /* WatchFaceVC.swift in Sources */,
 				470498DE2AEA804500ADA589 /* Extensions.swift in Sources */,
+				D59C4CFE2D89475800BDFBDE /* Constant.swift in Sources */,
+				47744CED2D7E891A007048B7 /* DialCustomizationView.swift in Sources */,
+				D53FF6E62D84036400DD15B9 /* SportScreenEditCell.swift in Sources */,
+				D53FF6E12D83D56500DD15B9 /* SportScreenEditVC.swift in Sources */,
+				D53FF6E22D83D56500DD15B9 /* SportListVC.swift in Sources */,
 				4724AEC32D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */,
 				47E95DC02B4D0210006C8B99 /* TestOC.m in Sources */,
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,
@@ -546,6 +613,7 @@
 				47D514B62B397DA500E0AC21 /* MainPageVC.swift in Sources */,
 				47C4E1AD2B35669D0088A1E1 /* FunctionPageVC.swift in Sources */,
 				4738B0932B3545B200D6BBEC /* Bridge.swift in Sources */,
+				D51A7E2A2D8579C400744DB7 /* SportDualTableViewController.swift in Sources */,
 				47EAC8CD2B200CB000B88684 /* SportVC.swift in Sources */,
 				47C9DE0C2AF0F7D4006F7CB8 /* TransferFileVC.swift in Sources */,
 				470498D92AEA5F7300ADA589 /* Constants.swift in Sources */,
@@ -599,26 +667,28 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9X35LMN5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Lite-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "IDO Demo Lite";
+				INFOPLIST_KEY_CFBundleDisplayName = "Demo Lite";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow Flutter tools on your computer to connect and debug your application.This prompt will not appear on release builds.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ido.standrandProject;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-lite";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.ido.standrandProject";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -644,26 +714,28 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9X35LMN5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Lite-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "IDO Demo Lite";
+				INFOPLIST_KEY_CFBundleDisplayName = "Demo Lite";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow Flutter tools on your computer to connect and debug your application.This prompt will not appear on release builds.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ido.standrandProject;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-lite";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.ido.standrandProject";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -725,7 +797,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -780,7 +852,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -798,6 +870,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -805,24 +878,26 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9X35LMN5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Full-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "IDO Demo";
+				INFOPLIST_KEY_CFBundleDisplayName = "Demo Full";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow Flutter tools on your computer to connect and debug your application.This prompt will not appear on release builds.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D IDOSDK_FULL";
-				PRODUCT_BUNDLE_IDENTIFIER = com.idoosdk.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-full";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
@@ -845,6 +920,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -852,24 +928,26 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9X35LMN5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Full-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "IDO Demo";
+				INFOPLIST_KEY_CFBundleDisplayName = "Demo Full";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need to exchange data with the bracelet via bluetooth.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Allow Flutter tools on your computer to connect and debug your application.This prompt will not appear on release builds.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D IDOSDK_FULL";
-				PRODUCT_BUNDLE_IDENTIFIER = com.idoosdk.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-full";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";

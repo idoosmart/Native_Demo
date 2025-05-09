@@ -472,5 +472,17 @@ enum class CustomEvtType {
     /**获取固件算法文件信息（ACC/GPS）*/
     GETALGFILE,
     /**请求固件算法文件信息（ACC/GPS））*/
-    REQUESTALGFILE;
+    REQUESTALGFILE,
+        /**  运动中设置提示音开关*/
+    SETDURINGEXERCISE,
+    /**  获取左右手佩戴设置*/
+    GETLEFTRIGHTWEARSETTINGS,
+    /**  获取运动中设置提示音开关*/
+    GETSETTINGSDURINGEXERCISE,
+    /**  运动中提醒设置*/
+    SETSPORTINGREMINDSETTING,
+    /**  简单心率区间设置*/
+    SETSIMPLEHEARTRATEZONE,
+    /**  获取简单心率区间设置*/
+    GETSIMPLEHEARTRATEZONE;
 }

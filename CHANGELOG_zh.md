@@ -14,6 +14,21 @@ Android SDK：[Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https:
 
 iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://github.com/idoosmart/ios_sdk_full)
 
+## 4.2.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+
+##### 更新内容：
+
+- 适配新功能；
+- 部分功能优化;
+
+
+## 4.2.8<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+
+##### 更新内容：
+
+- 新增APP基本信息设置（仅限支持该功能的设备）；
+- 部分功能优化;
+
 
 
 ## 4.2.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/17</span>

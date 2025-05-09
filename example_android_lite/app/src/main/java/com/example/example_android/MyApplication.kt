@@ -82,9 +82,9 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        BleManager.getInstance().init(this);
         registerIdoSDK()
         //第三方的蓝牙库初始化，如果自己有蓝牙就不需要接入
-        BleManager.getInstance().init(this);
         initResource()
     }
 

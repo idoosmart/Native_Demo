@@ -418,7 +418,37 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     )
                 )
             }
+            if(sdk.funcTable.getLeftRightHandWearSettings){
+                mutableListOf.add(GetFuntionData(
+                    CustomEvtType.GETLEFTRIGHTWEARSETTINGS,
+                    context.getString(R.string.get_left_right_wear_settings),
+                    ""
+                ))
+            }
 
+            if(sdk.funcTable.supportSettingsDuringExercise){
+                mutableListOf.add(GetFuntionData(
+                    CustomEvtType.GETSETTINGSDURINGEXERCISE,
+                    context.getString(R.string.get_settings_during_exercise),
+                    ""
+                ))
+            }
+
+            if(sdk.funcTable.supportSimpleHrZoneSetting){
+                mutableListOf.add(GetFuntionData(
+                    CustomEvtType.GETSIMPLEHEARTRATEZONE,
+                    context.getString(R.string.get_simple_hr_zone_setting),
+                    ""
+                ))
+            }
+
+            if(sdk.funcTable.supportSportingRemindSetting){
+                mutableListOf.add(GetFuntionData(
+                    CustomEvtType.SETSPORTINGREMINDSETTING,
+                    context.getString(R.string.get_sporting_remind_setting),
+                    ""
+                ))
+            }
 
 
             return mutableListOf

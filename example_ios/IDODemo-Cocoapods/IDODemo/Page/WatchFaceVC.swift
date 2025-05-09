@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 import RxCocoa
 import RxSwift
@@ -111,6 +112,7 @@ Note: Demo only processes 2, 3, and 4, and the watch face file is built into the
         return v
     }()
     
+    private var customDialZipPath: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,6 +152,16 @@ Note: Demo only processes 2, 3, and 4, and the watch face file is built into the
             }
         }
         
+        if [7892, 512].contains(sdk.device.deviceId) {
+            let btnCustomDial = UIBarButtonItem(
+                title: "Custom",
+                style: .plain,
+                target: self,
+                action: #selector(_customDial)
+            )
+            navigationItem.rightBarButtonItem = btnCustomDial
+        }
+        
         if(_initWatchTransModel()) {
             _getWatchList()
         }
@@ -174,8 +186,10 @@ extension WatchFaceVC {
         case 7883:
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7883/GTX02_1.zip", fileName: "GTX02_1")
         case 7892:
-            //testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/custom2.zip", fileName: "custom1")
+            //testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/tmp.zip", fileName: "custom1.iwf")
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/w189.zip", fileName: "w189")
+        case 512:
+            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/512/idw19_coustom1.zip", fileName: "custom1.iwf")
         default:
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
@@ -227,6 +241,8 @@ extension WatchFaceVC {
                         // successful
                         SVProgressHUD.showSuccess(withStatus: "Uninstall watch face successful")
                         self?._getWatchList() // 重新获取表盘列表
+                    }else {
+                        SVProgressHUD.showError(withStatus: "Uninstall failed")
                     }
                 }else if case .failure(let err) = res {
                     SVProgressHUD.showError(withStatus: "Failed to obtain the watch face list err code: \(err)")
@@ -269,6 +285,37 @@ extension WatchFaceVC {
                 }
             }
         }
+    }
+    
+    @objc private func _customDial() {
+        SVProgressHUD.show()
+        // 获取设备屏幕信息
+        Cmds.getWatchDialInfo().send { [weak self] res in
+            //sdk.device.deviceShapeType
+            if case .success(let o) = res, o != nil {
+                self?.gotoCustomDialVC(o!)
+            }else {
+                SVProgressHUD.showError(withStatus: "Failed to obtain device screen information, please try again")
+            }
+        }
+    }
+    
+    private func gotoCustomDialVC(_ watchDialInfo: IDOWatchDialInfoModel) {
+        
+        // 设备屏幕信息
+        let sizeDial = CGSizeMake(CGFloat(watchDialInfo.width), CGFloat(watchDialInfo.height))
+        /// 手表形状 类型：1：圆形；2：方形的； 3：椭圆
+        let shapeType = sdk.device.deviceShapeType
+        let dialCustomDialInfo = DialCustomDialInfo(sizeDial: sizeDial, shapeType: shapeType)
+        let customDialView = DialCustomizationView(customDialInfo: dialCustomDialInfo) { [weak self] zipPath in
+            guard let zipPath = zipPath else { return }
+            print("customDialZipPath:\(zipPath)")
+            self?.customDialZipPath = zipPath
+            self?.testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: zipPath, fileName: "custom1")
+        }
+        let hostingController = UIHostingController(rootView: customDialView)
+        self.navigationController?.pushViewController(hostingController, animated: true)
+        SVProgressHUD.dismiss()
     }
     
 }

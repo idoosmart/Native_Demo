@@ -223,4 +223,12 @@
     <string name="sport_edit_move_down">下移</string>
     <string name="sport_edit_new_screen">新增</string>
     <string name="sport_edit_delete_screen">删除</string>
+
+    <string name="get_left_right_wear_settings">获取左右手</string>
+    <string name="get_settings_during_exercise">获取运动中提醒开关</string>
+    <string name="set_settings_during_exercise">设置运动中提醒开关</string>
+    <string name="get_simple_hr_zone_setting">获取最大心率</string>
+    <string name="set_simple_hr_zone_setting">设置最大心率</string>
+    <string name="get_sporting_remind_setting">获取运动中提醒项</string>
+    <string name="set_sporting_remind_setting">设置运动中提醒项</string>
 </resources>

@@ -111,46 +111,11 @@ extension SyncDataVC {
         textConsole.text = ""
         
         // 方式一： 同步所有
-//        sdk.syncData.startSync(
-//            funcProgress:{ [weak self] progress in
-//            self?.isSyncing = true
-//            self?.lblState.text = "Progress: \(progress)%"
-//        }, funcData: { [weak self] type, json, error in
-//            guard let self = self else { return }
-//            //self?.lblState.text = self?.lblState.text ?? "" + "\n" + ""
-//            if (error == 0) {
-//                self.textConsole.text = self.textConsole.text
-//                + "Sync type: \(type)" + "\n"
-//                + json + "\n"
-//            }else {
-//                self.textConsole.text = self.textConsole.text
-//                + "Sync type: \(type)" + "\n"
-//                + "Error code: \(error)" + "\n"
-//            }
-//            self.textConsole.scrollToBottom()
-//        }, funcCompleted: {[weak self] errorCode in
-//            self?.isSyncing = false
-//            let str = errorCode == 0 ? "Sync done" : "Sync failure, error:\(errorCode)"
-//            self?.lblState.text = self?.lblState.text ?? "" + str
-//        })
-        
-//        
-//        // 方式二：同步指定类型
-        let types = [
-            IDOSyncDataTypeClass(type: .heartRate),
-            IDOSyncDataTypeClass(type: .activity),
-//            IDOSyncDataTypeClass(type: .sleep),
-//            IDOSyncDataTypeClass(type: .bodyPower),
-//            IDOSyncDataTypeClass(type: .bloodPressure),
-//            IDOSyncDataTypeClass(type: .stepCount),
-        ]
-//        
-//        // 可以用以下方法获取支持的类型
-        sdk.syncData.getSupportSyncDataTypeList { list in
-            print("getSupportSyncDataTypeList list:\(list)")
-        }
-//        
-        sdk.syncData.startSync(types: types, funcData: { [weak self] type, json, error in
+        sdk.syncData.startSync(
+            funcProgress:{ [weak self] progress in
+            self?.isSyncing = true
+            self?.lblState.text = "Progress: \(progress)%"
+        }, funcData: { [weak self] type, json, error in
             guard let self = self else { return }
             //self?.lblState.text = self?.lblState.text ?? "" + "\n" + ""
             if (error == 0) {
@@ -168,6 +133,40 @@ extension SyncDataVC {
             let str = errorCode == 0 ? "Sync done" : "Sync failure, error:\(errorCode)"
             self?.lblState.text = self?.lblState.text ?? "" + str
         })
+        
+//        
+//        // 方式二：同步指定类型
+//        let types = [
+//            IDOSyncDataTypeClass(type: .heartRate),
+//            IDOSyncDataTypeClass(type: .sleep),
+//            IDOSyncDataTypeClass(type: .bodyPower),
+//            IDOSyncDataTypeClass(type: .bloodPressure),
+//            IDOSyncDataTypeClass(type: .stepCount),
+//        ]
+//        
+//        // 可以用以下方法获取支持的类型
+////        sdk.syncData.getSupportSyncDataTypeList { list in
+////            print("getSupportSyncDataTypeList list:\(list)")
+////        }
+//        
+//        sdk.syncData.startSync(types: types, funcData: { [weak self] type, json, error in
+//            guard let self = self else { return }
+//            //self?.lblState.text = self?.lblState.text ?? "" + "\n" + ""
+//            if (error == 0) {
+//                self.textConsole.text = self.textConsole.text
+//                + "Sync type: \(type)" + "\n"
+//                + json + "\n"
+//            }else {
+//                self.textConsole.text = self.textConsole.text
+//                + "Sync type: \(type)" + "\n"
+//                + "Error code: \(error)" + "\n"
+//            }
+//            self.textConsole.scrollToBottom()
+//        }, funcCompleted: {[weak self] errorCode in
+//            self?.isSyncing = false
+//            let str = errorCode == 0 ? "Sync done" : "Sync failure, error:\(errorCode)"
+//            self?.lblState.text = self?.lblState.text ?? "" + str
+//        })
     }
     
     private func stopSync() {

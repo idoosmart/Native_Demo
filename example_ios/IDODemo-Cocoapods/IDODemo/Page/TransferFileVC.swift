@@ -380,7 +380,9 @@ class TransferFileDetailVC: UIViewController {
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 7892:
-            let aPath = bundlePath + "/ota/7892/ota_firmware_GTX03-U_7892_T2047_V1.01.01_0115.bin"
+            //ota_firmware_GTX03-U_7892_V1.01.02.bin
+            //let aPath = bundlePath + "/ota/7892/ota_firmware_GTX03-U_7892_T2047_V1.01.01_0115.bin"
+            let aPath = bundlePath + "/ota/7892/ota_firmware_GTX03-U_7892_V1.01.02.bin"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])

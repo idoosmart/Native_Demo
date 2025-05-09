@@ -8,11 +8,5 @@
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to track the cycling route.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location to track the cycling route.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to track the cycling route.</string>
 </dict>
 </plist>

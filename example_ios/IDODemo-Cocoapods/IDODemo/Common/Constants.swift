@@ -18,11 +18,13 @@ struct Word {
     static let alexa = "Alexa"
     static let transFile = "Transfer File"
     static let sport = "Sport"
-    static let testOC = "Test OC"
-    static let exportLog = "Export logs"
+    static let testOC = "Test Objective-c (Console only)"
+    static let exportLog = "Share log"
     static let testBleChannel = "Test ble channel"
     static let epoUpgrade = "Epo Upgrade"
     static let messageNotice = "Message notice"
+    static let editSportScreen = "EditSportScreen"
+
 }
 
 

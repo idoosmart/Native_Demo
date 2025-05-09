@@ -770,6 +770,32 @@ class SetFuncData(
                 )
             }
 
+            if (sdk.funcTable.supportSettingsDuringExercise) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETDURINGEXERCISE,
+                        context.getString(R.string.set_settings_during_exercise)
+                    )
+                )
+            }
+
+            if(sdk.funcTable.supportSimpleHrZoneSetting){
+                mutableListOf.add(SetFuncData(
+                    CustomEvtType.SETSIMPLEHEARTRATEZONE,
+                    context.getString(R.string.set_simple_hr_zone_setting),
+                ))
+            }
+
+            if(sdk.funcTable.supportSportingRemindSetting){
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETSPORTINGREMINDSETTING,
+                        context.getString(R.string.set_sporting_remind_setting)
+                    )
+                )
+            }
+
+
             return mutableListOf
 
         }
