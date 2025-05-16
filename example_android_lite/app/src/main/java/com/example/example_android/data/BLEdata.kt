@@ -10,6 +10,7 @@ import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
+import com.clj.fastble.logs.LogTool
 import com.clj.fastble.utils.HexUtil
 import com.example.example_android.util.ByteUtil
 import com.example.example_android.util.Logutil
@@ -45,6 +46,7 @@ object BLEdata  {
     }
 
     fun notifyDisconnect(bleDevice: BleDevice){
+        LogTool.p(TAG, "sdk.bridge.markDisconnectedDevice");
         sdk.bridge.markDisconnectedDevice(bleDevice.mac)
     }
     //使能通知
@@ -57,7 +59,15 @@ object BLEdata  {
             object : BleNotifyCallback() {
                 override fun onNotifySuccess() {
                     Logutil.logMessage(TAG,"onNotifySuccess" )
-                    sdk.bridge.markConnectedDevice(bleDevice?.mac.toString(), IDOOtaType.NONE, isBind, bleDevice?.name)
+                    LogTool.p(TAG, "call markConnectedDevice");
+                    sdk.bridge.markConnectedDevice(
+                        bleDevice?.mac.toString(),
+                        IDOOtaType.NONE,
+                        isBind,
+                        bleDevice?.name
+                    ) {
+                        println("markConnected rs:$it")
+                    }
                 }
                 override fun onNotifyFailure(exception: BleException) {
                     Logutil.logMessage(TAG,"onNotifyFailure" )
@@ -74,6 +84,7 @@ object BLEdata  {
 
         override fun listenStatusNotification(status: IDOStatusNotification) {
             Logutil.logMessage("bledata","status:$status")
+            Logutil.logMessage("bledata","sdk.state: ${sdk.state}")
             if (status==IDOStatusNotification.FASTSYNCCOMPLETED){
                 createBtPair(CurrentDevice.bleDevice.mac)
             }

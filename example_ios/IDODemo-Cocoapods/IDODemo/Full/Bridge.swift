@@ -33,9 +33,19 @@ extension MainPageVC {
         }
         
         // epo upgrade
-        IDOEpoManager.shared.enableAutoUpgrade = false
-        IDOEpoManager.shared.lastUpdateTimestamp { 
+        IDOEpoManager.shared.enableAutoUpgrade = true
+        IDOEpoManager.shared.lastUpdateTimestamp {
             print("epo lastUpdateTimestamp: \($0)")
+        }
+        IDOEpoManager.shared.delegateGetGps = self
+        IDOEpoManager.shared.listenEpoUpgrade { status in
+            print("epo---- status:\(status)")
+        } downProgress: { progress in
+            print("epo---- down progress:\(progress)")
+        } sendProgress: { progress in
+            print("epo---- send progress:\(progress)")
+        } funcComplete: { errCode in
+            print("epo---- complete:\(errCode)")
         }
     }
     
@@ -172,4 +182,15 @@ extension MainPageVC: IDOAlexaDelegate {
     }
     
     func functionControl(funType: Int) {}
+}
+
+// MARK: - IDOEpoManagerDelegate
+extension MainPageVC: IDOEpoManagerDelegate{
+    
+    func getAppGpsInfo() -> protocol_channel.IDOOtaGpsInfo? {
+        // !!!: 此处的经纬度是伪代码 | The latitude and longitude here are pseudocode
+        return IDOOtaGpsInfo(longitude: 113.982243, latitude: 22.687687, altitude: 10)
+    }
+    
+    
 }
