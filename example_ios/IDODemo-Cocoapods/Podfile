@@ -23,6 +23,7 @@ pod 'RxCocoa'
 pod 'SVProgressHUD'
 pod 'ReachabilitySwift'
 pod 'SSZipArchive'
+pod 'ZIPFoundation'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
