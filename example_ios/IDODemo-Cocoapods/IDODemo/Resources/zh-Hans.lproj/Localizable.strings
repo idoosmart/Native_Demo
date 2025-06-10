@@ -326,3 +326,6 @@
 "Vo2max" = "最大摄氧量";
 "Battery Level" = "电池电量";
 "Battery Life Based On Soc" = "基于电量的剩余续航时间";
+
+
+"gps_tips" = "未授权手机定位权限，将无法加速手表快速定位";

@@ -42,6 +42,7 @@ class TestActivity : BaseActivity() {
 
     inner class Blelisten : IDOBleDelegate {
         override fun bluetoothState(state: IDOBluetoothStateModel) {
+
         }
 
         override fun deviceState(state: IDODeviceStateModel) {

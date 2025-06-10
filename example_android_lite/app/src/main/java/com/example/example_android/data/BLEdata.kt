@@ -47,7 +47,9 @@ object BLEdata  {
 
     fun notifyDisconnect(bleDevice: BleDevice){
         LogTool.p(TAG, "sdk.bridge.markDisconnectedDevice");
-        sdk.bridge.markDisconnectedDevice(bleDevice.mac)
+        sdk.bridge.markDisconnectedDevice(bleDevice.mac) {
+            println("markDisconnected rs:$it")
+        }
     }
     //使能通知
     fun notifyData(bleDevice: BleDevice,isBind:Boolean){

@@ -357,7 +357,7 @@ extension FunctionPageVC {
             if(deviceModel.isOta) {
                 // 设备处理ota模式时，需要进入到升级页
                 SVProgressHUD.dismiss()
-                _otaMode()
+                print("1 ota模式")
                 return
             }
             let isBinded = UserDefaults.standard.isBind(deviceModel.macAddress ?? "")
@@ -509,20 +509,7 @@ extension FunctionPageVC {
             UserDefaults.standard.synchronize()
         })
     }
-    
-    private func _otaMode() {
-        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
-            guard let self = self else { return }
-            let vc = TransferFileDetailVC(cmd: .ota)
-            navigationController?.pushViewController(vc, animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.navigationController?.popToRootViewController(animated: true)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
+
 }
 
 extension FunctionPageVC {

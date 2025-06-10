@@ -281,7 +281,7 @@ class TransferFileDetailVC: UIViewController {
          */
         
         // 获取音乐文件大小
-        let musicFilePath = "\(mp3Path)/2.mp3"
+        let musicFilePath = "\(mp3Path)/hanyu_gequ.mp3"
         var musicFileSize = 0
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: musicFilePath)
@@ -387,12 +387,29 @@ class TransferFileDetailVC: UIViewController {
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 850:
-            let aPath = bundlePath + "/ota/850/205GPRO_ota_1.01.01_2024.06.27_16-56.zip"
+            // 205GPRO_ota_1.01.02_2024.09.05_09-51_01_hcpu.zip
+            // 205GPRO_ota_1.01.01_2024.06.27_16-56.zip
+            let aPath = bundlePath + "/ota/850/205GPRO_ota_1.01.02_2024.09.05_09-51_01_hcpu.zip"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 845:
             let aPath = bundlePath + "/ota/845/idw26_ota_V1.00.11_20241204.fw"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
+        case 8042:
+            let aPath = bundlePath + "/ota/8042/R21_ota_9.00.03_20250513.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
+        case 7958:
+            let aPath = bundlePath + "/ota/7958/LifeUltraGPS_ota_1.01.01_2024.10.28_14-05_02_hcpu.zip"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
+        case 7906:
+            let aPath = bundlePath + "/ota/7906/GTR1_ota_1.01.32_hcpu.zip"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])

@@ -20,6 +20,7 @@ interface ConnectCallback : IDOBleDelegate {
     }
 
     override fun bluetoothState(state: IDOBluetoothStateModel) {
+        println("bluetoothState: ${state.toString()}")
     }
 
     override fun deviceState(state: IDODeviceStateModel) {

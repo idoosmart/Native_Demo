@@ -65,6 +65,22 @@ class OtaFileTransferActivity : BaseActivity() {
                 rawZipFileName = "ota_845_v1_00_10"
                 FileExtension = ".fw"
             }
+            8084->{
+                rawZipFileName = "ota_8084_v1_01_00"
+                FileExtension = ".zip"
+            }
+            8042->{
+                rawZipFileName = "r21_ota_9_00_03_20250513"
+                FileExtension = ".zip"
+            }
+            850->{
+                rawZipFileName = "gpro205_ota_850_1_01_02hcpu"
+                FileExtension = ".zip"
+            }
+            7906->{
+                rawZipFileName = "gtr1_ota_7906_1_01_32_hcpu"
+                FileExtension = ".zip"
+            }
         }
 
         // 检查是否已经授予 WRITE_EXTERNAL_STORAGE 权限

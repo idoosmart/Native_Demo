@@ -261,7 +261,8 @@ internal enum L10n {
   /// Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system.
   internal static let systemNotifyTips = L10n.tr("Localizable", "system_notify_tips", fallback: "Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system.")
   internal static let setEditSportScreenV3 = L10n.tr("Localizable", "setEditSportScreenV3", fallback: "v3 edit sport screene")
-    
+  
+    internal static let gpsTips = L10n.tr("Localizable", "gps_tips", fallback: "If the mobile phone location permission is not authorized, the watch will not be able to quickly locate the phone.")
     
     
     

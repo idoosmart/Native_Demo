@@ -1,11 +1,13 @@
 package com.example.example_android.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
@@ -26,6 +28,7 @@ import com.idosmart.model.IDODeviceNotificationModel
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.model.IDOFastMsgUpdateModel
 import com.idosmart.model.IDOFastMsgUpdateParamModel
+import com.idosmart.model.IDOOtaDeviceModel
 import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
 import com.idosmart.model.IDOWriteStateModel
@@ -312,6 +315,21 @@ class FunctionActivity : BaseActivity() {
         return R.layout.layout_function_activity
     }
 
+    fun _otaMode() {
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("OTA Mode")
+            .setMessage("当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?")
+            .setPositiveButton("YES") { _, _ ->
+                val intent = Intent(this, OtaFileTransferActivity::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("NO") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+        alertDialog.show()
+    }
+
     inner class BleData : IDOBridgeDelegate {
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
@@ -366,6 +384,11 @@ class FunctionActivity : BaseActivity() {
             }
         }
 
+        override fun listenWaitingOtaDevice(otaDevice: IDOOtaDeviceModel) {
+            println("2listenWaitingOtaDevice ${otaDevice.toString()}");
+            closeProgressDialog()
+            _otaMode()
+        }
 
     }
 
@@ -407,13 +430,20 @@ class FunctionActivity : BaseActivity() {
         }
 
         override fun bluetoothState(state: IDOBluetoothStateModel) {
+            println("bluetoothState: ${state.toString()}")
         }
 
         override fun deviceState(idoDeviceStateModel: IDODeviceStateModel) {
-            println("state------------${idoDeviceStateModel.macAddress}");
+            println("macAddress------------${idoDeviceStateModel.macAddress} state:${idoDeviceStateModel.state}");
             deviceState = idoDeviceStateModel
             if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTED) {
                 closeProgressDialog()
+
+                if (sdk.ble.bleDevice.isOta == true) {
+                    println("当前设备处于ota模式")
+                    return
+                }
+
                 tv_device_state?.text = "state: connected"
                 tv_device_state.setTextColor(Color.parseColor("#00ff00"))
                 var type = IDOOtaType.NONE
@@ -427,7 +457,6 @@ class FunctionActivity : BaseActivity() {
                 ll_connect?.visibility = View.GONE
                 ll_dis_connect?.visibility = View.VISIBLE
 
-                //sdk.bridge.markConnectedDevice(deviceState.macAddress!!, type, isBind, device?.name)
             } else if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTING) {
                 tv_device_state?.text = "state: connecting"
             } else if (idoDeviceStateModel.state == IDODeviceStateType.DISCONNECTED) {

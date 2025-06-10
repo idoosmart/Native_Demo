@@ -15,7 +15,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
     
     
-    private var previousLocation: CLLocation?
+    private(set) var previousLocation: CLLocation?
     private var routeCoordinates: [CLLocationCoordinate2D] = []
     private(set) var totalDistance: CLLocationDistance = 0.0
     

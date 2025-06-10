@@ -8,6 +8,7 @@
 import Foundation
 
 import protocol_channel
+import SVProgressHUD
 
 
 // MARK: - Actions
@@ -32,21 +33,7 @@ extension MainPageVC {
             self?.funcPage?.bleState = stateModel
         }
         
-        // epo upgrade
-        IDOEpoManager.shared.enableAutoUpgrade = true
-        IDOEpoManager.shared.lastUpdateTimestamp {
-            print("epo lastUpdateTimestamp: \($0)")
-        }
-        IDOEpoManager.shared.delegateGetGps = self
-        IDOEpoManager.shared.listenEpoUpgrade { status in
-            print("epo---- status:\(status)")
-        } downProgress: { progress in
-            print("epo---- down progress:\(progress)")
-        } sendProgress: { progress in
-            print("epo---- send progress:\(progress)")
-        } funcComplete: { errCode in
-            print("epo---- complete:\(errCode)")
-        }
+        initEpoAutoUpdate()
     }
     
     func stopScan() {
@@ -91,6 +78,26 @@ extension MainPageVC: IDOBleDelegate {
         if list != nil {
             dataList.append(contentsOf: list!)
             tableView.reloadData()
+        }
+        
+        let otaModel = dataList.first {
+            print("deviceId: \($0.deviceId) isOta:\($0.isOta) macAddress:\($0.macAddress)")
+            return $0.isOta
+        }
+        if otaModel != nil {
+            if sdk.device.deviceId == 0 || sdk.device.deviceId != otaModel?.deviceId {
+                stopScan() // 停止扫描
+                print("call bridge.markOtaMode, address:\(otaModel!.macAddress) platform:\(otaModel!.platform)")
+                sdk.bridge.markOtaMode?(macAddress: otaModel!.macAddress ?? "",
+                                        iosUUID: otaModel!.uuid ?? "",
+                                        platform: otaModel!.platform,
+                                        deviceId: otaModel!.deviceId,
+                                        completion: { [weak self] _ in
+                    self?._otaMode()
+                })
+            }else {
+                _otaMode()
+            }
         }
     }
     
@@ -168,6 +175,26 @@ extension MainPageVC: IDOBridgeDelegate {
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
         return isBinded
     }
+    
+    func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
+        print("\n otaDevice:\(otaDevice.description)\n")
+        _otaMode()
+    }
+    
+    func _otaMode() {
+        SVProgressHUD.dismiss()
+        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            let vc = TransferFileDetailVC(cmd: .ota)
+            navigationController?.pushViewController(vc, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - IDOAlexaDelegate
@@ -182,15 +209,4 @@ extension MainPageVC: IDOAlexaDelegate {
     }
     
     func functionControl(funType: Int) {}
-}
-
-// MARK: - IDOEpoManagerDelegate
-extension MainPageVC: IDOEpoManagerDelegate{
-    
-    func getAppGpsInfo() -> protocol_channel.IDOOtaGpsInfo? {
-        // !!!: 此处的经纬度是伪代码 | The latitude and longitude here are pseudocode
-        return IDOOtaGpsInfo(longitude: 113.982243, latitude: 22.687687, altitude: 10)
-    }
-    
-    
 }

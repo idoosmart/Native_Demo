@@ -28,6 +28,7 @@ import com.idosmart.model.IDONoticeMesaageParamModel
 import com.idosmart.model.IDONoticeMessageStateItemItem
 import com.idosmart.model.IDONoticeMessageStateParamModel
 import com.idosmart.model.IDONotificationStatusParamModel
+import com.idosmart.model.IDOOtaDeviceModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOBridgeDelegate
@@ -223,6 +224,10 @@ class NotificationIconTransferActivity : BaseActivity() {
                     }
                 }
             }
+        }
+
+        override fun listenWaitingOtaDevice(otaDevice: IDOOtaDeviceModel) {
+            println("listenWaitingOtaDevice ${otaDevice.toString()}");
         }
     }
 

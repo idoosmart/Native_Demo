@@ -1,14 +1,14 @@
 package com.example.example_android.activity
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
-import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,18 +21,15 @@ import com.idosmart.model.IDOBluetoothStateModel
 import com.idosmart.model.IDODeviceStateModel
 import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
-import com.idosmart.model.IDOWriteStateModel
 import com.idosmart.pigeon_implement.IDOEpoManager
 import com.idosmart.pigeon_implement.IDOEpoManagerDelegate
 import com.idosmart.pigeon_implement.IDOOtaGpsInfo
 import com.idosmart.protocol_channel.IDOSDK
-import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
 import kotlinx.android.synthetic.main.activity_main.*
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
+
+import com.idosmart.protocol_channel.*
 
 class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     var requestPermissionCount = 0;
@@ -102,6 +99,27 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
             }
             mAdapter?.updateData(mDeviceList)
 
+            // 检查ota中的设备，并跳转至文件传输页
+            if (mDeviceList.size > 0) {
+                mDeviceList.firstOrNull { it?.isOta == true }?.let {
+                    println("OTA Mode Device: ${it.toString()}")
+                    if (sdk.device.deviceId == 0 || sdk.device.deviceId != it.deviceId) {
+                        sdk.ble.stopScan()
+                        sdk.bridge.markOtaMode(
+                            macAddress = it.macAddress ?: "",
+                            platform = it.platform,
+                            deviceId = it.deviceId ?: 0,
+                            completion = { rs ->
+                                if (rs) {
+                                    _otaMode()
+                                }else {
+                                    println("OTA Mode Failed")
+                                }
+                            }
+                        )
+                    }
+                }
+            }
         }
 
         override fun bluetoothState(state: IDOBluetoothStateModel) {
@@ -127,6 +145,21 @@ class MainActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
 
         override fun stateBT(isPair: Boolean) {
             Log.d(TAG, "stateBT:$isPair")
+        }
+
+        fun _otaMode() {
+            val alertDialog = AlertDialog.Builder(lv_device?.context)
+                .setTitle("OTA Mode")
+                .setMessage("当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?")
+                .setPositiveButton("YES") { _, _ ->
+                    val intent = Intent(lv_device?.context, OtaFileTransferActivity::class.java)
+                    startActivity(intent)
+                }
+                .setNegativeButton("NO") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+            alertDialog.show()
         }
     }
 

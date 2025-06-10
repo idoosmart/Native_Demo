@@ -175,6 +175,10 @@ extension WatchFaceVC {
         switch(sdk.device.deviceId) {
         case 7877:
             testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/7877/wf_w58.watch", fileName: "wf_w58.watch")
+        case 850:
+            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/850/wf_w233.watch", fileName: "wf_w233.watch")
+        case 7906:
+            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/7906/wf_w141.watch", fileName: "wf_w141.watch")
         case 7814:
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7814/w58.zip", fileName: "w58")
         case 537:

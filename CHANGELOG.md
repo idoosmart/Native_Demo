@@ -14,11 +14,33 @@ Android SDK: [Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https:/
 
 iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://github.com/idoosmart/ios_sdk_full)
 
+
+
+## 4.2.13<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/06/10</span>
+
+##### Update content:
+
+- bugfix;
+- Adapt new functions;
+
+
+
+## 4.2.11<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+
+##### Update content:
+
+- bugfix;
+- Adapt new functions;
+
+
+
 ## 4.2.10<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
 
 ##### Update content:
 
 - bugfix;
+
+
 
 ## 4.2.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
 
@@ -26,6 +48,8 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 - Adapt new functions;
 - Optimize some functions;
+
+
 
 ## 4.2.8<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
 
