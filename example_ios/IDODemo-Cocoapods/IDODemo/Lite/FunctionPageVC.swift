@@ -291,7 +291,7 @@ extension FunctionPageVC {
             }else {
                 SVProgressHUD.showError(withStatus: "Connect Failure")
             }
-            self.lblConnectState.text = "Connect State:\(self.deviceModel?.peripheral.state ?? .disconnected)"
+            self.lblConnectState.text = "Connect State:\(self.deviceModel?.peripheral.state.name ?? CBPeripheralState.disconnected.name)"
         }
     }
     

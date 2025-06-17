@@ -119,6 +119,7 @@ class SetFunctionVC: UIViewController {
         }
         
         if (funcTable.reminderAncs) {
+            items.append(SetCmd(type: .setNoticeStatusBtPair, title: "setNoticeStatus(BT Pair)", desc: L10n.setNoticeStatusBtPair))
             items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: L10n.setNoticeStatusAllOn))
             items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: L10n.setNoticeStatusAllOff))
         }
@@ -390,6 +391,9 @@ private enum CmdType: CaseIterable{
     /// 设置快捷方式
     /// Set shortcut
     case setShortcut
+    /// 设置通知中心 bt配对
+    /// Set Notification Center Event, BT Pair
+    case setNoticeStatusBtPair
     /// 设置通知中心(全开)
     /// Set Notification Center Event(on)
     case setNoticeStatusAllOn
@@ -660,6 +664,8 @@ extension CmdType {
             return IDOWeatherSunTimeParamModel(sunriseHour: 6, sunriseMin: 12, sunsetHour: 18, sunsetMin: 30)
         case .setShortcut:
             return IDOShortcutParamModel(mode: 2)
+        case .setNoticeStatusBtPair:
+            return IDOSetNoticeStatusModel.createAllOffModel()
         case .setNoticeStatusAllOn:
             return IDOSetNoticeStatusModel.createDefaultModel()
         case .setNoticeStatusAllOff:
@@ -1319,6 +1325,14 @@ private class SetFunctionDetailVC: UIViewController {
         case .setShortcut:
             let obj = cmd.type.param() as! IDOShortcutParamModel
             cancellable = Cmds.setShortcut(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setNoticeStatusBtPair:
+            let obj = cmd.type.param() as! IDOSetNoticeStatusModel
+            obj.msgAllSwitch = .on
+            obj.notifySwitch = .bleOn
+            obj.isOnOther = false
+            cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .setNoticeStatusAllOn:

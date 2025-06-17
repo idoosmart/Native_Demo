@@ -102,8 +102,6 @@ extension MainPageVC: IDOBridgeDelegate {
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
         return isBinded
     }
-    
-    func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) { }
 }
 
 // MARK: - IDOAlexaDelegate

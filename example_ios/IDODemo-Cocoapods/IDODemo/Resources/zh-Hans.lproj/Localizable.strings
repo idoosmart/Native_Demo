@@ -86,6 +86,7 @@
 "noticeMessageV3" = "通知消息提醒事件编号";
 "setWeatherCityName" = "设置天气城市名称事件编号";
 "setBleVoice" = "设置设备手机音量事件编号";
+"setNoticeStatusBtPair" = "设置通知中心事件（Bt配对）";
 "setNoticeStatusAllOn" = "设置通知中心事件（全部开启）";
 "setNoticeStatusAllOff" = "设置通知中心事件（全部关闭）";
 "setStressSwitch" = "设置压力开关";

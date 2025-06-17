@@ -63,6 +63,13 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
         ])
         hostingController.didMove(toParent: self)
         NotificationCenter.default.addObserver(self, selector: #selector(popToUIKitView), name: Notification.Name("popToUIKitView"), object: nil)
+        
+        if sdk.funcTable.reminderAncs {
+            // 打开bt配对
+            let obj = IDOSetNoticeStatusModel.createAllOffModel()
+            obj.notifySwitch = .bleOn
+            Cmds.setNoticeStatus(obj).send { _ in }
+        }
     }
             
     @objc func popToUIKitView() {
@@ -386,6 +393,13 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
         ])
         hostingController.didMove(toParent: self)
         NotificationCenter.default.addObserver(self, selector: #selector(popToUIKitView), name: Notification.Name("popToUIKitView"), object: nil)
+        
+        if sdk.funcTable.reminderAncs {
+            // 打开bt配对
+            let obj = IDOSetNoticeStatusModel.createAllOffModel()
+            obj.notifySwitch = .bleOn
+            Cmds.setNoticeStatus(obj).send { _ in }
+        }
     }
             
     @objc func popToUIKitView() {

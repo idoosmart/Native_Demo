@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import protocol_channel
 import SVProgressHUD
+import CoreBluetooth
 
 extension UIView {
     func showBorder(borderWidth: Float = 0.5, cornerRadius: Float = 12) {
@@ -62,6 +63,40 @@ extension UITextView {
         guard contentSize.height > bounds.height else { return }
         let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.height)
         setContentOffset(bottomOffset, animated: true)
+    }
+}
+
+extension CBPeripheralState {
+    var name: String {
+        switch self {
+        case .disconnected:
+            return "Disconnected"
+        case .connecting: 
+            return "Connecting"
+        case .connected: 
+            return "Connected"
+        case .disconnecting: 
+            return "Disconnecting"
+        @unknown default: 
+            return "Unknown"
+        }
+    }
+}
+
+extension IDODeviceStateType {
+    var name: String {
+        switch self {
+        case .connected:
+            return "Connected"
+        case .disconnected:
+            return "Disconnected"
+        case .connecting:
+            return "Connecting"
+        case .disconnecting:
+            return "Disconnecting"
+        @unknown default:
+            return "Unknown"
+        }
     }
 }
 

@@ -86,6 +86,7 @@
 "noticeMessageV3" = "Notification message reminder event number";
 "setWeatherCityName" = "Set weather city name event number";
 "setBleVoice" = "Set phone volume for device event number";
+"setNoticeStatusBtPair" = "Set Notification Center Event (Bt pair)";
 "setNoticeStatusAllOn" = "Set Notification Center Event (Fully open)";
 "setNoticeStatusAllOff" = "Set Notification Center Event (Fully closed)";
 "setStressSwitch" = "Set stress switch";

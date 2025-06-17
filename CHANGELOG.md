@@ -16,6 +16,15 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.2.14<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/06/17</span>
+
+##### Update content:
+
+- bugfix;
+- Adapt new functions;
+
+
+
 ## 4.2.13<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/06/10</span>
 
 ##### Update content:
@@ -25,7 +34,7 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
-## 4.2.11<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+## 4.2.11<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/05/16</span>
 
 ##### Update content:
 
@@ -34,7 +43,7 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
-## 4.2.10<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+## 4.2.10<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/05/13</span>
 
 ##### Update content:
 
@@ -42,7 +51,7 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
-## 4.2.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/03/18</span>
+## 4.2.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/05/09</span>
 
 ##### Update content:
 

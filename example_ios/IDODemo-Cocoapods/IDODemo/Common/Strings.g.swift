@@ -188,6 +188,7 @@ internal enum L10n {
   internal static let setNoticeAppName = L10n.tr("Localizable", "setNoticeAppName", fallback: "V3 dynamic notification message event number")
   /// Setting Notification Status for a Single App
   internal static let setNoticeMessageState = L10n.tr("Localizable", "setNoticeMessageState", fallback: "Setting Notification Status for a Single App")
+  internal static let setNoticeStatusBtPair = L10n.tr("Localizable", "setNoticeStatusBtPair", fallback: "Set Notification Center Event (Bt pair)")
   /// Set Notification Center Event (Fully closed)
   internal static let setNoticeStatusAllOff = L10n.tr("Localizable", "setNoticeStatusAllOff", fallback: "Set Notification Center Event (Fully closed)")
   /// Set Notification Center Event (Fully open)

@@ -370,7 +370,7 @@ extension FunctionPageVC {
             print("disconnected")
             self.tableView.reloadData()
         }
-        self.lblConnectState.text = "Connect State:\(deviceState.state )"
+        self.lblConnectState.text = "Connect State: \(deviceState.state.name )"
     }
     
     private func onBleStateChanged() {
