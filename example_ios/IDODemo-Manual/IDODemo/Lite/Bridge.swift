@@ -66,6 +66,10 @@ extension MainPageVC {
 // MARK: - IDOBridgeDelegate
 
 extension MainPageVC: IDOBridgeDelegate {
+    func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
+        
+    }
+    
     
     // 需要将指令数据发到蓝牙设备（!!!重要）
     func writeDataToBle(bleData: protocol_channel.IDOBleData) {

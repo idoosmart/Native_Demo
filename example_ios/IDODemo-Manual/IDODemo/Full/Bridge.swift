@@ -110,6 +110,10 @@ extension MainPageVC: IDOBleDelegate {
 // MARK: - IDOBridgeDelegate
 
 extension MainPageVC: IDOBridgeDelegate {
+    func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
+        
+    }
+    
     
     // SDK状态通知
     func listenStatusNotification(status: IDOStatusNotification) {
@@ -164,6 +168,8 @@ extension MainPageVC: IDOBridgeDelegate {
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
         return isBinded
     }
+    
+    
 }
 
 // MARK: - IDOAlexaDelegate
