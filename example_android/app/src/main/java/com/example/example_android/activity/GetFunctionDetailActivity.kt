@@ -91,6 +91,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETSETTINGSDURINGEXERCISE -> getSettingsDuringExercise()
                 CustomEvtType.GETSIMPLEHEARTRATEZONE -> getSimpleHeartRateZone()
                 CustomEvtType.SETSPORTINGREMINDSETTING -> getSportingRemindSetting()
+                CustomEvtType.GETUSERINFO -> getUserInfo()
                 else -> {}
             }
         }
@@ -98,6 +99,19 @@ class GetFunctionDetailActivity : BaseActivity() {
         sdk.transfer.registerDeviceTranFileToApp {
             deviceTransFileToApp(it)
         }
+    }
+
+    private fun getUserInfo() {
+        Cmds.getUserInfo().send {
+            if (it.error.code == 0) {
+                val res = it.res?.toJsonString() ?: "{ok}"
+                tv_response?.text = res
+            } else {
+                val res = it.res?.toJsonString() ?: "{erro}"
+                tv_response?.text = "erro: $res"
+            }
+        }
+        paramter_tv?.text = "{}"
     }
 
     private fun getSportingRemindSetting(){

@@ -964,7 +964,13 @@ extension CmdType {
                                                      widgetIconColor: 0x232323,
                                                      widgetNumColor: 0x232323)
         case .setUserInfo:
-            return IDOUserInfoPramModel(year: 1999, monuth: 2, day: 2, heigh: 180, weigh: 90, gender: 1)
+            return IDOUserInfoPramModel(year: 1999, 
+                                        monuth: 2,
+                                        day: 23,
+                                        heigh: 155, 
+                                        weigh: 77*100,
+                                        gender: 1,
+                                        setTime: (Int32)(Date().timeIntervalSince1970))
         case .findDeviceStart:
             return nil
         case .findDeviceStop:

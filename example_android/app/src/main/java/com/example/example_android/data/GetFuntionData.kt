@@ -449,7 +449,11 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     ""
                 ))
             }
-
+            if (sdk.funcTable.supportGetUserInfo) {
+                mutableListOf.add(
+                    GetFuntionData(CustomEvtType.GETUSERINFO, "Get user info", "")
+                )
+            }
 
             return mutableListOf
         }

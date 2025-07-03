@@ -9,6 +9,7 @@ import Foundation
 
 import protocol_channel
 import CoreBluetooth
+import SVProgressHUD
 
 let bleMgr = XYCentralManager.shared
 
@@ -101,6 +102,25 @@ extension MainPageVC: IDOBridgeDelegate {
         let isBinded = UserDefaults.standard.isBind(macAddress)
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
         return isBinded
+    }
+    
+    func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
+        _otaMode()
+    }
+    
+    func _otaMode() {
+        SVProgressHUD.dismiss()
+        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            let vc = TransferFileDetailVC(cmd: .ota)
+            navigationController?.pushViewController(vc, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

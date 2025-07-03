@@ -9,11 +9,11 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'IDODemoFull' do
-  pod 'IDOSDK-full', '~> 4.2.14'
+  pod 'IDOSDK-full', '~> 4.3.0'
 end
 
 target 'IDODemoLite' do
-  pod 'IDOSDK-lite', '~> 4.2.14'
+  pod 'IDOSDK-lite', '~> 4.3.0'
 end
 
 
@@ -23,7 +23,7 @@ pod 'RxCocoa'
 pod 'SVProgressHUD'
 pod 'ReachabilitySwift'
 pod 'SSZipArchive'
-pod 'ZIPFoundation', '~> 0.9.11'
+pod 'ZIPFoundation', '~> 4.3.0'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

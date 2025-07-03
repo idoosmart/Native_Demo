@@ -289,7 +289,7 @@ class NotificationIconTransferActivity : BaseActivity() {
                     msgID,
                     1,
                     mClickedApp?.appName!!,
-                    "",
+                    "13888888888",
                     msg,
                     listOf(
                         //此处语言类型与应用名需要根据实际情况进行修改

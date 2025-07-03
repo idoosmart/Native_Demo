@@ -176,6 +176,10 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getSportsTypeV3, title: "getSportsTypeV3", desc: L10n.getSportsTypeV3))
         }
         
+        if (innerTest || sdk.funcTable.supportGetUserInfo) {
+            items.append(GetCmd(type: .getUserInfo, title: "getUserInfo", desc: "Get user info"))
+        }
+        
         // NOTE:
         // 因为demo要适配所有设备，此处示例适配多种情况。
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
@@ -481,6 +485,7 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     case getSimpleHeartRateZone
     /// 运动中提醒设置
     case getSportingRemindSetting
+    case getUserInfo
 }
 
 extension CmdType {
@@ -909,6 +914,10 @@ private class GetFunctionDetailVC: UIViewController {
 
         case .getSportingRemindSetting:
             cancellable = Cmds.getSportingRemindSetting([48]).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getUserInfo:
+            cancellable = Cmds.getUserInfo().send { [weak self] res in
                 self?.doPrint(res)
             }
         }

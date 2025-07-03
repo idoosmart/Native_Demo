@@ -483,6 +483,8 @@ enum class CustomEvtType {
     SETSPORTINGREMINDSETTING,
     /**  简单心率区间设置*/
     SETSIMPLEHEARTRATEZONE,
+    /**  获取用户信息*/
+    GETUSERINFO,
     /**  获取简单心率区间设置*/
     GETSIMPLEHEARTRATEZONE;
 }

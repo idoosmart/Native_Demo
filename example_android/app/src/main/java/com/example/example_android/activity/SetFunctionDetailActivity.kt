@@ -3196,7 +3196,7 @@ class SetFunctionDetailActivity : BaseActivity() {
      * 0: Male
      * */
     private fun setUserInfo() {
-        var userInfo = Cmds.setUserInfo(IDOUserInfoPramModel(2022, 12, 16, 173, 7400, 0))
+        var userInfo = Cmds.setUserInfo(IDOUserInfoPramModel(2022, 12, 16, 173, 7400, 0, System.currentTimeMillis()/1000))
         userInfo.send {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
