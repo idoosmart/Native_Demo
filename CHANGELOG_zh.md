@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.3.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/11</span>
+
+##### 更新内容：
+
+- bugfix；
+
+- 适配新功能；
+
+  
+
 ## 4.3.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/03</span>
 
 ##### 更新内容：

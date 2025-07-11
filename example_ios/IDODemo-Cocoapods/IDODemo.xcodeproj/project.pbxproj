@@ -332,6 +332,7 @@
 				4738B07E2B3538EC00D6BBEC /* Frameworks */,
 				4738B0822B3538EC00D6BBEC /* Resources */,
 				383301984CD2240191F63079 /* [CP] Embed Pods Frameworks */,
+				8D5FB8F3143D8E03880056D3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -487,6 +488,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D5FB8F3143D8E03880056D3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IDODemoLite/Pods-IDODemoLite-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ADE32C84F828443727D4B2EF /* [CP] Copy Pods Resources */ = {
@@ -670,7 +688,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-lite";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = idoo_team;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -717,7 +735,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.idoosdk.demo-lite";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.idoosdk.*";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = idoo_team;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
