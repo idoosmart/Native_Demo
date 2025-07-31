@@ -108,6 +108,7 @@
         <activity
             android:name=".activity.AlexaActivity"
             android:exported="false" />
+        <activity android:name=".activity.DialFileTransferActivity" />
 
         <meta-data
             android:name="flutterEmbedding"

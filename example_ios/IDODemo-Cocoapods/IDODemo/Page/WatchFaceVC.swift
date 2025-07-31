@@ -194,6 +194,8 @@ extension WatchFaceVC {
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/w189.zip", fileName: "w189")
         case 512:
             testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/512/idw19_coustom1.zip", fileName: "custom1.iwf")
+        case 8042:
+            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/8042/wf_cw7.watch", fileName: "wf_cw7.watch")
         default:
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)

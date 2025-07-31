@@ -16,6 +16,24 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/31</span>
+
+##### Update content:
+
+- Support 16 KB page sizes (android)；
+- *Upgrade flutter engine version [to upgrade](http://idoosmart.github.io/Native_GitBook/en/doc/IDOSDK.html?h=Use%20SDK%20version%204.4.0%20and%20above)
+
+
+
+## 4.3.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/11</span>
+
+##### Update content:
+
+- bugfix;
+- adapt new features;
+
+
+
 ## 4.3.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/11</span>
 
 ##### Update content:

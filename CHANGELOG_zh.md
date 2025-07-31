@@ -16,6 +16,25 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/31</span>
+
+##### 更新内容：
+
+- 支持 16 KB 的页面大小 (android)；
+- *升级 Flutter 引擎 [去更新](https://idoosmart.github.io/Native_GitBook/zh/doc/IDOSDK.html?h=%E4%BD%BF%E7%94%A8SDK%20v4.4.0%E5%8F%8A%E4%BB%A5%E4%B8%8A%E7%89%88%E6%9C%AC);
+
+
+
+## 4.3.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/11</span>
+
+##### 更新内容：
+
+- bugfix；
+
+- 适配新功能；
+
+
+
 ## 4.3.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/11</span>
 
 ##### 更新内容：

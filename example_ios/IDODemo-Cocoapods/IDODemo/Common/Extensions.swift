@@ -83,22 +83,22 @@ extension CBPeripheralState {
     }
 }
 
-extension IDODeviceStateType {
-    var name: String {
-        switch self {
-        case .connected:
-            return "Connected"
-        case .disconnected:
-            return "Disconnected"
-        case .connecting:
-            return "Connecting"
-        case .disconnecting:
-            return "Disconnecting"
-        @unknown default:
-            return "Unknown"
-        }
-    }
-}
+//extension IDODeviceStateType {
+//    var name: String {
+//        switch self {
+//        case .connected:
+//            return "Connected"
+//        case .disconnected:
+//            return "Disconnected"
+//        case .connecting:
+//            return "Connecting"
+//        case .disconnecting:
+//            return "Disconnecting"
+//        @unknown default:
+//            return "Unknown"
+//        }
+//    }
+//}
 
 
 func printProperties(_ obj: Any?) -> String? {

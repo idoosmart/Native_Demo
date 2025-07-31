@@ -5,6 +5,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileUtils {
+    public static String getFileNameFromPath(String filePath) {
+        String name = null;
+        if (filePath != null) {
+            int idx = filePath.lastIndexOf("/");
+            if (idx > 0) {
+                name = filePath.substring(idx + 1);
+            } else {
+                name = filePath;
+            }
+        }
+        return name;
+    }
 
     public static void deleteDirectory(File directory) throws IOException {
         if (!directory.exists()) {

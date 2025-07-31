@@ -25,7 +25,7 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvWallpaper -> {
-                startActivity(Intent(this, FileTransferActivity::class.java).putExtra("type", 1))
+                startActivity(Intent(this, DialFileTransferActivity::class.java))
             }
 
             R.id.tvContact -> {

@@ -399,7 +399,7 @@ class TransferFileDetailVC: UIViewController {
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
         case 8042:
-            let aPath = bundlePath + "/ota/8042/R21_ota_9.00.03_20250513.zip"
+            let aPath = bundlePath + "/ota/8042/R21_ota_1.00.18_hcpu_20250723.zip"
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])

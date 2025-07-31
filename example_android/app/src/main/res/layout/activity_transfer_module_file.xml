@@ -12,7 +12,7 @@
         android:layout_height="56dp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="Wallpaper" />
+        android:text="Dial" />
 
     <TextView
         android:id="@+id/tvContact"

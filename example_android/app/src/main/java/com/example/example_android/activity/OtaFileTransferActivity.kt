@@ -70,7 +70,7 @@ class OtaFileTransferActivity : BaseActivity() {
                 FileExtension = ".zip"
             }
             8042->{
-                rawZipFileName = "r21_ota_9_00_03_20250513"
+                rawZipFileName = "r21_ota_1_00_18_20250723"
                 FileExtension = ".zip"
             }
             850->{

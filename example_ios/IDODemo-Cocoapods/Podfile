@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 # Comment the next line if you don't want to use dynamic frameworks
 source 'https://cdn.cocoapods.org/'
@@ -9,11 +9,11 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'IDODemoFull' do
-  pod 'IDOSDK-full', '~> 4.3.1'
+  pod 'IDOSDK-full', '~> 4.4.0'
 end
 
 target 'IDODemoLite' do
-  pod 'IDOSDK-lite', '~> 4.3.1'
+  pod 'IDOSDK-lite', '~> 4.4.0'
 end
 
 
@@ -23,12 +23,12 @@ pod 'RxCocoa'
 pod 'SVProgressHUD'
 pod 'ReachabilitySwift'
 pod 'SSZipArchive'
-pod 'ZIPFoundation', '~> 0.9.11'
+pod 'ZIPFoundation', '~> 0.9.19'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "11.0"
+      config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "12.0"
     end
   end
 end
