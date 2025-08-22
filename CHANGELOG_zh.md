@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/08/22</span>
+
+##### 更新内容：
+
+- 支持设备 BLE 配对加密连接（如果您接入的设备支持 BLE 配对加密连接，需要处理两种特殊场景）[参考示例](https://idoosmart.github.io/Native_GitBook/zh/doc/IDOBridge.html?h=Bridge%20Bluetooth%20library%20(full)) ；
+- 设置用户信息返回参数类型修改（Android）[查看](https://idoosmart.github.io/Native_GitBook/zh/doc/set/IDOSetUserInfo.html?h=%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF) ；
+- 添加模拟器支持（iOS）；
+
+
+
 ## 4.4.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/31</span>
 
 ##### 更新内容：

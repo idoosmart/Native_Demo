@@ -16,6 +16,16 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/08/22</span>
+
+##### Updates:
+
+- Support for encrypted BLE pairing (if your connected device supports encrypted BLE pairing, you will need to handle two special scenarios) [See examples](https://idoosmart.github.io/Native_GitBook/en/doc/IDOBridge.html?h=Bridge%20Bluetooth%20library%20(full));
+- Changed the return parameter type for setting user information (Android) [See](https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetUserInfo.html?h=%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF);
+- Added simulator support (iOS);
+
+
+
 ## 4.4.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/07/31</span>
 
 ##### Update content:

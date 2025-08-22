@@ -3,25 +3,20 @@ package com.example.example_android.activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
-
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
 import com.example.example_android.sport.EditSportListActivity
 import com.example.example_android.util.FunctionUtils
-import com.example.example_android.util.SPUtil
 import com.google.gson.Gson
 import com.idosmart.enums.IDOBindStatus
+import com.idosmart.enums.IDOConnectErrorType
 import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.enums.IDOLogType
 import com.idosmart.enums.IDOOtaType
 import com.idosmart.enums.IDOStatusNotification
-import com.idosmart.enums.IDOWriteType
-import com.idosmart.model.IDOBleDataRequest
 import com.idosmart.model.IDOBleDeviceModel
 import com.idosmart.model.IDOBluetoothStateModel
 import com.idosmart.model.IDODeviceNotificationModel
@@ -31,13 +26,11 @@ import com.idosmart.model.IDOFastMsgUpdateParamModel
 import com.idosmart.model.IDOOtaDeviceModel
 import com.idosmart.model.IDOReceiveData
 import com.idosmart.model.IDOSppStateModel
-import com.idosmart.model.IDOWriteStateModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.pigeon_implement.IDOEpoManager
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.*
-import kotlinx.android.synthetic.main.activity_transfer_module_file.tvContact
 import kotlinx.android.synthetic.main.layout_device_describe.*
 import kotlinx.android.synthetic.main.layout_function_activity.ll_bin
 import kotlinx.android.synthetic.main.layout_function_activity.ll_connect
@@ -53,14 +46,8 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
 import kotlinx.android.synthetic.main.layout_function_activity.rl_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
-import kotlinx.android.synthetic.main.layout_function_activity.tv_bin
-import kotlinx.android.synthetic.main.layout_function_activity.tv_connect
-import kotlinx.android.synthetic.main.layout_function_activity.tv_un_bin
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import kotlin.math.log
+
 
 class FunctionActivity : BaseActivity() {
     private var device: IDOBleDeviceModel? = null
@@ -464,6 +451,33 @@ class FunctionActivity : BaseActivity() {
                 ll_connect?.visibility = View.VISIBLE
                 ll_dis_connect?.visibility = View.GONE
                 closeProgressDialog()
+                if (idoDeviceStateModel.errorState == IDOConnectErrorType.DEVICEALREADYBINDANDNOTSUPPORTREBIND) {
+                    //device already bind, and not support rebind
+                    AlertDialog.Builder(this@FunctionActivity).setTitle("Note")
+                        .setMessage("The watch has been bound and does not support repeated binding, First reset the watch on the watch side!").setPositiveButton("Got it", null)
+                        .show()
+                } else if (idoDeviceStateModel.errorState == IDOConnectErrorType.DEVICEHASBEENRESET) {
+                    //The watch has been reset, pls remove the watch!
+                    AlertDialog.Builder(this@FunctionActivity).setTitle("Note")
+                        .setMessage("The watch has been reset, pls remove the watch!").setPositiveButton("Remove it", { dialog, which ->
+                            sdk.cmd.unbind(device?.macAddress ?: "", true, {
+                                if (it) {
+                                    toast("unbind ok")
+                                    FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
+                                    sdk.ble.cancelPair(device);
+                                    sdk.ble.cancelConnect(device?.macAddress) {}
+                                    bindState()
+                                    // 解绑设备删除icon数据
+                                    sdk.messageIcon.resetIconInfoData(
+                                        macAddress = device?.macAddress.toString(),
+                                        deleteIcon = true
+                                    ) {}
+
+                                    toast("unbind failed")
+                                }
+                            })
+                        }).show()
+                }
             }
         }
 

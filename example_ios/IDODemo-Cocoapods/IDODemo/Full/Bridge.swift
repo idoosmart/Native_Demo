@@ -111,8 +111,58 @@ extension MainPageVC: IDOBleDelegate {
     func deviceState(state: IDODeviceStateModel) {
         deviceState = state
         funcPage?.deviceState = state
-        print("on deviceState callback: \(String(describing: state.state))")
+        print("on deviceState callback state: \(String(describing: state.state.rawValue)) errorState: \(String(describing: state.errorState.rawValue))")
         NotificationCenter.default.post(name: Notify.onBleDeviceStateChanged, object: state)
+        /*
+         * This is an example.
+         * device Already Bind And Not Support Rebind
+         * device Has Been Reset
+         */
+        handlePairErrorAlert(state)
+    }
+    
+    func handlePairErrorAlert(_ deviceState: IDODeviceStateModel){
+        if (deviceState.errorState == IDOConnectErrorType.deviceAlreadyBindAndNotSupportRebind) {
+            let alert = UIAlertController(title: "Note",
+                                          message: "The watch has been bound and does not support repeated binding, First reset the watch on the watch side!",
+                                          preferredStyle: UIAlertController.Style.alert)
+            let ok = UIAlertAction(title: "Got it", style: UIAlertAction.Style.default) { action in
+                self.dismiss(animated: true)
+            }
+            
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        } else if (deviceState.errorState == IDOConnectErrorType.deviceHasBeenReset) {
+            
+            let alert = UIAlertController(title: "Note",
+                                          message: "The watch has been reset, pls remove the watch!",
+                                          preferredStyle: UIAlertController.Style.alert)
+            let delete = UIAlertAction(title: "Remove it",
+                                       style: UIAlertAction.Style.default) { action in
+                
+                SVProgressHUD.show(withStatus: "unbind...")
+                guard let macAddress = deviceState.macAddress else {
+                    SVProgressHUD.showSuccess(withStatus: "macAddress is nil")
+                    return
+                }
+    
+                sdk.cmd.unbind(macAddress: macAddress , isForceRemove: true, completion: { [weak self] rs in
+                    self?.tableView.reloadData()
+                    if rs {
+                        SVProgressHUD.showSuccess(withStatus: "unbind successful")
+                    } else {
+                        SVProgressHUD.showError(withStatus: "unbind failure")
+                    }
+                    UserDefaults.standard.setBind(macAddress, isBind: false)
+                    UserDefaults.standard.synchronize()
+                    self?.dismiss(animated: true)
+                })
+               
+            }
+            
+            alert.addAction(delete)
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 
@@ -173,7 +223,7 @@ extension MainPageVC: IDOBridgeDelegate {
     func checkDeviceBindState(macAddress: String) -> Bool {
         let isBinded = UserDefaults.standard.isBind(macAddress)
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
-        return isBinded
+        return false//isBinded
     }
     
     func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
