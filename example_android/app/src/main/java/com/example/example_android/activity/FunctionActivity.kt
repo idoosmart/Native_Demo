@@ -473,6 +473,7 @@ class FunctionActivity : BaseActivity() {
                                         deleteIcon = true
                                     ) {}
 
+                                } else {
                                     toast("unbind failed")
                                 }
                             })
