@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/09/04</span>
+
+##### 更新内容：
+
+- 优化运动数据同步 -  实时配速数据完整性（针对部分新设备）；
+
+
+
 ## 4.4.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/08/22</span>
 
 ##### 更新内容：
