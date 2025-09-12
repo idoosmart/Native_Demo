@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/09/12</span>
+
+##### 更新内容：
+
+- 优化运动数据同步 -  修复海拔高度数据缺失问题（针对部分新设备）；
+
+
+
 ## 4.4.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/09/04</span>
 
 ##### 更新内容：

@@ -223,7 +223,7 @@ extension MainPageVC: IDOBridgeDelegate {
     func checkDeviceBindState(macAddress: String) -> Bool {
         let isBinded = UserDefaults.standard.isBind(macAddress)
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
-        return false//isBinded
+        return isBinded
     }
     
     func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {

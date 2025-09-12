@@ -16,6 +16,14 @@ iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://
 
 
 
+## 4.4.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/09/12</span>
+
+##### Update Content:
+
+- Optimized sports data synchronization - fixed the issue of missing altitude data (for some new devices)
+
+
+
 ## 4.4.2<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/09/04</span>
 
 ##### Update Content:
