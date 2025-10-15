@@ -45,6 +45,12 @@ class TransferFileVC: UIViewController {
             list.append(.gps)
         }
         
+        // gps fw
+        //if (sdk.funcTable.syncGps && (sdk.funcTable.setAgpsOnLine || sdk.funcTable.setAgpsOffLine)) {
+        if (sdk.funcTable.getSupportUpdateGps) {
+            list.append(.gpsFw)
+        }
+        
         return list
     }()
     
@@ -116,6 +122,7 @@ enum TransType {
     case ota
     case app
     case gps
+    case gpsFw
 }
 
 extension TransType {
@@ -136,6 +143,8 @@ extension TransType {
             return "小程序 App"
         case .gps:
             return "GPS"
+        case .gpsFw:
+            return "GPS Firmware"
         }
     }
 }
@@ -258,6 +267,8 @@ class TransferFileDetailVC: UIViewController {
             _app()
         case .gps:
             _gps();
+        case .gpsFw:
+            _gpsFw();
         }
     }
     
@@ -458,6 +469,29 @@ class TransferFileDetailVC: UIViewController {
                 guard let self = self else { return }
                 self.navigationController?.popToRootViewController(animated: true)
             }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func _gpsFw() {
+        // 1.获取版本
+        Cmds.getGpsInfo().send { res in
+            if case .success(let gpsInfoModel) = res {
+                print("gpsInfo version:\(gpsInfoModel?.fwVersionString)")
+                // TODO：根据版本判断是否需要升级 ...
+            }
+        }
+        
+        if (sdk.device.deviceId == 8042) {
+            // 2.执行传输
+            // 注意：文件后缀必须为.gps
+            let aPath = self.bundlePath + "/gps/8042/CC0258B_N2000R5.3.1.0Build20714_250919.gps"
+            self._trans([
+                IDOTransNormalModel(fileType: .gps, filePath: aPath, fileName: "gps")
+            ])
+        }else {
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
             self.present(alert, animated: true, completion: nil)
         }
     }

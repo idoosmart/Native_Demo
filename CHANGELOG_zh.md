@@ -8,11 +8,19 @@ IDOSDK 版本更新日志
 
 文档：[中文](https://idoosmart.github.io/Native_GitBook/zh/) | [English](https://idoosmart.github.io/Native_GitBook/en/)
 
-Demo：[Gitee](https://gitee.com/idoosmart/Native_Demo) | [Github](https://github.com/idoosmart/Native_Demo)
+Demo：[Github](https://github.com/idoosmart/Native_Demo)
 
-Android SDK：[Gitee](https://gitee.com/idoosmart/android_sdk) | [Github](https://github.com/idoosmart/android_sdk)
+Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 
-iOS SDK： [Gitee](https://gitee.com/idoosmart/ios_sdk_full) | [Github](https://github.com/idoosmart/ios_sdk_full)
+iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
+
+
+
+## 4.4.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/10/15</span>
+
+##### 更新内容：
+
+- 优化GPS固件升级，补充固件版本号；
 
 
 
