@@ -16,6 +16,15 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.4.5 (2025/11/10)
+
+##### Update Content:
+
+- Added interfaces for synchronizing blood glucose data to devices (for some new devices);
+- Added interfaces for synchronizing raw algorithm data (for some new devices);
+
+
+
 ## 4.4.4 <span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/10/15</span>
 
 ##### Update Content:

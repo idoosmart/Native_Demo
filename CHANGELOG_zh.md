@@ -16,6 +16,15 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.4.5<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/11/10</span>
+
+##### 更新内容：
+
+- 新增血糖数据同步到设备的相关接口（针对部分新设备）；
+- 新增原始算法数据同步相关接口（针对部分新设备）；
+
+
+
 ## 4.4.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/10/15</span>
 
 ##### 更新内容：
