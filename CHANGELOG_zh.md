@@ -15,6 +15,14 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
+## 4.4.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/11/25</span>
+
+##### 更新内容：
+
+- 血糖数据同步到设备部分接口参数调整（针对部分新设备）；
+- 血糖部分功能优化，增强稳定性；
+
+
 
 ## 4.4.5<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/11/10</span>
 
