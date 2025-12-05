@@ -15,6 +15,16 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
+
+## 4.4.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/05</span>
+
+##### 更新内容：
+
+- 血糖部分功能优化，增强稳定性；
+- 新增接口：v3菜单、情绪健康；
+
+
+
 ## 4.4.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/11/25</span>
 
 ##### 更新内容：

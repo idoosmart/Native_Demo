@@ -15,6 +15,17 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
+
+## 4.4.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/05</span>
+
+##### Update Content:
+
+- Optimized some blood glucose functions, enhancing stability;
+
+- Added interfaces: v3 menu, emotional health;
+
+
+
 ## 4.4.6<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/11/25</span>
 
 ##### Update Content:
