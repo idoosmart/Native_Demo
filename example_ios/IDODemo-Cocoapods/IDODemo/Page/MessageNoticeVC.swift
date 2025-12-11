@@ -351,7 +351,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
             SVProgressHUD.show()
             statusModel?.callSwitch = isOnCallSwitch ? .on : .off
             statusModel?.msgAllSwitch = allSwitch ? .on : .off
-            statusModel?.notifySwitch = allSwitch ? .settingSubSwitch : .bleOff
+            statusModel?.notifySwitch = .settingSubSwitch
             Cmds.setNoticeStatus(statusModel!).send { res in
                 if case .success(let val) = res {
                     if val?.errCode == 0 {

@@ -15,13 +15,19 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
+## 4.4.8<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/11</span>
+
+##### Update Content:
+
+- Added interfaces related to emotional health reminders and app list styles (for some new devices);
+- Fixed an issue with the setSport100Sort setting;
+
 
 ## 4.4.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/05</span>
 
 ##### Update Content:
 
 - Optimized some blood glucose functions, enhancing stability;
-
 - Added interfaces: v3 menu, emotional health;
 
 
