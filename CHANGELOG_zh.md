@@ -16,12 +16,22 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.4.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/16</span>
+
+##### 更新内容：
+
+- 修复setNoticeStatus接口修改未接电话不通知问题（iOS）；
+- 修复getLanguageLibrary获取异常问题（部分设备）；
+
+
+
 ## 4.4.8<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/11</span>
 
 ##### 更新内容：
 
 - 新增情绪健康提醒、应用列表样式相关接口（针对部分新设备）；
 - 修复setSport100Sort设置异常问题；
+
 
 
 ## 4.4.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/05</span>

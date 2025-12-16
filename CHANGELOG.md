@@ -15,12 +15,23 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
+
+## 4.4.9<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/16</span>
+
+##### Update Content:
+
+- Fixed the issue of not receiving notifications when modifying missed calls using the setNoticeStatus interface (iOS);
+- Fixed an issue with getLanguageLibrary retrieval (on some devices);
+
+
+
 ## 4.4.8<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/11</span>
 
 ##### Update Content:
 
 - Added interfaces related to emotional health reminders and app list styles (for some new devices);
 - Fixed an issue with the setSport100Sort setting;
+
 
 
 ## 4.4.7<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2025/12/05</span>
