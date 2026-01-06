@@ -1,0 +1,1607 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "protocol_channel_example"
+    },
+    {
+      "name": "ACCESS_BLUETOOTH",
+      "value": "Allows an application to access Bluetooth and use its capabilities, such as pairing and connecting to peripherals."
+    },
+    {
+      "name": "DISCOVER_BLUETOOTH",
+      "value": "Allows an application to configure the local Bluetooth interface, discover remote devices, and pair with them."
+    },
+    {
+      "name": "USE_BLUETOOTH",
+      "value": "Allows an application to view Bluetooth configuration."
+    },
+    {
+      "name": "LOCATION",
+      "value": "We need your location information to provide better services."
+    },
+    {
+      "name": "read_media_reason",
+      "value": "App needs to access your files to let you select and upload them."
+    },
+    {
+      "name": "app_name",
+      "value": "IDO Demo"
+    },
+    {
+      "name": "function_page_title",
+      "value": "Function"
+    },
+    {
+      "name": "share_log",
+      "value": "Share log"
+    },
+    {
+      "name": "current_device",
+      "value": "Current Device: %1$s"
+    },
+    {
+      "name": "mac_address",
+      "value": "Mac Address:%1$s"
+    },
+    {
+      "name": "rssi",
+      "value": "RSSI: %1$d"
+    },
+    {
+      "name": "connect_state",
+      "value": "Connect State: %1$s"
+    },
+    {
+      "name": "not_support_rebind",
+      "value": "device already bind, reset it first"
+    },
+    {
+      "name": "device_has_reset",
+      "value": "device reset"
+    },
+    {
+      "name": "connect_state_connected",
+      "value": "connected"
+    },
+    {
+      "name": "connect_state_disconnected",
+      "value": "disconnected"
+    },
+    {
+      "name": "connect_state_connecting",
+      "value": "connecting"
+    },
+    {
+      "name": "connect_state_disconnecting",
+      "value": "disconnecting"
+    },
+    {
+      "name": "device_connect",
+      "value": "Device Connect"
+    },
+    {
+      "name": "device_disconnect",
+      "value": "Device Disconnect"
+    },
+    {
+      "name": "device_bind",
+      "value": "Device Bind"
+    },
+    {
+      "name": "go_ota",
+      "value": "Go OTA"
+    },
+    {
+      "name": "device_ota",
+      "value": "in ota"
+    },
+    {
+      "name": "connect_bt",
+      "value": "bt pair"
+    },
+    {
+      "name": "device_unbind",
+      "value": "Device Unbind"
+    },
+    {
+      "name": "get_function",
+      "value": "Get Function"
+    },
+    {
+      "name": "set_function",
+      "value": "Set Function"
+    },
+    {
+      "name": "sync_data",
+      "value": "Sync Data"
+    },
+    {
+      "name": "transfer_file",
+      "value": "Transfer File"
+    },
+    {
+      "name": "epo_upgrade",
+      "value": "Epo Upgrade"
+    },
+    {
+      "name": "app_log",
+      "value": "App log"
+    },
+    {
+      "name": "ble_log",
+      "value": "Ble log"
+    },
+    {
+      "name": "device_log",
+      "value": "Device log"
+    },
+    {
+      "name": "cancel",
+      "value": "Cancel"
+    },
+    {
+      "name": "send",
+      "value": "Send"
+    },
+    {
+      "name": "stop",
+      "value": "Stop"
+    },
+    {
+      "name": "parameter",
+      "value": "Parameter"
+    },
+    {
+      "name": "response",
+      "value": "Response"
+    },
+    {
+      "name": "start_sync_data",
+      "value": "Start Sync Data"
+    },
+    {
+      "name": "stop_sync_data",
+      "value": "Stop Sync Data"
+    },
+    {
+      "name": "upload_contacts",
+      "value": "Upload contacts"
+    },
+    {
+      "name": "firmware_upgrade",
+      "value": "Firmware upgrade"
+    },
+    {
+      "name": "watch_face_upgrade",
+      "value": "Watch face upgrade"
+    },
+    {
+      "name": "message_notice",
+      "value": "Message notice"
+    },
+    {
+      "name": "message_notice_note",
+      "value": "Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system"
+    },
+    {
+      "name": "main_switch",
+      "value": "Main switch"
+    },
+    {
+      "name": "incoming_call",
+      "value": "Incoming call"
+    },
+    {
+      "name": "sms",
+      "value": "SMS"
+    },
+    {
+      "name": "calendar",
+      "value": "Calendar"
+    },
+    {
+      "name": "email",
+      "value": "Email"
+    },
+    {
+      "name": "missed_call",
+      "value": "Missed call"
+    },
+    {
+      "name": "wechat",
+      "value": "WeChat"
+    },
+    {
+      "name": "sport",
+      "value": "Sport"
+    },
+    {
+      "name": "start",
+      "value": "Start"
+    },
+    {
+      "name": "pause",
+      "value": "Pause"
+    },
+    {
+      "name": "resume",
+      "value": "Resume"
+    },
+    {
+      "name": "back",
+      "value": "Back"
+    },
+    {
+      "name": "get_func_desc_getActivitySwitch",
+      "value": "Get activity switch"
+    },
+    {
+      "name": "get_func_desc_getAlarm",
+      "value": "App gets alarm from BLE"
+    },
+    {
+      "name": "get_func_desc_getAllHealthSwitchState",
+      "value": "Get all health monitoring switch states"
+    },
+    {
+      "name": "get_func_desc_getBatteryInfo",
+      "value": "Get battery information"
+    },
+    {
+      "name": "get_func_desc_getBtName",
+      "value": "Get Bluetooth name"
+    },
+    {
+      "name": "get_func_desc_getBtNotice",
+      "value": "Query BT status (Pairing, A2DP, HFP) for BT-supported devices"
+    },
+    {
+      "name": "get_func_desc_getContactReviseTime",
+      "value": "Get contact file modification time"
+    },
+    {
+      "name": "get_func_desc_getDeviceInfo",
+      "value": "Get device information"
+    },
+    {
+      "name": "get_func_desc_getDeviceLogState",
+      "value": "Get device log state"
+    },
+    {
+      "name": "get_func_desc_getFunctionTable",
+      "value": "Get function table"
+    },
+    {
+      "name": "set_func_desc_factoryReset",
+      "value": "Factory reset"
+    },
+    {
+      "name": "set_func_desc_musicControl",
+      "value": "Music control event"
+    },
+    {
+      "name": "set_func_desc_noticeMessageV3",
+      "value": "Notification message event V3"
+    },
+    {
+      "name": "set_func_desc_photoStart",
+      "value": "Start photo (app -> ble)"
+    },
+    {
+      "name": "set_func_desc_photoStop",
+      "value": "Stop photo (app -> ble)"
+    },
+    {
+      "name": "set_func_desc_reboot",
+      "value": "Reboot device"
+    },
+    {
+      "name": "set_func_desc_setAlarm",
+      "value": "Set alarm for V3 App device"
+    },
+    {
+      "name": "set_func_desc_setBleVoice",
+      "value": "Set BLE voice volume event"
+    },
+    {
+      "name": "set_func_desc_setDateTime",
+      "value": "Set date and time"
+    },
+    {
+      "name": "set_func_desc_setDefaultMsgList",
+      "value": "Set default message app list"
+    },
+    {
+      "name": "set_func_desc_setUserInfo",
+      "value": "Set user information"
+    },
+    {
+      "name": "refresh",
+      "value": "Refresh"
+    },
+    {
+      "name": "exit_app",
+      "value": "The app is exiting, do you want to continue?"
+    },
+    {
+      "name": "epo_start",
+      "value": "Start Epo Upgrade"
+    },
+    {
+      "name": "epo_stop",
+      "value": "Stop Epo Upgrade"
+    },
+    {
+      "name": "nonsupport",
+      "value": "This device does not support"
+    },
+    {
+      "name": "fastconfig_fail",
+      "value": "Fast config failed, need to reconnect"
+    },
+    {
+      "name": "on_fastconfig",
+      "value": "On fast config..."
+    },
+    {
+      "name": "need_ignore_pair",
+      "value": "Pairing is abnormal, you need to manually ignore the device (Settings-Bluetooth-Find Device-\"!\")-Ignore this device"
+    },
+    {
+      "name": "ble_off",
+      "value": "Bluetooth is off"
+    },
+    {
+      "name": "system_notify_tips",
+      "value": "Note: For iOS 13 and above, you need to turn on [Share System Notifications] in the phone system."
+    },
+    {
+      "name": "call_remind",
+      "value": "Incoming call reminder"
+    },
+    {
+      "name": "fetch_fail",
+      "value": "fetch failed"
+    },
+    {
+      "name": "notify_settings",
+      "value": "Notify settings"
+    },
+    {
+      "name": "notify_allowed",
+      "value": "allowed"
+    },
+    {
+      "name": "notify_silent",
+      "value": "silent"
+    },
+    {
+      "name": "notify_disabled",
+      "value": "disabled"
+    },
+    {
+      "name": "getDeviceInfo",
+      "value": "Get device information"
+    },
+    {
+      "name": "getFunctionTable",
+      "value": "Get function table information"
+    },
+    {
+      "name": "getUnreadAppReminder",
+      "value": "Get unread app reminder switch event number"
+    },
+    {
+      "name": "getWatchDialInfo",
+      "value": "Get Screen Information"
+    },
+    {
+      "name": "getWatchListV3",
+      "value": "Getting watch face list for V3 (New)"
+    },
+    {
+      "name": "getWatchListV2",
+      "value": "Getting watch face list for V2"
+    },
+    {
+      "name": "getBatteryInfo",
+      "value": "Get battery information event number"
+    },
+    {
+      "name": "getDeviceLogState",
+      "value": "Get device log state event number"
+    },
+    {
+      "name": "getMenuList",
+      "value": "Get Supported Menu List"
+    },
+    {
+      "name": "getContactReviseTime",
+      "value": "Get firmware local contact file modification time event number"
+    },
+    {
+      "name": "getWalkRemind",
+      "value": "Get walk reminder event number"
+    },
+    {
+      "name": "getSupportMaxSetItemsNum",
+      "value": "Get maximum number of settings supported by firmware event number"
+    },
+    {
+      "name": "getScreenBrightness",
+      "value": "Get screen brightness event number"
+    },
+    {
+      "name": "getMainSportGoal",
+      "value": "Get Set Calorie/Distance/Mid-High Sport Time Goal event number"
+    },
+    {
+      "name": "getNotDisturbStatus",
+      "value": "Get Do Not Disturb mode status event number"
+    },
+    {
+      "name": "getUpHandGesture",
+      "value": "Get wrist up gesture data event number"
+    },
+    {
+      "name": "getBtNotice",
+      "value": "Query BT pairing switch, connection, A2DP connection, HFP connection status (Only Supported on devices with BT Bluetooth) event number"
+    },
+    {
+      "name": "getFlashBinInfo",
+      "value": "Get Font Library Information event number"
+    },
+    {
+      "name": "getActivitySwitch",
+      "value": "Get event number for activity switch"
+    },
+    {
+      "name": "getBtName",
+      "value": "Get bt bluetooth name"
+    },
+    {
+      "name": "getMtuInfo",
+      "value": "Get MTU Information event number"
+    },
+    {
+      "name": "getAllHealthSwitchState",
+      "value": "Get event number for all health monitoring switches"
+    },
+    {
+      "name": "getErrorRecord",
+      "value": "Get error record"
+    },
+    {
+      "name": "getGpsInfo",
+      "value": "Get GPS Information event number"
+    },
+    {
+      "name": "getGpsStatus",
+      "value": "Get GPS Status event number"
+    },
+    {
+      "name": "getUnerasableMeunList",
+      "value": "Get non-deletable menu list in firmware event number"
+    },
+    {
+      "name": "getBpAlgVersion",
+      "value": "Get blood pressure algorithm version information event number"
+    },
+    {
+      "name": "getUpdateStatus",
+      "value": "Get device update status event number"
+    },
+    {
+      "name": "getDownloadLanguage",
+      "value": "Get Download Language Support"
+    },
+    {
+      "name": "getBleMusicInfo",
+      "value": "Get Firmware Song Names and Folders"
+    },
+    {
+      "name": "getLanguageLibrary",
+      "value": "Get Language Library List"
+    },
+    {
+      "name": "getBleBeep",
+      "value": "Getting firmware local beep file information for V3"
+    },
+    {
+      "name": "getStepGoal",
+      "value": "Get daily step goal event number"
+    },
+    {
+      "name": "getBtConnectPhoneModel",
+      "value": "Get BT connected phone model"
+    },
+    {
+      "name": "getScheduleReminder",
+      "value": "Get schedule reminder"
+    },
+    {
+      "name": "getUnit",
+      "value": "Get Unit event number"
+    },
+    {
+      "name": "getAppletControl",
+      "value": "Operation of applet information (obtain, start, delete)"
+    },
+    {
+      "name": "getAlgFileInfo",
+      "value": "Get firmware algorithm file information (ACC/GPS)"
+    },
+    {
+      "name": "requestAlgFile",
+      "value": "Request firmware algorithm file information (ACC/GPS)"
+    },
+    {
+      "name": "getHeartMode",
+      "value": "Get heart rate mode"
+    },
+    {
+      "name": "getNoticeStatus",
+      "value": "Get notification center status event number"
+    },
+    {
+      "name": "getAlarm",
+      "value": "App gets the alarm of ble"
+    },
+    {
+      "name": "getSportsTypeV3",
+      "value": "Get sports list"
+    },
+    {
+      "name": "setWeatherSunTime",
+      "value": "Set sunrise and sunset time event number"
+    },
+    {
+      "name": "setShortcut",
+      "value": "Set shortcut"
+    },
+    {
+      "name": "setSleepPeriod",
+      "value": "Set sleep period event"
+    },
+    {
+      "name": "setDisplayMode",
+      "value": "Display mode event number"
+    },
+    {
+      "name": "setNoticeAppName",
+      "value": "V3 dynamic notification message event number"
+    },
+    {
+      "name": "setDateTime",
+      "value": "Set Time"
+    },
+    {
+      "name": "setUserInfo",
+      "value": "Set user information"
+    },
+    {
+      "name": "photoStart",
+      "value": "Start taking photos (app -> ble)"
+    },
+    {
+      "name": "photoStop",
+      "value": "Stop taking photos (app -> ble)"
+    },
+    {
+      "name": "setHand",
+      "value": "Set left or right hand"
+    },
+    {
+      "name": "factoryReset",
+      "value": "Factory reset"
+    },
+    {
+      "name": "reboot",
+      "value": "Reboot device"
+    },
+    {
+      "name": "setHotStartParam",
+      "value": "Set hot start parameters"
+    },
+    {
+      "name": "setSportGoal",
+      "value": "Set exercise goal event"
+    },
+    {
+      "name": "setWatchDial",
+      "value": "Set watch face event number"
+    },
+    {
+      "name": "setOverFindPhone",
+      "value": "Stop Find Phone"
+    },
+    {
+      "name": "findDeviceStart",
+      "value": "Control find device start"
+    },
+    {
+      "name": "findDeviceStop",
+      "value": "Control find device stop"
+    },
+    {
+      "name": "setLongCityNameV3",
+      "value": "V3 Setting the Name of a Sports City event number"
+    },
+    {
+      "name": "noticeMessageV3",
+      "value": "Notification message reminder event number"
+    },
+    {
+      "name": "setWeatherCityName",
+      "value": "Set weather city name event number"
+    },
+    {
+      "name": "setBleVoice",
+      "value": "Set phone volume for device event number"
+    },
+    {
+      "name": "setNoticeStatusBtPair",
+      "value": "Set Notification Center Event (Bt pair)"
+    },
+    {
+      "name": "setNoticeStatusAllOn",
+      "value": "Set Notification Center Event (Fully open)"
+    },
+    {
+      "name": "setNoticeStatusAllOff",
+      "value": "Set Notification Center Event (Fully closed)"
+    },
+    {
+      "name": "setStressSwitch",
+      "value": "Set stress switch"
+    },
+    {
+      "name": "setHeartMode",
+      "value": "Set heart rate mode"
+    },
+    {
+      "name": "setHeartRateInterval",
+      "value": "Set heart rate interval"
+    },
+    {
+      "name": "setScreenBrightness",
+      "value": "Set screen brightness"
+    },
+    {
+      "name": "setUnreadAppReminder",
+      "value": "Unread message reminder switch event number"
+    },
+    {
+      "name": "setNotificationStatus",
+      "value": "Notification app status setting event"
+    },
+    {
+      "name": "setScientificSleepSwitch",
+      "value": "Scientific sleep switch setting event"
+    },
+    {
+      "name": "setBodyPowerTurn",
+      "value": "Set body power switch event number"
+    },
+    {
+      "name": "setRRespiRateTurn",
+      "value": "Respiration rate switch setting event"
+    },
+    {
+      "name": "setV3Noise",
+      "value": "Set Environmental Noise Volume On/Off and Threshold Event"
+    },
+    {
+      "name": "setTemperatureSwitch",
+      "value": "Set Night-time Temperature Switch Event Code"
+    },
+    {
+      "name": "setUpHandGesture",
+      "value": "Raise-to-wake gesture event number"
+    },
+    {
+      "name": "setSpo2Switch",
+      "value": "Set SpO2 switch event"
+    },
+    {
+      "name": "setAlarm",
+      "value": "Getting Alarms for V3APP Devices"
+    },
+    {
+      "name": "setFitnessGuidance",
+      "value": "Fitness Guidance Event"
+    },
+    {
+      "name": "setMusicOnOff",
+      "value": "Set Music On/Off Event"
+    },
+    {
+      "name": "setSendRunPlan",
+      "value": "App issued running plan (exercise plan) event number"
+    },
+    {
+      "name": "setWeatherV3",
+      "value": "Send the v3 weather protocol event number under v3"
+    },
+    {
+      "name": "musicControl",
+      "value": "Music control event number"
+    },
+    {
+      "name": "setNoticeMessageState",
+      "value": "Setting Notification Status for a Single App"
+    },
+    {
+      "name": "setWorldTimeV3",
+      "value": "v3 set v3 world time"
+    },
+    {
+      "name": "setSchedulerReminder",
+      "value": "Schedule Reminder"
+    },
+    {
+      "name": "setWatchFaceData",
+      "value": "Set Watch Face"
+    },
+    {
+      "name": "setSyncContact",
+      "value": "Synchronization Protocol Bluetooth Call Common Contacts"
+    },
+    {
+      "name": "setSport100Sort",
+      "value": "Set and Query 100 Sports Sorting"
+    },
+    {
+      "name": "setHistoricalMenstruation",
+      "value": "Menstrual historical data delivery event number"
+    },
+    {
+      "name": "setWatchDialSort",
+      "value": "Set watch dial sort event"
+    },
+    {
+      "name": "setWalkRemind",
+      "value": "Set walk reminder"
+    },
+    {
+      "name": "setMenstruation",
+      "value": "Set menstruation"
+    },
+    {
+      "name": "setCalorieDistanceGoal",
+      "value": "Set calorie and distance goal (Set daily three rings)"
+    },
+    {
+      "name": "setLostFind",
+      "value": "Set Lost Find Event"
+    },
+    {
+      "name": "setWeatherSwitch",
+      "value": "Set weather switch event number"
+    },
+    {
+      "name": "setUnit",
+      "value": "Set Unit event number"
+    },
+    {
+      "name": "setFindPhone",
+      "value": "Set Find Phone"
+    },
+    {
+      "name": "setOnekeySOS",
+      "value": "Set the one-touch calling event number"
+    },
+    {
+      "name": "setSportModeSelect",
+      "value": "Set sport mode select event number"
+    },
+    {
+      "name": "setSportModeSort",
+      "value": "Set Sport Mode Sorting"
+    },
+    {
+      "name": "setDefaultMsgList",
+      "value": "Set the default messaging app list"
+    },
+    {
+      "name": "setAppletControl",
+      "value": "Operation of applet information (obtain, start, delete)"
+    },
+    {
+      "name": "setSportsTypeV3",
+      "value": "Modify the sports list (sort/delete/add)"
+    },
+    {
+      "name": "sport_walk",
+      "value": "walk"
+    },
+    {
+      "name": "sport_run",
+      "value": "run"
+    },
+    {
+      "name": "sport_ride",
+      "value": "ride"
+    },
+    {
+      "name": "sport_hike",
+      "value": "hike"
+    },
+    {
+      "name": "sport_swim",
+      "value": "swim"
+    },
+    {
+      "name": "sport_mountain_climbing",
+      "value": "mountain climbing"
+    },
+    {
+      "name": "sport_badminton",
+      "value": "badminton"
+    },
+    {
+      "name": "sport_other",
+      "value": "other"
+    },
+    {
+      "name": "sport_fitness",
+      "value": "fitness"
+    },
+    {
+      "name": "sport_spinning",
+      "value": "spinning"
+    },
+    {
+      "name": "sport_elliptical_machine",
+      "value": "elliptical machine"
+    },
+    {
+      "name": "sport_treadmill",
+      "value": "treadmill"
+    },
+    {
+      "name": "sport_sit_ups",
+      "value": "sit-ups"
+    },
+    {
+      "name": "sport_push_ups",
+      "value": "push-ups"
+    },
+    {
+      "name": "sport_dumbbells",
+      "value": "dumbbells"
+    },
+    {
+      "name": "sport_weight_lifting",
+      "value": "weight lifting"
+    },
+    {
+      "name": "sport_calisthenics",
+      "value": "calisthenics"
+    },
+    {
+      "name": "sport_yoga",
+      "value": "yoga"
+    },
+    {
+      "name": "sport_rope_skipping",
+      "value": "rope skipping"
+    },
+    {
+      "name": "sport_table_tennis",
+      "value": "table tennis"
+    },
+    {
+      "name": "sport_basketball",
+      "value": "basketball"
+    },
+    {
+      "name": "sport_football",
+      "value": "football"
+    },
+    {
+      "name": "sport_volleyball",
+      "value": "volleyball"
+    },
+    {
+      "name": "sport_tennis",
+      "value": "tennis"
+    },
+    {
+      "name": "sport_golf",
+      "value": "golf"
+    },
+    {
+      "name": "sport_baseball",
+      "value": "baseball"
+    },
+    {
+      "name": "sport_skiing",
+      "value": "skiing"
+    },
+    {
+      "name": "sport_roller_skating",
+      "value": "roller skating"
+    },
+    {
+      "name": "sport_dancing",
+      "value": "dancing"
+    },
+    {
+      "name": "sport_indoor_rowing",
+      "value": "indoor rowing"
+    },
+    {
+      "name": "sport_pilates",
+      "value": "pilates"
+    },
+    {
+      "name": "sport_cross_training",
+      "value": "cross training"
+    },
+    {
+      "name": "sport_aerobics",
+      "value": "aerobics"
+    },
+    {
+      "name": "sport_zumba",
+      "value": "zumba"
+    },
+    {
+      "name": "sport_square_dance",
+      "value": "square dance"
+    },
+    {
+      "name": "sport_plank",
+      "value": "plank"
+    },
+    {
+      "name": "sport_gym",
+      "value": "gym"
+    },
+    {
+      "name": "sport_outdoor_running",
+      "value": "outdoor running"
+    },
+    {
+      "name": "sport_indoor_running",
+      "value": "indoor running"
+    },
+    {
+      "name": "sport_outdoor_cycling",
+      "value": "outdoor cycling"
+    },
+    {
+      "name": "sport_indoor_cycling",
+      "value": "indoor cycling"
+    },
+    {
+      "name": "sport_outdoor_walking",
+      "value": "outdoor walking"
+    },
+    {
+      "name": "sport_indoor_walking",
+      "value": "indoor walking"
+    },
+    {
+      "name": "sport_pool_swimming",
+      "value": "pool swimming"
+    },
+    {
+      "name": "sport_open_water_swimming",
+      "value": "open water swimming"
+    },
+    {
+      "name": "sport_rowing_machine",
+      "value": "rowing machine"
+    },
+    {
+      "name": "sport_high_intensity_interval_training",
+      "value": "high-intensity interval training"
+    },
+    {
+      "name": "sport_cricket",
+      "value": "cricket"
+    },
+    {
+      "name": "sport_free_training",
+      "value": "free training"
+    },
+    {
+      "name": "sport_functional_strength_training",
+      "value": "functional strength training"
+    },
+    {
+      "name": "sport_core_training",
+      "value": "core training"
+    },
+    {
+      "name": "sport_treadmills",
+      "value": "treadmills"
+    },
+    {
+      "name": "sport_organize_and_relax",
+      "value": "organize and relax"
+    },
+    {
+      "name": "sport_traditional_strength_training",
+      "value": "traditional strength training"
+    },
+    {
+      "name": "sport_pull_ups",
+      "value": "pull ups"
+    },
+    {
+      "name": "sport_jumping_jacks",
+      "value": "jumping jacks"
+    },
+    {
+      "name": "sport_squats",
+      "value": "squats"
+    },
+    {
+      "name": "sport_high_knees",
+      "value": "high knees"
+    },
+    {
+      "name": "sport_boxing",
+      "value": "boxing"
+    },
+    {
+      "name": "sport_barbell",
+      "value": "barbell"
+    },
+    {
+      "name": "sport_martial_arts",
+      "value": "martial arts"
+    },
+    {
+      "name": "sport_tai_chi",
+      "value": "tai chi"
+    },
+    {
+      "name": "sport_taekwondo",
+      "value": "taekwondo"
+    },
+    {
+      "name": "sport_karate",
+      "value": "karate"
+    },
+    {
+      "name": "sport_kickboxing",
+      "value": "kickboxing"
+    },
+    {
+      "name": "sport_fencing",
+      "value": "fencing"
+    },
+    {
+      "name": "sport_archery",
+      "value": "archery"
+    },
+    {
+      "name": "sport_gymnastics",
+      "value": "gymnastics"
+    },
+    {
+      "name": "sport_horizontal_bar",
+      "value": "horizontal bar"
+    },
+    {
+      "name": "sport_parallel_bar",
+      "value": "parallel bar"
+    },
+    {
+      "name": "sport_walking_machine",
+      "value": "walking machine"
+    },
+    {
+      "name": "sport_climbing_machine",
+      "value": "climbing machine"
+    },
+    {
+      "name": "sport_bowling",
+      "value": "bowling"
+    },
+    {
+      "name": "sport_billiards",
+      "value": "billiards"
+    },
+    {
+      "name": "sport_hockey",
+      "value": "hockey"
+    },
+    {
+      "name": "sport_rugby",
+      "value": "rugby"
+    },
+    {
+      "name": "sport_squash",
+      "value": "squash"
+    },
+    {
+      "name": "sport_softball",
+      "value": "softball"
+    },
+    {
+      "name": "sport_handball",
+      "value": "handball"
+    },
+    {
+      "name": "sport_shuttlecock",
+      "value": "shuttlecock"
+    },
+    {
+      "name": "sport_beach_soccer",
+      "value": "beach soccer"
+    },
+    {
+      "name": "sport_sepak_takraw",
+      "value": "sepak takraw"
+    },
+    {
+      "name": "sport_dodgeball",
+      "value": "dodgeball"
+    },
+    {
+      "name": "sport_hip_hop",
+      "value": "hip-hop"
+    },
+    {
+      "name": "sport_ballet",
+      "value": "ballet"
+    },
+    {
+      "name": "sport_social_dance",
+      "value": "social dance"
+    },
+    {
+      "name": "sport_frisbee",
+      "value": "frisbee"
+    },
+    {
+      "name": "sport_darts",
+      "value": "darts"
+    },
+    {
+      "name": "sport_horseback_riding",
+      "value": "horseback riding"
+    },
+    {
+      "name": "sport_stair_climbing",
+      "value": "stair climbing"
+    },
+    {
+      "name": "sport_kite_flying",
+      "value": "kite flying"
+    },
+    {
+      "name": "sport_fishing",
+      "value": "fishing"
+    },
+    {
+      "name": "sport_sled",
+      "value": "sled"
+    },
+    {
+      "name": "sport_snowmobile",
+      "value": "snowmobile"
+    },
+    {
+      "name": "sport_snowboard",
+      "value": "snowboard"
+    },
+    {
+      "name": "sport_snow_sports",
+      "value": "snow sports"
+    },
+    {
+      "name": "sport_alpine_skiing",
+      "value": "alpine skiing"
+    },
+    {
+      "name": "sport_cross_country_skiing",
+      "value": "cross-country skiing"
+    },
+    {
+      "name": "sport_curling",
+      "value": "curling"
+    },
+    {
+      "name": "sport_ice_hockey",
+      "value": "ice hockey"
+    },
+    {
+      "name": "sport_biathlon",
+      "value": "biathlon"
+    },
+    {
+      "name": "sport_surfing",
+      "value": "surfing"
+    },
+    {
+      "name": "sport_sailing",
+      "value": "sailing"
+    },
+    {
+      "name": "sport_windsurfing",
+      "value": "windsurfing"
+    },
+    {
+      "name": "sport_kayak",
+      "value": "kayak"
+    },
+    {
+      "name": "sport_motorboat",
+      "value": "motorboat"
+    },
+    {
+      "name": "sport_rowing",
+      "value": "rowing"
+    },
+    {
+      "name": "sport_dragon_boat",
+      "value": "dragon boat"
+    },
+    {
+      "name": "sport_water_polo",
+      "value": "water polo"
+    },
+    {
+      "name": "sport_rafting",
+      "value": "rafting"
+    },
+    {
+      "name": "sport_skateboarding",
+      "value": "skateboarding"
+    },
+    {
+      "name": "sport_rock_climbing",
+      "value": "rock climbing"
+    },
+    {
+      "name": "sport_bungee_jumping",
+      "value": "bungee jumping"
+    },
+    {
+      "name": "sport_parkour",
+      "value": "parkour"
+    },
+    {
+      "name": "sport_bmx",
+      "value": "BMX"
+    },
+    {
+      "name": "sport_outdoor_fun",
+      "value": "outdoor Fun"
+    },
+    {
+      "name": "sport_other_activity",
+      "value": "other activity"
+    },
+    {
+      "name": "sport_track_and_field",
+      "value": "Track and field"
+    },
+    {
+      "name": "sport_cross_country_running",
+      "value": "Cross country running"
+    },
+    {
+      "name": "category_overallResponseTime",
+      "value": "overall ResponseTime"
+    },
+    {
+      "name": "category_distance",
+      "value": "distance"
+    },
+    {
+      "name": "category_elevation",
+      "value": "elevation"
+    },
+    {
+      "name": "category_pace",
+      "value": "pace"
+    },
+    {
+      "name": "category_speed",
+      "value": "speed"
+    },
+    {
+      "name": "category_heartRate",
+      "value": "heartRate"
+    },
+    {
+      "name": "category_power",
+      "value": "power"
+    },
+    {
+      "name": "category_cadence",
+      "value": "cadence"
+    },
+    {
+      "name": "category_runningEconomy",
+      "value": "running Economy"
+    },
+    {
+      "name": "category_runningFitness",
+      "value": "running Fitness"
+    },
+    {
+      "name": "category_time",
+      "value": "time"
+    },
+    {
+      "name": "category_other",
+      "value": "other"
+    },
+    {
+      "name": "metric_overall_response_time",
+      "value": "Overall Response Time"
+    },
+    {
+      "name": "metric_total_distance",
+      "value": "Total Distance"
+    },
+    {
+      "name": "metric_current_lap_distance",
+      "value": "Current Lap Distance"
+    },
+    {
+      "name": "metric_last_lap_distance",
+      "value": "Last Lap Distance"
+    },
+    {
+      "name": "metric_elevation",
+      "value": "Elevation"
+    },
+    {
+      "name": "metric_total_ascent",
+      "value": "Total Ascent"
+    },
+    {
+      "name": "metric_lap_ascent",
+      "value": "Lap Ascent"
+    },
+    {
+      "name": "metric_last_lap_ascent",
+      "value": "Last Lap Ascent"
+    },
+    {
+      "name": "metric_total_descent",
+      "value": "Total Descent"
+    },
+    {
+      "name": "metric_lap_descent",
+      "value": "Lap Descent"
+    },
+    {
+      "name": "metric_last_lap_descent",
+      "value": "Last Lap Descent"
+    },
+    {
+      "name": "metric_grade",
+      "value": "Grade"
+    },
+    {
+      "name": "metric_pace",
+      "value": "Pace"
+    },
+    {
+      "name": "metric_average_pace",
+      "value": "Average Pace"
+    },
+    {
+      "name": "metric_lap_pace",
+      "value": "Lap Pace"
+    },
+    {
+      "name": "metric_last_lap_pace",
+      "value": "Last Lap Pace"
+    },
+    {
+      "name": "metric_effort_pace",
+      "value": "Effort Pace"
+    },
+    {
+      "name": "metric_average_effort_pace",
+      "value": "Average Effort Pace"
+    },
+    {
+      "name": "metric_lap_effort_pace",
+      "value": "Lap Effort Pace"
+    },
+    {
+      "name": "metric_speed",
+      "value": "Speed"
+    },
+    {
+      "name": "metric_average_speed",
+      "value": "Average Speed"
+    },
+    {
+      "name": "metric_maximum_speed",
+      "value": "Maximum Speed"
+    },
+    {
+      "name": "metric_lap_speed",
+      "value": "Lap Speed"
+    },
+    {
+      "name": "metric_last_lap_speed",
+      "value": "Last Lap Speed"
+    },
+    {
+      "name": "metric_vertical_speed",
+      "value": "Vertical Speed"
+    },
+    {
+      "name": "metric_average_vertical_speed",
+      "value": "Average Vertical Speed"
+    },
+    {
+      "name": "metric_lap_vertical_speed",
+      "value": "Lap Vertical Speed"
+    },
+    {
+      "name": "metric_heart_rate",
+      "value": "Heart Rate"
+    },
+    {
+      "name": "metric_heart_rate_zone",
+      "value": "Heart Rate Zone"
+    },
+    {
+      "name": "metric_average_heart_rate",
+      "value": "Average Heart Rate"
+    },
+    {
+      "name": "metric_max_heart_rate",
+      "value": "Max Heart Rate"
+    },
+    {
+      "name": "metric_lap_heart_rate",
+      "value": "Lap Heart Rate"
+    },
+    {
+      "name": "metric_last_lap_heart_rate",
+      "value": "Last Lap Heart Rate"
+    },
+    {
+      "name": "metric_heart_rate_reserve",
+      "value": "Heart Rate Reserve"
+    },
+    {
+      "name": "metric_power",
+      "value": "Power"
+    },
+    {
+      "name": "metric_average_power",
+      "value": "Average Power"
+    },
+    {
+      "name": "metric_lap_power",
+      "value": "Lap Power"
+    },
+    {
+      "name": "metric_3s_average_power",
+      "value": "3s Average Power"
+    },
+    {
+      "name": "metric_10s_average_power",
+      "value": "10s Average Power"
+    },
+    {
+      "name": "metric_power30sAveragePower",
+      "value": "power30sAveragePower"
+    },
+    {
+      "name": "metric_cadence",
+      "value": "Cadence"
+    },
+    {
+      "name": "metric_average_cadence",
+      "value": "Average Cadence"
+    },
+    {
+      "name": "metric_lap_cadence",
+      "value": "Lap Cadence"
+    },
+    {
+      "name": "metric_last_lap_cadence",
+      "value": "Last Lap Cadence"
+    },
+    {
+      "name": "metric_stride_length",
+      "value": "Stride Length"
+    },
+    {
+      "name": "metric_average_stride_length",
+      "value": "Average Stride Length"
+    },
+    {
+      "name": "metric_lap_stride_length",
+      "value": "Lap Strido Length"
+    },
+    {
+      "name": "metric_training_load",
+      "value": "Training Load"
+    },
+    {
+      "name": "metric_aerobic_training_effect",
+      "value": "Aerobic Training Effect"
+    },
+    {
+      "name": "metric_anaerobic_training_efect",
+      "value": "Anaerobic Training Efect"
+    },
+    {
+      "name": "metric_calorie",
+      "value": "Calorie"
+    },
+    {
+      "name": "metric_activity_time",
+      "value": "Activity Time"
+    },
+    {
+      "name": "metric_total_time",
+      "value": "Total Time"
+    },
+    {
+      "name": "metric_current_time",
+      "value": "Current Time"
+    },
+    {
+      "name": "metric_time_to_sunrise_sunset",
+      "value": "Time To Sunrise Sunset"
+    },
+    {
+      "name": "metric_lap_time",
+      "value": "Lap Time"
+    },
+    {
+      "name": "metric_last_lap_time",
+      "value": "Last Lap Time"
+    },
+    {
+      "name": "metric_vo2max",
+      "value": "Vo2max"
+    },
+    {
+      "name": "metric_battery_level",
+      "value": "Battery Level"
+    },
+    {
+      "name": "metric_battery_life_based_on_soc",
+      "value": "Battery Life Based On Soc"
+    },
+    {
+      "name": "gps_tips",
+      "value": "If the mobile phone location permission is not authorized, the watch will not be able to quickly locate the phone."
+    },{
+      "name": "watch_face_add",
+      "value": "Install"
+    },
+    {
+      "name": "watch_face_remove",
+      "value": "Remove"
+    },
+    {
+      "name": "access_notification_reason",
+      "value": "Access notification"
+    },
+    {
+      "name": "reason_notification_controller",
+      "value": "use notification controller"
+    }
+  ]
+}

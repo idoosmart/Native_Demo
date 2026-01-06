@@ -1,0 +1,28 @@
+{
+  "float": [
+    {
+      "name": "page_padding",
+      "value": "16vp"
+    },
+    {
+      "name": "item_padding",
+      "value": "12vp"
+    },
+    {
+      "name": "font_title",
+      "value": "18fp"
+    },
+    {
+      "name": "font_body",
+      "value": "16fp"
+    },
+    {
+      "name": "font_caption",
+      "value": "12fp"
+    },
+    {
+      "name": "divider_height",
+      "value": "0.5vp"
+    }
+  ]
+}

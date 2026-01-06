@@ -1,0 +1,1607 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "protocol_channel_example"
+    },
+    {
+      "name": "ACCESS_BLUETOOTH",
+      "value": "允许应用接入蓝牙并使用蓝牙能力，例如配对、连接外围设备等。"
+    },
+    {
+      "name": "DISCOVER_BLUETOOTH",
+      "value": "允许应用配置本地蓝牙，查找远端设备且与之配对连接。"
+    },
+    {
+      "name": "USE_BLUETOOTH",
+      "value": "允许应用查看蓝牙的配置。"
+    },
+    {
+      "name": "LOCATION",
+      "value": "需要获取您的位置信息以提供更好的服务"
+    },
+    {
+      "name": "read_media_reason",
+      "value": "App needs to access your files to let you select and upload them."
+    },
+    {
+      "name": "app_name",
+      "value": "IDO Demo"
+    },
+    {
+      "name": "function_page_title",
+      "value": "Function"
+    },
+    {
+      "name": "share_log",
+      "value": "Share log"
+    },
+    {
+      "name": "current_device",
+      "value": "当前设备: %1$s"
+    },
+    {
+      "name": "mac_address",
+      "value": "地址:%1$s"
+    },
+    {
+      "name": "rssi",
+      "value": "RSSI: %1$d"
+    },
+    {
+      "name": "connect_state",
+      "value": "连接状态: %1$s"
+    },
+    {
+      "name": "not_support_rebind",
+      "value": "设备已被绑定，请先重置"
+    },
+    {
+      "name": "device_has_reset",
+      "value": "设备已重置"
+    },
+    {
+      "name": "connect_state_connected",
+      "value": "已连接"
+    },
+    {
+      "name": "connect_state_disconnected",
+      "value": "未连接"
+    },
+    {
+      "name": "connect_state_connecting",
+      "value": "连接中"
+    },
+    {
+      "name": "connect_state_disconnecting",
+      "value": "断连中"
+    },
+    {
+      "name": "device_connect",
+      "value": "Device Connect"
+    },
+    {
+      "name": "device_disconnect",
+      "value": "Device Disconnect"
+    },
+    {
+      "name": "device_bind",
+      "value": "Device Bind"
+    },
+    {
+      "name": "go_ota",
+      "value": "Go OTA"
+    },
+    {
+      "name": "device_ota",
+      "value": "in ota"
+    },
+    {
+      "name": "connect_bt",
+      "value": "bt pair"
+    },
+    {
+      "name": "device_unbind",
+      "value": "Device Unbind"
+    },
+    {
+      "name": "get_function",
+      "value": "Get Function"
+    },
+    {
+      "name": "set_function",
+      "value": "Set Function"
+    },
+    {
+      "name": "sync_data",
+      "value": "Sync Data"
+    },
+    {
+      "name": "transfer_file",
+      "value": "Transfer File"
+    },
+    {
+      "name": "epo_upgrade",
+      "value": "Epo Upgrade"
+    },
+    {
+      "name": "app_log",
+      "value": "App log"
+    },
+    {
+      "name": "ble_log",
+      "value": "Ble log"
+    },
+    {
+      "name": "device_log",
+      "value": "Device log"
+    },
+    {
+      "name": "cancel",
+      "value": "取消"
+    },
+    {
+      "name": "send",
+      "value": "Send"
+    },
+    {
+      "name": "stop",
+      "value": "Stop"
+    },
+    {
+      "name": "parameter",
+      "value": "Parameter"
+    },
+    {
+      "name": "response",
+      "value": "Response"
+    },
+    {
+      "name": "start_sync_data",
+      "value": "Start Sync Data"
+    },
+    {
+      "name": "stop_sync_data",
+      "value": "Stop Sync Data"
+    },
+    {
+      "name": "upload_contacts",
+      "value": "上传通讯录"
+    },
+    {
+      "name": "firmware_upgrade",
+      "value": "固件升级"
+    },
+    {
+      "name": "watch_face_upgrade",
+      "value": "表盘升级"
+    },
+    {
+      "name": "message_notice",
+      "value": "Message notice"
+    },
+    {
+      "name": "message_notice_note",
+      "value": "注：IOS13以上版本，需要打开手机系统中的[共享系统通知]"
+    },
+    {
+      "name": "main_switch",
+      "value": "总开关"
+    },
+    {
+      "name": "incoming_call",
+      "value": "来电提醒"
+    },
+    {
+      "name": "sms",
+      "value": "短信"
+    },
+    {
+      "name": "calendar",
+      "value": "日历"
+    },
+    {
+      "name": "email",
+      "value": "邮件"
+    },
+    {
+      "name": "missed_call",
+      "value": "未接电话"
+    },
+    {
+      "name": "wechat",
+      "value": "微信"
+    },
+    {
+      "name": "sport",
+      "value": "Sport"
+    },
+    {
+      "name": "start",
+      "value": "Start"
+    },
+    {
+      "name": "pause",
+      "value": "Pause"
+    },
+    {
+      "name": "resume",
+      "value": "Resume"
+    },
+    {
+      "name": "back",
+      "value": "返回"
+    },
+    {
+      "name": "get_func_desc_getActivitySwitch",
+      "value": "获取活动开关"
+    },
+    {
+      "name": "get_func_desc_getAlarm",
+      "value": "app 获取 ble 的闹钟"
+    },
+    {
+      "name": "get_func_desc_getAllHealthSwitchState",
+      "value": "获取所有健康监测开关"
+    },
+    {
+      "name": "get_func_desc_getBatteryInfo",
+      "value": "获取电池信息"
+    },
+    {
+      "name": "get_func_desc_getBtName",
+      "value": "获取蓝牙名称"
+    },
+    {
+      "name": "get_func_desc_getBtNotice",
+      "value": "查询BT配对开关、连接、A2DP连接、HFP连接状态（仅支持带有BT蓝牙的设备）"
+    },
+    {
+      "name": "get_func_desc_getContactReviseTime",
+      "value": "获取固件本地联系人文件修改时间"
+    },
+    {
+      "name": "get_func_desc_getDeviceInfo",
+      "value": "获取设备信息"
+    },
+    {
+      "name": "get_func_desc_getDeviceLogState",
+      "value": "获取设备的日志状态"
+    },
+    {
+      "name": "get_func_desc_getFunctionTable",
+      "value": "获取功能表"
+    },
+    {
+      "name": "set_func_desc_factoryReset",
+      "value": "恢复出厂设置"
+    },
+    {
+      "name": "set_func_desc_musicControl",
+      "value": "音乐控制事件编号"
+    },
+    {
+      "name": "set_func_desc_noticeMessageV3",
+      "value": "通知消息提醒事件编号"
+    },
+    {
+      "name": "set_func_desc_photoStart",
+      "value": "开始拍照 (app -> ble)"
+    },
+    {
+      "name": "set_func_desc_photoStop",
+      "value": "结束拍照 (app -> ble)"
+    },
+    {
+      "name": "set_func_desc_reboot",
+      "value": "重启设备"
+    },
+    {
+      "name": "set_func_desc_setAlarm",
+      "value": "获取 V3APP 设备的闹钟"
+    },
+    {
+      "name": "set_func_desc_setBleVoice",
+      "value": "设置设备手机音量事件编号"
+    },
+    {
+      "name": "set_func_desc_setDateTime",
+      "value": "设置时间"
+    },
+    {
+      "name": "set_func_desc_setDefaultMsgList",
+      "value": "设置默认消息应用列表"
+    },
+    {
+      "name": "set_func_desc_setUserInfo",
+      "value": "设置用户信息"
+    },
+    {
+      "name": "refresh",
+      "value": "刷新"
+    },
+    {
+      "name": "exit_app",
+      "value": "app正在退出，是否继续?"
+    },
+    {
+      "name": "epo_start",
+      "value": "开始更新epo/agps"
+    },
+    {
+      "name": "epo_stop",
+      "value": "结束更新"
+    },
+    {
+      "name": "nonsupport",
+      "value": "该设备不支持"
+    },
+    {
+      "name": "fastconfig_fail",
+      "value": "快速配置失败，需要重新连接"
+    },
+    {
+      "name": "on_fastconfig",
+      "value": "快速配置中..."
+    },
+    {
+      "name": "need_ignore_pair",
+      "value": "配对异常，需要手动忽略设备（设置-蓝牙-找到设备-\"!\")-忽略此设备"
+    },
+    {
+      "name": "ble_off",
+      "value": "蓝牙已关闭"
+    },
+    {
+      "name": "system_notify_tips",
+      "value": "注：iOS13以上版本，需要打开手机系统中的[共享系统通知]"
+    },
+    {
+      "name": "call_remind",
+      "value": "来电提醒"
+    },
+    {
+      "name": "fetch_fail",
+      "value": "获取失败"
+    },
+    {
+      "name": "notify_settings",
+      "value": "通知设置"
+    },
+    {
+      "name": "notify_allowed",
+      "value": "允许通知"
+    },
+    {
+      "name": "notify_silent",
+      "value": "静默通知"
+    },
+    {
+      "name": "notify_disabled",
+      "value": "关闭通知"
+    },
+    {
+      "name": "getDeviceInfo",
+      "value": "获取设备信息"
+    },
+    {
+      "name": "getFunctionTable",
+      "value": "获取功能表"
+    },
+    {
+      "name": "getUnreadAppReminder",
+      "value": "获取红点提醒开关"
+    },
+    {
+      "name": "getWatchDialInfo",
+      "value": "获取屏幕信息"
+    },
+    {
+      "name": "getWatchListV3",
+      "value": "获取表盘列表v3"
+    },
+    {
+      "name": "getWatchListV2",
+      "value": "获取表盘列表"
+    },
+    {
+      "name": "getBatteryInfo",
+      "value": "获取电池信息"
+    },
+    {
+      "name": "getDeviceLogState",
+      "value": "获取设备的日志状态"
+    },
+    {
+      "name": "getMenuList",
+      "value": "获取设备支持的列表"
+    },
+    {
+      "name": "getContactReviseTime",
+      "value": "获取固件本地联系人文件修改时间"
+    },
+    {
+      "name": "getWalkRemind",
+      "value": "获取步行提醒"
+    },
+    {
+      "name": "getSupportMaxSetItemsNum",
+      "value": "获取固件支持的最大设置项数量"
+    },
+    {
+      "name": "getScreenBrightness",
+      "value": "获取屏幕亮度"
+    },
+    {
+      "name": "getMainSportGoal",
+      "value": "获取设置卡路里/距离/中高强度运动时间目标"
+    },
+    {
+      "name": "getNotDisturbStatus",
+      "value": "获取勿扰模式状态"
+    },
+    {
+      "name": "getUpHandGesture",
+      "value": "获取抬腕手势数据"
+    },
+    {
+      "name": "getBtNotice",
+      "value": "查询BT配对开关、连接、A2DP连接、HFP连接状态（仅支持带有BT蓝牙的设备）"
+    },
+    {
+      "name": "getFlashBinInfo",
+      "value": "获取字库信息"
+    },
+    {
+      "name": "getActivitySwitch",
+      "value": "获取活动开关"
+    },
+    {
+      "name": "getBtName",
+      "value": "获取蓝牙名称"
+    },
+    {
+      "name": "getMtuInfo",
+      "value": "获取MTU信息"
+    },
+    {
+      "name": "getAllHealthSwitchState",
+      "value": "获取所有健康监测开关"
+    },
+    {
+      "name": "getErrorRecord",
+      "value": "获取错误记录"
+    },
+    {
+      "name": "getGpsInfo",
+      "value": "获取GPS信息"
+    },
+    {
+      "name": "getGpsStatus",
+      "value": "获取GPS状态"
+    },
+    {
+      "name": "getUnerasableMeunList",
+      "value": "获取固件中不可删除的菜单列表"
+    },
+    {
+      "name": "getBpAlgVersion",
+      "value": "获取血压算法版本信息"
+    },
+    {
+      "name": "getUpdateStatus",
+      "value": "获取设备更新状态"
+    },
+    {
+      "name": "getDownloadLanguage",
+      "value": "获取下载语言支持"
+    },
+    {
+      "name": "getBleMusicInfo",
+      "value": "获取固件歌曲名称和文件夹"
+    },
+    {
+      "name": "getLanguageLibrary",
+      "value": "获取语言库列表"
+    },
+    {
+      "name": "getBleBeep",
+      "value": "获取固件本地蜂鸣文件信息"
+    },
+    {
+      "name": "getStepGoal",
+      "value": "获取每日步数目标"
+    },
+    {
+      "name": "getBtConnectPhoneModel",
+      "value": "获取BT连接手机型号"
+    },
+    {
+      "name": "getScheduleReminder",
+      "value": "获取日程提醒"
+    },
+    {
+      "name": "getUnit",
+      "value": "获取单位"
+    },
+    {
+      "name": "getAppletControl",
+      "value": "操作小程序信息（获取、启动、删除）"
+    },
+    {
+      "name": "getAlgFileInfo",
+      "value": "获取固件算法文件信息（ACC/GPS）"
+    },
+    {
+      "name": "requestAlgFile",
+      "value": "请求固件算法文件信息（ACC/GPS）"
+    },
+    {
+      "name": "getHeartMode",
+      "value": "获取心率模式"
+    },
+    {
+      "name": "getNoticeStatus",
+      "value": "获取通知中心开关"
+    },
+    {
+      "name": "getAlarm",
+      "value": "app获取ble的闹钟"
+    },
+    {
+      "name": "getSportsTypeV3",
+      "value": "获取运动列表"
+    },
+    {
+      "name": "setWeatherSunTime",
+      "value": "设置日出和日落时间事件编号"
+    },
+    {
+      "name": "setShortcut",
+      "value": "设置快捷方式"
+    },
+    {
+      "name": "setSleepPeriod",
+      "value": "设置睡眠周期事件"
+    },
+    {
+      "name": "setDisplayMode",
+      "value": "显示模式事件编号"
+    },
+    {
+      "name": "setNoticeAppName",
+      "value": "V3 动态通知消息事件编号"
+    },
+    {
+      "name": "setDateTime",
+      "value": "设置时间"
+    },
+    {
+      "name": "setUserInfo",
+      "value": "设置用户信息"
+    },
+    {
+      "name": "photoStart",
+      "value": "开始拍照 (app -> ble)"
+    },
+    {
+      "name": "photoStop",
+      "value": "结束拍照 (app -> ble)"
+    },
+    {
+      "name": "setHand",
+      "value": "设置左右手"
+    },
+    {
+      "name": "factoryReset",
+      "value": "恢复出厂设置"
+    },
+    {
+      "name": "reboot",
+      "value": "重启设备"
+    },
+    {
+      "name": "setHotStartParam",
+      "value": "设置热启动参数"
+    },
+    {
+      "name": "setSportGoal",
+      "value": "设置运动目标事件"
+    },
+    {
+      "name": "setWatchDial",
+      "value": "设置表盘事件编号"
+    },
+    {
+      "name": "setOverFindPhone",
+      "value": "停止查找手机"
+    },
+    {
+      "name": "findDeviceStart",
+      "value": "控制寻找设备开始"
+    },
+    {
+      "name": "findDeviceStop",
+      "value": "控制寻找设备结束"
+    },
+    {
+      "name": "setLongCityNameV3",
+      "value": "V3 设置运动城市名称事件编号"
+    },
+    {
+      "name": "noticeMessageV3",
+      "value": "通知消息提醒事件编号"
+    },
+    {
+      "name": "setWeatherCityName",
+      "value": "设置天气城市名称事件编号"
+    },
+    {
+      "name": "setBleVoice",
+      "value": "设置设备手机音量事件编号"
+    },
+    {
+      "name": "setNoticeStatusBtPair",
+      "value": "设置通知中心事件（Bt配对）"
+    },
+    {
+      "name": "setNoticeStatusAllOn",
+      "value": "设置通知中心事件（全部开启）"
+    },
+    {
+      "name": "setNoticeStatusAllOff",
+      "value": "设置通知中心事件（全部关闭）"
+    },
+    {
+      "name": "setStressSwitch",
+      "value": "设置压力开关"
+    },
+    {
+      "name": "setHeartMode",
+      "value": "设置心率模式"
+    },
+    {
+      "name": "setHeartRateInterval",
+      "value": "设置心率区间"
+    },
+    {
+      "name": "setScreenBrightness",
+      "value": "设置屏幕亮度"
+    },
+    {
+      "name": "setUnreadAppReminder",
+      "value": "未读消息提醒开关事件编号"
+    },
+    {
+      "name": "setNotificationStatus",
+      "value": "通知应用状态设置事件"
+    },
+    {
+      "name": "setScientificSleepSwitch",
+      "value": "科学睡眠开关设置事件"
+    },
+    {
+      "name": "setBodyPowerTurn",
+      "value": "设置身体能量开关事件编号"
+    },
+    {
+      "name": "setRRespiRateTurn",
+      "value": "设置呼吸率开关事件"
+    },
+    {
+      "name": "setV3Noise",
+      "value": "设置环境噪音开关及阈值事件"
+    },
+    {
+      "name": "setTemperatureSwitch",
+      "value": "设置夜间温度开关事件编号"
+    },
+    {
+      "name": "setUpHandGesture",
+      "value": "设置抬腕手势事件编号"
+    },
+    {
+      "name": "setSpo2Switch",
+      "value": "设置血氧开关事件"
+    },
+    {
+      "name": "setAlarm",
+      "value": "获取 V3APP 设备的闹钟"
+    },
+    {
+      "name": "setFitnessGuidance",
+      "value": "健身指导事件"
+    },
+    {
+      "name": "setMusicOnOff",
+      "value": "设置音乐开关事件"
+    },
+    {
+      "name": "setSendRunPlan",
+      "value": "App 下发跑步计划（运动计划）事件编号"
+    },
+    {
+      "name": "setWeatherV3",
+      "value": "发送 V3 天气协议事件编号"
+    },
+    {
+      "name": "musicControl",
+      "value": "音乐控制事件编号"
+    },
+    {
+      "name": "setNoticeMessageState",
+      "value": "设置单个应用的通知状态"
+    },
+    {
+      "name": "setWorldTimeV3",
+      "value": "V3 设置世界时间"
+    },
+    {
+      "name": "setSchedulerReminder",
+      "value": "日程提醒"
+    },
+    {
+      "name": "setWatchFaceData",
+      "value": "设置表盘"
+    },
+    {
+      "name": "setSyncContact",
+      "value": "同步协议蓝牙通话常用联系人"
+    },
+    {
+      "name": "setSport100Sort",
+      "value": "设置和查询 100 种运动排序"
+    },
+    {
+      "name": "setHistoricalMenstruation",
+      "value": "月经历史数据下发事件编号"
+    },
+    {
+      "name": "setWatchDialSort",
+      "value": "设置表盘排序事件"
+    },
+    {
+      "name": "setWalkRemind",
+      "value": "设置走动提醒"
+    },
+    {
+      "name": "setMenstruation",
+      "value": "设置经期"
+    },
+    {
+      "name": "setCalorieDistanceGoal",
+      "value": "设置卡路里和距离目标（设置日常三环）"
+    },
+    {
+      "name": "setLostFind",
+      "value": "设置丢失查找事件"
+    },
+    {
+      "name": "setWeatherSwitch",
+      "value": "设置天气开关事件编号"
+    },
+    {
+      "name": "setUnit",
+      "value": "设置单位事件编号"
+    },
+    {
+      "name": "setFindPhone",
+      "value": "设置查找手机"
+    },
+    {
+      "name": "setOnekeySOS",
+      "value": "设置一键呼叫事件编号"
+    },
+    {
+      "name": "setSportModeSelect",
+      "value": "设置运动模式选择事件编号"
+    },
+    {
+      "name": "setSportModeSort",
+      "value": "设置运动模式排序"
+    },
+    {
+      "name": "setDefaultMsgList",
+      "value": "设置默认消息应用列表"
+    },
+    {
+      "name": "setAppletControl",
+      "value": "操作小程序信息（获取、启动、删除）"
+    },
+    {
+      "name": "setSportsTypeV3",
+      "value": "修改运动列表（排序/删除/添加）"
+    },
+    {
+      "name": "sport_walk",
+      "value": "走路"
+    },
+    {
+      "name": "sport_run",
+      "value": "跑步"
+    },
+    {
+      "name": "sport_ride",
+      "value": "骑行"
+    },
+    {
+      "name": "sport_hike",
+      "value": "徒步"
+    },
+    {
+      "name": "sport_swim",
+      "value": "游泳"
+    },
+    {
+      "name": "sport_mountain_climbing",
+      "value": "爬山"
+    },
+    {
+      "name": "sport_badminton",
+      "value": "羽毛球"
+    },
+    {
+      "name": "sport_other",
+      "value": "其他"
+    },
+    {
+      "name": "sport_fitness",
+      "value": "健身"
+    },
+    {
+      "name": "sport_spinning",
+      "value": "动感单车"
+    },
+    {
+      "name": "sport_treadmill",
+      "value": "跑步机"
+    },
+    {
+      "name": "sport_sit_ups",
+      "value": "仰卧起坐"
+    },
+    {
+      "name": "sport_push_ups",
+      "value": "俯卧撑"
+    },
+    {
+      "name": "sport_dumbbells",
+      "value": "哑铃"
+    },
+    {
+      "name": "sport_weight_lifting",
+      "value": "举重"
+    },
+    {
+      "name": "sport_calisthenics",
+      "value": "健身操"
+    },
+    {
+      "name": "sport_yoga",
+      "value": "瑜伽"
+    },
+    {
+      "name": "sport_rope_skipping",
+      "value": "跳绳"
+    },
+    {
+      "name": "sport_table_tennis",
+      "value": "乒乓球"
+    },
+    {
+      "name": "sport_basketball",
+      "value": "篮球"
+    },
+    {
+      "name": "sport_football",
+      "value": "足球"
+    },
+    {
+      "name": "sport_volleyball",
+      "value": "排球"
+    },
+    {
+      "name": "sport_tennis",
+      "value": "网球"
+    },
+    {
+      "name": "sport_golf",
+      "value": "高尔夫"
+    },
+    {
+      "name": "sport_baseball",
+      "value": "棒球"
+    },
+    {
+      "name": "sport_skiing",
+      "value": "滑雪"
+    },
+    {
+      "name": "sport_roller_skating",
+      "value": "轮滑"
+    },
+    {
+      "name": "sport_dancing",
+      "value": "跳舞"
+    },
+    {
+      "name": "sport_indoor_rowing",
+      "value": "室内划船"
+    },
+    {
+      "name": "sport_pilates",
+      "value": "普拉提"
+    },
+    {
+      "name": "sport_cross_training",
+      "value": "交叉训练"
+    },
+    {
+      "name": "sport_aerobics",
+      "value": "有氧运动"
+    },
+    {
+      "name": "sport_zumba",
+      "value": "尊巴舞"
+    },
+    {
+      "name": "sport_square_dance",
+      "value": "广场舞"
+    },
+    {
+      "name": "sport_plank",
+      "value": "平板支撑"
+    },
+    {
+      "name": "sport_gym",
+      "value": "健身房"
+    },
+    {
+      "name": "sport_outdoor_running",
+      "value": "户外跑步"
+    },
+    {
+      "name": "sport_indoor_running",
+      "value": "室内跑步"
+    },
+    {
+      "name": "sport_outdoor_cycling",
+      "value": "户外骑行"
+    },
+    {
+      "name": "sport_indoor_cycling",
+      "value": "室内骑行"
+    },
+    {
+      "name": "sport_outdoor_walking",
+      "value": "户外走路"
+    },
+    {
+      "name": "sport_indoor_walking",
+      "value": "室内走路"
+    },
+    {
+      "name": "sport_pool_swimming",
+      "value": "泳池游泳"
+    },
+    {
+      "name": "sport_open_water_swimming",
+      "value": "开放水域游泳"
+    },
+    {
+      "name": "sport_elliptical_machine",
+      "value": "椭圆机"
+    },
+    {
+      "name": "sport_rowing_machine",
+      "value": "划船机"
+    },
+    {
+      "name": "sport_high_intensity_interval_training",
+      "value": "高强度间歇训练法"
+    },
+    {
+      "name": "sport_cricket",
+      "value": "板球运动"
+    },
+    {
+      "name": "sport_free_training",
+      "value": "自由训练"
+    },
+    {
+      "name": "sport_functional_strength_training",
+      "value": "功能性力量训练"
+    },
+    {
+      "name": "sport_core_training",
+      "value": "核心训练"
+    },
+    {
+      "name": "sport_treadmills",
+      "value": "踏步机"
+    },
+    {
+      "name": "sport_organize_and_relax",
+      "value": "整理放松"
+    },
+    {
+      "name": "sport_traditional_strength_training",
+      "value": "传统力量训练"
+    },
+    {
+      "name": "sport_pull_ups",
+      "value": "引体向上"
+    },
+    {
+      "name": "sport_jumping_jacks",
+      "value": "开合跳"
+    },
+    {
+      "name": "sport_squats",
+      "value": "深蹲"
+    },
+    {
+      "name": "sport_high_knees",
+      "value": "高抬腿"
+    },
+    {
+      "name": "sport_boxing",
+      "value": "拳击"
+    },
+    {
+      "name": "sport_barbell",
+      "value": "杠铃"
+    },
+    {
+      "name": "sport_martial_arts",
+      "value": "武术"
+    },
+    {
+      "name": "sport_tai_chi",
+      "value": "太极"
+    },
+    {
+      "name": "sport_taekwondo",
+      "value": "跆拳道"
+    },
+    {
+      "name": "sport_karate",
+      "value": "空手道"
+    },
+    {
+      "name": "sport_kickboxing",
+      "value": "自由搏击"
+    },
+    {
+      "name": "sport_fencing",
+      "value": "击剑"
+    },
+    {
+      "name": "sport_archery",
+      "value": "射箭"
+    },
+    {
+      "name": "sport_gymnastics",
+      "value": "体操"
+    },
+    {
+      "name": "sport_horizontal_bar",
+      "value": "单杠"
+    },
+    {
+      "name": "sport_parallel_bar",
+      "value": "双杠"
+    },
+    {
+      "name": "sport_walking_machine",
+      "value": "漫步机"
+    },
+    {
+      "name": "sport_climbing_machine",
+      "value": "登山机"
+    },
+    {
+      "name": "sport_bowling",
+      "value": "保龄球"
+    },
+    {
+      "name": "sport_billiards",
+      "value": "台球"
+    },
+    {
+      "name": "sport_hockey",
+      "value": "曲棍球"
+    },
+    {
+      "name": "sport_rugby",
+      "value": "橄榄球"
+    },
+    {
+      "name": "sport_squash",
+      "value": "壁球"
+    },
+    {
+      "name": "sport_softball",
+      "value": "垒球"
+    },
+    {
+      "name": "sport_handball",
+      "value": "手球"
+    },
+    {
+      "name": "sport_shuttlecock",
+      "value": "毽球"
+    },
+    {
+      "name": "sport_beach_soccer",
+      "value": "沙滩足球"
+    },
+    {
+      "name": "sport_sepak_takraw",
+      "value": "藤球"
+    },
+    {
+      "name": "sport_dodgeball",
+      "value": "躲避球"
+    },
+    {
+      "name": "sport_hip_hop",
+      "value": "街舞"
+    },
+    {
+      "name": "sport_ballet",
+      "value": "芭蕾"
+    },
+    {
+      "name": "sport_social_dance",
+      "value": "社交舞"
+    },
+    {
+      "name": "sport_frisbee",
+      "value": "飞盘"
+    },
+    {
+      "name": "sport_darts",
+      "value": "飞镖"
+    },
+    {
+      "name": "sport_horseback_riding",
+      "value": "骑马"
+    },
+    {
+      "name": "sport_stair_climbing",
+      "value": "爬楼"
+    },
+    {
+      "name": "sport_kite_flying",
+      "value": "放风筝"
+    },
+    {
+      "name": "sport_fishing",
+      "value": "钓鱼"
+    },
+    {
+      "name": "sport_sled",
+      "value": "雪橇"
+    },
+    {
+      "name": "sport_snowmobile",
+      "value": "雪车"
+    },
+    {
+      "name": "sport_snowboard",
+      "value": "单板滑雪"
+    },
+    {
+      "name": "sport_snow_sports",
+      "value": "雪上运动"
+    },
+    {
+      "name": "sport_alpine_skiing",
+      "value": "高山滑雪"
+    },
+    {
+      "name": "sport_cross_country_skiing",
+      "value": "越野滑雪"
+    },
+    {
+      "name": "sport_curling",
+      "value": "冰壶"
+    },
+    {
+      "name": "sport_ice_hockey",
+      "value": "冰球"
+    },
+    {
+      "name": "sport_biathlon",
+      "value": "冬季两项"
+    },
+    {
+      "name": "sport_surfing",
+      "value": "冲浪"
+    },
+    {
+      "name": "sport_sailing",
+      "value": "帆船"
+    },
+    {
+      "name": "sport_windsurfing",
+      "value": "帆板"
+    },
+    {
+      "name": "sport_kayak",
+      "value": "皮艇"
+    },
+    {
+      "name": "sport_motorboat",
+      "value": "摩托艇"
+    },
+    {
+      "name": "sport_rowing",
+      "value": "赛艇"
+    },
+    {
+      "name": "sport_dragon_boat",
+      "value": "龙舟"
+    },
+    {
+      "name": "sport_water_polo",
+      "value": "水球"
+    },
+    {
+      "name": "sport_rafting",
+      "value": "漂流"
+    },
+    {
+      "name": "sport_skateboarding",
+      "value": "滑板"
+    },
+    {
+      "name": "sport_rock_climbing",
+      "value": "攀岩"
+    },
+    {
+      "name": "sport_bungee_jumping",
+      "value": "蹦极"
+    },
+    {
+      "name": "sport_parkour",
+      "value": "跑酷"
+    },
+    {
+      "name": "sport_bmx",
+      "value": "BMX"
+    },
+    {
+      "name": "sport_outdoor_fun",
+      "value": "户外玩耍"
+    },
+    {
+      "name": "sport_other_activity",
+      "value": "其他运动"
+    },
+    {
+      "name": "sport_track_and_field",
+      "value": "田径"
+    },
+    {
+      "name": "sport_cross_country_running",
+      "value": "越野跑"
+    },
+    {
+      "name": "category_overallResponseTime",
+      "value": "总响应时间"
+    },
+    {
+      "name": "category_distance",
+      "value": "距离类"
+    },
+    {
+      "name": "category_elevation",
+      "value": "海拔类"
+    },
+    {
+      "name": "category_pace",
+      "value": "配速类"
+    },
+    {
+      "name": "category_speed",
+      "value": "速度类"
+    },
+    {
+      "name": "category_heartRate",
+      "value": "心率类"
+    },
+    {
+      "name": "category_power",
+      "value": "功率类"
+    },
+    {
+      "name": "category_cadence",
+      "value": "步频类"
+    },
+    {
+      "name": "category_runningEconomy",
+      "value": "跑步类"
+    },
+    {
+      "name": "category_runningFitness",
+      "value": "跑步健身类"
+    },
+    {
+      "name": "category_time",
+      "value": "时间类"
+    },
+    {
+      "name": "category_other",
+      "value": " 其他类"
+    },
+    {
+      "name": "metric_overall_response_time",
+      "value": "整体响应时间"
+    },
+    {
+      "name": "metric_total_distance",
+      "value": "总距离"
+    },
+    {
+      "name": "metric_current_lap_distance",
+      "value": "当前圈距离"
+    },
+    {
+      "name": "metric_last_lap_distance",
+      "value": "上一圈距离"
+    },
+    {
+      "name": "metric_elevation",
+      "value": "海拔"
+    },
+    {
+      "name": "metric_total_ascent",
+      "value": "总上升高度"
+    },
+    {
+      "name": "metric_lap_ascent",
+      "value": "圈上升高度"
+    },
+    {
+      "name": "metric_last_lap_ascent",
+      "value": "上一圈上升高度"
+    },
+    {
+      "name": "metric_total_descent",
+      "value": "总下降高度"
+    },
+    {
+      "name": "metric_lap_descent",
+      "value": "圈下降高度"
+    },
+    {
+      "name": "metric_last_lap_descent",
+      "value": "上一圈下降高度"
+    },
+    {
+      "name": "metric_grade",
+      "value": "坡度"
+    },
+    {
+      "name": "metric_pace",
+      "value": "配速"
+    },
+    {
+      "name": "metric_average_pace",
+      "value": "平均配速"
+    },
+    {
+      "name": "metric_lap_pace",
+      "value": "圈配速"
+    },
+    {
+      "name": "metric_last_lap_pace",
+      "value": "上一圈配速"
+    },
+    {
+      "name": "metric_effort_pace",
+      "value": "实时配速"
+    },
+    {
+      "name": "metric_average_effort_pace",
+      "value": "平均实时配速"
+    },
+    {
+      "name": "metric_lap_effort_pace",
+      "value": "圈实时配速"
+    },
+    {
+      "name": "metric_speed",
+      "value": "速度"
+    },
+    {
+      "name": "metric_average_speed",
+      "value": "平均速度"
+    },
+    {
+      "name": "metric_maximum_speed",
+      "value": "最大速度"
+    },
+    {
+      "name": "metric_lap_speed",
+      "value": "圈速度"
+    },
+    {
+      "name": "metric_last_lap_speed",
+      "value": "上一圈速度"
+    },
+    {
+      "name": "metric_vertical_speed",
+      "value": "垂直速度"
+    },
+    {
+      "name": "metric_average_vertical_speed",
+      "value": "平均垂直速度"
+    },
+    {
+      "name": "metric_lap_vertical_speed",
+      "value": "圈垂直速度"
+    },
+    {
+      "name": "metric_heart_rate",
+      "value": "心率"
+    },
+    {
+      "name": "metric_heart_rate_zone",
+      "value": "心率区间"
+    },
+    {
+      "name": "metric_average_heart_rate",
+      "value": "平均心率"
+    },
+    {
+      "name": "metric_max_heart_rate",
+      "value": "最大心率"
+    },
+    {
+      "name": "metric_lap_heart_rate",
+      "value": "圈心率"
+    },
+    {
+      "name": "metric_last_lap_heart_rate",
+      "value": "上一圈心率"
+    },
+    {
+      "name": "metric_heart_rate_reserve",
+      "value": "心率储备"
+    },
+    {
+      "name": "metric_power",
+      "value": "功率"
+    },
+    {
+      "name": "metric_average_power",
+      "value": "平均功率"
+    },
+    {
+      "name": "metric_lap_power",
+      "value": "圈功率"
+    },
+    {
+      "name": "metric_3s_average_power",
+      "value": "3秒平均功率"
+    },
+    {
+      "name": "metric_10s_average_power",
+      "value": "10秒平均功率"
+    },
+    {
+      "name": "metric_power30sAveragePower",
+      "value": "30秒平均功率"
+    },
+    {
+      "name": "metric_cadence",
+      "value": "步频"
+    },
+    {
+      "name": "metric_average_cadence",
+      "value": "平均步频"
+    },
+    {
+      "name": "metric_lap_cadence",
+      "value": "圈步频"
+    },
+    {
+      "name": "metric_last_lap_cadence",
+      "value": "上一圈步频"
+    },
+    {
+      "name": "metric_stride_length",
+      "value": "步幅"
+    },
+    {
+      "name": "metric_average_stride_length",
+      "value": "平均步幅"
+    },
+    {
+      "name": "metric_lap_stride_length",
+      "value": "圈步幅"
+    },
+    {
+      "name": "metric_training_load",
+      "value": "训练负荷"
+    },
+    {
+      "name": "metric_aerobic_training_effect",
+      "value": "有氧训练效果"
+    },
+    {
+      "name": "metric_anaerobic_training_efect",
+      "value": "无氧训练效果"
+    },
+    {
+      "name": "metric_calorie",
+      "value": "卡路里"
+    },
+    {
+      "name": "metric_activity_time",
+      "value": "活动时间"
+    },
+    {
+      "name": "metric_total_time",
+      "value": "总时间"
+    },
+    {
+      "name": "metric_current_time",
+      "value": "当前时间"
+    },
+    {
+      "name": "metric_time_to_sunrise_sunset",
+      "value": "距离日出/日落时间"
+    },
+    {
+      "name": "metric_lap_time",
+      "value": "圈时间"
+    },
+    {
+      "name": "metric_last_lap_time",
+      "value": "上一圈时间"
+    },
+    {
+      "name": "metric_vo2max",
+      "value": "最大摄氧量"
+    },
+    {
+      "name": "metric_battery_level",
+      "value": "电池电量"
+    },
+    {
+      "name": "metric_battery_life_based_on_soc",
+      "value": "基于电量的剩余续航时间"
+    },
+    {
+      "name": "gps_tips",
+      "value": "未授权手机定位权限，将无法加速手表快速定位"
+    },{
+      "name": "watch_face_add",
+      "value": "安装"
+    },
+    {
+      "name": "watch_face_remove",
+      "value": "移除"
+    },
+    {
+      "name": "access_notification_reason",
+      "value": "Access notification"
+    },
+    {
+      "name": "reason_notification_controller",
+      "value": "use notification controller"
+    }
+  ]
+}

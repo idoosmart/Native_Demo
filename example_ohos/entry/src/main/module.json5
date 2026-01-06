@@ -1,0 +1,107 @@
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "description": "$string:module_desc",
+    "mainElement": "EntryAbility",
+    "deviceTypes": [
+      "phone"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "routerMap": "$profile:router_map",
+    "metadata": [
+      {
+        "name": "ohos.extension.backgroundMode",
+        "value": "notificationListener,bluetooth"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "EntryAbility",
+        "srcEntry": "./ets/entryability/EntryAbility.ets",
+        "description": "$string:EntryAbility_desc",
+        "icon": "$media:icon",
+        "label": "$string:EntryAbility_label",
+        "startWindowIcon": "$media:icon",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ]
+      },
+    ],
+    "extensionAbilities": [
+      {
+        "name": "EntryRemoteNotification",
+        "srcEntry": "./ets/entryremotenotification/EntryRemoteNotification.ets",
+        "type": "remoteNotification"
+      }
+    ],
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET"
+      },
+      {
+        "name": 'ohos.permission.USE_BLUETOOTH',
+        "reason": "$string:USE_BLUETOOTH"
+      },
+      {
+        "name": 'ohos.permission.DISCOVER_BLUETOOTH',
+      },
+      {
+        "name": "ohos.permission.ACCESS_BLUETOOTH",
+        "reason": "$string:ACCESS_BLUETOOTH",
+        "usedScene": {
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.LOCATION",
+        "reason": "$string:LOCATION",
+        "usedScene": {
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_MEDIA",
+        "reason": "$string:read_media_reason",
+        "usedScene": {
+          "when": "always"
+        },
+      },
+      {
+        "name": "ohos.permission.ACCESS_NOTIFICATION_POLICY",
+        "reason": "$string:access_notification_reason",
+        "usedScene": {
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.PERSISTENT_BLUETOOTH_PEERS_MAC",
+        "reason": "$string:use_persistent_ble_peers_mac",
+        "usedScene": {
+          "when": "always"
+        }
+      },
+//      {
+//        "name": "ohos.permission.NOTIFICATION_CONTROLLER",
+//        "reason": "$string:reason_notification_controller",
+//        "usedScene": {
+//          "abilities": [
+//            "YourServiceAbility"
+//          ],
+//          "when": "inuse"
+//        }
+//      }
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "routerMap": [
+    {
+      "name": "functionListPage",
+      "pageSourceFile": "src/main/ets/pages/FunctionList.ets",
+      "buildFunction": "FunctionPageBuilder",
+      "data": {
+        "description": "this is function list page"
+      }
+    },
+    {
+      "name": "getFunctionListPage",
+      "pageSourceFile": "src/main/ets/pages/GetFunctionList.ets",
+      "buildFunction": "GetFunctionListPageBuilder"
+    },
+    {
+      "name": "setFunctionListPage",
+      "pageSourceFile": "src/main/ets/pages/SetFunctionList.ets",
+      "buildFunction": "SetFunctionListPageBuilder"
+    },
+    {
+      "name": "syncDataPage",
+      "pageSourceFile": "src/main/ets/pages/SyncData.ets",
+      "buildFunction": "SyncDataPageBuilder"
+    },
+    {
+      "name": "transferFilePage",
+      "pageSourceFile": "src/main/ets/pages/TransferFile.ets",
+      "buildFunction": "TransferFilePageBuilder"
+    },
+    {
+      "name": "messageNoticePage",
+      "pageSourceFile": "src/main/ets/pages/MessageNotice.ets",
+      "buildFunction": "MessageNoticePageBuilder"
+    },
+    {
+      "name": "staticMessageNoticePage",
+      "pageSourceFile": "src/main/ets/pages/StaticMessageNotice.ets",
+      "buildFunction": "StaticMessageNoticePageBuilder"
+    },
+    {
+      "name": "sportPage",
+      "pageSourceFile": "src/main/ets/pages/Sport.ets",
+      "buildFunction": "SportPageBuilder"
+    },
+    {
+      "name": "functionTestPage",
+      "pageSourceFile": "src/main/ets/pages/FunctionTest.ets",
+      "buildFunction": "FunctionTestPageBuilder"
+    },
+    {
+      "name": "epoUpgradePage",
+      "pageSourceFile": "src/main/ets/pages/EpoUpgrade.ets",
+      "buildFunction": "EpoUpgradePageBuilder"
+    },
+    {
+      "name": "transferFileDetail",
+      "pageSourceFile": "src/main/ets/pages/TransferFileDetail.ets",
+      "buildFunction": "TransferFileDetailPageBuilder"
+    },
+    {
+      "name": "watchFace",
+      "pageSourceFile": "src/main/ets/pages/WatchFaceDetail.ets",
+      "buildFunction": "WatchFaceDetailPageBuilder"
+    }
+  ]
+}

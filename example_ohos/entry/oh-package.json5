@@ -1,0 +1,19 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "apl": "system_basic",
+  "dependencies": {
+    "protocol_channel": "file:../har/protocol_channel.har",
+    "protocol_ffi": "file:../har/protocol_ffi.har",
+    "flutter_blue_plus_ohos": "file:../har/flutter_blue_plus_ohos.har",
+    "flutter_bluetooth": "file:../har/flutter_bluetooth.har",
+    "native_channel": "file:../har/native_channel.har",
+    "@ohos/flutter_ohos": "file:../har/flutter_embedding_release.har",
+    "@ohos/flutter_module": "file:../har/flutter_module.har",
+    "flutter_native_arm64_v8a": "file:../har/arm64_v8a_release.har"
+  }
+}

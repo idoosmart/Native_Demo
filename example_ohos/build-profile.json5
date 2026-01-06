@@ -1,0 +1,68 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B8A28B71F6677DDA23FF794BF0BE72B51454E87AE9989CD229C0E1D81A8E54055A97583FAEA1A98",
+          "profile": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.p12",
+          "storePassword": "0000001B600ADE290C16762111A3CD57CA083D55B3F31B14C595DEF9A273074F96A85665A50E1915E770FB"
+        }
+      },
+      {
+        "name": "ido",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/davy/.ohos/config/ido_example_ohos_xDb0LNyc77F5b6piZRQvzIQlaWYMZjIJxrjnVAS7XSs=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001A1553D22AF628968C95D55358609221C1C8D98FD46E26F14EEB4193C5B477A74024374C8B5383",
+          "profile": "/Users/davy/.ohos/config/ido_example_ohos_xDb0LNyc77F5b6piZRQvzIQlaWYMZjIJxrjnVAS7XSs=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/davy/.ohos/config/ido_example_ohos_xDb0LNyc77F5b6piZRQvzIQlaWYMZjIJxrjnVAS7XSs=.p12",
+          "storePassword": "0000001A66A41F5D485CB826B8CC331AD3BF2C94DA3680BF199B3735404265EDD31050EA21409B95ADE6"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "ido",
+        "compatibleSdkVersion": "5.0.5(17)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug",
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
