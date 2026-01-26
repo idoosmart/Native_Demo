@@ -322,6 +322,11 @@ class FunctionActivity : BaseActivity() {
             println("listenStatusNotification $status");
             if (status == IDOStatusNotification.FASTSYNCCOMPLETED) {
                 device?.let { sdk.ble.setBtPair(it) }
+            }else if(status == IDOStatusNotification.UNBINDONBINDSTATEERROR) {
+                // 出现该情况，可能是设备重置了
+                // 绑定状态异常，需要APP解绑 (APP记录的绑定状态和设备信息里的绑定状态不一致时触发)
+                FunctionUtils.upDataDeviceMac(device!!.macAddress.toString());
+                bindState()
             }
         }
 

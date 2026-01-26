@@ -130,7 +130,7 @@ class FunctionPageVC: UIViewController {
         
         _ = NotificationCenter.default.rx.notification(Notify.onSdkStatusChanged).subscribe(onNext: { [weak self] notification in
             if notification.object != nil, let status = notification.object as? IDOStatusNotification {
-                print(status.rawValue)
+                print("Notify.onSdkStatusChanged: \(status.rawValue)")
                 switch status {
                 case .protocolConnectCompleted:
                     break
@@ -143,8 +143,10 @@ class FunctionPageVC: UIViewController {
                 case .unbindOnAuthCodeError:
                     break
                 case .unbindOnBindStateError:
+                    // 出现该情况，可能是设备重置了
+                    // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状在不一致时触发）
                     SVProgressHUD.dismiss()
-                    self?.tableView.reloadData()
+                    self?._hasUnbind()
                     break
                 case .fastSyncCompleted:
                     SVProgressHUD.dismiss()
@@ -333,7 +335,7 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             let test = TestOC()
             test.testCommand()
             break
-		case Word.editSportScreen:
+        case Word.editSportScreen:
             if sdk.funcTable.supportOperateSetSportScreen {
                 navigationController?.pushViewController(SportListVC(), animated: true)
             }else {
@@ -508,6 +510,19 @@ extension FunctionPageVC {
             UserDefaults.standard.setBind(macAddress, isBind: false)
             UserDefaults.standard.synchronize()
         })
+    }
+    
+    // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状在不一致时触发）
+    private func _hasUnbind() {
+        let macAddress = sdk.device.macAddressFull
+        isBinded = false
+        UserDefaults.standard.setBind(macAddress, isBind: false)
+        let alert = UIAlertController(title: "Tips", message: "绑定状态异常，需要重置本地缓存的绑定状态 / The binding status is abnormal, and the local cached binding status needs to be reset.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "I know", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
