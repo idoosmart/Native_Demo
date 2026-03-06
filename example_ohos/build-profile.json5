@@ -7,11 +7,11 @@
         "material": {
           "certpath": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B8A28B71F6677DDA23FF794BF0BE72B51454E87AE9989CD229C0E1D81A8E54055A97583FAEA1A98",
+          "keyPassword": "0000001BA392360DAE4E9E53CD487516E763DD6392C6B19F35D962B6A6B690A103C35869D0653A3FF0F63C",
           "profile": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/hc/.ohos/config/default_example_ohos_gkMg-03WbRQa4-Ai-nM5BFSIqC2i__AEtylPD2QiT8g=.p12",
-          "storePassword": "0000001B600ADE290C16762111A3CD57CA083D55B3F31B14C595DEF9A273074F96A85665A50E1915E770FB"
+          "storePassword": "0000001B8D27E11BDC99122F7C31BECA6BB72BC2D00FAF78B196C0E377CA0A04B59E9759E651FAB308E614"
         }
       },
       {
@@ -31,7 +31,7 @@
     "products": [
       {
         "name": "default",
-        "signingConfig": "ido",
+        "signingConfig": "default",
         "compatibleSdkVersion": "5.0.5(17)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {

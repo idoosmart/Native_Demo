@@ -62,6 +62,11 @@
       "name": "watchFace",
       "pageSourceFile": "src/main/ets/pages/WatchFaceDetail.ets",
       "buildFunction": "WatchFaceDetailPageBuilder"
+    },
+    {
+      "name": "musicPlayerPage",
+      "pageSourceFile": "src/main/ets/pages/MusicPlayer.ets",
+      "buildFunction": "MusicPlayerPageBuilder"
     }
   ]
 }

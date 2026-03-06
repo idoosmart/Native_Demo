@@ -27,6 +27,7 @@ export const PAGE_FUNCTION_TEST = 'functionTestPage';
 export const PAGE_EPO_UPGRADE = 'epoUpgradePage';
 export const PAGE_TRANSFER_FILE_DETAIL = 'transferFileDetail';
 export const PAGE_WATCH_FACE_DETAIL = 'watchFace';
+export const PAGE_MUSIC_PLAYER = 'musicPlayerPage';
 
 // // 创建一个路由构建器的映射表
 // export const ROUTER_BUILDER_MAP: Record<string, (name: string, navInfo: NavPathModel) => void> = {

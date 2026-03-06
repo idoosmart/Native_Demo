@@ -9,7 +9,8 @@ import {
   PAGE_MESSAGE_NOTICE,
   PAGE_SPORT,
   PAGE_EPO_UPGRADE,
-  PAGE_MESSAGE_NOTICE_S
+  PAGE_MESSAGE_NOTICE_S,
+  PAGE_MUSIC_PLAYER
 } from '../utils/Routers';
 import { NavStackModel } from '../viewmodel/NavStackModel';
 import { Tool } from 'protocol_channel/src/main/ets/pigeon_generate/Tools.g';
@@ -208,6 +209,10 @@ struct FunctionPage {
               CommonListItem({ title: $r('app.string.sport') })
                 .onClick(() => {
                   this.navigateTo(PAGE_SPORT);
+                })
+              CommonListItem({ title: '音乐控制' })
+                .onClick(() => {
+                  this.navigateTo(PAGE_MUSIC_PLAYER);
                 })
               if (sdk.funcTable.reminderMessageIcon) {
                 CommonListItem({ title: $r('app.string.message_notice') })
