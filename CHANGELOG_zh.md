@@ -16,6 +16,14 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.4.13<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/10</span>
+
+##### 更新内容：
+
+- bugfix；
+
+
+
 ## 4.4.12<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/04</span>
 
 ##### 更新内容：

@@ -38,15 +38,28 @@ import com.idosmart.model.IDOBleStartReplyExchangeModel
 import com.idosmart.model.IDOExchangeBaseModel
 import com.idosmart.model.IDOExchangeV2Model
 import com.idosmart.model.IDOExchangeV3Model
+import com.idosmart.model.IDOSportType
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOExchangeDataDelegate
 import kotlinx.android.synthetic.main.activity_sport_exchange.tv_response
+import kotlinx.android.synthetic.main.activity_sport_exchange.tv_start
+import kotlinx.android.synthetic.main.activity_sport_exchange.tv_pause
+import kotlinx.android.synthetic.main.activity_sport_exchange.tv_resume
+import kotlinx.android.synthetic.main.activity_sport_exchange.tv_end
 import java.util.Calendar
 import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
 import kotlin.math.sqrt
+
+// 标记当前是谁发起的运动 / Marker indicating who initiated the current sport
+enum class SportInitiator { NONE, APP, BLE }
+
+enum class SportStatus { STOPPED, STARTED, PAUSED, RESUMED }
+
+private const val SUCCESS_CODE = 0
+private const val FAIL_CODE = 1
 
 class SportExchangeActivity : BaseActivity() {
     companion object {
@@ -58,8 +71,14 @@ class SportExchangeActivity : BaseActivity() {
 
         //30秒一次交换V3心率数据
         const val INTERVAL_EXCHANGE_HR_DATA = 30 * 1000L
-        const val LOCATION_PERMISSION_REQUEST_CODE = 1;
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+        // BLE发起运动准备时的权限请求码
+        const val BLE_LOCATION_PERMISSION_REQUEST_CODE = 2
     }
+
+    // 标记当前是谁发起的运动 / Marker indicating who initiated the current sport
+    private var activeSportInitiator: SportInitiator = SportInitiator.NONE
 
     private var baseModel: IDOExchangeBaseModel? = null
 
@@ -69,25 +88,46 @@ class SportExchangeActivity : BaseActivity() {
     private var calories = 0
     private var distance = 0
     private var isSportEnd = false
+    private var isSportPrepareSuccess = false
     private var mLocationManager: LocationManager? = null
     private var lastLocation: Location? = null
     private var signal: Int = 0
+    private var exchangeType: SportStatus = SportStatus.STOPPED
+        set(value) {
+            field = value
+            runOnUiThread { refreshState() }
+        }
+
+    // BLE发起运动准备时暂存的operate值
+    private var pendingBleOperate: Int = 0
+
     override fun getLayoutId(): Int {
         return R.layout.activity_sport_exchange
     }
 
     override fun initView() {
         super.initView()
+
+        // 初始化按钮状态
+        refreshState()
+
         sdk.dataExchange.addExchange(object : IDOExchangeDataDelegate {
             override fun appListenBleExec(type: IDOBleExecType) {
                 when (type) {
                     is IDOBleExecType.appBleEnd -> {
                         log("appBleEnd: ${type.model}")
-                        mHandler.removeCallbacksAndMessages(null)
-                        val model = IDOAppBleEndReplyExchangeModel(0, duration, calories, distance, baseModel)
+                        val model = IDOAppBleEndReplyExchangeModel(
+                            0,
+                            type.model.duration ?: 0,
+                            type.model.calories ?: 0,
+                            type.model.distance ?: 0,
+                            baseModel
+                        )
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.appBleEndReply(model))
+                        exchangeType = SportStatus.STOPPED
                         sdk.dataExchange.getActivityHrData()
                         sdk.dataExchange.getLastActivityData()
+                        activeSportInitiator = SportInitiator.NONE // 释放标记锁定 / Initiator target released
                         isSportEnd = true
                     }
 
@@ -95,23 +135,28 @@ class SportExchangeActivity : BaseActivity() {
                         log("appBlePause: ${type.model}")
                         val model = IDOAppBlePauseReplyExchangeModel(0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.appBlePauseReply(model))
+                        exchangeType = SportStatus.PAUSED
                     }
 
                     is IDOBleExecType.appBleRestore -> {
                         log("appBleRestore: ${type.model}")
                         val model = IDOAppBleRestoreReplyExchangeModel(0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.appBleRestoreReply(model))
+                        exchangeType = SportStatus.RESUMED
                     }
 
                     is IDOBleExecType.bleEnd -> {
                         log("bleEnd: ${type.model}")
                         val model = IDOBleEndReplyExchangeModel(0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.bleEndReply(model))
+                        exchangeType = SportStatus.STOPPED
+                        baseModel = null
+                        activeSportInitiator = SportInitiator.NONE // 释放标记锁定 / Initiator target released
                     }
 
                     is IDOBleExecType.bleIng -> {
                         log("bleIng: ${type.model}")
-                        val model = IDOBleIngReplyExchangeModel(0, baseModel)
+                        val model = IDOBleIngReplyExchangeModel(type.model?.distance ?: 0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.bleIngReply(model))
                     }
 
@@ -125,18 +170,57 @@ class SportExchangeActivity : BaseActivity() {
                         log("blePause: ${type.model}")
                         val model = IDOBlePauseReplyExchangeModel(0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.blePauseReply(model))
+                        exchangeType = SportStatus.PAUSED
                     }
 
                     is IDOBleExecType.bleRestore -> {
                         log("bleRestore: ${type.model}")
                         val model = IDOBleRestoreReplyExchangeModel(0, baseModel)
                         sdk.dataExchange.appReplyExec(IDOAppReplyType.bleRestoreReply(model))
+                        exchangeType = SportStatus.RESUMED
                     }
 
                     is IDOBleExecType.bleStart -> {
                         log("bleStart: ${type.model}")
-                        val model = IDOBleStartReplyExchangeModel(type.model.operate, 0, baseModel)
-                        sdk.dataExchange.appReplyExec(IDOAppReplyType.bleStartReply(model))
+                        val sportType = type.model.baseModel?.sportType
+                        val operate = type.model.operate ?: 0
+
+                        if (sportType == null) {
+                            log("sportType is nil")
+                            return
+                        }
+
+                        baseModel = type.model.baseModel
+
+                        // operate 1：请求app打开gps 2：发起运动请求  3:发起运动开始后台联动请求
+                        when (operate) {
+                            1 -> {
+                                prepareRun(operate)
+                            }
+                            3 -> {
+                                val idoSportType = IDOSportType.ofRaw(sportType)
+                                // 户外运动且运动已准备
+                                val isOutdoorSport = idoSportType == IDOSportType.SPORTTYPEOUTDOORRUN ||
+                                        idoSportType == IDOSportType.SPORTTYPEOUTDOORCYCLE ||
+                                        idoSportType == IDOSportType.SPORTTYPEONFOOT ||
+                                        idoSportType == IDOSportType.SPORTTYPEOUTDOORWALK ||
+                                        idoSportType == IDOSportType.SPORTTYPETRAILRUNNING ||
+                                        idoSportType == IDOSportType.SPORTTYPECLIMB
+
+                                if (isOutdoorSport && isSportPrepareSuccess) {
+                                    notifyDeviceSportState(SUCCESS_CODE, operate)
+                                    exchangeType = SportStatus.STARTED
+                                } else {
+                                    notifyDeviceSportState(FAIL_CODE, operate)
+                                    activeSportInitiator = SportInitiator.NONE // Reset
+                                }
+                            }
+                            else -> {
+                                // operate == 2 等其他情况
+                                val model = IDOBleStartReplyExchangeModel(operate, 0, baseModel)
+                                sdk.dataExchange.appReplyExec(IDOAppReplyType.bleStartReply(model))
+                            }
+                        }
                     }
                 }
             }
@@ -145,9 +229,11 @@ class SportExchangeActivity : BaseActivity() {
                 when (type) {
                     is IDOBleReplyType.appEndReply -> {
                         log("reply for app's end reply: ${type.model}")
-                        mHandler.removeCallbacksAndMessages(null)
+                        exchangeType = SportStatus.STOPPED
+                        baseModel = null
                         sdk.dataExchange.getActivityHrData()
                         sdk.dataExchange.getLastActivityData()
+                        activeSportInitiator = SportInitiator.NONE // 释放标记锁定 / Initiator target released
                         isSportEnd = true
                     }
 
@@ -165,41 +251,28 @@ class SportExchangeActivity : BaseActivity() {
 
                     is IDOBleReplyType.appPauseReply -> {
                         log("reply for app's pause cmd: ${type.model}")
+                        exchangeType = SportStatus.PAUSED
                     }
 
                     is IDOBleReplyType.appRestoreReply -> {
                         log("reply for app's restore cmd: ${type.model}")
+                        exchangeType = SportStatus.RESUMED
                     }
 
                     is IDOBleReplyType.appStartReply -> {
                         log("sport started now : ${type.model}")
+                        //* - 0:成功; 1:设备已经进入运动模式失败;
+                        //* - 2:设备电量低失败;3:手环正在充电
+                        //* - 4:正在使用Alexa 5:通话中
                         if (type.model?.retCode != 0) {
-                            //* - 0:成功; 1:设备已经进入运动模式失败;
-                            //* - 2:设备电量低失败;3:手环正在充电
-                            //* - 4:正在使用Alexa 5:通话中
-                            tv_response.text = "sport failed to launch, because of ${type.model?.retCode}"
+                            runOnUiThread {
+                                tv_response.text = "sport failed to launch, because of ${type.model?.retCode}"
+                            }
                             return
                         }
-                        tv_response.text = "sport launched successfully"
-                        mHandler.postDelayed(object : Runnable {
-                            override fun run() {
-                                mHandler.postDelayed(this, INTERVAL_EXCHANGE_DATA)
-                                exchangeData()
-                            }
-                        }, INTERVAL_EXCHANGE_DATA)
-                        mHandler.postDelayed(object : Runnable {
-                            override fun run() {
-                                mHandler.postDelayed(this, INTERVAL_EXCHANGE_COMPLETE_DATA)
-                                exchangeCompleteData()
-                            }
-
-                        }, INTERVAL_EXCHANGE_COMPLETE_DATA)
-                        mHandler.postDelayed(object : Runnable {
-                            override fun run() {
-                                mHandler.postDelayed(this, INTERVAL_EXCHANGE_COMPLETE_DATA)
-                                exchangeV3HrData()
-                            }
-                        }, INTERVAL_EXCHANGE_HR_DATA)
+                        exchangeType = SportStatus.STARTED
+                        activeSportInitiator = SportInitiator.APP // 标记App端为操作者锁定 / Target Initiator set to App
+                        startLocation()
                     }
 
                     is IDOBleReplyType.appActivityDataReply -> {
@@ -227,19 +300,180 @@ class SportExchangeActivity : BaseActivity() {
             }
 
             override fun exchangeV2Data(model: IDOExchangeV2Model) {
-//                log("exchangeV2Data: ${GsonUtil.toJson(model)}")
+//                log("exchangeV2Data: ${model}")
             }
 
             override fun exchangeV3Data(model: IDOExchangeV3Model) {
-//                log("exchangeV3Data: ${GsonUtil.toJson(model)}")
+//                log("exchangeV3Data: ${model}")
             }
 
         })
     }
 
+    // ======================== 状态管理 / State Management ========================
+
+    /**
+     * 根据当前运动状态刷新UI按钮和定时器
+     * Refresh UI buttons and timers based on current sport status
+     */
+    private fun refreshState() {
+        if (baseModel == null && exchangeType == SportStatus.STOPPED) {
+            log("ignore - no baseModel")
+            stopTimer()
+            tv_response.text = ""
+            updateBtnState(tv_start, true)
+            updateBtnState(tv_pause, false)
+            updateBtnState(tv_resume, false)
+            updateBtnState(tv_end, false)
+            return
+        }
+
+        when (exchangeType) {
+            SportStatus.STOPPED -> {
+                log("state: stopped")
+                stopTimer()
+                tv_response.text = ""
+                updateBtnState(tv_start, true)
+                updateBtnState(tv_pause, false)
+                updateBtnState(tv_resume, false)
+                updateBtnState(tv_end, false)
+            }
+            SportStatus.STARTED -> {
+                log("state: started")
+                startTimer()
+                tv_response.text = "sport launched successfully"
+                updateBtnState(tv_start, false)
+                updateBtnState(tv_pause, true)
+                updateBtnState(tv_resume, false)
+                updateBtnState(tv_end, true)
+            }
+            SportStatus.PAUSED -> {
+                log("state: paused")
+                stopTimer()
+                updateBtnState(tv_start, false)
+                updateBtnState(tv_pause, false)
+                updateBtnState(tv_resume, true)
+                updateBtnState(tv_end, true)
+            }
+            SportStatus.RESUMED -> {
+                log("state: resumed")
+                startTimer()
+                updateBtnState(tv_start, false)
+                updateBtnState(tv_pause, true)
+                updateBtnState(tv_resume, false)
+                updateBtnState(tv_end, true)
+            }
+        }
+    }
+
+    /**
+     * 更新按钮状态及视觉反馈
+     * Update button enabled state with visual feedback (alpha)
+     */
+    private fun updateBtnState(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        view.alpha = if (enabled) 1.0f else 0.4f
+    }
+
+    // ======================== BLE发起运动处理 / BLE-initiated sport handling ========================
+
+    /**
+     * 开始准备运动 (BLE发起)
+     * Prepare for sport start (BLE-initiated)
+     */
+    private fun prepareRun(operate: Int) {
+        activeSportInitiator = SportInitiator.BLE // 标记设备端为操作者锁定 / Target Initiator set to BLE
+
+        // 快速配置同步中
+        if (sdk.state.isFastSynchronizing) {
+            log("快速配置中，忽略设备联动")
+            notifyDeviceSportState(FAIL_CODE, operate)
+            return
+        }
+
+        // 注意：实际场景需添加以下拦截
+        // if (安装表盘中) { notifyDeviceSportState(FAIL_CODE, operate); return }
+        // if (OTA中) { notifyDeviceSportState(FAIL_CODE, operate); return }
+
+        // 检查位置权限
+        if (checkLocationPermission()) {
+            log("GPS权限通过")
+            notifyDeviceSportState(SUCCESS_CODE, operate)
+        } else {
+            // 请求权限，在权限回调中处理
+            pendingBleOperate = operate
+            ActivityCompat.requestPermissions(
+                this, arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), BLE_LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    /**
+     * 通知设备运动状态
+     * code 0 成功 1 失败
+     * state 1 = 准备运动, 2 = 开始运动, 3 = 后台联动
+     */
+    private fun notifyDeviceSportState(code: Int, state: Int) {
+        isSportPrepareSuccess = !(code == FAIL_CODE && state == 1)
+        val model = IDOBleStartReplyExchangeModel(state, code, baseModel)
+        sdk.dataExchange.appReplyExec(IDOAppReplyType.bleStartReply(model))
+    }
+
+    private fun checkLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    // ======================== 按钮点击事件 / Button click handlers ========================
+
     fun start(view: View) {
+        if (activeSportInitiator == SportInitiator.BLE) {
+            showBleBlockedMsg()
+            return
+        }
         enableMyLocation()
     }
+
+    fun pause(view: View) {
+        if (activeSportInitiator == SportInitiator.BLE) {
+            showBleBlockedMsg()
+            return
+        }
+        if (baseModel == null) return
+        val model = IDOAppPauseExchangeModel(baseModel)
+        sdk.dataExchange.appExec(IDOAppExecType.appPause(model))
+        log("pause")
+    }
+
+    fun resume(view: View) {
+        if (activeSportInitiator == SportInitiator.BLE) {
+            showBleBlockedMsg()
+            return
+        }
+        if (baseModel == null) return
+        val model = IDOAppRestoreExchangeModel(baseModel)
+        sdk.dataExchange.appExec(IDOAppExecType.appRestore(model))
+        log("resume")
+    }
+
+    fun end(view: View) {
+        if (activeSportInitiator == SportInitiator.BLE) {
+            showBleBlockedMsg()
+            return
+        }
+        if (baseModel == null) return
+        val model = IDOAppEndExchangeModel(duration, calories, distance, 1, baseModel)
+        sdk.dataExchange.appExec(IDOAppExecType.appEnd(model))
+        log("end")
+    }
+
+    // ======================== App发起运动 / App-initiated sport ========================
 
     fun startSport() {
         startLocation()
@@ -249,7 +483,7 @@ class SportExchangeActivity : BaseActivity() {
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND),
-            48/*运动类型*/
+            48/*运动类型 Outdoor cycling*/
         )
         val model = IDOAppStartExchangeModel(baseModel = baseModel)
         sdk.dataExchange.appExec(IDOAppExecType.appStart(model))
@@ -257,20 +491,85 @@ class SportExchangeActivity : BaseActivity() {
         tv_response.text = ""
     }
 
+    // ======================== 定时器管理 / Timer Management ========================
+
+    private fun startTimer() {
+        stopTimer()
+        mHandler.postDelayed(object : Runnable {
+            override fun run() {
+                if (exchangeType == SportStatus.STARTED || exchangeType == SportStatus.RESUMED) {
+                    exchangeData()
+                    mHandler.postDelayed(this, INTERVAL_EXCHANGE_DATA)
+                }
+            }
+        }, INTERVAL_EXCHANGE_DATA)
+        mHandler.postDelayed(object : Runnable {
+            override fun run() {
+                if (exchangeType == SportStatus.STARTED || exchangeType == SportStatus.RESUMED) {
+                    exchangeCompleteData()
+                    mHandler.postDelayed(this, INTERVAL_EXCHANGE_COMPLETE_DATA)
+                }
+            }
+        }, INTERVAL_EXCHANGE_COMPLETE_DATA)
+        mHandler.postDelayed(object : Runnable {
+            override fun run() {
+                if (exchangeType == SportStatus.STARTED || exchangeType == SportStatus.RESUMED) {
+                    exchangeV3HrData()
+                    mHandler.postDelayed(this, INTERVAL_EXCHANGE_HR_DATA)
+                }
+            }
+        }, INTERVAL_EXCHANGE_HR_DATA)
+    }
+
+    private fun stopTimer() {
+        mHandler.removeCallbacksAndMessages(null)
+    }
+
+    // ======================== 数据交换 / Data Exchange ========================
+
+    /**
+     * Synchronize brief sports data for app display
+     * Sync every 2 seconds
+     */
+    private fun exchangeData() {
+        if (baseModel == null) return
+        if (sdk.dataExchange.supportV3ActivityExchange) {
+            val mode = IDOAppIngV3ExchangeModel(signal, distance, 0, duration, calories, baseModel)
+            sdk.dataExchange.appExec(IDOAppExecType.appIngV3(mode))
+        } else {
+            val mode = IDOAppIngExchangeModel(duration, calories, distance, signal, baseModel)
+            sdk.dataExchange.appExec(IDOAppExecType.appIng(mode))
+        }
+    }
+
+    /**
+     * Synchronize complete data once
+     * Sync every 40 seconds
+     */
+    private fun exchangeCompleteData() {
+        sdk.dataExchange.getLastActivityData()
+    }
+
+    /**
+     * Sync exercise heart rate data
+     * Sync every 30 seconds
+     */
+    private fun exchangeV3HrData() {
+        if (sdk.dataExchange.supportV3ActivityExchange) {
+            sdk.dataExchange.getActivityHrData()
+        }
+    }
+
+    // ======================== 位置服务 / Location Services ========================
+
     fun getBaseProvider(): String {
         val criteria = Criteria()
-        // Criteria是一组筛选条件
         criteria.accuracy = Criteria.ACCURACY_FINE
-        //设置定位精准度
         criteria.isAltitudeRequired = true
-        //是否要求速度
         criteria.powerRequirement = Criteria.NO_REQUIREMENT
-        //设置电池耗电要求
         criteria.bearingAccuracy = Criteria.ACCURACY_HIGH
         criteria.horizontalAccuracy = Criteria.ACCURACY_HIGH
-        //设置水平方向精确度
         criteria.verticalAccuracy = Criteria.ACCURACY_HIGH
-        // 获取GPS信息
         return mLocationManager!!.getBestProvider(criteria, true) ?: ""
     }
 
@@ -288,6 +587,7 @@ class SportExchangeActivity : BaseActivity() {
     private val mLocationListener = LocationListener { location -> updateLocation(location) }
 
     private fun stopLocation() {
+        mLocationManager?.removeUpdates(mLocationListener)
     }
 
     //户外骑行
@@ -349,19 +649,14 @@ class SportExchangeActivity : BaseActivity() {
         }
     }
 
+    // ======================== 权限处理 / Permission Handling ========================
+
     private fun enableMyLocation(): Boolean {
-        // 1. Check if permissions are granted, if so, enable the my location layer
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        if (checkLocationPermission()) {
             startSport()
             return true
         }
 
-        // 2. If if a permission rationale dialog should be shown
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) || ActivityCompat.shouldShowRequestPermissionRationale(
@@ -372,7 +667,6 @@ class SportExchangeActivity : BaseActivity() {
             return false
         }
 
-        // 3. Otherwise, request permission
         ActivityCompat.requestPermissions(
             this, arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
@@ -384,68 +678,32 @@ class SportExchangeActivity : BaseActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            super.onRequestPermissionsResult(
-                requestCode, permissions, grantResults
-            )
-            return
-        }
-
-        enableMyLocation()
-    }
-
-    /**
-     * Synchronize brief sports data for app display
-     * Sync every 2 seconds
-     */
-    private fun exchangeData() {
-        if (baseModel == null) return
-        if (sdk.dataExchange.supportV3ActivityExchange) {
-            val mode = IDOAppIngV3ExchangeModel(signal, distance, 0, duration, calories, baseModel)
-            sdk.dataExchange.appExec(IDOAppExecType.appIngV3(mode))
-        } else {
-            val mode = IDOAppIngExchangeModel(duration, calories, distance, signal, baseModel)
-            sdk.dataExchange.appExec(IDOAppExecType.appIng(mode))
+        when (requestCode) {
+            LOCATION_PERMISSION_REQUEST_CODE -> {
+                enableMyLocation()
+            }
+            BLE_LOCATION_PERMISSION_REQUEST_CODE -> {
+                // BLE发起运动的权限回调
+                if (checkLocationPermission()) {
+                    log("GPS权限通过 (BLE)")
+                    notifyDeviceSportState(SUCCESS_CODE, pendingBleOperate)
+                } else {
+                    log("GPS权限未通过 (BLE)")
+                    notifyDeviceSportState(FAIL_CODE, pendingBleOperate)
+                }
+            }
+            else -> {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            }
         }
     }
 
-    /**
-     * Synchronize complete data once
-     * Sync every 40 seconds
-     */
-    private fun exchangeCompleteData() {
-        sdk.dataExchange.getLastActivityData()
-    }
-
-    /**
-     * Sync exercise heart rate data
-     * Sync every 30 seconds
-     */
-    private fun exchangeV3HrData() {
-        if (sdk.dataExchange.supportV3ActivityExchange) {
-            sdk.dataExchange.getActivityHrData()
+    private fun showBleBlockedMsg() {
+        val msg = "Cannot perform Action: BLE device sport is running. / 无法操作：设备端运动正在进行中。"
+        runOnUiThread {
+            Toast.makeText(this@SportExchangeActivity, msg, Toast.LENGTH_SHORT).show()
+            tv_response.text = msg
         }
-    }
-
-    fun pause(view: View) {
-        if (baseModel == null) return
-        val model = IDOAppPauseExchangeModel(baseModel)
-        sdk.dataExchange.appExec(IDOAppExecType.appPause(model))
-        log("pause")
-    }
-
-    fun resume(view: View) {
-        if (baseModel == null) return
-        val model = IDOAppRestoreExchangeModel(baseModel)
-        sdk.dataExchange.appExec(IDOAppExecType.appRestore(model))
-        log("resume")
-    }
-
-    fun end(view: View) {
-        if (baseModel == null) return
-        val model = IDOAppEndExchangeModel(0, 0, 0, 1, baseModel)
-        sdk.dataExchange.appExec(IDOAppExecType.appEnd(model))
-        log("end")
     }
 
     private fun log(msg: String) {

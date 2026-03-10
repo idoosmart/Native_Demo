@@ -14,7 +14,20 @@ import SVProgressHUD
 
 import protocol_channel
 
+fileprivate let successCode = 0
+fileprivate let failCode = 1
+
+enum SportInitiator {
+    case none
+    case app
+    case ble
+}
+
 class SportVC: UIViewController {
+    
+    // 标记当前是谁发起的运动 / Marker indicating who initiated the current sport
+    fileprivate var activeSportInitiator: SportInitiator = .none
+    
     private let disposeBag = DisposeBag()
     private var disposeTimer = DisposeBag()
     private var baseModel: IDOExchangeBaseModel?
@@ -23,12 +36,20 @@ class SportVC: UIViewController {
     private var distance = 0
     private var gpsSignal = 0x00
     private var isSportEnd = false
+    private var isSportPrepareSuccess = false
     @objc dynamic private var exchangeType: SportStatus = .stopped
     lazy var locationMgr = LocationManager.shared
     lazy var btnSportStart: UIButton = {
         let btn = UIButton.createNormalButton(title: "Start")
         btn.rx.tap.subscribe(onNext: { [weak self] in
-            self?._sportStart()
+            guard let self = self else { return }
+            if self.activeSportInitiator == .ble {
+                let msg = "Cannot perform Action: BLE device sport is running. / 无法操作：设备端运动正在进行中。"
+                SVProgressHUD.showInfo(withStatus: msg)
+                self.textConsole.text = msg
+                return
+            }
+            self._sportStart()
         }).disposed(by: disposeBag)
         return btn
     }()
@@ -36,7 +57,14 @@ class SportVC: UIViewController {
     lazy var btnSportPause: UIButton = {
         let btn = UIButton.createNormalButton(title: "Pause")
         btn.rx.tap.subscribe(onNext: { [weak self] in
-            self?._sportPause()
+            guard let self = self else { return }
+            if self.activeSportInitiator == .ble {
+                let msg = "Cannot perform Action: BLE device sport is running. / 无法操作：设备端运动正在进行中。"
+                SVProgressHUD.showInfo(withStatus: msg)
+                self.textConsole.text = msg
+                return
+            }
+            self._sportPause()
         }).disposed(by: disposeBag)
         return btn
     }()
@@ -44,7 +72,14 @@ class SportVC: UIViewController {
     lazy var btnSportResume: UIButton = {
         let btn = UIButton.createNormalButton(title: "Resume")
         btn.rx.tap.subscribe(onNext: { [weak self] in
-            self?._sportResume()
+            guard let self = self else { return }
+            if self.activeSportInitiator == .ble {
+                let msg = "Cannot perform Action: BLE device sport is running. / 无法操作：设备端运动正在进行中。"
+                SVProgressHUD.showInfo(withStatus: msg)
+                self.textConsole.text = msg
+                return
+            }
+            self._sportResume()
         }).disposed(by: disposeBag)
         return btn
     }()
@@ -52,7 +87,14 @@ class SportVC: UIViewController {
     lazy var btnSportStop: UIButton = {
         let btn = UIButton.createNormalButton(title: "Stop")
         btn.rx.tap.subscribe(onNext: { [weak self] in
-            self?._sportStop()
+            guard let self = self else { return }
+            if self.activeSportInitiator == .ble {
+                let msg = "Cannot perform Action: BLE device sport is running. / 无法操作：设备端运动正在进行中。"
+                SVProgressHUD.showInfo(withStatus: msg)
+                self.textConsole.text = msg
+                return
+            }
+            self._sportStop()
         }).disposed(by: disposeBag)
         return btn
     }()
@@ -146,7 +188,6 @@ extension SportVC {
     
     private func refreshState() {
         
-        // !!!: 设备主动发起的运动，暂时不支持与app状态联动，忽略状态刷新
         if (baseModel == nil) {
             print("ignore")
             stopTimer()
@@ -318,6 +359,70 @@ extension SportVC {
         disposeTimer = DisposeBag()
     }
     
+    private func waitForLocationAuthorization() async -> Bool {
+        // 如果已经有权限，直接返回
+        if locationMgr.checkLocationAuthorization() {
+            return true
+        }
+        
+        return await withCheckedContinuation { continuation in
+            locationMgr.didChangeAuthorization = { [weak self] status in
+                guard let self else { return }
+                
+                let granted = (status == .authorizedWhenInUse ||
+                               status == .authorizedAlways)
+                
+                self.locationMgr.didChangeAuthorization = nil
+                continuation.resume(returning: granted)
+            }
+        }
+    }
+    
+    /// 开始准备运动
+    private func _prepareRun(operate: Int) async {
+        self.activeSportInitiator = .ble // 标记设备端为操作者锁定 / Target Initiator set to BLE
+        
+        //快速配置同步中
+        if (sdk.state.isFastSynchronizing) {
+            print("快速配置中，忽略设备联动")
+            _notifyDeviceSportState(code: failCode, state: operate)
+          return;
+        }
+        
+        // 注意：实际场景需添加以下拦截
+        if(/*安装表盘中*/ false) {
+            print("安装表盘中，忽略设备联动")
+            _notifyDeviceSportState(code: failCode, state: operate)
+          return;
+        }
+        
+        if (/*ota中*/ false) {
+            print("OTA中，忽略设备联动")
+            _notifyDeviceSportState(code: failCode, state: operate)
+          return;
+        }
+        
+        let granted = await waitForLocationAuthorization()
+        
+        if granted {
+            print("GPS权限通过")
+            _notifyDeviceSportState(code: successCode, state: operate)
+        } else {
+            print("GPS权限未通过")
+            _notifyDeviceSportState(code: failCode, state: operate)
+        }
+        
+    }
+    
+    /// code 0 成功 1 失败
+    /// state 1 = 准备运动,2 = 开始运动
+    private func _notifyDeviceSportState(code: Int, state: Int) {
+        isSportPrepareSuccess = (code != failCode || state != 1);
+        let model = IDOBleStartReplyExchangeModel(operate: state, retCode: code)
+        model.operate = state
+        sdk.dataExchange.appReplyExec(model: model)
+    }
+    
 }
 
 
@@ -343,11 +448,39 @@ extension SportVC: IDOExchangeDataOCDelegate {
                 print("异常：数据为空")
                 return
             }
-            let sendModel = IDOBleStartReplyExchangeModel(baseModel: obj.baseModel, operate: obj.operate, retCode: 0)
-            // !!!: 暂时不支持设备启动运动和app联动
-            //baseModel = obj.baseModel
-            sdk.dataExchange.appReplyExec(model: sendModel)
-            exchangeType = .started
+            
+            let sportType = obj.baseModel?.sportType
+            let opt = obj.operate
+            
+            if (sportType == nil) {
+                print("sportType is nil")
+                return;
+            }
+            
+            self.baseModel = obj.baseModel
+            
+            // operate 1：请求app打开gps 2：发起运动请求  3:发起运动开始后台联动请求
+            if (opt == 1) {
+                Task { [weak self] in
+                    guard let self else { return }
+                    await self._prepareRun(operate: obj.operate)
+                }
+            }else if(opt == 3) {
+                let sportType = IDOSportType(rawValue: obj.baseModel?.sportType ?? 0)
+                // 户外运动且运动已准备
+                if ((sportType == .sportTypeOutdoorRun ||
+                     sportType == .sportTypeOutdoorCycle ||
+                     sportType == .sportTypeOnFoot ||
+                     sportType == .sportTypeOutdoorWalk ||
+                     sportType == .sportTypeTrailRunning ||
+                     sportType == .sportTypeClimb) && isSportPrepareSuccess) {
+                    _notifyDeviceSportState(code: successCode, state: opt)
+                    exchangeType = .started
+                } else {
+                    _notifyDeviceSportState(code: failCode, state: opt)
+                    activeSportInitiator = .none // Reset
+                }
+            }
         }
         else if (model is IDOBleIngExchangeModel) {
             let obj = model as? IDOBleIngExchangeModel
@@ -359,6 +492,8 @@ extension SportVC: IDOExchangeDataOCDelegate {
             let sendModel = IDOBleEndReplyExchangeModel(baseModel: obj?.baseModel, retCode: 0)
             sdk.dataExchange.appReplyExec(model: sendModel)
             exchangeType = .stopped
+            self.baseModel = nil
+            activeSportInitiator = .none // 释放标记锁定 / Initiator target released
         }
         else if (model is IDOBlePauseExchangeModel) {
             let obj = model as? IDOBlePauseExchangeModel
@@ -398,6 +533,7 @@ extension SportVC: IDOExchangeDataOCDelegate {
             exchangeType = .stopped
             sdk.dataExchange.getActivityHrData()
             sdk.dataExchange.getLastActivityData()
+            activeSportInitiator = .none // 释放标记锁定 / Initiator target released
             isSportEnd = true
         }
     }
@@ -431,6 +567,7 @@ extension SportVC: IDOExchangeDataOCDelegate {
                 return
             }
             exchangeType = .started
+            activeSportInitiator = .app // 标记App端为操作者锁定 / Target Initiator set to App
             locationMgr.locationUpdateBlock = { [weak self] locations in
                 guard let self = self else { return }
                 self.distance = Int(self.locationMgr.totalDistance)
@@ -446,6 +583,7 @@ extension SportVC: IDOExchangeDataOCDelegate {
             baseModel = nil
             sdk.dataExchange.getActivityHrData()
             sdk.dataExchange.getLastActivityData()
+            activeSportInitiator = .none // 释放标记锁定 / Initiator target released
             isSportEnd = true
         }
         else if (model is IDOAppIngReplyExchangeModel) {
