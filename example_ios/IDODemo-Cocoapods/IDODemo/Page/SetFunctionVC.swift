@@ -26,37 +26,61 @@ class SetFunctionVC: UIViewController {
     
     private lazy var items = [
         
-        //        SetCmd(type: .setGpsControl, title: "setGpsControl", desc: "Control GPS event number"),
+//        SetCmd(type: .setGpsControl, title: "setGpsControl", desc: "Control GPS event number"),
+     
         
-        SetCmd(type: .setWeatherSunTime, title: "setWeatherSunTime", desc: L10n.setWeatherSunTime),
-        SetCmd(type: .setShortcut, title: "setShortcut", desc: L10n.setShortcut),
-        SetCmd(type: .setSleepPeriod, title: "setSleepPeriod", desc: L10n.setSleepPeriod),
-        // SetCmd(type: .setTakingMedicineReminder, title: "setTakingMedicineReminder", desc: L10n.setTakingMedicineReminder),
-        SetCmd(type: .setDisplayMode, title: "setDisplayMode", desc: L10n.setDisplayMode),
-        // SetCmd(type: .setBpMeasurement, title: "setBpMeasurement", desc: L10n.setBpMeasurement),
-        // SetCmd(type: .setMusicOperate, title: "setMusicOperate", desc: L10n.setMusicOperate),
-        SetCmd(type: .setNoticeAppName, title: "setNoticeAppName", desc: L10n.setNoticeAppName),
-        // SetCmd(type: .setBpCalControlV3, title: "setBpCalControlV3", desc: L10n.setBpCalControlV3),
-        // SetCmd(type: .setSportParamSort, title: "setSportParamSort", desc: L10n.setSportParamSort),
-        // SetCmd(type: .setMainUISortV3, title: "setMainUISortV3", desc: L10n.setMainUISortV3),
-        // SetCmd(type: .setVoiceReplyText, title: "setVoiceReplyText", desc: L10n.setVoiceReplyText),
-        // SetCmd(type: .setWalkRemindTimes, title: "setWalkRemindTimes", desc: L10n.setWalkRemindTimes),
-        // SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: L10n.setWallpaperDialReply),
-        SetCmd(type: .setDateTime, title: "setDateTime", desc: L10n.setDateTime),
-        SetCmd(type: .setUserInfo, title: "setUserInfo", desc: L10n.setUserInfo),
-        SetCmd(type: .photoStart, title: "photoStart", desc: L10n.photoStart),
-        SetCmd(type: .photoStop, title: "photoStop", desc: L10n.photoStop),
-        SetCmd(type: .setHand, title: "setHand", desc: L10n.setHand),
-        // SetCmd(type: .otaStart, title: "otaStart", desc: L10n.otaStart), // 未启用
-        SetCmd(type: .factoryReset, title: "factoryReset", desc: L10n.factoryReset),
-        SetCmd(type: .reboot, title: "reboot", desc: L10n.reboot),
-        SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: L10n.setHotStartParam)
+       
+        
+        SetCmd(type: .setWeatherSunTime, title: "setWeatherSunTime", desc: "Set sunrise and sunset time event number"),
+        SetCmd(type: .setShortcut, title: "setShortcut", desc: "Set shortcut"),
+        
+        SetCmd(type: .setSleepPeriod, title: "setSleepPeriod", desc: "Set sleep period event"),
+        
+//        SetCmd(type: .setTakingMedicineReminder, title: "setTakingMedicineReminder", desc: "Set Taking Medicine Reminder Event Code"),
+    
+        SetCmd(type: .setDisplayMode, title: "setDisplayMode", desc: "Display mode event number"),
+//        SetCmd(type: .setBpMeasurement, title: "setBpMeasurement", desc: "Blood pressure measurement event number"),
+        
+       
+        
+        
+//        SetCmd(type: .setMusicOperate, title: "setMusicOperate", desc: "Operation for songs or folders event"),
+        
+        SetCmd(type: .setNoticeAppName, title: "setNoticeAppName", desc: "V3 dynamic notification message event number"),
+        
+       
+//        SetCmd(type: .setBpCalControlV3, title: "setBpCalControlV3", desc: "Blood Pressure Calibration Control"),
+        
+       
+//        SetCmd(type: .setSportParamSort, title: "setSportParamSort", desc: "Set and Query Sports Sub-item Data Sorting"),
+      
+//        SetCmd(type: .setMainUISortV3, title: "setMainUISortV3", desc: "Setting and Query Sorting of Main UI Controls"),
+        
+//        SetCmd(type: .setVoiceReplyText, title: "setVoiceReplyText", desc: "V3 voice reply text event number"),
+       
+//        SetCmd(type: .setWalkRemindTimes, title: "setWalkRemindTimes", desc: "Set multiple walk reminder times event number"),
+//        SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: "Set wallpaper dial list event number"),
+        SetCmd(type: .setDateTime, title: "setDateTime", desc: "Set Time"),
+        SetCmd(type: .setUserInfo, title: "setUserInfo", desc: "设置用户信息"),
+        SetCmd(type: .photoStart, title: "photoStart", desc: "开始拍照 (app -> ble)"),
+        SetCmd(type: .photoStop, title: "photoStop", desc: "结束拍照 (app -> ble)"),
+        SetCmd(type: .setHand, title: "setHand", desc: "设置左右手"),
+        //SetCmd(type: .otaStart, title: "otaStart", desc: "进入升级模式"), // 未启用
+        
+        SetCmd(type: .factoryReset, title: "factoryReset", desc: "恢复出厂设置"),
+        SetCmd(type: .reboot, title: "reboot", desc: "重启设备"),
+        
+        SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: "设置热启动参数")
+        
+        
+        
     ]
     
+    
     private var funcTableNotContain = [
-        SetCmd(type: .setSportGoal, title: "setSportGoal", desc: L10n.setSportGoal),
-        SetCmd(type: .setWatchDial, title: "setWatchDial", desc: L10n.setWatchDial),
-        SetCmd(type: .setOverFindPhone, title: "setOverFindPhone", desc: L10n.setOverFindPhone)
+        SetCmd(type: .setSportGoal, title: "setSportGoal", desc: "Set exercise goal event"),
+        SetCmd(type: .setWatchDial, title: "setWatchDial", desc: "Set watch face event number"),
+        SetCmd(type: .setOverFindPhone, title: "setOverFindPhone", desc: "Stop Find Phone")
     ]
     
     override func viewDidLoad() {
@@ -98,155 +122,155 @@ class SetFunctionVC: UIViewController {
         }
         
         if (funcTable.getFindDevice) {
-            items.append(SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: L10n.findDeviceStart))
-            items.append(SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: L10n.findDeviceStop))
+            items.append(SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: "控制寻找设备开始"))
+            items.append(SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: "控制寻找设备结束"))
         }
-        
+       
         if (funcTable.getSupportV3LongCityName) {
-            items.append(SetCmd(type: .setLongCityNameV3, title: "setLongCityNameV3", desc: L10n.setLongCityNameV3))
+            items.append(SetCmd(type: .setLongCityNameV3, title: "setLongCityNameV3", desc: "V3 Setting the Name of a Sports City event number"))
         }
         
         if (funcTable.getNotifyMsgV3) {
-            items.append(SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: L10n.noticeMessageV3))
+            items.append(SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: "Notification message reminder event number"))
         }
         
         if (funcTable.setWeatherCity) {
-            items.append(SetCmd(type: .setWeatherCityName, title: "setWeatherCityName", desc: L10n.setWeatherCityName))
+            items.append(SetCmd(type: .setWeatherCityName, title: "setWeatherCityName", desc: "Set weather city name event number"))
         }
         
         if funcTable.setSetPhoneVoice {
-            addToItems(SetCmd(type: .setBleVoice, title: "setBleVoice", desc: L10n.setBleVoice))
+            addToItems(SetCmd(type: .setBleVoice, title: "setBleVoice", desc: "Set phone volume for device event number"))
         }
         
         if (funcTable.reminderAncs) {
-            items.append(SetCmd(type: .setNoticeStatusBtPair, title: "setNoticeStatus(BT Pair)", desc: L10n.setNoticeStatusBtPair))
-            items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: L10n.setNoticeStatusAllOn))
-            items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: L10n.setNoticeStatusAllOff))
+            items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: "Set Notification Center Event"))
+            items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: "Set Notification Center Event"))
         }
         
         if (funcTable.setPressureData) {
-            items.append(SetCmd(type: .setStressSwitch, title: "setStressSwitch", desc: L10n.setStressSwitch))
+            items.append(SetCmd(type: .setStressSwitch, title: "setStressSwitch", desc: "设置压力开关"))
         }
         
-        // if funcTable.setSetStressCalibration {
-        //     addToItems(SetCmd(type: .setStressCalibration, title: "setStressCalibration", desc: L10n.setStressCalibration))
-        // }
+//        if funcTable.setSetStressCalibration {
+//            addToItems(SetCmd(type: .setStressCalibration, title: "setStressCalibration", desc: "Set Stress Calibration Event Code"))
+//        }
+      
+//        if funcTable.setHandWashReminder {
+//            addToItems(SetCmd(type: .setHandWashingReminder, title: "setHandWashingReminder", desc: "Set Hand Washing Reminder Event"))
+//        }
         
-        // if funcTable.setHandWashReminder {
-        //     addToItems(SetCmd(type: .setHandWashingReminder, title: "setHandWashingReminder", desc: L10n.setHandWashingReminder))
-        // }
-        
-        // if funcTable.supportSetWeatherDataV2 {
-        //     addToItems(SetCmd(type: .setWeatherData, title: "setWeatherData", desc: L10n.setWeatherData))
-        // }
+//        if funcTable.supportSetWeatherDataV2 {
+//            addToItems( SetCmd(type: .setWeatherData, title: "setWeatherData", desc: "Set weather data event number"))
+//        }
         
         // 因为demo要适配所有设备，此处示例适配多种情况。
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
         if (sdk.funcTable.setSmartHeartRate) {
+            // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html
             print("setSmartHeartRate")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
-        } else if (sdk.funcTable.syncV3Hr) {
+            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: "Set heart rate mode"))
+            //Cmds.setHeartRateModeSmart(IDOHeartRateModeSmartParamModel)
+        }else if(sdk.funcTable.syncV3Hr) {
+            // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html
             print("syncV3Hr")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
-        } else if (sdk.funcTable.syncHeartRateMonitor) {
+            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: "Set heart rate mode"))
+        }else if(sdk.funcTable.syncHeartRateMonitor) {
+            // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateMode.html
             print("syncHeartRateMonitor")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
+            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: "Set heart rate mode"))
         }
         
         if (funcTable.syncHeartRate) {
-            items.append(SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: L10n.setHeartRateInterval))
+            items.append(SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: "设置心率区间"))
         }
         
         if funcTable.setScreenBrightness5Level || funcTable.setScreenBrightness3Level || funcTable.setNightAutoBrightness {
-            items.append(SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: L10n.setScreenBrightness))
+            items.append(SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: "设置屏幕亮度"))
         }
         
         if funcTable.setSetUnreadAppReminder {
-            addToItems(SetCmd(type: .setUnreadAppReminder, title: "setUnreadAppReminder", desc: L10n.setUnreadAppReminder))
+            addToItems(SetCmd(type: .setUnreadAppReminder, title: "setUnreadAppReminder", desc: "Unread message reminder switch event number"))
         }
         
         if funcTable.setMsgAllSwitch {
-            addToItems(SetCmd(type: .setNotificationStatus, title: "setNotificationStatus", desc: L10n.setNotificationStatus))
+            addToItems(SetCmd(type: .setNotificationStatus, title: "setNotificationStatus", desc: "Notification app status setting event"))
         }
         
-        addToItemsbyFunctable(funcTable.setScientificSleepSwitch, SetCmd(type: .setScientificSleepSwitch, title: "setScientificSleepSwitch", desc: L10n.setScientificSleepSwitch))
+        addToItemsbyFunctable(funcTable.setScientificSleepSwitch, SetCmd(type: .setScientificSleepSwitch, title: "setScientificSleepSwitch", desc: "Scientific sleep switch setting event"))
         
-        // addToItemsbyFunctable(funcTable.syncHeartRateMonitor, SetCmd(type: .setHeartRateMode, title: "setHeartRateMode", desc: L10n.setHeartRateMode))
+        //addToItemsbyFunctable(funcTable.syncHeartRateMonitor ,    SetCmd(type: .setHeartRateMode, title: "setHeartRateMode", desc: "Set Heart Rate Mode Event"))
         
-        addToItemsbyFunctable(funcTable.syncV3BodyPower, SetCmd(type: .setBodyPowerTurn, title: "setBodyPowerTurn", desc: L10n.setBodyPowerTurn))
+        addToItemsbyFunctable(funcTable.syncV3BodyPower, SetCmd(type: .setBodyPowerTurn, title: "setBodyPowerTurn", desc: "Set body power switch event number"))
         
-        addToItemsbyFunctable(funcTable.setRespirationRate, SetCmd(type: .setRRespiRateTurn, title: "setRRespiRateTurn", desc: L10n.setRRespiRateTurn))
+        addToItemsbyFunctable(funcTable.setRespirationRate,  SetCmd(type: .setRRespiRateTurn, title: "setRRespiRateTurn", desc: "Respiration rate switch setting event"))
         
-        addToItemsbyFunctable(funcTable.syncV3Noise, SetCmd(type: .setV3Noise, title: "setV3Noise", desc: L10n.setV3Noise))
+        addToItemsbyFunctable(funcTable.syncV3Noise, SetCmd(type: .setV3Noise, title: "setV3Noise", desc: "Set Environmental Noise Volume On/Off and Threshold Event"))
         
-        addToItemsbyFunctable(funcTable.setTemperatureSwitchSupport, SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: L10n.setTemperatureSwitch))
+        addToItemsbyFunctable(funcTable.setTemperatureSwitchSupport, SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: "Set Night-time Temperature Switch Event Code"))
         
-        addToItemsbyFunctable(funcTable.getUpHandGesture, SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: L10n.setUpHandGesture))
+        addToItemsbyFunctable(funcTable.getUpHandGesture, SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: "Raise-to-wake gesture event number"))
         
-        addToItemsbyFunctable(funcTable.setSpo2Data, SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: L10n.setSpo2Switch))
+        addToItemsbyFunctable(funcTable.setSpo2Data,  SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: "Set SpO2 switch event"))
         
-        addToItemsbyFunctable(funcTable.syncV3SyncAlarm, SetCmd(type: .setAlarm, title: "setAlarm", desc: L10n.setAlarm))
+        addToItemsbyFunctable(funcTable.syncV3SyncAlarm, SetCmd(type: .setAlarm, title: "setAlarm", desc: "Getting Alarms for V3APP Devices"))
         
-        addToItemsbyFunctable(funcTable.setSetFitnessGuidance, SetCmd(type: .setFitnessGuidance, title: "setFitnessGuidance", desc: L10n.setFitnessGuidance))
+        addToItemsbyFunctable(funcTable.setSetFitnessGuidance,     SetCmd(type: .setFitnessGuidance, title: "setFitnessGuidance", desc: "Fitness Guidance Event"))
         
-        addToItemsbyFunctable(funcTable.setBleControlMusic, SetCmd(type: .setMusicOnOff, title: "setMusicOnOff", desc: L10n.setMusicOnOff))
+        addToItemsbyFunctable(funcTable.setBleControlMusic , SetCmd(type: .setMusicOnOff, title: "setMusicOnOff", desc: "Set Music On/Off Event"))
         
-        addToItemsbyFunctable(funcTable.setSupportSportPlan, SetCmd(type: .setSendRunPlan, title: "setSendRunPlan", desc: L10n.setSendRunPlan))
+        addToItemsbyFunctable(funcTable.setSupportSportPlan,  SetCmd(type: .setSendRunPlan, title: "setSendRunPlan", desc: "App issued running plan (exercise plan) event number"))
         
-        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherV3, title: "setWeatherV3", desc: L10n.setWeatherV3))
+        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherV3, title: "setWeatherV3", desc: "Send the v3 weather protocol event number under v3"))
         
-        addToItemsbyFunctable(funcTable.setBleControlMusic, SetCmd(type: .musicControl, title: "musicControl", desc: L10n.musicControl))
+        addToItemsbyFunctable(funcTable.setBleControlMusic, SetCmd(type: .musicControl, title: "musicControl", desc: "Music control event number"))
         
-        addToItemsbyFunctable(funcTable.setSetNotificationStatus, SetCmd(type: .setNoticeMessageState, title: "setNoticeMessageState", desc: L10n.setNoticeMessageState))
+        addToItemsbyFunctable(funcTable.setSetNotificationStatus, SetCmd(type: .setNoticeMessageState, title: "setNoticeMessageState", desc: "Setting Notification Status for a Single App"))
         
-        addToItemsbyFunctable(funcTable.setSetV3WorldTime, SetCmd(type: .setWorldTimeV3, title: "setWorldTimeV3", desc: L10n.setWorldTimeV3))
+        addToItemsbyFunctable(funcTable.setSetV3WorldTime, SetCmd(type: .setWorldTimeV3, title: "setWorldTimeV3", desc: "v3 set v3 world time"))
         
-        addToItemsbyFunctable(funcTable.setScheduleReminder, SetCmd(type: .setSchedulerReminder, title: "setSchedulerReminder", desc: L10n.setSchedulerReminder))
+        addToItemsbyFunctable(funcTable.setScheduleReminder ,  SetCmd(type: .setSchedulerReminder, title: "setSchedulerReminder", desc: "Schedule Reminder"))
         
-        addToItemsbyFunctable(funcTable.getMultiDial, SetCmd(type: .setWatchFaceData, title: "setWatchFaceData", desc: L10n.setWatchFaceData))
+        addToItemsbyFunctable(funcTable.getMultiDial , SetCmd(type: .setWatchFaceData, title: "setWatchFaceData", desc: "Set Watch Face"))
         
-        addToItemsbyFunctable(funcTable.setSyncContact && funcTable.reminderCallContact, SetCmd(type: .setSyncContact, title: "setSyncContact", desc: L10n.setSyncContact))
+        addToItemsbyFunctable(funcTable.setSyncContact && funcTable.reminderCallContact ,  SetCmd(type: .setSyncContact, title: "setSyncContact", desc: "Synchronization Protocol Bluetooth Call Common Contacts"))
         
-        addToItemsbyFunctable(funcTable.getSportsTypeV3, SetCmd(type: .setSport100Sort, title: "setSport100Sort", desc: L10n.setSport100Sort))
+        addToItemsbyFunctable(funcTable.getSportsTypeV3,   SetCmd(type: .setSport100Sort, title: "setSport100Sort", desc: "Set and Query 100 Sports Sorting"))
         
-        addToItemsbyFunctable(funcTable.setHistoryMenstrual, SetCmd(type: .setHistoricalMenstruation, title: "setHistoricalMenstruation", desc: L10n.setHistoricalMenstruation))
+        addToItemsbyFunctable(funcTable.setHistoryMenstrual , SetCmd(type: .setHistoricalMenstruation, title: "setHistoricalMenstruation", desc: "Menstrual historical data delivery event number"))
         
-        addToItemsbyFunctable(funcTable.setWatchDialSort, SetCmd(type: .setWatchDialSort, title: "setWatchDialSort", desc: L10n.setWatchDialSort))
-        
-        addToItemsbyFunctable(funcTable.setWalkReminder, SetCmd(type: .setWalkRemind, title: "setWalkRemind", desc: L10n.setWalkRemind))
-        
-        addToItemsbyFunctable(funcTable.setMenstruation, SetCmd(type: .setMenstruation, title: "setMenstruation", desc: L10n.setMenstruation))
-        
-        addToItemsbyFunctable(funcTable.getSupportGetMainSportGoalV3 && funcTable.setCalorieGoal && funcTable.getSupportSetGetTimeGoalTypeV2, SetCmd(type: .setCalorieDistanceGoal, title: "setCalorieDistanceGoal", desc: L10n.setCalorieDistanceGoal))
-        
-        // addToItemsbyFunctable(funcTable.getSupportBpSetOrMeasurementV2, SetCmd(type: .setBpCalibration, title: "setBpCalibration", desc: L10n.setBpCalibration))
-        
-        addToItemsbyFunctable(funcTable.supportSetAntilost, SetCmd(type: .setLostFind, title: "setLostFind", desc: L10n.setLostFind))
-        
-        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherSwitch, title: "setWeatherSwitch", desc: L10n.setWeatherSwitch))
-        
-        addToItemsbyFunctable(true, SetCmd(type: .setUnit, title: "setUnit", desc: L10n.setUnit))
-        
-        addToItemsbyFunctable(funcTable.getFindPhone, SetCmd(type: .setFindPhone, title: "setFindPhone", desc: L10n.setFindPhone))
-        
-        addToItemsbyFunctable(funcTable.supportSetOnetouchCalling, SetCmd(type: .setOnekeySOS, title: "setOnekeySOS", desc: L10n.setOnekeySOS))
-        
-        addToItemsbyFunctable(funcTable.syncTimeLine, SetCmd(type: .setSportModeSelect, title: "setSportModeSelect", desc: L10n.setSportModeSelect))
-        
-        addToItemsbyFunctable(funcTable.setSportModeSort, SetCmd(type: .setSportModeSort, title: "setSportModeSort", desc: L10n.setSportModeSort))
-        
-        // addToItemsbyFunctable(funcTable.setSedentariness, SetCmd(type: .setLongSit, title: "setLongSit", desc: L10n.setLongSit))
-        
-        addToItemsbyFunctable(true, SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: L10n.setDefaultMsgList))
-        addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: L10n.setAppletControl))
-     
-        addToItemsbyFunctable(sdk.funcTable.getSportsTypeV3, SetCmd(type: .setSportsTypeV3, title: "setSportsTypeV3", desc: L10n.setSportsTypeV3))
+        addToItemsbyFunctable(funcTable.setWatchDialSort,  SetCmd(type: .setWatchDialSort, title: "setWatchDialSort", desc: "Set watch dial sort event"))
 
-        addToItemsbyFunctable(sdk.funcTable.supportSettingsDuringExercise, SetCmd(type: .setDuringExercise, title: "setDuringExercise", desc: L10n.setSportsTypeV3))
+        addToItemsbyFunctable(funcTable.setWalkReminder , SetCmd(type: .setWalkRemind, title: "setWalkRemind", desc: "设置走动提醒"))
         
-        addToItemsbyFunctable(sdk.funcTable.supportSimpleHrZoneSetting, SetCmd(type: .setSimpleHeartRateZone, title: "setSimpleHeartRateZone", desc: L10n.setSportsTypeV3))
+        addToItemsbyFunctable(funcTable.setMenstruation ,  SetCmd(type: .setMenstruation, title: "setMenstruation", desc: "设置经期"))
         
-        addToItemsbyFunctable(sdk.funcTable.supportSportingRemindSetting, SetCmd(type: .setSportingRemindSetting, title: "setSportingRemindSetting", desc: L10n.setSportsTypeV3))
+        addToItemsbyFunctable(funcTable.getSupportGetMainSportGoalV3 && funcTable.setCalorieGoal && funcTable.getSupportSetGetTimeGoalTypeV2, SetCmd(type: .setCalorieDistanceGoal, title: "setCalorieDistanceGoal", desc: "设置卡路里和距离目标(设置日常三环)"))
+        
+//        addToItemsbyFunctable(funcTable.getSupportBpSetOrMeasurementV2, SetCmd(type: .setBpCalibration, title: "setBpCalibration", desc: "Blood pressure calibration event number"))
+        
+        addToItemsbyFunctable(funcTable.supportSetAntilost, SetCmd(type: .setLostFind, title: "setLostFind", desc: "Set Lost Find Event"))
+        
+        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherSwitch, title: "setWeatherSwitch", desc: "Set weather switch event number"))
+        
+        
+//        let setUnit = funcTable.setSupportFahrenheit ||
+        addToItemsbyFunctable(true,  SetCmd(type: .setUnit, title: "setUnit", desc: "Set Unit event number"))
+        
+        addToItemsbyFunctable(funcTable.getFindPhone, SetCmd(type: .setFindPhone, title: "setFindPhone", desc: "Set Find Phone"))
+        
+        addToItemsbyFunctable(funcTable.supportSetOnetouchCalling,   SetCmd(type: .setOnekeySOS, title: "setOnekeySOS", desc: "Set the one-touch calling event number"))
+        
+        addToItemsbyFunctable(funcTable.syncTimeLine,   SetCmd(type: .setSportModeSelect, title: "setSportModeSelect", desc: "Set sport mode select event number"))
+        
+        
+        addToItemsbyFunctable(funcTable.setSportModeSort ,  SetCmd(type: .setSportModeSort, title: "setSportModeSort", desc: "Set Sport Mode Sorting"))
+        
+//        addToItemsbyFunctable(funcTable.setSedentariness, SetCmd(type: .setLongSit, title: "setLongSit", desc: "Set Long Sit Event"))
+        
+        //addToItemsbyFunctable(funcTable.getSupportConfigDefaultMegApplicationList , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
+        addToItemsbyFunctable(true , SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: "Set the default messaging app list"))
+        addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: "Operation of applet information (obtain, start, delete)"))
+        
     }
     
     
@@ -304,16 +328,13 @@ private struct SetCmd {
     let type: CmdType
     let title: String
     let desc: String
-    let isSupported: Bool
     
-    init(type: CmdType, title: String, desc: String, isSupported: Bool = false) {
+    init(type: CmdType, title: String, desc: String) {
         self.title = title
         self.desc = desc
         self.type = type
-        self.isSupported = isSupported
     }
 }
-
 
 private enum CmdType: CaseIterable{
     /// 手机音量下发给ble
@@ -391,9 +412,6 @@ private enum CmdType: CaseIterable{
     /// 设置快捷方式
     /// Set shortcut
     case setShortcut
-    /// 设置通知中心 bt配对
-    /// Set Notification Center Event, BT Pair
-    case setNoticeStatusBtPair
     /// 设置通知中心(全开)
     /// Set Notification Center Event(on)
     case setNoticeStatusAllOn
@@ -539,14 +557,6 @@ private enum CmdType: CaseIterable{
     case setDefaultMsgList
     /// 发送小程序操作
     case setAppletControl
-    /// 运动列表修改、排序、删除
-    case setSportsTypeV3
-    ///  运动中设置提示音开关
-    case setDuringExercise
-    ///  简单心率区间设置
-    case setSimpleHeartRateZone
-    ///  运动中提醒设置
-    case setSportingRemindSetting
 }
 
 extension CmdType {
@@ -629,7 +639,7 @@ extension CmdType {
                                      calorieUnit: 1,
                                      swimPoolUnit: 1,
                                      cyclingUnit: 1,
-                                     walkingRunningUnit: 1,heightUnit: 2)
+                                     walkingRunningUnit: 1)
         case .setFindPhone:
             return OtherParamModel(dic: ["open": true])
         case .setOverFindPhone:
@@ -664,8 +674,6 @@ extension CmdType {
             return IDOWeatherSunTimeParamModel(sunriseHour: 6, sunriseMin: 12, sunsetHour: 18, sunsetMin: 30)
         case .setShortcut:
             return IDOShortcutParamModel(mode: 2)
-        case .setNoticeStatusBtPair:
-            return IDOSetNoticeStatusModel.createAllOffModel()
         case .setNoticeStatusAllOn:
             return IDOSetNoticeStatusModel.createDefaultModel()
         case .setNoticeStatusAllOff:
@@ -840,19 +848,30 @@ extension CmdType {
         case .setWorldTimeV3:
             return nil
         case .setSchedulerReminder:
-            let item = IDOSchedulerReminderItem(id: 1,
-                                                year: 2024,
-                                                mon: 11,
-                                                day: 26,
-                                                hour: 8,
-                                                min: 0,
+            let items = (0..<20).map { idx in
+                let sid = idx + 1
+                let futureDate = Date().addingTimeInterval(Double(sid) * 60)
+                let (year, month, day, hour, minute) = (
+                    Calendar.current.component(.year, from: futureDate),
+                    Calendar.current.component(.month, from: futureDate),
+                    Calendar.current.component(.day, from: futureDate),
+                    Calendar.current.component(.hour, from: futureDate),
+                    Calendar.current.component(.minute, from: futureDate)
+                )
+                return IDOSchedulerReminderItem(id: sid,
+                                                year: year,
+                                                mon: month,
+                                                day: day,
+                                                hour: hour,
+                                                min: minute,
                                                 sec: 0,
                                                 repeatType: 1,
                                                 remindOnOff: 1,
                                                 state: 2,
-                                                title: "title1",
-                                                note: "note1")
-            return IDOSchedulerReminderParamModel(operate: 3, items: [item])
+                                                title: "Scheduler-\(sid)",
+                                                note: "note-\(sid)")
+            }
+            return IDOSchedulerReminderParamModel(operate: 1, items: items)
         case .setBpCalControlV3:
             return OtherParamModel(dic: ["operate": 1, "filePath": "xx/xx/xx"])
         case .setWatchFaceData:
@@ -964,13 +983,7 @@ extension CmdType {
                                                      widgetIconColor: 0x232323,
                                                      widgetNumColor: 0x232323)
         case .setUserInfo:
-            return IDOUserInfoPramModel(year: 1999, 
-                                        monuth: 2,
-                                        day: 23,
-                                        heigh: 155, 
-                                        weigh: 77*100,
-                                        gender: 1,
-                                        setTime: (Int32)(Date().timeIntervalSince1970))
+            return IDOUserInfoPramModel(year: 1999, monuth: 2, day: 23, heigh: 155, weigh: 77*100, gender: 1, setTime: (Int32)(Date().timeIntervalSince1970))
         case .findDeviceStart:
             return nil
         case .findDeviceStop:
@@ -980,7 +993,7 @@ extension CmdType {
         case .photoStop:
             return nil
         case .setHand:
-            return OtherParamModel(dic: ["isRightHand": false])
+            return OtherParamModel(dic: ["isRightHand": true])
         case .setScreenBrightness:
             return IDOScreenBrightnessModel(level: 60,
                                             opera: 1,
@@ -999,11 +1012,11 @@ extension CmdType {
                                              aerobicThreshold: 132,
                                              limitThreshold: 170,
                                              userMaxHr: 220,
-                                             range1: 94,
-                                             range2: 113,
-                                             range3: 132,
-                                             range4: 152,
-                                             range5: 170,
+                                             range1: 61,
+                                             range2: 80,
+                                             range3: 95,
+                                             range4: 110,
+                                             range5: 130,
                                              minHr: 20,
                                              maxHrRemind: 1,
                                              minHrRemind: 0,
@@ -1047,18 +1060,6 @@ extension CmdType {
             ])
         case .setAppletControl:
             return nil
-        case .setSportsTypeV3:
-            //IDOSport100SortParamModel(operate: <#T##Int#>, nowUserLocation: <#T##Int#>, items: <#T##[Int]#>)
-            return nil
-        case .setDuringExercise:
-            return IDOSettingsDuringExerciseModel(notificationSwitch: 0xAA)
-        case .setSimpleHeartRateZone:
-            return IDOSimpleHeartRateZoneSettingModel(maxHrValue: 100)
-        case .setSportingRemindSetting:
-            return IDOSportingRemindSettingModel(
-                    sportType: 48, distanceRemind: DistanceRemind(isOpen: true, isMetric: true, goalValOrg: 2000),
-                    heartRateRemind: CommonRangeRemind(isOpen: true, maxThreshold: 110, minThreshold: 30),
-                    paceRemind: PaceRemind(isOpen: true, isMetric: true, fastThresholdOrg: 60, slowThresholdOrg: 120), stepFreqRemind: CommonRangeRemind(isOpen: true, maxThreshold: 20, minThreshold: 10))
         }
         return nil
     }
@@ -1333,19 +1334,10 @@ private class SetFunctionDetailVC: UIViewController {
             cancellable = Cmds.setShortcut(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
-        case .setNoticeStatusBtPair:
-            let obj = cmd.type.param() as! IDOSetNoticeStatusModel
-            obj.msgAllSwitch = .on
-            obj.notifySwitch = .bleOn
-            obj.isOnOther = false
-            cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
-                self?.doPrint(res)
-            }
         case .setNoticeStatusAllOn:
             let obj = cmd.type.param() as! IDOSetNoticeStatusModel
             obj.msgAllSwitch = .on
             obj.notifySwitch = .settingSubSwitch
-            obj.isOnOther = false
             cancellable = Cmds.setNoticeStatus(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
@@ -1721,45 +1713,6 @@ private class SetFunctionDetailVC: UIViewController {
                 } else if case .failure(let err) = res {
                     textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
-            }
-        case .setSportsTypeV3:
-            // 步骤1: 获取运动列表
-            Cmds.getSportTypeV3().send { [weak self] res in
-                guard let self = self else { return }
-                if case .success(let val) = res {
-                    if let item = val {
-                        item.sportTypes.shuffle() // 随机排序
-                        var items = [IDOSportModeSortParamModel]()
-                        var i = 1
-                        item.sportTypes.forEach {
-                            items.append(IDOSportModeSortParamModel(index: i, type: $0))
-                            i += 1
-                        }
-                        self.cancellable = Cmds.setSportSortV3(IDOSportParamModel(items: items)).send { [weak self] res in
-                            self?.doPrint(res)
-                        }
-                    }else {
-                        
-                    }
-                    //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
-                } else if case .failure(let err) = res {
-                    textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
-                }
-            }
-        case .setDuringExercise:
-            let obj = cmd.type.param() as! IDOSettingsDuringExerciseModel
-            Cmds.setDuringExercise(obj).send { [weak self] res in
-                self?.doPrint(res)
-            }
-        case .setSimpleHeartRateZone:
-            let obj = cmd.type.param() as! IDOSimpleHeartRateZoneSettingModel
-            Cmds.setSimpleHeartRateZone(obj).send { [weak self] res in
-                self?.doPrint(res)
-            }
-        case .setSportingRemindSetting:
-            let obj = cmd.type.param() as! IDOSportingRemindSettingModel
-            Cmds.setSportingRemindSetting([obj]).send { [weak self] res in
-                self?.doPrint(res)
             }
         }
     }

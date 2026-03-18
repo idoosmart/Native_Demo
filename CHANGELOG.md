@@ -16,6 +16,14 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.4.14<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/18</span>
+
+##### Update Content:
+
+- Fix autoconnect not working;
+
+
+
 ## 4.4.13<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/10</span>
 
 ##### Update Content:
