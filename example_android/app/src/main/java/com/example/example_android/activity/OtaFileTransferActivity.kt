@@ -81,6 +81,10 @@ class OtaFileTransferActivity : BaseActivity() {
                 rawZipFileName = "gtr1_ota_7906_1_01_32_hcpu"
                 FileExtension = ".zip"
             }
+            877->{
+                rawZipFileName = "idr01_ota_v1_01_06_20250904"
+                FileExtension = ".bin"
+            }
         }
 
         // 检查是否已经授予 WRITE_EXTERNAL_STORAGE 权限
@@ -102,21 +106,35 @@ class OtaFileTransferActivity : BaseActivity() {
             )
 
         tv_start.setOnClickListener {
-                result = ""
-                tv_start.isEnabled = false
-                tv_response.text = "start..."
-                cancellable = sdk.transfer.transferFiles(tasks, cancelPre, { currentIndex, totalCount, currentProgress, totalProgress ->
-                    result += "index: ${currentIndex}/${totalCount} progress: ${currentProgress * 100}%/${totalProgress * 100}%\n"
-                    tv_response.text = result
-                }, { currentIndex: Int, status: IDOTransStatus, errorCode: Int?, finishingTime: Int? -> }) {
-                    result += "result: [${it[0]}]\n"
-                    tv_response.text = result
-                    tv_start.isEnabled = true
+            val isRingOta = intent.getBooleanExtra("isRingOta", false)
+            if (isRingOta) {
+                val macAddress = sdk.device.macAddressFull
+                sdk.ble.cancelConnect(macAddress) { 
+                    sdk.bridge.markOtaMode(macAddress = macAddress, platform = sdk.device.platform, deviceId = sdk.device.deviceId) {
+                        _startTransfer()
+                    }
                 }
+            } else {
+                _startTransfer()
+            }
         }
 
         tv_stop.setOnClickListener {
             cancellable?.cancel()
+            tv_start.isEnabled = true
+        }
+    }
+
+    private fun _startTransfer() {
+        result = ""
+        tv_start.isEnabled = false
+        tv_response.text = "start..."
+        cancellable = sdk.transfer.transferFiles(tasks, cancelPre, { currentIndex, totalCount, currentProgress, totalProgress ->
+            result += "index: ${currentIndex}/${totalCount} progress: ${currentProgress * 100}%/${totalProgress * 100}%\n"
+            tv_response.text = result
+        }, { currentIndex: Int, status: IDOTransStatus, errorCode: Int?, finishingTime: Int? -> }) {
+            result += "result: [${it[0]}]\n"
+            tv_response.text = result
             tv_start.isEnabled = true
         }
     }

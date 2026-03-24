@@ -69,6 +69,18 @@ class SetFunctionVC: UIViewController {
         
         isInfunctionTable()
         
+        // 设备电量提醒开关：示例入口直接加入菜单（当前 demo 不依赖功能表字段判断）
+        items.append(SetCmd(
+            type: .setBatteryReminderSwitch,
+            title: "setBatteryReminderSwitch",
+            desc: "Set battery reminder switch"
+        ))
+        items.append(SetCmd(
+            type: .setPetInfo,
+            title: "setPetInfo",
+            desc: "Set pet info"
+        ))
+        
         
         items = items.sorted { $0.title < $1.title }
         
@@ -379,6 +391,12 @@ private enum CmdType: CaseIterable{
     /// 设置身体电量开关
     /// Set body power switch event number
     case setBodyPowerTurn
+    /// 设备电量提醒开关
+    /// Battery reminder switch event number
+    case setBatteryReminderSwitch
+    /// 设置宠物信息
+    /// Set pet info event number
+    case setPetInfo
     /// 设置呼吸率开关
     /// Respiration rate switch setting event
     case setRRespiRateTurn
@@ -650,6 +668,10 @@ extension CmdType {
             return IDOLongSitParamModel(startHour: 10, startMinute: 4, endHour: 10, endMinute: 19, interval: 10, repetitions: 39)
         case .setBodyPowerTurn:
             return OtherParamModel(dic: ["open": true])
+        case .setBatteryReminderSwitch:
+            return IDOBatteryReminderSwitchParamModel(lowBatteryOnOff: 1)
+        case .setPetInfo:
+            return IDOPetInfoParamModel(petType: 1, weight: 450, gender: 0, year: 2024, month: 1, day: 1)
         case .setRRespiRateTurn:
             return OtherParamModel(dic: ["open": true])
         case .setV3Noise:
@@ -1322,6 +1344,16 @@ private class SetFunctionDetailVC: UIViewController {
         case .setBodyPowerTurn:
             let dic = (cmd.type.param() as! OtherParamModel).dic!
             cancellable = Cmds.setBodyPowerTurn(open: dic["open"] as! Bool).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setBatteryReminderSwitch:
+            let obj = cmd.type.param() as! IDOBatteryReminderSwitchParamModel
+            cancellable = Cmds.setBatteryReminderSwitch(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setPetInfo:
+            let obj = cmd.type.param() as! IDOPetInfoParamModel
+            cancellable = Cmds.setPetInfo(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .setRRespiRateTurn:

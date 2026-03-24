@@ -16,7 +16,15 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
-## 4.4.14<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/18</span>
+## 4.5.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/24</span>
+
+##### Update Content：
+
+- Added support for ring devices.
+
+
+
+## 4.4.14（iOS only)<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/18</span>
 
 ##### Update Content:
 

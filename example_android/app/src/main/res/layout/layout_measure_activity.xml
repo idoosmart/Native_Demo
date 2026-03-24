@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <Spinner
+        android:id="@+id/spinner_type"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/start_measure"
+        android:gravity="center"
+        android:onClick="start"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"/>
+
+    <TextView
+        android:id="@+id/tv_stop"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/stop_measure"
+        android:gravity="center"
+        android:onClick="stop"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"/>
+
+    <TextView
+        android:id="@+id/tv_get_data"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/get_measure_data"
+        android:gravity="center"
+        android:onClick="get_data"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/color_808080">
+        <TextView
+            android:id="@+id/tv_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="successfull"
+            />
+    </ScrollView>
+
+</LinearLayout>

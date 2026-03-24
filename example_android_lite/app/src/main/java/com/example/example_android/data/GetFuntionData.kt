@@ -139,6 +139,11 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     context.getString(R.string.getactivityswitch),
                     ""
                 ),
+                GetFuntionData(
+                    CustomEvtType.GETBATTERYREMINDERSWITCH,
+                    "getBatteryReminderSwitch",
+                    ""
+                ),
 //                 GetFuntionData(CustomEvtType.GETFIRMWAREBTVERSION,"获得固件三级版本和bt的3级版本",""),
 
 
@@ -416,6 +421,17 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                         context.getString(R.string.requestAlgFile),
                         ""
                     )
+                )
+            }
+
+            if (sdk.funcTable.supportPetInfo){
+                mutableListOf.add(
+                    GetFuntionData(
+                        CustomEvtType.GETPETINFO,
+                        "getPetInfo",
+                        ""
+                    )
+
                 )
             }
 

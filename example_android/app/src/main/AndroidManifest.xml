@@ -109,6 +109,10 @@
             android:name=".activity.AlexaActivity"
             android:exported="false" />
         <activity android:name=".activity.DialFileTransferActivity" />
+        <activity
+            android:name=".activity.MeasureActivity"
+            android:exported="false"
+            android:label="@string/measure" />
 
         <meta-data
             android:name="flutterEmbedding"

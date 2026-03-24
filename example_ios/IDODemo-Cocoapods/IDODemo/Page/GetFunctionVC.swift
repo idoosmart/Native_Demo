@@ -25,6 +25,8 @@ class GetFunctionVC: UIViewController {
     private lazy var items: [GetCmd] = [
         GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: L10n.getDeviceInfo),
         GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: L10n.getFunctionTable),
+        GetCmd(type: .getBatteryReminderSwitch, title: "getBatteryReminderSwitch", desc: "Get battery reminder switch event number"),
+        GetCmd(type: .getPetInfo, title: "getPetInfo", desc: "Get pet info event number"),
         GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: L10n.getUnreadAppReminder),
         GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: L10n.getWatchDialInfo),
     ]
@@ -370,6 +372,12 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 运动模式自动识别开关获取
     /// Get event number for activity switch
      case getActivitySwitch
+    /// 设备电量提醒开关获取
+    /// Get event number for battery reminder switch
+     case getBatteryReminderSwitch
+    /// 获取宠物信息
+    /// Get pet info event number
+     case getPetInfo
     /// 获取红点提醒开关
     /// Get unread app reminder switch event number
      case getUnreadAppReminder
@@ -694,6 +702,14 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getActivitySwitch:
             cancellable = Cmds.getActivitySwitch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getBatteryReminderSwitch:
+            cancellable = Cmds.getBatteryReminderSwitch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getPetInfo:
+            cancellable = Cmds.getPetInfo().send { [weak self] res in
                 self?.doPrint(res)
             }
         case .getUnreadAppReminder:

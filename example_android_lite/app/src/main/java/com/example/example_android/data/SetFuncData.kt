@@ -49,6 +49,7 @@ import com.idosmart.model.IDONoticeMessageStateItemItem
 import com.idosmart.model.IDONoticeMessageStateParamModel
 import com.idosmart.model.IDONotificationCenterParamModel
 import com.idosmart.model.IDONotificationStatusParamModel
+import com.idosmart.model.IDOPetInfoParamModel
 import com.idosmart.model.IDORunPlanParamModel
 import com.idosmart.model.IDOSchedulerReminderItem
 import com.idosmart.model.IDOSchedulerReminderParamModel
@@ -626,6 +627,16 @@ class SetFuncData(
                     SetFuncData(
                         CustomEvtType.SETACTIVITYSWITCH,
                         context.getString(R.string.set_activity_switch)
+                    )
+                )
+            }
+
+            if (sdk.funcTable.supportPetInfo) {
+                mutableListOf.add(
+                    SetFuncData(
+                        CustomEvtType.SETPETINFO,
+                        "setPetInfo",
+                        IDOPetInfoParamModel(1, 450, 0, 2024, 1, 1)
                     )
                 )
             }

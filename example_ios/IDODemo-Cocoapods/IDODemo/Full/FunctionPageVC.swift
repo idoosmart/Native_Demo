@@ -47,6 +47,7 @@ class FunctionPageVC: UIViewController {
         Word.syncData,
         Word.transFile,
         Word.epoUpgrade,
+        Word.measure,
         Word.messageNotice,
         Word.sport,
         Word.alexa,
@@ -199,7 +200,10 @@ class FunctionPageVC: UIViewController {
                         }else {
                             if (sdk.device.platform != 98) {
                                 SVProgressHUD.showInfo(withStatus: "连接已断开")
-                                self.navigationController?.popToRootViewController(animated: true)
+                                //self.navigationController?.popToRootViewController(animated: true)
+                                if (sdk.device.platform != 1){
+                                    self.navigationController?.popToViewController(self, animated: true)
+                                }
                             }
                         }
                     }
@@ -317,6 +321,14 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.epoUpgrade:
             navigationController?.pushViewController(EpoVC(), animated: true)
             break
+        case Word.measure:
+            debugPrint("sdk.device.platform: \(sdk.device.platform)")
+            if (sdk.device.platform == 1) {
+                navigationController?.pushViewController(MeasureVC(), animated: true)
+            }else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
+            break
         case Word.messageNotice:
             navigationController?.pushViewController(MessageNoticeVC(), animated: true)
             break
@@ -372,7 +384,7 @@ extension FunctionPageVC {
             print("disconnected")
             self.tableView.reloadData()
         }
-        self.lblConnectState.text = "Connect State: \(deviceState.state )"
+        self.lblConnectState.text = "Connect State: \(deviceState.state.name)"
     }
     
     private func onBleStateChanged() {
@@ -400,7 +412,7 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.transFile:
             return isConnected && isBinded
-        case Word.epoUpgrade, Word.messageNotice:
+        case Word.epoUpgrade, Word.messageNotice, Word.measure:
             return isConnected && isBinded
         case Word.sport:
             return isConnected && isBinded

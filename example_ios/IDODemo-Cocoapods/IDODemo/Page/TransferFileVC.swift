@@ -424,6 +424,9 @@ class TransferFileDetailVC: UIViewController {
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
+        case 877:
+            // !!!: 戒指ota需要特殊处理
+            _otaRing()
         default:
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
@@ -493,6 +496,43 @@ class TransferFileDetailVC: UIViewController {
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func _otaRing() {
+        Task { [weak self] in
+            guard let self else { return }
+            
+            /*
+             1、主动断开蓝牙连接
+             2、标记ota模式
+             3、执行ota文件传输（同手表、手环）
+             */
+            
+            let macAddress = sdk.device.macAddressFull
+            let uuid = sdk.device.uuid
+            let platform = sdk.device.platform
+            let did = sdk.device.deviceId
+            
+            // 1. 断开连接
+            _ = await withCheckedContinuation { continuation in
+                sdk.ble.cancelConnect(macAddress: macAddress) { rs in
+                    continuation.resume(returning: rs)
+                }
+            }
+            
+            // 2. 标记 OTA 模式
+            _ = await withCheckedContinuation { continuation in
+                sdk.bridge.markOtaMode?(macAddress: macAddress, iosUUID: uuid, platform: platform, deviceId: did) { rs in
+                    continuation.resume(returning: rs)
+                }
+            }
+            
+            // 3. 传输 OTA
+            let aPath = bundlePath + "/ota/877/IDR01_OTA_V1.01.06_20250904.bin"
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
         }
     }
     

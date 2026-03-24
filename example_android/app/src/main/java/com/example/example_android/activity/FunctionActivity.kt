@@ -41,6 +41,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_appletTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_notificationIconTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_measure
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
@@ -198,6 +199,11 @@ class FunctionActivity : BaseActivity() {
         val intent = Intent(this, SportExchangeActivity::class.java)
         startActivity(intent)
         //sdk.ble.cancelPair(device!!)
+    }
+
+    fun measure(view: View) {
+        val intent = Intent(this, MeasureActivity::class.java)
+        startActivity(intent)
     }
 
     fun appletTransfer(view: View) {
@@ -397,6 +403,7 @@ class FunctionActivity : BaseActivity() {
             rl_appletTransfer?.visibility = View.VISIBLE
             rl_notificationIconTransfer?.visibility = View.VISIBLE
             rl_sport_screen?.visibility = View.VISIBLE
+            rl_measure?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -411,6 +418,7 @@ class FunctionActivity : BaseActivity() {
             rl_appletTransfer?.visibility = View.GONE
             rl_notificationIconTransfer?.visibility = View.GONE
             rl_sport_screen?.visibility = View.GONE
+            rl_measure?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }

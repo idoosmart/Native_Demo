@@ -6,6 +6,7 @@ import com.example.example_android.base.BaseActivity
 import com.example.example_android.activity.FileTransferActivity
 import com.example.example_android.R
 import kotlinx.android.synthetic.main.activity_transfer_module_file.*
+import com.idosmart.protocol_channel.sdk
 
 class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
 
@@ -20,6 +21,7 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
         tvContact.setOnClickListener(this)
         tvMusic.setOnClickListener(this)
         tvOta.setOnClickListener(this)
+        tvRingOta.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -37,6 +39,19 @@ class FileTransferModuleActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tvOta -> {
                 startActivity(Intent(this, OtaFileTransferActivity::class.java))
+            }
+
+            R.id.tvRingOta -> {
+                if (sdk.device.platform == 1) {
+                    startActivity(
+                        Intent(
+                            this,
+                            OtaFileTransferActivity::class.java
+                        ).putExtra("isRingOta", true)
+                    )
+                }else {
+                    toast("不支持 / not support")
+                }
             }
         }
     }

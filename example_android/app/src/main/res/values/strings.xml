@@ -358,4 +358,8 @@
     <string name="set_simple_hr_zone_setting">Set maximum heart rate</string>
     <string name="get_sporting_remind_setting">Get reminder item during exercise</string>
     <string name="set_sporting_remind_setting">Set reminder item during exercise</string>
+    <string name="measure">Measure</string>
+    <string name="start_measure">Start Measure</string>
+    <string name="stop_measure">Stop Measure</string>
+    <string name="get_measure_data">Get Measure Data</string>
 </resources>

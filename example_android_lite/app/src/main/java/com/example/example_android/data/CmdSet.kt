@@ -11,6 +11,7 @@ import com.idosmart.model.IDOBpCalibrationParamModel
 import com.idosmart.model.IDOBpMeasurementParamModel
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
+import com.idosmart.model.IDOBatteryReminderSwitchParamModel
 import com.idosmart.model.IDODrinkWaterRemindModel
 import com.idosmart.model.IDOFastMsgSettingModel
 import com.idosmart.model.IDOFastMsgUpdateParamModel
@@ -37,6 +38,7 @@ import com.idosmart.model.IDONoticeMessageParamModel
 import com.idosmart.model.IDONoticeMessageStateParamModel
 import com.idosmart.model.IDONotificationCenterParamModel
 import com.idosmart.model.IDONotificationStatusParamModel
+import com.idosmart.model.IDOPetInfoParamModel
 import com.idosmart.model.IDORunPlanParamModel
 import com.idosmart.model.IDOSchedulerReminderParamModel
 import com.idosmart.model.IDOScientificSleepSwitchParamModel
@@ -145,6 +147,8 @@ object CmdSet {
             CustomEvtType.SETBODYPOWERTURN -> Cmds.setBodyPowerTurn(false)
             CustomEvtType.SETSCREENBRIGHTNESS -> Cmds.setScreenBrightness(idoBaseModel as IDOScreenBrightnessModel)
             CustomEvtType.SETACTIVITYSWITCH -> Cmds.setActivitySwitch(idoBaseModel as IDOActivitySwitchParamModel)
+            CustomEvtType.SETBATTERYREMINDERSWITCH -> Cmds.setBatteryReminderSwitch(idoBaseModel as IDOBatteryReminderSwitchParamModel)
+            CustomEvtType.SETPETINFO -> Cmds.setPetInfo(idoBaseModel as IDOPetInfoParamModel)
             CustomEvtType.SETALARMV3 -> Cmds.setAlarmV3(idoBaseModel as IDOAlarmModel)
             CustomEvtType.SETHEARTRATEINTERVAL -> Cmds.setHeartRateInterval(idoBaseModel as IDOHeartRateIntervalModel)
             CustomEvtType.SETMENSTRUATION -> Cmds.setMenstruation(idoBaseModel as IDOMenstruationModel)

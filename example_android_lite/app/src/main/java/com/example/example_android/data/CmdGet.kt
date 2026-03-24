@@ -20,6 +20,8 @@ object CmdGet {
 
         val cmd = when (evtType) {
             CustomEvtType.GETACTIVITYSWITCH -> Cmds.getActivitySwitch()
+            CustomEvtType.GETBATTERYREMINDERSWITCH -> Cmds.getBatteryReminderSwitch()
+            CustomEvtType.GETPETINFO -> Cmds.getPetInfo()
             CustomEvtType.GETALARMV3 -> Cmds.getAlarm()
             CustomEvtType.GETALLHEALTHSWITCHSTATE -> Cmds.getAllHealthSwitchState()
             CustomEvtType.GETBATTERYINFO -> Cmds.getBatteryInfo()

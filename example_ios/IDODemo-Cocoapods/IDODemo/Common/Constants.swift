@@ -24,6 +24,7 @@ struct Word {
     static let epoUpgrade = "Epo Upgrade"
     static let messageNotice = "Message notice"
     static let editSportScreen = "EditSportScreen"
+    static let measure = "Measure"
 
 }
 

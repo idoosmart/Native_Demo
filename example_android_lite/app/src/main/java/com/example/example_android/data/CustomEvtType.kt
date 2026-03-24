@@ -81,6 +81,10 @@ enum class CustomEvtType {
     GETDATATRANCONFIG,
     /**  运动模式自动识别开关获取*/
     GETACTIVITYSWITCH,
+    /**  设备电量提醒开关获取*/
+    GETBATTERYREMINDERSWITCH,
+    /**  获取宠物信息*/
+    GETPETINFO,
     /**  获得固件三级版本和bt的3级版本*/
     GETFIRMWAREBTVERSION,
     /**  获取压力值*/
@@ -337,6 +341,10 @@ enum class CustomEvtType {
     SETBREATHETRAIN,
     /**  运动开关设置*/
     SETACTIVITYSWITCH,
+    /**  设备电量提醒开关设置*/
+    SETBATTERYREMINDERSWITCH,
+    /**  设置宠物信息*/
+    SETPETINFO,
     /**  设置喝水提醒*/
     SETDRINKWATERREMIND,
     /**  手环请求版本检查*/

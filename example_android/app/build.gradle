@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation 'no.nordicsemi.android:dfu:2.5.0'
+    implementation 'no.nordicsemi.android:mcumgr-ble:1.5.2'
     // Fix Duplicate class
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
