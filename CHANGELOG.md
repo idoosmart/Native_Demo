@@ -16,6 +16,14 @@ iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
 
+## 4.5.1<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/27</span>
+
+##### Update Content：
+
+- Rings now support gesture configuration.
+
+
+
 ## 4.5.0<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/24</span>
 
 ##### Update Content：

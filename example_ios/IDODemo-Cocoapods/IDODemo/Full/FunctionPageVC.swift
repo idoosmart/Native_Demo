@@ -249,7 +249,7 @@ class FunctionPageVC: UIViewController {
         
     }
     
-    deinit {
+    deinit { 
         print("\(String(describing: type(of: self))) deinit")
         print("Disconnect Device")
         sdk.ble.cancelConnect(macAddress: deviceModel?.macAddress) { _ in }
