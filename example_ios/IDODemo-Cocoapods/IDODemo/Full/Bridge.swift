@@ -79,26 +79,6 @@ extension MainPageVC: IDOBleDelegate {
             dataList.append(contentsOf: list!)
             tableView.reloadData()
         }
-        
-        let otaModel = dataList.first {
-            print("deviceId: \($0.deviceId) isOta:\($0.isOta) macAddress:\($0.macAddress)")
-            return $0.isOta
-        }
-        if otaModel != nil {
-            if sdk.device.deviceId == 0 || sdk.device.deviceId != otaModel?.deviceId {
-                stopScan() // 停止扫描
-                print("call bridge.markOtaMode, address:\(otaModel!.macAddress) platform:\(otaModel!.platform)")
-                sdk.bridge.markOtaMode?(macAddress: otaModel!.macAddress ?? "",
-                                        iosUUID: otaModel!.uuid ?? "",
-                                        platform: otaModel!.platform,
-                                        deviceId: otaModel!.deviceId,
-                                        completion: { [weak self] _ in
-                    self?._otaMode()
-                })
-            }else {
-                _otaMode()
-            }
-        }
     }
     
     func bluetoothState(state: IDOBluetoothStateModel) {

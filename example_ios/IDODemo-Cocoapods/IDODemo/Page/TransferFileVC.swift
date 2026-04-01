@@ -158,6 +158,10 @@ class TransferFileDetailVC: UIViewController {
     private lazy var bundlePath = Bundle.main.bundlePath + "/files_trans"
     @objc dynamic private var isTransferring = false
     
+    // 98/99 平台ota过程会重启设备，然后会接着传输，需要标记ota模式
+    var _isSiceOta: Bool = false
+    var _devInfo: (address: String, uuid: String, platform: Int, deviceId: Int)
+    
     private lazy var btnSend: UIButton = {
         let btn = UIButton.createNormalButton(title: "Send")
         btn.isEnabled = true
@@ -188,6 +192,7 @@ class TransferFileDetailVC: UIViewController {
     
     required init(cmd: TransType) {
         self.cmd = cmd
+        self._devInfo = ("","",0,0)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -342,6 +347,7 @@ class TransferFileDetailVC: UIViewController {
     }
     
     private func _ota() {
+        _isSiceOta = false
         // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
         switch(sdk.device.deviceId) {
         case 7877:
@@ -424,6 +430,16 @@ class TransferFileDetailVC: UIViewController {
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
             ])
+        case 8170:
+            let aPath = bundlePath + "/ota/8170/GTS1_8170_ota_1.0.1_2026.03.23_14-55_hcpu.zip"
+            self._isSiceOta = true // 98平台
+            self._devInfo = (sdk.device.macAddressFull,
+                             sdk.device.uuid,
+                             sdk.device.platform,
+                             sdk.device.deviceId)
+            _trans([
+                IDOTransNormalModel(fileType: .fw, filePath: aPath, fileName: "test")
+            ])
         case 877:
             // !!!: 戒指ota需要特殊处理
             _otaRing()
@@ -432,7 +448,7 @@ class TransferFileDetailVC: UIViewController {
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
                 guard let self = self else { return }
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
         }
@@ -450,7 +466,7 @@ class TransferFileDetailVC: UIViewController {
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
                 guard let self = self else { return }
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
         }
@@ -470,7 +486,7 @@ class TransferFileDetailVC: UIViewController {
             let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
                 guard let self = self else { return }
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
         }
@@ -556,11 +572,56 @@ class TransferFileDetailVC: UIViewController {
             let txt = (self?.textConsole.text ?? "") + "result: \(rs)\n"
             self?.textConsole.text = txt
             self?.textConsole.scrollToBottom()
+            
+            // 98平台设备传输失败（如中途关闭蓝牙），此处添加重试
+            if(self?._isSiceOta ?? false && rs.last == false) {
+                self?._retryOtaAlert()
+            }
         }
     }
     
     private func refreshState() {
         self.btnSend.isEnabled = !self.isTransferring
         self.btnStop.isEnabled = self.isTransferring
+    }
+    
+    private func _retryOtaAlert() {
+        let alert = UIAlertController(title: "OTA", message: "升级失败，确认蓝牙开启后重试？\n\nUpgrade failed. Please confirm that Bluetooth is enabled and try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self._retrySiceOta()
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    // 部分ota添加重试操作（98平台设备）
+    private func _retrySiceOta() {
+        Task { [weak self] in
+            guard let self else { return }
+            
+            /*
+             1、标记ota模式
+             2、执行ota文件传输
+             */
+            
+            let macAddress = _devInfo.address
+            let uuid = _devInfo.uuid
+            let platform = _devInfo.platform
+            let did = _devInfo.deviceId
+            
+            // 1. 标记 OTA 模式
+            _ = await withCheckedContinuation { continuation in
+                sdk.bridge.markOtaMode?(macAddress: macAddress, iosUUID: uuid, platform: platform, deviceId: did) { rs in
+                    continuation.resume(returning: rs)
+                }
+            }
+            
+            // 2. 再次执行OTA升级
+            _ota()
+        }
     }
 }

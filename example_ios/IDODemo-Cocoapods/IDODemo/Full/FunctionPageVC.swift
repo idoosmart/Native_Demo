@@ -198,13 +198,7 @@ class FunctionPageVC: UIViewController {
                             }))
                             self.present(alert, animated: true, completion: nil)
                         }else {
-                            if (sdk.device.platform != 98) {
-                                SVProgressHUD.showInfo(withStatus: "连接已断开")
-                                //self.navigationController?.popToRootViewController(animated: true)
-                                if (sdk.device.platform != 1){
-                                    self.navigationController?.popToViewController(self, animated: true)
-                                }
-                            }
+                            SVProgressHUD.showInfo(withStatus: "连接已断开")
                         }
                     }
                     break
@@ -236,7 +230,7 @@ class FunctionPageVC: UIViewController {
                 case .poweredOff:
                     if (self.isViewLoaded) {
                         SVProgressHUD.showInfo(withStatus: L10n.bleOff)
-                        self.navigationController?.popToRootViewController(animated: true)
+                        //self.navigationController?.popToRootViewController(animated: true)
                     }
                     break
                 case .poweredOn:
