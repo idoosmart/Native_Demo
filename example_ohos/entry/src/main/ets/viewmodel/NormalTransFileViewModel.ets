@@ -19,8 +19,17 @@ import { Tools } from "../utils/Tools";
 import fs from '@ohos.file.fs';
 import hilog from '@ohos.hilog';
 import { abilityAccessCtrl, common, Permissions } from "@kit.AbilityKit";
+import { promptAction } from '@kit.ArkUI';
 
 const LOG_TAG = 'PermissionManager';
+
+class DevInfo {
+  address: string = '';
+  uuid: string = '';
+  platform: number = 0;
+  deviceId: number = 0;
+  otaMacAddress: string = '';
+}
 
 @Observed
 export class NormalTransFileViewModel {
@@ -33,6 +42,8 @@ export class NormalTransFileViewModel {
   @Track progress: number = 0.0;
   @Track resStr: string = '';
   @Track isProcessing: boolean = false;
+  private isSiceOta: boolean = false;
+  private devInfo: DevInfo | null = null;
 
   constructor(context: common.UIAbilityContext) {
     this.abilityContext = context
@@ -46,6 +57,21 @@ export class NormalTransFileViewModel {
     this.resStr = '';
     this.isProcessing = true;
     this.resStr += `[${new Date().toLocaleTimeString()}] 开始发送文件...\n`;
+
+    let bleDevice = sdk.ble.getCurrentBleDevice();
+    if (bleDevice && this.transType === IDOTransType.fw && (bleDevice.platform === 98 || bleDevice.platform === 99 || bleDevice.deviceId === 8170)) {
+      this.isSiceOta = true;
+      let info = new DevInfo();
+      info.address = bleDevice.macAddress ?? "";
+      info.uuid = "";
+      info.platform = bleDevice.platform ?? 0;
+      info.deviceId = bleDevice.deviceId ?? 0;
+      info.otaMacAddress = bleDevice.otaMacAddress ?? "";
+      this.devInfo = info;
+    } else {
+      this.isSiceOta = false;
+      this.devInfo = null;
+    }
 
     const newFilePath = await Tools.getInstance().copyFileToAppCache(this.abilityContext,filePath)
     if (newFilePath == null) {
@@ -136,8 +162,42 @@ export class NormalTransFileViewModel {
       }, (results: boolean[]) => {
         console.debug(`trans rs: ${results}`);
         this.isProcessing = false;
-        this.resStr += `${new Date().toLocaleTimeString()} result: ${results}`;
+        this.resStr += `${new Date().toLocaleTimeString()} result: ${results}\n`;
         resolve()
+
+        // 98平台设备传输失败（如中途关闭蓝牙），由于设备可能已断连，使用传输前保存的标志位
+        if (this.isSiceOta && results[results.length - 1] === false) {
+          this.retryOtaAlert();
+        }
       });
+  }
+
+  private retryOtaAlert() {
+    promptAction.showDialog({
+      title: 'OTA',
+      message: '升级失败，确认蓝牙开启后重试？\n\nUpgrade failed. Please confirm that Bluetooth is enabled and try again.',
+      buttons: [
+        { text: 'NO', color: '#000000' },
+        { text: 'YES', color: '#000000' }
+      ]
+    }).then(data => {
+      if (data.index === 1) { // YES
+        this.resStr += `[${new Date().toLocaleTimeString()}] 重试发送文件...\n`;
+        this.isProcessing = true;
+        this.retryOta();
+      }
+    });
+  }
+
+  // 当ota失败时，添加重试
+  private retryOta() {
+    if (!this.devInfo) return;
+
+    //思澈平台 ota 需要传入设备的虚拟 mac ，该 mac 地址在蓝牙库中检测到设备处于 ota 状态后赋值
+    sdk.bridge.markOtaMode(this.devInfo.address, this.devInfo.uuid,
+      this.devInfo.platform, this.devInfo.deviceId, this.devInfo.otaMacAddress,
+      (success: boolean) => {
+        this.other();
+      })
   }
 }

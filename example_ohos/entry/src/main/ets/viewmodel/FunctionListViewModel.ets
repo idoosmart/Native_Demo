@@ -21,6 +21,7 @@ import {
 import BleManager, { AppDelegate } from "../bluetooth/BleManager";
 import { Tools } from "../utils/Tools";
 import { common } from "@kit.AbilityKit";
+import { promptAction } from '@kit.ArkUI';
 import { BluetoothViewModel } from "./BluetoothViewModel";
 import { IDOOtaDeviceModel } from "protocol_channel";
 
@@ -555,6 +556,9 @@ export class DeviceStateViewModel {
       this.deviceState.updateOtaStatus(sdk.ble.getCurrentBleDevice().isOta);
       this.deviceState.updateConnectState(state.state);
       this.deviceState.updateConnectErrorState(state.errorState);
+
+      this.handlePairErrorAlert(state);
+
       if (state.state == IDODeviceStateType.CONNECTED || state.state == IDODeviceStateType.DISCONNECTED) {
         let isBind = Tools.getInstance().getBindState(state.macAddress!!)
         this.deviceState.updateBindState(isBind);
@@ -566,6 +570,49 @@ export class DeviceStateViewModel {
       this.deviceState.updateOtaStatus(sdk.ble.getCurrentBleDevice().isOta);
     }
   };
+
+  private handlePairErrorAlert(deviceState: IDODeviceStateModel) {
+    if (deviceState.errorState == IDOConnectErrorType.DEVICEALREADYBINDANDNOTSUPPORTREBIND) {
+      promptAction.showDialog({
+        title: "Note",
+        message: "The watch has been bound and does not support repeated binding, First reset the watch on the watch side!",
+        buttons: [
+          { text: "Got it", color: "#000000" }
+        ]
+      }).then(data => {
+      });
+    } else if (deviceState.errorState == IDOConnectErrorType.DEVICEHASBEENRESET) {
+      promptAction.showDialog({
+        title: "Note",
+        message: "The watch has been reset, pls remove the watch!",
+        buttons: [
+          { text: "Remove it", color: "#FF0000" },
+          { text: "Cancel", color: "#000000" }
+        ]
+      }).then(data => {
+        if (data.index === 0) {
+          promptAction.showToast({ message: "unbind..." });
+          let macAddress = deviceState.macAddress;
+          if (!macAddress) {
+            promptAction.showToast({ message: "macAddress is nil" });
+            return;
+          }
+          let validMac: string = macAddress;
+          sdk.cmd.unbind(validMac, true, (rs: boolean) => {
+            if (rs) {
+              promptAction.showToast({ message: "unbind successful" });
+            } else {
+              promptAction.showToast({ message: "unbind failure" });
+            }
+            Tools.getInstance().setBindState(validMac, false);
+            Tools.getInstance().removeBindDevice(validMac);
+            BluetoothViewModel.getInstance().refreshBindDeviceList();
+            sdk.ble.cancelConnect(validMac, (success: boolean) => {});
+          });
+        }
+      });
+    }
+  }
 
   async connect(device: IDOBleDeviceModel | null) {
     console.info("connect");
