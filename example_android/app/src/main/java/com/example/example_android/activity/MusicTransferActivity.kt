@@ -10,10 +10,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.net.toFile
-import androidx.documentfile.provider.DocumentFile
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
+import com.example.example_android.data.TransType
 import com.example.example_android.util.GetFilePathFromUri
 import com.idosmart.enums.IDOTransStatus
 import com.idosmart.enums.IDOTransType
@@ -334,6 +333,18 @@ class MusicTransferActivity : BaseActivity() {
 
             getMusicPath = GetFilePathFromUri.getFileAbsolutePath(this, uri)
             etMusicPath.setText(getMusicPath)
+
+            // 校验文件后缀
+            if (!getMusicPath.isNullOrEmpty()) {
+                val fileName = File(getMusicPath).name
+                if (!TransType.MP3.isExtensionValid(fileName)) {
+                    val supported = TransType.MP3.allowedExtensions().joinToString(", ") { ".$it" }
+                    Toast.makeText(this, "Unsupported format: $fileName\nSupported: $supported", Toast.LENGTH_LONG).show()
+                    getMusicPath = ""
+                    etMusicPath.setText("")
+                    return
+                }
+            }
 
         }
     }

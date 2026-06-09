@@ -113,6 +113,10 @@
             android:name=".activity.MeasureActivity"
             android:exported="false"
             android:label="@string/measure" />
+        <activity
+            android:name=".activity.SdkFeatureTestActivity"
+            android:exported="false"
+            android:label="@string/sdk_feature_test" />
 
         <meta-data
             android:name="flutterEmbedding"

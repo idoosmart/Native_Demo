@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_notificationIconTransfer
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_measure
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sdk_feature_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
@@ -80,6 +81,7 @@ class FunctionActivity : BaseActivity() {
                 rl_appletTransfer?.visibility = View.GONE
                 rl_notificationIconTransfer?.visibility = View.GONE
                 rl_sport_screen?.visibility = View.GONE
+                rl_sdk_feature_test?.visibility = View.GONE
             }
         };
 
@@ -144,25 +146,32 @@ class FunctionActivity : BaseActivity() {
 
     fun unbind(view: View) {
         if (bindState()) {
-            sdk.cmd.unbind(device?.macAddress.toString(), true) {
-                if (it) {
-                    toast("unbind ok")
-                    FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
-                    sdk.ble.cancelPair(device);
-                    sdk.ble.cancelConnect(device?.macAddress) {}
-                    bindState()
-                    // 解绑设备删除icon数据
-                    sdk.messageIcon.resetIconInfoData(
-                        macAddress = device?.macAddress.toString(),
-                        deleteIcon = true
-                    ) { success ->
-                        // 在这里处理返回的结果
-                    }
+            AlertDialog.Builder(this)
+                .setTitle("Tip")
+                .setMessage("Confirm unbind?")
+                .setPositiveButton("Confirm") { _, _ ->
+                    sdk.cmd.unbind(device?.macAddress.toString(), true) {
+                        if (it) {
+                            toast("unbind ok")
+                            FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
+                            sdk.ble.cancelPair(device);
+                            sdk.ble.cancelConnect(device?.macAddress) {}
+                            bindState()
+                            // 解绑设备删除icon数据
+                            sdk.messageIcon.resetIconInfoData(
+                                macAddress = device?.macAddress.toString(),
+                                deleteIcon = true
+                            ) { success ->
+                                // 在这里处理返回的结果
+                            }
 
-                } else {
-                    toast("unbind failed")
+                        } else {
+                            toast("unbind failed")
+                        }
+                    }
                 }
-            }
+                .setNegativeButton("Cancel", null)
+                .show()
         } else {
             toast("not bond")
         }
@@ -241,6 +250,10 @@ class FunctionActivity : BaseActivity() {
             toast("此设备不支持 / this device is not support")
         }
 
+    }
+
+    fun sdkFeatureTest(view: View) {
+        startActivity(Intent(this, SdkFeatureTestActivity::class.java))
     }
 
     override fun initView() {
@@ -404,6 +417,7 @@ class FunctionActivity : BaseActivity() {
             rl_notificationIconTransfer?.visibility = View.VISIBLE
             rl_sport_screen?.visibility = View.VISIBLE
             rl_measure?.visibility = View.VISIBLE
+            rl_sdk_feature_test?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -419,6 +433,7 @@ class FunctionActivity : BaseActivity() {
             rl_notificationIconTransfer?.visibility = View.GONE
             rl_sport_screen?.visibility = View.GONE
             rl_measure?.visibility = View.GONE
+            rl_sdk_feature_test?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }

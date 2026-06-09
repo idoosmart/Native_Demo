@@ -22,14 +22,19 @@ class GetFunctionVC: UIViewController {
         return v
     }()
     
-    private lazy var items: [GetCmd] = [
-        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: L10n.getDeviceInfo),
-        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: L10n.getFunctionTable),
-        GetCmd(type: .getBatteryReminderSwitch, title: "getBatteryReminderSwitch", desc: "Get battery reminder switch event number"),
-        GetCmd(type: .getPetInfo, title: "getPetInfo", desc: "Get pet info event number"),
-        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: L10n.getUnreadAppReminder),
-        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: L10n.getWatchDialInfo),
-    ]
+    private lazy var segmentedControl: UISegmentedControl = {
+        let v = UISegmentedControl(items: [L10n.supported, L10n.unsupported])
+        v.selectedSegmentIndex = 0
+        v.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        return v
+    }()
+    
+    private var supportedItems: [GetCmd] = []
+    private var unsupportedItems: [GetCmd] = []
+    
+    private var currentItems: [GetCmd] {
+        return segmentedControl.selectedSegmentIndex == 0 ? supportedItems : unsupportedItems
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,149 +42,126 @@ class GetFunctionVC: UIViewController {
         title = "Get Function"
         view.backgroundColor = .white
         
+        setupItems()
+        
+        view.addSubview(segmentedControl)
+        view.addSubview(tableView)
+        
+        segmentedControl.snp.makeConstraints { make in
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            } else {
+                make.top.equalTo(10)
+            }
+            make.left.equalTo(15)
+            make.right.equalTo(-15)
+            make.height.equalTo(30)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalTo(0)
+            }
+            make.left.right.equalTo(0)
+        }
+    }
+    
+    @objc private func segmentChanged() {
+        tableView.reloadData()
+    }
+    
+    private func setupItems() {
         // !!!: 部分接口需根据功能表判定后调用（sdk兼容所有设备，功能表不支持的请勿调用）
         
         // 内部全量测试专用（客户使用需保持此值为false）
         let innerTest = false
         
-        if (innerTest || sdk.funcTable.getNewWatchList) {
-            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: L10n.getWatchListV3))
-        } else {
-            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: L10n.getWatchListV2))
-        }
-
-        if (innerTest || sdk.funcTable.getBatteryInfo) {
-            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: L10n.getBatteryInfo))
-        }
-        if (innerTest || sdk.funcTable.getDeviceLogState) {
-            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: L10n.getDeviceLogState))
-        }
-        if (innerTest || sdk.funcTable.getMenuList) {
-            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: L10n.getMenuList))
-        }
-        if (innerTest || sdk.funcTable.reminderAncs) {
-            items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: L10n.getNoticeStatus))
-        }
-        if (innerTest || sdk.funcTable.syncV3SyncAlarm) {
-            items.append(GetCmd(type: .getAlarm, title: "getAlarm", desc: L10n.getAlarm))
-        }
-
-        if (innerTest || sdk.funcTable.reminderGetAllContact) {
-            items.append(GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: L10n.getContactReviseTime))
-        }
-
-        if (innerTest || sdk.funcTable.getWalkReminderV3) {
-            items.append(GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: L10n.getWalkRemind))
-        }
-
-        if (innerTest || sdk.funcTable.getSetMaxItemsNum) {
-            items.append(GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: L10n.getSupportMaxSetItemsNum))
-        }
-
-        if (innerTest || sdk.funcTable.getScreenBrightnessMain9) {
-            items.append(GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: L10n.getScreenBrightness))
-        }
-
-        if (innerTest || sdk.funcTable.getSupportGetMainSportGoalV3) {
-            items.append(GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: L10n.getMainSportGoal))
-        }
-
-        if (innerTest || sdk.funcTable.getDoNotDisturbMain3) {
-            items.append(GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: L10n.getNotDisturbStatus))
-        }
-
-        if (innerTest || sdk.funcTable.getUpHandGestureEx) {
-            items.append(GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: L10n.getUpHandGesture))
-        }
-
-        if (innerTest || sdk.funcTable.getBleAndBtVersion) {
-            items.append(GetCmd(type: .getBtNotice, title: "getBtNotice", desc: L10n.getBtNotice))
-        }
-
-        if (innerTest || sdk.funcTable.getFlashLog) {
-            items.append(GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: L10n.getFlashBinInfo))
-        }
-
-        if (innerTest || sdk.funcTable.getActivitySwitch) {
-            items.append(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: L10n.getActivitySwitch))
-        }
-
-        if (innerTest || sdk.funcTable.getBtAddrV2) {
-            items.append(GetCmd(type: .getBtName, title: "getBtName", desc: L10n.getBtName))
-        }
-        if (innerTest || sdk.funcTable.getMtu) {
-            items.append(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: L10n.getMtuInfo))
-        }
-        if (innerTest || sdk.funcTable.getHealthSwitchStateSupportV3) {
-            items.append(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: L10n.getAllHealthSwitchState))
-        }
-
-        // if (innerTest || sdk.funcTable.getRealtimeData) {
-        //     items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: L10n.getLiveData)) // 已废弃
-        // }
-        if (innerTest || sdk.funcTable.getFlashLog) {
-            items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: L10n.getErrorRecord))
-        }
-        if (innerTest || sdk.funcTable.getSupportUpdateGps) {
-            items.append(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: L10n.getGpsInfo))
-        }
-        // if (innerTest || sdk.funcTable.getVersionInfo) {
-        //     items.append(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: L10n.getVersionInfo))
-        // }
-        if (innerTest || sdk.funcTable.getSupportUpdateGps) {
-            items.append(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: L10n.getGpsStatus))
-        }
-        if (innerTest || sdk.funcTable.getDeletableMenuListV2) {
-            items.append(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: L10n.getUnerasableMeunList))
-        }
-        if (innerTest || sdk.funcTable.setSupportV3Bp) {
-            items.append(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: L10n.getBpAlgVersion))
-        }
-        if (innerTest || sdk.funcTable.getDeviceUpdateState) {
-            items.append(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: L10n.getUpdateStatus))
-        }
-        if (innerTest || sdk.funcTable.getDownloadLanguage) {
-            items.append(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: L10n.getDownloadLanguage))
-        }
-        if (innerTest || (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3)) {
-            items.append(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: L10n.getBleMusicInfo))
-        }
-        if (innerTest || sdk.funcTable.getLangLibraryV3) {
-            items.append(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: L10n.getLanguageLibrary))
-        }
-        if (innerTest || sdk.funcTable.getSupportGetBleBeepV3) {
-            items.append(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: L10n.getBleBeep))
-        }
-        if (innerTest || sdk.funcTable.getStepDataTypeV2) {
-            items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: L10n.getStepGoal))
-        }
-        if (innerTest || sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
-            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: L10n.getBtConnectPhoneModel))
-        }
-
-        if (innerTest || sdk.funcTable.setScheduleReminder) {
-            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: L10n.getScheduleReminder))
-        }
-
-        if (innerTest || sdk.funcTable.getSupportGetUnit) {
-            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: L10n.getUnit))
-        }
-
-        if (innerTest || sdk.funcTable.setSupportControlMiniProgram) {
-            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: L10n.getAppletControl))
-        }
-
-        if (innerTest || sdk.funcTable.getSupportDeviceOperateAlgFile) {
-            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: L10n.getAlgFileInfo))
-            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: L10n.requestAlgFile))
-        }
-
-        if (innerTest || sdk.funcTable.getSportsTypeV3) {
-            items.append(GetCmd(type: .getSportsTypeV3, title: "getSportsTypeV3", desc: L10n.getSportsTypeV3))
+        func add(_ cmd: GetCmd, isSupported: Bool) {
+            if isSupported || innerTest {
+                supportedItems.append(cmd)
+            } else {
+                unsupportedItems.append(cmd)
+            }
         }
         
-        if (innerTest || sdk.funcTable.supportGetUserInfo) {
-            items.append(GetCmd(type: .getUserInfo, title: "getUserInfo", desc: "Get user info"))
+        add(GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: L10n.getDeviceInfo), isSupported: true) //sdk.device.printProperties()
+        add(GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: L10n.getFunctionTable), isSupported: true) // sdk.device.printProperties()
+        add(GetCmd(type: .getSn, title: "getSn", desc: L10n.getSn), isSupported: sdk.funcTable.getSupportGetSnInfo)
+        add(GetCmd(type: .getBatteryReminderSwitch, title: "getBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
+        add(GetCmd(type: .getFindPhoneSwitch, title: "getFindPhoneSwitch", desc: L10n.getFindPhoneSwitch), isSupported: sdk.funcTable.supportGetFindPhoneSwitch)
+        add(GetCmd(type: .getPetInfo, title: "getPetInfo", desc: L10n.getPetInfo), isSupported: sdk.funcTable.getActivitySwitch)
+        add(GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: L10n.getUnreadAppReminder), isSupported: sdk.funcTable.setSetUnreadAppReminder)
+        add(GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: L10n.getWatchDialInfo), isSupported: true)
+        add(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: L10n.getBatteryInfo), isSupported: sdk.funcTable.getBatteryInfo)
+        add(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: L10n.getDeviceLogState), isSupported: sdk.funcTable.getDeviceLogState)
+        add(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: L10n.getNoticeStatus), isSupported: sdk.funcTable.reminderAncs)
+        add(GetCmd(type: .getAlarm, title: "getAlarm", desc: L10n.getAlarm), isSupported: sdk.funcTable.syncV3SyncAlarm)
+        add(GetCmd(type: .getContactReviseTime, title: "getContactReviseTime", desc: L10n.getContactReviseTime), isSupported: sdk.funcTable.reminderGetAllContact)
+        add(GetCmd(type: .getWalkRemind, title: "getWalkRemind", desc: L10n.getWalkRemind), isSupported: sdk.funcTable.getWalkReminderV3)
+        add(GetCmd(type: .getSupportMaxSetItemsNum, title: "getSupportMaxSetItemsNum", desc: L10n.getSupportMaxSetItemsNum), isSupported: sdk.funcTable.getSetMaxItemsNum)
+        add(GetCmd(type: .getScreenBrightness, title: "getScreenBrightness", desc: L10n.getScreenBrightness), isSupported: sdk.funcTable.getScreenBrightnessMain9)
+        add(GetCmd(type: .getMainSportGoal, title: "getMainSportGoal", desc: L10n.getMainSportGoal), isSupported: sdk.funcTable.getSupportGetMainSportGoalV3)
+        add(GetCmd(type: .getNotDisturbStatus, title: "getNotDisturbStatus", desc: L10n.getNotDisturbStatus), isSupported: sdk.funcTable.getDoNotDisturbMain3)
+        add(GetCmd(type: .getUpHandGesture, title: "getUpHandGesture", desc: L10n.getUpHandGesture), isSupported: sdk.funcTable.getUpHandGestureEx)
+        add(GetCmd(type: .getBtNotice, title: "getBtNotice", desc: L10n.getBtNotice), isSupported: sdk.funcTable.getBleAndBtVersion)
+        add(GetCmd(type: .getFlashBinInfo, title: "getFlashBinInfo", desc: L10n.getFlashBinInfo), isSupported: sdk.funcTable.getFlashLog)
+        add(GetCmd(type: .getActivitySwitch, title: "getActivitySwitch", desc: L10n.getActivitySwitch), isSupported: sdk.funcTable.getActivitySwitch)
+        add(GetCmd(type: .getBtName, title: "getBtName", desc: L10n.getBtName), isSupported: sdk.funcTable.getBtAddrV2)
+        add(GetCmd(type: .getMtuInfo, title: "getMtuInfo", desc: L10n.getMtuInfo), isSupported: sdk.funcTable.getMtu)
+        add(GetCmd(type: .getAllHealthSwitchState, title: "getAllHealthSwitchState", desc: L10n.getAllHealthSwitchState), isSupported: sdk.funcTable.getHealthSwitchStateSupportV3)
+        //add(GetCmd(type: .getLiveData, title: "getLiveData", desc: L10n.getLiveData), isSupported: false)
+        add(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: L10n.getErrorRecord), isSupported: sdk.funcTable.getFlashLog)
+        add(GetCmd(type: .getGpsInfo, title: "getGpsInfo", desc: L10n.getGpsInfo), isSupported: sdk.funcTable.getSupportUpdateGps)
+        add(GetCmd(type: .getVersionInfo, title: "getVersionInfo", desc: L10n.getVersionInfo), isSupported: true)
+        add(GetCmd(type: .getGpsStatus, title: "getGpsStatus", desc: L10n.getGpsStatus), isSupported: sdk.funcTable.getSupportUpdateGps)
+        add(GetCmd(type: .getUnerasableMeunList, title: "getUnerasableMeunList", desc: L10n.getUnerasableMeunList), isSupported: sdk.funcTable.getDeletableMenuListV2)
+        add(GetCmd(type: .getBpAlgVersion, title: "getBpAlgVersion", desc: L10n.getBpAlgVersion), isSupported: sdk.funcTable.setSupportV3Bp)
+        add(GetCmd(type: .getUpdateStatus, title: "getUpdateStatus", desc: L10n.getUpdateStatus), isSupported: sdk.funcTable.getDeviceUpdateState)
+        add(GetCmd(type: .getDownloadLanguage, title: "getDownloadLanguage", desc: L10n.getDownloadLanguage), isSupported: sdk.funcTable.getDownloadLanguage)
+        add(GetCmd(type: .getBleMusicInfo, title: "getBleMusicInfo", desc: L10n.getBleMusicInfo), isSupported: (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3))
+        add(GetCmd(type: .getLanguageLibrary, title: "getLanguageLibrary", desc: L10n.getLanguageLibrary), isSupported: sdk.funcTable.getLangLibraryV3)
+        add(GetCmd(type: .getBleBeep, title: "getBleBeep", desc: L10n.getBleBeep), isSupported: sdk.funcTable.getSupportGetBleBeepV3)
+        add(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: L10n.getStepGoal), isSupported: sdk.funcTable.getStepDataTypeV2)
+        add(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: L10n.getBtConnectPhoneModel), isSupported: sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel)
+        add(GetCmd(type: .getUnit, title: "getUnit", desc: L10n.getUnit), isSupported: sdk.funcTable.getSupportGetUnit)
+        add(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: L10n.getAppletControl), isSupported: sdk.funcTable.setSupportControlMiniProgram)
+        add(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: L10n.getAlgFileInfo), isSupported: sdk.funcTable.getSupportDeviceOperateAlgFile)
+        add(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: L10n.requestAlgFile), isSupported: sdk.funcTable.getSupportDeviceOperateAlgFile)
+        add(GetCmd(type: .getSportsTypeV3, title: "getSportsTypeV3", desc: L10n.getSportsTypeV3), isSupported: sdk.funcTable.getSportsTypeV3)
+        add(GetCmd(type: .getUserInfo, title: "getUserInfo", desc: L10n.setUserInfo), isSupported: sdk.funcTable.supportGetUserInfo)
+        add(GetCmd(type: .setScheduleReminder, title: "setScheduleReminder", desc: L10n.getScheduleReminder), isSupported: sdk.funcTable.setScheduleReminder)
+        
+        add(GetCmd(type: .getLeftRightWearSettings, title: "getLeftRightWearSettings", desc: L10n.setHand), isSupported: sdk.funcTable.getLeftRightHandWearSettings)
+        add(GetCmd(type: .getSimpleHeartRateZone, title: "getSimpleHeartRateZone", desc: L10n.setSimpleHeartRateZone), isSupported: sdk.funcTable.supportSimpleHrZoneSetting)
+        add(GetCmd(type: .getSportingRemindSetting, title: "getSportingRemindSetting", desc: L10n.setSportingRemindSetting), isSupported: sdk.funcTable.supportSportingRemindSetting)
+        add(GetCmd(type: .getSettingsDuringExercise, title: "getSettingsDuringExercise", desc: L10n.setDuringExercise), isSupported: sdk.funcTable.supportSettingsDuringExercise)
+        
+        add(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: L10n.getHidInfo), isSupported: true)
+        //add(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: L10n.getWatchDialId), isSupported: true) // 老旧协议(已废弃)
+        //add(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: L10n.getHotStartParam), isSupported: true) // 老旧协议(已废弃)
+        //add(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: L10n.getDeviceName), isSupported: true) // 老旧协议(已废弃)
+        add(GetCmd(type: .getStressVal, title: "getStressVal", desc: L10n.getStressVal), isSupported: sdk.funcTable.setSetStressCalibration)
+        add(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: L10n.getHabitInfo), isSupported: sdk.funcTable.getSupportGetBleBeepV3)
+        
+        add(GetCmd(type: .getSmartHeartRateMode, title: "getSmartHeartRateMode", desc: L10n.getSmartHeartRateMode), isSupported: sdk.funcTable.getSupportGetSmartHeartRate)
+        add(GetCmd(type: .getSpo2Switch, title: "getSpo2Switch", desc: L10n.getSpo2Switch), isSupported: sdk.funcTable.setSpo2Data)
+        add(GetCmd(type: .getStressSwitch, title: "getStressSwitch", desc: L10n.getStressSwitch), isSupported: sdk.funcTable.setPressureData)
+        add(GetCmd(type: .getBikeLockList, title: "getBikeLockList", desc: L10n.getBikeLockList), isSupported: sdk.funcTable.supportBikeLockManager)
+
+        // 优先使用v3协议接口
+        if (sdk.funcTable.supportProtocolV3MenuList) {
+            add(GetCmd(type: .getMenuListV3, title: "getMenuListV3", desc: L10n.getMenuListV3), isSupported: true)
+        }else if(sdk.funcTable.getMenuList){
+            add(GetCmd(type: .getMenuList, title: "getMenuList", desc: L10n.getMenuList), isSupported: true)
+        }
+        
+        if (sdk.funcTable.getNewWatchList) {
+            add(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: L10n.getWatchListV3), isSupported: true)
+        } else {
+            add(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: L10n.getWatchListV2), isSupported: true)
         }
         
         // NOTE:
@@ -189,7 +171,7 @@ class GetFunctionVC: UIViewController {
             if (sdk.funcTable.getSupportGetSmartHeartRate) {
                 //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
                 print("getSupportGetSmartHeartRate")
-                items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
+                add(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode), isSupported: true)
             } else {
                 // !!!: - 该设备不支持获取心率模式，需要app自行记录
                 print("该设备不支持获取心率模式，需要app自行记录")
@@ -197,60 +179,25 @@ class GetFunctionVC: UIViewController {
         } else if (sdk.funcTable.syncV3Hr) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html
             print("syncV3Hr")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
+            add(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode), isSupported: true)
         } else if (sdk.funcTable.getHeartRateModeV2) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
             print("getHeartRateModeV2")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode))
+            add(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode), isSupported: true)
         }
-        
-        if (sdk.funcTable.getLeftRightHandWearSettings){
-            items.append(GetCmd(type: .getLeftRightWearSettings, title: "getLeftRightWearSettings", desc: "getLeftRightWearSettings"))
-        }
-        
-        if (sdk.funcTable.supportSimpleHrZoneSetting){
-            items.append(GetCmd(type: .getSimpleHeartRateZone, title: "getSimpleHeartRateZone", desc: "getSimpleHeartRateZone"))
-        }
-        
-        
-        if (sdk.funcTable.supportSportingRemindSetting){
-            items.append(GetCmd(type: .getSportingRemindSetting, title: "getSportingRemindSetting", desc: "getSportingRemindSetting"))
-        }
-        
-        if (sdk.funcTable.supportSettingsDuringExercise){
-            items.append(GetCmd(type: .getSettingsDuringExercise, title: "getSettingsDuringExercise", desc: "getSettingsDuringExercise"))
-        }
-        
-        
-        //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用
-        //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用
-        //items.append(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number")) // 未启用
-        //items.append(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number")) // 已废弃
-        //items.append(GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"))
-        //items.append(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3")) // 未启用
-        
-        items = items.sorted { $0.title < $1.title }
-        
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            if #available(iOS 11.0, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(15)
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            } else {
-                make.top.equalTo(0)
-                make.bottom.equalTo(0)
-            }
-            make.left.right.equalTo(0)
-        }
+
+        supportedItems = supportedItems.sorted { $0.title < $1.title }
+        unsupportedItems = unsupportedItems.sorted { $0.title < $1.title }
     }
 }
+
 
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension GetFunctionVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return currentItems.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -262,19 +209,30 @@ extension GetFunctionVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: _cellID) ?? UITableViewCell(style: .subtitle, reuseIdentifier: _cellID)
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .default
-        cell.textLabel?.textColor = .black
         cell.textLabel?.textAlignment = .left
         cell.detailTextLabel?.textAlignment = .left
-        cell.detailTextLabel?.textColor = .gray
         cell.detailTextLabel?.numberOfLines = 2
-        let cmd = items[indexPath.row]
+        
+        let cmd = currentItems[indexPath.row]
         cell.textLabel?.text = cmd.title
         cell.detailTextLabel?.text = cmd.desc
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            cell.textLabel?.textColor = .black
+            cell.detailTextLabel?.textColor = .gray
+        } else {
+            cell.textLabel?.textColor = .lightGray
+            cell.detailTextLabel?.textColor = .lightGray
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cmd = items[indexPath.row]
+        if segmentedControl.selectedSegmentIndex == 1 {
+            return
+        }
+        let cmd = currentItems[indexPath.row]
         let vc = GetFunctionDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -375,6 +333,8 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 设备电量提醒开关获取
     /// Get event number for battery reminder switch
      case getBatteryReminderSwitch
+    /// 获取寻找手机开关（GET:0x02/0x26）
+     case getFindPhoneSwitch
     /// 获取宠物信息
     /// Get pet info event number
      case getPetInfo
@@ -494,6 +454,12 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 运动中提醒设置
     case getSportingRemindSetting
     case getUserInfo
+    case getSn
+    case getSmartHeartRateMode
+    case getSpo2Switch
+    case getStressSwitch
+    case getMenuListV3
+    case getBikeLockList
 }
 
 extension CmdType {
@@ -658,6 +624,30 @@ private class GetFunctionDetailVC: UIViewController {
         textResponse.text = ""
         btnCall.isEnabled = false
         switch cmd.type {
+        case .getSn:
+            cancellable = Cmds.getSn().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getSmartHeartRateMode:
+            cancellable = Cmds.getSmartHeartRateMode().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getSpo2Switch:
+            cancellable = Cmds.getSpo2Switch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getStressSwitch:
+            cancellable = Cmds.getStressSwitch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getMenuListV3:
+            cancellable = Cmds.getMenuListV3().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getBikeLockList:
+            cancellable = Cmds.getBikeLockList().send { [weak self] res in
+                self?.doPrint(res)
+            }
         case .getBtName:
             cancellable = Cmds.getBtName().send { [weak self] res in
                 self?.doPrint(res)
@@ -706,6 +696,10 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getBatteryReminderSwitch:
             cancellable = Cmds.getBatteryReminderSwitch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getFindPhoneSwitch:
+            cancellable = Cmds.getFindPhoneSwitch().send { [weak self] res in
                 self?.doPrint(res)
             }
         case .getPetInfo:
@@ -978,4 +972,3 @@ private class GetFunctionDetailVC: UIViewController {
          */
     }
 }
-

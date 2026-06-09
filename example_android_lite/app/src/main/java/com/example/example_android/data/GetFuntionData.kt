@@ -144,6 +144,11 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     "getBatteryReminderSwitch",
                     ""
                 ),
+                GetFuntionData(
+                    CustomEvtType.GETFINDPHONESWITCH,
+                    "getFindPhoneSwitch",
+                    ""
+                ),
 //                 GetFuntionData(CustomEvtType.GETFIRMWAREBTVERSION,"获得固件三级版本和bt的3级版本",""),
 
 

@@ -12,6 +12,23 @@ import com.idosmart.pigeon_implement.IDODeviceFileToAppTask
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOCancellable
 import com.idosmart.protocol_sdk.IDOCmdPriority
+import com.idosmart.model.IDOBatteryReminderSwitchModel
+import com.idosmart.model.IDOBikeLockReplyModel
+import com.idosmart.model.IDODefaultSportTypeModel
+import com.idosmart.model.IDODownloadLanguageModel
+import com.idosmart.model.IDOFindPhoneSwitchModel
+import com.idosmart.model.IDOHeartModeModel
+import com.idosmart.model.IDOHeartModeParamModel
+import com.idosmart.model.IDOHeartRateModeSmartModel
+import com.idosmart.model.IDOMenuListV3Model
+import com.idosmart.model.IDOPetInfoModel
+import com.idosmart.model.IDOSchedulerReminderParamModel
+import com.idosmart.model.IDOSpo2SwitchModel
+import com.idosmart.model.IDOSportingRemindSettingReplyModel
+import com.idosmart.model.IDOStressSwitchModel
+import com.idosmart.model.IDOUnitModel
+import com.idosmart.model.IDOWatchListV2Model
+import com.idosmart.model.IDOAppletControlModel
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 
 class GetFunctionDetailActivity : BaseActivity() {
@@ -32,6 +49,7 @@ class GetFunctionDetailActivity : BaseActivity() {
             //根据功能列表传入过来的事件类型进行不同操作
             //Different operations are performed depending on the type of event passed in from the function list
             when (myType) {
+                CustomEvtType.GETDEVICEINFO -> getDeviceInfo()
                 CustomEvtType.GETACTIVITYSWITCH -> getActivitySwitch()
                 CustomEvtType.GETALARMV3 -> getAlarm()
                 CustomEvtType.GETALLHEALTHSWITCHSTATE -> getAllHealthSwitchState()
@@ -92,7 +110,24 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETSIMPLEHEARTRATEZONE -> getSimpleHeartRateZone()
                 CustomEvtType.SETSPORTINGREMINDSETTING -> getSportingRemindSetting()
                 CustomEvtType.GETUSERINFO -> getUserInfo()
-                else -> {}
+                            CustomEvtType.GETFUNCTIONTABLE -> getFunctionTable()
+            CustomEvtType.GETBATTERYREMINDERSWITCH -> getBatteryReminderSwitch()
+            CustomEvtType.GETFINDPHONESWITCH -> getFindPhoneSwitch()
+            CustomEvtType.GETPETINFO -> getPetInfo()
+            CustomEvtType.GETDOWNLOADLANGUAGE -> getDownloadLanguage()
+            CustomEvtType.GETUNIT -> getUnit()
+            CustomEvtType.GETAPPLETCONTROL -> getAppletControl()
+            CustomEvtType.GETSPORTSTYPEV3 -> getSportTypeV3()
+            CustomEvtType.SETSCHEDULEREMINDER -> setScheduleReminder() 
+            CustomEvtType.GETSPORTINGREMINDSETTING -> getSportingRemindSetting()
+            CustomEvtType.GETSMARTHEARTRATEMODE -> getSmartHeartRateMode()
+            CustomEvtType.GETSPO2SWITCH -> getSpo2Switch()
+            CustomEvtType.GETSTRESSSWITCH -> getStressSwitch()
+            CustomEvtType.GETBIKELOCKLIST -> getBikeLockList()
+            CustomEvtType.GETMENULISTV3 -> getMenuListV3()
+            CustomEvtType.GETWATCHLISTV2 -> getWatchListV2()
+            CustomEvtType.GETHEARTMODE -> getHeartMode()
+            else -> {}
             }
         }
 
@@ -107,8 +142,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = "{}"
@@ -121,8 +155,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = GsonBuilder().create().toJson(param).toString()
@@ -134,8 +167,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = "{}"
@@ -146,8 +178,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = "{}"
@@ -159,8 +190,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = "{}"
@@ -205,7 +235,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                     val res = it.res?.toJsonString() ?: "{ok}"
                     tv_response?.text = res
                 } else {
-                    val res = it.res?.toJsonString() ?: "{erro}"
+                    val res = it.res?.toJsonString() ?: "error code:${it.error.code} - ${it.error.message}"
                     tv_response?.text = "erro: $res"
                 }
             }
@@ -225,7 +255,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                     val res = it.res?.toJsonString() ?: "{ok}"
                     tv_response?.text = res
                 } else {
-                    val res = it.res?.toJsonString() ?: "{erro}"
+                    val res = it.res?.toJsonString() ?: "error code:${it.error.code} - ${it.error.message}"
                     tv_response?.text = "erro: $res"
                 }
             }
@@ -244,8 +274,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = alarm?.json
@@ -263,8 +292,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = allHealthSwitchState?.json
@@ -282,8 +310,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = batteryInfo?.json
@@ -301,8 +328,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = bleBeep?.json
@@ -319,8 +345,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = bleMusicInfo?.json
@@ -337,8 +362,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = bpAlgVersion?.json
@@ -356,8 +380,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = btNotice?.json
@@ -374,8 +397,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = contactReviseTime?.json
@@ -392,8 +414,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = deviceLogState?.json
@@ -410,8 +431,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = downloadLanguage?.json
@@ -428,8 +448,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = errorRecord?.json
@@ -446,8 +465,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = flashBinInfo?.json
@@ -465,8 +483,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = gpsInfo?.json
@@ -483,8 +500,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = gpsStatus?.json
@@ -501,8 +517,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = habitInfo?.json
@@ -520,8 +535,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = heartRateMode?.json
@@ -538,8 +552,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = hotStartParam?.json
@@ -556,8 +569,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = languageLibrary?.json
@@ -574,8 +586,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = menuList?.json
@@ -592,8 +603,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = mtuInfo?.json
@@ -610,8 +620,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = noticeStatus?.json
@@ -628,8 +637,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = notDisturbStatus?.json
@@ -646,8 +654,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = screenBrightness?.json
@@ -664,8 +671,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = stepGoal?.json
@@ -683,8 +689,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = stressVal?.json
@@ -701,8 +706,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = supportMaxSetItemsNum?.json
@@ -720,8 +724,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = unerasableMeunList?.json
@@ -738,8 +741,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = unreadAppReminder?.json
@@ -757,8 +759,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = updateStatus?.json
@@ -776,8 +777,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = upHandGesture?.json
@@ -794,8 +794,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = versionInfo?.json
@@ -812,8 +811,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = walkRemind?.json
@@ -830,8 +828,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = watchDialId?.json
@@ -848,8 +845,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = watchDialInfo?.json
@@ -867,8 +863,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = watchListV2?.json
@@ -885,8 +880,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = watchListV3?.json
@@ -904,8 +898,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = liveData?.json
@@ -924,8 +917,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = mainSportGoal?.json
@@ -942,8 +934,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = otaStart?.json
@@ -960,8 +951,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = reboot?.json
@@ -978,8 +968,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = sportTypeV3?.json
@@ -996,8 +985,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = activitySwitch?.json
@@ -1014,8 +1002,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = defaultSportType?.json
@@ -1032,8 +1019,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = factoryReset?.json
@@ -1068,8 +1054,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 val res = it.res?.toJsonString() ?: "{ok}"
                 tv_response?.text = res
             } else {
-                val res = it.res?.toJsonString() ?: "{erro}"
-                tv_response?.text = "erro: $res"
+                tv_response?.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv?.text = findDeviceStop?.json
@@ -1174,4 +1159,178 @@ class GetFunctionDetailActivity : BaseActivity() {
             mIDOCancellable?.cancel()
         }
     }
+    private fun getFunctionTable() {
+        tv_response?.text = sdk.funcTable.toJsonString()
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getDeviceInfo() {
+        tv_response?.text = sdk.device.toJsonString()
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getBatteryReminderSwitch() {
+        Cmds.getBatteryReminderSwitch().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getFindPhoneSwitch() {
+        Cmds.getFindPhoneSwitch().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getPetInfo() {
+        Cmds.getPetInfo().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getUnit() {
+        Cmds.getUnit().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getAppletControl() {
+        val model = IDOAppletControlModel(operate = 3, "")
+        val cmd = Cmds.setAppletControl(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = cmd.json
+    }
+
+    private fun setScheduleReminder() {
+        val model = IDOSchedulerReminderParamModel(operate = 3, items = listOf())
+        val cmd = Cmds.setSchedulerReminder(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = cmd.json
+    }
+
+    private fun getSmartHeartRateMode() {
+        Cmds.getSmartHeartRateMode().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getSpo2Switch() {
+        Cmds.getSpo2Switch().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getStressSwitch() {
+        Cmds.getStressSwitch().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getBikeLockList() {
+        Cmds.getBikeLockList().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getMenuListV3() {
+        Cmds.getMenuListV3().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getHeartMode() {
+        if (sdk.funcTable.setSmartHeartRate) {
+            if (sdk.funcTable.getSupportGetSmartHeartRate) {
+                val model = IDOHeartModeParamModel(updateTime = 0)
+                val cmd = Cmds.setHeartMode(model)
+                cmd.send {
+                    if (it.error.code == 0) {
+                        tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+                    } else {
+                        tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+                    }
+                }
+                paramter_tv?.text = cmd.json
+            } else {
+                tv_response?.text = "Device not support get heart rate mode"
+            }
+        } else if (sdk.funcTable.syncV3Hr) {
+            val model = IDOHeartModeParamModel(updateTime = 0)
+            val cmd = Cmds.setHeartMode(model)
+            cmd.send {
+                if (it.error.code == 0) {
+                    tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+                } else {
+                    tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+                }
+            }
+            paramter_tv?.text = cmd.json
+        } else if (sdk.funcTable.getHeartRateModeV2) {
+            Cmds.getHeartRateMode().send {
+                if (it.error.code == 0) {
+                    tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+                } else {
+                    tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+                }
+            }
+            paramter_tv?.text = "{}"
+        }
+    }
+
 }

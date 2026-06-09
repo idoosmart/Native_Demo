@@ -18,7 +18,7 @@ class ScanDeviceAdapter(var mDeviceList  :MutableList<IDOBleDeviceModel?> ): Rec
     override fun onBindViewHolder(holder: DeviceViewHodler, @SuppressLint("RecyclerView") position: Int) {
         val course: IDOBleDeviceModel? = mDeviceList[position]
 
-        holder.tvName?.setText(course?.name)
+        holder.tvName?.setText(course?.name+" | ota:${course?.isOta}")
         holder.tvMac?.setText(course?.macAddress)
         holder.tvRssi?.setText(course?.rssi.toString())
         if (selectedDevice?.macAddress.equals(course?.macAddress)){

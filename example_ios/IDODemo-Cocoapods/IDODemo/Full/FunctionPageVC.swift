@@ -53,7 +53,8 @@ class FunctionPageVC: UIViewController {
         Word.alexa,
         Word.testOC,
         Word.testBleChannel,
-        Word.editSportScreen
+        Word.editSportScreen,
+        Word.sdkFeatureTest
     ]
     
     private lazy var tableView: UITableView = {
@@ -337,6 +338,10 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             }else {
                 SVProgressHUD.showError(withStatus: "不支持 / not support")
             }
+            
+        case Word.sdkFeatureTest:
+            navigationController?.pushViewController(SdkFeatureTestVC(), animated: true)
+            break
         case Word.testOC:
             let test = TestOC()
             test.testCommand()
@@ -363,22 +368,69 @@ extension FunctionPageVC {
         
         if deviceState.state == .connected, deviceState.macAddress != nil, deviceState.macAddress!.count > 0 {
             if(deviceModel.isOta) {
-                // 设备处理ota模式时，需要进入到升级页
-                SVProgressHUD.dismiss()
-                print("1 ota模式")
+                _handleOtaMode(deviceModel: deviceModel)
                 return
             }
-            let isBinded = UserDefaults.standard.isBind(deviceModel.macAddress ?? "")
-            self.isConnected = true
-            self.isBinded = isBinded
-            self.tableView.reloadData()
-            SVProgressHUD.dismiss()
+            _updateConnectionStatus()
         } else if deviceState.state == .disconnected {
             self.isConnected = false
             print("disconnected")
             self.tableView.reloadData()
         }
         self.lblConnectState.text = "Connect State: \(deviceState.state.name)"
+    }
+    
+    /// 更新连接成功的状态
+    private func _updateConnectionStatus() {
+        guard let macAddress = deviceModel?.macAddress else { return }
+        let isBinded = UserDefaults.standard.isBind(macAddress)
+        self.isConnected = true
+        self.isBinded = isBinded
+        self.tableView.reloadData()
+        SVProgressHUD.dismiss()
+    }
+    
+    /// 处理 OTA 模式
+    private func _handleOtaMode(deviceModel: IDODeviceModel) {
+        SVProgressHUD.dismiss()
+        let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "YES", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            sdk.ble.stopScan()
+            
+            // 98|99平台设备ota需要先标记为OTA模式
+            let isSiceOta = [98, 99].contains(deviceModel.platform)
+            if (isSiceOta) {
+                Task {
+                    _ = await withCheckedContinuation { continuation in
+                        sdk.bridge.markOtaMode?(macAddress: deviceModel.macAddress ?? "",
+                                                iosUUID: deviceModel.uuid ?? "",
+                                                platform: deviceModel.platform,
+                                                deviceId: deviceModel.deviceId,
+                                                completion: { _ in
+                            continuation.resume(returning: true)
+                        })
+                    }
+                }
+            } else {
+                self._updateConnectionStatus()
+            }
+            
+            let vc = TransferFileDetailVC(cmd: .ota)
+            if (isSiceOta) {
+                vc._isSiceOta = true
+                vc._devInfo = (sdk.device.macAddressFull,
+                               sdk.device.uuid,
+                               sdk.device.platform,
+                               sdk.device.deviceId)
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "NO", style: .cancel, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func onBleStateChanged() {
@@ -415,6 +467,8 @@ extension FunctionPageVC {
         case Word.testBleChannel:
             return isConnected && isBinded
         case Word.editSportScreen:
+            return isConnected && isBinded
+        case Word.sdkFeatureTest:
             return isConnected && isBinded
         default:
             break

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 import RxCocoa
 import RxSwift
@@ -68,6 +69,52 @@ class WatchFaceVC: UIViewController {
     private var isInstalled = false
     private let disposeBag = DisposeBag()
     private var currentWatchFaceListModel: IDOWatchListModel?
+    
+    private lazy var allowedExtensions: [String] = {
+        // 根据不同平台配置表盘文件后缀限制
+        switch sdk.device.platform {
+        case 98, 99: return ["watch"]
+        default:
+            return ["watch", "zip", "iwf"]
+        }
+    }()
+    
+    // MARK: - UI Elements
+    
+    private lazy var btnSelectFile: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("📂 选择表盘文件 Select File", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        btn.setTitleColor(.white, for: .normal)
+        btn.layer.cornerRadius = 8
+        btn.rx.tap.subscribe(onNext: { [weak self] in
+            self?.selectFile()
+        }).disposed(by: disposeBag)
+        return btn
+    }()
+    
+    private lazy var lblFileHint: UILabel = {
+        let lbl = UILabel()
+        lbl.font = .systemFont(ofSize: 12)
+        lbl.textColor = .gray
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+        let extsString = allowedExtensions.map { ".\($0)" }.joined(separator: ", ")
+        lbl.text = "支持格式 / Supported: \(extsString)"
+        return lbl
+    }()
+    
+    private lazy var lblFileName: UILabel = {
+        let lbl = UILabel()
+        lbl.font = .systemFont(ofSize: 14, weight: .medium)
+        lbl.textColor = .darkGray
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 2
+        lbl.text = "未选择文件 No file selected"
+        return lbl
+    }()
+    
     private lazy var btnGetWatchFaceList: UIButton = {
         let v = UIButton.createNormalButton(title: "Get watch list")
         v.isEnabled = true
@@ -94,20 +141,18 @@ class WatchFaceVC: UIViewController {
         v.isEditable = false
         v.text = """
 添加表盘步骤：
-1、从云端下载对应的表盘文件到本地
+1、从云端下载对应的表盘文件到本地 （这里通过选择文件实现）
 2、获取当前设备表盘列表
-3、判断设备表盘数据和空间是否
+3、判断设备表盘数据和空间是否充足
 4、传输表盘到设备
 5、如果安装后未显示，需要调用setWatchFaceData设置为第一表盘(可选)
-注：Demo只处理2、3、4，表盘文件内置在工程中
 
 Steps to add a watch face:
 1. Download the corresponding watch face file from the cloud to the local
 2. Get the watch face list of the current device
-3. Determine whether the device watch face data and space are
+3. Determine whether the device watch face data and space are enough
 4. Transfer the watch face to the device
 5. If it is not displayed after installation, you need to call setWatchFaceData to set it as the first watch face (optional)
-Note: Demo only processes 2, 3, and 4, and the watch face file is built into the project
 """
         return v
     }()
@@ -120,25 +165,48 @@ Note: Demo only processes 2, 3, and 4, and the watch face file is built into the
         title = "Watch face upgrade"
         view.backgroundColor = .white
         
+        view.addSubview(btnSelectFile)
+        view.addSubview(lblFileHint)
+        view.addSubview(lblFileName)
         view.addSubview(btnGetWatchFaceList)
         view.addSubview(btnAction)
         view.addSubview(lblTips)
         
-        btnGetWatchFaceList.snp.makeConstraints { make in
+        btnSelectFile.snp.makeConstraints { make in
             make.height.equalTo(44)
             make.centerX.equalTo(view)
-            make.width.equalTo(200)
+            make.width.equalTo(250)
             if #available(iOS 11.0, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(35)
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
             } else {
-                make.top.equalTo(35)
+                make.top.equalTo(20)
             }
         }
         
+        lblFileHint.snp.makeConstraints { make in
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.top.equalTo(btnSelectFile.snp.bottom).offset(8)
+        }
+        
+        lblFileName.snp.makeConstraints { make in
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.top.equalTo(lblFileHint.snp.bottom).offset(8)
+        }
+        
+        btnGetWatchFaceList.snp.makeConstraints { make in
+            make.height.equalTo(44)
+            make.centerX.equalTo(view)
+            make.width.equalTo(250)
+            make.top.equalTo(lblFileName.snp.bottom).offset(30)
+        }
+        
         btnAction.snp.makeConstraints { make in
-            make.size.equalTo(btnGetWatchFaceList)
-            make.centerX.equalTo(btnGetWatchFaceList)
-            make.top.equalTo(btnGetWatchFaceList.snp.bottom).offset(25)
+            make.height.equalTo(44)
+            make.centerX.equalTo(view)
+            make.width.equalTo(250)
+            make.top.equalTo(btnGetWatchFaceList.snp.bottom).offset(20)
         }
         
         lblTips.snp.makeConstraints { make in
@@ -146,9 +214,9 @@ Note: Demo only processes 2, 3, and 4, and the watch face file is built into the
             make.right.equalTo(-20)
             make.top.equalTo(btnAction.snp.bottom).offset(20)
             if #available(iOS 11.0, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-35)
+                make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
             } else {
-                make.bottom.equalTo(-35)
+                make.bottom.lessThanOrEqualTo(-20)
             }
         }
         
@@ -161,56 +229,80 @@ Note: Demo only processes 2, 3, and 4, and the watch face file is built into the
             )
             navigationItem.rightBarButtonItem = btnCustomDial
         }
-        
-        if(_initWatchTransModel()) {
-            _getWatchList()
-        }
     }
 }
 
+// MARK: - File Selection
 extension WatchFaceVC {
-    
-    private func _initWatchTransModel() -> Bool {
-        // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
-        switch(sdk.device.deviceId) {
-        case 7877:
-            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/7877/wf_w58.watch", fileName: "wf_w58.watch")
-        case 850:
-            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/850/wf_w233.watch", fileName: "wf_w233.watch")
-        case 7906:
-            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/7906/wf_w141.watch", fileName: "wf_w141.watch")
-        case 7814:
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7814/w58.zip", fileName: "w58")
-        case 537:
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/537/w130.zip", fileName: "w130")
-        case 517:
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/517/w130.zip", fileName: "w130")
-        case 543:
-            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/543/wf_w58.watch", fileName: "wf_w58.watch")
-        case 7883:
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7883/GTX02_1.zip", fileName: "GTX02_1")
-        case 7892:
-            //testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/tmp.zip", fileName: "custom1.iwf")
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/7892/w189.zip", fileName: "w189")
-        case 512:
-            testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: bundlePath + "/watch_face/512/idw19_coustom1.zip", fileName: "custom1.iwf")
-        case 8042:
-            testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/8042/wf_cw7.watch", fileName: "wf_cw7.watch")
-        default:
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Tips", message: "未找到设备'\(sdk.device.deviceId)'相关文件，请在demo代码中配置再次尝试\n\nDevice '\(sdk.device.deviceId)' related files not found, please configure in the demo code and try again", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.navigationController?.popToRootViewController(animated: true)
-            }))
-            self.present(alert, animated: true, completion: nil)
-            return false
+    private func selectFile() {
+        let picker: UIDocumentPickerViewController
+        if #available(iOS 14.0, *) {
+            var utTypes: [UTType] = []
+            for ext in allowedExtensions {
+                if let t = UTType(filenameExtension: ext) {
+                    utTypes.append(t)
+                }
+            }
+            if utTypes.isEmpty { utTypes = [.data] }
+            picker = UIDocumentPickerViewController(forOpeningContentTypes: utTypes, asCopy: true)
+        } else {
+            picker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
         }
-        return true
+        
+        picker.delegate = self
+        picker.allowsMultipleSelection = false
+        present(picker, animated: true)
+    }
+}
+
+// MARK: - UIDocumentPickerDelegate
+extension WatchFaceVC: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else { return }
+        
+        // 校验文件后缀 / Validate file extension
+        let ext = url.pathExtension.lowercased()
+        let allowedExts = allowedExtensions.map { $0.lowercased() }
+        
+        if !allowedExts.contains(ext) {
+            let supported = allowedExts.map { ".\($0)" }.joined(separator: ", ")
+            SVProgressHUD.showError(withStatus: "不支持的格式: .\(ext)\nUnsupported: .\(ext)\n\n支持: \(supported)")
+            return
+        }
+        
+        // 构建传输模型
+        let fileType: IDOTransType = (ext == "zip" || ext == "iwf") ? .iwfLz : .watch
+        var fileName = url.lastPathComponent
+        if fileType == .iwfLz {
+            // .zip / .iwf 格式在传输时 fileName 通常去掉后缀或使用特定的名字
+            fileName = url.deletingPathExtension().lastPathComponent
+        }
+        
+        testWatchModel = IDOTransNormalModel(fileType: fileType, filePath: url.path, fileName: fileName)
+        
+        lblFileName.text = "✅ \(url.lastPathComponent)"
+        lblFileName.textColor = UIColor(red: 34/255.0, green: 139/255.0, blue: 34/255.0, alpha: 1)
+        
+        // 重置状态
+        isInstalled = false
+        btnAction.isHidden = true
+        
+        // 选中后自动尝试获取表盘列表
+        _getWatchList()
     }
     
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        // ...
+    }
+}
+
+
+// MARK: - Operations
+extension WatchFaceVC {
+    
     private func _refreshState() {
-        guard let isInstalled = currentWatchFaceListModel?.isInstalled(watchName: testWatchModel!.fileName) else {
+        guard let testWatchModel = testWatchModel else { return }
+        guard let isInstalled = currentWatchFaceListModel?.isInstalled(watchName: testWatchModel.fileName) else {
             btnAction.isEnabled = false
             self.isInstalled = false
             return
@@ -218,10 +310,13 @@ extension WatchFaceVC {
         self.isInstalled = isInstalled
         btnAction.setTitle(isInstalled ? "Uninstall" : "Install", for: .normal)
         btnAction.isEnabled = true
-        
     }
     
     private func _getWatchList() {
+        guard testWatchModel != nil else {
+            SVProgressHUD.showInfo(withStatus: "请先选择表盘文件\nPlease select watchface file first")
+            return
+        }
         
         SVProgressHUD.show()
         Cmds.getWatchListV3().send { [weak self] res in
@@ -237,10 +332,12 @@ extension WatchFaceVC {
     }
     
     private func _installOrUninstallWatchFace() {
+        guard let watchModel = testWatchModel else { return }
+        
         if (isInstalled) {
             // uninstall
             SVProgressHUD.show()
-            let param = IDOWatchFaceParamModel(operate: 2, fileName: testWatchModel!.fileName, watchFileSize: testWatchModel!.fileSize)
+            let param = IDOWatchFaceParamModel(operate: 2, fileName: watchModel.fileName, watchFileSize: watchModel.fileSize)
             Cmds.setWatchFaceData(param).send { [weak self] res in
                 if case .success(let val) = res {
                     if (val == nil || val!.errCode == 0) {
@@ -259,7 +356,7 @@ extension WatchFaceVC {
             
             SVProgressHUD.showProgress(0.0);
             //1、把表盘文件传到设备
-            sdk.transfer.transferFiles(fileItems: [testWatchModel!], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
+            sdk.transfer.transferFiles(fileItems: [watchModel], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
                 SVProgressHUD.showProgress(totalProgress);
             } transStatus: { currentIndex, status, errorCode, finishingTime in
                 print("status: \(status) errorCode: \(errorCode)")
@@ -318,6 +415,13 @@ extension WatchFaceVC {
             print("customDialZipPath:\(zipPath)")
             self?.customDialZipPath = zipPath
             self?.testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: zipPath, fileName: "custom1")
+            
+            // 更新 UI 状态
+            self?.lblFileName.text = "✅ custom dial"
+            self?.lblFileName.textColor = UIColor(red: 34/255.0, green: 139/255.0, blue: 34/255.0, alpha: 1)
+            self?.isInstalled = false
+            self?.btnAction.isHidden = true
+            self?._getWatchList()
         }
         let hostingController = UIHostingController(rootView: customDialView)
         self.navigationController?.pushViewController(hostingController, animated: true)
@@ -352,4 +456,3 @@ extension IDOWatchListModel {
     }
     
 }
-

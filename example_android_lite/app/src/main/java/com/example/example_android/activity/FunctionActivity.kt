@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sdk_feature_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
 
 
@@ -265,6 +266,9 @@ class FunctionActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    fun sdkFeatureTest(view: View) {
+        startActivity(Intent(this, SdkFeatureTestActivity::class.java))
+    }
 
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -291,6 +295,7 @@ class FunctionActivity : BaseActivity() {
             rl_alexa?.visibility = View.VISIBLE
             rl_sport?.visibility = View.VISIBLE
             rl_epo?.visibility = View.VISIBLE
+            rl_sdk_feature_test?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -302,6 +307,7 @@ class FunctionActivity : BaseActivity() {
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
             rl_epo?.visibility = View.GONE
+            rl_sdk_feature_test?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
@@ -320,6 +326,7 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.GONE
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
+            rl_sdk_feature_test?.visibility = View.GONE
             ll_dis_connect?.visibility = View.GONE
             ll_connect?.visibility = View.VISIBLE
         }

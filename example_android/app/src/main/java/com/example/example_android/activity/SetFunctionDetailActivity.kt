@@ -10,6 +10,7 @@ import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
 import com.google.gson.GsonBuilder
+import com.idosmart.protocol_channel.sdk
 import com.idosmart.model.CommonRangeRemind
 import com.idosmart.model.DistanceRemind
 import com.idosmart.model.IDOActivitySwitchParamModel
@@ -23,6 +24,7 @@ import com.idosmart.model.IDOBleVoiceParamModel
 import com.idosmart.model.IDOBpCalControlModel
 import com.idosmart.model.IDOBpCalibrationParamModel
 import com.idosmart.model.IDOBpMeasurementParamModel
+import com.idosmart.model.IDOHeartRateModeParamModel
 import com.idosmart.model.IDOContactItem
 import com.idosmart.model.IDODateTimeParamModel
 import com.idosmart.model.IDODisplayModeParamModel
@@ -102,13 +104,24 @@ import com.idosmart.model.IDOWeatherV3ParamModel
 import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOWorldTimeParamModel
 import com.idosmart.model.PaceRemind
+import com.idosmart.model.IDOBatteryReminderSwitchParamModel
+import com.idosmart.model.IDODefaultMessageConfigParamModel
+import com.idosmart.model.IDODefaultMessageItem
+import com.idosmart.model.IDOGpsHotStartParamModel
+import com.idosmart.model.IDOPetInfoParamModel
+import com.idosmart.model.IDOSetNoticeStatusModel
+import com.idosmart.model.IDOActivitySwitchModel
+import com.idosmart.model.IDOCgmPhoneCommandErrCode
+import com.idosmart.model.IDOCgmPhoneCommandModel
 import com.idosmart.pigeon_implement.Cmds
 import kotlinx.android.synthetic.main.layout_comme_send_data.*
 import kotlinx.android.synthetic.main.layout_comme_send_data.view.*
 import java.time.LocalDateTime
+import java.util.Calendar
+import java.util.HashSet
 
 class SetFunctionDetailActivity : BaseActivity() {
-    private var type: Int = SetFuntionActivity.setDateTime
+    private var type: Int = 1 // default value
     private var setFuncData: SetFuncData? = null
     override fun getLayoutId(): Int {
         return R.layout.layout_comme_send_data
@@ -181,7 +194,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                         if (it.error.code == 0) {
                             tv_response.text = it.res?.toJsonString()
                         } else {
-                            tv_response.text = "设置失败 / Setup failure"
+                            tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
                         }
                     }
                 }
@@ -219,7 +232,73 @@ class SetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.SETDURINGEXERCISE -> setDuringExercise()
                 CustomEvtType.SETSIMPLEHEARTRATEZONE -> setSimpleHeartRateZone()
                 CustomEvtType.SETSPORTINGREMINDSETTING -> setSportingRemindSetting()
-                else -> {
+                            CustomEvtType.SETDATETIME -> setDateTime()
+            CustomEvtType.PHOTOSTART -> photoStart()
+            CustomEvtType.PHOTOSTOP -> photoStop()
+            CustomEvtType.SETHOTSTARTPARAM -> setHotStartParam()
+            CustomEvtType.SETBATTERYREMINDERSWITCH -> setBatteryReminderSwitch()
+            CustomEvtType.SETPETINFO -> setPetInfo()
+            CustomEvtType.FINDDEVICESTART -> findDeviceStart()
+            CustomEvtType.FINDDEVICESTOP -> findDeviceStop()
+            CustomEvtType.SETSPORT100SORT -> setSport100Sort()
+            CustomEvtType.SETHISTORICALMENSTRUATION -> setHistoricalMenstruation()
+            CustomEvtType.SETDEFAULTMSGLIST -> setDefaultMsgList()
+            CustomEvtType.SETSPORTSTYPEV3 -> setSportsTypeV3()
+            CustomEvtType.SETSPORTPARAMSORT -> setSportParamSort()
+            CustomEvtType.SETMENULISTV3 -> setMenuList()
+            CustomEvtType.SETCGMKEYANDDEVICE -> setCgmKeyAndDevice()
+            CustomEvtType.DELETECGMKEYANDDEVICE -> deleteCgmKeyAndDevice()
+            CustomEvtType.CONNECTCGM -> connectCgm()
+            CustomEvtType.DISCONNECTCGM -> disconnectCgm()
+            CustomEvtType.FACTORYRESET -> {
+                android.app.AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("This is a dangerous operation (FACTORYRESET). Do you want to proceed?")
+                    .setPositiveButton("Proceed") { _, _ -> 
+                        Cmds.factoryReset().send {
+                            if (it.error.code == 0) {
+                                tv_response.text = it.res?.toJsonString()
+                            } else {
+                                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                            }
+                        }
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            CustomEvtType.REBOOT -> {
+                android.app.AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("This is a dangerous operation (REBOOT). Do you want to proceed?")
+                    .setPositiveButton("Proceed") { _, _ -> 
+                        Cmds.reboot().send {
+                            if (it.error.code == 0) {
+                                tv_response.text = it.res?.toJsonString()
+                            } else {
+                                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                            }
+                        }
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            CustomEvtType.OTASTART -> {
+                android.app.AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("This is a dangerous operation (OTASTART). Do you want to proceed?")
+                    .setPositiveButton("Proceed") { _, _ -> 
+                        Cmds.otaStart().send {
+                            if (it.error.code == 0) {
+                                tv_response.text = it.res?.toJsonString()
+                            } else {
+                                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                            }
+                        }
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            else -> {
                     null
                 }
             }
@@ -240,7 +319,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = GsonBuilder().create().toJson(model).toString()
@@ -252,7 +331,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = model.toJsonString()
@@ -264,7 +343,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = model.toJsonString()
@@ -299,7 +378,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = noticeMessageV3.json
@@ -426,7 +505,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sendRunPlan.json
@@ -521,7 +600,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = walkReminder.json
@@ -571,7 +650,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 if (it.error.code == 0) {
                     tv_response.text = it.res?.toJsonString()
                 } else {
-                    tv_response.text = "设置失败 / Setup failure"
+                    tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
                 }
             }
             paramter_tv.text = watchDialSort.json
@@ -827,7 +906,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -885,7 +964,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = mainUISortV3.json
@@ -929,7 +1008,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = watchFaceData.json
@@ -959,7 +1038,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -1030,7 +1109,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
 
         }
@@ -1072,7 +1151,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = scientificSleepSwitch.json
@@ -1118,7 +1197,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = temperatureSwitch.json
@@ -1166,7 +1245,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = v3Noise.json
@@ -1253,21 +1332,77 @@ class SetFunctionDetailActivity : BaseActivity() {
      * Note: If the firmware does not have v3HeartSetRateModeCustom enabled, this feature is invalid
      * */
     private fun setHeartMode() {
-        var heartMode = Cmds.setHeartMode(
-            IDOHeartModeParamModel(
-                8, 0, 0, 23, 59, 1, 4, 4, 49, 98, 99, 100, 101
+        if (sdk.funcTable.setSmartHeartRate) {
+            println("setSmartHeartRate")
+            val param = IDOHeartRateModeSmartParamModel(
+                mode = 1,
+                notifyFlag = 1,
+                highHeartMode = 1,
+                lowHeartMode = 1,
+                highHeartValue = 160,
+                lowHeartValue = 50,
+                startHour = 6,
+                startMinute = 0,
+                endHour = 19,
+                endMinute = 0
             )
-        )
-        heartMode.send {
-            if (it.error.code == 0) {
-                tv_response.text = it.res?.toString()
-            } else {
-                tv_response.text = "设置失败 / Setup failure"
+            paramter_tv.text = param.toJsonString()
+            Cmds.setHeartRateModeSmart(param).send {
+                if (it.error.code == 0) {
+                    tv_response.text = it.res?.toJsonString()
+                } else {
+                    tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                }
+            }
+        } else if (sdk.funcTable.syncV3Hr) {
+            println("syncV3Hr")
+            // 注：设置updateTime
+            val param = IDOHeartModeParamModel(updateTime = (System.currentTimeMillis() / 1000).toInt())
+            // 示例1
+            // 关闭 （注：单次运动开启默认进行心率实时监测，不受此开关影响）
+            // param.mode = 3
+
+
+            // 示例2
+            // 持续监测 （比较耗电）
+            // param.mode = 5 // 固定5秒（ID206支持固定5秒的持续监测）
+            // param.measurementInterval = 5
+
+
+            // 示例3
+            // 自动监测
+            param.mode = 5 // 固定5分钟（ID206支持固定5分钟的自动监测）
+            param.measurementInterval = 300
+
+            paramter_tv.text = param.toJsonString()
+            Cmds.setHeartMode(param).send {
+                if (it.error.code == 0) {
+                    tv_response.text = it.res?.toJsonString()
+                } else {
+                    tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                }
+            }
+        } else if (sdk.funcTable.syncHeartRateMonitor || sdk.funcTable.setHeartRateMonitor) {
+            println("syncHeartRateMonitor")
+            val param = IDOHeartModeParamModel(
+                updateTime = 0,
+                mode = 1,
+                hasTimeRange = 1,
+                startHour = 8,
+                startMinute = 0,
+                endHour = 18,
+                endMinute = 0,
+                measurementInterval = 5
+            )
+            paramter_tv.text = param.toJsonString()
+            Cmds.setHeartMode(param).send {
+                if (it.error.code == 0) {
+                    tv_response.text = it.res?.toJsonString()
+                } else {
+                    tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+                }
             }
         }
-        paramter_tv.text = heartMode.json
-
-
     }
 
     /**
@@ -1316,31 +1451,26 @@ class SetFunctionDetailActivity : BaseActivity() {
      * endMinute Int End time of Heart rate monitoring (minutes)
      * */
     private fun setHeartRateModeSmart() {
-        var heartRateModeSmart = Cmds.setHeartRateModeSmart(
-            IDOHeartRateModeSmartParamModel(
-                1,
-                1,
-                1,
-                0,
-                120,
-                50,
-                0,
-                0,
-                23,
-                59,
-            )
+        val param = IDOHeartRateModeSmartParamModel(
+            mode = 1,
+            notifyFlag = 1,
+            highHeartMode = 1,
+            lowHeartMode = 1,
+            highHeartValue = 160,
+            lowHeartValue = 50,
+            startHour = 6,
+            startMinute = 0,
+            endHour = 19,
+            endMinute = 0
         )
-        runOnUiThread(Runnable {
-            heartRateModeSmart.send {
-                if (it.error.code == 0) {
-                    tv_response.text = it.res?.toJsonString()
-                } else {
-                    tv_response.text = "设置失败 / Setup failure"
-                }
+        paramter_tv.text = param.toJsonString()
+        Cmds.setHeartRateModeSmart(param).send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
-        })
-        paramter_tv.text = heartRateModeSmart.json
-
+        }
     }
 
     /**
@@ -1406,7 +1536,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = takingMedicineReminder.json
@@ -1432,7 +1562,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = bleVoice.json
@@ -1477,7 +1607,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = longSit.json
@@ -1509,7 +1639,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = lostFind.json
@@ -1551,7 +1681,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sportGoal.json
@@ -1690,7 +1820,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = unit.json
@@ -1744,7 +1874,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = upHandGesture.json
@@ -1783,7 +1913,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = musicOnOff.json
@@ -1819,7 +1949,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = displayMode.json
@@ -2031,7 +2161,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -2076,7 +2206,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sleepPeriod.json
@@ -2113,7 +2243,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = weatherSunTime.json
@@ -2145,7 +2275,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = watchDial.json
@@ -2181,7 +2311,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = shortcut.json
@@ -2246,7 +2376,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = spo2Switch.json
@@ -2303,7 +2433,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = noticeAppName.json
@@ -2351,7 +2481,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = syncContact.json
@@ -2388,7 +2518,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = musicControl.json
@@ -2475,7 +2605,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = schedulerReminder.json
@@ -2511,7 +2641,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sport100Sort.json
@@ -2557,7 +2687,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = wallpaperDialReply.json
@@ -2591,7 +2721,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = voiceReplyText.json
@@ -2633,7 +2763,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = dateTime.json
@@ -2707,7 +2837,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = screenBrightness.json
@@ -2810,7 +2940,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = activitySwitch.json
@@ -2921,7 +3051,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -2985,7 +3115,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = menstruation.json
@@ -3036,7 +3166,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = calorieDistanceGoal.json
@@ -3088,7 +3218,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = worldTimeV3.json
@@ -3108,7 +3238,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = longCityNameV3.json
@@ -3163,7 +3293,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = historicalMenstruation.json
@@ -3201,7 +3331,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = userInfo.json
@@ -3295,7 +3425,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = notDisturb.json
@@ -3333,7 +3463,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = menstruationRemind.json
@@ -3409,7 +3539,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = stressSwitch.json
@@ -3495,7 +3625,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = drinkWaterRemind.json
@@ -3531,7 +3661,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = menuList.json
@@ -3581,88 +3711,44 @@ class SetFunctionDetailActivity : BaseActivity() {
      * type IDOAlarmType Alarm type
      * */
     private fun setAlarmV3() {
-        Cmds.getAlarm().send {
-            var idoAlarmModel: IDOAlarmItem = it.res?.items?.get(0) as IDOAlarmItem
-            idoAlarmModel.hour = 9
-            idoAlarmModel.alarmId =1
-            idoAlarmModel.minute = 10
-            idoAlarmModel.name = "dddd"
-            idoAlarmModel.repeatTimes = 1;
-            idoAlarmModel.isOpen = true
-            Log.d("TAG", "setAlarmV3: ${it.res?.items.toString()}")
-            var idoAlarmModel1: IDOAlarmItem = it.res?.items?.get(1) as IDOAlarmItem
-            idoAlarmModel1.isOpen = false
-            idoAlarmModel1.alarmId =2
-            idoAlarmModel1.status = IDOAlarmStatus.HIDDEN;
-            var idoAlarmModel2: IDOAlarmItem = it.res?.items?.get(2) as IDOAlarmItem
-            idoAlarmModel2.isOpen = false
-            idoAlarmModel2.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel2.alarmId =3
+        // Optimizing code to match iOS logic
+        val maxCount = sdk.funcTable.alarmCount
+        val items = (0 until maxCount).map { idx ->
+            val alarmID = idx + 1
+            // Create target time: current time + (alarmID) minutes
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.MINUTE, alarmID)
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
 
-            var idoAlarmModel3: IDOAlarmItem = it.res?.items?.get(3) as IDOAlarmItem
-            idoAlarmModel3.isOpen = false
-            idoAlarmModel3.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel3.alarmId =4
-
-            var idoAlarmModel4: IDOAlarmItem = it.res?.items?.get(4) as IDOAlarmItem
-            idoAlarmModel4.isOpen = false
-            idoAlarmModel4.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel4.alarmId =5
-
-            var idoAlarmModel5: IDOAlarmItem = it.res?.items?.get(5) as IDOAlarmItem
-            idoAlarmModel5.isOpen = false
-            idoAlarmModel5.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel5.alarmId =6
-
-
-            var idoAlarmModel6: IDOAlarmItem = it.res?.items?.get(6) as IDOAlarmItem
-            idoAlarmModel6.isOpen = false
-            idoAlarmModel6.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel6.alarmId =7
-
-            var idoAlarmModel7: IDOAlarmItem = it.res?.items?.get(7) as IDOAlarmItem
-            idoAlarmModel7.isOpen = false
-            idoAlarmModel7.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel7.alarmId =8
-
-            var idoAlarmModel8: IDOAlarmItem = it.res?.items?.get(8) as IDOAlarmItem
-            idoAlarmModel8.isOpen = false
-            idoAlarmModel8.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel8.alarmId =9
-
-            var idoAlarmModel9: IDOAlarmItem = it.res?.items?.get(9) as IDOAlarmItem
-            idoAlarmModel9.isOpen = false
-            idoAlarmModel9.status = IDOAlarmStatus.HIDDEN;
-            idoAlarmModel9.alarmId =10
-
-            var alarmV3 = Cmds.setAlarmV3(
-                IDOAlarmModel(
-                    listOf(
-                        idoAlarmModel,
-                        idoAlarmModel1,
-                        idoAlarmModel2,
-                        idoAlarmModel3,
-                        idoAlarmModel4,
-                        idoAlarmModel5,
-                        idoAlarmModel6,
-                        idoAlarmModel7,
-                        idoAlarmModel8,
-                        idoAlarmModel9
-                    )
-                )
+            IDOAlarmItem(
+                alarmID,
+                1,
+                hour,
+                minute,
+                "Alarm-$alarmID",
+                true,
+                hashSetOf(
+                    IDOWeek.MONDAY, IDOWeek.TUESDAY, IDOWeek.WEDNESDAY,
+                    IDOWeek.THURSDAY, IDOWeek.FRIDAY, IDOWeek.SATURDAY, IDOWeek.SUNDAY
+                ),
+                0,
+                1,
+                IDOAlarmStatus.DISPLAYED, // 协议上不支持闹钟删除，可以利用HIDDEN隐藏闹钟
+                0,
+                IDOAlarmType.OTHER
             )
-
-
-
-            alarmV3.send {
-                if (it.error.code == 0) {
-                    tv_response.text = it.res?.toJsonString()
-                } else {
-                    tv_response.text = "设置失败 / Setup failure"
-                }
-            }
-            paramter_tv.text = alarmV3.json
         }
+
+        val alarmV3 = Cmds.setAlarmV3(IDOAlarmModel(items))
+        alarmV3.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = alarmV3.json
     }
 
     /**
@@ -3691,7 +3777,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sportModeSort.json
@@ -3763,7 +3849,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = fastMsgUpdate.json
@@ -3862,7 +3948,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = musicOperate.json
@@ -3956,7 +4042,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = weatherData.json
@@ -3987,7 +4073,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -4020,7 +4106,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = bpCalibration.json
@@ -4072,7 +4158,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = handWashingReminder.json
@@ -4124,7 +4210,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = bpCalControlV3.json
@@ -4163,7 +4249,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sportParamSort.json
@@ -4180,7 +4266,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = callQuickReplyOnOff.json
@@ -4197,7 +4283,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = voiceAssistantOnOff.json
@@ -4225,7 +4311,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
         paramter_tv.text = sportSortV3.json
@@ -4254,7 +4340,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
             } else {
-                tv_response.text = "设置失败 / Setup failure"
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
             }
         }
 
@@ -4283,5 +4369,181 @@ class SetFunctionDetailActivity : BaseActivity() {
         }
     }
 
+
+    private fun photoStart() {
+        Cmds.photoStart().send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+    }
+
+    private fun photoStop() {
+        Cmds.photoStop().send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+    }
+
+    private fun setHotStartParam() {
+        val model = IDOGpsHotStartParamModel(
+            longitude = 2,
+            latitude = (42.6511674 * 1000000).toInt(),
+            altitude = (-73.754968 * 1000000).toInt(),
+            tcxoOffset = 0
+        )
+        val cmd = Cmds.setHotStartParam(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun setBatteryReminderSwitch() {
+        val model = IDOBatteryReminderSwitchParamModel(lowBatteryOnOff = 1)
+        val cmd = Cmds.setBatteryReminderSwitch(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun setPetInfo() {
+        val model = IDOPetInfoParamModel(petType = 1, weight = 450, gender = 0, year = 2024, month = 1, day = 1)
+        val cmd = Cmds.setPetInfo(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun findDeviceStart() {
+        Cmds.findDeviceStart().send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+    }
+
+    private fun findDeviceStop() {
+        Cmds.findDeviceStop().send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+    }
+
+    private fun setDefaultMsgList() {
+        val items = listOf(
+            IDODefaultMessageItem(packageName = "com.tencent.xin"),
+            IDODefaultMessageItem(packageName = "com.facebook.Facebook")
+        )
+        val model = IDODefaultMessageConfigParamModel(operate = 1, items = items)
+        val cmd = Cmds.setDefaultMsgList(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun setSportsTypeV3() {
+        val model = IDOSportParamModel(
+            listOf(IDOSportModeSortParamModel(1, IDOSportType.SPORTTYPEBURPEE))
+        )
+        val cmd = Cmds.setSportSortV3(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun formatCgmResponse(model: IDOCgmPhoneCommandModel?): String {
+        if (model == null) return "{ok}"
+        val errHint = if (model.isSuccess) {
+            "OK"
+        } else {
+            IDOCgmPhoneCommandErrCode.symbolName(model.errCode)
+        }
+        return "${model.toJsonString()}\n\n$errHint"
+    }
+
+    private fun setCgmKeyAndDevice() {
+        val demoKey = "your-aes-key"
+        val demoName = "MyCGM"
+        paramter_tv.text = """{"key":"$demoKey","device_name":"$demoName"}"""
+        Cmds.setCgmKeyAndDevice(demoKey, demoName).send {
+            if (it.error.code == 0) {
+                tv_response.text = formatCgmResponse(it.res)
+            } else {
+                tv_response.text =
+                    "err code:${it.error.code} - ${it.error.message ?: ""} ${formatCgmResponse(it.res)}"
+            }
+        }
+    }
+
+    private fun deleteCgmKeyAndDevice() {
+        paramter_tv.text = "{}"
+        Cmds.deleteCgmKeyAndDevice().send {
+            if (it.error.code == 0) {
+                tv_response.text = formatCgmResponse(it.res)
+            } else {
+                tv_response.text =
+                    "err code:${it.error.code} - ${it.error.message ?: ""} ${formatCgmResponse(it.res)}"
+            }
+        }
+    }
+
+    private fun connectCgm() {
+        paramter_tv.text = "{}"
+        Cmds.connectCgm().send {
+            if (it.error.code == 0) {
+                tv_response.text = formatCgmResponse(it.res)
+            } else {
+                tv_response.text =
+                    "err code:${it.error.code} - ${it.error.message ?: ""} ${formatCgmResponse(it.res)}"
+            }
+        }
+    }
+
+    private fun disconnectCgm() {
+        paramter_tv.text = "{}"
+        Cmds.disconnectCgm().send {
+            if (it.error.code == 0) {
+                tv_response.text = formatCgmResponse(it.res)
+            } else {
+                tv_response.text =
+                    "err code:${it.error.code} - ${it.error.message ?: ""} ${formatCgmResponse(it.res)}"
+            }
+        }
+    }
 
 }

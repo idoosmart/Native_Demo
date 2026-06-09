@@ -25,14 +25,22 @@ class GetFuntionAdapter(var getFuntionList: MutableList<IDoDataBean>) : Recycler
     }
 
     override fun onBindViewHolder(holder: GetFuntionViewHodler, @SuppressLint("RecyclerView") position: Int) {
-        var  function  = getFuntionList[position]
-         holder.title.text = function.title
+        val function = getFuntionList[position]
+        holder.title.text = function.title
         holder.tv_sub_title.text = function.sub_title
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                itemClickListener?.onItemClick(position)
-            }
-        })
+        holder.tv_sub_title.visibility = if (function.sub_title.isNullOrEmpty()) View.GONE else View.VISIBLE
+        
+        if (function.isSupported) {
+            holder.title.alpha = 1.0f
+            holder.tv_sub_title.alpha = 1.0f
+        } else {
+            holder.title.alpha = 0.4f
+            holder.tv_sub_title.alpha = 0.4f
+        }
+
+        holder.itemView.setOnClickListener {
+            itemClickListener?.onItemClick(position)
+        }
     }
 
     interface  onItemClickListener{

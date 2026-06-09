@@ -1,6 +1,7 @@
 package com.example.example_android.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.example_android.base.BaseActivity
@@ -9,115 +10,70 @@ import com.example.example_android.adapter.GetFuntionAdapter
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
 import com.example.example_android.data.IDoDataBean
-import com.idosmart.model.IDOBleDeviceModel
-import com.idosmart.protocol_channel.sdk
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.layout_get_funtion.ry_view
+import kotlinx.android.synthetic.main.layout_get_funtion.tab_layout
 
 /**
- * get device function  list
+ * get device function list
  */
 class GetFuntionActivity : BaseActivity() {
-    private var function_list = mutableListOf<IDoDataBean>()
-    var type: Int = getDeviceInfo;
+
+    private var supportedList = mutableListOf<IDoDataBean>()
+    private var unsupportedList = mutableListOf<IDoDataBean>()
+    private lateinit var mAdapter: GetFuntionAdapter
 
     override fun getLayoutId(): Int {
         return R.layout.layout_get_funtion
     }
 
-    fun getDeviceInfo(view: View) {
-        type = getDeviceInfo
-        toGetInfoDetailActivity()
-    }
-
-    fun getFuntionTable(view: View) {
-        type = getFuntionTable
-        toGetInfoDetailActivity()
-    }
-
-    fun getSn(view: View) {
-        type = getSn
-        toGetInfoDetailActivity()
-    }
-
-    fun getMenuList(view: View) {
-        type = getMenuList
-        toGetInfoDetailActivity()
-    }
-
-    fun getNoticeStatus(view: View) {
-        type = getNoticeStatus
-        toGetInfoDetailActivity()
-    }
-
-    fun getMainSportGoal(view: View) {
-        type = getMainSportGoal
-        toGetInfoDetailActivity()
-    }
-
-    fun getWatchDiallinfo(view: View) {
-        type = getWatchDiallinfo
-        toGetInfoDetailActivity()
-    }
-
-    fun toGetInfoDetailActivity() {
-        val intent = Intent(this, GetFunctionDetailActivity::class.java)
-        intent.putExtra(typeInfo, type)
-        startActivity(intent)
-    }
-
     override fun initView() {
         super.initView()
         supportActionBar?.setTitle("GetFuntionActivity")
-        function_list.addAll(GetFuntionData.getFunctions(this))
+
+        val fullList = GetFuntionData.getFunctions(this)
+        
+        // Split lists by support status
+        supportedList.addAll(fullList.filter { it.isSupported })
+        unsupportedList.addAll(fullList.filter { !it.isSupported })
+
+        // Initialize TabLayout
+        tab_layout.addTab(tab_layout.newTab().setText("Supported"))
+        tab_layout.addTab(tab_layout.newTab().setText("Unsupported"))
+
         ry_view.layoutManager = LinearLayoutManager(this)
-        var mAdapter = GetFuntionAdapter(function_list)
+        mAdapter = GetFuntionAdapter(supportedList)
         mAdapter.setonItemClickListener(object : GetFuntionAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                if (function_list.get(position).type == CustomEvtType.GETBTCONNECTPHONEMODEL) {
-                    if (sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
-                        var intent = Intent(
-                            this@GetFuntionActivity,
-                            GetFunctionDetailActivity::class.java
-                        )
-                        intent.putExtra(
-                            GetFuntionActivity.FUNCTION_DATA,
-                            function_list[position]
-                        )
-                        startActivity(intent)
-                    } else {
-                        toast("当前设备不支持该功能")
-                    }
-                } else {
-                    var intent = Intent(
-                        this@GetFuntionActivity,
-                        GetFunctionDetailActivity::class.java
-                    )
-                    intent.putExtra(
-                        GetFuntionActivity.FUNCTION_DATA,
-                        function_list[position]
-                    )
-                    startActivity(intent)
+                val item = mAdapter.getFuntionList[position]
+                if (!item.isSupported) {
+                    toast(getString(R.string.unsupported_feature) ?: "Unsupported Feature")
+                    return
                 }
 
+                // Default behavior for supported items
+                val intent = Intent(this@GetFuntionActivity, GetFunctionDetailActivity::class.java)
+                intent.putExtra(FUNCTION_DATA, item)
+                startActivity(intent)
             }
-
-
         })
         ry_view.adapter = mAdapter
 
+        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab?.position == 0) {
+                    mAdapter.getFuntionList = supportedList
+                } else {
+                    mAdapter.getFuntionList = unsupportedList
+                }
+                mAdapter.notifyDataSetChanged()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     companion object {
         val FUNCTION_DATA = "functon_data"
-        var typeInfo: String = "typeInfo";
-        var getDeviceInfo: Int = 1;
-        var getFuntionTable: Int = 2;
-        var getSn: Int = 3;
-        var getMenuList: Int = 4;
-        var getNoticeStatus: Int = 5;
-        var getMainSportGoal: Int = 6;
-        var getWatchDiallinfo: Int = 7;
     }
-
-
 }

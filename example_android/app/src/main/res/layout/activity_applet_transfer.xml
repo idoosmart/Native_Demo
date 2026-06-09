@@ -9,10 +9,32 @@
     tools:context=".activity.AppletTransferActivity">
 
     <TextView
-        android:id="@+id/applet_path"
+        android:id="@+id/applet_select_file"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="Select File" />
+
+    <TextView
+        android:id="@+id/applet_file_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#999999"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/applet_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:text="No file selected" />
 
     <Button
         android:layout_marginTop="10dp"
@@ -22,6 +44,7 @@
         android:text="send"
         android:textColor="@color/white"
         android:layout_gravity="center"
+        android:enabled="false"
         />
     <ProgressBar
         android:layout_marginTop="10dp"

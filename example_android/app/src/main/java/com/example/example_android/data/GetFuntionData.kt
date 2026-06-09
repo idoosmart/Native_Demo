@@ -3,6 +3,7 @@ package com.example.example_android.data
 import android.content.Context
 import com.example.example_android.R
 import com.idosmart.protocol_channel.sdk
+
 /**
  * 此类做用是统一管理各功能列表操作
  * 实际开发时，根据事件类型，关注单个功能直接调用接口即可，在使用前请参考该类中的功能表判断逻辑
@@ -11,452 +12,101 @@ import com.idosmart.protocol_channel.sdk
  * You can refer to the function table in this class to determine the logic before using it
  * */
 
-class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: String? = null) :
-    IDoDataBean(type, title, sub_title) {
+class GetFuntionData(
+    type: CustomEvtType,
+    title: String? = null,
+    sub_title: String? = null,
+    isSupported: Boolean = true
+) : IDoDataBean(type, title, sub_title, isSupported) {
     companion object {
         fun getFunctions(context: Context): MutableList<GetFuntionData> {
+            val mutableListOf = mutableListOf<GetFuntionData>()
 
-            var mutableListOf = mutableListOf<GetFuntionData>(
-//                 GetFuntionData(CustomEvtType.GETMAC,"获取mac地址",""),
-//                GetFuntionData(
-//                    CustomEvtType.OTASTART,
-//                    context.getString(R.string.enter_upgrade_mode),
-//                    ""
-//                ),
-                GetFuntionData(CustomEvtType.REBOOT, context.getString(R.string.reboot_device), ""),
-                GetFuntionData(
-                    CustomEvtType.FACTORYRESET,
-                    context.getString(R.string.restore_factory_settings),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.FINDDEVICESTART,
-                    context.getString(R.string.find_devices),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.FINDDEVICESTOP,
-                    context.getString(R.string.end_device_search),
-                    ""
-                ),
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETDEVICEINFO, "getDeviceInfo", context.getString(R.string.desc_getdeviceinfo), isSupported = true))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETFUNCTIONTABLE, "getFunctionTable", context.getString(R.string.desc_getfunctiontable), isSupported = true))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSNINFO, "getSn", context.getString(R.string.desc_getsn), isSupported = sdk.funcTable.getSupportGetSnInfo))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBATTERYREMINDERSWITCH, "getBatteryReminderSwitch", context.getString(R.string.desc_getbatteryreminderswitch), isSupported = sdk.funcTable.supportBatteryReminderSwitch))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETFINDPHONESWITCH, "getFindPhoneSwitch", context.getString(R.string.desc_getfindphoneswitch), isSupported = sdk.funcTable.supportGetFindPhoneSwitch))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETPETINFO, "getPetInfo", context.getString(R.string.desc_getpetinfo), isSupported = sdk.funcTable.supportPetInfo))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUNREADAPPREMINDER, "getUnreadAppReminder", context.getString(R.string.desc_getunreadappreminder), isSupported = sdk.funcTable.setSetUnreadAppReminder))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETWATCHDIALINFO, "getWatchDialInfo", context.getString(R.string.desc_getwatchdialinfo), isSupported = true))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBATTERYINFO, "getBatteryInfo", context.getString(R.string.desc_getbatteryinfo), isSupported = sdk.funcTable.getBatteryInfo))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETDEVICELOGSTATE, "getDeviceLogState", context.getString(R.string.desc_getdevicelogstate), isSupported = sdk.funcTable.getDeviceLogState))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETNOTICESTATUS, "getNoticeStatus", context.getString(R.string.desc_getnoticestatus), isSupported = sdk.funcTable.reminderAncs))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETALARMV3, "getAlarm", context.getString(R.string.desc_getalarm), isSupported = sdk.funcTable.syncV3SyncAlarm))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETCONTACTREVISETIME, "getContactReviseTime", context.getString(R.string.desc_getcontactrevisetime), isSupported = sdk.funcTable.reminderGetAllContact))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETWALKREMIND, "getWalkRemind", context.getString(R.string.desc_getwalkremind), isSupported = sdk.funcTable.getWalkReminderV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSUPPORTMAXSETITEMSNUM, "getSupportMaxSetItemsNum", context.getString(R.string.desc_getsupportmaxsetitemsnum), isSupported = sdk.funcTable.getSetMaxItemsNum))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSCREENBRIGHTNESS, "getScreenBrightness", context.getString(R.string.desc_getscreenbrightness), isSupported = sdk.funcTable.getScreenBrightnessMain9))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETMAINSPORTGOAL, "getMainSportGoal", context.getString(R.string.desc_getmainsportgoal), isSupported = sdk.funcTable.getSupportGetMainSportGoalV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETNOTDISTURBSTATUS, "getNotDisturbStatus", context.getString(R.string.desc_getnotdisturbstatus), isSupported = sdk.funcTable.getDoNotDisturbMain3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUPHANDGESTURE, "getUpHandGesture", context.getString(R.string.desc_getuphandgesture), isSupported = sdk.funcTable.getUpHandGestureEx))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBTNOTICE, "getBtNotice", context.getString(R.string.desc_getbtnotice), isSupported = sdk.funcTable.getBleAndBtVersion))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETFLASHBININFO, "getFlashBinInfo", context.getString(R.string.desc_getflashbininfo), isSupported = sdk.funcTable.getFlashLog))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETACTIVITYSWITCH, "getActivitySwitch", context.getString(R.string.desc_getactivityswitch), isSupported = sdk.funcTable.getActivitySwitch))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBTNAME, "getBtName", context.getString(R.string.desc_getbtname), isSupported = sdk.funcTable.getBtAddrV2))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETMTUINFO, "getMtuInfo", context.getString(R.string.desc_getmtuinfo), isSupported = sdk.funcTable.getMtu))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETALLHEALTHSWITCHSTATE, "getAllHealthSwitchState", context.getString(R.string.desc_getallhealthswitchstate), isSupported = sdk.funcTable.getHealthSwitchStateSupportV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETERRORRECORD, "getErrorRecord", context.getString(R.string.desc_geterrorrecord), isSupported = sdk.funcTable.getFlashLog))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETGPSINFO, "getGpsInfo", context.getString(R.string.desc_getgpsinfo), isSupported = sdk.funcTable.getSupportUpdateGps))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETVERSIONINFO, "getVersionInfo", context.getString(R.string.desc_getversioninfo), isSupported = true))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETGPSSTATUS, "getGpsStatus", context.getString(R.string.desc_getgpsstatus), isSupported = sdk.funcTable.getSupportUpdateGps))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUNERASABLEMEUNLIST, "getUnerasableMeunList", context.getString(R.string.desc_getunerasablemeunlist), isSupported = sdk.funcTable.getDeletableMenuListV2))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBPALGVERSION, "getBpAlgVersion", context.getString(R.string.desc_getbpalgversion), isSupported = sdk.funcTable.setSupportV3Bp))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUPDATESTATUS, "getUpdateStatus", context.getString(R.string.desc_getupdatestatus), isSupported = sdk.funcTable.getDeviceUpdateState))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETDOWNLOADLANGUAGE, "getDownloadLanguage", context.getString(R.string.desc_getdownloadlanguage), isSupported = sdk.funcTable.getDownloadLanguage))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBLEMUSICINFO, "getBleMusicInfo", context.getString(R.string.desc_getblemusicinfo), isSupported = (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3)))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETLANGUAGELIBRARYDATAV3, "getLanguageLibrary", context.getString(R.string.desc_getlanguagelibrary), isSupported = sdk.funcTable.getLangLibraryV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBLEBEEPV3, "getBleBeep", context.getString(R.string.desc_getblebeep), isSupported = sdk.funcTable.getSupportGetBleBeepV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSTEPGOAL, "getStepGoal", context.getString(R.string.desc_getstepgoal), isSupported = sdk.funcTable.getStepDataTypeV2))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBTCONNECTPHONEMODEL, "getBtConnectPhoneModel", context.getString(R.string.desc_getbtconnectphonemodel), isSupported = sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUNIT, "getUnit", context.getString(R.string.desc_getunit), isSupported = sdk.funcTable.getSupportGetUnit))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETAPPLETCONTROL, "getAppletControl", context.getString(R.string.desc_getappletcontrol), isSupported = sdk.funcTable.setSupportControlMiniProgram))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETALGFILE, "getAlgFileInfo", context.getString(R.string.desc_getalgfileinfo), isSupported = sdk.funcTable.getSupportDeviceOperateAlgFile))
+            mutableListOf.add(GetFuntionData(CustomEvtType.REQUESTALGFILE, "requestAlgFile", context.getString(R.string.desc_requestalgfile), isSupported = sdk.funcTable.getSupportDeviceOperateAlgFile))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSPORTSTYPEV3, "getSportsTypeV3", context.getString(R.string.desc_getsportstypev3), isSupported = sdk.funcTable.getSportsTypeV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETUSERINFO, "getUserInfo", context.getString(R.string.desc_setuserinfo), isSupported = sdk.funcTable.supportGetUserInfo))
+            mutableListOf.add(GetFuntionData(CustomEvtType.SETSCHEDULEREMINDER, "setScheduleReminder", context.getString(R.string.desc_getschedulereminder), isSupported = sdk.funcTable.setScheduleReminder))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETLEFTRIGHTWEARSETTINGS, "getLeftRightWearSettings", context.getString(R.string.desc_sethand), isSupported = sdk.funcTable.getLeftRightHandWearSettings))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSIMPLEHEARTRATEZONE, "getSimpleHeartRateZone", context.getString(R.string.desc_setsimpleheartratezone), isSupported = sdk.funcTable.supportSimpleHrZoneSetting))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSPORTINGREMINDSETTING, "getSportingRemindSetting", context.getString(R.string.desc_setsportingremindsetting), isSupported = sdk.funcTable.supportSportingRemindSetting))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSETTINGSDURINGEXERCISE, "getSettingsDuringExercise", context.getString(R.string.desc_setduringexercise), isSupported = sdk.funcTable.supportSettingsDuringExercise))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETHIDINFO, "getHidInfo", context.getString(R.string.desc_gethidinfo), isSupported = true))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSTRESSVAL, "getStressVal", context.getString(R.string.desc_getstressval), isSupported = sdk.funcTable.setSetStressCalibration))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETHABITINFOV3, "getHabitInfo", context.getString(R.string.desc_gethabitinfo), isSupported = sdk.funcTable.getSupportGetBleBeepV3))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSMARTHEARTRATEMODE, "getSmartHeartRateMode", context.getString(R.string.desc_getsmartheartratemode), isSupported = sdk.funcTable.getSupportGetSmartHeartRate))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSPO2SWITCH, "getSpo2Switch", context.getString(R.string.desc_getspo2switch), isSupported = sdk.funcTable.setSpo2Data))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETSTRESSSWITCH, "getStressSwitch", context.getString(R.string.desc_getstressswitch), isSupported = sdk.funcTable.setPressureData))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETBIKELOCKLIST, "getBikeLockList", context.getString(R.string.desc_getbikelocklist), isSupported = sdk.funcTable.supportBikeLockManager))
 
-                GetFuntionData(
-                    CustomEvtType.GETDEVICEINFO,
-                    context.getString(R.string.getdeviceinfo),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETFUNCTABLE,"获取功能表",""),
-//                 GetFuntionData(CustomEvtType.GETFUNCTABLEEX," 获取功能表 扩展",""),
-
-                GetFuntionData(
-                    CustomEvtType.GETNOTICESTATUS,
-                    context.getString(R.string.getnoticestatus),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETHRSENSORPARAM,"获取心率传感器参数",""),
-//                 GetFuntionData(CustomEvtType.GETGSENSORPARAM,"获取加速度传感器参数",""),
-//                 GetFuntionData(CustomEvtType.GETACTIVITYCOUNT,"获取同步时间轴来计算百分比",""),
-//                GetFuntionData(
-//                    CustomEvtType.GETHIDINFO,
-//                    context.getString(R.string.gethidinfo),
-//                    ""
-//                ),
-
-
-//                GetFuntionData(
-//                    CustomEvtType.GETHOTSTARTPARAM,
-//                    context.getString(R.string.gethotstartparam),
-//                    ""
-//                ),
-
-
-                GetFuntionData(
-                    CustomEvtType.GETNOTDISTURBSTATUS,
-                    context.getString(R.string.getnotdisturbstatus),
-                    ""
-                ),
-                 GetFuntionData(CustomEvtType.GETDEFAULTSPORTTYPE,"获取默认的运动类型",""),
-
-
-                GetFuntionData(
-                    CustomEvtType.GETMAINSPORTGOAL,
-                    context.getString(R.string.getmainsportgoalordistance),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETWALKREMIND,
-                    context.getString(R.string.getwalkremind),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETBATTERYINFO,
-                    context.getString(R.string.getbatteryinfo),
-                    ""
-                ),
-
-                GetFuntionData(
-                    CustomEvtType.GETMENULIST,
-                    context.getString(R.string.getsupportedlist),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETREALMEDEVINFO,"获取realme项目的硬件信息",""),
-                GetFuntionData(
-                    CustomEvtType.GETSCREENBRIGHTNESS,
-                    context.getString(R.string.getscreenbrightness),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETUPHANDGESTURE,
-                    context.getString(R.string.getuphandgesture),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETENCRYPTEDCODE,"获取授权数据",""),
-
-
-                GetFuntionData(
-                    CustomEvtType.GETWATCHDIALINFO,
-                    context.getString(R.string.getwatchdialinfo),
-                    ""
-                ),
-//                GetFuntionData(
-//                    CustomEvtType.GETDEVICENAME,
-//                    context.getString(R.string.getdevicename),
-//                    ""
-//                ),
-                GetFuntionData(
-                    CustomEvtType.GETDEVICELOGSTATE,
-                    context.getString(R.string.getdevicelogstate),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETALLHEALTHSWITCHSTATE,
-                    context.getString(R.string.getallhealthswitchstate),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETDATATRANCONFIG,"文件传输配置传输获取",""),
-                GetFuntionData(
-                    CustomEvtType.GETACTIVITYSWITCH,
-                    context.getString(R.string.getactivityswitch),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETFIRMWAREBTVERSION,"获得固件三级版本和bt的3级版本",""),
-
-
-                GetFuntionData(
-                    CustomEvtType.GETSTEPGOAL,
-                    context.getString(R.string.getstepgoal),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETLIBVERSION,"获取lib版本号",""),
-//                 GetFuntionData(CustomEvtType.GETAPPID,"获取appid ios only",""),
-                GetFuntionData(
-                    CustomEvtType.GETWATCHFACELIST,
-                    context.getString(R.string.getwatchfacelist),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETBTNOTICE,
-                    context.getString(R.string.getbtnotice),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETSPORTTYPEV3,"v3 获取运动默认的类型",""),
-                GetFuntionData(
-                    CustomEvtType.GETALARMV3,
-                    context.getString(R.string.getalarmv3),
-                    ""
-                ),
-//                GetFuntionData(
-//                    CustomEvtType.GETLANGUAGELIBRARYDATAV3,
-//                    context.getString(R.string.getlanguagelibrarydatav3),
-//                    ""
-//                ),
-                GetFuntionData(
-                    CustomEvtType.GETWATCHLISTV3,
-                    context.getString(R.string.getwatchlistv3),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETALEXAALARMV3,"v3 alexa获取v3的闹钟",""),
-//                 GetFuntionData(CustomEvtType.GETACTIVITYEXCHANGEGPSDATA,"v3 多运动数据数据交换中获取一段时间的gps数据",""),
-//                 GetFuntionData(CustomEvtType.GETHISTORICALMENSTRUATION,"经期的历史数据下发",""),
-
-
-                GetFuntionData(
-                    CustomEvtType.GETSUPPORTMAXSETITEMSNUM,
-                    context.getString(R.string.getsupportmaxsetitemsnum),
-                    ""
-                ),
-
-//                 GetFuntionData(CustomEvtType.GETMTULENGTHSPP,"获取固件spp mtu长度   新增  spp蓝牙专用",""),
-                GetFuntionData(
-                    CustomEvtType.GETUNREADAPPREMINDER,
-                    context.getString(R.string.getunreadappreminder),
-                    ""
-                ),
-                GetFuntionData(
-                    CustomEvtType.GETCONTACTREVISETIME,
-                    context.getString(R.string.getcontactrevisetime),
-                    ""
-                ),
-//                 GetFuntionData(CustomEvtType.GETFLASHLOGSTART,"开始获取flash log",""),
-//                 GetFuntionData(CustomEvtType.GETBATTERYLOG,"获取电池日志",""),
-
-                GetFuntionData(
-                    CustomEvtType.GETBTCONNECTPHONEMODEL,
-                    context.getString(R.string.getBtConnectPhoneModel),
-                    ""
-                ),
-
-
-                )
-//            if (sdk.funcTable.getRealtimeData) {
-//                mutableListOf.add(
-//                    GetFuntionData(
-//                        CustomEvtType.GETLIVEDATA,
-//                        context.getString(R.string.getlivedata),
-//                        ""
-//                    )
-//                )
-//            }
-            if (sdk.funcTable.getSupportUpdateGps) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETGPSINFO,
-                        context.getString(R.string.getgpsinfo),
-                        ""
-                    )
-                )
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETGPSSTATUS,
-                        context.getString(R.string.getgpsstatus),
-                        ""
-                    )
-                )
-            }
-            if (
-                sdk.funcTable.getVersionInfo
-            ) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETVERSIONINFO,
-                        context.getString(R.string.getversioninfo),
-                        ""
-                    ),
-                )
+            // 优先使用v3协议接口
+            if (sdk.funcTable.supportProtocolV3MenuList) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETMENULISTV3, "getMenuListV3", context.getString(R.string.desc_getmenulistv3), isSupported = true))
+            } else if (sdk.funcTable.getMenuList) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETMENULIST, "getMenuList", context.getString(R.string.desc_getmenulist), isSupported = true))
+            } else {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETMENULISTV3, "getMenuListV3", context.getString(R.string.desc_getmenulistv3), isSupported = false))
             }
 
-            if (sdk.funcTable.getDownloadLanguage) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETDOWNLANGUAGE,
-                        context.getString(R.string.getdownlanguage),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getFlashLog) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETERRORRECORD,
-                        context.getString(R.string.geterrorrecord),
-                        ""
-                    )
-                )
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETFLASHBININFO,
-                        context.getString(R.string.getflashbininfo),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getDeviceUpdateState) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETUPDATESTATUS,
-                        context.getString(R.string.getupdatestatus),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getWatchID) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETWATCHDIALID,
-                        context.getString(R.string.getwatchdialid),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.setSetStressCalibration) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETSTRESSVAL,
-                        context.getString(R.string.getstressval),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.setSupportV3Bp) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETBPALGVERSION,
-                        context.getString(R.string.getbpalgversion),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getHeartRateModeV2) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETHEARTRATEMODE,
-                        context.getString(R.string.getheartratemode),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getSupportGetBleBeepV3) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETBLEBEEPV3,
-                        context.getString(R.string.getblebeepv3),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getSupportSedentaryTensileHabitInfo) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETHABITINFOV3,
-                        context.getString(R.string.gethabitinfov3),
-                        ""
-                    ),
-                )
-            }
-            if (sdk.funcTable.getDeletableMenuListV2) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETUNERASABLEMEUNLIST,
-                        context.getString(R.string.getunerasablemeunlist),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getSupportV3BleMusic && sdk.funcTable.getSupportGetBleMusicInfoVerV3) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETBLEMUSICINFO,
-                        context.getString(R.string.getblemusicinfo),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.setV3GetSportSortField) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETDEFAULTSPORTTYPE,
-                        context.getString(R.string.getDefaultSportType),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getSportsTypeV3) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETSPORTTYPEV3,
-                        context.getString(R.string.getSportTypeV3),
-                        ""
-                    )
-                )
-            }
-            if (sdk.funcTable.getSupportGetSnInfo) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETSNINFO,
-                        context.getString(R.string.getsninfo),
-                        ""
-                    )
-                )
+            if (sdk.funcTable.getNewWatchList) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETWATCHLISTV3, "getWatchListV3", context.getString(R.string.desc_getwatchlistv3), isSupported = true))
+            } else {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETWATCHLISTV2, "getWatchListV2", context.getString(R.string.desc_getwatchlistv2), isSupported = true))
             }
 
-            if (sdk.funcTable.getBtAddrV2) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETBTNAME,
-                        context.getString(R.string.getbtname),
-                        ""
-                    )
-
-                )
+            // 心率模式获取逻辑同步 (Heart Rate Modes)
+            if (sdk.funcTable.setSmartHeartRate) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETHEARTMODE, "getHeartMode", context.getString(R.string.desc_getheartmode), isSupported = sdk.funcTable.getSupportGetSmartHeartRate))
+            } else if (sdk.funcTable.syncV3Hr) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETHEARTMODE, "getHeartMode", context.getString(R.string.desc_getheartmode), isSupported = true))
+            } else if (sdk.funcTable.getHeartRateModeV2) {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETHEARTMODE, "getHeartMode", context.getString(R.string.desc_getheartmode), isSupported = true))
+            } else {
+                mutableListOf.add(GetFuntionData(CustomEvtType.GETHEARTMODE, "getHeartMode", context.getString(R.string.desc_getheartmode), isSupported = false))
             }
 
-            if (sdk.funcTable.getMtu) {
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETMTUINFO,
-                        context.getString(R.string.getmtuinfo),
-                        ""
-                    )
-
-                )
-            }
-            if (sdk.funcTable.getSupportDeviceOperateAlgFile){
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.GETALGFILE,
-                        context.getString(R.string.getAlgFileInfo),
-                        ""
-                    )
-
-                )
-
-                mutableListOf.add(
-                    GetFuntionData(
-                        CustomEvtType.REQUESTALGFILE,
-                        context.getString(R.string.requestAlgFile),
-                        ""
-                    )
-                )
-            }
-            if(sdk.funcTable.getLeftRightHandWearSettings){
-                mutableListOf.add(GetFuntionData(
-                    CustomEvtType.GETLEFTRIGHTWEARSETTINGS,
-                    context.getString(R.string.get_left_right_wear_settings),
-                    ""
-                ))
-            }
-
-            if(sdk.funcTable.supportSettingsDuringExercise){
-                mutableListOf.add(GetFuntionData(
-                    CustomEvtType.GETSETTINGSDURINGEXERCISE,
-                    context.getString(R.string.get_settings_during_exercise),
-                    ""
-                ))
-            }
-
-            if(sdk.funcTable.supportSimpleHrZoneSetting){
-                mutableListOf.add(GetFuntionData(
-                    CustomEvtType.GETSIMPLEHEARTRATEZONE,
-                    context.getString(R.string.get_simple_hr_zone_setting),
-                    ""
-                ))
-            }
-
-            if(sdk.funcTable.supportSportingRemindSetting){
-                mutableListOf.add(GetFuntionData(
-                    CustomEvtType.SETSPORTINGREMINDSETTING,
-                    context.getString(R.string.get_sporting_remind_setting),
-                    ""
-                ))
-            }
-            if (sdk.funcTable.supportGetUserInfo) {
-                mutableListOf.add(
-                    GetFuntionData(CustomEvtType.GETUSERINFO, "Get user info", "")
-                )
-            }
-
+            mutableListOf.sortBy { it.title?.lowercase() }
             return mutableListOf
         }
     }
 }
-

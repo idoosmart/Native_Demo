@@ -7,6 +7,54 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_select_file"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="Select File" />
+
+    <TextView
+        android:id="@+id/tv_file_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#999999"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_ota_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#CC0000"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:background="#33FF0000"
+        android:padding="10dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:text="No file selected" />
+
+    <TextView
         android:id="@+id/tv_start"
         android:layout_width="300dp"
         android:layout_height="50dp"

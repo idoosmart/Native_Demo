@@ -105,6 +105,10 @@
         <activity
             android:name="com.example.example_android.activity.AlexaActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.example_android.activity.SdkFeatureTestActivity"
+            android:exported="false"
+            android:label="@string/sdk_feature_test" />
 
         <meta-data
             android:name="flutterEmbedding"

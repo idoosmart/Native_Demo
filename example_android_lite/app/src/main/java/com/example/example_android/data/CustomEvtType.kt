@@ -83,6 +83,8 @@ enum class CustomEvtType {
     GETACTIVITYSWITCH,
     /**  设备电量提醒开关获取*/
     GETBATTERYREMINDERSWITCH,
+    /**  获取寻找手机开关（GET:0x02/0x26）*/
+    GETFINDPHONESWITCH,
     /**  获取宠物信息*/
     GETPETINFO,
     /**  获得固件三级版本和bt的3级版本*/

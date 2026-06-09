@@ -1,6 +1,0 @@
-strings:
-  inputs:
-    - IDODemo/Resources/en.lproj
-  outputs:
-    - templateName: structured-swift5
-      output: IDODemo/Common/Strings.g.swift

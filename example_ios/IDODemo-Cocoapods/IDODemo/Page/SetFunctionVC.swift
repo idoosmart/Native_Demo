@@ -23,41 +23,19 @@ class SetFunctionVC: UIViewController {
         return v
     }()
     
+    private lazy var segmentedControl: UISegmentedControl = {
+        let v = UISegmentedControl(items: [L10n.supported, L10n.unsupported])
+        v.selectedSegmentIndex = 0
+        v.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        return v
+    }()
     
-    private lazy var items = [
-        
-        //        SetCmd(type: .setGpsControl, title: "setGpsControl", desc: "Control GPS event number"),
-        
-        SetCmd(type: .setWeatherSunTime, title: "setWeatherSunTime", desc: L10n.setWeatherSunTime),
-        SetCmd(type: .setShortcut, title: "setShortcut", desc: L10n.setShortcut),
-        SetCmd(type: .setSleepPeriod, title: "setSleepPeriod", desc: L10n.setSleepPeriod),
-        // SetCmd(type: .setTakingMedicineReminder, title: "setTakingMedicineReminder", desc: L10n.setTakingMedicineReminder),
-        SetCmd(type: .setDisplayMode, title: "setDisplayMode", desc: L10n.setDisplayMode),
-        // SetCmd(type: .setBpMeasurement, title: "setBpMeasurement", desc: L10n.setBpMeasurement),
-        // SetCmd(type: .setMusicOperate, title: "setMusicOperate", desc: L10n.setMusicOperate),
-        SetCmd(type: .setNoticeAppName, title: "setNoticeAppName", desc: L10n.setNoticeAppName),
-        // SetCmd(type: .setBpCalControlV3, title: "setBpCalControlV3", desc: L10n.setBpCalControlV3),
-        // SetCmd(type: .setSportParamSort, title: "setSportParamSort", desc: L10n.setSportParamSort),
-        // SetCmd(type: .setMainUISortV3, title: "setMainUISortV3", desc: L10n.setMainUISortV3),
-        // SetCmd(type: .setVoiceReplyText, title: "setVoiceReplyText", desc: L10n.setVoiceReplyText),
-        // SetCmd(type: .setWalkRemindTimes, title: "setWalkRemindTimes", desc: L10n.setWalkRemindTimes),
-        // SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: L10n.setWallpaperDialReply),
-        SetCmd(type: .setDateTime, title: "setDateTime", desc: L10n.setDateTime),
-        SetCmd(type: .setUserInfo, title: "setUserInfo", desc: L10n.setUserInfo),
-        SetCmd(type: .photoStart, title: "photoStart", desc: L10n.photoStart),
-        SetCmd(type: .photoStop, title: "photoStop", desc: L10n.photoStop),
-        SetCmd(type: .setHand, title: "setHand", desc: L10n.setHand),
-        // SetCmd(type: .otaStart, title: "otaStart", desc: L10n.otaStart), // 未启用
-        SetCmd(type: .factoryReset, title: "factoryReset", desc: L10n.factoryReset),
-        SetCmd(type: .reboot, title: "reboot", desc: L10n.reboot),
-        SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: L10n.setHotStartParam)
-    ]
+    private var supportedItems: [SetCmd] = []
+    private var unsupportedItems: [SetCmd] = []
     
-    private var funcTableNotContain = [
-        SetCmd(type: .setSportGoal, title: "setSportGoal", desc: L10n.setSportGoal),
-        SetCmd(type: .setWatchDial, title: "setWatchDial", desc: L10n.setWatchDial),
-        SetCmd(type: .setOverFindPhone, title: "setOverFindPhone", desc: L10n.setOverFindPhone)
-    ]
+    private var currentItems: [SetCmd] {
+        return segmentedControl.selectedSegmentIndex == 0 ? supportedItems : unsupportedItems
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,222 +43,184 @@ class SetFunctionVC: UIViewController {
         title = "Set Function"
         view.backgroundColor = .white
         
+        setupItems()
         
-        
-        isInfunctionTable()
-        
-        // 设备电量提醒开关：示例入口直接加入菜单（当前 demo 不依赖功能表字段判断）
-        items.append(SetCmd(
-            type: .setBatteryReminderSwitch,
-            title: "setBatteryReminderSwitch",
-            desc: "Set battery reminder switch"
-        ))
-        items.append(SetCmd(
-            type: .setPetInfo,
-            title: "setPetInfo",
-            desc: "Set pet info"
-        ))
-        
-        
-        items = items.sorted { $0.title < $1.title }
-        
-        print("可以调用的接口有：", items.count)
-        
-        print("set功能表数量:", CmdType.allCases.count)
+        view.addSubview(segmentedControl)
         view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
+        
+        segmentedControl.snp.makeConstraints { make in
             if #available(iOS 11.0, *) {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(15)
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            } else {
+                make.top.equalTo(10)
+            }
+            make.left.equalTo(15)
+            make.right.equalTo(-15)
+            make.height.equalTo(30)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            if #available(iOS 11.0, *) {
                 make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             } else {
-                make.top.equalTo(0)
                 make.bottom.equalTo(0)
             }
             make.left.right.equalTo(0)
         }
     }
     
-  
+    @objc private func segmentChanged() {
+        tableView.reloadData()
+    }
     
-    func isInfunctionTable() {
-        
+    private func setupItems() {
         let funcTable = sdk.funcTable
-        func addToItems(_ setCmd: SetCmd) {
-            items.append(setCmd)
+        let innerTest = false
+        
+        func add(_ cmd: SetCmd, isSupported: Bool) {
+            if isSupported || innerTest {
+                supportedItems.append(cmd)
+            } else {
+                unsupportedItems.append(cmd)
+            }
         }
         
-        if (funcTable.getFindDevice) {
-            items.append(SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: L10n.findDeviceStart))
-            items.append(SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: L10n.findDeviceStop))
+        add(SetCmd(type: .setWeatherSunTime, title: "setWeatherSunTime", desc: L10n.setWeatherSunTime), isSupported: sdk.funcTable.setSetV3WeatherSunrise)
+        //add(SetCmd(type: .setSleepPeriod, title: "setSleepPeriod", desc: L10n.setSleepPeriod), isSupported: true) // 暂未添加功能表
+        //add(SetCmd(type: .setDisplayMode, title: "setDisplayMode", desc: L10n.setDisplayMode), isSupported: true) // 暂未添加功能表
+        add(SetCmd(type: .setNoticeAppName, title: "setNoticeAppName", desc: L10n.setNoticeAppName), isSupported: sdk.funcTable.reminderMessageIcon)
+        add(SetCmd(type: .setDateTime, title: "setDateTime", desc: L10n.setDateTime), isSupported: true)
+        add(SetCmd(type: .setUserInfo, title: "setUserInfo", desc: L10n.setUserInfo), isSupported: true)
+        add(SetCmd(type: .photoStart, title: "photoStart", desc: L10n.photoStart), isSupported: true)
+        add(SetCmd(type: .photoStop, title: "photoStop", desc: L10n.photoStop), isSupported: true)
+        add(SetCmd(type: .setHand, title: "setHand", desc: L10n.setHand), isSupported: true)
+        add(SetCmd(type: .factoryReset, title: "factoryReset", desc: L10n.factoryReset), isSupported: true)
+        add(SetCmd(type: .reboot, title: "reboot", desc: L10n.reboot), isSupported: true)
+        add(SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: L10n.setHotStartParam), isSupported: true)
+        
+        add(SetCmd(type: .setBatteryReminderSwitch, title: "setBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
+        add(SetCmd(type: .setPetInfo, title: "setPetInfo", desc: L10n.getPetInfo), isSupported: sdk.funcTable.supportPetInfo)
+        
+        add(SetCmd(type: .setSportGoal, title: "setSportGoal", desc: L10n.setSportGoal), isSupported: true)
+        add(SetCmd(type: .setWatchDial, title: "setWatchDial", desc: L10n.setWatchDial), isSupported: true)
+        add(SetCmd(type: .setOverFindPhone, title: "setOverFindPhone", desc: L10n.setOverFindPhone), isSupported: sdk.funcTable.getFindPhone)
+
+        add(SetCmd(type: .findDeviceStart, title: "findDeviceStart", desc: L10n.findDeviceStart), isSupported: funcTable.getFindDevice)
+        add(SetCmd(type: .findDeviceStop, title: "findDeviceStop", desc: L10n.findDeviceStop), isSupported: funcTable.getFindDevice)
+        add(SetCmd(type: .setLongCityNameV3, title: "setLongCityNameV3", desc: L10n.setLongCityNameV3), isSupported: funcTable.getSupportV3LongCityName)
+        add(SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: L10n.noticeMessageV3), isSupported: funcTable.getNotifyMsgV3)
+        add(SetCmd(type: .setWeatherCityName, title: "setWeatherCityName", desc: L10n.setWeatherCityName), isSupported: funcTable.setWeatherCity)
+        add(SetCmd(type: .setBleVoice, title: "setBleVoice", desc: L10n.setBleVoice), isSupported: funcTable.setSetPhoneVoice)
+        
+        let noticeStatusSupported = funcTable.reminderAncs
+        add(SetCmd(type: .setNoticeStatusBtPair, title: "setNoticeStatus(BT Pair)", desc: L10n.setNoticeStatusBtPair), isSupported: noticeStatusSupported)
+        add(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: L10n.setNoticeStatusAllOn), isSupported: noticeStatusSupported)
+        add(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: L10n.setNoticeStatusAllOff), isSupported: noticeStatusSupported)
+        
+        add(SetCmd(type: .setStressSwitch, title: "setStressSwitch", desc: L10n.setStressSwitch), isSupported: funcTable.setPressureData)
+        
+        let heartRateSupported = funcTable.setSmartHeartRate || funcTable.syncV3Hr || funcTable.syncHeartRateMonitor
+        add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: heartRateSupported)
+        
+        add(SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: L10n.setHeartRateInterval), isSupported: funcTable.syncHeartRate)
+        
+        let brightnessSupported = funcTable.setScreenBrightness5Level || funcTable.setScreenBrightness3Level || funcTable.setNightAutoBrightness
+        add(SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: L10n.setScreenBrightness), isSupported: brightnessSupported)
+        
+        add(SetCmd(type: .setUnreadAppReminder, title: "setUnreadAppReminder", desc: L10n.setUnreadAppReminder), isSupported: funcTable.setSetUnreadAppReminder)
+        add(SetCmd(type: .setNotificationStatus, title: "setNotificationStatus", desc: L10n.setNotificationStatus), isSupported: funcTable.setMsgAllSwitch)
+        add(SetCmd(type: .setScientificSleepSwitch, title: "setScientificSleepSwitch", desc: L10n.setScientificSleepSwitch), isSupported: funcTable.setScientificSleepSwitch)
+        add(SetCmd(type: .setBodyPowerTurn, title: "setBodyPowerTurn", desc: L10n.setBodyPowerTurn), isSupported: funcTable.syncV3BodyPower)
+        add(SetCmd(type: .setRRespiRateTurn, title: "setRRespiRateTurn", desc: L10n.setRRespiRateTurn), isSupported: funcTable.setRespirationRate)
+        add(SetCmd(type: .setV3Noise, title: "setV3Noise", desc: L10n.setV3Noise), isSupported: funcTable.syncV3Noise)
+        add(SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: L10n.setTemperatureSwitch), isSupported: funcTable.setTemperatureSwitchSupport)
+        add(SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: L10n.setUpHandGesture), isSupported: funcTable.getUpHandGesture)
+        add(SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: L10n.setSpo2Switch), isSupported: funcTable.setSpo2Data)
+        add(SetCmd(type: .setAlarm, title: "setAlarm", desc: L10n.setAlarm), isSupported: funcTable.syncV3SyncAlarm)
+        add(SetCmd(type: .setFitnessGuidance, title: "setFitnessGuidance", desc: L10n.setFitnessGuidance), isSupported: funcTable.setSetFitnessGuidance)
+        add(SetCmd(type: .setMusicOnOff, title: "setMusicOnOff", desc: L10n.setMusicOnOff), isSupported: funcTable.setBleControlMusic)
+        add(SetCmd(type: .setSendRunPlan, title: "setSendRunPlan", desc: L10n.setSendRunPlan), isSupported: funcTable.setSupportSportPlan)
+        add(SetCmd(type: .setWeatherV3, title: "setWeatherV3", desc: L10n.setWeatherV3), isSupported: funcTable.setSetV3Weather)
+        add(SetCmd(type: .musicControl, title: "musicControl", desc: L10n.musicControl), isSupported: funcTable.setBleControlMusic)
+        add(SetCmd(type: .setNoticeMessageState, title: "setNoticeMessageState", desc: L10n.setNoticeMessageState), isSupported: funcTable.setSetNotificationStatus)
+        add(SetCmd(type: .setWorldTimeV3, title: "setWorldTimeV3", desc: L10n.setWorldTimeV3), isSupported: funcTable.setSetV3WorldTime)
+        add(SetCmd(type: .setSchedulerReminder, title: "setSchedulerReminder", desc: L10n.setSchedulerReminder), isSupported: funcTable.setScheduleReminder)
+        add(SetCmd(type: .setWatchFaceData, title: "setWatchFaceData", desc: L10n.setWatchFaceData), isSupported: funcTable.getMultiDial)
+        add(SetCmd(type: .setSyncContact, title: "setSyncContact", desc: L10n.setSyncContact), isSupported: (funcTable.setSyncContact && funcTable.reminderCallContact))
+        add(SetCmd(type: .setSport100Sort, title: "setSport100Sort", desc: L10n.setSport100Sort), isSupported: funcTable.getSportsTypeV3)
+        add(SetCmd(type: .setHistoricalMenstruation, title: "setHistoricalMenstruation", desc: L10n.setHistoricalMenstruation), isSupported: funcTable.setHistoryMenstrual)
+        add(SetCmd(type: .setWatchDialSort, title: "setWatchDialSort", desc: L10n.setWatchDialSort), isSupported: funcTable.setWatchDialSort)
+        add(SetCmd(type: .setWalkRemind, title: "setWalkRemind", desc: L10n.setWalkRemind), isSupported: funcTable.setWalkReminder)
+        add(SetCmd(type: .setMenstruation, title: "setMenstruation", desc: L10n.setMenstruation), isSupported: funcTable.setMenstruation)
+        add(SetCmd(type: .setCalorieDistanceGoal, title: "setCalorieDistanceGoal", desc: L10n.setCalorieDistanceGoal), isSupported: (funcTable.getSupportGetMainSportGoalV3 && funcTable.setCalorieGoal && funcTable.getSupportSetGetTimeGoalTypeV2))
+        add(SetCmd(type: .setLostFind, title: "setLostFind", desc: L10n.setLostFind), isSupported: funcTable.supportSetAntilost)
+        add(SetCmd(type: .setWeatherSwitch, title: "setWeatherSwitch", desc: L10n.setWeatherSwitch), isSupported: funcTable.setSetV3Weather)
+        add(SetCmd(type: .setUnit, title: "setUnit", desc: L10n.setUnit), isSupported: true)
+        add(SetCmd(type: .setFindPhone, title: "setFindPhone", desc: L10n.setFindPhone), isSupported: funcTable.getFindPhone)
+        add(SetCmd(type: .setOnekeySOS, title: "setOnekeySOS", desc: L10n.setOnekeySOS), isSupported: funcTable.supportSetOnetouchCalling)
+        add(SetCmd(type: .setSportModeSelect, title: "setSportModeSelect", desc: L10n.setSportModeSelect), isSupported: funcTable.syncTimeLine)
+        add(SetCmd(type: .setSportModeSort, title: "setSportModeSort", desc: L10n.setSportModeSort), isSupported: funcTable.setSportModeSort)
+        add(SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: L10n.setDefaultMsgList), isSupported: sdk.funcTable.getSupportConfigDefaultMegApplicationList)
+        add(SetCmd(type: .setAppletControl, title: "setAppletControl", desc: L10n.setAppletControl), isSupported: sdk.funcTable.setSupportControlMiniProgram)
+        add(SetCmd(type: .setSportsTypeV3, title: "setSportsTypeV3", desc: L10n.setSportsTypeV3), isSupported: sdk.funcTable.getSportsTypeV3)
+        add(SetCmd(type: .setDuringExercise, title: "setDuringExercise", desc: L10n.setDuringExercise), isSupported: sdk.funcTable.supportSettingsDuringExercise)
+        add(SetCmd(type: .setSimpleHeartRateZone, title: "setSimpleHeartRateZone", desc: L10n.setSimpleHeartRateZone), isSupported: sdk.funcTable.supportSimpleHrZoneSetting)
+        add(SetCmd(type: .setSportingRemindSetting, title: "setSportingRemindSetting", desc: L10n.setSportingRemindSetting), isSupported: sdk.funcTable.supportSportingRemindSetting)
+        
+        add(SetCmd(type: .setGpsControl, title: "setGpsControl", desc: L10n.setGpsControl), isSupported: true)
+        add(SetCmd(type: .setStressCalibration, title: "setStressCalibration", desc: L10n.setStressCalibration), isSupported: sdk.funcTable.setSetStressCalibration)
+        add(SetCmd(type: .setHandWashingReminder, title: "setHandWashingReminder", desc: L10n.setHandWashingReminder), isSupported: funcTable.setHandWashReminder)
+        add(SetCmd(type: .setBpCalibration, title: "setBpCalibration", desc: L10n.setBpCalibration), isSupported: funcTable.getSupportBpSetOrMeasurementV2)
+        add(SetCmd(type: .setLongSit, title: "setLongSit", desc: L10n.setLongSit), isSupported: funcTable.setSedentariness)
+        add(SetCmd(type: .setTakingMedicineReminder, title: "setTakingMedicineReminder", desc: L10n.setTakingMedicineReminder), isSupported: sdk.funcTable.supportTakeMedicineReminder)
+        add(SetCmd(type: .setCgmKeyAndDevice, title: "setCgmKeyAndDevice", desc: L10n.setCgmKeyAndDevice), isSupported: sdk.funcTable.supportCgmPhoneCommand)
+        add(SetCmd(type: .deleteCgmKeyAndDevice, title: "deleteCgmKeyAndDevice", desc: L10n.deleteCgmKeyAndDevice), isSupported: sdk.funcTable.supportCgmPhoneCommand)
+        add(SetCmd(type: .connectCgm, title: "connectCgm", desc: L10n.connectCgm), isSupported: sdk.funcTable.supportCgmPhoneCommand)
+        add(SetCmd(type: .disconnectCgm, title: "disconnectCgm", desc: L10n.disconnectCgm), isSupported: sdk.funcTable.supportCgmPhoneCommand)
+        add(SetCmd(type: .setBpMeasurement, title: "setBpMeasurement", desc: L10n.setBpMeasurement), isSupported: sdk.funcTable.getSupportBpSetOrMeasurementV2)
+        add(SetCmd(type: .setMusicOperate, title: "setMusicOperate", desc: L10n.setMusicOperate), isSupported: sdk.funcTable.getSupportV3BleMusic)
+        
+        add(SetCmd(type: .setBpCalControlV3, title: "setBpCalControlV3", desc: L10n.setBpCalControlV3), isSupported: sdk.funcTable.setSupportV3Bp)
+        add(SetCmd(type: .setSportParamSort, title: "setSportParamSort", desc: L10n.setSportParamSort), isSupported: sdk.funcTable.setSet20SportParamSort)
+        add(SetCmd(type: .setMainUISortV3, title: "setMainUISortV3", desc: L10n.setMainUISortV3), isSupported: sdk.funcTable.setSetMainUiSort)
+        //add(SetCmd(type: .setWalkRemindTimes, title: "setWalkRemindTimes", desc: L10n.getWalkRemind), isSupported: true)
+        //add(SetCmd(type: .setWallpaperDialReply, title: "setWallpaperDialReply", desc: L10n.getWatchDialInfo), isSupported: true)
+        //add(SetCmd(type: .otaStart, title: "otaStart", desc: L10n.getUpdateStatus), isSupported: true)
+        
+        add(SetCmd(type: .setDrinkWaterRemind, title: "setDrinkWaterRemind", desc: L10n.setDrinkWaterRemind), isSupported: funcTable.setHandWashReminder)
+        add(SetCmd(type: .setNotDisturb, title: "setNotDisturb", desc: L10n.setNotDisturb), isSupported: sdk.funcTable.setDoNotDisturb)
+        add(SetCmd(type: .setCallQuickReplyOnOff, title: "setCallQuickReplyOnOff", desc: L10n.setCallQuickReplyOnOff), isSupported: sdk.funcTable.setSupportSetCallQuickReplyOnOff)
+        
+        if (sdk.funcTable.supportProtocolV3MenuList) {
+            add(SetCmd(type: .setMenuListV3, title: "setMenuListV3", desc: L10n.setMenuListV3), isSupported: true)
+        }else if(sdk.funcTable.setMenuListMain7) {
+            add(SetCmd(type: .setMenuList, title: "setMenuList", desc: L10n.setMenuList), isSupported: true)
         }
-        
-        if (funcTable.getSupportV3LongCityName) {
-            items.append(SetCmd(type: .setLongCityNameV3, title: "setLongCityNameV3", desc: L10n.setLongCityNameV3))
-        }
-        
-        if (funcTable.getNotifyMsgV3) {
-            items.append(SetCmd(type: .noticeMessageV3, title: "noticeMessageV3", desc: L10n.noticeMessageV3))
-        }
-        
-        if (funcTable.setWeatherCity) {
-            items.append(SetCmd(type: .setWeatherCityName, title: "setWeatherCityName", desc: L10n.setWeatherCityName))
-        }
-        
-        if funcTable.setSetPhoneVoice {
-            addToItems(SetCmd(type: .setBleVoice, title: "setBleVoice", desc: L10n.setBleVoice))
-        }
-        
-        if (funcTable.reminderAncs) {
-            items.append(SetCmd(type: .setNoticeStatusBtPair, title: "setNoticeStatus(BT Pair)", desc: L10n.setNoticeStatusBtPair))
-            items.append(SetCmd(type: .setNoticeStatusAllOn, title: "setNoticeStatus(Fully open)", desc: L10n.setNoticeStatusAllOn))
-            items.append(SetCmd(type: .setNoticeStatusAllOff, title: "setNoticeStatus(Fully closed)", desc: L10n.setNoticeStatusAllOff))
-        }
-        
-        if (funcTable.setPressureData) {
-            items.append(SetCmd(type: .setStressSwitch, title: "setStressSwitch", desc: L10n.setStressSwitch))
-        }
-        
-        // if funcTable.setSetStressCalibration {
-        //     addToItems(SetCmd(type: .setStressCalibration, title: "setStressCalibration", desc: L10n.setStressCalibration))
-        // }
-        
-        // if funcTable.setHandWashReminder {
-        //     addToItems(SetCmd(type: .setHandWashingReminder, title: "setHandWashingReminder", desc: L10n.setHandWashingReminder))
-        // }
-        
-        // if funcTable.supportSetWeatherDataV2 {
-        //     addToItems(SetCmd(type: .setWeatherData, title: "setWeatherData", desc: L10n.setWeatherData))
-        // }
         
         // 因为demo要适配所有设备，此处示例适配多种情况。
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
         if (sdk.funcTable.setSmartHeartRate) {
             print("setSmartHeartRate")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
+            add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: true)
         } else if (sdk.funcTable.syncV3Hr) {
             print("syncV3Hr")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
+            add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: true)
         } else if (sdk.funcTable.syncHeartRateMonitor) {
             print("syncHeartRateMonitor")
-            items.append(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode))
+            add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: true)
         }
-        
-        if (funcTable.syncHeartRate) {
-            items.append(SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: L10n.setHeartRateInterval))
-        }
-        
-        if funcTable.setScreenBrightness5Level || funcTable.setScreenBrightness3Level || funcTable.setNightAutoBrightness {
-            items.append(SetCmd(type: .setScreenBrightness, title: "setScreenBrightness", desc: L10n.setScreenBrightness))
-        }
-        
-        if funcTable.setSetUnreadAppReminder {
-            addToItems(SetCmd(type: .setUnreadAppReminder, title: "setUnreadAppReminder", desc: L10n.setUnreadAppReminder))
-        }
-        
-        if funcTable.setMsgAllSwitch {
-            addToItems(SetCmd(type: .setNotificationStatus, title: "setNotificationStatus", desc: L10n.setNotificationStatus))
-        }
-        
-        addToItemsbyFunctable(funcTable.setScientificSleepSwitch, SetCmd(type: .setScientificSleepSwitch, title: "setScientificSleepSwitch", desc: L10n.setScientificSleepSwitch))
-        
-        // addToItemsbyFunctable(funcTable.syncHeartRateMonitor, SetCmd(type: .setHeartRateMode, title: "setHeartRateMode", desc: L10n.setHeartRateMode))
-        
-        addToItemsbyFunctable(funcTable.syncV3BodyPower, SetCmd(type: .setBodyPowerTurn, title: "setBodyPowerTurn", desc: L10n.setBodyPowerTurn))
-        
-        addToItemsbyFunctable(funcTable.setRespirationRate, SetCmd(type: .setRRespiRateTurn, title: "setRRespiRateTurn", desc: L10n.setRRespiRateTurn))
-        
-        addToItemsbyFunctable(funcTable.syncV3Noise, SetCmd(type: .setV3Noise, title: "setV3Noise", desc: L10n.setV3Noise))
-        
-        addToItemsbyFunctable(funcTable.setTemperatureSwitchSupport, SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: L10n.setTemperatureSwitch))
-        
-        addToItemsbyFunctable(funcTable.getUpHandGesture, SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: L10n.setUpHandGesture))
-        
-        addToItemsbyFunctable(funcTable.setSpo2Data, SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: L10n.setSpo2Switch))
-        
-        addToItemsbyFunctable(funcTable.syncV3SyncAlarm, SetCmd(type: .setAlarm, title: "setAlarm", desc: L10n.setAlarm))
-        
-        addToItemsbyFunctable(funcTable.setSetFitnessGuidance, SetCmd(type: .setFitnessGuidance, title: "setFitnessGuidance", desc: L10n.setFitnessGuidance))
-        
-        addToItemsbyFunctable(funcTable.setBleControlMusic, SetCmd(type: .setMusicOnOff, title: "setMusicOnOff", desc: L10n.setMusicOnOff))
-        
-        addToItemsbyFunctable(funcTable.setSupportSportPlan, SetCmd(type: .setSendRunPlan, title: "setSendRunPlan", desc: L10n.setSendRunPlan))
-        
-        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherV3, title: "setWeatherV3", desc: L10n.setWeatherV3))
-        
-        addToItemsbyFunctable(funcTable.setBleControlMusic, SetCmd(type: .musicControl, title: "musicControl", desc: L10n.musicControl))
-        
-        addToItemsbyFunctable(funcTable.setSetNotificationStatus, SetCmd(type: .setNoticeMessageState, title: "setNoticeMessageState", desc: L10n.setNoticeMessageState))
-        
-        addToItemsbyFunctable(funcTable.setSetV3WorldTime, SetCmd(type: .setWorldTimeV3, title: "setWorldTimeV3", desc: L10n.setWorldTimeV3))
-        
-        addToItemsbyFunctable(funcTable.setScheduleReminder, SetCmd(type: .setSchedulerReminder, title: "setSchedulerReminder", desc: L10n.setSchedulerReminder))
-        
-        addToItemsbyFunctable(funcTable.getMultiDial, SetCmd(type: .setWatchFaceData, title: "setWatchFaceData", desc: L10n.setWatchFaceData))
-        
-        addToItemsbyFunctable(funcTable.setSyncContact && funcTable.reminderCallContact, SetCmd(type: .setSyncContact, title: "setSyncContact", desc: L10n.setSyncContact))
-        
-        addToItemsbyFunctable(funcTable.getSportsTypeV3, SetCmd(type: .setSport100Sort, title: "setSport100Sort", desc: L10n.setSport100Sort))
-        
-        addToItemsbyFunctable(funcTable.setHistoryMenstrual, SetCmd(type: .setHistoricalMenstruation, title: "setHistoricalMenstruation", desc: L10n.setHistoricalMenstruation))
-        
-        addToItemsbyFunctable(funcTable.setWatchDialSort, SetCmd(type: .setWatchDialSort, title: "setWatchDialSort", desc: L10n.setWatchDialSort))
-        
-        addToItemsbyFunctable(funcTable.setWalkReminder, SetCmd(type: .setWalkRemind, title: "setWalkRemind", desc: L10n.setWalkRemind))
-        
-        addToItemsbyFunctable(funcTable.setMenstruation, SetCmd(type: .setMenstruation, title: "setMenstruation", desc: L10n.setMenstruation))
-        
-        addToItemsbyFunctable(funcTable.getSupportGetMainSportGoalV3 && funcTable.setCalorieGoal && funcTable.getSupportSetGetTimeGoalTypeV2, SetCmd(type: .setCalorieDistanceGoal, title: "setCalorieDistanceGoal", desc: L10n.setCalorieDistanceGoal))
-        
-        // addToItemsbyFunctable(funcTable.getSupportBpSetOrMeasurementV2, SetCmd(type: .setBpCalibration, title: "setBpCalibration", desc: L10n.setBpCalibration))
-        
-        addToItemsbyFunctable(funcTable.supportSetAntilost, SetCmd(type: .setLostFind, title: "setLostFind", desc: L10n.setLostFind))
-        
-        addToItemsbyFunctable(funcTable.setSetV3Weather, SetCmd(type: .setWeatherSwitch, title: "setWeatherSwitch", desc: L10n.setWeatherSwitch))
-        
-        addToItemsbyFunctable(true, SetCmd(type: .setUnit, title: "setUnit", desc: L10n.setUnit))
-        
-        addToItemsbyFunctable(funcTable.getFindPhone, SetCmd(type: .setFindPhone, title: "setFindPhone", desc: L10n.setFindPhone))
-        
-        addToItemsbyFunctable(funcTable.supportSetOnetouchCalling, SetCmd(type: .setOnekeySOS, title: "setOnekeySOS", desc: L10n.setOnekeySOS))
-        
-        addToItemsbyFunctable(funcTable.syncTimeLine, SetCmd(type: .setSportModeSelect, title: "setSportModeSelect", desc: L10n.setSportModeSelect))
-        
-        addToItemsbyFunctable(funcTable.setSportModeSort, SetCmd(type: .setSportModeSort, title: "setSportModeSort", desc: L10n.setSportModeSort))
-        
-        // addToItemsbyFunctable(funcTable.setSedentariness, SetCmd(type: .setLongSit, title: "setLongSit", desc: L10n.setLongSit))
-        
-        addToItemsbyFunctable(true, SetCmd(type: .setDefaultMsgList, title: "setDefaultMsgList", desc: L10n.setDefaultMsgList))
-        addToItemsbyFunctable(sdk.funcTable.setSupportControlMiniProgram, SetCmd(type: .setAppletControl, title: "setAppletControl", desc: L10n.setAppletControl))
-     
-        addToItemsbyFunctable(sdk.funcTable.getSportsTypeV3, SetCmd(type: .setSportsTypeV3, title: "setSportsTypeV3", desc: L10n.setSportsTypeV3))
 
-        addToItemsbyFunctable(sdk.funcTable.supportSettingsDuringExercise, SetCmd(type: .setDuringExercise, title: "setDuringExercise", desc: L10n.setSportsTypeV3))
-        
-        addToItemsbyFunctable(sdk.funcTable.supportSimpleHrZoneSetting, SetCmd(type: .setSimpleHeartRateZone, title: "setSimpleHeartRateZone", desc: L10n.setSportsTypeV3))
-        
-        addToItemsbyFunctable(sdk.funcTable.supportSportingRemindSetting, SetCmd(type: .setSportingRemindSetting, title: "setSportingRemindSetting", desc: L10n.setSportsTypeV3))
+        supportedItems = supportedItems.sorted { $0.title < $1.title }
+        unsupportedItems = unsupportedItems.sorted { $0.title < $1.title }
     }
-    
-    
-    fileprivate func addToItemsbyFunctable(_ functable: Bool, _ item: SetCmd) {
-        //let funcTable = sdk.funcTable
-        func addToItems(_ setCmd: SetCmd) {
-            items.append(setCmd)
-        }
-        if functable {
-            addToItems(item)
-        }
-    }
-        
-    
-    
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension SetFunctionVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return currentItems.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -292,19 +232,30 @@ extension SetFunctionVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: _cellID) ?? UITableViewCell(style: .subtitle, reuseIdentifier: _cellID)
         cell.accessoryType = .disclosureIndicator
         cell.selectionStyle = .default
-        cell.textLabel?.textColor = .black
         cell.textLabel?.textAlignment = .left
         cell.detailTextLabel?.textAlignment = .left
-        cell.detailTextLabel?.textColor = .gray
         cell.detailTextLabel?.numberOfLines = 2
-        let cmd = items[indexPath.row]
+        
+        let cmd = currentItems[indexPath.row]
         cell.textLabel?.text = cmd.title
         cell.detailTextLabel?.text = cmd.desc
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            cell.textLabel?.textColor = .black
+            cell.detailTextLabel?.textColor = .gray
+        } else {
+            cell.textLabel?.textColor = .lightGray
+            cell.detailTextLabel?.textColor = .lightGray
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cmd = items[indexPath.row]
+        if segmentedControl.selectedSegmentIndex == 1 {
+            return
+        }
+        let cmd = currentItems[indexPath.row]
         let vc = SetFunctionDetailVC(cmd: cmd)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -565,6 +516,19 @@ private enum CmdType: CaseIterable{
     case setSimpleHeartRateZone
     ///  运动中提醒设置
     case setSportingRemindSetting
+    case setDrinkWaterRemind
+    case setNotDisturb
+    case setMenuList
+    case setCallQuickReplyOnOff
+    case setMenuListV3
+    /// CGM：设置密钥与设备名（15.107）
+    case setCgmKeyAndDevice
+    /// CGM：删除密钥与设备名
+    case deleteCgmKeyAndDevice
+    /// CGM：连接
+    case connectCgm
+    /// CGM：断开
+    case disconnectCgm
 }
 
 extension CmdType {
@@ -1092,6 +1056,20 @@ extension CmdType {
                     sportType: 48, distanceRemind: DistanceRemind(isOpen: true, isMetric: true, goalValOrg: 2000),
                     heartRateRemind: CommonRangeRemind(isOpen: true, maxThreshold: 110, minThreshold: 30),
                     paceRemind: PaceRemind(isOpen: true, isMetric: true, fastThresholdOrg: 60, slowThresholdOrg: 120), stepFreqRemind: CommonRangeRemind(isOpen: true, maxThreshold: 20, minThreshold: 10))
+        case .setDrinkWaterRemind:
+            return IDODrinkWaterRemindModel(onOff: 1, startHour: 8, startMinute: 0, endHour: 22, endMinute: 0, repeats: [.monday, .wednesday, .friday], interval: 60)
+        case .setNotDisturb:
+            break
+        case .setMenuList:
+            break
+        case .setCallQuickReplyOnOff:
+            break
+        case .setMenuListV3:
+            break
+        case .setCgmKeyAndDevice:
+            return OtherParamModel(dic: ["key": "your-aes-key", "device_name": "MyCGM"])
+        case .deleteCgmKeyAndDevice, .connectCgm, .disconnectCgm:
+            return OtherParamModel(dic: [:])
         }
         return nil
     }
@@ -1439,37 +1417,6 @@ private class SetFunctionDetailVC: UIViewController {
                     self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
             }
-            
-            
-            // 注意：实际场景是 先获取到设备的闹钟列表，再进行修改
-            // 1 闹钟需要先获取，再全量更新
-//            cancellable = Cmds.getAlarm(flag: 0).send { [weak self] res in
-//                if case .success(let obj) = res {
-//                    if let alarmModel = obj {
-//                        if (alarmModel.items.count > 0) {
-//                            let alarmItem = alarmModel.items.first
-//                            alarmItem?.alarmID = 1
-//                            alarmItem?.isOpen = true
-//                            alarmItem?.hour = 17
-//                            alarmItem?.minute = 43
-//                            alarmItem?.repeats = [.sunday, .saturday, .monday]
-//                            alarmItem?.status = .displayed
-//                            // 2 修改
-//                            self?.cancellable = Cmds.setAlarm(alarm: alarmModel).send { [weak self] res in
-//                                self?.btnCall.isEnabled = true
-//                                if case .success(let val) = res {
-//                                    self?.textResponse.text = "\(val?.toJsonString() ?? "")\n\n\n" + "\(printProperties(val) ?? "")"
-//                                } else if case .failure(let err) = res {
-//                                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
-//                                }
-//                            }
-//                        }
-//                    }
-//                }else if case .failure(let err) = res {
-//                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
-//                }
-//                //self?.doPrint(res)
-//            }
         case .setFitnessGuidance:
             let obj = cmd.type.param() as! IDOFitnessGuidanceParamModel
             cancellable = Cmds.setFitnessGuidance(obj).send { [weak self] res in
@@ -1760,7 +1707,6 @@ private class SetFunctionDetailVC: UIViewController {
                     }else {
                         textResponse.text = "Mini Program Not Found"
                     }
-                    //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
                 } else if case .failure(let err) = res {
                     textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
@@ -1781,10 +1727,7 @@ private class SetFunctionDetailVC: UIViewController {
                         self.cancellable = Cmds.setSportSortV3(IDOSportParamModel(items: items)).send { [weak self] res in
                             self?.doPrint(res)
                         }
-                    }else {
-                        
                     }
-                    //textResponse.text = "\(obj?.toJsonString() ?? "")\n\n\n" + "\(printProperties(obj) ?? "")"
                 } else if case .failure(let err) = res {
                     textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
                 }
@@ -1801,12 +1744,85 @@ private class SetFunctionDetailVC: UIViewController {
             }
         case .setSportingRemindSetting:
             let obj = cmd.type.param() as! IDOSportingRemindSettingModel
-            Cmds.setSportingRemindSetting([obj]).send { [weak self] res in
+            cancellable = Cmds.setSportingRemindSetting([obj]).send { [weak self] res in
                 self?.doPrint(res)
+            }
+        case .setDrinkWaterRemind:
+            let obj = cmd.type.param() as! IDODrinkWaterRemindModel
+            cancellable = Cmds.setDrinkWaterRemind(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setNotDisturb:
+            let obj = cmd.type.param() as! IDONotDisturbParamModel
+            cancellable = Cmds.setNotDisturb(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setMenuList:
+            cancellable = Cmds.getMenuList().send { [weak self] res in
+                if case .success(let val) = res {
+                    guard let list = val?.items, let maxNum = val?.maxShowNum else { return }
+                    // 随机设置
+                    let items = Array((list.shuffled().prefix(maxNum)).map { $0.value })
+                    self?.cancellable = Cmds.setMenuList(IDOMenuListParamModel(items: items)).send { res2 in
+                        self?.doPrint(res2)
+                    }
+                } else if case .failure(let err) = res {
+                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
+            }
+        case .setCallQuickReplyOnOff:
+            let dic = (cmd.type.param() as! OtherParamModel).dic!
+            cancellable = Cmds.setCallQuickReplyOnOff(isOpen: dic["isOpen"] as! Bool).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setMenuListV3:
+            cancellable = Cmds.getMenuListV3().send { [weak self] res in
+                if case .success(let val) = res {
+                    guard let items = val?.itemList, let maxNum = val?.supportMaxNum else { return }
+                    // 随机设置
+                    self?.cancellable = Cmds.setMenuListV3(Array(items.shuffled().prefix(maxNum))).send { res2 in
+                        self?.doPrint(res2)
+                    }
+                } else if case .failure(let err) = res {
+                    self?.textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+                }
+            }
+        case .setCgmKeyAndDevice:
+            let dic = (cmd.type.param() as! OtherParamModel).dic!
+            let key = dic["key"] as? String ?? "your-aes-key"
+            let deviceName = dic["device_name"] as? String ?? "MyCGM"
+            cancellable = Cmds.setCgmKeyAndDevice(key: key, deviceName: deviceName).send { [weak self] res in
+                self?.doPrintCgm(res)
+            }
+        case .deleteCgmKeyAndDevice:
+            cancellable = Cmds.deleteCgmKeyAndDevice().send { [weak self] res in
+                self?.doPrintCgm(res)
+            }
+        case .connectCgm:
+            cancellable = Cmds.connectCgm().send { [weak self] res in
+                self?.doPrintCgm(res)
+            }
+        case .disconnectCgm:
+            cancellable = Cmds.disconnectCgm().send { [weak self] res in
+                self?.doPrintCgm(res)
             }
         }
     }
-        
+    
+    private func doPrintCgm(_ res: Result<IDOCgmPhoneCommandModel?, CmdError>) {
+        btnCall.isEnabled = true
+        if case .success(let model) = res {
+            if let model = model {
+                let errHint = model.isSuccess ? "OK" : (model.errCodeEnum?.symbolName ?? "err_code=\(model.errCode)")
+                textResponse.text = "\(model.toJsonString() ?? "")\n\n\(errHint)"
+            } else {
+                textResponse.text = "Successful"
+            }
+        } else if case .failure(let err) = res {
+            textResponse.text = "Error code: \(err.code)\nMessage: \(err.message ?? "")"
+        }
+    }
+    
     private func doPrint<T>(_ res: Result<T?, CmdError>) {
         btnCall.isEnabled = true
         if case .success(let val) = res {

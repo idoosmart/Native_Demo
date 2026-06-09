@@ -3,8 +3,10 @@ package com.example.example_android.activity
 import android.app.Activity
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
+import com.example.example_android.data.TransType
 import com.example.example_android.util.FileUtils
 import com.example.example_android.util.GetFilePathFromUri
 import com.idosmart.enums.IDOTransStatus
@@ -43,6 +45,25 @@ class DialFileTransferActivity : BaseActivity() {
             var uri = data?.data
 
             getDialPath = GetFilePathFromUri.getFileAbsolutePath(this, uri)
+
+            // 校验文件后缀（表盘根据平台允许不同后缀）
+            if (!getDialPath.isNullOrEmpty()) {
+                val fileName = File(getDialPath).name
+                val allowedExts = if (sdk.device.platform == 98 || sdk.device.platform == 99) {
+                    listOf("watch", "zip")
+                } else {
+                    listOf("iwf", "zip")
+                }
+                val ext = fileName.substringAfterLast('.', "").lowercase()
+                if (ext.isNotEmpty() && !allowedExts.any { it.equals(ext, ignoreCase = true) }) {
+                    val supported = allowedExts.joinToString(", ") { ".$it" }
+                    Toast.makeText(this, "Unsupported format: $fileName\nSupported: $supported", Toast.LENGTH_LONG).show()
+                    getDialPath = null
+                    etDialPath.setText("")
+                    return
+                }
+            }
+
             etDialPath.setText(getDialPath)
 
         }

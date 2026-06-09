@@ -79,8 +79,10 @@ class MainPageVC: BaseVC {
     fileprivate func _goOta(otaModel: IDODeviceModel) {
         stopScan() // 停止扫描
         
+        let isSiceOta = [98, 99].contains(otaModel.platform)
+        
         // 98|99平台设备ota需要先标记为OTA模式
-        if ([98, 99].contains(otaModel.platform)) {
+        if (isSiceOta) {
             Task {
                 _ = await withCheckedContinuation { continuation in
                     sdk.bridge.markOtaMode?(macAddress: otaModel.macAddress ?? "",
@@ -96,6 +98,13 @@ class MainPageVC: BaseVC {
         }
         
         let vc = TransferFileDetailVC(cmd: .ota)
+        if (isSiceOta) {
+            vc._isSiceOta = true
+            vc._devInfo = (sdk.device.macAddressFull,
+                           sdk.device.uuid,
+                           sdk.device.platform,
+                           sdk.device.deviceId)
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -138,8 +147,9 @@ extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let deviceModel = dataList[indexPath.row]
-        if (deviceModel.isOta) {
+        if (deviceModel.isOta && deviceModel.deviceId == 0) {
             print("设备处理ota状态，先去升级")
+            SVProgressHUD.showInfo(withStatus: "设备处理ota状态，先去升级")
             tableView.deselectRow(at: indexPath, animated: false)
             return;
         }

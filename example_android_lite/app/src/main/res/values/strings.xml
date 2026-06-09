@@ -31,6 +31,9 @@
     <string name="stop_sync_data">Stop Sync Data</string>
     <string name="progress">Progress :</string>
     <string name="sync_data">Sync Data</string>
+    <string name="sdk_feature_test">SDK Feature Test</string>
+    <string name="sdk_feature_refresh">Refresh</string>
+    <string name="sdk_feature_clear">Clear</string>
     <string name="transfer_file">Transfer File</string>
     <string name="stop">stop</string>
     <string name="setblevoice">setBleVoice</string>
