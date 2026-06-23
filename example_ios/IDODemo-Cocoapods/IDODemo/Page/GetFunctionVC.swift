@@ -91,6 +91,7 @@ class GetFunctionVC: UIViewController {
         add(GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: L10n.getFunctionTable), isSupported: true) // sdk.device.printProperties()
         add(GetCmd(type: .getSn, title: "getSn", desc: L10n.getSn), isSupported: sdk.funcTable.getSupportGetSnInfo)
         add(GetCmd(type: .getBatteryReminderSwitch, title: "getBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
+        add(GetCmd(type: .getAppSleepMode, title: "getAppSleepMode", desc: L10n.getAppSleepMode), isSupported: sdk.funcTable.supportAppSleepMode)
         add(GetCmd(type: .getFindPhoneSwitch, title: "getFindPhoneSwitch", desc: L10n.getFindPhoneSwitch), isSupported: sdk.funcTable.supportGetFindPhoneSwitch)
         add(GetCmd(type: .getPetInfo, title: "getPetInfo", desc: L10n.getPetInfo), isSupported: sdk.funcTable.getActivitySwitch)
         add(GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: L10n.getUnreadAppReminder), isSupported: sdk.funcTable.setSetUnreadAppReminder)
@@ -333,6 +334,7 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// 设备电量提醒开关获取
     /// Get event number for battery reminder switch
      case getBatteryReminderSwitch
+     case getAppSleepMode
     /// 获取寻找手机开关（GET:0x02/0x26）
      case getFindPhoneSwitch
     /// 获取宠物信息
@@ -696,6 +698,10 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getBatteryReminderSwitch:
             cancellable = Cmds.getBatteryReminderSwitch().send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .getAppSleepMode:
+            cancellable = Cmds.getAppSleepMode().send { [weak self] res in
                 self?.doPrint(res)
             }
         case .getFindPhoneSwitch:

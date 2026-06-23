@@ -112,6 +112,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETUSERINFO -> getUserInfo()
                             CustomEvtType.GETFUNCTIONTABLE -> getFunctionTable()
             CustomEvtType.GETBATTERYREMINDERSWITCH -> getBatteryReminderSwitch()
+            CustomEvtType.GETAPPSLEEPMODE -> getAppSleepMode()
             CustomEvtType.GETFINDPHONESWITCH -> getFindPhoneSwitch()
             CustomEvtType.GETPETINFO -> getPetInfo()
             CustomEvtType.GETDOWNLOADLANGUAGE -> getDownloadLanguage()
@@ -1171,6 +1172,17 @@ class GetFunctionDetailActivity : BaseActivity() {
 
     private fun getBatteryReminderSwitch() {
         Cmds.getBatteryReminderSwitch().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
+    private fun getAppSleepMode() {
+        Cmds.getAppSleepMode().send {
             if (it.error.code == 0) {
                 tv_response?.text = it.res?.toJsonString() ?: "{ok}"
             } else {

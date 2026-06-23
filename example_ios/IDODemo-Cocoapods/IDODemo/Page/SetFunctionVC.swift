@@ -100,6 +100,7 @@ class SetFunctionVC: UIViewController {
         add(SetCmd(type: .setHotStartParam, title: "setHotStartParam", desc: L10n.setHotStartParam), isSupported: true)
         
         add(SetCmd(type: .setBatteryReminderSwitch, title: "setBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
+        add(SetCmd(type: .setAppSleepMode, title: "setAppSleepMode", desc: L10n.getAppSleepMode), isSupported: sdk.funcTable.supportAppSleepMode)
         add(SetCmd(type: .setPetInfo, title: "setPetInfo", desc: L10n.getPetInfo), isSupported: sdk.funcTable.supportPetInfo)
         
         add(SetCmd(type: .setSportGoal, title: "setSportGoal", desc: L10n.setSportGoal), isSupported: true)
@@ -345,6 +346,7 @@ private enum CmdType: CaseIterable{
     /// 设备电量提醒开关
     /// Battery reminder switch event number
     case setBatteryReminderSwitch
+    case setAppSleepMode
     /// 设置宠物信息
     /// Set pet info event number
     case setPetInfo
@@ -634,6 +636,8 @@ extension CmdType {
             return OtherParamModel(dic: ["open": true])
         case .setBatteryReminderSwitch:
             return IDOBatteryReminderSwitchParamModel(lowBatteryOnOff: 1)
+        case .setAppSleepMode:
+            return IDOAppSleepModeParamModel(sleepModeSwitch: 1)
         case .setPetInfo:
             return IDOPetInfoParamModel(petType: 1, weight: 450, gender: 0, year: 2024, month: 1, day: 1)
         case .setRRespiRateTurn:
@@ -1327,6 +1331,11 @@ private class SetFunctionDetailVC: UIViewController {
         case .setBatteryReminderSwitch:
             let obj = cmd.type.param() as! IDOBatteryReminderSwitchParamModel
             cancellable = Cmds.setBatteryReminderSwitch(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setAppSleepMode:
+            let obj = cmd.type.param() as! IDOAppSleepModeParamModel
+            cancellable = Cmds.setAppSleepMode(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .setPetInfo:

@@ -15,7 +15,16 @@ Android SDK：[Github](https://github.com/idoosmart/android_sdk)
 iOS SDK： [Github](https://github.com/idoosmart/ios_sdk_full)
 
 
-## 4.5.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/03/09</span>
+## 4.5.4<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/06/23</span>
+
+##### Update Content:
+
+- bugfix;
+- adapt new features;
+
+
+
+## 4.5.3<span style="font-size:15px;color:gray;">&nbsp;&nbsp;2026/06/09</span>
 
 ##### Update Content:
 

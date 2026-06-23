@@ -1288,6 +1288,9 @@
         }
       }
     },
+    "getAppSleepMode" : {
+
+    },
     "getBatteryInfo" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5787,6 +5790,9 @@
           }
         }
       }
+    },
+    "Third-party apps" : {
+
     },
     "time" : {
       "extractionState" : "manual",

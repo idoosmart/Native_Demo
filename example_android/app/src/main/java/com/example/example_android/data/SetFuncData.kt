@@ -43,6 +43,7 @@ class SetFuncData(
             mutableListOf.add(SetFuncData(CustomEvtType.SETWALKREMIND, "setWalkRemind", context.getString(R.string.desc_setwalkremind), isSupported = sdk.funcTable.setWalkReminder))
             mutableListOf.add(SetFuncData(CustomEvtType.SETSPORTGOAL, "setSportGoal", context.getString(R.string.desc_setsportgoal), isSupported = sdk.funcTable.setCalorieGoal))
             mutableListOf.add(SetFuncData(CustomEvtType.SETSLEEPPERIOD, "setSleepPeriod", context.getString(R.string.desc_setsleepperiod), isSupported = sdk.funcTable.syncV3Sleep))
+            mutableListOf.add(SetFuncData(CustomEvtType.SETAPPSLEEPMODE, "setAppSleepMode", context.getString(R.string.desc_setappsleepmode), isSupported = sdk.funcTable.supportAppSleepMode))
             mutableListOf.add(SetFuncData(CustomEvtType.SETMENSTRUATION, "setMenstruation", context.getString(R.string.desc_setmenstruation), isSupported = sdk.funcTable.setMenstruation))
             mutableListOf.add(SetFuncData(CustomEvtType.SETMENSTRUATIONREMIND, "setMenstruationRemind", context.getString(R.string.desc_setmenstruationremind), isSupported = sdk.funcTable.getSupportSetMenstrualReminderOnOff))
             

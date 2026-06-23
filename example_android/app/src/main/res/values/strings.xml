@@ -370,6 +370,8 @@
     <string name="getblebeep">getBleBeep</string>
     <string name="getbikelocklist">getBikeLockList</string>
     <string name="setbatteryreminderswitch">setBatteryReminderSwitch</string>
+    <string name="setappsleepmode">setAppSleepMode</string>
+    <string name="desc_setappsleepmode">Set app sleep mode</string>
     <string name="setschedulerreminder">setSchedulerReminder</string>
     <string name="getlanguagelibrary">getLanguageLibrary</string>
     <string name="getmenulistv3">getMenuListV3</string>
@@ -388,6 +390,7 @@
     <string name="setmenulistv3">setMenuListV3</string>
     <string name="getdownloadlanguage">getDownloadLanguage</string>
     <string name="getbatteryreminderswitch">getBatteryReminderSwitch</string>
+    <string name="getappsleepmode">getAppSleepMode</string>
     <string name="getsmartheartratemode">getSmartHeartRateMode</string>
     <string name="setalarm">setAlarm</string>
     <string name="getstressswitch">getStressSwitch</string>
@@ -416,6 +419,7 @@
     <string name="desc_getfunctiontable">Get supported feature information</string>
     <string name="desc_getsn">Get Device SN</string>
     <string name="desc_getbatteryreminderswitch">Get Battery Reminder Switch</string>
+    <string name="desc_getappsleepmode">Get App Sleep Mode</string>
     <string name="desc_getfindphoneswitch">Get Find Phone Switch</string>
     <string name="desc_getpetinfo">Get Pet Information</string>
     <string name="desc_getunreadappreminder">Get the unread message red dot switch</string>

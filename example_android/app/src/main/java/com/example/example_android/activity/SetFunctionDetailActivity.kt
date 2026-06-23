@@ -10,6 +10,7 @@ import com.example.example_android.data.CmdSet
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.SetFuncData
 import com.google.gson.GsonBuilder
+import com.idosmart.enums.IDONoticeMessageType
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.model.CommonRangeRemind
 import com.idosmart.model.DistanceRemind
@@ -111,6 +112,7 @@ import com.idosmart.model.IDOGpsHotStartParamModel
 import com.idosmart.model.IDOPetInfoParamModel
 import com.idosmart.model.IDOSetNoticeStatusModel
 import com.idosmart.model.IDOActivitySwitchModel
+import com.idosmart.model.IDOAppSleepModeParamModel
 import com.idosmart.model.IDOCgmPhoneCommandErrCode
 import com.idosmart.model.IDOCgmPhoneCommandModel
 import com.idosmart.pigeon_implement.Cmds
@@ -237,6 +239,7 @@ class SetFunctionDetailActivity : BaseActivity() {
             CustomEvtType.PHOTOSTOP -> photoStop()
             CustomEvtType.SETHOTSTARTPARAM -> setHotStartParam()
             CustomEvtType.SETBATTERYREMINDERSWITCH -> setBatteryReminderSwitch()
+            CustomEvtType.SETAPPSLEEPMODE -> setAppSleepMode()
             CustomEvtType.SETPETINFO -> setPetInfo()
             CustomEvtType.FINDDEVICESTART -> findDeviceStart()
             CustomEvtType.FINDDEVICESTOP -> findDeviceStop()
@@ -370,8 +373,6 @@ class SetFunctionDetailActivity : BaseActivity() {
             IDONoticeMessageParamModel(0x01, 0,
                 true, true, true,
                 "Jeffry", "13200000000", "hello")
-
-
         var noticeMessageV3 = Cmds.noticeMessageV3(param)
         noticeMessageV3.send {
 
@@ -4411,6 +4412,19 @@ class SetFunctionDetailActivity : BaseActivity() {
     private fun setBatteryReminderSwitch() {
         val model = IDOBatteryReminderSwitchParamModel(lowBatteryOnOff = 1)
         val cmd = Cmds.setBatteryReminderSwitch(model)
+        cmd.send {
+            if (it.error.code == 0) {
+                tv_response.text = it.res?.toJsonString()
+            } else {
+                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
+            }
+        }
+        paramter_tv.text = cmd.json
+    }
+
+    private fun setAppSleepMode() {
+        val model = IDOAppSleepModeParamModel(sleepModeSwitch = 1)
+        val cmd = Cmds.setAppSleepMode(model)
         cmd.send {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()

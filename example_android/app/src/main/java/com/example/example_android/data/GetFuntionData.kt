@@ -26,6 +26,7 @@ class GetFuntionData(
             mutableListOf.add(GetFuntionData(CustomEvtType.GETFUNCTIONTABLE, "getFunctionTable", context.getString(R.string.desc_getfunctiontable), isSupported = true))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETSNINFO, "getSn", context.getString(R.string.desc_getsn), isSupported = sdk.funcTable.getSupportGetSnInfo))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETBATTERYREMINDERSWITCH, "getBatteryReminderSwitch", context.getString(R.string.desc_getbatteryreminderswitch), isSupported = sdk.funcTable.supportBatteryReminderSwitch))
+            mutableListOf.add(GetFuntionData(CustomEvtType.GETAPPSLEEPMODE, "getAppSleepMode", context.getString(R.string.desc_getappsleepmode), isSupported = sdk.funcTable.supportAppSleepMode))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETFINDPHONESWITCH, "getFindPhoneSwitch", context.getString(R.string.desc_getfindphoneswitch), isSupported = sdk.funcTable.supportGetFindPhoneSwitch))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETPETINFO, "getPetInfo", context.getString(R.string.desc_getpetinfo), isSupported = sdk.funcTable.supportPetInfo))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETUNREADAPPREMINDER, "getUnreadAppReminder", context.getString(R.string.desc_getunreadappreminder), isSupported = sdk.funcTable.setSetUnreadAppReminder))

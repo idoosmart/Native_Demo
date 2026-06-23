@@ -75,6 +75,8 @@ enum L10n {
     static var getBatteryInfo: String { String(localized: "getBatteryInfo") }
     /// Get Battery Reminder Switch
     static var getBatteryReminderSwitch: String { String(localized: "getBatteryReminderSwitch") }
+    /// Get App Sleep Mode
+    static var getAppSleepMode: String { String(localized: "getAppSleepMode") }
     /// Get Bike Lock List
     static var getBikeLockList: String { String(localized: "getBikeLockList") }
     /// Getting firmware local beep file information for V3

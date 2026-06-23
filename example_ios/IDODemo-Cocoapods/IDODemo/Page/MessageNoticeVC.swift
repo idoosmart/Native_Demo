@@ -45,6 +45,144 @@ class MessageNoticeVC: UIViewController {
     }
 }
 
+// MARK: - Static Notice App Catalog
+
+fileprivate struct StaticNoticeAppItem: Identifiable {
+    let id = UUID()
+    let icon: String
+    let systemImage: String
+    let name: String
+    let associatedClass: IDOSetNoticeStatusModel
+    private let getter: (IDOSetNoticeStatusModel) -> Bool
+    private let setter: (IDOSetNoticeStatusModel, Bool) -> Void
+
+    init(
+        name: String,
+        iconResource: String? = nil,
+        systemImage: String = "app.fill",
+        model: IDOSetNoticeStatusModel,
+        getter: @escaping (IDOSetNoticeStatusModel) -> Bool,
+        setter: @escaping (IDOSetNoticeStatusModel, Bool) -> Void
+    ) {
+        self.name = name
+        self.systemImage = systemImage
+        self.associatedClass = model
+        self.getter = getter
+        self.setter = setter
+        if let iconResource, !iconResource.isEmpty {
+            self.icon = Bundle.main.path(forResource: "imgs/\(iconResource)", ofType: ".jpg") ?? ""
+        } else {
+            self.icon = ""
+        }
+    }
+
+    var isOpen: Bool {
+        get { getter(associatedClass) }
+        set { setter(associatedClass, newValue) }
+    }
+}
+
+fileprivate enum StaticNoticeAppCatalog {
+    private struct Spec {
+        let name: String
+        var iconResource: String? = nil
+        let systemImage: String
+        let isSystem: Bool
+        let isSupported: (IDOFuncTableInterface) -> Bool
+        let getter: (IDOSetNoticeStatusModel) -> Bool
+        let setter: (IDOSetNoticeStatusModel, Bool) -> Void
+    }
+
+    private static let specs: [Spec] = [
+        Spec(name: "短信", iconResource: "com.apple.MobileSMS_100", systemImage: "message.fill", isSystem: true,
+             isSupported: { $0.reminderMessage }, getter: { $0.isOnSms }, setter: { $0.isOnSms = $1 }),
+        Spec(name: "日历", iconResource: "com.apple.mobilecal_100", systemImage: "calendar", isSystem: true,
+             isSupported: { $0.reminderCalendar }, getter: { $0.isOnCalendar }, setter: { $0.isOnCalendar = $1 }),
+        Spec(name: "邮件", iconResource: "com.apple.mobilemail_100", systemImage: "envelope.fill", isSystem: true,
+             isSupported: { $0.reminderEmail }, getter: { $0.isOnEmail }, setter: { $0.isOnEmail = $1 }),
+        Spec(name: "未接电话", iconResource: "com.apple.missed.mobilephone_100", systemImage: "phone.fill", isSystem: true,
+             isSupported: { $0.reminderMissedCall }, getter: { $0.isOnDidNotCall }, setter: { $0.isOnDidNotCall = $1 }),
+
+        Spec(name: "微信", iconResource: "com.tencent.xin_100", systemImage: "message.fill", isSystem: false,
+             isSupported: { $0.reminderWeixin }, getter: { $0.isOnWeChat }, setter: { $0.isOnWeChat = $1 }),
+        Spec(name: "QQ", iconResource: "com.tencent.mqq_100", systemImage: "bubble.left.fill", isSystem: false,
+             isSupported: { $0.reminderQq }, getter: { $0.isOnQq }, setter: { $0.isOnQq = $1 }),
+        Spec(name: "Facebook", iconResource: "com.facebook.Facebook_100", systemImage: "f.circle.fill", isSystem: false,
+             isSupported: { $0.reminderFacebook }, getter: { $0.isOnFaceBook }, setter: { $0.isOnFaceBook = $1 }),
+        Spec(name: "X", iconResource: "com.atebits.Tweetie2_100", systemImage: "x.circle.fill", isSystem: false,
+             isSupported: { $0.reminderTwitter }, getter: { $0.isOnTwitter }, setter: { $0.isOnTwitter = $1 }),
+        Spec(name: "Instagram", iconResource: "com.burbn.instagram_100", systemImage: "camera.fill", isSystem: false,
+             isSupported: { $0.reminderInstagram }, getter: { $0.isOnInstagram }, setter: { $0.isOnInstagram = $1 }),
+        Spec(name: "WhatsApp", iconResource: "net.whatsapp.WhatsApp_100", systemImage: "phone.circle.fill", isSystem: false,
+             isSupported: { $0.reminderWhatsapp }, getter: { $0.isOnWhatsapp }, setter: { $0.isOnWhatsapp = $1 }),
+        Spec(name: "TikTok", iconResource: "com.zhiliaoapp.musically_100", systemImage: "music.note", isSystem: false,
+             isSupported: { $0.reminderTiktok }, getter: { $0.isOnTikTok }, setter: { $0.isOnTikTok = $1 }),
+
+        Spec(name: "淘宝", systemImage: "bag.fill", isSystem: false,
+             isSupported: { $0.reminderTaobao }, getter: { $0.isOnTaobao }, setter: { $0.isOnTaobao = $1 }),
+        Spec(name: "钉钉", systemImage: "person.3.fill", isSystem: false,
+             isSupported: { $0.reminderDingding }, getter: { $0.isOnDingTalk }, setter: { $0.isOnDingTalk = $1 }),
+        Spec(name: "支付宝", systemImage: "creditcard.fill", isSystem: false,
+             isSupported: { $0.reminderAlipay }, getter: { $0.isOnAlipay }, setter: { $0.isOnAlipay = $1 }),
+        Spec(name: "今日头条", systemImage: "newspaper.fill", isSystem: false,
+             isSupported: { $0.reminderToutiao }, getter: { $0.isOnToutiao }, setter: { $0.isOnToutiao = $1 }),
+        Spec(name: "天猫", systemImage: "cart.fill", isSystem: false,
+             isSupported: { $0.reminderTmall }, getter: { $0.isOnTmail }, setter: { $0.isOnTmail = $1 }),
+        Spec(name: "京东", systemImage: "shippingbox.fill", isSystem: false,
+             isSupported: { $0.reminderJd }, getter: { $0.isOnJD }, setter: { $0.isOnJD = $1 }),
+        Spec(name: "拼多多", systemImage: "gift.fill", isSystem: false,
+             isSupported: { $0.reminderPinduoduo }, getter: { $0.isOnPinduoduo }, setter: { $0.isOnPinduoduo = $1 }),
+        Spec(name: "百度", systemImage: "magnifyingglass.circle.fill", isSystem: false,
+             isSupported: { $0.reminderBaidu }, getter: { $0.isOnBaidu }, setter: { $0.isOnBaidu = $1 }),
+        Spec(name: "美团", systemImage: "fork.knife.circle.fill", isSystem: false,
+             isSupported: { $0.reminderMeituan }, getter: { $0.isOnMeituan }, setter: { $0.isOnMeituan = $1 }),
+        Spec(name: "饿了么", systemImage: "takeoutbag.and.cup.and.straw.fill", isSystem: false,
+             isSupported: { $0.reminderEleme }, getter: { $0.isOnEleme }, setter: { $0.isOnEleme = $1 }),
+        Spec(name: "抖音", systemImage: "play.rectangle.fill", isSystem: false,
+             isSupported: { $0.reminderDouyin }, getter: { $0.isOnDouyin }, setter: { $0.isOnDouyin = $1 }),
+
+        Spec(name: "Google Messages", systemImage: "message.circle.fill", isSystem: false,
+             isSupported: { $0.reminderGoogleMessages }, getter: { $0.isOnGoogleMessages }, setter: { $0.isOnGoogleMessages = $1 }),
+        Spec(name: "Apple Calendar", systemImage: "calendar.circle.fill", isSystem: false,
+             isSupported: { $0.reminderAppleCalendar }, getter: { $0.isOnAppleCalendar }, setter: { $0.isOnAppleCalendar = $1 }),
+        Spec(name: "Apple Mail", systemImage: "envelope.circle.fill", isSystem: false,
+             isSupported: { $0.reminderAppleMail }, getter: { $0.isOnAppleMail }, setter: { $0.isOnAppleMail = $1 }),
+        Spec(name: "Google Calendar", systemImage: "calendar.badge.clock", isSystem: false,
+             isSupported: { $0.reminderGoogleCalendar }, getter: { $0.isOnGoogleCalendar }, setter: { $0.isOnGoogleCalendar = $1 }),
+        Spec(name: "Health &U", systemImage: "heart.text.square.fill", isSystem: false,
+             isSupported: { $0.reminderHealthU }, getter: { $0.isOnHealthU }, setter: { $0.isOnHealthU = $1 }),
+        Spec(name: "Zalo", systemImage: "bubble.left.and.bubble.right.fill", isSystem: false,
+             isSupported: { $0.reminderZalo }, getter: { $0.isOnZalo }, setter: { $0.isOnZalo = $1 }),
+        Spec(name: "滴滴打车", systemImage: "car.fill", isSystem: false,
+             isSupported: { $0.reminderDidiTaxi }, getter: { $0.isOnDidiTaxi }, setter: { $0.isOnDidiTaxi = $1 }),
+        Spec(name: "Zoom Workplace", systemImage: "video.fill", isSystem: false,
+             isSupported: { $0.reminderZoomWorkplace }, getter: { $0.isOnZoomWorkplace }, setter: { $0.isOnZoomWorkplace = $1 }),
+        Spec(name: "BUZUD", systemImage: "bell.badge.fill", isSystem: false,
+             isSupported: { $0.reminderBuzud }, getter: { $0.isOnBuzud }, setter: { $0.isOnBuzud = $1 }),
+    ]
+
+    static func buildApps(model: IDOSetNoticeStatusModel, funcTable: IDOFuncTableInterface) -> (system: [StaticNoticeAppItem], thirdParty: [StaticNoticeAppItem]) {
+        var system: [StaticNoticeAppItem] = []
+        var thirdParty: [StaticNoticeAppItem] = []
+        for spec in specs where spec.isSupported(funcTable) {
+            let item = StaticNoticeAppItem(
+                name: spec.name,
+                iconResource: spec.iconResource,
+                systemImage: spec.systemImage,
+                model: model,
+                getter: spec.getter,
+                setter: spec.setter
+            )
+            if spec.isSystem {
+                system.append(item)
+            } else {
+                thirdParty.append(item)
+            }
+        }
+        return (system, thirdParty)
+    }
+}
+
 // MARK: - StaticMessageNoticeVC
 
 // 静态消息通知
@@ -80,80 +218,12 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
         print("deinit - StaticMessageNoticeVC")
     }
     
-    private struct AppItem: Identifiable {
-        let id = UUID()
-        let icon: String
-        let name: String
-        var isOpen: Bool {
-            get {
-                switch name {
-                case "短信":
-                    return associatedClass.isOnSms
-                case "日历":
-                    return associatedClass.isOnCalendar
-                case "邮件":
-                    return associatedClass.isOnEmail
-                case "未接电话":
-                    return associatedClass.isOnDidNotCall
-                case "微信":
-                    return associatedClass.isOnWeChat
-                case "QQ":
-                    return associatedClass.isOnQq
-                case "Facebook":
-                    return associatedClass.isOnFaceBook
-                case "X":
-                    return associatedClass.isOnTwitter
-                case "Instagram":
-                    return associatedClass.isOnInstagram
-                case "WhatsApp":
-                    return associatedClass.isOnWhatsapp
-                case "TikTok":
-                    return associatedClass.isOnTikTok
-                default:
-                    return false
-                }
-                
-            }
-            set {
-                switch name {
-                case "短信":
-                    associatedClass.isOnSms = newValue
-                case "日历":
-                    associatedClass.isOnCalendar = newValue
-                case "邮件":
-                    associatedClass.isOnEmail = newValue
-                case "未接电话":
-                    associatedClass.isOnDidNotCall = newValue
-                case "微信":
-                    associatedClass.isOnWeChat = newValue
-                case "QQ":
-                    associatedClass.isOnQq = newValue
-                case "Facebook":
-                    associatedClass.isOnFaceBook = newValue
-                case "X":
-                    associatedClass.isOnTwitter = newValue
-                case "Instagram":
-                    associatedClass.isOnInstagram = newValue
-                case "WhatsApp":
-                    associatedClass.isOnWhatsapp = newValue
-                case "TikTok":
-                    associatedClass.isOnTikTok = newValue
-                default: break
-                }
-                
-            }
-        }
-        let associatedClass: IDOSetNoticeStatusModel
-    }
-    
     private struct NotificationSettingsView: View {
         @State private var statusModel: IDOSetNoticeStatusModel?
         
-        @State private var systemApps = [AppItem]()
-        @State private var thirdPartyApps = [AppItem]()
+        @State private var systemApps = [StaticNoticeAppItem]()
+        @State private var thirdPartyApps = [StaticNoticeAppItem]()
         
-        @State private var selectedApp: AppItem?
-        @State private var selectedSection: Int?
         @State private var isOnCallSwitch = false
         @State private var allSwitch = false
         
@@ -214,21 +284,13 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                 
                 ForEach(systemApps.indices, id: \.self) { index in
                         appRow(index: index, section: 0)
-                            .onTapGesture {
-                                self.selectedApp = self.systemApps[index]
-                                self.selectedSection = 0
-                            }
                     }
                 .opacity(allSwitch ? 1 : 0.5)
                 .disabled(!allSwitch)
                 
-                Section {
+                Section(header: Text("Third-party apps")) {
                     ForEach(thirdPartyApps.indices, id: \.self) { index in
                         appRow(index: index, section: 1)
-                            .onTapGesture {
-                                self.selectedApp = self.thirdPartyApps[index]
-                                self.selectedSection = 1
-                            }
                     }
                 }
                 .opacity(allSwitch ? 1 : 0.5)
@@ -263,13 +325,18 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
             )
 
             return HStack {
-                if let uiImage = UIImage(contentsOfFile: app.icon) {
+                if !app.icon.isEmpty, let uiImage = UIImage(contentsOfFile: app.icon) {
                     Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(15)
+                } else {
+                    Image(systemName: app.systemImage)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.blue)
                         .frame(width: 30, height: 30)
-                        .cornerRadius(15)
                 }
                 
                 Text(app.name)
@@ -319,26 +386,9 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                 isOnCallSwitch = statusModel.callSwitch == .on
                 allSwitch = statusModel.msgAllSwitch == .on
                 
-                systemApps.append(contentsOf: [
-                    AppItem(icon: i("com.apple.MobileSMS_100"), name: "短信", associatedClass: statusModel),
-                    AppItem(icon: i("com.apple.mobilecal_100"), name: "日历", associatedClass: statusModel),
-                    AppItem(icon: i("com.apple.mobilemail_100"), name: "邮件", associatedClass: statusModel),
-                    AppItem(icon: i("com.apple.missed.mobilephone_100"), name: "未接电话", associatedClass: statusModel),
-                ])
-                
-                thirdPartyApps.append(contentsOf: [
-                    AppItem(icon: i("com.tencent.xin_100"), name: "微信" , associatedClass: statusModel),
-                    AppItem(icon: i("com.tencent.mqq_100"), name: "QQ" , associatedClass: statusModel),
-                    AppItem(icon: i("com.facebook.Facebook_100"), name: "Facebook" , associatedClass: statusModel),
-                    AppItem(icon: i("com.atebits.Tweetie2_100"), name: "X", associatedClass: statusModel),
-                    AppItem(icon: i("com.burbn.instagram_100"), name: "Instagram", associatedClass: statusModel),
-                    AppItem(icon: i("net.whatsapp.WhatsApp_100"), name: "WhatsApp", associatedClass: statusModel),
-                    AppItem(icon: i("com.zhiliaoapp.musically_100"), name: "TikTok", associatedClass: statusModel)
-                    /*
-                     ...
-                     添加更多, AppItem里也要同步修改
-                    */
-                ])
+                let grouped = StaticNoticeAppCatalog.buildApps(model: statusModel, funcTable: sdk.funcTable)
+                systemApps = grouped.system
+                thirdPartyApps = grouped.thirdParty
                 
                 return true
             }catch {
@@ -366,11 +416,6 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
                     completion(false)
                 }
             }
-        }
-        
-        func i(_ iconName: String) -> String {
-            let aPath = Bundle.main.path(forResource: "imgs/\(iconName)", ofType: ".jpg") ?? ""
-            return aPath
         }
     }
 }
