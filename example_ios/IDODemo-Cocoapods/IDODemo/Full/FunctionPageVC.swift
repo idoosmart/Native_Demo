@@ -54,7 +54,7 @@ class FunctionPageVC: UIViewController {
         Word.testOC,
         Word.testBleChannel,
         Word.editSportScreen,
-        Word.sdkFeatureTest
+        Word.sdkFeatureTest 
     ]
     
     private lazy var tableView: UITableView = {
@@ -242,6 +242,16 @@ class FunctionPageVC: UIViewController {
             }
         }).disposed(by: disposeBag)
         
+        // 对齐 Android FunctionActivity / BaseAutoConnectActivity：进入功能页自动连接
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self, let device = self.deviceModel else { return }
+            if sdk.state.isConnected {
+                self._updateConnectionStatus()
+            } else {
+                SVProgressHUD.show(withStatus: "Connecting...")
+                sdk.ble.autoConnect(device: device)
+            }
+        }
     }
     
     deinit { 
@@ -367,7 +377,8 @@ extension FunctionPageVC {
         guard let deviceState = deviceState else { return }
         
         if deviceState.state == .connected, deviceState.macAddress != nil, deviceState.macAddress!.count > 0 {
-            if(deviceModel.isOta) {
+            // 当前不在文件传输详情页才弹出 OTA 提示
+            if(deviceModel.isOta && !(navigationController?.topViewController is TransferFileDetailVC)) {
                 _handleOtaMode(deviceModel: deviceModel)
                 return
             }
@@ -469,6 +480,8 @@ extension FunctionPageVC {
         case Word.editSportScreen:
             return isConnected && isBinded
         case Word.sdkFeatureTest:
+            return isConnected && isBinded
+        case Word.ida01FuncTest:
             return isConnected && isBinded
         default:
             break

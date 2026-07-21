@@ -27,6 +27,14 @@ import java.util.Locale
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    companion object {
+        /** 当前处于 resumed 的页面，用于判断是否已在文件传输页等 */
+        @JvmStatic
+        @Volatile
+        var resumedActivity: BaseActivity? = null
+            private set
+    }
+
     private var progressDialog: ProgressDialog? = null
     var mMenuBleStatus: MenuItem? = null
     private var mainHandler = Handler(Looper.getMainLooper())
@@ -75,11 +83,26 @@ abstract class BaseActivity : AppCompatActivity() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        resumedActivity = this
+    }
+
+    override fun onPause() {
+        if (resumedActivity === this) {
+            resumedActivity = null
+        }
+        super.onPause()
+    }
+
     open fun initView() {
 
     }
 
     override fun onDestroy() {
+        if (resumedActivity === this) {
+            resumedActivity = null
+        }
         super.onDestroy()
         BleManager.unregisterBleDelegate(mConnectCallback)
     }

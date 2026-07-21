@@ -510,7 +510,7 @@ class TransferFileDetailVC: UIViewController {
     private func _ota(filePath: String) {
         _isSiceOta = false
         switch(sdk.device.deviceId) {
-        case 8170:
+        case 8170, 8155:
             // 98平台需标记OTA模式
             self._isSiceOta = true
             self._devInfo = (sdk.device.macAddressFull,

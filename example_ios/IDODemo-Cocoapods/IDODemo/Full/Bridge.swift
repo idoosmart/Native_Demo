@@ -208,7 +208,10 @@ extension MainPageVC: IDOBridgeDelegate {
     
     func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
         print("\n otaDevice:\(otaDevice.description)\n")
-        _otaMode()
+        // 当前不在文件传输详情页才弹出 OTA 提示
+        if !(navigationController?.topViewController is TransferFileDetailVC) {
+            _otaMode()
+        }
     }
     
     func _otaMode() {

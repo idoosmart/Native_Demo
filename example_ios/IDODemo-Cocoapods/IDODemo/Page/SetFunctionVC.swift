@@ -749,16 +749,27 @@ extension CmdType {
                                         dayNum: 0,
                                         items: [gpsInfo])
         case .setWeatherV3:
-            return IDOWeatherV3ParamModel(month: 11,
-                                          day: 29,
-                                          hour: 16,
-                                          min: 30,
-                                          sec: 0,
-                                          week: 1,
-                                          weatherType: 1,
+            let currentDate = Date()
+            let calendar = Calendar.current
+            let month = calendar.component(.month, from: currentDate)
+            let day = calendar.component(.day, from: currentDate)
+            let hour = calendar.component(.hour, from: currentDate)
+            let minute = calendar.component(.minute, from: currentDate)
+            let second = calendar.component(.second, from: currentDate)
+            // 系统默认：1 (周日) 到 7 (周六)
+            let weekday = calendar.component(.weekday, from: currentDate)
+            // 调整为：0x00 (周日) 到 0x06 (周六)
+            let adjustedWeekday = UInt8(weekday - 1)
+            return IDOWeatherV3ParamModel(month: month,
+                                          day: day,
+                                          hour: hour - 2,
+                                          min: minute,
+                                          sec: second,
+                                          week: Int(adjustedWeekday),
+                                          weatherType: 3,
                                           todayTmp: 19+100,
-                                          todayMaxTemp: 33+100,
-                                          todayMinTemp: 15+100,
+                                          todayMaxTemp: 20+100,
+                                          todayMinTemp: 13+100,
                                           cityName: "shenzhen",
                                           airQuality: 7,
                                           precipitationProbability: 40,
@@ -773,10 +784,39 @@ extension CmdType {
                                           sunriseItemNum: 3,
                                           airGradeItem: "big",
                                           hoursWeatherItems: [
-                                            IDOHoursWeatherItem(weatherType: 7, temperature: 8+100, probability: 40)
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 8+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 9+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 10+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 11+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 12+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 13+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 14+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 15+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 16+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 17+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 18+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 19+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 20+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 21+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 22+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 23+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 24+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 25+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 26+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 27+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 28+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 29+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 30+100, probability: 40),
+                                            IDOHoursWeatherItem(weatherType: 7, temperature: 31+100, probability: 40)
                                           ],
                                           futureItems: [
-                                            IDOFutureItem(weatherType: 6, maxTemp: 33+100, minTemp: 8+100)
+//                                            IDOFutureItem(weatherType: 1, maxTemp: 36+100, minTemp: 19+100),
+                                            IDOFutureItem(weatherType: 17, maxTemp: 33+100, minTemp: 11+100),
+                                            IDOFutureItem(weatherType: 3, maxTemp: 34+100, minTemp: 12+100),
+                                            IDOFutureItem(weatherType: 3, maxTemp: 35+100, minTemp: 13+100),
+                                            IDOFutureItem(weatherType: 6, maxTemp: 36+100, minTemp: 14+100),
+                                            IDOFutureItem(weatherType: 6, maxTemp: 37+100, minTemp: 15+100),
+                                            IDOFutureItem(weatherType: 6, maxTemp: 37+100, minTemp: 15+100)
                                           ],
                                           sunriseItem: [
                                             IDOSunriseItem(sunriseHour: 5, sunriseMin: 35, sunsetHour: 15, sunsetMin: 35),
@@ -793,8 +833,8 @@ extension CmdType {
                                              folderItem: IDOMusicFolderItem(folderID: 1, musicNum: 0, folderName: "f1", musicIndex: [1]),
                                              musicItem: IDOMusicItem(musicID: 1, musicMemory: 300, musicName: "m1", singerName: "s1"))
         case .noticeMessageV3:
-            return IDONoticeMessageParamModel(evtType: 1,
-                                              msgID: 3,
+            return IDONoticeMessageParamModel(evtType: 0x3000+3,
+                                              msgID: 1,
                                               supportAnswering: false,
                                               supportMute: false,
                                               supportHangUp: false,

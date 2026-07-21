@@ -647,6 +647,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择吃药提醒图标并裁剪后传输到设备。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -693,6 +694,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择吃药提醒图标并裁剪后传输到设备。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -854,6 +856,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择吃药提醒图标并裁剪后传输到设备。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -902,6 +905,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to track the cycling route.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to get phone volume";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择吃药提醒图标并裁剪后传输到设备。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

@@ -2965,19 +2965,19 @@ class SetFunctionDetailActivity : BaseActivity() {
      * userMaxHr	int	心率上限,最大心率提醒
      * 单位:次/分钟
      * range1	int	热身运动心率区间
-     * 计算规则：(200-年龄) * 50
+     * 计算规则：(220-年龄) * 50
      * 单位:次/分钟
      * range2	int	脂肪燃烧心率区间
-     * 计算规则：(200-年龄) * 60
+     * 计算规则：(220-年龄) * 60
      * 单位:次/分钟
      * range3	int	有氧运动心率区间
-     * 计算规则：(200-年龄) * 70
+     * 计算规则：(220-年龄) * 70
      * 单位:次/分钟
      * range4	int	无氧运动心率区间
-     * 计算规则：(200-年龄) * 80
+     * 计算规则：(220-年龄) * 80
      * 单位:次/分钟
      * range5	int	极限锻炼心率区间
-     * 计算规则：(200-年龄) * 90
+     * 计算规则：(220-年龄) * 90
      * 单位:次/分钟
      * minHr	int	心率最小值
      * 单位:次/分钟
@@ -3005,19 +3005,19 @@ class SetFunctionDetailActivity : BaseActivity() {
      * userMaxHr int Heart rate upper limit, maximum heart rate alert
      * Unit: times/minute
      * range1 int Warm-up heart rate range
-     * Calculation rules: (200- age) * 50
+     * Calculation rules: (220- age) * 50
      * Unit: times/minute
      * range2 int Fat burning heart rate range
-     * Calculation rules: (200- age) * 60
+     * Calculation rules: (220- age) * 60
      * Unit: times/minute
      * range3 int Aerobic heart rate range
-     * Calculation rules: (200- age) * 70
+     * Calculation rules: (220- age) * 70
      * Unit: times/minute
      * range4 int Heart rate range of anaerobic exercise
-     * Calculation rules: (200- age) * 80
+     * Calculation rules: (220- age) * 80
      * Unit: times/minute
      * range5 int Extreme exercise heart rate range
-     * Calculation rules: (200- age) * 90
+     * Calculation rules: (220- age) * 90
      * Unit: times/minute
      * minHr int Minimum heart rate
      * Unit: times/minute

@@ -26,6 +26,7 @@ struct Word {
     static let editSportScreen = "EditSportScreen"
     static let measure = "Measure"
     static let sdkFeatureTest = "SDK Feature Test"
+    static let ida01FuncTest = "IDA01 Func Test"
 
 }
 

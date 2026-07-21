@@ -10,6 +10,21 @@ import android.widget.TextView
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.idosmart.enums.IDOSyncDataType
+import com.idosmart.model.IDOAppDownloadStatusInfoModel
+import com.idosmart.model.IDOAppInfoModel
+import com.idosmart.model.IDOAppListStyleParamModel
+import com.idosmart.model.IDOAppSleepModeParamModel
+import com.idosmart.model.IDOAppletControlModel
+import com.idosmart.model.IDODataTranConfigParamModel
+import com.idosmart.model.IDOFallMonitoringSwitchModel
+import com.idosmart.model.IDOFirmwarePositionInfoModel
+import com.idosmart.model.IDOBaseModel
+import com.idosmart.model.IDOHeartModeParamModel
+import com.idosmart.model.IDOHeartRateModeParamModel
+import com.idosmart.model.IDOLocationInfoNotifyModel
+import com.idosmart.model.IDOPurchasedWatchFaceInfoModel
+import com.idosmart.model.IDOPositionSwitchModeModel
+import com.idosmart.model.IDOTakeMedicineRemindModel
 import com.idosmart.model.IDODeviceVibrationRingtoneModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk
@@ -114,6 +129,41 @@ class SdkFeatureTestActivity : BaseActivity() {
             listOf(
                 "15.4.1 血氧" to { syncSpo2() },
                 "15.4.2 压力" to { syncPressure() },
+            )
+        )
+        appendSection(
+            "2026-07-06 新增 GET",
+            listOf(
+                "2.53 固件状态" to { getFirmwareStatusInfo() },
+                "2.39 心率监测模式" to { getHeartRateMode() },
+                "2.63 睡眠模式 GET" to { getAppSleepMode() },
+                "2.54 跌倒监测 GET" to { getFallMonitoringSwitch() },
+                "2.56 定位开关 GET" to { getPositionSwitchMode() },
+                "2.28 文件传输配置" to { getDataTranConfig() },
+                "15.26 表盘列表 V3" to { getWatchListV3() },
+            )
+        )
+        appendSection(
+            "2026-07-06 新增 SET/查询",
+            listOf(
+                "2.54 跌倒监测 SET" to { setFallMonitoringSwitchSample() },
+                "2.56 定位开关 SET" to { setPositionSwitchModeSample() },
+                "5.6 位置通知" to { setLocationInfoNotify() },
+                "2.39 心率监测 SET(示例)" to { setHeartRateModeSample() },
+                "2.63 睡眠模式 SET(示例)" to { setAppSleepModeSample() },
+                "15.9 V3心率模式(示例)" to { setHeartModeSample() },
+                "15.54 小程序列表" to { getAppletList() },
+                "15.54 小程序删除第一个" to { deleteAppletFirst() },
+                "15.79 APP基本信息" to { setAppBaseInfoSample() },
+                "15.90 吃药提醒查询" to { takeMedicineRemindQuery() },
+                "15.90 吃药提醒删除第一条" to { takeMedicineRemindDeleteFirst() },
+                "15.90 吃药提醒设置总开关" to { takeMedicineRemindSetSwitch() },
+                "15.91 已购表盘" to { setPurchasedWatchFaceInfoSample() },
+                "15.92 下载状态" to { setAppDownloadStatusInfoSample() },
+                "15.93 固件定位查询" to { getFirmwarePositionInfoQuery() },
+                "15.93 固件定位确认" to { getFirmwarePositionInfoConfirm() },
+                "15.73 应用列表样式查询" to { appListStyleQuery() },
+                "15.73 应用列表样式删除" to { appListStyleDeleteFirst() },
             )
         )
     }
@@ -346,5 +396,327 @@ class SdkFeatureTestActivity : BaseActivity() {
                 }
             }
         )
+    }
+
+    // MARK: - 2026-07-06 新增功能联调
+
+    private fun logCmd(title: String, res: com.idosmart.pigeon_implement.CmdResponse<*>) {
+        if (res.error.code == 0) {
+            // CmdResponse<*> 的 res 为星投影，需落到 IDOBaseModel 才能调 toJsonString
+            log("  code=0 json: ${preview((res.res as? IDOBaseModel)?.toJsonString())}")
+            toast("成功")
+        } else {
+            log("  code=${res.error.code} msg=${res.error.message}")
+            toast("失败 code=${res.error.code}")
+        }
+    }
+
+    private fun getFirmwareStatusInfo() {
+        if (!ensureConnected()) return
+        log("--- 2.53 固件状态 (getFirmwareStatusInfo) ---")
+        showProgressDialog("2.53 固件状态")
+        Cmds.getFirmwareStatusInfo().send { closeProgressDialog(); logCmd("2.53 固件状态", it) }
+    }
+
+    private fun getHeartRateMode() {
+        if (!ensureConnected()) return
+        log("--- 2.39 心率监测模式 (getHeartRateMode) ---")
+        showProgressDialog("2.39 心率监测")
+        Cmds.getHeartRateMode().send { closeProgressDialog(); logCmd("2.39 心率监测", it) }
+    }
+
+    private fun getAppSleepMode() {
+        if (!ensureConnected()) return
+        log("--- 2.63 睡眠模式 (getAppSleepMode) ---")
+        showProgressDialog("2.63 睡眠模式")
+        Cmds.getAppSleepMode().send { closeProgressDialog(); logCmd("2.63 睡眠模式", it) }
+    }
+
+    private fun getFallMonitoringSwitch() {
+        if (!ensureConnected()) return
+        log("--- 2.54 跌倒监测 GET ---")
+        showProgressDialog("2.54 跌倒监测 GET")
+        Cmds.getFallMonitoringSwitch().send { closeProgressDialog(); logCmd("2.54 跌倒监测 GET", it) }
+    }
+
+    private fun getPositionSwitchMode() {
+        if (!ensureConnected()) return
+        log("--- 2.56 定位开关 GET ---")
+        showProgressDialog("2.56 定位开关 GET")
+        Cmds.getPositionSwitchMode().send { closeProgressDialog(); logCmd("2.56 定位开关 GET", it) }
+    }
+
+    private fun getDataTranConfig() {
+        if (!ensureConnected()) return
+        val param = IDODataTranConfigParamModel(type = 0, medicineType = 1)
+        log("--- 2.28 文件传输配置 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("2.28 文件传输配置")
+        Cmds.getDataTranConfig(param).send { closeProgressDialog(); logCmd("2.28 文件传输配置", it) }
+    }
+
+    private fun getWatchListV3() {
+        if (!ensureConnected()) return
+        log("--- 15.26 表盘列表 V3 ---")
+        showProgressDialog("15.26 表盘列表")
+        Cmds.getWatchListV3().send { closeProgressDialog(); logCmd("15.26 表盘列表", it) }
+    }
+
+    private fun setFallMonitoringSwitchSample() {
+        if (!ensureConnected()) return
+        val param = IDOFallMonitoringSwitchModel(fallMonitoringSwitch = 1)
+        log("--- 2.54 跌倒监测 SET --- 请求: ${param.toJsonString()}")
+        showProgressDialog("2.54 跌倒监测 SET")
+        Cmds.setFallMonitoringSwitch(param).send { closeProgressDialog(); logCmd("2.54 跌倒监测 SET", it) }
+    }
+
+    private fun setPositionSwitchModeSample() {
+        if (!ensureConnected()) return
+        val param = IDOPositionSwitchModeModel(switchMode = 1, startHour = 0, startMinute = 0, endHour = 23, endMinute = 59)
+        log("--- 2.56 定位开关 SET --- 请求: ${param.toJsonString()}")
+        showProgressDialog("2.56 定位开关 SET")
+        Cmds.setPositionSwitchMode(param).send { closeProgressDialog(); logCmd("2.56 定位开关 SET", it) }
+    }
+
+    private fun setLocationInfoNotify() {
+        if (!ensureConnected()) return
+        val param = IDOLocationInfoNotifyModel(status = 1)
+        log("--- 5.6 位置通知 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("5.6 位置通知")
+        Cmds.setLocationInfoNotify(param).send { closeProgressDialog(); logCmd("5.6 位置通知", it) }
+    }
+
+    private fun setHeartRateModeSample() {
+        if (!ensureConnected()) return
+        val param = IDOHeartRateModeParamModel(1, 1, 0, 0, 23, 59, 5)
+        log("--- 2.39 心率监测 SET --- 请求: ${param.toJsonString()}")
+        showProgressDialog("2.39 心率监测 SET")
+        Cmds.setHeartRateMode(param).send { closeProgressDialog(); logCmd("2.39 心率监测 SET", it) }
+    }
+
+    private fun setAppSleepModeSample() {
+        if (!ensureConnected()) return
+        val param = IDOAppSleepModeParamModel(sleepModeSwitch = 1)
+        log("--- 2.63 睡眠模式 SET --- 请求: ${param.toJsonString()}")
+        showProgressDialog("2.63 睡眠模式 SET")
+        Cmds.setAppSleepMode(param).send { closeProgressDialog(); logCmd("2.63 睡眠模式 SET", it) }
+    }
+
+    private fun setHeartModeSample() {
+        if (!ensureConnected()) return
+        val param = IDOHeartModeParamModel(
+            updateTime = 0, mode = 1, hasTimeRange = 1,
+            startHour = 0, startMinute = 0, endHour = 23, endMinute = 59,
+            measurementInterval = 300, notifyFlag = 1
+        )
+        log("--- 15.9 V3心率模式 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.9 V3心率模式")
+        Cmds.setHeartMode(param).send { closeProgressDialog(); logCmd("15.9 V3心率模式", it) }
+    }
+
+    private fun getAppletList() {
+        if (!ensureConnected()) return
+        val param = IDOAppletControlModel(operate = 3)
+        log("--- 15.54 小程序列表 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.54 小程序列表")
+        Cmds.setAppletControl(param).send { closeProgressDialog(); logCmd("15.54 小程序列表", it) }
+    }
+
+    /** 先查询列表，再删除返回的第一条小程序（operate=2） */
+    private fun deleteAppletFirst() {
+        if (!ensureConnected()) return
+        log("--- 15.54 小程序删除第一个 (先查询再 delete) ---")
+        showProgressDialog("15.54 查询小程序列表")
+        Cmds.setAppletControl(IDOAppletControlModel(operate = 3)).send { queryRes ->
+            if (queryRes.error.code != 0) {
+                closeProgressDialog()
+                logCmd("15.54 小程序列表(删前查询)", queryRes)
+                return@send
+            }
+            logCmd("15.54 小程序列表(删前查询)", queryRes)
+            val appName = queryRes.res?.infoItem?.firstOrNull()?.appName
+            if (appName.isNullOrEmpty()) {
+                closeProgressDialog()
+                log("  列表为空或 appName 为空，跳过删除")
+                toast("无可删除项")
+                return@send
+            }
+            val param = IDOAppletControlModel(operate = 2, appName = appName)
+            log("  删除第一条: $appName")
+            log("  请求: ${param.toJsonString()}")
+            showProgressDialog("15.54 删除 $appName")
+            Cmds.setAppletControl(param).send { delRes ->
+                closeProgressDialog()
+                logCmd("15.54 小程序删除第一个", delRes)
+            }
+        }
+    }
+
+    private fun setAppBaseInfoSample() {
+        if (!ensureConnected()) return
+        val param = appBaseInfoSampleParam()
+        log("--- 15.79 APP基本信息 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.79 APP基本信息")
+        Cmds.setAppBaseInfo(param).send { closeProgressDialog(); logCmd("15.79 APP基本信息", it) }
+    }
+
+    private fun takeMedicineRemindQuery() {
+        if (!ensureConnected()) return
+        val param = IDOTakeMedicineRemindModel(operate = 2)
+        log("--- 15.90 吃药提醒查询 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.90 吃药提醒查询")
+        Cmds.takeMedicineRemind(param).send { closeProgressDialog(); logCmd("15.90 吃药提醒查询", it) }
+    }
+
+    /** 先查询，再删除返回列表第一条（operate=3，index 取首条） */
+    private fun takeMedicineRemindDeleteFirst() {
+        if (!ensureConnected()) return
+        log("--- 15.90 吃药提醒删除第一条 (先查询再 operate=3) ---")
+        showProgressDialog("15.90 查询吃药提醒")
+        Cmds.takeMedicineRemind(IDOTakeMedicineRemindModel(operate = 2)).send { queryRes ->
+            if (queryRes.error.code != 0) {
+                closeProgressDialog()
+                logCmd("15.90 吃药提醒(删前查询)", queryRes)
+                return@send
+            }
+            logCmd("15.90 吃药提醒(删前查询)", queryRes)
+            val first = queryRes.res?.takeMedicineInfoItems?.firstOrNull()
+            val index = first?.index
+            if (index == null || index <= 0) {
+                closeProgressDialog()
+                log("  列表为空或 index 无效，跳过删除")
+                toast("无可删除项")
+                return@send
+            }
+            val del = IDOTakeMedicineRemindModel(operate = 3, index = index)
+            log("  删除第一条 index=$index name=${first.name}")
+            log("  请求: ${del.toJsonString()}")
+            showProgressDialog("15.90 吃药提醒删除")
+            Cmds.takeMedicineRemind(del).send { delRes ->
+                closeProgressDialog()
+                logCmd("15.90 吃药提醒删除第一条", delRes)
+            }
+        }
+    }
+
+    private fun takeMedicineRemindSetSwitch() {
+        if (!ensureConnected()) return
+        val param = IDOTakeMedicineRemindModel(operate = 4, medicineShowOnOff = 1)
+        log("--- 15.90 吃药提醒设置总开关 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.90 吃药提醒设置总开关")
+        Cmds.takeMedicineRemind(param).send { closeProgressDialog(); logCmd("15.90 吃药提醒设置总开关", it) }
+    }
+
+    private fun setPurchasedWatchFaceInfoSample() {
+        if (!ensureConnected()) return
+        val param = IDOPurchasedWatchFaceInfoModel(paymentStatus = 3, userId = "user_123", watchId = "dial_001")
+        log("--- 15.91 已购表盘 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.91 已购表盘")
+        Cmds.setPurchasedWatchFaceInfo(param).send { closeProgressDialog(); logCmd("15.91 已购表盘", it) }
+    }
+
+    private fun setAppDownloadStatusInfoSample() {
+        if (!ensureConnected()) return
+        val param = IDOAppDownloadStatusInfoModel(type = 1, status = 1, id = "watch_face_001")
+        log("--- 15.92 下载状态 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.92 下载状态")
+        Cmds.setAppDownloadStatusInfo(param).send { closeProgressDialog(); logCmd("15.92 下载状态", it) }
+    }
+
+    private fun getFirmwarePositionInfoQuery() {
+        if (!ensureConnected()) return
+        val param = IDOFirmwarePositionInfoModel(operate = 1)
+        log("--- 15.93 固件定位查询 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.93 固件定位查询")
+        Cmds.getFirmwarePositionInfo(param).send { closeProgressDialog(); logCmd("15.93 固件定位查询", it) }
+    }
+
+    /** 先查询，再对返回记录的 timestamp 做 operate=2 确认接收 */
+    private fun getFirmwarePositionInfoConfirm() {
+        if (!ensureConnected()) return
+        log("--- 15.93 固件定位确认 (先查询再 operate=2) ---")
+        showProgressDialog("15.93 查询定位数据")
+        Cmds.getFirmwarePositionInfo(IDOFirmwarePositionInfoModel(operate = 1)).send { queryRes ->
+            if (queryRes.error.code != 0) {
+                closeProgressDialog()
+                logCmd("15.93 固件定位(确认前查询)", queryRes)
+                return@send
+            }
+            logCmd("15.93 固件定位(确认前查询)", queryRes)
+            val ts = queryRes.res?.positionInfoItem?.timestamp
+            val count = queryRes.res?.positionInfoCount ?: 0
+            if (ts == null || count <= 0) {
+                closeProgressDialog()
+                log("  无定位数据或 timestamp 缺失，跳过确认")
+                toast("无可确认数据")
+                return@send
+            }
+            val ack = IDOFirmwarePositionInfoModel(operate = 2, timestamp = ts)
+            log("  确认 timestamp=$ts 请求: ${ack.toJsonString()}")
+            showProgressDialog("15.93 确认接收")
+            Cmds.getFirmwarePositionInfo(ack).send { ackRes ->
+                closeProgressDialog()
+                logCmd("15.93 固件定位确认", ackRes)
+            }
+        }
+    }
+
+    private fun appListStyleQuery() {
+        if (!ensureConnected()) return
+        val param = IDOAppListStyleParamModel(operate = 2)
+        log("--- 15.73 应用列表样式查询 --- 请求: ${param.toJsonString()}")
+        showProgressDialog("15.73 应用列表样式查询")
+        Cmds.appListStyle(param).send {
+            closeProgressDialog()
+            it.res?.let { m ->
+                log("  已用 ${m.userApplicationListItemNum}/${m.applicationListTotalNum}，list=${m.listItems?.size ?: 0}")
+            }
+            logCmd("15.73 应用列表样式查询", it)
+        }
+    }
+
+    private fun appListStyleDeleteFirst() {
+        if (!ensureConnected()) return
+        log("--- 15.73 应用列表样式删除 (先查询再 operate=3) ---")
+        showProgressDialog("15.73 查询应用列表样式")
+        Cmds.appListStyle(IDOAppListStyleParamModel(operate = 2)).send { queryRes ->
+            if (queryRes.error.code != 0) {
+                closeProgressDialog()
+                logCmd("15.73 应用列表样式(删前查询)", queryRes)
+                return@send
+            }
+            logCmd("15.73 应用列表样式(删前查询)", queryRes)
+            val name = queryRes.res?.listItems?.firstOrNull()?.name
+            if (name.isNullOrEmpty()) {
+                closeProgressDialog()
+                log("  列表为空或 name 为空，跳过删除")
+                toast("无可删除项")
+                return@send
+            }
+            val del = IDOAppListStyleParamModel(operate = 3, name = name)
+            log("  删除 name=$name 请求: ${del.toJsonString()}")
+            showProgressDialog("15.73 应用列表样式删除")
+            Cmds.appListStyle(del).send { delRes ->
+                closeProgressDialog()
+                logCmd("15.73 应用列表样式删除", delRes)
+            }
+        }
+    }
+
+    private fun appBaseInfoSampleParam() = IDOAppInfoModel(
+        operate = 1,
+        userName = "mssj52u@163.com",
+        userId = "271314614262829056",
+        token = APP_BASE_INFO_SAMPLE_TOKEN,
+        domainName = "ali",
+        appVersion = "3.5.0",
+        appKey = "548a50bc9f0a45d0bdfcdb5d194641d8",
+        phoneSystem = 1,
+        isFilterWatch = 2,
+        appFaceVersion = "6",
+    )
+
+    companion object {
+        private const val APP_BASE_INFO_SAMPLE_TOKEN =
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJkYXRldGltZSI6MTc4MzkyODcwNjkzMiwidXNlcl90eXBlIjoiVVNFUiIsInVzZXJfaWQiOiIyNzEzMTQ2MTQyNjI4MjkwNTYiLCJzb3VyY2UiOiJhcHAiLCJ0eXBlIjoiYXBwIiwiYXBwX2lkIjoiMTAwMDAiLCJhY2NvdW50IjoibXNzajUydUAxNjMuY29tIiwiaWF0IjoxNzgzOTI4NzA2LCJleHAiOjQ5Mzc1Mjg3MDZ9.-FPYg231BUTM2LzfihWdIeoStGJGNT6G1Oga0Ik6VWsivIhWTfQzH32C5to7C5txa5QhmVhW-aAD9q73phOeAw"
     }
 }

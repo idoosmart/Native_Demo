@@ -398,7 +398,10 @@ class FunctionActivity : BaseActivity() {
         override fun listenWaitingOtaDevice(otaDevice: IDOOtaDeviceModel) {
             println("2listenWaitingOtaDevice ${otaDevice.toString()}");
             closeProgressDialog()
-            _otaMode()
+            // 对齐 iOS：当前不在文件传输详情页（OtaFileTransferActivity ≈ TransferFileDetailVC）才弹出 OTA 提示
+            if (BaseActivity.resumedActivity !is OtaFileTransferActivity) {
+                _otaMode()
+            }
         }
 
     }
@@ -454,8 +457,10 @@ class FunctionActivity : BaseActivity() {
             if (idoDeviceStateModel.state == IDODeviceStateType.CONNECTED) {
                 closeProgressDialog()
 
-                if (sdk.ble.bleDevice.isOta == true) {
+                // 对齐 iOS：当前不在文件传输详情页才弹出 OTA 提示
+                if (sdk.ble.bleDevice.isOta == true && BaseActivity.resumedActivity !is OtaFileTransferActivity) {
                     println("当前设备处于ota模式")
+                    _otaMode()
                     return
                 }
 
