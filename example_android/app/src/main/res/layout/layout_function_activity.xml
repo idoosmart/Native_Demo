@@ -7,6 +7,21 @@
 
     <include layout="@layout/layout_device_describe" />
 
+    <ScrollView
+        android:id="@+id/sv_function_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:id="@+id/ll_function_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
     <LinearLayout
         android:id="@+id/ll_connect"
         android:layout_width="match_parent"
@@ -165,6 +180,40 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/set_function"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/v_right_s" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_gesture_control"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="gestureControl"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/gesture_control"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -551,4 +600,9 @@
             android:layout_alignParentBottom="true"
             android:background="@color/black" />
     </RelativeLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

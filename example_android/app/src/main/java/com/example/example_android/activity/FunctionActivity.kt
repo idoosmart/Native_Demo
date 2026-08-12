@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_notificationIc
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_measure
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sdk_feature_test
+import kotlinx.android.synthetic.main.layout_function_activity.rl_gesture_control
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
@@ -82,6 +83,7 @@ class FunctionActivity : BaseActivity() {
                 rl_notificationIconTransfer?.visibility = View.GONE
                 rl_sport_screen?.visibility = View.GONE
                 rl_sdk_feature_test?.visibility = View.GONE
+                rl_gesture_control?.visibility = View.GONE
             }
         };
 
@@ -234,7 +236,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     fun notificationIconTransfer(view: View) {
-        if (sdk.funcTable.setSetNotificationStatus) {
+        if (sdk.funcTable.reminderMessageIcon) {
             val intent = Intent(this, NotificationIconTransferActivity::class.java)
             startActivity(intent)
         } else {
@@ -254,6 +256,14 @@ class FunctionActivity : BaseActivity() {
 
     fun sdkFeatureTest(view: View) {
         startActivity(Intent(this, SdkFeatureTestActivity::class.java))
+    }
+
+    fun gestureControl(view: View) {
+        if (sdk.funcTable.supportOperateGestureControl) {
+            startActivity(Intent(this, GestureControlActivity::class.java))
+        } else {
+            toast("此设备不支持 / this device is not support")
+        }
     }
 
     override fun initView() {
@@ -336,16 +346,42 @@ class FunctionActivity : BaseActivity() {
         alertDialog.show()
     }
 
+    /**
+     * 绑定状态异常：重置本地缓存绑定状态，提示后强制解绑（对齐 iOS `_hasUnbind`）
+     */
+    private fun hasUnbind() {
+        val macAddress = device?.macAddress ?: return
+        FunctionUtils.upDataDeviceMac(macAddress)
+        AlertDialog.Builder(this)
+            .setTitle("Tips")
+            .setMessage("绑定状态异常，需要重置本地缓存的绑定状态 / The binding status is abnormal, and the local cached binding status needs to be reset.")
+            .setPositiveButton("I know") { _, _ ->
+                bindState()
+                sdk.cmd.unbind(macAddress, true) { success ->
+                    FunctionUtils.upDataDeviceMac(macAddress)
+                    bindState()
+                    if (success) {
+                        toast("unbind ok")
+                    } else {
+                        toast("unbind failed")
+                    }
+                }
+            }
+            .show()
+    }
+
     inner class BleData : IDOBridgeDelegate {
         override fun listenStatusNotification(status: IDOStatusNotification) {
             println("listenStatusNotification $status");
             if (status == IDOStatusNotification.FASTSYNCCOMPLETED) {
                 device?.let { sdk.ble.setBtPair(it) }
-            }else if(status == IDOStatusNotification.UNBINDONBINDSTATEERROR) {
+            } else if (status == IDOStatusNotification.UNBINDONAUTHCODEERROR) {
+                // 出现该情况，可能是设备重置且被别的手机绑定，需要重置本地缓存的绑定状态
+                hasUnbind()
+            } else if (status == IDOStatusNotification.UNBINDONBINDSTATEERROR) {
                 // 出现该情况，可能是设备重置了
-                // 绑定状态异常，需要APP解绑 (APP记录的绑定状态和设备信息里的绑定状态不一致时触发)
-                FunctionUtils.upDataDeviceMac(device!!.macAddress.toString());
-                bindState()
+                // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状态不一致时触发）
+                hasUnbind()
             }
         }
 
@@ -421,6 +457,7 @@ class FunctionActivity : BaseActivity() {
             rl_sport_screen?.visibility = View.VISIBLE
             rl_measure?.visibility = View.VISIBLE
             rl_sdk_feature_test?.visibility = View.VISIBLE
+            rl_gesture_control?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -437,6 +474,7 @@ class FunctionActivity : BaseActivity() {
             rl_sport_screen?.visibility = View.GONE
             rl_measure?.visibility = View.GONE
             rl_sdk_feature_test?.visibility = View.GONE
+            rl_gesture_control?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }

@@ -54,7 +54,8 @@ class FunctionPageVC: UIViewController {
         Word.testOC,
         Word.testBleChannel,
         Word.editSportScreen,
-        Word.sdkFeatureTest 
+        Word.sdkFeatureTest,
+        Word.gestureControl
     ]
     
     private lazy var tableView: UITableView = {
@@ -143,6 +144,9 @@ class FunctionPageVC: UIViewController {
                 case .deviceInfoFwVersionCompleted:
                     break
                 case .unbindOnAuthCodeError:
+                    // 出现该情况，可能是设备重置 且被别的手机绑定， 需要重置本地缓存的绑定状态
+                    SVProgressHUD.dismiss()
+                    self?._hasUnbind()
                     break
                 case .unbindOnBindStateError:
                     // 出现该情况，可能是设备重置了
@@ -352,6 +356,13 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.sdkFeatureTest:
             navigationController?.pushViewController(SdkFeatureTestVC(), animated: true)
             break
+        case Word.gestureControl:
+            if sdk.funcTable.supportOperateGestureControl {
+                navigationController?.pushViewController(GestureControlVC(), animated: true)
+            } else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
+            break
         case Word.testOC:
             let test = TestOC()
             test.testCommand()
@@ -481,6 +492,8 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.sdkFeatureTest:
             return isConnected && isBinded
+        case Word.gestureControl:
+            return isConnected && isBinded
         case Word.ida01FuncTest:
             return isConnected && isBinded
         default:
@@ -581,7 +594,6 @@ extension FunctionPageVC {
                 SVProgressHUD.showError(withStatus: "unbind failure")
             }
             UserDefaults.standard.setBind(macAddress, isBind: false)
-            UserDefaults.standard.synchronize()
         })
     }
     
@@ -594,6 +606,7 @@ extension FunctionPageVC {
         alert.addAction(UIAlertAction(title: "I know", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.tableView.reloadData()
+            self.unbind()
         }))
         self.present(alert, animated: true, completion: nil)
     }

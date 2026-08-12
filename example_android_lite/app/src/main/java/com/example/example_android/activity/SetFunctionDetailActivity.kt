@@ -2702,6 +2702,10 @@ class SetFunctionDetailActivity : BaseActivity() {
      * 0关闭
      * 1开
      * 功能表getAutoActivitySetGetUseNewStructExchange
+     * autoIdentifyGeneralActivity	Int?	自动识别通用运动开关（可选，不传表示不修改）
+     * 0关闭
+     * 1开
+     * 功能表getAutoActivitySetGetUseNewStructExchange
      *
      * Motion switch setting
      * [IDOActivitySwitchParamModel]
@@ -2739,6 +2743,10 @@ class SetFunctionDetailActivity : BaseActivity() {
      * 1-mo
      * Menu getAutoActivitySetGetUseNewStructExchange
      * Automatic identification of autoIdentifySportSmartRope Int intelligent jump rope switch
+     * 0 Off
+     * 1-mo
+     * Menu getAutoActivitySetGetUseNewStructExchange
+     * Automatic identification of autoIdentifyGeneralActivity Int? general activity switch (optional; omit to leave unchanged)
      * 0 Off
      * 1-mo
      * Menu getAutoActivitySetGetUseNewStructExchange

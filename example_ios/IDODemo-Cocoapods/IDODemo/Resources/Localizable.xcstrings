@@ -4839,6 +4839,23 @@
         }
       }
     },
+    "setActivitySwitch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set activity detection switch"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置运动模式识别开关"
+          }
+        }
+      }
+    },
     "setSpo2Switch" : {
       "extractionState" : "manual",
       "localizations" : {

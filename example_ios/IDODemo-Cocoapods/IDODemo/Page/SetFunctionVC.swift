@@ -138,6 +138,7 @@ class SetFunctionVC: UIViewController {
         add(SetCmd(type: .setTemperatureSwitch, title: "setTemperatureSwitch", desc: L10n.setTemperatureSwitch), isSupported: funcTable.setTemperatureSwitchSupport)
         add(SetCmd(type: .setUpHandGesture, title: "setUpHandGesture", desc: L10n.setUpHandGesture), isSupported: funcTable.getUpHandGesture)
         add(SetCmd(type: .setSpo2Switch, title: "setSpo2Switch", desc: L10n.setSpo2Switch), isSupported: funcTable.setSpo2Data)
+        add(SetCmd(type: .setActivitySwitch, title: "setActivitySwitch", desc: L10n.setActivitySwitch), isSupported: funcTable.setActivitySwitch)
         add(SetCmd(type: .setAlarm, title: "setAlarm", desc: L10n.setAlarm), isSupported: funcTable.syncV3SyncAlarm)
         add(SetCmd(type: .setFitnessGuidance, title: "setFitnessGuidance", desc: L10n.setFitnessGuidance), isSupported: funcTable.setSetFitnessGuidance)
         add(SetCmd(type: .setMusicOnOff, title: "setMusicOnOff", desc: L10n.setMusicOnOff), isSupported: funcTable.setBleControlMusic)
@@ -386,6 +387,9 @@ private enum CmdType: CaseIterable{
     /// 设置血氧开关
     /// Set SpO2 switch event
     case setSpo2Switch
+    /// 设置运动模式识别开关
+    /// Set activity detection switch event
+    case setActivitySwitch
     /// 设置天气城市名称
     /// Set weather city name event number
     case setWeatherCityName
@@ -694,6 +698,19 @@ extension CmdType {
                                            lowSpo2OnOff: 1,
                                            lowSpo2Value: 20,
                                            notifyFlag: 1)
+        case .setActivitySwitch:
+            return IDOActivitySwitchParamModel(
+                autoIdentifySportWalk: 1,
+                autoIdentifySportRun: 0,
+                autoIdentifySportBicycle: 0,
+                autoPauseOnOff: 0,
+                autoEndRemindOnOffOnOff: 1,
+                autoIdentifySportElliptical: 0,
+                autoIdentifySportRowing: 0,
+                autoIdentifySportSwim: 0,
+                autoIdentifySportSmartRope: 0,
+                autoIdentifyGeneralActivity: 0
+            )
         case .setWeatherCityName:
             return OtherParamModel(dic: ["cityName": "beijing"])
         case .setAlarm:
@@ -1449,6 +1466,11 @@ private class SetFunctionDetailVC: UIViewController {
         case .setSpo2Switch:
             let obj = cmd.type.param() as! IDOSpo2SwitchParamModel
             cancellable = Cmds.setSpo2Switch(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .setActivitySwitch:
+            let obj = cmd.type.param() as! IDOActivitySwitchParamModel
+            cancellable = Cmds.setActivitySwitch(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .setWeatherCityName:

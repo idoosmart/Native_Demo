@@ -327,6 +327,8 @@ enum class CustomEvtType {
     SETNOTICESTOPCALL,
     /**  未接来电*/
     SETNOTICEMISSEDCALL,
+    /**  通话中挂断*/
+    SETNOTICEHANGUPINCALL,
     /**  来电接通完成后下发通话时间给固件*/
     SETNOTICECALLTIME,
     /**  设置运动模式排序*/

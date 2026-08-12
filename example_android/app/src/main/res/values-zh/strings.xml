@@ -569,4 +569,43 @@
     <string name="desc_setmenstruationremind">设置经期提醒</string>
     <string name="desc_setshortcut">设置快捷方式</string>
 
+    <string name="gesture_control">手势控制</string>
+    <string name="gesture_control_title">手势控制（15.82）</string>
+    <string name="gesture_control_status_idle">状态: 空闲</string>
+    <string name="gesture_control_status_loading_support">状态: 正在查询支持项(03)…</string>
+    <string name="gesture_control_status_support_ok">状态: 支持项已加载(03)</string>
+    <string name="gesture_control_status_current_ok">状态: 当前配置已加载(02)</string>
+    <string name="gesture_control_status_setting">状态: 正在设置(01)…</string>
+    <string name="gesture_control_status_set_ok">状态: 设置成功(01)</string>
+    <string name="gesture_control_status_fail">状态: %1$s 失败, code=%2$d</string>
+    <string name="gesture_control_flow_hint">流程: 支持项(03) → 当前配置(02) → 设置(01)</string>
+    <string name="gesture_control_master_switch">手势总开关</string>
+    <string name="gesture_control_tree_title">功能 / 子功能 / 手势（由 operate=3 决定）</string>
+    <string name="gesture_control_help">进页自动：03 建能力树 → 02 刷状态。功能多选一；同功能下子功能手势互斥。修改后点设置走 01。</string>
+    <string name="gesture_control_btn_support">查支持(03)</string>
+    <string name="gesture_control_btn_get">查当前(02)</string>
+    <string name="gesture_control_btn_set">设置手势(01)</string>
+    <string name="gesture_control_btn_refresh">重新加载(03→02)</string>
+    <string name="gesture_control_btn_clear">清空显示</string>
+    <string name="gesture_control_last_json">最近回调 JSON</string>
+    <string name="gesture_control_empty">（暂无）</string>
+    <string name="gesture_control_not_support">此设备不支持手势控制（supportOperateGestureControl=false）</string>
+    <string name="gesture_control_need_support_first">状态: 请先查支持项(03)</string>
+    <string name="gesture_control_build_fail">状态: 组包失败</string>
+    <string name="gesture_control_support_loaded">支持项: %1$d 个功能已加载（功能多选一），等待当前配置…</string>
+    <string name="gesture_control_btn_call_notice">来电提醒（CallNotice）</string>
+    <string name="call_notice">来电提醒</string>
+    <string name="call_notice_title">来电提醒</string>
+    <string name="call_notice_help">配合手势控制页，可测接听/拒接/挂断闭环。</string>
+    <string name="call_notice_hint_contact">联系人</string>
+    <string name="call_notice_hint_phone">号码</string>
+    <string name="call_notice_default_contact">Demo User</string>
+    <string name="call_notice_default_phone">13800138000</string>
+    <string name="call_notice_btn_incoming">来电提醒</string>
+    <string name="call_notice_btn_answered">来电已接</string>
+    <string name="call_notice_btn_rejected">来电已拒</string>
+    <string name="call_notice_btn_hang_up">通话中挂断</string>
+    <string name="call_notice_hang_up_not_support">此设备不支持通话中挂断（setNoticeHangUpInCallV2=false）</string>
+    <string name="call_notice_log_title">日志</string>
+    <string name="call_notice_log_empty">（暂无）</string>
 </resources>

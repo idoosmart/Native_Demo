@@ -117,6 +117,14 @@
             android:name=".activity.SdkFeatureTestActivity"
             android:exported="false"
             android:label="@string/sdk_feature_test" />
+        <activity
+            android:name=".activity.GestureControlActivity"
+            android:exported="false"
+            android:label="@string/gesture_control" />
+        <activity
+            android:name=".activity.CallNoticeActivity"
+            android:exported="false"
+            android:label="@string/call_notice" />
 
         <meta-data
             android:name="flutterEmbedding"

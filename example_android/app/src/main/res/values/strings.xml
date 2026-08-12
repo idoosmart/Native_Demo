@@ -579,4 +579,43 @@
     <string name="desc_getschedulereminder">Get schedule reminders</string>
     <string name="desc_setmenstruationremind">Set menstruation reminders</string>
     <string name="desc_setshortcut">Set shortcuts</string>
+    <string name="gesture_control">Gesture Control</string>
+    <string name="gesture_control_title">Gesture Control (15.82)</string>
+    <string name="gesture_control_status_idle">Status: idle</string>
+    <string name="gesture_control_status_loading_support">Status: loading support (03)…</string>
+    <string name="gesture_control_status_support_ok">Status: support loaded (03)</string>
+    <string name="gesture_control_status_current_ok">Status: current loaded (02)</string>
+    <string name="gesture_control_status_setting">Status: setting (01)…</string>
+    <string name="gesture_control_status_set_ok">Status: set OK (01)</string>
+    <string name="gesture_control_status_fail">Status: %1$s failed, code=%2$d</string>
+    <string name="gesture_control_flow_hint">Flow: support(03) → current(02) → set(01)</string>
+    <string name="gesture_control_master_switch">Gesture master switch</string>
+    <string name="gesture_control_tree_title">Function / sub-function / gesture (from operate=3)</string>
+    <string name="gesture_control_help">Enter page: 03 builds tree → 02 applies state. One function ON at a time; gestures exclusive within a function. Tap set for 01.</string>
+    <string name="gesture_control_btn_support">Get support(03)</string>
+    <string name="gesture_control_btn_get">Get current(02)</string>
+    <string name="gesture_control_btn_set">Set gesture(01)</string>
+    <string name="gesture_control_btn_refresh">Reload(03→02)</string>
+    <string name="gesture_control_btn_clear">Clear display</string>
+    <string name="gesture_control_last_json">Latest callback JSON</string>
+    <string name="gesture_control_empty">(empty)</string>
+    <string name="gesture_control_not_support">Device does not support gesture control (supportOperateGestureControl=false)</string>
+    <string name="gesture_control_need_support_first">Status: load support(03) first</string>
+    <string name="gesture_control_build_fail">Status: build set payload failed</string>
+    <string name="gesture_control_support_loaded">Support: %1$d functions loaded (one ON at a time), waiting current…</string>
+    <string name="gesture_control_btn_call_notice">Call notice (CallNotice)</string>
+    <string name="call_notice">Call Notice</string>
+    <string name="call_notice_title">Call Notice</string>
+    <string name="call_notice_help">Use with Gesture Control to test answer/reject/hang-up gestures.</string>
+    <string name="call_notice_hint_contact">Contact</string>
+    <string name="call_notice_hint_phone">Phone</string>
+    <string name="call_notice_default_contact">Demo User</string>
+    <string name="call_notice_default_phone">13800138000</string>
+    <string name="call_notice_btn_incoming">Incoming call</string>
+    <string name="call_notice_btn_answered">Answered</string>
+    <string name="call_notice_btn_rejected">Rejected / missed</string>
+    <string name="call_notice_btn_hang_up">Hang up in call</string>
+    <string name="call_notice_hang_up_not_support">Device does not support hangUpV2InCallEvt (setNoticeHangUpInCallV2=false)</string>
+    <string name="call_notice_log_title">Log</string>
+    <string name="call_notice_log_empty">(empty)</string>
 </resources>

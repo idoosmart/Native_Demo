@@ -156,41 +156,6 @@ extension MainPageVC: IDOBridgeDelegate {
     func listenStatusNotification(status: IDOStatusNotification) {
         print("StatusNotification: \(status)")
         NotificationCenter.default.post(name: Notify.onSdkStatusChanged, object: status)
-        switch (status) {
-        case .protocolConnectCompleted:
-            break
-        case .functionTableUpdateCompleted:
-            break
-        case .deviceInfoUpdateCompleted:
-            break
-        case .deviceInfoFwVersionCompleted:
-            break
-        case .unbindOnAuthCodeError:
-            // 绑定授权码异常，设备强制解绑，APP可根据该通知更新绑定状态
-            break
-        case .unbindOnBindStateError:
-            // 出现该情况，可能是设备重置了
-            // 绑定状态异常，需要APP解绑 (APP记录的绑定状态和设备信息里的绑定状态不一致时触发)
-            break
-        case .fastSyncCompleted:
-            // 快速配置完成
-            break
-        case .fastSyncFailed:
-            // 快速配置失败（需要APP重新连设备）
-            break
-        case .deviceInfoBtAddressUpdateCompleted:
-            break
-        case .macAddressError:
-            break
-        case .syncHealthDataIng:
-            // 同步健康数据中
-            break
-        case .syncHealthDataCompleted:
-            // 同步健康数据完成
-            break
-        @unknown default:
-            break
-        }
     }
     
     // 设备通知

@@ -2885,6 +2885,10 @@ class SetFunctionDetailActivity : BaseActivity() {
      * 0关闭
      * 1开
      * 功能表getAutoActivitySetGetUseNewStructExchange
+     * autoIdentifyGeneralActivity	Int?	自动识别通用运动开关（可选，不传表示不修改）
+     * 0关闭
+     * 1开
+     * 功能表getAutoActivitySetGetUseNewStructExchange
      *
      * Motion switch setting
      * [IDOActivitySwitchParamModel]
@@ -2925,16 +2929,24 @@ class SetFunctionDetailActivity : BaseActivity() {
      * 0 Off
      * 1-mo
      * Menu getAutoActivitySetGetUseNewStructExchange
+     * Automatic identification of autoIdentifyGeneralActivity Int? general activity switch (optional; omit to leave unchanged)
+     * 0 Off
+     * 1-mo
+     * Menu getAutoActivitySetGetUseNewStructExchange
      * */
     private fun setActivitySwitch() {
         var activitySwitch = Cmds.setActivitySwitch(
             IDOActivitySwitchParamModel(
-                0,
-                0, 0,
-                0, 0,
-                0, 0,
-                0,
-                0
+                autoIdentifySportWalk = 1,
+                autoIdentifySportRun = 0,
+                autoIdentifySportBicycle = 0,
+                autoPauseOnOff = 0,
+                autoEndRemindOnOffOnOff = 1,
+                autoIdentifySportElliptical = 0,
+                autoIdentifySportRowing = 0,
+                autoIdentifySportSwim = 0,
+                autoIdentifySportSmartRope = 0,
+                autoIdentifyGeneralActivity = 0
             )
         )
         activitySwitch.send {

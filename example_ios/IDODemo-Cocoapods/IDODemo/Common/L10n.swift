@@ -315,6 +315,8 @@ enum L10n {
     static var setSleepPeriod: String { String(localized: "setSleepPeriod") }
     /// Set SpO2 switch event
     static var setSpo2Switch: String { String(localized: "setSpo2Switch") }
+    /// Set activity detection switch
+    static var setActivitySwitch: String { String(localized: "setActivitySwitch") }
     /// Set and Query 100 Sports Sorting
     static var setSport100Sort: String { String(localized: "setSport100Sort") }
     /// Set exercise goal event

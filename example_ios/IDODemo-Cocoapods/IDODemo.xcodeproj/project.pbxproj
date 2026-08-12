@@ -22,6 +22,8 @@
 		4724AF582D1F9788005B6F71 /* imgs in Resources */ = {isa = PBXBuildFile; fileRef = 4724AF562D1F9788005B6F71 /* imgs */; };
 		4738A2802F722FF000A0F2E2 /* MeasureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738A27F2F722FF000A0F2E2 /* MeasureVC.swift */; };
 		4738A2812F722FF000A0F2E2 /* MeasureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4738A27F2F722FF000A0F2E2 /* MeasureVC.swift */; };
+		47A0C8212FCE820100A00101 /* GestureControlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0C8202FCE820100A00101 /* GestureControlVC.swift */; };
+		47A0C8222FCE820100A00101 /* GestureControlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0C8202FCE820100A00101 /* GestureControlVC.swift */; };
 		4738B0742B3538EC00D6BBEC /* SetFunctionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498D22AEA5D4400ADA589 /* SetFunctionVC.swift */; };
 		4738B0752B3538EC00D6BBEC /* SyncDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470498DA2AEA7FB300ADA589 /* SyncDataVC.swift */; };
 		4738B0772B3538EC00D6BBEC /* AlexaPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */; };
@@ -103,6 +105,7 @@
 		4724AEC22D1F9610005B6F71 /* MessageNoticeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageNoticeVC.swift; sourceTree = "<group>"; };
 		4724AF562D1F9788005B6F71 /* imgs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imgs; sourceTree = "<group>"; };
 		4738A27F2F722FF000A0F2E2 /* MeasureVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureVC.swift; sourceTree = "<group>"; };
+		47A0C8202FCE820100A00101 /* GestureControlVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureControlVC.swift; sourceTree = "<group>"; };
 		4738B08B2B3538EC00D6BBEC /* IDODemoLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDODemoLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4738B0922B3545B200D6BBEC /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		4738B0942B3545C000D6BBEC /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
@@ -257,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				4738A27F2F722FF000A0F2E2 /* MeasureVC.swift */,
+				47A0C8202FCE820100A00101 /* GestureControlVC.swift */,
 				D53FF6E02D83D56500DD15B9 /* EditSportScreen */,
 				477303122CBA58E500F9609D /* EpoVC.swift */,
 				47D582422AE8B1E6007D9DCE /* AlexaPageVC.swift */,
@@ -573,6 +577,7 @@
 				4738B0952B3545C000D6BBEC /* Bridge.swift in Sources */,
 				47D514B12B393BF300E0AC21 /* XYHelper.swift in Sources */,
 				4738A2812F722FF000A0F2E2 /* MeasureVC.swift in Sources */,
+				47A0C8222FCE820100A00101 /* GestureControlVC.swift in Sources */,
 				4738B07B2B3538EC00D6BBEC /* SportVC.swift in Sources */,
 				4724AEC42D1F9610005B6F71 /* MessageNoticeVC.swift in Sources */,
 				4790948F2D23D406006D0164 /* BaseVC.swift in Sources */,
@@ -611,6 +616,7 @@
 				470498D12AEA5D1900ADA589 /* GetFunctionVC.swift in Sources */,
 				47D5822D2AE8ACA5007D9DCE /* AppDelegate.swift in Sources */,
 				4738A2802F722FF000A0F2E2 /* MeasureVC.swift in Sources */,
+				47A0C8212FCE820100A00101 /* GestureControlVC.swift in Sources */,
 				47D514B62B397DA500E0AC21 /* MainPageVC.swift in Sources */,
 				47C4E1AD2B35669D0088A1E1 /* FunctionPageVC.swift in Sources */,
 				4738B0932B3545B200D6BBEC /* Bridge.swift in Sources */,

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_notice_title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:text="@string/call_notice_help"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/et_call_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/call_notice_hint_contact"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:text="@string/call_notice_default_contact" />
+
+        <EditText
+            android:id="@+id/et_call_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/call_notice_hint_phone"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:text="@string/call_notice_default_phone" />
+
+        <Button
+            android:id="@+id/btn_call_incoming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_notice_btn_incoming"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_call_answered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_notice_btn_answered"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_call_rejected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_notice_btn_rejected"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_call_hang_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_notice_btn_hang_up"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:text="@string/call_notice_log_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_call_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="@string/call_notice_log_empty"
+            android:textIsSelectable="true"
+            android:textSize="12sp"
+            android:typeface="monospace" />
+    </LinearLayout>
+</ScrollView>
