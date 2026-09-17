@@ -105,6 +105,10 @@ enum L10n {
     static var getErrorRecord: String { String(localized: "getErrorRecord") }
     /// Get Find Phone Switch
     static var getFindPhoneSwitch: String { String(localized: "getFindPhoneSwitch") }
+    /// Get Find My device name
+    static var getFindMyDeviceName: String { String(localized: "getFindMyDeviceName") }
+    /// Query sport types supporting auto-pause / auto-end
+    static var getSportAutoPauseEndTypes: String { String(localized: "getSportAutoPauseEndTypes") }
     /// Get Font Library Information event number
     static var getFlashBinInfo: String { String(localized: "getFlashBinInfo") }
     /// Get function table information

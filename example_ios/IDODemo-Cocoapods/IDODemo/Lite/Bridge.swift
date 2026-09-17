@@ -33,23 +33,6 @@ extension MainPageVC {
         bleMgr.stopScan()
         print("stopScan")
     }
-    
-    
-    
-    @objc func _reload() {
-        print("reload")
-        bleMgr.stopScan()
-        scan()
-    }
-    
-    @objc func scan() {
-        bleMgr.startScan { [weak self] obj in
-            //print("list count: \(String(describing: bleMgr.scanInfoArray.count))")
-            self?.dataList.removeAll()
-            self?.dataList.append(contentsOf: bleMgr.scanInfoListSorted)
-            self?.tableView.reloadData()
-        }
-    }
 }
 
 

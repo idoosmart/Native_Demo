@@ -530,10 +530,10 @@ extension FunctionPageVC {
                 SVProgressHUD.showSuccess(withStatus: "bind successful")
                 print("end bind get device info - battLevel: \(sdk.device.battLevel)")
                 print("end bind get function table - alexaSetEasyOperateV3: \(sdk.funcTable.alexaSetEasyOperateV3)")
-                UserDefaults.standard.setBind(macAddress, isBind: true)
+                UserDefaults.standard.setBind(macAddress, isBind: true, device: self?.deviceModel)
             case .binded:
                 self?.isBinded = true
-                UserDefaults.standard.setBind(macAddress, isBind: true)
+                UserDefaults.standard.setBind(macAddress, isBind: true, device: self?.deviceModel)
                 print("\(status)")
             case .needAuth:
                 print("\(status)")
@@ -566,7 +566,7 @@ extension FunctionPageVC {
                             print("success:")
                             self?.isBinded = true
                             SVProgressHUD.showSuccess(withStatus: "绑定成功")
-                            UserDefaults.standard.setBind(macAddress, isBind: true)
+                            UserDefaults.standard.setBind(macAddress, isBind: true, device: self?.deviceModel)
                             sdk.cmd.appMarkBindResult(success: true)
                         }else {
                             print("failure")

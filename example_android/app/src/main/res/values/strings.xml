@@ -421,6 +421,8 @@
     <string name="desc_getbatteryreminderswitch">Get Battery Reminder Switch</string>
     <string name="desc_getappsleepmode">Get App Sleep Mode</string>
     <string name="desc_getfindphoneswitch">Get Find Phone Switch</string>
+    <string name="desc_getfindmydevicename">Get Find My Device Name</string>
+    <string name="desc_getsportautopauseendtypes">Query sport types supporting auto-pause / auto-end</string>
     <string name="desc_getpetinfo">Get Pet Information</string>
     <string name="desc_getunreadappreminder">Get the unread message red dot switch</string>
     <string name="desc_getwatchdialinfo">Get Screen Information</string>

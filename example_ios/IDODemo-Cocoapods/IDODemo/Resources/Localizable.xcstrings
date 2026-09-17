@@ -1563,6 +1563,40 @@
         }
       }
     },
+    "getFindMyDeviceName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Find My Device Name"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "获取 Find My 设备名称"
+          }
+        }
+      }
+    },
+    "getSportAutoPauseEndTypes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Query sport types supporting auto-pause / auto-end"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查询运动自动暂停/结束支持的运动类型"
+          }
+        }
+      }
+    },
     "getFlashBinInfo" : {
       "extractionState" : "manual",
       "localizations" : {

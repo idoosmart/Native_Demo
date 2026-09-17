@@ -28,7 +28,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -63,4 +67,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation project(':FastBleLib')
+    // ---------- Native AAR 接入：Nordic OTA 按需打开（打包态 SDK 为 compileOnly，不传递）----------
+    // Flutter path 引用时 SDK 默认已带上，无需再写。
+    // Zephyr / MCUmgr DFU：走 ApiNordicHost.startDFU 时取消注释（须 1.5.x / io.runtime.mcumgr）
+    implementation 'no.nordicsemi.android:mcumgr-ble:1.5.2'
+    // Fix Duplicate class
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }

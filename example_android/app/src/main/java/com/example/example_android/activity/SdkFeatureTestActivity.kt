@@ -22,7 +22,13 @@ import com.idosmart.model.IDOBleReplyType
 import com.idosmart.model.IDOAppDownloadStatusInfoModel
 import com.idosmart.model.IDOAppInfoModel
 import com.idosmart.model.IDOAppListStyleParamModel
+import com.idosmart.model.IDOEmotionHealthReminderParamModel
+import com.idosmart.model.IDOEmotionHealthReminderReplyModel
+import com.idosmart.model.IDOPressureRemindConfig
+import com.idosmart.model.IDOUnpleasantRemindConfig
+import com.idosmart.model.IDOWeek
 import com.idosmart.model.IDOAppSleepModeParamModel
+import com.idosmart.model.IDOPillboxControlParamModel
 import com.idosmart.model.IDOAppletControlModel
 import com.idosmart.model.IDOAppletListQueryType
 import com.idosmart.model.IDODataTranConfigParamModel
@@ -200,6 +206,7 @@ class SdkFeatureTestActivity : BaseActivity() {
                 "2.53 固件状态" to { getFirmwareStatusInfo() },
                 "2.39 心率监测模式" to { getHeartRateMode() },
                 "2.63 睡眠模式 GET" to { getAppSleepMode() },
+                "2.65 药盒状态 GET（锁定/开合）" to { getPillboxState() },
                 "2.54 跌倒监测 GET" to { getFallMonitoringSwitch() },
                 "2.56 定位开关 GET" to { getPositionSwitchMode() },
                 "2.28 文件传输配置" to { getDataTranConfig() },
@@ -214,6 +221,12 @@ class SdkFeatureTestActivity : BaseActivity() {
                 "5.6 位置通知" to { setLocationInfoNotify() },
                 "2.39 心率监测 SET(示例)" to { setHeartRateModeSample() },
                 "2.63 睡眠模式 SET(示例)" to { setAppSleepModeSample() },
+                "6.17 药盒控制(解锁)" to { controlPillboxUnlockSample() },
+                "6.17 药盒亮灯(红)" to { controlPillboxLightOnSample(color = 1, colorName = "红") },
+                "6.17 药盒亮灯(绿)" to { controlPillboxLightOnSample(color = 2, colorName = "绿") },
+                "6.17 药盒亮灯(蓝)" to { controlPillboxLightOnSample(color = 3, colorName = "蓝") },
+                "6.17 药盒亮灯(白)" to { controlPillboxLightOnSample(color = 4, colorName = "白") },
+                "6.17 药盒控制(灭灯)" to { controlPillboxLightOffSample() },
                 "15.9 V3心率模式(示例)" to { setHeartModeSample() },
                 "15.54 小程序列表" to { getAppletList() },
                 "15.54 小程序删除第一个" to { deleteAppletFirst() },
@@ -229,6 +242,8 @@ class SdkFeatureTestActivity : BaseActivity() {
                 "15.93 固件定位确认" to { getFirmwarePositionInfoConfirm() },
                 "15.73 应用列表样式查询" to { appListStyleQuery() },
                 "15.73 应用列表样式删除" to { appListStyleDeleteFirst() },
+                "情绪健康提醒设置" to { emotionHealthReminderSet() },
+                "情绪健康提醒查询" to { emotionHealthReminderQuery() },
             )
         )
     }
@@ -355,10 +370,10 @@ class SdkFeatureTestActivity : BaseActivity() {
 
     private fun getVibrationRingtone() {
         if (!ensureConnected()) return
-        log("--- 15.106 振动铃声(查询) (deviceVibrationRingtone) ---")
+        log("--- 15.106 振动铃声(查询) (getDeviceVibrationRingtone) ---")
         log("  请求: {\"operate\":1}")
         showProgressDialog("15.106 振动铃声")
-        Cmds.deviceVibrationRingtone(IDODeviceVibrationRingtoneModel(operate = 1)).send {
+        Cmds.getDeviceVibrationRingtone().send {
             closeProgressDialog()
             if (it.error.code == 0) {
                 log("  code=0")
@@ -449,7 +464,7 @@ class SdkFeatureTestActivity : BaseActivity() {
         log("--- 15.106 振动铃声(设置) ---")
         log("  请求: ${model.toJsonString()}")
         showProgressDialog("15.106 振动铃声(设置)")
-        Cmds.deviceVibrationRingtone(model).send {
+        Cmds.setDeviceVibrationRingtone(model).send {
             closeProgressDialog()
             if (it.error.code == 0) {
                 log("  code=0 json: ${preview(it.res?.toJsonString())}")
@@ -465,7 +480,7 @@ class SdkFeatureTestActivity : BaseActivity() {
         if (!ensureConnected()) return
         log("--- 15.106 振动铃声 GET→SET 回写 ---")
         showProgressDialog("振动铃声回写...")
-        Cmds.deviceVibrationRingtone(IDODeviceVibrationRingtoneModel(operate = 1)).send { getRes ->
+        Cmds.getDeviceVibrationRingtone().send { getRes ->
             if (getRes.error.code != 0 || getRes.res == null) {
                 closeProgressDialog()
                 log("  GET code=${getRes.error.code}，中止")
@@ -489,7 +504,7 @@ class SdkFeatureTestActivity : BaseActivity() {
                 callReminderVolume = if (type and 0x04 != 0) getModel.callReminderVolume else null,
             )
             log("  SET 请求: ${setModel.toJsonString()}")
-            Cmds.deviceVibrationRingtone(setModel).send { setRes ->
+            Cmds.setDeviceVibrationRingtone(setModel).send { setRes ->
                 closeProgressDialog()
                 if (setRes.error.code == 0) {
                     log("  SET code=0 json: ${preview(setRes.res?.toJsonString())}")
@@ -879,6 +894,16 @@ class SdkFeatureTestActivity : BaseActivity() {
         }
     }
 
+    private fun getPillboxState() {
+        if (!ensureConnected()) return
+        log("--- 2.65 药盒状态（锁定/开合）(getPillboxState) ---")
+        showProgressDialog("2.65 药盒状态（锁定/开合）")
+        Cmds.getPillboxState().send {
+            closeProgressDialog()
+            logCmd("2.65 药盒状态（锁定/开合）", it)
+        }
+    }
+
     private fun getFallMonitoringSwitch() {
         if (!ensureConnected()) return
         log("--- 2.54 跌倒监测 GET (getFallMonitoringSwitch) ---")
@@ -980,6 +1005,30 @@ class SdkFeatureTestActivity : BaseActivity() {
         Cmds.setAppSleepMode(param).send {
             closeProgressDialog()
             logCmd("2.63 睡眠模式 SET", it)
+        }
+    }
+
+    private fun controlPillboxUnlockSample() {
+        controlPillboxSample(operate = 1, color = 0, label = "解锁")
+    }
+
+    private fun controlPillboxLightOnSample(color: Int, colorName: String) {
+        controlPillboxSample(operate = 2, color = color, label = "亮灯-$colorName")
+    }
+
+    private fun controlPillboxLightOffSample() {
+        controlPillboxSample(operate = 3, color = 0, label = "灭灯")
+    }
+
+    private fun controlPillboxSample(operate: Int, color: Int, label: String) {
+        if (!ensureConnected()) return
+        val param = IDOPillboxControlParamModel(operate = operate, color = color)
+        log("--- 6.17 药盒控制 ($label operate=$operate) ---")
+        log("  请求: ${param.toJsonString()}")
+        showProgressDialog("6.17 药盒控制($label)")
+        Cmds.controlPillbox(param).send {
+            closeProgressDialog()
+            logCmd("6.17 药盒控制($label)", it)
         }
     }
 
@@ -1352,6 +1401,71 @@ class SdkFeatureTestActivity : BaseActivity() {
                 closeProgressDialog()
                 logCmd("15.73 应用列表样式删除", delRes)
             }
+        }
+    }
+
+    /** 情绪健康提醒设置（operate=1），示例对齐对外文档：允许通知、总开关开、压力 6:00–23:00 间隔 15 分钟、不愉悦阈值 6 */
+    private fun emotionHealthReminderSet() {
+        if (!ensureConnected()) return
+        val param = emotionHealthReminderSetSampleParam()
+        log("--- 情绪健康提醒设置 (emotionHealthReminder operate=1) ---")
+        log("  supportEmotionHealth=${sdk.funcTable.supportEmotionHealth}")
+        log("  请求: ${param.toJsonString()}")
+        showProgressDialog("情绪健康提醒设置")
+        Cmds.emotionHealthReminder(param).send {
+            closeProgressDialog()
+            it.res?.let { model -> logEmotionHealthReply(model) }
+            logCmd("情绪健康提醒设置", it)
+        }
+    }
+
+    /** 情绪健康提醒查询（operate=2） */
+    private fun emotionHealthReminderQuery() {
+        if (!ensureConnected()) return
+        val param = IDOEmotionHealthReminderParamModel(operate = 2, emotionalHealthSwitch = 0)
+        log("--- 情绪健康提醒查询 (emotionHealthReminder operate=2) ---")
+        log("  supportEmotionHealth=${sdk.funcTable.supportEmotionHealth}")
+        log("  请求: ${param.toJsonString()}")
+        showProgressDialog("情绪健康提醒查询")
+        Cmds.emotionHealthReminder(param).send {
+            closeProgressDialog()
+            it.res?.let { model -> logEmotionHealthReply(model) }
+            logCmd("情绪健康提醒查询", it)
+        }
+    }
+
+    private fun emotionHealthReminderSetSampleParam(): IDOEmotionHealthReminderParamModel {
+        val pressure = IDOPressureRemindConfig(
+            pressureSwitch = 1,
+            startHour = 6,
+            startMinute = 0,
+            endHour = 23,
+            endMinute = 0,
+            repeats = IDOWeek.values().toHashSet(),
+            reminderInterval = 15
+        )
+        val unpleasant = IDOUnpleasantRemindConfig(
+            unpleasantSwitch = 1,
+            unhappyReminderNum = 6
+        )
+        return IDOEmotionHealthReminderParamModel(
+            operate = 1,
+            notifyType = 1,
+            emotionalHealthSwitch = 1,
+            pressureRemind = pressure,
+            unpleasantRemind = unpleasant
+        )
+    }
+
+    private fun logEmotionHealthReply(model: IDOEmotionHealthReminderReplyModel) {
+        log("  operate=${model.operate} errorCode=${model.errorCode} switch=${model.emotionalHealthSwitch} notify=${model.notifyType}")
+        model.pressureRemind?.let { p ->
+            log(
+                "  pressure switch=${p.pressureSwitch} ${p.startHour}:${p.startMinute.toString().padStart(2, '0')}-${p.endHour}:${p.endMinute.toString().padStart(2, '0')} interval=${p.reminderInterval}"
+            )
+        }
+        model.unpleasantRemind?.let { u ->
+            log("  unpleasant switch=${u.unpleasantSwitch} threshold=${u.unhappyReminderNum}")
         }
     }
 

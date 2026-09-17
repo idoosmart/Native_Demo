@@ -107,7 +107,7 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
-                            FunctionUtils.saveDeviceMac(device!!.macAddress.toString())
+                            FunctionUtils.saveBoundDevice(device!!)
                             bindState()
 
                         }
@@ -124,7 +124,7 @@ class FunctionActivity : BaseActivity() {
                                 if (it.error.code == 0) {
                                     toast("bind ok")
                                     //save bind info
-                                    FunctionUtils.saveDeviceMac(device!!.macAddress.toString())
+                                    FunctionUtils.saveBoundDevice(device!!)
                                     bindState()
                                     sdk.cmd.appMarkBindResult(true)
                                 } else {

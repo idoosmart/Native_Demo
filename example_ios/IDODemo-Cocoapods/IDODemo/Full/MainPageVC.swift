@@ -20,224 +20,195 @@ let clientId = "amzn1.application-oa2-client.e45ff1ade6064c24a265fe6924c6f75d"
 // MARK: - MainPageVC
 
 class MainPageVC: BaseVC {
-    var dataList = [IDODeviceModel]()
+    var boundList = [IDODeviceModel]()
     var bleState: IDOBluetoothStateModel?
     var deviceState: IDODeviceStateModel?
-    
+
     weak var funcPage: FunctionPageVC?
-    
+    weak var scanPage: ScanPageVC?
+
+    private var isUnbinding = false
+
     lazy var tableView: UITableView = {
         let v = UITableView()
         v.dataSource = self
         v.delegate = self
-        v.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
+        v.register(BoundDeviceCell.self, forCellReuseIdentifier: BoundDeviceCell.cellIdentifier)
         return v
     }()
-    
-    lazy var btnReload: UIButton = {
+
+    lazy var emptyView: UIView = {
+        let container = UIView()
+        container.isHidden = true
+        let label = UILabel()
+        label.text = "暂无已绑定设备"
+        label.textColor = .secondaryLabel
+        label.font = .systemFont(ofSize: 15)
+        label.textAlignment = .center
         let btn = UIButton(type: .system)
-        btn.setTitle(L10n.refresh, for: .normal)
-        btn.addTarget(self, action: #selector(_reload), for: .touchUpInside)
-        return btn
+        btn.setTitle("添加设备", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        btn.addTarget(self, action: #selector(openScanPage), for: .touchUpInside)
+        container.addSubview(label)
+        container.addSubview(btn)
+        label.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-24)
+        }
+        btn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(label.snp.bottom).offset(16)
+        }
+        return container
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
-        title = "IDO Demo"
+        title = "已绑定设备"
         view.backgroundColor = .white
-        
+
         view.addSubview(tableView)
-        view.addSubview(btnReload)
-        
+        view.addSubview(emptyView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        btnReload.snp.makeConstraints { make in
-            make.size.equalTo(CGSizeMake(80, 80))
-            make.bottom.equalTo(tableView.snp.bottom).offset(-30)
-            make.right.equalTo(tableView.snp.right).offset(-20)
+        emptyView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
-        
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "添加",
+            style: .plain,
+            target: self,
+            action: #selector(openScanPage)
+        )
+
         registerSDK()
+        reloadBoundDevices()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        stopScan()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadBoundDevices()
     }
-    
-    override func languageChanged() {
-        super.languageChanged()
-        
-        btnReload.setTitle(L10n.refresh, for: .normal)
+
+    func reloadBoundDevices() {
+        boundList = UserDefaults.standard.loadBoundDevices()
+        emptyView.isHidden = !boundList.isEmpty
+        tableView.isHidden = boundList.isEmpty
+        tableView.reloadData()
     }
-    
-    fileprivate func _goOta(otaModel: IDODeviceModel) {
-        stopScan() // 停止扫描
-        
-        let isSiceOta = [98, 99].contains(otaModel.platform)
-        
-        // 98|99平台设备ota需要先标记为OTA模式
-        if (isSiceOta) {
-            Task {
-                _ = await withCheckedContinuation { continuation in
-                    sdk.bridge.markOtaMode?(macAddress: otaModel.macAddress ?? "",
-                                            iosUUID: otaModel.uuid ?? "",
-                                            platform: otaModel.platform,
-                                            deviceId: otaModel.deviceId,
-                                            completion: { _ in
-                        continuation.resume(returning: true)
-                    })
-                    
-                }
-            }
-        }
-        
-        let vc = TransferFileDetailVC(cmd: .ota)
-        if (isSiceOta) {
-            vc._isSiceOta = true
-            vc._devInfo = (sdk.device.macAddressFull,
-                           sdk.device.uuid,
-                           sdk.device.platform,
-                           sdk.device.deviceId)
-        }
+
+    @objc func openScanPage() {
+        let vc = ScanPageVC()
+        scanPage = vc
         navigationController?.pushViewController(vc, animated: true)
     }
-}
 
+    fileprivate func forceUnbind(at indexPath: IndexPath) {
+        guard !isUnbinding, indexPath.row < boundList.count else {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            return
+        }
+        let device = boundList[indexPath.row]
+        guard let macAddress = device.macAddress, !macAddress.isEmpty else {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            return
+        }
+        isUnbinding = true
+        SVProgressHUD.show(withStatus: "unbind...")
+        sdk.cmd.unbind(macAddress: macAddress, isForceRemove: true) { [weak self] rs in
+            guard let self = self else { return }
+            self.isUnbinding = false
+            if rs {
+                UserDefaults.standard.setBind(macAddress, isBind: false)
+                SVProgressHUD.showSuccess(withStatus: "unbind successful")
+                self.reloadBoundDevices()
+            } else {
+                SVProgressHUD.showError(withStatus: "unbind failure")
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
+    }
+}
 
 // MARK: UITableViewDelegate, UITableViewDataSource
 
 extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataList.count
+        return boundList.count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 56
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.cellIdentifier, for: indexPath) as! CustomCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: BoundDeviceCell.cellIdentifier, for: indexPath) as! BoundDeviceCell
         cell.accessoryType = .disclosureIndicator
-        let deviceModel = dataList[indexPath.row]
+        let deviceModel = boundList[indexPath.row]
         var devName = deviceModel.name ?? ""
-        if (deviceModel.deviceId == 0) {
-            // 从系统连接列表获取的设备(连过的设备), 高亮显示
-            cell.backgroundColor = UIColor(red: 233/255, green: 233/255, blue: 233/255, alpha: 1)
-        }else {
-            cell.backgroundColor = .white
+        if deviceModel.deviceId != 0 {
             devName += "(\(deviceModel.deviceId))"
         }
+        cell.backgroundColor = UIColor(red: 232/255, green: 244/255, blue: 255/255, alpha: 1)
         cell.configure(
             title: devName,
-            subtitle: "\(deviceModel.macAddress ?? "unknow") - rssi:\(deviceModel.rssi)",
-            buttonTitle: deviceModel.isOta ? "OTA" : ""
+            subtitle: "\(deviceModel.macAddress ?? "unknow") - bound"
         )
-        cell.buttonAction = { [weak self] in
-            // ota
-            self?._goOta(otaModel: deviceModel)
-        }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let deviceModel = dataList[indexPath.row]
-        if (deviceModel.isOta && deviceModel.deviceId == 0) {
-            print("设备处理ota状态，先去升级")
-            SVProgressHUD.showInfo(withStatus: "设备处理ota状态，先去升级")
-            tableView.deselectRow(at: indexPath, animated: false)
-            return;
-        }
+        let deviceModel = boundList[indexPath.row]
         let vc = FunctionPageVC()
         vc.deviceModel = deviceModel
         funcPage = vc
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "解绑") { [weak self] _, _, completion in
+            self?.forceUnbind(at: indexPath)
+            completion(true)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 }
 
+fileprivate class BoundDeviceCell: UITableViewCell {
+    static let cellIdentifier = "BoundDeviceCell"
 
-fileprivate class CustomCell: UITableViewCell {
-    
-    static let cellIdentifier = "CustomCell"
-    
-    // MARK: - UI 控件
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    let actionButton = UIButton(type: .system)
-    
-    // 定义点击按钮的闭包（推荐方式）
-    var buttonAction: (() -> Void)?
-    
-    // MARK: - 初始化
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.textColor = .secondaryLabel
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+        ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - 设置 UI
-    private func setupUI() {
-        // 标题
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        titleLabel.textColor = .label
-        
-        // 副标题
-        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-        subtitleLabel.textColor = .secondaryLabel
-        subtitleLabel.numberOfLines = 1
-        
-        // 按钮
-        actionButton.setTitle("", for: .normal)
-        actionButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        actionButton.titleLabel?.textColor = .blue
-        actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
-        // 添加到 contentView
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(actionButton)
-        
-        // 关闭自动转换约束
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        // 设置约束
-        NSLayoutConstraint.activate([
-            // 标题
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            
-            // 副标题
-            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            
-            // 按钮
-            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            actionButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            actionButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 60)
-        ])
-    }
-    
-    // MARK: - 按钮点击事件
-    @objc private func buttonTapped() {
-        buttonAction?()        // 执行外部传入的闭包
-    }
-    
-    // MARK: - 配置 Cell 数据（推荐使用这个方法）
-    func configure(title: String, subtitle: String, buttonTitle: String = "") {
+
+    func configure(title: String, subtitle: String) {
         titleLabel.text = title
         subtitleLabel.text = subtitle
-        actionButton.setTitle(buttonTitle, for: .normal)
-        actionButton.isHidden = buttonTitle.isEmpty
     }
 }

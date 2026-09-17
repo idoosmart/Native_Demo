@@ -40,25 +40,6 @@ extension MainPageVC {
         sdk.ble.stopScan()
         print("stopScan")
     }
-    
-    @objc func _reload() {
-        print("reload \(L10n.refresh)")  
-        if case .scanning = bleState?.scanType {
-            sdk.ble.stopScan()
-        } else {
-            sdk.ble.startScan(macAddress: nil) { list in
-                //print("list count: \(String(describing: list?.count))")
-            }
-        }
-    }
-    
-    @objc func scan() {
-        
-        sdk.ble.startScan(macAddress: nil) { list in
-           //print("list count: \(String(describing: list?.count))")
-        }
-    }
-    
 }
 
 
@@ -73,12 +54,18 @@ extension MainPageVC: IDOBleDelegate {
     }
     
     func scanResult(list: [IDODeviceModel]?) {
-        //print("scanResult list count:\(String(describing: list?.count))")
-        dataList.removeAll()
-        if list != nil {
-            dataList.append(contentsOf: list!)
-            tableView.reloadData()
+        if let scanPage = scanPage {
+            scanPage.applyScanResult(list)
+            return
         }
+        if let list = list {
+            for device in list {
+                if let mac = device.macAddress, UserDefaults.standard.isBind(mac) {
+                    UserDefaults.standard.setBind(mac, isBind: true, device: device)
+                }
+            }
+        }
+        reloadBoundDevices()
     }
     
     func bluetoothState(state: IDOBluetoothStateModel) {
@@ -93,11 +80,6 @@ extension MainPageVC: IDOBleDelegate {
         funcPage?.deviceState = state
         print("on deviceState callback state: \(String(describing: state.state.rawValue)) errorState: \(String(describing: state.errorState.rawValue))")
         NotificationCenter.default.post(name: Notify.onBleDeviceStateChanged, object: state)
-        /*
-         * This is an example.
-         * device Already Bind And Not Support Rebind
-         * device Has Been Reset
-         */
         handlePairErrorAlert(state)
     }
     
@@ -127,7 +109,6 @@ extension MainPageVC: IDOBleDelegate {
                 }
     
                 sdk.cmd.unbind(macAddress: macAddress , isForceRemove: true, completion: { [weak self] rs in
-                    self?.tableView.reloadData()
                     if rs {
                         SVProgressHUD.showSuccess(withStatus: "unbind successful")
                     } else {
@@ -135,6 +116,7 @@ extension MainPageVC: IDOBleDelegate {
                     }
                     UserDefaults.standard.setBind(macAddress, isBind: false)
                     UserDefaults.standard.synchronize()
+                    self?.reloadBoundDevices()
                     self?.dismiss(animated: true)
                 })
                
@@ -164,7 +146,7 @@ extension MainPageVC: IDOBridgeDelegate {
         NotificationCenter.default.post(name: Notify.onSdkDeviceStateChanged, object: model)
     }
     
-    // APP提供设备绑定状态, 设备蓝牙连接时会调用该方法，如何返回true，将会走快速配置（获取设备功能表、设备信息、三级版本号、更新手表时间等）
+    // APP提供设备绑定状态
     func checkDeviceBindState(macAddress: String) -> Bool {
         let isBinded = UserDefaults.standard.isBind(macAddress)
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")
@@ -173,7 +155,6 @@ extension MainPageVC: IDOBridgeDelegate {
     
     func listenWaitingOtaDevice(otaDevice: protocol_channel.IDOOtaDeviceModel) {
         print("\n otaDevice:\(otaDevice.description)\n")
-        // 当前不在文件传输详情页才弹出 OTA 提示
         if !(navigationController?.topViewController is TransferFileDetailVC) {
             _otaMode()
         }

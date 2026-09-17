@@ -366,6 +366,7 @@ extension FunctionPageVC {
             case .failed:
                 self?.isBinded = false
                 UserDefaults.standard.setBind(macAddress, isBind: false)
+                UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
                 print("\(status)")
                 SVProgressHUD.showError(withStatus: "bind failure")
             case .successful:
@@ -375,9 +376,15 @@ extension FunctionPageVC {
                 print("end bind get device info - battLevel: \(sdk.device.battLevel)")
                 print("end bind get function table - alexaSetEasyOperateV3: \(sdk.funcTable.alexaSetEasyOperateV3)")
                 UserDefaults.standard.setBind(macAddress, isBind: true)
+                if let dm = self?.deviceModel {
+                    UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
+                }
             case .binded:
                 self?.isBinded = true
                 UserDefaults.standard.setBind(macAddress, isBind: true)
+                if let dm = self?.deviceModel {
+                    UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
+                }
                 print("\(status)")
             case .needAuth:
                 print("\(status)")
@@ -409,11 +416,15 @@ extension FunctionPageVC {
                         self?.isBinded = true
                         SVProgressHUD.showSuccess(withStatus: "绑定成功")
                         UserDefaults.standard.setBind(macAddress, isBind: true)
+                        if let dm = self?.deviceModel {
+                            UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
+                        }
                         sdk.cmd.appMarkBindResult(success: true)
                     }else {
                         print("failure")
                         //SVProgressHUD.showSuccess(withStatus: "绑定失败")
                         UserDefaults.standard.setBind(macAddress, isBind: false)
+                        UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
                         sdk.cmd.appMarkBindResult(success: false)
                     }
                     self?.tableView.reloadData()
@@ -435,6 +446,7 @@ extension FunctionPageVC {
                 SVProgressHUD.showError(withStatus: "unbind failure")
             }
             UserDefaults.standard.setBind(macAddress, isBind: false)
+            UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
             UserDefaults.standard.synchronize()
         })
     }

@@ -45,6 +45,12 @@ class SetFuncData(
             mutableListOf.add(SetFuncData(CustomEvtType.SETACTIVITYSWITCH, "setActivitySwitch", context.getString(R.string.set_activity_switch), isSupported = sdk.funcTable.setActivitySwitch))
             mutableListOf.add(SetFuncData(CustomEvtType.SETSLEEPPERIOD, "setSleepPeriod", context.getString(R.string.desc_setsleepperiod), isSupported = sdk.funcTable.syncV3Sleep))
             mutableListOf.add(SetFuncData(CustomEvtType.SETAPPSLEEPMODE, "setAppSleepMode", context.getString(R.string.desc_setappsleepmode), isSupported = sdk.funcTable.supportAppSleepMode))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOX, "controlPillbox(unlock)", "药盒控制-解锁", isSupported = sdk.funcTable.supportSmartPillbox))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOXLIGHTONRED, "controlPillbox(lightOn-red)", "药盒亮灯-红", isSupported = sdk.funcTable.supportSmartPillbox))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOXLIGHTONGREEN, "controlPillbox(lightOn-green)", "药盒亮灯-绿", isSupported = sdk.funcTable.supportSmartPillbox))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOXLIGHTONBLUE, "controlPillbox(lightOn-blue)", "药盒亮灯-蓝", isSupported = sdk.funcTable.supportSmartPillbox))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOXLIGHTONWHITE, "controlPillbox(lightOn-white)", "药盒亮灯-白", isSupported = sdk.funcTable.supportSmartPillbox))
+            mutableListOf.add(SetFuncData(CustomEvtType.CONTROLPILLBOXLIGHTOFF, "controlPillbox(lightOff)", "药盒控制-灭灯", isSupported = sdk.funcTable.supportSmartPillbox))
             mutableListOf.add(SetFuncData(CustomEvtType.SETMENSTRUATION, "setMenstruation", context.getString(R.string.desc_setmenstruation), isSupported = sdk.funcTable.setMenstruation))
             mutableListOf.add(SetFuncData(CustomEvtType.SETMENSTRUATIONREMIND, "setMenstruationRemind", context.getString(R.string.desc_setmenstruationremind), isSupported = sdk.funcTable.getSupportSetMenstrualReminderOnOff))
             

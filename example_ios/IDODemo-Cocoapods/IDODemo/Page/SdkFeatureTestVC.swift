@@ -155,6 +155,7 @@ class SdkFeatureTestVC: UIViewController {
                 ("2.53 固件状态", { [weak self] in self?.getFirmwareStatusInfo() }),
                 ("2.39 心率监测模式", { [weak self] in self?.getHeartRateMode() }),
                 ("2.63 睡眠模式 GET", { [weak self] in self?.getAppSleepMode() }),
+                ("2.65 药盒状态 GET（锁定/开合）", { [weak self] in self?.getPillboxState() }),
                 ("2.54 跌倒监测 GET", { [weak self] in self?.getFallMonitoringSwitch() }),
                 ("2.56 定位开关 GET", { [weak self] in self?.getPositionSwitchMode() }),
                 ("2.28 文件传输配置", { [weak self] in self?.getDataTranConfig() }),
@@ -169,6 +170,12 @@ class SdkFeatureTestVC: UIViewController {
                 ("5.6 位置通知", { [weak self] in self?.setLocationInfoNotify() }),
                 ("2.39 心率监测 SET(示例)", { [weak self] in self?.setHeartRateModeSample() }),
                 ("2.63 睡眠模式 SET(示例)", { [weak self] in self?.setAppSleepModeSample() }),
+                ("6.17 药盒控制(解锁)", { [weak self] in self?.controlPillboxUnlockSample() }),
+                ("6.17 药盒亮灯(红)", { [weak self] in self?.controlPillboxLightOnSample(color: 1, colorName: "红") }),
+                ("6.17 药盒亮灯(绿)", { [weak self] in self?.controlPillboxLightOnSample(color: 2, colorName: "绿") }),
+                ("6.17 药盒亮灯(蓝)", { [weak self] in self?.controlPillboxLightOnSample(color: 3, colorName: "蓝") }),
+                ("6.17 药盒亮灯(白)", { [weak self] in self?.controlPillboxLightOnSample(color: 4, colorName: "白") }),
+                ("6.17 药盒控制(灭灯)", { [weak self] in self?.controlPillboxLightOffSample() }),
                 ("15.9 V3心率模式(示例)", { [weak self] in self?.setHeartModeSample() }),
                 ("15.54 小程序列表", { [weak self] in self?.getAppletList() }),
                 ("15.54 小程序删除第一个", { [weak self] in self?.deleteAppletFirst() }),
@@ -184,6 +191,8 @@ class SdkFeatureTestVC: UIViewController {
                 ("15.93 固件定位确认", { [weak self] in self?.getFirmwarePositionInfoConfirm() }),
                 ("15.73 应用列表样式查询", { [weak self] in self?.appListStyleQuery() }),
                 ("15.73 应用列表样式删除", { [weak self] in self?.appListStyleDeleteFirst() }),
+                ("情绪健康提醒设置", { [weak self] in self?.emotionHealthReminderSet() }),
+                ("情绪健康提醒查询", { [weak self] in self?.emotionHealthReminderQuery() }),
             ]
         )
     }
@@ -363,10 +372,10 @@ class SdkFeatureTestVC: UIViewController {
 
     private func getVibrationRingtone() {
         guard ensureConnected() else { return }
-        log("--- 15.106 振动铃声(查询) (deviceVibrationRingtone) ---")
+        log("--- 15.106 振动铃声(查询) (getDeviceVibrationRingtone) ---")
         log("  请求: {\"operate\":1}")
         SVProgressHUD.show(withStatus: "15.106 振动铃声")
-        Cmds.deviceVibrationRingtone().send { [weak self] res in
+        Cmds.getDeviceVibrationRingtone().send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.logCmdResult("15.106 振动铃声", res)
         }
@@ -425,7 +434,7 @@ class SdkFeatureTestVC: UIViewController {
         log("--- 15.106 振动铃声(设置) ---")
         log("  请求: \(model.toJsonString() ?? "{}")")
         SVProgressHUD.show(withStatus: "15.106 振动铃声(设置)")
-        Cmds.deviceVibrationRingtone(model).send { [weak self] res in
+        Cmds.setDeviceVibrationRingtone(model).send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.logCmdResult("15.106 振动铃声(设置)", res)
         }
@@ -435,7 +444,7 @@ class SdkFeatureTestVC: UIViewController {
         guard ensureConnected() else { return }
         log("--- 15.106 振动铃声 GET→SET 回写 ---")
         SVProgressHUD.show(withStatus: "振动铃声回写...")
-        Cmds.deviceVibrationRingtone().send { [weak self] getRes in
+        Cmds.getDeviceVibrationRingtone().send { [weak self] getRes in
             guard let self else { return }
             switch getRes {
             case .success(let getModel):
@@ -458,7 +467,7 @@ class SdkFeatureTestVC: UIViewController {
                 if type & 0x02 != 0 { setModel.alarmVolume = getModel.alarmVolume }
                 if type & 0x04 != 0 { setModel.callReminderVolume = getModel.callReminderVolume }
                 self.log("  SET 请求: \(setModel.toJsonString() ?? "{}")")
-                Cmds.deviceVibrationRingtone(setModel).send { setRes in
+                Cmds.setDeviceVibrationRingtone(setModel).send { setRes in
                     SVProgressHUD.dismiss()
                     self.logCmdResult("15.106 振动铃声 SET", setRes)
                 }
@@ -788,6 +797,16 @@ class SdkFeatureTestVC: UIViewController {
         }
     }
 
+    private func getPillboxState() {
+        guard ensureConnected() else { return }
+        log("--- 2.65 药盒状态（锁定/开合）(getPillboxState) ---")
+        SVProgressHUD.show(withStatus: "2.65 药盒状态（锁定/开合）")
+        Cmds.getPillboxState().send { [weak self] res in
+            SVProgressHUD.dismiss()
+            self?.logCmdResult("2.65 药盒状态（锁定/开合）", res)
+        }
+    }
+
     private func getFallMonitoringSwitch() {
         guard ensureConnected() else { return }
         log("--- 2.54 跌倒监测 GET (getFallMonitoringSwitch) ---")
@@ -890,6 +909,30 @@ class SdkFeatureTestVC: UIViewController {
         Cmds.setAppSleepMode(param).send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.logCmdResult("2.63 睡眠模式 SET", res)
+        }
+    }
+
+    private func controlPillboxUnlockSample() {
+        controlPillboxSample(operate: 1, color: 0, label: "解锁")
+    }
+
+    private func controlPillboxLightOnSample(color: Int, colorName: String) {
+        controlPillboxSample(operate: 2, color: color, label: "亮灯-\(colorName)")
+    }
+
+    private func controlPillboxLightOffSample() {
+        controlPillboxSample(operate: 3, color: 0, label: "灭灯")
+    }
+
+    private func controlPillboxSample(operate: Int, color: Int, label: String) {
+        guard ensureConnected() else { return }
+        let param = IDOPillboxControlParamModel(operate: operate, color: color)
+        log("--- 6.17 药盒控制 (\(label) operate=\(operate)) ---")
+        log("  请求: \(param.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "6.17 药盒控制(\(label))")
+        Cmds.controlPillbox(param).send { [weak self] res in
+            SVProgressHUD.dismiss()
+            self?.logCmdResult("6.17 药盒控制(\(label))", res)
         }
     }
 
@@ -1254,6 +1297,73 @@ class SdkFeatureTestVC: UIViewController {
                     self?.logCmdResult("15.73 应用列表样式删除", delRes)
                 }
             }
+        }
+    }
+
+    /// 情绪健康提醒设置（operate=1），示例对齐对外文档：允许通知、总开关开、压力 6:00–23:00 间隔 15 分钟、不愉悦阈值 6
+    private func emotionHealthReminderSet() {
+        guard ensureConnected() else { return }
+        let param = emotionHealthReminderSetSampleParam()
+        log("--- 情绪健康提醒设置 (emotionHealthReminder operate=1) ---")
+        log("  supportEmotionHealth=\(sdk.funcTable.supportEmotionHealth)")
+        log("  请求: \(param.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "情绪健康提醒设置")
+        Cmds.emotionHealthReminder(param).send { [weak self] res in
+            SVProgressHUD.dismiss()
+            if case .success(let model) = res, let model {
+                self?.logEmotionHealthReply(model)
+            }
+            self?.logCmdResult("情绪健康提醒设置", res)
+        }
+    }
+
+    /// 情绪健康提醒查询（operate=2）
+    private func emotionHealthReminderQuery() {
+        guard ensureConnected() else { return }
+        let param = IDOEmotionHealthReminderParamModel(operate: 2, emotionalHealthSwitch: 0)
+        log("--- 情绪健康提醒查询 (emotionHealthReminder operate=2) ---")
+        log("  supportEmotionHealth=\(sdk.funcTable.supportEmotionHealth)")
+        log("  请求: \(param.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "情绪健康提醒查询")
+        Cmds.emotionHealthReminder(param).send { [weak self] res in
+            SVProgressHUD.dismiss()
+            if case .success(let model) = res, let model {
+                self?.logEmotionHealthReply(model)
+            }
+            self?.logCmdResult("情绪健康提醒查询", res)
+        }
+    }
+
+    private func emotionHealthReminderSetSampleParam() -> IDOEmotionHealthReminderParamModel {
+        let weekdays: Set<IDOWeek> = [
+            .monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday
+        ]
+        let pressure = IDOPressureRemindConfig(
+            pressureSwitch: 1,
+            startHour: 6,
+            startMinute: 0,
+            endHour: 23,
+            endMinute: 0,
+            repeats: weekdays,
+            reminderInterval: 15
+        )
+        let unpleasant = IDOUnpleasantRemindConfig(unpleasantSwitch: 1, unhappyReminderNum: 6)
+        return IDOEmotionHealthReminderParamModel(
+            operate: 1,
+            notifyType: 1,
+            emotionalHealthSwitch: 1,
+            pressureRemind: pressure,
+            unpleasantRemind: unpleasant
+        )
+    }
+
+    private func logEmotionHealthReply(_ model: IDOEmotionHealthReminderReplyModel) {
+        log("  operate=\(model.operate) errorCode=\(model.errorCode) switch=\(model.emotionalHealthSwitch) notify=\(model.notifyType)")
+        if let p = model.pressureRemind {
+            log("  pressure switch=\(p.pressureSwitch) \(p.startHour):\(String(format: "%02d", p.startMinute))-\(p.endHour):\(String(format: "%02d", p.endMinute)) interval=\(p.reminderInterval)")
+        }
+        if let u = model.unpleasantRemind {
+            log("  unpleasant switch=\(u.unpleasantSwitch) threshold=\(u.unhappyReminderNum)")
         }
     }
 

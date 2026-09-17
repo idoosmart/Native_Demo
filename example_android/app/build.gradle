@@ -32,7 +32,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,7 +66,11 @@ dependencies {
     implementation "io.flutter:armeabi_v7a_release:1.0.0-36335019a8eab588c3c2ea783c618d90505be233"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    // ---------- Native AAR 接入：Nordic OTA 按需打开（打包态 SDK 为 compileOnly，不传递）----------
+    // Flutter path 引用时 SDK 默认已带上，无需再写。
+    // Legacy / Secure DFU：走 FlutterBluetoothPlugin.startDFU（Nordic 传统 DFU）时取消注释
     implementation 'no.nordicsemi.android:dfu:2.5.0'
+    // Zephyr / MCUmgr DFU：走 ApiNordicHost.startDFU 时取消注释（须 1.5.x / io.runtime.mcumgr）
     implementation 'no.nordicsemi.android:mcumgr-ble:1.5.2'
     // Fix Duplicate class
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

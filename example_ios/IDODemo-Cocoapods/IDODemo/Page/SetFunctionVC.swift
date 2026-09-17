@@ -101,6 +101,12 @@ class SetFunctionVC: UIViewController {
         
         add(SetCmd(type: .setBatteryReminderSwitch, title: "setBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
         add(SetCmd(type: .setAppSleepMode, title: "setAppSleepMode", desc: L10n.getAppSleepMode), isSupported: sdk.funcTable.supportAppSleepMode)
+        add(SetCmd(type: .controlPillbox, title: "controlPillbox(unlock)", desc: "药盒控制-解锁"), isSupported: sdk.funcTable.supportSmartPillbox)
+        add(SetCmd(type: .controlPillboxLightOnRed, title: "controlPillbox(lightOn-red)", desc: "药盒亮灯-红"), isSupported: sdk.funcTable.supportSmartPillbox)
+        add(SetCmd(type: .controlPillboxLightOnGreen, title: "controlPillbox(lightOn-green)", desc: "药盒亮灯-绿"), isSupported: sdk.funcTable.supportSmartPillbox)
+        add(SetCmd(type: .controlPillboxLightOnBlue, title: "controlPillbox(lightOn-blue)", desc: "药盒亮灯-蓝"), isSupported: sdk.funcTable.supportSmartPillbox)
+        add(SetCmd(type: .controlPillboxLightOnWhite, title: "controlPillbox(lightOn-white)", desc: "药盒亮灯-白"), isSupported: sdk.funcTable.supportSmartPillbox)
+        add(SetCmd(type: .controlPillboxLightOff, title: "controlPillbox(lightOff)", desc: "药盒控制-灭灯"), isSupported: sdk.funcTable.supportSmartPillbox)
         add(SetCmd(type: .setPetInfo, title: "setPetInfo", desc: L10n.getPetInfo), isSupported: sdk.funcTable.supportPetInfo)
         
         add(SetCmd(type: .setSportGoal, title: "setSportGoal", desc: L10n.setSportGoal), isSupported: true)
@@ -348,6 +354,12 @@ private enum CmdType: CaseIterable{
     /// Battery reminder switch event number
     case setBatteryReminderSwitch
     case setAppSleepMode
+    case controlPillbox
+    case controlPillboxLightOnRed
+    case controlPillboxLightOnGreen
+    case controlPillboxLightOnBlue
+    case controlPillboxLightOnWhite
+    case controlPillboxLightOff
     /// 设置宠物信息
     /// Set pet info event number
     case setPetInfo
@@ -642,6 +654,18 @@ extension CmdType {
             return IDOBatteryReminderSwitchParamModel(lowBatteryOnOff: 1)
         case .setAppSleepMode:
             return IDOAppSleepModeParamModel(sleepModeSwitch: 1)
+        case .controlPillbox:
+            return IDOPillboxControlParamModel(operate: 1)
+        case .controlPillboxLightOnRed:
+            return IDOPillboxControlParamModel(operate: 2, color: 1)
+        case .controlPillboxLightOnGreen:
+            return IDOPillboxControlParamModel(operate: 2, color: 2)
+        case .controlPillboxLightOnBlue:
+            return IDOPillboxControlParamModel(operate: 2, color: 3)
+        case .controlPillboxLightOnWhite:
+            return IDOPillboxControlParamModel(operate: 2, color: 4)
+        case .controlPillboxLightOff:
+            return IDOPillboxControlParamModel(operate: 3)
         case .setPetInfo:
             return IDOPetInfoParamModel(petType: 1, weight: 450, gender: 0, year: 2024, month: 1, day: 1)
         case .setRRespiRateTurn:
@@ -1393,6 +1417,12 @@ private class SetFunctionDetailVC: UIViewController {
         case .setAppSleepMode:
             let obj = cmd.type.param() as! IDOAppSleepModeParamModel
             cancellable = Cmds.setAppSleepMode(obj).send { [weak self] res in
+                self?.doPrint(res)
+            }
+        case .controlPillbox, .controlPillboxLightOnRed, .controlPillboxLightOnGreen,
+             .controlPillboxLightOnBlue, .controlPillboxLightOnWhite, .controlPillboxLightOff:
+            let obj = cmd.type.param() as! IDOPillboxControlParamModel
+            cancellable = Cmds.controlPillbox(obj).send { [weak self] res in
                 self?.doPrint(res)
             }
         case .setPetInfo:

@@ -113,7 +113,10 @@ class GetFunctionDetailActivity : BaseActivity() {
                             CustomEvtType.GETFUNCTIONTABLE -> getFunctionTable()
             CustomEvtType.GETBATTERYREMINDERSWITCH -> getBatteryReminderSwitch()
             CustomEvtType.GETAPPSLEEPMODE -> getAppSleepMode()
+            CustomEvtType.GETPILLBOXSTATE -> getPillboxState()
             CustomEvtType.GETFINDPHONESWITCH -> getFindPhoneSwitch()
+            CustomEvtType.GETFINDMYDEVICENAME -> getFindMyDeviceName()
+            CustomEvtType.GETSPORTAUTOPAUSEENDTYPES -> getSportAutoPauseEndTypes()
             CustomEvtType.GETPETINFO -> getPetInfo()
             CustomEvtType.GETDOWNLOADLANGUAGE -> getDownloadLanguage()
             CustomEvtType.GETUNIT -> getUnit()
@@ -1192,6 +1195,17 @@ class GetFunctionDetailActivity : BaseActivity() {
         paramter_tv?.text = "{}"
     }
 
+    private fun getPillboxState() {
+        Cmds.getPillboxState().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{}"
+    }
+
     private fun getFindPhoneSwitch() {
         Cmds.getFindPhoneSwitch().send {
             if (it.error.code == 0) {
@@ -1201,6 +1215,28 @@ class GetFunctionDetailActivity : BaseActivity() {
             }
         }
         paramter_tv?.text = "{}"
+    }
+
+    private fun getFindMyDeviceName() {
+        Cmds.getFindMyDeviceName().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{\"operate\":2}"
+    }
+
+    private fun getSportAutoPauseEndTypes() {
+        Cmds.getSportAutoPauseEndTypes().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{\"operate\":3}"
     }
 
     private fun getPetInfo() {

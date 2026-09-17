@@ -410,6 +410,8 @@
     <string name="desc_getsn">获取设备SN</string>
     <string name="desc_getbatteryreminderswitch">获取电量提醒开关</string>
     <string name="desc_getfindphoneswitch">获取寻找手机开关</string>
+    <string name="desc_getfindmydevicename">获取 Find My 设备名称</string>
+    <string name="desc_getsportautopauseendtypes">查询运动自动暂停/结束支持的运动类型</string>
     <string name="desc_getpetinfo">获取宠物信息</string>
     <string name="desc_getunreadappreminder">获取未读App提醒开关</string>
     <string name="desc_getwatchdialinfo">获取屏幕信息</string>
