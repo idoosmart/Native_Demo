@@ -18,7 +18,6 @@ import com.idosmart.enums.IDOLogType
 import com.idosmart.enums.IDOStatusNotification
 import com.idosmart.model.IDOAppIconItemModel
 import com.idosmart.model.IDOBleDataRequest
-import com.idosmart.model.IDOBleDeviceModel
 import com.idosmart.model.IDODeviceNotificationModel
 import com.idosmart.model.IDOFastMsgItem
 import com.idosmart.model.IDOFastMsgSettingModel

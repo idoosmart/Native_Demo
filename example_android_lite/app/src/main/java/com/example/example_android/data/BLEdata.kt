@@ -20,6 +20,7 @@ import com.idosmart.enums.IDOLogType
 import com.idosmart.enums.IDOOtaType
 import com.idosmart.enums.IDOStatusNotification
 import com.idosmart.model.IDOBleDataRequest
+import com.example.example_android.tasklist.DeviceNotificationBus
 import com.idosmart.model.IDODeviceNotificationModel
 import com.idosmart.model.IDOFastMsgUpdateModel
 import com.idosmart.model.IDOFastMsgUpdateParamModel
@@ -118,6 +119,7 @@ object BLEdata  {
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
             Logutil.logMessage("bledata","listenDeviceNotification:${status}")
+            DeviceNotificationBus.emit(status)
 
             // 快速短信回复
             if (status.controlEvt == 580 && status.controlJson != null) {

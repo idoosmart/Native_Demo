@@ -2,6 +2,8 @@
 //  ScanPageVC.swift
 //  IDODemoLite
 //
+//  扫描添加设备页。扫描仍走 XYCentralManager。
+//
 
 import UIKit
 
@@ -11,7 +13,7 @@ import SVProgressHUD
 import protocol_channel
 
 class ScanPageVC: BaseVC {
-    var dataList = [ScanInfo]()
+    var scanList = [ScanInfo]()
 
     lazy var tableView: UITableView = {
         let v = UITableView()
@@ -58,21 +60,24 @@ class ScanPageVC: BaseVC {
         btnReload.setTitle(L10n.refresh, for: .normal)
     }
 
+    func applyScanResult(_ list: [ScanInfo]) {
+        scanList = list.filter { !UserDefaults.standard.isLiteBound(uuid: $0.uuid) }
+        tableView.reloadData()
+    }
+
     func stopScan() {
         bleMgr.stopScan()
     }
 
     func startScan() {
         bleMgr.startScan { [weak self] _ in
-            guard let self = self else { return }
-            self.dataList = bleMgr.scanInfoListSorted
-            self.tableView.reloadData()
+            self?.applyScanResult(bleMgr.scanInfoListSorted)
         }
     }
 
     @objc func _reload() {
         stopScan()
-        dataList.removeAll()
+        scanList.removeAll()
         tableView.reloadData()
         startScan()
     }
@@ -80,7 +85,7 @@ class ScanPageVC: BaseVC {
 
 extension ScanPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataList.count
+        return scanList.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -92,24 +97,24 @@ extension ScanPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellID = "ScanCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
+        let cellId = "LiteScanCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
         cell.accessoryType = .disclosureIndicator
-        let scanInfo = dataList[indexPath.row]
+        let scanInfo = scanList[indexPath.row]
         cell.textLabel?.text = scanInfo.peripheralName
         cell.detailTextLabel?.text = "\(scanInfo.uuid) - rssi:\(scanInfo.rssi.intValue)"
+        cell.backgroundColor = .white
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let scanInfo = dataList[indexPath.row]
+        let scanInfo = scanList[indexPath.row]
         stopScan()
         if let main = navigationController?.viewControllers.first as? MainPageVC {
             main.currentDeviceModel = scanInfo
-            let vc = FunctionPageVC()
-            vc.deviceModel = scanInfo
-            navigationController?.pushViewController(vc, animated: true)
         }
+        let vc = FunctionPageVC()
+        vc.deviceModel = scanInfo
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

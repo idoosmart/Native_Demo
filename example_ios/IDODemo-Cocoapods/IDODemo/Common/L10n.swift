@@ -69,14 +69,13 @@ enum L10n {
     static var getAlgFileInfo: String { String(localized: "getAlgFileInfo") }
     /// Get event number for all health monitoring switches
     static var getAllHealthSwitchState: String { String(localized: "getAllHealthSwitchState") }
+    static var getAppSleepMode: String { String(localized: "getAppSleepMode") }
     /// Operation of applet information (obtain, start, delete)
     static var getAppletControl: String { String(localized: "getAppletControl") }
     /// Get battery information event number
     static var getBatteryInfo: String { String(localized: "getBatteryInfo") }
     /// Get Battery Reminder Switch
     static var getBatteryReminderSwitch: String { String(localized: "getBatteryReminderSwitch") }
-    /// Get App Sleep Mode
-    static var getAppSleepMode: String { String(localized: "getAppSleepMode") }
     /// Get Bike Lock List
     static var getBikeLockList: String { String(localized: "getBikeLockList") }
     /// Getting firmware local beep file information for V3
@@ -103,12 +102,10 @@ enum L10n {
     static var getDownloadLanguage: String { String(localized: "getDownloadLanguage") }
     /// Get error record
     static var getErrorRecord: String { String(localized: "getErrorRecord") }
+    /// Get Find My Device Name
+    static var getFindMyDeviceName: String { String(localized: "getFindMyDeviceName") }
     /// Get Find Phone Switch
     static var getFindPhoneSwitch: String { String(localized: "getFindPhoneSwitch") }
-    /// Get Find My device name
-    static var getFindMyDeviceName: String { String(localized: "getFindMyDeviceName") }
-    /// Query sport types supporting auto-pause / auto-end
-    static var getSportAutoPauseEndTypes: String { String(localized: "getSportAutoPauseEndTypes") }
     /// Get Font Library Information event number
     static var getFlashBinInfo: String { String(localized: "getFlashBinInfo") }
     /// Get function table information
@@ -151,6 +148,8 @@ enum L10n {
     static var getSn: String { String(localized: "getSn") }
     /// Get SpO2 Switch
     static var getSpo2Switch: String { String(localized: "getSpo2Switch") }
+    /// Query sport types supporting auto-pause / auto-end
+    static var getSportAutoPauseEndTypes: String { String(localized: "getSportAutoPauseEndTypes") }
     /// Get sports list
     static var getSportsTypeV3: String { String(localized: "getSportsTypeV3") }
     /// Get daily step goal event number
@@ -201,6 +200,8 @@ enum L10n {
     static var photoStop: String { String(localized: "photoStop") }
     /// Reboot device
     static var reboot: String { String(localized: "reboot") }
+    /// Set activity detection switch
+    static var setActivitySwitch: String { String(localized: "setActivitySwitch") }
     /// Getting Alarms for V3APP Devices
     static var setAlarm: String { String(localized: "setAlarm") }
     /// Set Algorithm Sensor Config
@@ -211,14 +212,6 @@ enum L10n {
     static var setAppletControl: String { String(localized: "setAppletControl") }
     /// Set Bike Lock List
     static var setBikeLockList: String { String(localized: "setBikeLockList") }
-    /// CGM：设置密钥与设备名
-    static var setCgmKeyAndDevice: String { String(localized: "setCgmKeyAndDevice") }
-    /// CGM：删除密钥与设备名
-    static var deleteCgmKeyAndDevice: String { String(localized: "deleteCgmKeyAndDevice") }
-    /// CGM：连接
-    static var connectCgm: String { String(localized: "connectCgm") }
-    /// CGM：断开
-    static var disconnectCgm: String { String(localized: "disconnectCgm") }
     /// Set phone volume for device event number
     static var setBleVoice: String { String(localized: "setBleVoice") }
     /// Send Blood Glucose Data V01
@@ -235,6 +228,7 @@ enum L10n {
     static var setCallQuickReplyOnOff: String { String(localized: "setCallQuickReplyOnOff") }
     /// Set calorie and distance goal (Set daily three rings)
     static var setCalorieDistanceGoal: String { String(localized: "setCalorieDistanceGoal") }
+    static var setCgmKeyAndDevice: String { String(localized: "setCgmKeyAndDevice") }
     /// Set Time
     static var setDateTime: String { String(localized: "setDateTime") }
     /// Set the default messaging app list
@@ -319,8 +313,6 @@ enum L10n {
     static var setSleepPeriod: String { String(localized: "setSleepPeriod") }
     /// Set SpO2 switch event
     static var setSpo2Switch: String { String(localized: "setSpo2Switch") }
-    /// Set activity detection switch
-    static var setActivitySwitch: String { String(localized: "setActivitySwitch") }
     /// Set and Query 100 Sports Sorting
     static var setSport100Sort: String { String(localized: "setSport100Sort") }
     /// Set exercise goal event
@@ -670,6 +662,7 @@ enum L10n {
     static var maxHeartRate: String { String(localized: "Max Heart Rate") }
     static var selectFromAlbum: String { String(localized: "Select from album") }
     static var selectPhoto: String { String(localized: "Select photo") }
+    static var thirdPartyApps: String { String(localized: "Third-party apps") }
     /// Time To Sunrise Sunset
     static var timeToSunriseSunset: String { String(localized: "Time To Sunrise Sunset") }
     /// Track and field
@@ -681,18 +674,37 @@ enum L10n {
     static var beachSoccer: String { String(localized: "beach soccer") }
     /// bungee jumping
     static var bungeeJumping: String { String(localized: "bungee jumping") }
+    /// Clear
+    static var clear: String { String(localized: "clear") }
     /// climbing machine
     static var climbingMachine: String { String(localized: "climbing machine") }
+    static var connectCgm: String { String(localized: "connectCgm") }
+    /// Connected
+    static var connected: String { String(localized: "connected") }
     /// core training
     static var coreTraining: String { String(localized: "core training") }
     /// cross training
     static var crossTraining: String { String(localized: "cross training") }
     /// cross-country skiing
     static var crossCountrySkiing: String { String(localized: "cross-country skiing") }
+    /// Delete
+    static var delete: String { String(localized: "delete") }
+    static var deleteCgmKeyAndDevice: String { String(localized: "deleteCgmKeyAndDevice") }
+    /// Device not connected
+    static var deviceNotConnected: String { String(localized: "device_not_connected") }
+    static var disconnectCgm: String { String(localized: "disconnectCgm") }
+    /// Disconnected
+    static var disconnected: String { String(localized: "disconnected") }
+    /// Done
+    static var done: String { String(localized: "done") }
     /// dragon boat
     static var dragonBoat: String { String(localized: "dragon boat") }
     /// elliptical machine
     static var ellipticalMachine: String { String(localized: "elliptical machine") }
+    /// (empty)
+    static var emptyReply: String { String(localized: "empty_reply") }
+    /// Failed code=%@
+    static var failedCode: String { String(localized: "failed_code") }
     /// functional strength training
     static var functionalStrengthTraining: String { String(localized: "functional strength training") }
     /// high-intensity interval training
@@ -715,10 +727,16 @@ enum L10n {
     static var jumpingJacks: String { String(localized: "jumping jacks") }
     /// kite flying
     static var kiteFlying: String { String(localized: "kite flying") }
+    /// Got it
+    static var knowIt: String { String(localized: "know_it") }
     /// martial arts
     static var martialArts: String { String(localized: "martial arts") }
     /// mountain climbing
     static var mountainClimbing: String { String(localized: "mountain climbing") }
+    /// No JSON reply
+    static var noJsonReply: String { String(localized: "no_json_reply") }
+    /// Notification
+    static var notification: String { String(localized: "notification") }
     /// open water swimming
     static var openWaterSwimming: String { String(localized: "open water swimming") }
     /// organize and relax
@@ -733,8 +751,12 @@ enum L10n {
     static var parallelBar: String { String(localized: "parallel bar") }
     /// pool swimming
     static var poolSwimming: String { String(localized: "pool swimming") }
+    /// Query
+    static var query: String { String(localized: "query") }
     /// Request firmware algorithm file information (ACC/GPS)
     static var requestAlgFile: String { String(localized: "requestAlgFile") }
+    /// Request / Reply Log
+    static var requestReplyLog: String { String(localized: "request_reply_log") }
     /// rock climbing
     static var rockClimbing: String { String(localized: "rock climbing") }
     /// roller skating
@@ -743,6 +765,8 @@ enum L10n {
     static var ropeSkipping: String { String(localized: "rope skipping") }
     /// rowing machine
     static var rowingMachine: String { String(localized: "rowing machine") }
+    /// Save
+    static var save: String { String(localized: "save") }
     /// sepak takraw
     static var sepakTakraw: String { String(localized: "sepak takraw") }
     /// snow sports
@@ -759,22 +783,284 @@ enum L10n {
     static var stairClimbing: String { String(localized: "stair climbing") }
     /// table tennis
     static var tableTennis: String { String(localized: "table tennis") }
+    /// Task List
+    static var taskList: String { String(localized: "task_list") }
+    /// Add Task
+    static var taskListAddTask: String { String(localized: "task_list_add_task") }
+    /// Device unbound: task list local cache and page list cleared
+    static var taskListCacheCleared: String { String(localized: "task_list_cache_cleared") }
+    /// Cached %d sent tasks
+    static var taskListCachedSent: String { String(localized: "task_list_cached_sent") }
+    /// Cannot generate unique task ID
+    static var taskListCannotGenId: String { String(localized: "task_list_cannot_gen_id") }
+    /// Cleared all tasks
+    static var taskListClearedAll: String { String(localized: "task_list_cleared_all") }
+    /// Complete UTC: %d | Complete local: %@
+    static var taskListCompleteDisplay: String { String(localized: "task_list_complete_display") }
+    /// Device returned %d items, no local match
+    static var taskListDeviceNoLocal: String { String(localized: "task_list_device_no_local") }
+    /// taskId=%@ (read-only) | Pick remind time in local timezone
+    static var taskListEditHint: String { String(localized: "task_list_edit_hint") }
+    /// Edit pending
+    static var taskListEditPending: String { String(localized: "task_list_edit_pending") }
+    /// error_code=%@
+    static var taskListErrorCodeEq: String { String(localized: "task_list_error_code_eq") }
+    /// error_code is not 0
+    static var taskListErrorCodeNonzero: String { String(localized: "task_list_error_code_nonzero") }
+    /// Full Set
+    static var taskListFullSet: String { String(localized: "task_list_full_set") }
+    /// Full set / query status request and reply will show here
+    static var taskListFullSetLogHint: String { String(localized: "task_list_full_set_log_hint") }
+    /// Full set reply: | %@
+    static var taskListFullSetReply: String { String(localized: "task_list_full_set_reply") }
+    /// Full set reply: (empty)
+    static var taskListFullSetReplyEmpty: String { String(localized: "task_list_full_set_reply_empty") }
+    /// Full set reply: failed code=%@
+    static var taskListFullSetReplyFail: String { String(localized: "task_list_full_set_reply_fail") }
+    /// Full set request: | %@
+    static var taskListFullSetRequest: String { String(localized: "task_list_full_set_request") }
+    /// Sending full set…
+    static var taskListFullSetting: String { String(localized: "task_list_full_setting") }
+    /// Generated %d pending tasks
+    static var taskListGeneratedPending: String { String(localized: "task_list_generated_pending") }
+    /// Task ID: %d | Status: %@ | Remind UTC: %d | Local date: %@ | Detail: %@
+    static var taskListItemDisplay: String { String(localized: "task_list_item_display") }
+    /// Local: %@ | UTC timestamp: %d
+    static var taskListLocalUtc: String { String(localized: "task_list_local_utc") }
+    /// (no detail)
+    static var taskListNoDetail: String { String(localized: "task_list_no_detail") }
+    /// %@: no matching task in local sent list
+    static var taskListNoLocalMatch: String { String(localized: "task_list_no_local_match") }
+    /// No status change
+    static var taskListNoStatusChange: String { String(localized: "task_list_no_status_change") }
+    /// Notify dataType=133 task_id=%@ status=%@
+    static var taskListNotifyLog: String { String(localized: "task_list_notify_log") }
+    /// Tap “Add Task” at top-right to generate randomly
+    static var taskListPendingEmpty: String { String(localized: "task_list_pending_empty") }
+    /// Pending tasks
+    static var taskListPendingSection: String { String(localized: "task_list_pending_section") }
+    /// Query completed
+    static var taskListQueryDone: String { String(localized: "task_list_query_done") }
+    /// Query failed code=%@
+    static var taskListQueryFail: String { String(localized: "task_list_query_fail") }
+    /// Tap “Query task status change list” above to view request and reply
+    static var taskListQueryHint: String { String(localized: "task_list_query_hint") }
+    /// Query status reply: | %@
+    static var taskListQueryReply: String { String(localized: "task_list_query_reply") }
+    /// Query status reply: (empty)
+    static var taskListQueryReplyEmpty: String { String(localized: "task_list_query_reply_empty") }
+    /// Query status reply: failed code=%@
+    static var taskListQueryReplyFail: String { String(localized: "task_list_query_reply_fail") }
+    /// Query status request: | %@
+    static var taskListQueryRequest: String { String(localized: "task_list_query_request") }
+    /// Query Status
+    static var taskListQueryStatus: String { String(localized: "task_list_query_status") }
+    /// Query task status change list
+    static var taskListQueryStatusChanges: String { String(localized: "task_list_query_status_changes") }
+    /// Querying status changes…
+    static var taskListQuerying: String { String(localized: "task_list_querying") }
+    /// %@: refreshed %d status/complete time and saved cache
+    static var taskListRefreshedCount: String { String(localized: "task_list_refreshed_count") }
+    /// Refreshed %d status/complete time
+    static var taskListRefreshedStatus: String { String(localized: "task_list_refreshed_status") }
+    /// Remind time must be later than now
+    static var taskListRemindFuture: String { String(localized: "task_list_remind_future") }
+    /// Remind time must be uint32 (0…4294967295)
+    static var taskListRemindInvalid: String { String(localized: "task_list_remind_invalid") }
+    /// Call client back
+    static var taskListSampleCall: String { String(localized: "task_list_sample_call") }
+    /// Task reminder %@
+    static var taskListSampleDetail: String { String(localized: "task_list_sample_detail") }
+    /// Organize emails
+    static var taskListSampleEmail: String { String(localized: "task_list_sample_email") }
+    /// Call family
+    static var taskListSampleFamily: String { String(localized: "task_list_sample_family") }
+    /// Fitness training
+    static var taskListSampleFitness: String { String(localized: "task_list_sample_fitness") }
+    /// Medicine reminder
+    static var taskListSampleMedicine: String { String(localized: "task_list_sample_medicine") }
+    /// Meeting reminder
+    static var taskListSampleMeeting: String { String(localized: "task_list_sample_meeting") }
+    /// Nap alarm
+    static var taskListSampleNap: String { String(localized: "task_list_sample_nap") }
+    /// Pick up parcel
+    static var taskListSampleParcel: String { String(localized: "task_list_sample_parcel") }
+    /// Submit daily report
+    static var taskListSampleReport: String { String(localized: "task_list_sample_report") }
+    /// Grocery shopping
+    static var taskListSampleShopping: String { String(localized: "task_list_sample_shopping") }
+    /// Workout check-in
+    static var taskListSampleSport: String { String(localized: "task_list_sample_sport") }
+    /// Sample task %d
+    static var taskListSampleTask: String { String(localized: "task_list_sample_task") }
+    /// Drink water
+    static var taskListSampleWater: String { String(localized: "task_list_sample_water") }
+    /// Sec
+    static var taskListSeconds: String { String(localized: "task_list_seconds") }
+    /// %@ (%d)
+    static var taskListSectionCount: String { String(localized: "task_list_section_count") }
+    /// Sent %d tasks
+    static var taskListSentCount: String { String(localized: "task_list_sent_count") }
+    /// No sent tasks yet
+    static var taskListSentEmpty: String { String(localized: "task_list_sent_empty") }
+    /// Sent tasks
+    static var taskListSentSection: String { String(localized: "task_list_sent_section") }
+    /// Done
+    static var taskListStatusDone: String { String(localized: "task_list_status_done") }
+    /// Pending
+    static var taskListStatusPending: String { String(localized: "task_list_status_pending") }
+    /// Task detail
+    static var taskListTaskDetail: String { String(localized: "task_list_task_detail") }
     /// traditional strength training
     static var traditionalStrengthTraining: String { String(localized: "traditional strength training") }
     /// treadmills
     static var treadmills: String { String(localized: "treadmills") }
+    /// Walk Reminder
+    static var walkRemind: String { String(localized: "walk_remind") }
+    /// Achieved
+    static var walkRemindAchieved: String { String(localized: "walk_remind_achieved") }
+    /// 0 Not achieved
+    static var walkRemindAchieved0: String { String(localized: "walk_remind_achieved_0") }
+    /// 1 Achieved
+    static var walkRemindAchieved1: String { String(localized: "walk_remind_achieved_1") }
+    /// Status: %d (%@) | Goal: %d | Achieved: %d
+    static var walkRemindAlertMessage: String { String(localized: "walk_remind_alert_message") }
+    /// Walk reminder notify
+    static var walkRemindAlertTitle: String { String(localized: "walk_remind_alert_title") }
+    /// Dismiss keyboard
+    static var walkRemindDismissKeyboard: String { String(localized: "walk_remind_dismiss_keyboard") }
+    /// DND end
+    static var walkRemindDndEnd: String { String(localized: "walk_remind_dnd_end") }
+    /// no_disturb_* (needs DND walk reminder support)
+    static var walkRemindDndFieldHint: String { String(localized: "walk_remind_dnd_field_hint") }
+    /// do_not_disturb_on_off: 0 off / 1 on
+    static var walkRemindDndHint: String { String(localized: "walk_remind_dnd_hint") }
+    /// DND start
+    static var walkRemindDndStart: String { String(localized: "walk_remind_dnd_start") }
+    /// Do not disturb
+    static var walkRemindDndSwitch: String { String(localized: "walk_remind_dnd_switch") }
+    /// End
+    static var walkRemindEnd: String { String(localized: "walk_remind_end") }
+    /// Goal steps
+    static var walkRemindGoalStep: String { String(localized: "walk_remind_goal_step") }
+    /// goal_step (deprecated on some firmware, still fill)
+    static var walkRemindGoalStepHint: String { String(localized: "walk_remind_goal_step_hint") }
+    /// Goal time
+    static var walkRemindGoalTime: String { String(localized: "walk_remind_goal_time") }
+    /// goal_time, unit: minutes
+    static var walkRemindGoalTimeHint: String { String(localized: "walk_remind_goal_time_hint") }
+    /// 7.8 Walk reminder notify(134): listening; will show system notification and status/goal/achieved
+    static var walkRemindListenTip: String { String(localized: "walk_remind_listen_tip") }
+    /// Status: %@, goal: %d, achieved: %d
+    static var walkRemindLocalBody: String { String(localized: "walk_remind_local_body") }
+    /// Walk reminder local notification failed: %@
+    static var walkRemindLocalFail: String { String(localized: "walk_remind_local_fail") }
+    /// Posted walk reminder local notification: %@
+    static var walkRemindLocalOk: String { String(localized: "walk_remind_local_ok") }
+    /// Each query/set prints request and response JSON
+    static var walkRemindLogEachHint: String { String(localized: "walk_remind_log_each_hint") }
+    /// Request and response JSON will show here after actions
+    static var walkRemindLogHint: String { String(localized: "walk_remind_log_hint") }
+    /// Master switch
+    static var walkRemindMasterSwitch: String { String(localized: "walk_remind_master_switch") }
+    /// Not achieved
+    static var walkRemindNotAchieved: String { String(localized: "walk_remind_not_achieved") }
+    /// Allow(1)
+    static var walkRemindNotifyAllow: String { String(localized: "walk_remind_notify_allow") }
+    /// Status = %d | Goal = %d | Achieved = %d
+    static var walkRemindNotifyBody: String { String(localized: "walk_remind_notify_body") }
+    /// 0 invalid · 1 allow · 2 silent · 3 off (needs setWalkReminderAddNotify)
+    static var walkRemindNotifyHint: String { String(localized: "walk_remind_notify_hint") }
+    /// Invalid(0)
+    static var walkRemindNotifyInvalid: String { String(localized: "walk_remind_notify_invalid") }
+    /// Off(3)
+    static var walkRemindNotifyOff: String { String(localized: "walk_remind_notify_off") }
+    /// ———— 7.8 Notify 134 ————
+    static var walkRemindNotifySep: String { String(localized: "walk_remind_notify_sep") }
+    /// Silent(2)
+    static var walkRemindNotifySilent: String { String(localized: "walk_remind_notify_silent") }
+    /// Walk reminder · %@
+    static var walkRemindNotifyTitle: String { String(localized: "walk_remind_notify_title") }
+    /// Notify type notify_flag
+    static var walkRemindNotifyType: String { String(localized: "walk_remind_notify_type") }
+    /// on_off: 0 off / 1 on
+    static var walkRemindOnOffHint: String { String(localized: "walk_remind_on_off_hint") }
+    /// 7.8 Local notification permission failed: %@
+    static var walkRemindPermFail: String { String(localized: "walk_remind_perm_fail") }
+    /// 7.8 Local notification permission granted=%@
+    static var walkRemindPermGranted: String { String(localized: "walk_remind_perm_granted") }
+    /// Query completed
+    static var walkRemindQueryDone: String { String(localized: "walk_remind_query_done") }
+    /// ———— Query ————
+    static var walkRemindQuerySep: String { String(localized: "walk_remind_query_sep") }
+    /// Querying…
+    static var walkRemindQuerying: String { String(localized: "walk_remind_querying") }
+    /// Repeat days
+    static var walkRemindRepeat: String { String(localized: "walk_remind_repeat") }
+    /// Select weekdays to remind
+    static var walkRemindRepeatHint: String { String(localized: "walk_remind_repeat_hint") }
+    /// Request / Response Log
+    static var walkRemindReqRespLog: String { String(localized: "walk_remind_req_resp_log") }
+    /// Request: | %@
+    static var walkRemindRequest: String { String(localized: "walk_remind_request") }
+    /// Response: | %@
+    static var walkRemindResponse: String { String(localized: "walk_remind_response") }
+    /// Response: (empty)
+    static var walkRemindResponseEmpty: String { String(localized: "walk_remind_response_empty") }
+    /// Response: failed code=%@
+    static var walkRemindResponseFail: String { String(localized: "walk_remind_response_fail") }
+    /// 7.8 Walk reminder notify dataType=134
+    static var walkRemindSection134: String { String(localized: "walk_remind_section_134") }
+    /// Basic
+    static var walkRemindSectionBasic: String { String(localized: "walk_remind_section_basic") }
+    /// DND
+    static var walkRemindSectionDnd: String { String(localized: "walk_remind_section_dnd") }
+    /// Debug log
+    static var walkRemindSectionLog: String { String(localized: "walk_remind_section_log") }
+    /// Notify
+    static var walkRemindSectionNotify: String { String(localized: "walk_remind_section_notify") }
+    /// Repeat
+    static var walkRemindSectionRepeat: String { String(localized: "walk_remind_section_repeat") }
+    /// Valid period
+    static var walkRemindSectionTime: String { String(localized: "walk_remind_section_time") }
+    /// Set
+    static var walkRemindSet: String { String(localized: "walk_remind_set") }
+    /// Set succeeded
+    static var walkRemindSetOk: String { String(localized: "walk_remind_set_ok") }
+    /// ———— Set ————
+    static var walkRemindSetSep: String { String(localized: "walk_remind_set_sep") }
+    /// Setting…
+    static var walkRemindSetting: String { String(localized: "walk_remind_setting") }
+    /// Start
+    static var walkRemindStart: String { String(localized: "walk_remind_start") }
+    /// Status / Goal / Achieved
+    static var walkRemindStatusGoalAchieved: String { String(localized: "walk_remind_status_goal_achieved") }
+    /// Not supported by function table
+    static var walkRemindSupportNo: String { String(localized: "walk_remind_support_no") }
+    /// Supports setWalkReminder
+    static var walkRemindSupportOk: String { String(localized: "walk_remind_support_ok") }
+    /// Waiting for device report…
+    static var walkRemindWaiting: String { String(localized: "walk_remind_waiting") }
+    /// Fri
+    static var walkRemindWeekdayFri: String { String(localized: "walk_remind_weekday_fri") }
+    /// Mon
+    static var walkRemindWeekdayMon: String { String(localized: "walk_remind_weekday_mon") }
+    /// Sat
+    static var walkRemindWeekdaySat: String { String(localized: "walk_remind_weekday_sat") }
+    /// Sun
+    static var walkRemindWeekdaySun: String { String(localized: "walk_remind_weekday_sun") }
+    /// Thu
+    static var walkRemindWeekdayThu: String { String(localized: "walk_remind_weekday_thu") }
+    /// Tue
+    static var walkRemindWeekdayTue: String { String(localized: "walk_remind_weekday_tue") }
+    /// Wed
+    static var walkRemindWeekdayWed: String { String(localized: "walk_remind_weekday_wed") }
     /// walking machine
     static var walkingMachine: String { String(localized: "walking machine") }
     /// water polo
     static var waterPolo: String { String(localized: "water polo") }
     /// weight lifting
     static var weightLifting: String { String(localized: "weight lifting") }
-    /// Import ZIP file
-    static var 导入ZIP文件: String { String(localized: "导入ZIP文件") }
-    /// Confrim
-    static var 确定: String { String(localized: "确定") }
-    /// Dial Customization Tool
-    static var 表盘定制工具: String { String(localized: "表盘定制工具") }
 }
 
 // MARK: - String Extension

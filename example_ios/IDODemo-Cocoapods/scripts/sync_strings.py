@@ -97,8 +97,8 @@ def is_valid_swift_identifier(key: str) -> bool:
     if not (var_name[0].isalpha() or var_name[0] == '_'):
         return False
 
-    # Rest must be alphanumeric or underscore
-    if not all(c.isalnum() or c == '_' for c in var_name):
+    # Identifier must be ASCII-only alnum/underscore (reject Chinese etc. like "导入ZIP文件")
+    if not all(ord(c) < 128 and (c.isalnum() or c == "_") for c in var_name):
         return False
 
     return True
@@ -262,9 +262,16 @@ def generate_l10n_swift(keys: Dict[str, str]) -> str:
 
             # Add comment with English value if available
             if value:
-                # Escape comment for Swift
-                comment = value.replace('*/', '* /')
-                lines.append(f'    /// {comment}')
+                # Escape and flatten newlines — bare newlines break Swift `///` comments
+                # (continuation lines become invalid source; known with task_list_* / walk_remind_*).
+                comment = (
+                    value.replace("*/", "* /")
+                    .replace("\r\n", "\n")
+                    .replace("\r", "\n")
+                )
+                comment_parts = [p.strip() for p in comment.split("\n") if p.strip()]
+                if comment_parts:
+                    lines.append(f'    /// {" | ".join(comment_parts)}')
 
             lines.append(f'    static var {var_name}: String {{ String(localized: "{swift_key}") }}')
 

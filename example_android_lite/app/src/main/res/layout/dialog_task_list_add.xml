@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_task_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="task_id"
+        android:inputType="number"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="提醒时间（本地）"
+        android:textColor="#616161"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_remind_display"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_remind_utc_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#9E9E9E"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/btn_pick_remind"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_btn_send"
+        android:gravity="center"
+        android:text="选择年月日时分秒"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/et_task_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="top"
+        android:hint="task_detail（最多 70 字）"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:importantForAutofill="no" />
+</LinearLayout>

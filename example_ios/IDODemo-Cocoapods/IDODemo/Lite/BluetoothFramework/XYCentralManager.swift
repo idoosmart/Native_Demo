@@ -36,6 +36,11 @@ class XYCentralManager: NSObject {
     func stopScan() {
         XYCBBase.shared.stopScan()
     }
+
+    /// 等待蓝牙就绪后，按 UUID 还原 ScanInfo（供已绑定列表进功能页）。
+    func retrieveScanInfo(uuid: String, name: String, completion: @escaping (ScanInfo?) -> Void) {
+        XYCBBase.shared.retrieveScanInfo(uuid: uuid, name: name, completion: completion)
+    }
     
     //MARK: 连接
     //在连接成功，并且发现了外设的所有特征后才给出连接成功的回调

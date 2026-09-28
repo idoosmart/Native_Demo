@@ -565,12 +565,26 @@ class TransferFileDetailVC: UIViewController {
             let platform = sdk.device.platform
             let did = sdk.device.deviceId
 
-            // 1. 断开连接
+            // 1. 断开连接（Full: sdk.ble；Lite: bleMgr / XYCentralManager）
+            #if IDOSDK_FULL
             _ = await withCheckedContinuation { continuation in
                 sdk.ble.cancelConnect(macAddress: macAddress) { rs in
                     continuation.resume(returning: rs)
                 }
             }
+            #else
+            _ = await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                guard let id = UUID(uuidString: uuid),
+                      let peripheral = XYCBBase.shared.xyCentralManager
+                        .retrievePeripherals(withIdentifiers: [id]).first else {
+                    continuation.resume()
+                    return
+                }
+                bleMgr.disConnect(peripheral: peripheral) {
+                    continuation.resume()
+                }
+            }
+            #endif
 
             // 2. 标记 OTA 模式
             _ = await withCheckedContinuation { continuation in

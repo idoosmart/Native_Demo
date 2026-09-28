@@ -571,6 +571,24 @@
     <string name="desc_setmenstruationremind">设置经期提醒</string>
     <string name="desc_setshortcut">设置快捷方式</string>
 
+    
+    <string name="walk_remind_title">走动提醒</string>
+    <string name="task_list_title">任务清单</string>
+    <string name="task_list_full_set">全量设置</string>
+    <string name="task_list_full_set_title">任务清单</string>
+    <string name="task_list_query_status">查询任务清单状态变化列表</string>
+    <string name="task_list_query_json_title">请求 / 回复日志</string>
+    <string name="task_list_query_json_hint">点击上方「查询任务清单状态变化列表」查看请求与回复</string>
+    <string name="task_list_add">添加任务</string>
+    <string name="task_list_empty_hint">点击右上角「添加任务」随机生成</string>
+    <string name="task_list_resend">重新下发</string>
+    <string name="task_list_query_short">查询状态</string>
+    <string name="task_list_log_title">请求 / 回复日志</string>
+    <string name="task_list_log_hint">全量设置 / 查询状态 的请求与回复会显示在这里</string>
+    <string name="task_list_pending_section">待发送任务清单</string>
+    <string name="task_list_sent_section">已发送任务清单</string>
+    <string name="task_list_sent_empty">暂无已发送任务</string>
+
     <string name="gesture_control">手势控制</string>
     <string name="gesture_control_title">手势控制（15.82）</string>
     <string name="gesture_control_status_idle">状态: 空闲</string>

@@ -27,7 +27,6 @@ class GetFuntionData(
             mutableListOf.add(GetFuntionData(CustomEvtType.GETSNINFO, "getSn", context.getString(R.string.desc_getsn), isSupported = sdk.funcTable.getSupportGetSnInfo))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETBATTERYREMINDERSWITCH, "getBatteryReminderSwitch", context.getString(R.string.desc_getbatteryreminderswitch), isSupported = sdk.funcTable.supportBatteryReminderSwitch))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETAPPSLEEPMODE, "getAppSleepMode", context.getString(R.string.desc_getappsleepmode), isSupported = sdk.funcTable.supportAppSleepMode))
-            mutableListOf.add(GetFuntionData(CustomEvtType.GETPILLBOXSTATE, "getPillboxState", "获取药盒状态（锁定/开合）", isSupported = sdk.funcTable.supportSmartPillbox))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETFINDPHONESWITCH, "getFindPhoneSwitch", context.getString(R.string.desc_getfindphoneswitch), isSupported = sdk.funcTable.supportGetFindPhoneSwitch))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETFINDMYDEVICENAME, "getFindMyDeviceName", context.getString(R.string.desc_getfindmydevicename), isSupported = sdk.funcTable.supportGetFindMyDeviceName))
             mutableListOf.add(GetFuntionData(CustomEvtType.GETSPORTAUTOPAUSEENDTYPES, "getSportAutoPauseEndTypes", context.getString(R.string.desc_getsportautopauseendtypes), isSupported = sdk.funcTable.supportGetSportAutoPauseEndTypes))

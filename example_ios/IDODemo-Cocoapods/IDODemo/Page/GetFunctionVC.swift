@@ -92,7 +92,6 @@ class GetFunctionVC: UIViewController {
         add(GetCmd(type: .getSn, title: "getSn", desc: L10n.getSn), isSupported: sdk.funcTable.getSupportGetSnInfo)
         add(GetCmd(type: .getBatteryReminderSwitch, title: "getBatteryReminderSwitch", desc: L10n.getBatteryReminderSwitch), isSupported: sdk.funcTable.supportBatteryReminderSwitch)
         add(GetCmd(type: .getAppSleepMode, title: "getAppSleepMode", desc: L10n.getAppSleepMode), isSupported: sdk.funcTable.supportAppSleepMode)
-        add(GetCmd(type: .getPillboxState, title: "getPillboxState", desc: "获取药盒状态（锁定/开合）"), isSupported: sdk.funcTable.supportSmartPillbox)
         add(GetCmd(type: .getFindPhoneSwitch, title: "getFindPhoneSwitch", desc: L10n.getFindPhoneSwitch), isSupported: sdk.funcTable.supportGetFindPhoneSwitch)
         add(GetCmd(type: .getFindMyDeviceName, title: "getFindMyDeviceName", desc: L10n.getFindMyDeviceName), isSupported: sdk.funcTable.supportGetFindMyDeviceName)
         add(GetCmd(type: .getSportAutoPauseEndTypes, title: "getSportAutoPauseEndTypes", desc: L10n.getSportAutoPauseEndTypes), isSupported: sdk.funcTable.supportGetSportAutoPauseEndTypes)
@@ -338,7 +337,6 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get event number for battery reminder switch
      case getBatteryReminderSwitch
      case getAppSleepMode
-     case getPillboxState
     /// 获取寻找手机开关（GET:0x02/0x26）
      case getFindPhoneSwitch
     /// 获取 Find My 设备名称（V3 15.113）
@@ -710,10 +708,6 @@ private class GetFunctionDetailVC: UIViewController {
             }
         case .getAppSleepMode:
             cancellable = Cmds.getAppSleepMode().send { [weak self] res in
-                self?.doPrint(res)
-            }
-        case .getPillboxState:
-            cancellable = Cmds.getPillboxState().send { [weak self] res in
                 self?.doPrint(res)
             }
         case .getFindPhoneSwitch:

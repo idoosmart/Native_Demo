@@ -85,6 +85,10 @@ enum class CustomEvtType {
     GETBATTERYREMINDERSWITCH,
     /**  获取寻找手机开关（GET:0x02/0x26）*/
     GETFINDPHONESWITCH,
+    /**  获取 Find My 设备名称（V3 15.113）*/
+    GETFINDMYDEVICENAME,
+    /**  查询运动自动暂停/结束支持的运动类型（V3 15.111）*/
+    GETSPORTAUTOPAUSEENDTYPES,
     /**  获取宠物信息*/
     GETPETINFO,
     /**  获得固件三级版本和bt的3级版本*/

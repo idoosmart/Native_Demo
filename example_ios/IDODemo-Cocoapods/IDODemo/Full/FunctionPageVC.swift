@@ -55,7 +55,9 @@ class FunctionPageVC: UIViewController {
         Word.testBleChannel,
         Word.editSportScreen,
         Word.sdkFeatureTest,
-        Word.gestureControl
+        Word.gestureControl,
+        Word.taskList,
+        Word.walkRemind
     ]
     
     private lazy var tableView: UITableView = {
@@ -285,7 +287,14 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = canEnable ? .default : .none
         cell.textLabel?.textColor = canEnable ? .black : .gray
         cell.textLabel?.textAlignment = .left
-        cell.textLabel?.text = items[indexPath.row]
+        switch name {
+        case Word.taskList:
+            cell.textLabel?.text = L10n.taskList
+        case Word.walkRemind:
+            cell.textLabel?.text = L10n.walkRemind
+        default:
+            cell.textLabel?.text = name
+        }
         return cell
     }
     
@@ -362,6 +371,12 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 SVProgressHUD.showError(withStatus: "不支持 / not support")
             }
+            break
+        case Word.taskList:
+            navigationController?.pushViewController(TaskListTestVC(), animated: true)
+            break
+        case Word.walkRemind:
+            navigationController?.pushViewController(WalkRemindVC(), animated: true)
             break
         case Word.testOC:
             let test = TestOC()
@@ -494,6 +509,10 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.gestureControl:
             return isConnected && isBinded
+        case Word.taskList:
+            return isConnected && isBinded
+        case Word.walkRemind:
+            return isConnected && isBinded
         case Word.ida01FuncTest:
             return isConnected && isBinded
         default:
@@ -589,6 +608,10 @@ extension FunctionPageVC {
             self?.isBinded = !rs
             self?.tableView.reloadData()
             if rs {
+                TaskListStorage.clearOnUnbind(
+                    macAddress: macAddress,
+                    alternateMac: self?.deviceModel?.macAddress
+                )
                 SVProgressHUD.showSuccess(withStatus: "unbind successful")
             } else {
                 SVProgressHUD.showError(withStatus: "unbind failure")
@@ -602,6 +625,10 @@ extension FunctionPageVC {
         let macAddress = sdk.device.macAddressFull
         isBinded = false
         UserDefaults.standard.setBind(macAddress, isBind: false)
+        TaskListStorage.clearOnUnbind(
+            macAddress: macAddress,
+            alternateMac: deviceModel?.macAddress
+        )
         let alert = UIAlertController(title: "Tips", message: "绑定状态异常，需要重置本地缓存的绑定状态 / The binding status is abnormal, and the local cached binding status needs to be reset.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "I know", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
@@ -712,5 +739,23 @@ extension FunctionPageVC {
             return zipFilePath
         }
         return nil
+    }
+}
+
+// Full-only：Lite SDK 无 IDODeviceStateType
+extension IDODeviceStateType {
+    var name: String {
+        switch self {
+        case .connected:
+            return "Connected"
+        case .disconnected:
+            return "Disconnected"
+        case .connecting:
+            return "Connecting"
+        case .disconnecting:
+            return "Disconnecting"
+        @unknown default:
+            return "Unknown"
+        }
     }
 }

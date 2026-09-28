@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +25,10 @@ import com.idosmart.model.IDOSppStateModel
 import com.idosmart.protocol_channel.IDOSDK
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOBleDelegate
-import kotlinx.android.synthetic.main.activity_scan.*
 
+/**
+ * 扫描添加设备页。
+ */
 class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     private var requestPermissionCount = 0
     private val SDK_PERMISSION_REQUEST = 1
@@ -51,17 +54,26 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     }
 
     fun getPermmison() {
+        Log.d(TAG, "PERMISSION size:" + permissionList.size)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && requestPermissionCount < 5) {
-            if (permissionList.isNotEmpty()) {
+            if (permissionList.size != 0) {
                 requestPermissionCount++
-                ActivityCompat.requestPermissions(this, permissionList.toTypedArray(), SDK_PERMISSION_REQUEST)
+                ActivityCompat.requestPermissions(
+                    this,
+                    permissionList.toTypedArray(),
+                    SDK_PERMISSION_REQUEST
+                )
             } else {
                 startScan()
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestPermissionCount < 3) {
-            if (permissionList.isNotEmpty()) {
+            if (permissionList.size != 0) {
                 requestPermissionCount++
-                ActivityCompat.requestPermissions(this, permissionList.toTypedArray(), SDK_PERMISSION_REQUEST)
+                ActivityCompat.requestPermissions(
+                    this,
+                    permissionList.toTypedArray(),
+                    SDK_PERMISSION_REQUEST
+                )
             } else {
                 startScan()
             }
@@ -73,30 +85,45 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     inner class Blelisten : IDOBleDelegate {
         override fun scanResult(list: List<IDOBleDeviceModel>?) {
             mergeScanResult(list)
-            if (mDeviceList.isNotEmpty()) {
+            if (mDeviceList.size > 0) {
                 mDeviceList.firstOrNull { it?.isOta == true }?.let {
+                    println("OTA Mode Device: ${it.toString()}")
                     if (sdk.device.deviceId == 0 || sdk.device.deviceId != it.deviceId) {
                         sdk.ble.stopScan()
                         sdk.bridge.markOtaMode(
                             macAddress = it.macAddress ?: "",
                             platform = it.platform,
                             deviceId = it.deviceId ?: 0,
-                            completion = { rs -> if (rs) _otaMode() }
+                            completion = { rs ->
+                                if (rs) {
+                                    _otaMode()
+                                } else {
+                                    println("OTA Mode Failed")
+                                }
+                            }
                         )
                     }
                 }
             }
         }
 
-        override fun bluetoothState(state: IDOBluetoothStateModel) {}
-        override fun deviceState(state: IDODeviceStateModel) {}
+        override fun bluetoothState(state: IDOBluetoothStateModel) {
+            println("bluetoothState: ${state.toString()}")
+        }
+
+        override fun deviceState(state: IDODeviceStateModel) {
+            println("deviceState: ${state.toString()} errorState:${state.errorState}")
+        }
+
         override fun receiveData(data: IDOReceiveData) {}
         override fun stateSPP(state: IDOSppStateModel) {}
         override fun writeSPPCompleteState(btMacAddress: String) {}
-        override fun stateBT(isPair: Boolean) {}
+        override fun stateBT(isPair: Boolean) {
+            Log.d(TAG, "stateBT:$isPair")
+        }
 
         fun _otaMode() {
-            AlertDialog.Builder(this@ScanActivity)
+            val alertDialog = AlertDialog.Builder(this@ScanActivity)
                 .setTitle("OTA Mode")
                 .setMessage("当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?")
                 .setPositiveButton("YES") { _, _ ->
@@ -104,7 +131,7 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
                 }
                 .setNegativeButton("NO") { dialog, _ -> dialog.dismiss() }
                 .create()
-                .show()
+            alertDialog.show()
         }
     }
 
@@ -134,8 +161,9 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         mAdapter = ScanDeviceAdapter(mDeviceList)
         lvDevice?.adapter = mAdapter
         mAdapter?.setOnSelectDeviceListenter(this)
-        btn_refresh.setTextColor(Color.WHITE)
-        btn_refresh.setOnClickListener {
+        val btnRefresh = findViewById<Button>(R.id.btn_refresh)
+        btnRefresh.setTextColor(Color.WHITE)
+        btnRefresh.setOnClickListener {
             mAdapter?.clear()
             mDeviceList.clear()
             mDevice = null
@@ -168,14 +196,20 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
         mAdapter?.updateData(mDeviceList)
     }
 
-    override fun select(position: Int) {
-        val device = mDeviceList.getOrNull(position) ?: return
+    private fun openDevice(device: IDOBleDeviceModel?) {
+        if (device == null) {
+            return
+        }
         IDOSDK.instance().ble.stopScan()
         mDevice = device
         mAdapter?.setSelectDevice(device)
         val intent = Intent(this, FunctionActivity::class.java)
         intent.putExtra(MainActivity.DEVICE, device)
         startActivity(intent)
+    }
+
+    override fun select(position: Int) {
+        openDevice(mDeviceList.getOrNull(position))
     }
 }
 

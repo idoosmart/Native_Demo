@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070D23">
+
+    <Button
+        android:id="@+id/bt_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size10dp"
+        android:layout_marginEnd="@dimen/size10dp"
+        android:text="@string/sport_edit_save"
+        android:textColor="@color/white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/bt_style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bt_save"
+        android:gravity="center_vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <com.example.example_android.widget.SportScreenView
+            android:id="@+id/ssv"
+            android:layout_width="240dp"
+            android:layout_height="240dp">
+        </com.example.example_android.widget.SportScreenView>
+        <!--      <FrameLayout
+                  android:id="@+id/llScreen"
+                  android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="0.65"
+                  android:background="@color/white" >
+              </FrameLayout>-->
+    </LinearLayout>
+    <Button
+        android:id="@+id/bt_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size10dp"
+        android:text="切换布局"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llOperate"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/llOperate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/size50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/tvRestore">
+
+        <Button
+            android:id="@+id/btMoveUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size10dp"
+            android:layout_weight="1"
+            android:text="@string/sport_edit_move_up"
+            android:onClick="moveUp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btMoveDown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size10dp"
+            android:layout_weight="1"
+            android:text="@string/sport_edit_move_down"
+            android:onClick="moveDown"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size10dp"
+            android:layout_weight="1"
+            android:text="@string/sport_edit_new_screen"
+            android:onClick="add"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sport_edit_delete_screen"
+            android:onClick="delete"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvRestore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="@string/sport_edit_restore"
+        android:textColor="#5699E9"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

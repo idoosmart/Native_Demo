@@ -29,8 +29,8 @@ import com.idosmart.model.IDODeviceVibrationRingtoneModel
 import com.idosmart.pigeon_implement.Cmds
 import com.idosmart.protocol_channel.sdk
 import com.idosmart.protocol_sdk.IDOExchangeDataDelegate
-import com.idosmart.protocol_sdk.IDOBleExecType
-import com.idosmart.protocol_sdk.IDOBleReplyType
+import com.idosmart.model.IDOBleExecType
+import com.idosmart.model.IDOBleReplyType
 import kotlinx.android.synthetic.main.activity_sdk_feature_test.ll_buttons
 import kotlinx.android.synthetic.main.activity_sdk_feature_test.sv_log
 import kotlinx.android.synthetic.main.activity_sdk_feature_test.tv_log

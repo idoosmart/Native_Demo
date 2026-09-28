@@ -22,6 +22,8 @@ object CmdGet {
             CustomEvtType.GETACTIVITYSWITCH -> Cmds.getActivitySwitch()
             CustomEvtType.GETBATTERYREMINDERSWITCH -> Cmds.getBatteryReminderSwitch()
             CustomEvtType.GETFINDPHONESWITCH -> Cmds.getFindPhoneSwitch()
+            CustomEvtType.GETFINDMYDEVICENAME -> Cmds.getFindMyDeviceName()
+            CustomEvtType.GETSPORTAUTOPAUSEENDTYPES -> Cmds.getSportAutoPauseEndTypes()
             CustomEvtType.GETPETINFO -> Cmds.getPetInfo()
             CustomEvtType.GETALARMV3 -> Cmds.getAlarm()
             CustomEvtType.GETALLHEALTHSWITCHSTATE -> Cmds.getAllHealthSwitchState()

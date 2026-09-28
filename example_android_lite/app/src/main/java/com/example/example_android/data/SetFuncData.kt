@@ -635,8 +635,7 @@ class SetFuncData(
                 mutableListOf.add(
                     SetFuncData(
                         CustomEvtType.SETPETINFO,
-                        "setPetInfo",
-                        IDOPetInfoParamModel(1, 450, 0, 2024, 1, 1)
+                        "setPetInfo"
                     )
                 )
             }

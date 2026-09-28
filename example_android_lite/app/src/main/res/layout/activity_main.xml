@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lv_device"
+    <LinearLayout
+        android:id="@+id/layout_bound_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:dividerHeight="0.6dp" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <Button
-        android:id="@+id/btn_refresh"
+        <TextView
+            android:id="@+id/tv_bound_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"
+            android:text="已绑定设备 / Bound Devices"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_bound_device"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:dividerHeight="0.6dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_empty"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="refresh"
-        android:textSize="13sp" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无已绑定设备"
+            android:textColor="#999999"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_add_device"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:minWidth="160dp"
+            android:text="添加设备"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -32,6 +32,23 @@
     <string name="progress">Progress :</string>
     <string name="sync_data">Sync Data</string>
     <string name="sdk_feature_test">SDK Feature Test</string>
+    <string name="walk_remind_title">Walk Reminder</string>
+    <string name="task_list_title">Task List</string>
+    <string name="task_list_full_set">Full set</string>
+    <string name="task_list_full_set_title">Task List</string>
+    <string name="task_list_query_status">Query status change list</string>
+    <string name="task_list_query_json_title">Request / Reply log</string>
+    <string name="task_list_query_json_hint">Tap Query to see request and reply</string>
+    <string name="task_list_add">Add tasks</string>
+    <string name="task_list_empty_hint">Tap Add tasks to generate randomly</string>
+    <string name="task_list_resend">Resend</string>
+    <string name="task_list_query_short">Query</string>
+    <string name="task_list_log_title">Request / Reply log</string>
+    <string name="task_list_log_hint">Full-set / query request and reply logs appear here</string>
+    <string name="task_list_pending_section">Pending tasks</string>
+    <string name="task_list_sent_section">Sent tasks</string>
+    <string name="task_list_sent_empty">No sent tasks</string>
+
     <string name="sdk_feature_refresh">Refresh</string>
     <string name="sdk_feature_clear">Clear</string>
     <string name="transfer_file">Transfer File</string>

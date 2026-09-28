@@ -1,7 +1,6 @@
 package com.example.example_android.adapter
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,51 +10,57 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.example_android.R
 import com.idosmart.model.IDOBleDeviceModel
 
+
 class ScanDeviceAdapter(
     var mDeviceList: MutableList<IDOBleDeviceModel?>,
     private val boundStyle: Boolean = false
 ) : RecyclerView.Adapter<ScanDeviceAdapter.DeviceViewHodler>() {
 
-    private var mOnSelectDeviceListenter: onSelectDeviceListenter? = null
-    private var selectedDevice: IDOBleDeviceModel? = null
-
+    private var mOnSelectDeviceListenter :onSelectDeviceListenter?=null
+    private var selectedDevice :IDOBleDeviceModel ?=null
     override fun onBindViewHolder(holder: DeviceViewHodler, @SuppressLint("RecyclerView") position: Int) {
         val course: IDOBleDeviceModel? = mDeviceList[position]
-        holder.tvName?.text = course?.name
-        holder.tvMac?.text = course?.macAddress
+
+        holder.tvName?.setText(course?.name)
+        holder.tvMac?.setText(course?.macAddress)
         if (boundStyle) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#E8F4FF"))
-            holder.tvRssi?.text = "Bound"
+            holder.itemView.setBackgroundColor(android.graphics.Color.parseColor("#E8F4FF"))
+            holder.tvRssi?.setText("Bound")
         } else {
-            holder.itemView.setBackgroundColor(Color.WHITE)
-            holder.tvRssi?.text = course?.rssi.toString()
+            holder.itemView.setBackgroundColor(android.graphics.Color.WHITE)
+            holder.tvRssi?.setText(course?.rssi.toString())
         }
-        holder.view.visibility =
-            if (selectedDevice?.macAddress.equals(course?.macAddress)) View.VISIBLE else View.GONE
-        holder.itemView.setOnClickListener {
-            Log.d("ScanAdapter", "select")
-            mOnSelectDeviceListenter?.select(position)
+        if (selectedDevice?.macAddress.equals(course?.macAddress)){
+            holder.view.visibility = View.VISIBLE
+        }else{
+            holder.view.visibility = View.GONE
         }
+        holder.itemView.setOnClickListener(object :View.OnClickListener{
+            override fun onClick(view: View?) {
+                Log.d("ScanAdapter","dddddddddddddd")
+                mOnSelectDeviceListenter?.select(position)
+            }
+        })
+    }
+    fun  setOnSelectDeviceListenter(listenter: onSelectDeviceListenter){
+        this.mOnSelectDeviceListenter =listenter
     }
 
-    fun setOnSelectDeviceListenter(listenter: onSelectDeviceListenter) {
-        this.mOnSelectDeviceListenter = listenter
+    override fun getItemCount(): Int {
+        return mDeviceList.size
     }
 
-    override fun getItemCount(): Int = mDeviceList.size
-
-    fun updateData(list: MutableList<IDOBleDeviceModel?>) {
+    fun updateData( list  :MutableList<IDOBleDeviceModel?>){
         this.mDeviceList = list
-        notifyDataSetChanged()
+        this.notifyDataSetChanged()
     }
 
-    fun setSelectDevice(bleDevice: IDOBleDeviceModel) {
-        this.selectedDevice = bleDevice
+    fun  setSelectDevice(bleDevice: IDOBleDeviceModel){
+        this.selectedDevice =bleDevice
         notifyDataSetChanged()
     }
-
-    interface onSelectDeviceListenter {
-        fun select(position: Int)
+    interface  onSelectDeviceListenter{
+        fun  select(position :Int)
     }
 
     fun clear() {
@@ -65,14 +70,19 @@ class ScanDeviceAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHodler {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_device, parent, false)
-        return DeviceViewHodler(view)
+        val view: View = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.item_device, parent, false)
+        val holder = DeviceViewHodler(view)
+        return holder;
+    /*    return DeviceViewHodler(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_device, null, false)
+        )*/
     }
+     class DeviceViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
+         val  tvName =  itemView.findViewById<TextView>(R.id.tv_basic_name)
+         val  tvMac =  itemView.findViewById<TextView>(R.id.tv_basic_mac)
+         val  view =  itemView.findViewById<View>(R.id.view_select)
+         val  tvRssi =  itemView.findViewById<TextView>(R.id.tvRssi)
 
-    class DeviceViewHodler(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvName = itemView.findViewById<TextView>(R.id.tv_basic_name)
-        val tvMac = itemView.findViewById<TextView>(R.id.tv_basic_mac)
-        val view = itemView.findViewById<View>(R.id.view_select)
-        val tvRssi = itemView.findViewById<TextView>(R.id.tvRssi)
     }
 }

@@ -21,6 +21,7 @@ import com.example.example_android.data.CmdGet
 import com.example.example_android.data.CurrentDevice
 import com.example.example_android.data.CustomEvtType
 import com.example.example_android.data.GetFuntionData
+import com.example.example_android.sport.EditSportListActivity
 import com.example.example_android.util.FunctionUtils
 import com.example.example_android.util.Logutil
 import com.example.example_android.util.PairedDeviceUtils
@@ -38,12 +39,17 @@ import kotlinx.android.synthetic.main.layout_function_activity.ll_dis_connect
 import kotlinx.android.synthetic.main.layout_function_activity.ll_un_bin
 import kotlinx.android.synthetic.main.layout_function_activity.rl_alexa
 import kotlinx.android.synthetic.main.layout_function_activity.rl_epo
+import kotlinx.android.synthetic.main.layout_function_activity.rl_gesture_control
 import kotlinx.android.synthetic.main.layout_function_activity.rl_get_function
+import kotlinx.android.synthetic.main.layout_function_activity.rl_measure
 import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
+import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sdk_feature_test
+import kotlinx.android.synthetic.main.layout_function_activity.rl_task_list
 import kotlinx.android.synthetic.main.layout_function_activity.rl_transfer_file
+import kotlinx.android.synthetic.main.layout_function_activity.rl_walk_remind
 
 
 class FunctionActivity : BaseActivity() {
@@ -133,6 +139,13 @@ class FunctionActivity : BaseActivity() {
         rl_transfer_file?.visibility = View.GONE
         rl_alexa?.visibility = View.GONE
         rl_sport?.visibility = View.GONE
+        rl_epo?.visibility = View.GONE
+        rl_sdk_feature_test?.visibility = View.GONE
+        rl_task_list?.visibility = View.GONE
+        rl_walk_remind?.visibility = View.GONE
+        rl_gesture_control?.visibility = View.GONE
+        rl_sport_screen?.visibility = View.GONE
+        rl_measure?.visibility = View.GONE
         ll_dis_connect?.visibility = View.GONE
         ll_connect?.visibility = View.VISIBLE
 
@@ -156,7 +169,7 @@ class FunctionActivity : BaseActivity() {
                         IDOBindStatus.SUCCESSFUL -> {
                             toast("bind ok")
                             //save bind info
-                            FunctionUtils.saveBindState(device!!.mac.toString())
+                            FunctionUtils.saveBoundDevice(device!!)
                             bindState()
 
                             //bt pair
@@ -183,7 +196,7 @@ class FunctionActivity : BaseActivity() {
                                 if (it.error.code == 0) {
                                     toast("bind ok")
                                     //save bind info
-                                    FunctionUtils.saveBindState(device!!.mac.toString())
+                                    FunctionUtils.saveBoundDevice(device!!)
                                     bindState()
                                     sdk.cmd.appMarkBindResult(true)
                                 } else {
@@ -270,6 +283,34 @@ class FunctionActivity : BaseActivity() {
         startActivity(Intent(this, SdkFeatureTestActivity::class.java))
     }
 
+    fun measure(view: View) {
+        startActivity(Intent(this, MeasureActivity::class.java))
+    }
+
+    fun taskListTest(view: View) {
+        startActivity(Intent(this, TaskListTestActivity::class.java))
+    }
+
+    fun walkRemindTest(view: View) {
+        startActivity(Intent(this, WalkRemindActivity::class.java))
+    }
+
+    fun gestureControl(view: View) {
+        if (sdk.funcTable.supportOperateGestureControl) {
+            startActivity(Intent(this, GestureControlActivity::class.java))
+        } else {
+            toast("此设备不支持 / this device is not support")
+        }
+    }
+
+    fun sportScreen(view: View) {
+        if (sdk.funcTable.supportOperateSetSportScreen) {
+            startActivity(Intent(this, EditSportListActivity::class.java))
+        } else {
+            toast("此设备不支持 / this device is not support")
+        }
+    }
+
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle("FunctionList")
@@ -296,6 +337,11 @@ class FunctionActivity : BaseActivity() {
             rl_sport?.visibility = View.VISIBLE
             rl_epo?.visibility = View.VISIBLE
             rl_sdk_feature_test?.visibility = View.VISIBLE
+            rl_task_list?.visibility = View.VISIBLE
+            rl_walk_remind?.visibility = View.VISIBLE
+            rl_gesture_control?.visibility = View.VISIBLE
+            rl_sport_screen?.visibility = View.VISIBLE
+            rl_measure?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -308,6 +354,11 @@ class FunctionActivity : BaseActivity() {
             rl_sport?.visibility = View.GONE
             rl_epo?.visibility = View.GONE
             rl_sdk_feature_test?.visibility = View.GONE
+            rl_task_list?.visibility = View.GONE
+            rl_walk_remind?.visibility = View.GONE
+            rl_gesture_control?.visibility = View.GONE
+            rl_sport_screen?.visibility = View.GONE
+            rl_measure?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
@@ -326,7 +377,13 @@ class FunctionActivity : BaseActivity() {
             rl_transfer_file?.visibility = View.GONE
             rl_alexa?.visibility = View.GONE
             rl_sport?.visibility = View.GONE
+            rl_epo?.visibility = View.GONE
             rl_sdk_feature_test?.visibility = View.GONE
+            rl_task_list?.visibility = View.GONE
+            rl_walk_remind?.visibility = View.GONE
+            rl_gesture_control?.visibility = View.GONE
+            rl_sport_screen?.visibility = View.GONE
+            rl_measure?.visibility = View.GONE
             ll_dis_connect?.visibility = View.GONE
             ll_connect?.visibility = View.VISIBLE
         }

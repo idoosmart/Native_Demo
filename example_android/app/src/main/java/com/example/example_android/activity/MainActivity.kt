@@ -14,6 +14,7 @@ import com.example.example_android.R
 import com.example.example_android.adapter.ScanDeviceAdapter
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
+import com.example.example_android.tasklist.TaskListStorage
 import com.example.example_android.util.FunctionUtils
 import com.idosmart.enums.IDODeviceStateType
 import com.idosmart.model.IDOBleDeviceModel
@@ -22,6 +23,9 @@ import com.idosmart.pigeon_implement.IDOEpoManagerDelegate
 import com.idosmart.pigeon_implement.IDOOtaGpsInfo
 import com.idosmart.protocol_channel.sdk
 
+/**
+ * 首页：已绑定设备列表。添加设备进入 [ScanActivity]。
+ */
 class MainActivity : BaseActivity() {
     private var lvBoundDevice: RecyclerView? = null
     private var layoutBoundContent: LinearLayout? = null
@@ -37,6 +41,7 @@ class MainActivity : BaseActivity() {
 
     inner class EpoListen : IDOEpoManagerDelegate {
         override fun getAppGpsInfo(): IDOOtaGpsInfo {
+            // !!!: 此处的经纬度是伪代码 | The latitude and longitude here are pseudocode
             return IDOOtaGpsInfo(114.0579f, 22.5431f, 10.0f)
         }
     }
@@ -88,8 +93,10 @@ class MainActivity : BaseActivity() {
     private fun updateBleStatusIcon() {
         val state = BleManager.getConnectState()
         mMenuBleStatus?.setIcon(
-            if (state?.state == IDODeviceStateType.CONNECTED) R.drawable.ble_connect
-            else R.drawable.ble_disconnect
+            if (state?.state == IDODeviceStateType.CONNECTED)
+                R.drawable.ble_connect
+            else
+                R.drawable.ble_disconnect
         )
     }
 
@@ -130,6 +137,7 @@ class MainActivity : BaseActivity() {
                 closeProgressDialog()
                 isUnbinding = false
                 if (success) {
+                    TaskListStorage.clearOnUnbind(mac)
                     FunctionUtils.upDataDeviceMac(mac)
                     toast("解绑成功")
                     refreshBoundList()
@@ -158,7 +166,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun openDevice(device: IDOBleDeviceModel?) {
-        if (device == null) return
+        if (device == null) {
+            return
+        }
         mBoundAdapter?.setSelectDevice(device)
         val intent = Intent(this, FunctionActivity::class.java)
         intent.putExtra(DEVICE, device)

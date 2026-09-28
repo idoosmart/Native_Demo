@@ -16,6 +16,8 @@
     <!-- Required only when requesting background location access on
        Android 10 (API level 29) and higher. -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- Demo：走动提醒 dataType=134 本地通知（Android 13+） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".MyApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -125,6 +127,19 @@
             android:name=".activity.GestureControlActivity"
             android:exported="false"
             android:label="@string/gesture_control" />
+        <activity
+            android:name=".activity.TaskListTestActivity"
+            android:exported="false"
+            android:label="@string/task_list_title" />
+        <activity
+            android:name=".activity.TaskListFullSetActivity"
+            android:exported="false"
+            android:label="@string/task_list_full_set_title" />
+        <activity
+            android:name=".activity.WalkRemindActivity"
+            android:exported="false"
+            android:label="@string/walk_remind_title" />
+
         <activity
             android:name=".activity.CallNoticeActivity"
             android:exported="false"

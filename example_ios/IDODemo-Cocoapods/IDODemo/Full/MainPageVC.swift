@@ -121,6 +121,10 @@ class MainPageVC: BaseVC {
             guard let self = self else { return }
             self.isUnbinding = false
             if rs {
+                TaskListStorage.clearOnUnbind(
+                    macAddress: macAddress,
+                    alternateMac: sdk.device.macAddress
+                )
                 UserDefaults.standard.setBind(macAddress, isBind: false)
                 SVProgressHUD.showSuccess(withStatus: "unbind successful")
                 self.reloadBoundDevices()

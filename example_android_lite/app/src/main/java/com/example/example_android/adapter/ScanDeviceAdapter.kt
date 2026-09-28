@@ -9,19 +9,38 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clj.fastble.data.BleDevice
 import com.example.example_android.R
-import com.idosmart.model.IDOBleDeviceModel
+import com.example.example_android.util.BoundDeviceInfo
 
 
-class ScanDeviceAdapter(var mDeviceList  :MutableList<BleDevice?> ): RecyclerView.Adapter<ScanDeviceAdapter.DeviceViewHodler>() {
+class ScanDeviceAdapter(
+    var mDeviceList: MutableList<BleDevice?> = mutableListOf(),
+    private val boundStyle: Boolean = false
+) : RecyclerView.Adapter<ScanDeviceAdapter.DeviceViewHodler>() {
 
     private var mOnSelectDeviceListenter :onSelectDeviceListenter?=null
     private var selectedDevice :BleDevice ?=null
+    private var boundItems = mutableListOf<BoundDeviceInfo>()
+
     override fun onBindViewHolder(holder: DeviceViewHodler, @SuppressLint("RecyclerView") position: Int) {
+        if (boundStyle) {
+            val item = boundItems.getOrNull(position) ?: return
+            holder.tvName?.setText(item.name)
+            holder.tvMac?.setText(item.mac)
+            holder.tvRssi?.setText("Bound")
+            holder.itemView.setBackgroundColor(android.graphics.Color.parseColor("#E8F4FF"))
+            holder.view.visibility = View.GONE
+            holder.itemView.setOnClickListener {
+                mOnSelectDeviceListenter?.select(position)
+            }
+            return
+        }
+
         val course: BleDevice? = mDeviceList[position]
 
         holder.tvName?.setText(course?.name)
         holder.tvMac?.setText(course?.mac)
         holder.tvRssi?.setText(course?.rssi.toString())
+        holder.itemView.setBackgroundColor(android.graphics.Color.WHITE)
         if (selectedDevice?.mac.equals(course?.mac)){
             holder.view.visibility = View.VISIBLE
         }else{
@@ -39,12 +58,21 @@ class ScanDeviceAdapter(var mDeviceList  :MutableList<BleDevice?> ): RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return mDeviceList.size
+        return if (boundStyle) boundItems.size else mDeviceList.size
     }
 
     fun updateData( list  :MutableList<BleDevice?>){
         this.mDeviceList = list
         this.notifyDataSetChanged()
+    }
+
+    fun setBoundData(list: List<BoundDeviceInfo>) {
+        boundItems = list.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun getBoundItem(position: Int): BoundDeviceInfo? {
+        return boundItems.getOrNull(position)
     }
 
     fun  setSelectDevice(bleDevice: BleDevice){

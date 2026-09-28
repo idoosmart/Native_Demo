@@ -85,6 +85,8 @@ class GetFunctionDetailActivity : BaseActivity() {
                 CustomEvtType.GETDEVICENAME -> getDeviceName()
                 CustomEvtType.GETALGFILE-> getAlgFile()
                 CustomEvtType.REQUESTALGFILE-> requestAlgFile()
+                CustomEvtType.GETFINDMYDEVICENAME -> getFindMyDeviceName()
+            CustomEvtType.GETSPORTAUTOPAUSEENDTYPES -> getSportAutoPauseEndTypes()
                 else -> {}
             }
         }
@@ -1092,6 +1094,28 @@ class GetFunctionDetailActivity : BaseActivity() {
             }
         }
         paramter_tv?.text = deviceName?.json
+    }
+
+    private fun getFindMyDeviceName() {
+        Cmds.getFindMyDeviceName().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{\"operate\":2}"
+    }
+
+    private fun getSportAutoPauseEndTypes() {
+        Cmds.getSportAutoPauseEndTypes().send {
+            if (it.error.code == 0) {
+                tv_response?.text = it.res?.toJsonString() ?: "{ok}"
+            } else {
+                tv_response?.text = "error code: ${it.error.code} - ${it.error.message}"
+            }
+        }
+        paramter_tv?.text = "{\"operate\":3}"
     }
 
 

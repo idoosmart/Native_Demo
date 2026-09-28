@@ -149,6 +149,16 @@ class GetFuntionData(type: CustomEvtType, title: String? = null, sub_title: Stri
                     "getFindPhoneSwitch",
                     ""
                 ),
+                GetFuntionData(
+                    CustomEvtType.GETFINDMYDEVICENAME,
+                    "getFindMyDeviceName",
+                    ""
+                ),
+                GetFuntionData(
+                    CustomEvtType.GETSPORTAUTOPAUSEENDTYPES,
+                    "getSportAutoPauseEndTypes",
+                    ""
+                ),
 //                 GetFuntionData(CustomEvtType.GETFIRMWAREBTVERSION,"获得固件三级版本和bt的3级版本",""),
 
 

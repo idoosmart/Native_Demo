@@ -35,10 +35,16 @@ class FunctionPageVC: UIViewController {
         Word.syncData,
         Word.transFile,
         Word.epoUpgrade,
+        Word.measure,
+        Word.messageNotice,
         Word.sport,
         Word.alexa,
         Word.testOC,
-        Word.editSportScreen
+        Word.editSportScreen,
+        Word.sdkFeatureTest,
+        Word.gestureControl,
+        Word.taskList,
+        Word.walkRemind
     ]
     
     private lazy var tableView: UITableView = {
@@ -137,7 +143,12 @@ class FunctionPageVC: UIViewController {
                     self?.tableView.reloadData()
                     break
                 case .fastSyncFailed:
-                    self?._disconnect()
+                    SVProgressHUD.dismiss()
+                    let alert = UIAlertController(title: "Warn", message: L10n.fastconfigFail, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] _ in
+                        self?._disconnect()
+                    }))
+                    self?.present(alert, animated: true, completion: nil)
                     break
                 case .deviceInfoBtAddressUpdateCompleted:
                     break
@@ -147,11 +158,24 @@ class FunctionPageVC: UIViewController {
                     break
                 case .syncHealthDataCompleted:
                     break
+                case .fastSyncStarting:
+                    SVProgressHUD.show(withStatus: L10n.onFastconfig)
+                    break
                 @unknown default:
                     break
                 }
             }
         }).disposed(by: disposeBag)
+
+        // 对齐 Full / Android：进入功能页自动连接（返回再进也会重连）
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self, let device = self.deviceModel else { return }
+            if device.peripheral.state == .connected {
+                self.applyConnectedState()
+            } else {
+                self.connectDevice()
+            }
+        }
     }
     
     deinit {
@@ -183,7 +207,14 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = canEnable ? .default : .none
         cell.textLabel?.textColor = canEnable ? .black : .gray
         cell.textLabel?.textAlignment = .left
-        cell.textLabel?.text = items[indexPath.row]
+        switch name {
+        case Word.taskList:
+            cell.textLabel?.text = L10n.taskList
+        case Word.walkRemind:
+            cell.textLabel?.text = L10n.walkRemind
+        default:
+            cell.textLabel?.text = name
+        }
         return cell
     }
     
@@ -229,6 +260,17 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.epoUpgrade:
             navigationController?.pushViewController(EpoVC(), animated: true)
             break
+        case Word.measure:
+            debugPrint("sdk.device.platform: \(sdk.device.platform)")
+            if (sdk.device.platform == 1) {
+                navigationController?.pushViewController(MeasureVC(), animated: true)
+            } else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
+            break
+        case Word.messageNotice:
+            navigationController?.pushViewController(MessageNoticeVC(), animated: true)
+            break
         case Word.sport:
             navigationController?.pushViewController(SportVC(), animated: true)
             break
@@ -240,9 +282,25 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
         case Word.editSportScreen:
             if sdk.funcTable.supportOperateSetSportScreen {
                 navigationController?.pushViewController(SportListVC(), animated: true)
-            }else {
+            } else {
                 SVProgressHUD.showError(withStatus: "不支持 / not support")
             }
+            break
+        case Word.sdkFeatureTest:
+            navigationController?.pushViewController(SdkFeatureTestVC(), animated: true)
+            break
+        case Word.gestureControl:
+            if sdk.funcTable.supportOperateGestureControl {
+                navigationController?.pushViewController(GestureControlVC(), animated: true)
+            } else {
+                SVProgressHUD.showError(withStatus: "不支持 / not support")
+            }
+            break
+        case Word.taskList:
+            navigationController?.pushViewController(TaskListTestVC(), animated: true)
+            break
+        case Word.walkRemind:
+            navigationController?.pushViewController(WalkRemindVC(), animated: true)
             break
         default: break
         }
@@ -253,45 +311,61 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
 
 extension FunctionPageVC {
     
-    // 连接设备
-    private func connectDevice() {
-        SVProgressHUD.show()
-        bleMgr.connect(peripheral: deviceModel!.peripheral) { [weak self] res, err in
-            print("bleMgr.connect res:\(res) err:\(String(describing: err))")
-            guard let self = self else {
-                return
-            }
-            if (res) {
-                self.testReadData() // 注册数据接收
-                let otaType = sdk.bridge.checkOtaType(peripheral: deviceModel!.peripheral, advertisementData: deviceModel!.advertisementData)
-                if (otaType != .none) {
-                    // 设备处理ota模式时，需要进入到升级页
-                    SVProgressHUD.dismiss()
-                    _otaMode()
-                    return
-                }
-                
-                let uniqueId = self.deviceModel!.uuid
-                let isBinded = UserDefaults.standard.isBind(uniqueId)
-                self.isBinded = isBinded
-                
-                // 标记协议库已连接（!!!重要）
-                sdk.bridge.markConnectedDevice(uniqueId: self.deviceModel!.uuid,
-                                               otaType: .none,
-                                               isBinded: isBinded,
-                                               deviceName: self.deviceModel?.peripheralName) { [weak self] rs in
-                    SVProgressHUD.dismiss()
-                    self?.isConnected = rs
-                    self?.isBinded = isBinded
-                    self?.tableView.reloadData()
-                    if (!rs) {
-                        SVProgressHUD.showError(withStatus: "Connect Failure")
-                    }
-                }
-            }else {
+    /// 绑定标志按 MAC 存储；从 Lite 快照或协议库当前设备取 MAC。
+    private func boundMacAddress() -> String? {
+        guard let uuid = deviceModel?.uuid else { return nil }
+        if let mac = UserDefaults.standard.loadLiteBoundDevices().first(where: { $0.uuid == uuid })?.mac,
+           !mac.isEmpty {
+            return mac
+        }
+        let mac = sdk.device.macAddressFull
+        return mac.isEmpty ? nil : mac
+    }
+
+    /// 外设已连接时：注册通知、标记协议库、刷新 UI。
+    private func applyConnectedState() {
+        guard let device = deviceModel else { return }
+        testReadData()
+        let otaType = sdk.bridge.checkOtaType(peripheral: device.peripheral, advertisementData: device.advertisementData)
+        if otaType != .none {
+            SVProgressHUD.dismiss()
+            _otaMode()
+            return
+        }
+        let mac = boundMacAddress() ?? ""
+        let binded = !mac.isEmpty && UserDefaults.standard.isBind(mac)
+        isBinded = binded
+        SVProgressHUD.show(withStatus: "Connecting...")
+        sdk.bridge.markConnectedDevice(
+            uniqueId: device.uuid,
+            otaType: .none,
+            isBinded: binded,
+            deviceName: device.peripheralName
+        ) { [weak self] rs in
+            SVProgressHUD.dismiss()
+            self?.isConnected = rs
+            self?.isBinded = binded
+            self?.lblConnectState.text = "Connect State:\(self?.deviceModel?.peripheral.state.name ?? CBPeripheralState.disconnected.name)"
+            self?.tableView.reloadData()
+            if !rs {
                 SVProgressHUD.showError(withStatus: "Connect Failure")
             }
+        }
+    }
+
+    // 连接设备
+    private func connectDevice() {
+        guard let peripheral = deviceModel?.peripheral else { return }
+        SVProgressHUD.show(withStatus: "Connecting...")
+        bleMgr.connect(peripheral: peripheral) { [weak self] res, err in
+            print("bleMgr.connect res:\(res) err:\(String(describing: err))")
+            guard let self = self else { return }
             self.lblConnectState.text = "Connect State:\(self.deviceModel?.peripheral.state.name ?? CBPeripheralState.disconnected.name)"
+            if res {
+                self.applyConnectedState()
+            } else {
+                SVProgressHUD.showError(withStatus: "Connect Failure")
+            }
         }
     }
     
@@ -335,11 +409,21 @@ extension FunctionPageVC {
             return isConnected && isBinded
         case Word.transFile:
             return isConnected && isBinded
-        case Word.epoUpgrade:
+        case Word.epoUpgrade, Word.messageNotice, Word.measure:
             return isConnected && isBinded
         case Word.sport:
             return isConnected && isBinded
         case Word.testOC:
+            return isConnected && isBinded
+        case Word.editSportScreen:
+            return isConnected && isBinded
+        case Word.sdkFeatureTest:
+            return isConnected && isBinded
+        case Word.gestureControl:
+            return isConnected && isBinded
+        case Word.taskList:
+            return isConnected && isBinded
+        case Word.walkRemind:
             return isConnected && isBinded
         default:
             break
@@ -366,7 +450,6 @@ extension FunctionPageVC {
             case .failed:
                 self?.isBinded = false
                 UserDefaults.standard.setBind(macAddress, isBind: false)
-                UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
                 print("\(status)")
                 SVProgressHUD.showError(withStatus: "bind failure")
             case .successful:
@@ -376,15 +459,19 @@ extension FunctionPageVC {
                 print("end bind get device info - battLevel: \(sdk.device.battLevel)")
                 print("end bind get function table - alexaSetEasyOperateV3: \(sdk.funcTable.alexaSetEasyOperateV3)")
                 UserDefaults.standard.setBind(macAddress, isBind: true)
-                if let dm = self?.deviceModel {
-                    UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
-                }
+                UserDefaults.standard.saveLiteBoundDevice(
+                    mac: macAddress,
+                    name: self?.deviceModel?.peripheralName ?? macAddress,
+                    uuid: self?.deviceModel?.uuid ?? ""
+                )
             case .binded:
                 self?.isBinded = true
                 UserDefaults.standard.setBind(macAddress, isBind: true)
-                if let dm = self?.deviceModel {
-                    UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
-                }
+                UserDefaults.standard.saveLiteBoundDevice(
+                    mac: macAddress,
+                    name: self?.deviceModel?.peripheralName ?? macAddress,
+                    uuid: self?.deviceModel?.uuid ?? ""
+                )
                 print("\(status)")
             case .needAuth:
                 print("\(status)")
@@ -416,15 +503,16 @@ extension FunctionPageVC {
                         self?.isBinded = true
                         SVProgressHUD.showSuccess(withStatus: "绑定成功")
                         UserDefaults.standard.setBind(macAddress, isBind: true)
-                        if let dm = self?.deviceModel {
-                            UserDefaults.standard.saveLiteBoundDevice(mac: macAddress, name: dm.peripheralName, uuid: dm.uuid)
-                        }
+                        UserDefaults.standard.saveLiteBoundDevice(
+                            mac: macAddress,
+                            name: self?.deviceModel?.peripheralName ?? macAddress,
+                            uuid: self?.deviceModel?.uuid ?? ""
+                        )
                         sdk.cmd.appMarkBindResult(success: true)
                     }else {
                         print("failure")
                         //SVProgressHUD.showSuccess(withStatus: "绑定失败")
                         UserDefaults.standard.setBind(macAddress, isBind: false)
-                        UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
                         sdk.cmd.appMarkBindResult(success: false)
                     }
                     self?.tableView.reloadData()

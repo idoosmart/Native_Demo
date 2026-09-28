@@ -141,10 +141,8 @@ extension ScanPageVC: UITableViewDelegate, UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         let deviceModel = scanList[indexPath.row]
         var devName = deviceModel.name ?? ""
-        if deviceModel.deviceId == 0 {
-            cell.backgroundColor = UIColor(red: 233/255, green: 233/255, blue: 233/255, alpha: 1)
-        } else {
-            cell.backgroundColor = .white
+        cell.backgroundColor = .white
+        if deviceModel.deviceId != 0 {
             devName += "(\(deviceModel.deviceId))"
         }
         cell.configure(

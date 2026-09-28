@@ -33,6 +33,20 @@ extension MainPageVC {
         bleMgr.stopScan()
         print("stopScan")
     }
+    
+    
+    
+    @objc func _reload() {
+        print("reload")
+        bleMgr.stopScan()
+        scan()
+    }
+
+    @objc func scan() {
+        bleMgr.startScan { [weak self] _ in
+            self?.scanPage?.applyScanResult(bleMgr.scanInfoListSorted)
+        }
+    }
 }
 
 

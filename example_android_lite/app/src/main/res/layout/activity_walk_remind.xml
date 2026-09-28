@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F7"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:id="@+id/sv_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp">
+
+            <!-- 状态 chips（对齐 iOS chipCard） -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tv_conn_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_walk_chip_ok"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_support_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_walk_chip_warn"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="基础参数" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="总开关"
+                            android:textColor="#111111"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="on_off：0 关 / 1 开"
+                            android:textColor="#8E8E93"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/sw_on_off"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#E5E5EA" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="目标步数"
+                            android:textColor="#111111"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="goal_step（部分固件已弃用，仍建议填写）"
+                            android:textColor="#8E8E93"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/et_goal_step"
+                        android:layout_width="88dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="2000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#E5E5EA" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="目标时间"
+                            android:textColor="#111111"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="goal_time，单位：分钟"
+                            android:textColor="#8E8E93"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/et_goal_time"
+                        android:layout_width="88dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="60"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="有效时段" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="start_hour / start_minute / end_hour / end_minute"
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="开始"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/et_start_hour"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="9"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="4dp"
+                        android:text=":"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_start_minute"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:text="结束"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/et_end_hour"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="18"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="4dp"
+                        android:text=":"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_end_minute"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="通知" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="通知类型 notify_flag"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="0 无效 · 1 允许通知 · 2 静默 · 3 关闭（需功能表 setWalkReminderAddNotify）"
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/seg_notify_0"
+                        style="@style/WalkSegItem"
+                        android:layout_marginEnd="4dp"
+                        android:text="无效(0)" />
+
+                    <TextView
+                        android:id="@+id/seg_notify_1"
+                        style="@style/WalkSegItem"
+                        android:layout_marginEnd="4dp"
+                        android:text="允许(1)" />
+
+                    <TextView
+                        android:id="@+id/seg_notify_2"
+                        style="@style/WalkSegItem"
+                        android:layout_marginEnd="4dp"
+                        android:text="静默(2)" />
+
+                    <TextView
+                        android:id="@+id/seg_notify_3"
+                        style="@style/WalkSegItem"
+                        android:text="关闭(3)" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="勿扰" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="no_disturb_*（需功能表 support 勿扰走动提醒）"
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="勿扰开关"
+                            android:textColor="#111111"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="do_not_disturb_on_off：0 关 / 1 开"
+                            android:textColor="#8E8E93"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/sw_dnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#E5E5EA" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:text="勿扰开始"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/et_dnd_start_hour"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="4dp"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_dnd_start_minute"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:text="勿扰结束"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/et_dnd_end_hour"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="4dp"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_dnd_end_minute"
+                        android:layout_width="52dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_walk_field"
+                        android:gravity="center"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="重复" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="重复日 repeat"
+                    android:textColor="#111111"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="勾选需要提醒的星期"
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView android:id="@+id/week_mon" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="一" />
+                    <TextView android:id="@+id/week_tue" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="二" />
+                    <TextView android:id="@+id/week_wed" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="三" />
+                    <TextView android:id="@+id/week_thu" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="四" />
+                    <TextView android:id="@+id/week_fri" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="五" />
+                    <TextView android:id="@+id/week_sat" style="@style/WalkWeekChip" android:layout_marginEnd="6dp" android:text="六" />
+                    <TextView android:id="@+id/week_sun" style="@style/WalkWeekChip" android:text="日" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btn_query"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_walk_btn_query"
+                    android:gravity="center"
+                    android:text="查询"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btn_set"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_walk_btn_set"
+                    android:gravity="center"
+                    android:text="设置下发"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="7.8 走动提醒通知 dataType=134" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_notify_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tv_notify_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="等待设备上报…"
+                    android:textColor="#145AA6"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_notify_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="monospace"
+                    android:text="状态 / 目标值 / 达成值"
+                    android:textColor="#6B7C8A"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/WalkSectionHeader"
+                android:layout_marginTop="16dp"
+                android:text="联调日志" />
+
+            <LinearLayout
+                android:id="@+id/ll_log_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_walk_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="请求 / 响应日志"
+                        android:textColor="#111111"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btn_clear_log"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="6dp"
+                        android:text="清空"
+                        android:textColor="#007AFF"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="每次查询/设置会打印请求 JSON 与响应 JSON"
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
+
+                <ScrollView
+                    android:id="@+id/sv_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="420dp"
+                    android:background="@drawable/bg_walk_log"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_log"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="操作后会在此显示「请求」与「响应」JSON"
+                        android:textColor="#8CF08C"
+                        android:textIsSelectable="true"
+                        android:textSize="11sp" />
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -60,6 +60,64 @@ class XYCBBase: NSObject {
     var managerStateIsOn = false
     typealias FindPeripheral = (CBPeripheral) -> Void
     var findPeripheralClosure: FindPeripheral = {_ in }
+
+    /// 等待 CBCentralManager 进入 poweredOn（或失败终态）的回调队列。
+    private var poweredOnWaiters: [(Bool) -> Void] = []
+
+    /// Central 已 poweredOn 则立刻回调 true；仍在初始化则排队；unauthorized/poweredOff 等终态回调 false。
+    func whenPoweredOn(_ completion: @escaping (Bool) -> Void) {
+        switch xyCentralManager.state {
+        case .poweredOn:
+            completion(true)
+        case .unauthorized, .unsupported, .poweredOff:
+            completion(false)
+        case .unknown, .resetting:
+            poweredOnWaiters.append(completion)
+        @unknown default:
+            poweredOnWaiters.append(completion)
+        }
+    }
+
+    /// 用已保存的 peripheral UUID 还原 ScanInfo（须在 poweredOn 后 retrieve）。
+    func retrieveScanInfo(uuid: String, name: String, completion: @escaping (ScanInfo?) -> Void) {
+        guard let id = UUID(uuidString: uuid) else {
+            DispatchQueue.main.async { completion(nil) }
+            return
+        }
+        whenPoweredOn { [weak self] ready in
+            guard let self = self, ready else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            let scanInfo = self.makeScanInfo(identifier: id, name: name)
+            DispatchQueue.main.async { completion(scanInfo) }
+        }
+    }
+
+    private func makeScanInfo(identifier: UUID, name: String) -> ScanInfo? {
+        if let peripheral = xyCentralManager.retrievePeripherals(withIdentifiers: [identifier]).first {
+            return Self.wrapScanInfo(peripheral: peripheral, name: name)
+        }
+        let connected = xyCentralManager.retrieveConnectedPeripherals(withServices: _servicesUUID)
+        if let peripheral = connected.first(where: { $0.identifier == identifier }) {
+            return Self.wrapScanInfo(peripheral: peripheral, name: name)
+        }
+        return nil
+    }
+
+    private static func wrapScanInfo(peripheral: CBPeripheral, name: String) -> ScanInfo {
+        var advertisement: [String: Any] = [:]
+        if !name.isEmpty {
+            advertisement["kCBAdvDataLocalName"] = name
+        }
+        return ScanInfo(peripheral: peripheral, advertisementData: advertisement, rssi: NSNumber(value: 0))
+    }
+
+    private func flushPoweredOnWaiters(success: Bool) {
+        let waiters = poweredOnWaiters
+        poweredOnWaiters.removeAll()
+        waiters.forEach { $0(success) }
+    }
     
     
     //MARK: 第一步: 搜索外设
@@ -203,8 +261,18 @@ class XYCBBase: NSObject {
 extension XYCBBase: CBCentralManagerDelegate {
     //MARK: CBCentralManagerDelegate
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if managerStateIsOn == false {
-            xyCentralManager.scanForPeripherals(withServices: _servicesUUID, options: _option)
+        switch central.state {
+        case .poweredOn:
+            flushPoweredOnWaiters(success: true)
+            if managerStateIsOn == false {
+                xyCentralManager.scanForPeripherals(withServices: _servicesUUID, options: _option)
+            }
+        case .unauthorized, .unsupported, .poweredOff:
+            flushPoweredOnWaiters(success: false)
+        case .unknown, .resetting:
+            break
+        @unknown default:
+            break
         }
     }
     

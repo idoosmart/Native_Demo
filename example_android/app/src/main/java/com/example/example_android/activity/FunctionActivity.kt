@@ -9,6 +9,8 @@ import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
 import com.example.example_android.callback.BleManager
 import com.example.example_android.sport.EditSportListActivity
+import com.example.example_android.tasklist.DeviceNotificationBus
+import com.example.example_android.tasklist.TaskListStorage
 import com.example.example_android.util.FunctionUtils
 import com.google.gson.Gson
 import com.idosmart.enums.IDOBindStatus
@@ -44,6 +46,8 @@ import kotlinx.android.synthetic.main.layout_function_activity.rl_set_function
 import kotlinx.android.synthetic.main.layout_function_activity.rl_measure
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sdk_feature_test
 import kotlinx.android.synthetic.main.layout_function_activity.rl_gesture_control
+import kotlinx.android.synthetic.main.layout_function_activity.rl_task_list
+import kotlinx.android.synthetic.main.layout_function_activity.rl_walk_remind
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sport_screen
 import kotlinx.android.synthetic.main.layout_function_activity.rl_sync_data
@@ -84,6 +88,8 @@ class FunctionActivity : BaseActivity() {
                 rl_sport_screen?.visibility = View.GONE
                 rl_sdk_feature_test?.visibility = View.GONE
                 rl_gesture_control?.visibility = View.GONE
+                rl_task_list?.visibility = View.GONE
+                rl_walk_remind?.visibility = View.GONE
             }
         };
 
@@ -155,6 +161,7 @@ class FunctionActivity : BaseActivity() {
                     sdk.cmd.unbind(device?.macAddress.toString(), true) {
                         if (it) {
                             toast("unbind ok")
+                            TaskListStorage.clearOnUnbind(device?.macAddress)
                             FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
                             sdk.ble.cancelPair(device);
                             sdk.ble.cancelConnect(device?.macAddress) {}
@@ -258,6 +265,14 @@ class FunctionActivity : BaseActivity() {
         startActivity(Intent(this, SdkFeatureTestActivity::class.java))
     }
 
+    fun taskListTest(view: View) {
+        startActivity(Intent(this, TaskListTestActivity::class.java))
+    }
+
+    fun walkRemindTest(view: View) {
+        startActivity(Intent(this, WalkRemindActivity::class.java))
+    }
+
     fun gestureControl(view: View) {
         if (sdk.funcTable.supportOperateGestureControl) {
             startActivity(Intent(this, GestureControlActivity::class.java))
@@ -351,6 +366,7 @@ class FunctionActivity : BaseActivity() {
      */
     private fun hasUnbind() {
         val macAddress = device?.macAddress ?: return
+        TaskListStorage.clearOnUnbind(macAddress)
         FunctionUtils.upDataDeviceMac(macAddress)
         AlertDialog.Builder(this)
             .setTitle("Tips")
@@ -392,6 +408,7 @@ class FunctionActivity : BaseActivity() {
 
         override fun listenDeviceNotification(status: IDODeviceNotificationModel) {
             println("listenDeviceNotification ${status.toString()}");
+            DeviceNotificationBus.emit(status)
 
             // 快速短信回复
             if (status.controlEvt == 580 && status.controlJson != null) {
@@ -458,6 +475,8 @@ class FunctionActivity : BaseActivity() {
             rl_measure?.visibility = View.VISIBLE
             rl_sdk_feature_test?.visibility = View.VISIBLE
             rl_gesture_control?.visibility = View.VISIBLE
+            rl_task_list?.visibility = View.VISIBLE
+            rl_walk_remind?.visibility = View.VISIBLE
             ll_bin?.visibility = View.GONE
             return true
         } else {
@@ -475,6 +494,8 @@ class FunctionActivity : BaseActivity() {
             rl_measure?.visibility = View.GONE
             rl_sdk_feature_test?.visibility = View.GONE
             rl_gesture_control?.visibility = View.GONE
+            rl_task_list?.visibility = View.GONE
+            rl_walk_remind?.visibility = View.GONE
             ll_bin?.visibility = View.VISIBLE
             return false
         }
@@ -534,6 +555,7 @@ class FunctionActivity : BaseActivity() {
                             sdk.cmd.unbind(device?.macAddress ?: "", true, {
                                 if (it) {
                                     toast("unbind ok")
+                                    TaskListStorage.clearOnUnbind(device?.macAddress)
                                     FunctionUtils.upDataDeviceMac(device!!.macAddress.toString())
                                     sdk.ble.cancelPair(device);
                                     sdk.ble.cancelConnect(device?.macAddress) {}

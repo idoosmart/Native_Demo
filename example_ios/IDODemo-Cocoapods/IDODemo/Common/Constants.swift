@@ -28,6 +28,8 @@ struct Word {
     static let sdkFeatureTest = "SDK Feature Test"
     static let ida01FuncTest = "IDA01 Func Test"
     static let gestureControl = "Gesture Control"
+    static let taskList = "Task List"
+    static let walkRemind = "Walk Reminder"
 
 }
 
@@ -52,4 +54,5 @@ struct Notify {
     static let onBleDeviceStateChanged = Notification.Name("ido-sdk-onBleDeviceStateChanged")
     static let onBleStateChanged = Notification.Name("ido-sdk-onBleStateChanged")
     static let onBleReceiveDataChanged = Notification.Name("ido-sdk-onBleReceiveDataChanged")
+    static let onTaskListCacheCleared = Notification.Name("ido-sdk-onTaskListCacheCleared")
 }

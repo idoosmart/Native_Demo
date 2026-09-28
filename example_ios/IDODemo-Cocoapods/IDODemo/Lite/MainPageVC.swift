@@ -1,10 +1,14 @@
 //
 //  MainPageVC.swift
-//  IDODemoLite
+//  IDODemo
+//
+//  Created by hc on 2023/10/23.
 //
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import SVProgressHUD
 
@@ -21,6 +25,7 @@ class MainPageVC: BaseVC {
     weak var scanPage: ScanPageVC?
 
     private var isUnbinding = false
+    private var isRestoring = false
 
     lazy var tableView: UITableView = {
         let v = UITableView()
@@ -97,25 +102,31 @@ class MainPageVC: BaseVC {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+    fileprivate func openFunction(scanInfo: ScanInfo) {
+        currentDeviceModel = scanInfo
+        let vc = FunctionPageVC()
+        vc.deviceModel = scanInfo
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     fileprivate func forceUnbind(at indexPath: IndexPath) {
         guard !isUnbinding, indexPath.row < boundList.count else {
             tableView.reloadRows(at: [indexPath], with: .automatic)
             return
         }
         let item = boundList[indexPath.row]
-        let macAddress = item.mac
-        guard !macAddress.isEmpty else {
+        guard !item.mac.isEmpty else {
             tableView.reloadRows(at: [indexPath], with: .automatic)
             return
         }
         isUnbinding = true
         SVProgressHUD.show(withStatus: "unbind...")
-        sdk.cmd.unbind(macAddress: macAddress, isForceRemove: true) { [weak self] rs in
+        sdk.cmd.unbind(macAddress: item.mac, isForceRemove: true) { [weak self] rs in
             guard let self = self else { return }
             self.isUnbinding = false
             if rs {
-                UserDefaults.standard.setBind(macAddress, isBind: false)
-                UserDefaults.standard.removeLiteBoundDevice(mac: macAddress)
+                UserDefaults.standard.setBind(item.mac, isBind: false)
+                UserDefaults.standard.removeLiteBoundDevice(mac: item.mac)
                 SVProgressHUD.showSuccess(withStatus: "unbind successful")
                 self.reloadBoundDevices()
             } else {
@@ -123,13 +134,6 @@ class MainPageVC: BaseVC {
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
-    }
-
-    fileprivate func openFunction(with scanInfo: ScanInfo) {
-        currentDeviceModel = scanInfo
-        let vc = FunctionPageVC()
-        vc.deviceModel = scanInfo
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -143,9 +147,8 @@ extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellID = "BoundCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
+        let cellId = "LiteBoundCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
         cell.accessoryType = .disclosureIndicator
         let item = boundList[indexPath.row]
         cell.textLabel?.text = item.name
@@ -155,12 +158,22 @@ extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = boundList[indexPath.row]
-        if let scanInfo = UserDefaults.standard.restoreScanInfo(from: item) {
-            openFunction(with: scanInfo)
-        } else {
-            SVProgressHUD.showInfo(withStatus: "无法还原设备，请重新扫描添加")
+        guard !isRestoring, indexPath.row < boundList.count else {
             tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        let item = boundList[indexPath.row]
+        isRestoring = true
+        // 静默还原，避免与详情页 Connecting HUD 叠闪；失败再提示
+        item.restoreScanInfo { [weak self] scanInfo in
+            guard let self = self else { return }
+            self.isRestoring = false
+            tableView.deselectRow(at: indexPath, animated: true)
+            guard let scanInfo = scanInfo else {
+                SVProgressHUD.showInfo(withStatus: "无法还原设备，请重新扫描添加")
+                return
+            }
+            self.openFunction(scanInfo: scanInfo)
         }
     }
 

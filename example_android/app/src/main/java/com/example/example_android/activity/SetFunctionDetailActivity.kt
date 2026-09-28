@@ -113,7 +113,6 @@ import com.idosmart.model.IDOPetInfoParamModel
 import com.idosmart.model.IDOSetNoticeStatusModel
 import com.idosmart.model.IDOActivitySwitchModel
 import com.idosmart.model.IDOAppSleepModeParamModel
-import com.idosmart.model.IDOPillboxControlParamModel
 import com.idosmart.model.IDOCgmPhoneCommandErrCode
 import com.idosmart.model.IDOCgmPhoneCommandModel
 import com.idosmart.pigeon_implement.Cmds
@@ -241,12 +240,6 @@ class SetFunctionDetailActivity : BaseActivity() {
             CustomEvtType.SETHOTSTARTPARAM -> setHotStartParam()
             CustomEvtType.SETBATTERYREMINDERSWITCH -> setBatteryReminderSwitch()
             CustomEvtType.SETAPPSLEEPMODE -> setAppSleepMode()
-            CustomEvtType.CONTROLPILLBOX -> controlPillbox(operate = 1, color = 0)
-            CustomEvtType.CONTROLPILLBOXLIGHTONRED -> controlPillbox(operate = 2, color = 1)
-            CustomEvtType.CONTROLPILLBOXLIGHTONGREEN -> controlPillbox(operate = 2, color = 2)
-            CustomEvtType.CONTROLPILLBOXLIGHTONBLUE -> controlPillbox(operate = 2, color = 3)
-            CustomEvtType.CONTROLPILLBOXLIGHTONWHITE -> controlPillbox(operate = 2, color = 4)
-            CustomEvtType.CONTROLPILLBOXLIGHTOFF -> controlPillbox(operate = 3, color = 0)
             CustomEvtType.SETPETINFO -> setPetInfo()
             CustomEvtType.FINDDEVICESTART -> findDeviceStart()
             CustomEvtType.FINDDEVICESTOP -> findDeviceStop()
@@ -4444,19 +4437,6 @@ class SetFunctionDetailActivity : BaseActivity() {
     private fun setAppSleepMode() {
         val model = IDOAppSleepModeParamModel(sleepModeSwitch = 1)
         val cmd = Cmds.setAppSleepMode(model)
-        cmd.send {
-            if (it.error.code == 0) {
-                tv_response.text = it.res?.toJsonString()
-            } else {
-                tv_response.text = "err code:${it.error.code} - ${it.error.message?:""} ${it.res?.toJsonString()?:""}"
-            }
-        }
-        paramter_tv.text = cmd.json
-    }
-
-    private fun controlPillbox(operate: Int, color: Int = 0) {
-        val model = IDOPillboxControlParamModel(operate = operate, color = color)
-        val cmd = Cmds.controlPillbox(model)
         cmd.send {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()

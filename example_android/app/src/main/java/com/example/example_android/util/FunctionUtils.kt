@@ -8,23 +8,35 @@ import org.json.JSONObject
 object FunctionUtils {
     private const val BIND_KEY = "bindkey"
     private const val BOUND_DEVICES_KEY = "bound_devices"
-    private const val SP_FILE = "idodemo"
+    /** 与 [SPUtil] 默认文件 `idodemo` 对应，实际文件名为 `sp_idodemo` */
+    private const val SP_FILE = "sp_idodemo"
 
+    /**
+     * 获取设备绑定状态
+     * */
     fun getDeviceMac(macAddress: String): Boolean {
         return SPUtil.getAValue(BIND_KEY + macAddress, false) as Boolean
     }
-
+    /**
+     * 保存设备绑定状态
+     * */
     fun saveDeviceMac(macAddress: String) {
         SPUtil.putAValue(BIND_KEY + macAddress, true)
         upsertBoundDeviceIfAbsent(macAddress)
     }
 
+    /**
+     * 保存已绑定设备快照，供首页列表还原并连接
+     */
     fun saveBoundDevice(device: IDOBleDeviceModel) {
         val mac = device.macAddress ?: return
         SPUtil.putAValue(BIND_KEY + mac, true)
         upsertBoundDevice(device)
     }
 
+    /**
+     * 改变设备绑定状态
+     * */
     fun upDataDeviceMac(macAddress: String) {
         SPUtil.putAValue(BIND_KEY + macAddress, false)
         removeBoundDevice(macAddress)
@@ -120,6 +132,9 @@ object FunctionUtils {
         )
     }
 
+    /**
+     * 将仅有绑定标记、尚无快照的设备补进列表
+     */
     private fun migrateBoundFlagsIfNeeded() {
         val existing = loadBoundDeviceList()
         val existingMacs = existing.mapNotNull { it.macAddress }.toSet()
