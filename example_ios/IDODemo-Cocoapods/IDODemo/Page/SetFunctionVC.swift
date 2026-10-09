@@ -121,8 +121,8 @@ class SetFunctionVC: UIViewController {
         
         add(SetCmd(type: .setStressSwitch, title: "setStressSwitch", desc: L10n.setStressSwitch), isSupported: funcTable.setPressureData)
         
-        let heartRateSupported = funcTable.setSmartHeartRate || funcTable.syncV3Hr || funcTable.syncHeartRateMonitor
-        add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: heartRateSupported)
+//        let heartRateSupported = funcTable.setSmartHeartRate || funcTable.syncV3Hr || funcTable.syncHeartRateMonitor
+//        add(SetCmd(type: .setHeartMode, title: "setHeartMode", desc: L10n.setHeartMode), isSupported: heartRateSupported)
         
         add(SetCmd(type: .setHeartRateInterval, title: "setHeartRateInterval", desc: L10n.setHeartRateInterval), isSupported: funcTable.syncHeartRate)
         
@@ -174,7 +174,7 @@ class SetFunctionVC: UIViewController {
         add(SetCmd(type: .setStressCalibration, title: "setStressCalibration", desc: L10n.setStressCalibration), isSupported: sdk.funcTable.setSetStressCalibration)
         add(SetCmd(type: .setHandWashingReminder, title: "setHandWashingReminder", desc: L10n.setHandWashingReminder), isSupported: funcTable.setHandWashReminder)
         add(SetCmd(type: .setBpCalibration, title: "setBpCalibration", desc: L10n.setBpCalibration), isSupported: funcTable.getSupportBpSetOrMeasurementV2)
-        add(SetCmd(type: .setLongSit, title: "setLongSit", desc: L10n.setLongSit), isSupported: funcTable.setSedentariness)
+        // setLongSit 已废弃，入口隐藏；请使用走动提醒 setWalkRemind
         add(SetCmd(type: .setTakingMedicineReminder, title: "setTakingMedicineReminder", desc: L10n.setTakingMedicineReminder), isSupported: sdk.funcTable.supportTakeMedicineReminder)
         add(SetCmd(type: .setCgmKeyAndDevice, title: "setCgmKeyAndDevice", desc: L10n.setCgmKeyAndDevice), isSupported: sdk.funcTable.supportCgmPhoneCommand)
         add(SetCmd(type: .deleteCgmKeyAndDevice, title: "deleteCgmKeyAndDevice", desc: L10n.deleteCgmKeyAndDevice), isSupported: sdk.funcTable.supportCgmPhoneCommand)

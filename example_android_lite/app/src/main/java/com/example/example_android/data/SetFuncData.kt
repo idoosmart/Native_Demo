@@ -373,14 +373,7 @@ class SetFuncData(
                 )
             }
 
-            if (sdk.funcTable.setSedentariness) {
-                mutableListOf.add(
-                    SetFuncData(
-                        CustomEvtType.SETLONGSIT,
-                        context.getString(R.string.setlongsit)
-                    )
-                )
-            }
+            // setLongSit 已废弃，入口隐藏；请使用走动提醒 setWalkReminder
 
             if (sdk.funcTable.supportSetAntilost) {
                 mutableListOf.add(

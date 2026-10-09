@@ -19,7 +19,7 @@ class SetFuncData(
 
             mutableListOf.add(SetFuncData(CustomEvtType.SETDATETIME, "setDateTime", context.getString(R.string.desc_setdatetime), isSupported = true))
             mutableListOf.add(SetFuncData(CustomEvtType.SETALARMV3, "setAlarm", context.getString(R.string.desc_setalarm), isSupported = sdk.funcTable.syncV3SyncAlarm))
-            mutableListOf.add(SetFuncData(CustomEvtType.SETLONGSIT, "setLongSit", context.getString(R.string.desc_setlongsit), isSupported = sdk.funcTable.setSedentariness))
+            // setLongSit 已废弃，入口隐藏；请使用走动提醒 setWalkReminder
             mutableListOf.add(SetFuncData(CustomEvtType.SETDRINKWATERREMIND, "setDrinkWaterRemind", context.getString(R.string.desc_setdrinkwaterremind), isSupported = sdk.funcTable.setDrinkWaterReminder))
             mutableListOf.add(SetFuncData(CustomEvtType.SETHAND, "setHand", context.getString(R.string.desc_sethand), isSupported = sdk.funcTable.getLeftRightHandWearSettings))
             mutableListOf.add(SetFuncData(CustomEvtType.SETUPHANDGESTURE, "setUpHandGesture", context.getString(R.string.desc_setuphandgesture), isSupported = sdk.funcTable.getUpHandGesture))
@@ -91,7 +91,7 @@ class SetFuncData(
             mutableListOf.add(SetFuncData(CustomEvtType.SETMAINUISORTV3, "setMainUISortV3", context.getString(R.string.desc_setmainuisortv3), isSupported = sdk.funcTable.setSetMainUiSort))
             mutableListOf.add(SetFuncData(CustomEvtType.SETFITNESSGUIDANCE, "setFitnessGuidance", context.getString(R.string.desc_setfitnessguidance), isSupported = sdk.funcTable.setSetFitnessGuidance))
             mutableListOf.add(SetFuncData(CustomEvtType.SETCALLQUICKREPLYONOFF, "setCallQuickReplyOnOff", context.getString(R.string.desc_setcallquickreplyonoff), isSupported = sdk.funcTable.setSupportSetCallQuickReplyOnOff))
-            mutableListOf.add(SetFuncData(CustomEvtType.SETHISTORICALMENSTRUATION, "setHistoricalMenstruation", context.getString(R.string.desc_sethistoricalmenstruation), isSupported = sdk.funcTable.supportHistoricalMenstruationExchange))
+            mutableListOf.add(SetFuncData(CustomEvtType.SETHISTORICALMENSTRUATION, "setHistoricalMenstruation", context.getString(R.string.desc_sethistoricalmenstruation), isSupported = sdk.funcTable.setHistoryMenstrual))
             mutableListOf.add(SetFuncData(CustomEvtType.SETTEMPERATURESWITCH, "setTemperatureSwitch", context.getString(R.string.desc_settemperatureswitch), isSupported = sdk.funcTable.setTemperatureSwitchSupport))
             mutableListOf.add(SetFuncData(CustomEvtType.SETAPPLETCONTROL, "setAppletControl", context.getString(R.string.desc_setappletcontrol), isSupported = sdk.funcTable.setSupportControlMiniProgram))
             mutableListOf.add(SetFuncData(CustomEvtType.SETV3NOISE, "setV3Noise", context.getString(R.string.desc_setv3noise), isSupported = sdk.funcTable.syncV3Noise))
