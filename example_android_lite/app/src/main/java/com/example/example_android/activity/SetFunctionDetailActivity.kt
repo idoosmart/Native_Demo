@@ -3089,6 +3089,7 @@ class SetFunctionDetailActivity : BaseActivity() {
      * ovulationIntervalDay	Int	从下次月经开始到排卵日的间隔通常为14天。
      * ovulationBeforeDay	Int	排卵日之前的受孕天数通常为5天，此时
      * ovulationAfterDay	Int	排卵日后的受孕天数通常为5天，此时
+     * isMenstrualEnd	Int	0 无效 / 1 已结束 / 2 未结束
      *
      * Menstrual history data delivery
      * [IDOHistoricalMenstruationParamModel]
@@ -3106,12 +3107,14 @@ class SetFunctionDetailActivity : BaseActivity() {
      * ovulationIntervalDay Int The interval between the start of the next period and the day of ovulation is usually 14 days.
      * ovulationBeforeDay Int The number of days before ovulation day is usually 5 days at this time
      * ovulationAfterDay Int The number of days of conception after ovulation is usually 5 days
+     * isMenstrualEnd Int 0 invalid / 1 ended / 2 not ended
      * */
     private fun setHistoricalMenstruation() {
         var historicalMenstruation = Cmds.setHistoricalMenstruation(
             IDOHistoricalMenstruationParamModel(
-                7, 29, listOf(
-                    IDOHistoricalMenstruationParamItem(2023, 8, 1, 7, 30, 14, 5, 5)
+                7, 28, listOf(
+                    IDOHistoricalMenstruationParamItem(2026, 10, 1, 7, 9, 14, 5, 5, 1),
+                    IDOHistoricalMenstruationParamItem(2026, 10, 10, 7, 28, 14, 5, 5)
                 )
             )
         )

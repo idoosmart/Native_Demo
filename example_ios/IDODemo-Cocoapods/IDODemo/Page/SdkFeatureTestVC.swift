@@ -187,6 +187,14 @@ class SdkFeatureTestVC: UIViewController {
                 ("15.73 应用列表样式删除", { [weak self] in self?.appListStyleDeleteFirst() }),
             ]
         )
+        appendSection(
+            title: "绑定加密授权",
+            buttons: [
+                ("bind + onEncryptedAuthData", { [weak self] in self?.bindWithEncryptedAuthCallback() }),
+                ("setEncryptedAuthData(样例)", { [weak self] in self?.setEncryptedAuthSample() }),
+                ("getEncryptedAuthData", { [weak self] in self?.getEncryptedAuthCached() }),
+            ]
+        )
     }
 
     private func appendSection(title: String, buttons: [(String, () -> Void)]) {
@@ -262,6 +270,95 @@ class SdkFeatureTestVC: UIViewController {
             return false
         }
         return true
+    }
+
+    private func currentMacAddress() -> String? {
+        let full = sdk.device.macAddressFull
+        if !full.isEmpty { return full }
+        let short = sdk.device.macAddress
+        return short.isEmpty ? nil : short
+    }
+
+    /// Demo 占位样例（与文档一致，仅用于验证 set→get）
+    private func encryptedAuthSample() -> IDOEncryptedAuthData {
+        return IDOEncryptedAuthData(
+            authData: [0xAF, 0x83, 0xDA, 0x7B, 0xAE, 0x93, 0x47, 0x3C, 0xF4, 0x75, 0xB3, 0xB6],
+            encryptedVersion: 0,
+            authLength: 12
+        )
+    }
+
+    private func bindWithEncryptedAuthCallback() {
+        guard ensureConnected() else { return }
+        log("--- bind + onEncryptedAuthData ---")
+        SVProgressHUD.show(withStatus: "binding...")
+        sdk.cmd.bind(
+            osVersion: 15,
+            onDeviceInfo: { [weak self] info in
+                self?.log("  onDeviceInfo battLevel=\(info.battLevel)")
+            },
+            onFuncTable: { [weak self] _ in
+                self?.log("  onFuncTable received")
+            },
+            onEncryptedAuthData: { [weak self] authData in
+                self?.log(
+                    "  onEncryptedAuthData encryptedVersion=\(authData.encryptedVersion) authLength=\(authData.authLength) authData=\(authData.authData)"
+                )
+                SVProgressHUD.showInfo(withStatus: "encrypted auth len=\(authData.authLength)")
+            },
+            completion: { [weak self] status in
+                SVProgressHUD.dismiss()
+                self?.log("  bind status=\(status)")
+                if status == .needConfirmByApp {
+                    Cmds.sendBindResult(isSuccess: true).send { rs in
+                        if case .success = rs {
+                            sdk.cmd.appMarkBindResult(success: true)
+                            self?.log("  appMarkBindResult success=true")
+                        } else {
+                            sdk.cmd.appMarkBindResult(success: false)
+                            self?.log("  appMarkBindResult success=false")
+                        }
+                    }
+                }
+            }
+        )
+    }
+
+    private func setEncryptedAuthSample() {
+        guard let mac = currentMacAddress() else {
+            SVProgressHUD.showError(withStatus: "no macAddress")
+            log("错误：无 macAddress")
+            return
+        }
+        log("--- setEncryptedAuthData mac=\(mac) ---")
+        sdk.cmd.setEncryptedAuthData(macAddress: mac, data: encryptedAuthSample()) { [weak self] ok in
+            self?.log("  result=\(ok)")
+            if ok {
+                SVProgressHUD.showSuccess(withStatus: "set encrypted auth ok")
+            } else {
+                SVProgressHUD.showError(withStatus: "set encrypted auth failed")
+            }
+        }
+    }
+
+    private func getEncryptedAuthCached() {
+        guard let mac = currentMacAddress() else {
+            SVProgressHUD.showError(withStatus: "no macAddress")
+            log("错误：无 macAddress")
+            return
+        }
+        log("--- getEncryptedAuthData mac=\(mac) ---")
+        sdk.cmd.getEncryptedAuthData(macAddress: mac) { [weak self] cached in
+            guard let cached = cached else {
+                self?.log("  no cache")
+                SVProgressHUD.showInfo(withStatus: "no cache")
+                return
+            }
+            self?.log(
+                "  encryptedVersion=\(cached.encryptedVersion) authLength=\(cached.authLength) authData=\(cached.authData)"
+            )
+            SVProgressHUD.showSuccess(withStatus: "len=\(cached.authLength) ver=\(cached.encryptedVersion)")
+        }
     }
 
     private func logCmdResult<T>(_ title: String, _ res: Result<T?, CmdError>) {
