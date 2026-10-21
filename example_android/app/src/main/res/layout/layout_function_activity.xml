@@ -22,6 +22,41 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
+    <!-- 临时：从 channel example 同步内部功能测试（仅 Full，不依赖连接） -->
+    <RelativeLayout
+        android:id="@+id/rl_internal_feature_test"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:gravity="start|center_vertical"
+        android:onClick="internalFeatureTest"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/internal_feature_test"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/v_right_s" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ll_connect"
         android:layout_width="match_parent"

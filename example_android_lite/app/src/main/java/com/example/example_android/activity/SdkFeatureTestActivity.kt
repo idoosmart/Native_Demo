@@ -9,11 +9,9 @@ import android.widget.ScrollView
 import android.widget.TextView
 import com.example.example_android.R
 import com.example.example_android.base.BaseActivity
-import com.idosmart.enums.IDOBindStatus
 import com.idosmart.enums.IDOSyncDataType
 import com.idosmart.model.IDOAppDownloadStatusInfoModel
 import com.idosmart.model.IDOAppInfoModel
-import com.idosmart.model.IDOEncryptedAuthData
 import com.idosmart.model.IDOAppListStyleParamModel
 import com.idosmart.model.IDOAppSleepModeParamModel
 import com.idosmart.model.IDOAppletControlModel
@@ -168,14 +166,6 @@ class SdkFeatureTestActivity : BaseActivity() {
                 "15.73 应用列表样式删除" to { appListStyleDeleteFirst() },
             )
         )
-        appendSection(
-            "绑定加密授权",
-            listOf(
-                "bind + onEncryptedAuthData" to { bindWithEncryptedAuthCallback() },
-                "setEncryptedAuthData(样例)" to { setEncryptedAuthSample() },
-                "getEncryptedAuthData" to { getEncryptedAuthCached() },
-            )
-        )
     }
 
     private fun appendSection(title: String, buttons: List<Pair<String, () -> Unit>>) {
@@ -254,89 +244,6 @@ class SdkFeatureTestActivity : BaseActivity() {
         toast("未连接设备")
         log("错误：设备未连接")
         return false
-    }
-
-    private fun currentMacAddress(): String? {
-        val full = sdk.device.macAddressFull
-        if (full.isNotEmpty()) return full
-        val short = sdk.device.macAddress
-        return short.ifEmpty { null }
-    }
-
-    /** Demo 占位样例（与文档一致，仅用于验证 set→get） */
-    private fun encryptedAuthSample(): IDOEncryptedAuthData {
-        return IDOEncryptedAuthData(
-            authData = listOf(0xAF, 0x83, 0xDA, 0x7B, 0xAE, 0x93, 0x47, 0x3C, 0xF4, 0x75, 0xB3, 0xB6),
-            encryptedVersion = 0,
-            authLength = 12
-        )
-    }
-
-    private fun bindWithEncryptedAuthCallback() {
-        if (!ensureConnected()) return
-        log("--- bind + onEncryptedAuthData ---")
-        showProgressDialog("binding...")
-        sdk.cmd.bind(
-            15,
-            { info -> log("  onDeviceInfo battLevel=${info.battLevel}") },
-            { log("  onFuncTable received") },
-            { authData ->
-                log(
-                    "  onEncryptedAuthData encryptedVersion=${authData.encryptedVersion} authLength=${authData.authLength} authData=${authData.authData}"
-                )
-                toast("encrypted auth len=${authData.authLength}")
-            },
-            { status ->
-                closeProgressDialog()
-                log("  bind status=$status")
-                if (status == IDOBindStatus.NEEDCONFIRMBYAPP) {
-                    Cmds.sendBindResult(true).send {
-                        if (it.error.code == 0) {
-                            sdk.cmd.appMarkBindResult(true)
-                            log("  appMarkBindResult success=true")
-                        } else {
-                            sdk.cmd.appMarkBindResult(false)
-                            log("  appMarkBindResult success=false")
-                        }
-                    }
-                }
-            }
-        )
-    }
-
-    private fun setEncryptedAuthSample() {
-        val mac = currentMacAddress()
-        if (mac.isNullOrEmpty()) {
-            toast("no macAddress")
-            log("错误：无 macAddress")
-            return
-        }
-        log("--- setEncryptedAuthData mac=$mac ---")
-        sdk.cmd.setEncryptedAuthData(mac, encryptedAuthSample()) { ok ->
-            log("  result=$ok")
-            toast(if (ok) "set encrypted auth ok" else "set encrypted auth failed")
-        }
-    }
-
-    private fun getEncryptedAuthCached() {
-        val mac = currentMacAddress()
-        if (mac.isNullOrEmpty()) {
-            toast("no macAddress")
-            log("错误：无 macAddress")
-            return
-        }
-        log("--- getEncryptedAuthData mac=$mac ---")
-        sdk.cmd.getEncryptedAuthData(mac) { cached ->
-            if (cached == null) {
-                log("  no cache")
-                toast("no cache")
-                return@getEncryptedAuthData
-            }
-            log(
-                "  encryptedVersion=${cached.encryptedVersion} authLength=${cached.authLength} authData=${cached.authData}"
-            )
-            toast("len=${cached.authLength} ver=${cached.encryptedVersion}")
-        }
     }
 
     private fun preview(text: String?, limit: Int = 800): String {

@@ -124,6 +124,10 @@
             android:exported="false"
             android:label="@string/sdk_feature_test" />
         <activity
+            android:name=".activity.internal.InternalFeatureTestActivity"
+            android:exported="false"
+            android:label="@string/internal_feature_test" />
+        <activity
             android:name=".activity.GestureControlActivity"
             android:exported="false"
             android:label="@string/gesture_control" />

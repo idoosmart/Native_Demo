@@ -26,6 +26,8 @@ struct Word {
     static let editSportScreen = "EditSportScreen"
     static let measure = "Measure"
     static let sdkFeatureTest = "SDK Feature Test"
+    /// 临时：从 channel example 同步到 Full（联调）
+    static let internalFeatureTest = "内部功能测试"
     static let ida01FuncTest = "IDA01 Func Test"
     static let gestureControl = "Gesture Control"
     static let taskList = "Task List"

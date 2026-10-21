@@ -38,6 +38,7 @@ class FunctionPageVC: UIViewController {
     }
     
     private lazy var items = [
+        Word.internalFeatureTest,
         Word.deviceConnect,
         Word.deviceDisconnect,
         Word.deviceBind,
@@ -305,6 +306,10 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         switch name {
+        case Word.internalFeatureTest:
+            let vc = InternalFeatureTestVC()
+            vc.deviceModel = deviceModel
+            navigationController?.pushViewController(vc, animated: true)
         case Word.deviceConnect:
             SVProgressHUD.show()
             sdk.ble.connect(device: deviceModel)
@@ -477,6 +482,8 @@ extension FunctionPageVC {
     
     private func canEnable(_ funName: String) -> Bool {
         switch funName {
+        case Word.internalFeatureTest:
+            return true
         case Word.deviceConnect:
             return !isConnected
         case Word.deviceDisconnect:

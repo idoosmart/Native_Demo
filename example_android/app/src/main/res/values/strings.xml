@@ -32,6 +32,7 @@
     <string name="progress">Progress :</string>
     <string name="sync_data">Sync Data</string>
     <string name="sdk_feature_test">SDK Feature Test</string>
+    <string name="internal_feature_test">内部功能测试</string>
     <string name="walk_remind_title">Walk Reminder</string>
     <string name="task_list_title">Task List</string>
     <string name="task_list_full_set">Full set</string>

@@ -90,6 +90,9 @@
 		6A695ACB2B6A4643A5AA7CCB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7B967080054B4CF0B2FC694F /* Localizable.xcstrings */; };
 		B2C3D4E62FCEBF1500A5CA02 /* ScanPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E52FCEBF1500A5CA02 /* ScanPageVC.swift */; };
 		D4E5F6A72FCEBF1700B0DA04 /* BoundDeviceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A62FCEBF1700B0DA04 /* BoundDeviceStore.swift */; };
+		A1B2C3D12FCF010100A00101 /* InternalFeatureTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42FCF010100A00101 /* InternalFeatureTestVC.swift */; };
+		A1B2C3D22FCF010100A00101 /* InternalEncryptedAuthCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D52FCF010100A00101 /* InternalEncryptedAuthCases.swift */; };
+		A1B2C3D32FCF010100A00101 /* InternalAlarmJsonCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D62FCF010100A00101 /* InternalAlarmJsonCases.swift */; };
 		C3274D6E23DF44FEA6208B06 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7B967080054B4CF0B2FC694F /* Localizable.xcstrings */; };
 		C3D4E5F72FCEBF1600A5CA03 /* ScanPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F62FCEBF1600A5CA03 /* ScanPageVC.swift */; };
 		C3D4E5F92FCEBF1600B0DA03 /* LiteBoundStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F82FCEBF1600B0DA03 /* LiteBoundStore.swift */; };
@@ -163,6 +166,9 @@
 		7D4DD5C685C84286D2B231ED /* Pods_IDODemoLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IDODemoLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C3D4E52FCEBF1500A5CA02 /* ScanPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanPageVC.swift; sourceTree = "<group>"; };
 		D4E5F6A62FCEBF1700B0DA04 /* BoundDeviceStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundDeviceStore.swift; sourceTree = "<group>"; };
+		A1B2C3D42FCF010100A00101 /* InternalFeatureTestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalFeatureTestVC.swift; sourceTree = "<group>"; };
+		A1B2C3D52FCF010100A00101 /* InternalEncryptedAuthCases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalEncryptedAuthCases.swift; sourceTree = "<group>"; };
+		A1B2C3D62FCF010100A00101 /* InternalAlarmJsonCases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalAlarmJsonCases.swift; sourceTree = "<group>"; };
 		C3D4E5F62FCEBF1600A5CA03 /* ScanPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanPageVC.swift; sourceTree = "<group>"; };
 		C3D4E5F82FCEBF1600B0DA03 /* LiteBoundStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteBoundStore.swift; sourceTree = "<group>"; };
 		D51A7E292D8579C400744DB7 /* SportDualTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportDualTableViewController.swift; sourceTree = "<group>"; };
@@ -220,8 +226,19 @@
 				D4E5F6A62FCEBF1700B0DA04 /* BoundDeviceStore.swift */,
 				4738B0922B3545B200D6BBEC /* Bridge.swift */,
 				4738B0982B35659000D6BBEC /* FunctionPageVC.swift */,
+				A1B2C3D72FCF010100A00101 /* InternalFeatureTest */,
 			);
 			path = Full;
+			sourceTree = "<group>";
+		};
+		A1B2C3D72FCF010100A00101 /* InternalFeatureTest */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D42FCF010100A00101 /* InternalFeatureTestVC.swift */,
+				A1B2C3D52FCF010100A00101 /* InternalEncryptedAuthCases.swift */,
+				A1B2C3D62FCF010100A00101 /* InternalAlarmJsonCases.swift */,
+			);
+			path = InternalFeatureTest;
 			sourceTree = "<group>";
 		};
 		4738B0912B3540FD00D6BBEC /* Lite */ = {
@@ -682,6 +699,9 @@
 				D4E5F6A72FCEBF1700B0DA04 /* BoundDeviceStore.swift in Sources */,
 				47C4E1AD2B35669D0088A1E1 /* FunctionPageVC.swift in Sources */,
 				4738B0932B3545B200D6BBEC /* Bridge.swift in Sources */,
+				A1B2C3D12FCF010100A00101 /* InternalFeatureTestVC.swift in Sources */,
+				A1B2C3D22FCF010100A00101 /* InternalEncryptedAuthCases.swift in Sources */,
+				A1B2C3D32FCF010100A00101 /* InternalAlarmJsonCases.swift in Sources */,
 				D51A7E2A2D8579C400744DB7 /* SportDualTableViewController.swift in Sources */,
 				47EAC8CD2B200CB000B88684 /* SportVC.swift in Sources */,
 				47C9DE0C2AF0F7D4006F7CB8 /* TransferFileVC.swift in Sources */,
