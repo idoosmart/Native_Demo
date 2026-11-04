@@ -38,7 +38,7 @@ class FunctionPageVC: UIViewController {
     }
     
     private lazy var items = [
-        Word.internalFeatureTest,
+        // Word.internalFeatureTest, // 临时联调入口已屏蔽
         Word.deviceConnect,
         Word.deviceDisconnect,
         Word.deviceBind,

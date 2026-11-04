@@ -32,7 +32,7 @@
         android:background="@color/white"
         android:gravity="start|center_vertical"
         android:onClick="internalFeatureTest"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
