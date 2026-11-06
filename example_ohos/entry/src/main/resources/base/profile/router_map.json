@@ -1,6 +1,14 @@
 {
   "routerMap": [
     {
+      "name": "scanPage",
+      "pageSourceFile": "src/main/ets/pages/Scan.ets",
+      "buildFunction": "ScanPageBuilder",
+      "data": {
+        "description": "add device scan page"
+      }
+    },
+    {
       "name": "functionListPage",
       "pageSourceFile": "src/main/ets/pages/FunctionList.ets",
       "buildFunction": "FunctionPageBuilder",

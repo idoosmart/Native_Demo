@@ -14,6 +14,7 @@
 /**
  * 主功能列表页
  */
+export const PAGE_SCAN = 'scanPage';
 export const PAGE_FUNCTION_LIST = 'functionListPage';
 export const PAGE_GET_FUNCTION_LIST = 'getFunctionListPage';
 export const PAGE_SET_FUNCTION_LIST = 'setFunctionListPage';

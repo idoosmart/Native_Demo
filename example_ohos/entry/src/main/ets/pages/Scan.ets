@@ -1,187 +1,194 @@
-import { hilog, IDOBleDeviceModel, sdk } from 'protocol_channel';
+import { IDOBleDeviceModel, sdk } from 'protocol_channel';
 import { PAGE_FUNCTION_LIST, PAGE_TRANSFER_FILE } from '../utils/Routers';
 import { BluetoothState, BluetoothViewModel } from '../viewmodel/BluetoothViewModel';
 import { NavStackModel } from '../viewmodel/NavStackModel';
 
-let storage = LocalStorage.getShared()
+/**
+ * 添加设备 / 扫描页（对齐 iOS ScanPageVC）
+ */
+@Builder
+export function ScanPageBuilder(name: string, navInfo: NavStackModel) {
+  ScanPage()
+}
 
-// 主应用组件
-@Entry(storage)
 @ComponentV2
-struct BluetoothScanner {
-  pageInfos: NavPathStack = new NavPathStack();
+struct ScanPage {
   private viewModel: BluetoothViewModel = BluetoothViewModel.getInstance();
+  private pageInfos: NavPathStack = new NavPathStack();
 
   aboutToAppear(): void {
-    console.debug("扫描页显示")
+    this.viewModel.startScan(getContext(this));
   }
 
   aboutToDisappear(): void {
     this.viewModel.stopScan();
   }
 
+  private reloadScan(): void {
+    this.viewModel.stopScan().then(() => {
+      this.viewModel.startScan(getContext(this));
+    });
+  }
+
   build() {
-    Navigation(this.pageInfos) {
-      Column() {
-        // 状态指示器
-        StatusIndicator({ state: this.viewModel.bluetoothState })
-          .margin({
-            bottom: 16,
-            left: 16,
-            right: 16
-          })
+    NavDestination() {
+      Stack({ alignContent: Alignment.BottomEnd }) {
+        Column() {
+          StatusIndicator({ state: this.viewModel.bluetoothState })
+            .margin({
+              bottom: 16,
+              left: 16,
+              right: 16,
+              top: 8
+            })
 
-        // 错误提示
-        if (this.viewModel.bluetoothState.errorMessage) {
-          Row() {
-            Text(this.viewModel.bluetoothState.errorMessage)
-              .fontSize(16)
-              .fontColor('#F56C6C')
-              .margin({ right: 8 })
+          if (this.viewModel.bluetoothState.errorMessage) {
+            Row() {
+              Text(this.viewModel.bluetoothState.errorMessage)
+                .fontSize(16)
+                .fontColor('#F56C6C')
+                .margin({ right: 8 })
+                .layoutWeight(1)
 
-            Button('关闭')
-              .type(ButtonType.Capsule)
-              .width(60)
-              .height(32)
-              .fontSize(14)
-              .backgroundColor('#F56C6C')
-              .onClick(() => this.viewModel.clearError())
+              Button('关闭')
+                .type(ButtonType.Capsule)
+                .width(60)
+                .height(32)
+                .fontSize(14)
+                .backgroundColor('#F56C6C')
+                .onClick(() => this.viewModel.clearError())
+            }
+            .padding(12)
+            .width('100%')
+            .justifyContent(FlexAlign.SpaceBetween)
+            .backgroundColor('#FFF6F6')
+            .borderRadius(8)
+            .margin({ left: 16, right: 16, bottom: 16 })
           }
-          .padding(12)
+
+          Row({ space: 16 }) {
+            if (!this.viewModel.bluetoothState.hasPermission) {
+              Button('申请权限')
+                .width('100%')
+                .height(50)
+                .fontSize(18)
+                .backgroundColor('#409EFF')
+                .onClick(() => this.viewModel.requestPermission(getContext(this)))
+            } else if (this.viewModel.bluetoothState.isScanning) {
+              Button('停止扫描')
+                .width('100%')
+                .height(50)
+                .fontSize(18)
+                .backgroundColor('#F56C6C')
+                .onClick(() => this.viewModel.stopScan())
+            } else {
+              Button('开始扫描')
+                .width('100%')
+                .height(50)
+                .fontSize(18)
+                .backgroundColor('#67C23A')
+                .onClick(() => this.viewModel.startScan(getContext(this)))
+            }
+          }
           .width('100%')
-          .justifyContent(FlexAlign.SpaceBetween)
-          .backgroundColor('#FFF6F6')
-          .borderRadius(8)
-          .margin({ left: 16, right: 16, bottom: 16 })
-        }
+          .padding({ left: 16, right: 16, bottom: 16 })
 
-        // 控制按钮
-        Row({ space: 16 }) {
-          if (!this.viewModel.bluetoothState.hasPermission) {
-            Button('申请权限')
-              .width('100%')
-              .height(50)
-              .fontSize(18)
-              .backgroundColor('#409EFF')
-              .onClick(() => this.viewModel.requestPermission(getContext(this)))
-          } else if (this.viewModel.bluetoothState.isScanning) {
-            Button('停止扫描')
-              .width('100%')
-              .height(50)
-              .fontSize(18)
-              .backgroundColor('#F56C6C')
-              .onClick(() => this.viewModel.stopScan())
-          } else {
-            Button('开始扫描')
-              .width('100%')
-              .height(50)
-              .fontSize(18)
-              .backgroundColor('#67C23A')
-              .onClick(() => this.viewModel.startScan(getContext(this)))
+          if (this.viewModel.bluetoothState.otaDeviceList.length > 0) {
+            Row() {
+              Text(`以下 ${this.viewModel.bluetoothState.otaDeviceList.length} 个设备在 OTA 中`)
+                .fontSize(18)
+                .fontWeight(FontWeight.Medium)
+                .fontColor('#303133')
+            }
+            .padding({ left: 16, right: 16, bottom: 8 })
+            .width('100%')
+
+            List({ space: 12 }) {
+              ForEach(this.viewModel.bluetoothState.otaDeviceList, (device: IDOBleDeviceModel) => {
+                ListItem() {
+                  DeviceListItem({ device: device })
+                }.onClick(() => {
+                  this.viewModel.stopScan();
+                  sdk.bridge.markOtaMode(device.macAddress ?? '', '', device.platform,
+                    device.deviceId, device.otaMacAddress ?? device.macAddress ?? '', (_success: boolean) => {
+                      this.pageInfos.pushPathByName(PAGE_TRANSFER_FILE, new NavStackModel(PAGE_TRANSFER_FILE, {
+                        device: device
+                      }))
+                    });
+                })
+              }, (device: IDOBleDeviceModel) => device.macAddress)
+            }
+            .width('100%')
+            .padding({ left: 16, right: 16, bottom: 8 })
           }
-        }
-        .width('100%')
-        .padding({ left: 16, right: 16, bottom: 16 })
 
-        // 已绑定设备列表标题
-        if (this.viewModel.bluetoothState. bindDeviceList.length > 0) {
           Row() {
-            Text(`绑定的设备`)
+            Text(`扫描结果 / Scan · ${this.viewModel.bluetoothState.deviceList.length}`)
               .fontSize(18)
               .fontWeight(FontWeight.Medium)
               .fontColor('#303133')
+
+            Blank()
+
+            if (this.viewModel.bluetoothState.isScanning) {
+              LoadingProgress()
+                .color(Color.Blue)
+                .width(24)
+                .height(24)
+            }
           }
           .padding({ left: 16, right: 16, bottom: 8 })
           .width('100%')
 
-          // 绑定设备列表
           List({ space: 12 }) {
-            ForEach(this.viewModel.bluetoothState.bindDeviceList, (device: IDOBleDeviceModel) => {
+            ForEach(this.viewModel.bluetoothState.deviceList, (device: IDOBleDeviceModel) => {
               ListItem() {
                 DeviceListItem({ device: device })
               }.onClick(() => {
+                if (device.isOta && device.deviceId === 0) {
+                  return;
+                }
                 this.viewModel.stopScan();
                 this.pageInfos.pushPathByName(PAGE_FUNCTION_LIST,
-                  new NavStackModel(PAGE_FUNCTION_LIST, { device: device,autoConnect:true}));
+                  new NavStackModel(PAGE_FUNCTION_LIST, { device: device }));
               })
             }, (device: IDOBleDeviceModel) => device.macAddress)
           }
-        }
-
-        // ota设备列表标题
-        if (this.viewModel.bluetoothState.otaDeviceList.length > 0) {
-          Row() {
-            Text(`以下 ${this.viewModel.bluetoothState.otaDeviceList.length} 个设备在 OTA 中`)
-              .fontSize(18)
-              .fontWeight(FontWeight.Medium)
-              .fontColor('#303133')
-          }
-          .padding({ left: 16, right: 16, bottom: 8 })
+          .layoutWeight(1)
           .width('100%')
-
-          // ota设备列表
-          List({ space: 12 }) {
-            ForEach(this.viewModel.bluetoothState.otaDeviceList, (device: IDOBleDeviceModel) => {
-              ListItem() {
-                DeviceListItem({ device: device })
-              }.onClick(() => {
-                this.viewModel.stopScan();
-                sdk.bridge.markOtaMode(device.macAddress ?? "", "", device.platform,
-                  device.deviceId,device.otaMacAddress ?? device.macAddress ?? "", (success: boolean) => {
-                    this.pageInfos.pushPathByName(PAGE_TRANSFER_FILE, new NavStackModel(PAGE_TRANSFER_FILE, {
-                      device: device
-                    }))
-                  });
-              })
-            }, (device: IDOBleDeviceModel) => device.macAddress)
-          }
+          .padding({ left: 16, right: 16 })
+          .divider({ strokeWidth: 1, color: '#EBEEF5' })
         }
-
-        // 设备列表标题
-        Row() {
-          Text(`扫描到 ${this.viewModel.bluetoothState.deviceList.length} 个设备`)
-            .fontSize(18)
-            .fontWeight(FontWeight.Medium)
-            .fontColor('#303133')
-
-          Blank()
-
-
-          if (this.viewModel.bluetoothState.isScanning) {
-            LoadingProgress()
-              .color(Color.Blue)
-              .width(24)
-              .height(24)
-          }
-        }
-        .padding({ left: 16, right: 16, bottom: 8 })
         .width('100%')
+        .height('100%')
 
-        // 设备列表
-        List({ space: 12 }) {
-          ForEach(this.viewModel.bluetoothState.deviceList, (device: IDOBleDeviceModel) => {
-            ListItem() {
-              DeviceListItem({ device: device })
-            }.onClick(() => {
-              this.viewModel.stopScan();
-              this.pageInfos.pushPathByName(PAGE_FUNCTION_LIST,
-                new NavStackModel(PAGE_FUNCTION_LIST, { device: device }));
-            })
-          }, (device: IDOBleDeviceModel) => device.macAddress)
-        }
-        .layoutWeight(1)
-        .width('100%')
-        .padding({ left: 16, right: 16 })
-        .divider({ strokeWidth: 1, color: '#EBEEF5' })
+        Button('刷新')
+          .type(ButtonType.Circle)
+          .width(64)
+          .height(64)
+          .fontSize(14)
+          .backgroundColor('#409EFF')
+          .margin({ right: 20, bottom: 30 })
+          .onClick(() => this.reloadScan())
       }
       .width('100%')
       .height('100%')
     }
+    .title($r('app.string.add_device'))
+    .onReady((context: NavDestinationContext) => {
+      this.pageInfos = context.pathStack;
+    })
+    .onShown(() => {
+      if (!this.viewModel.bluetoothState.isScanning) {
+        this.viewModel.startScan(getContext(this));
+      }
+    })
+    .onHidden(() => {
+      this.viewModel.stopScan();
+    })
   }
 }
 
-
-// 设备列表项组件
 @ComponentV2
 struct DeviceListItem {
   @Param device: IDOBleDeviceModel | null = null;
@@ -204,7 +211,8 @@ struct DeviceListItem {
 
       Text(`${this.device?.rssi} dBm`)
         .fontSize(16)
-        .fontColor(this.device?.rssi ?? 0 > -70 ? '#67C23A' : (this.device?.rssi ?? 0 > -85 ? '#E6A23C' : '#F56C6C'))
+        .fontColor((this.device?.rssi ?? 0) > -70 ? '#67C23A' :
+          ((this.device?.rssi ?? 0) > -85 ? '#E6A23C' : '#F56C6C'))
         .margin({ left: 10 })
     }
     .padding({
@@ -225,20 +233,17 @@ struct DeviceListItem {
   }
 }
 
-// 状态指示器组件
 @ComponentV2
 struct StatusIndicator {
   @Param state: BluetoothState | null = null;
 
   build() {
     Column() {
-      // 状态消息
       Text(this.state?.statusMessage)
         .fontSize(18)
         .fontColor(this.state?.hasPermission ? '#67C23A' : '#F56C6C')
         .margin({ bottom: 8 })
 
-      // 权限和蓝牙状态指示
       Row({ space: 20 }) {
         Row() {
           Circle()

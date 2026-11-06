@@ -60,7 +60,7 @@ export default class EntryAbility extends UIAbility {
     }).catch((err: BusinessError) => {
       console.error(`Failed to request permissions from user. Code is ${err.code}, message is ${err.message}`);
     })
-    windowStage.loadContent('pages/Scan', (err, data) => {
+    windowStage.loadContent('pages/BoundDevices', (err, data) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;

@@ -213,11 +213,21 @@ class BluetoothService {
       return;
     }
     for (let device of devices) {
+      const mac = device.macAddress ?? '';
+      if (mac.length === 0) {
+        continue;
+      }
+      // 已绑定设备：刷新快照，不进入添加设备扫描列表（对齐 iOS ScanPageVC.applyScanResult）
+      if (Tools.getInstance().getBindState(mac)) {
+        Tools.getInstance().setBindDevice(device);
+        this.state.updateBindDeviceList(Tools.getInstance().getBindDevices());
+        continue;
+      }
       if (device.isOta) {
         console.info("设备正在 ota 中：" + device.macAddress)
       }
-      if (!this.scanDevices.has(device.macAddress!!)) {
-        this.scanDevices.set(device.macAddress!!, device);
+      if (!this.scanDevices.has(mac)) {
+        this.scanDevices.set(mac, device);
         let arr = Array.from(this.scanDevices.values()).sort((a, b) => {
           return Math.abs(a.rssi) - Math.abs(b.rssi)
         });
@@ -227,10 +237,8 @@ class BluetoothService {
         } else {
           this.state.updateDeviceList(arr);
         }
-
       }
     }
-
   }
 
   // 开始扫描设备

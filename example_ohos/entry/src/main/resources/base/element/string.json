@@ -37,6 +37,22 @@
       "value": "IDO Demo"
     },
     {
+      "name": "bound_devices_title",
+      "value": "Bound Devices"
+    },
+    {
+      "name": "bound_devices_empty",
+      "value": "No bound devices"
+    },
+    {
+      "name": "add_device",
+      "value": "Add Device"
+    },
+    {
+      "name": "add_device_short",
+      "value": "Add"
+    },
+    {
       "name": "function_page_title",
       "value": "Function"
     },

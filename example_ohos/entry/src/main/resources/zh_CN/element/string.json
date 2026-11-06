@@ -37,6 +37,22 @@
       "value": "IDO Demo"
     },
     {
+      "name": "bound_devices_title",
+      "value": "已绑定设备"
+    },
+    {
+      "name": "bound_devices_empty",
+      "value": "暂无已绑定设备"
+    },
+    {
+      "name": "add_device",
+      "value": "添加设备"
+    },
+    {
+      "name": "add_device_short",
+      "value": "添加"
+    },
+    {
       "name": "function_page_title",
       "value": "Function"
     },
