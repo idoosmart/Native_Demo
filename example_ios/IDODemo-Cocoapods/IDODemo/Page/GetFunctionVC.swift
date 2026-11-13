@@ -75,8 +75,10 @@ class GetFunctionVC: UIViewController {
     
     private func setupItems() {
         // !!!: 部分接口需根据功能表判定后调用（sdk兼容所有设备，功能表不支持的请勿调用）
+        // !!!: Some APIs must be called only after checking the function table (the SDK is compatible with all devices; do not call APIs the function table does not support)
         
         // 内部全量测试专用（客户使用需保持此值为false）
+        // For internal full-coverage testing only (customers must keep this value false)
         let innerTest = false
         
         func add(_ cmd: GetCmd, isSupported: Bool) {
@@ -143,9 +145,9 @@ class GetFunctionVC: UIViewController {
         add(GetCmd(type: .getSettingsDuringExercise, title: "getSettingsDuringExercise", desc: L10n.setDuringExercise), isSupported: sdk.funcTable.supportSettingsDuringExercise)
         
         add(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: L10n.getHidInfo), isSupported: true)
-        //add(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: L10n.getWatchDialId), isSupported: true) // 老旧协议(已废弃)
-        //add(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: L10n.getHotStartParam), isSupported: true) // 老旧协议(已废弃)
-        //add(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: L10n.getDeviceName), isSupported: true) // 老旧协议(已废弃)
+        //add(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: L10n.getWatchDialId), isSupported: true) // 老旧协议(已废弃) / Legacy protocol (deprecated)
+        //add(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: L10n.getHotStartParam), isSupported: true) // 老旧协议(已废弃) / Legacy protocol (deprecated)
+        //add(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: L10n.getDeviceName), isSupported: true) // 老旧协议(已废弃) / Legacy protocol (deprecated)
         add(GetCmd(type: .getStressVal, title: "getStressVal", desc: L10n.getStressVal), isSupported: sdk.funcTable.setSetStressCalibration)
         add(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: L10n.getHabitInfo), isSupported: sdk.funcTable.getSupportGetBleBeepV3)
         
@@ -155,6 +157,7 @@ class GetFunctionVC: UIViewController {
         add(GetCmd(type: .getBikeLockList, title: "getBikeLockList", desc: L10n.getBikeLockList), isSupported: sdk.funcTable.supportBikeLockManager)
 
         // 优先使用v3协议接口
+        // Prefer the v3 protocol API
         if (sdk.funcTable.supportProtocolV3MenuList) {
             add(GetCmd(type: .getMenuListV3, title: "getMenuListV3", desc: L10n.getMenuListV3), isSupported: true)
         }else if(sdk.funcTable.getMenuList){
@@ -169,7 +172,9 @@ class GetFunctionVC: UIViewController {
         
         // NOTE:
         // 因为demo要适配所有设备，此处示例适配多种情况。
+        // Because the demo must support all devices, this example handles multiple cases.
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+        // When supporting only one device, handle just one of the following cases (use the function table to determine which one the device uses).
         if (sdk.funcTable.setSmartHeartRate) {
             if (sdk.funcTable.getSupportGetSmartHeartRate) {
                 //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
@@ -177,7 +182,8 @@ class GetFunctionVC: UIViewController {
                 add(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: L10n.getHeartMode), isSupported: true)
             } else {
                 // !!!: - 该设备不支持获取心率模式，需要app自行记录
-                print("该设备不支持获取心率模式，需要app自行记录")
+                // !!!: - This device does not support getting the heart rate mode; the app must record it itself
+                print("该设备不支持获取心率模式，需要app自行记录 / This device does not support getting the heart rate mode; the app must record it itself")
             }
         } else if (sdk.funcTable.syncV3Hr) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html
@@ -293,7 +299,7 @@ fileprivate struct GetCmd {
     }
 }
 
-fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
+fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量 / Allows getting the number of enum cases
     /// 获取设备信息
     /// Get Device Information
     case getDeviceInfo
@@ -328,9 +334,11 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get GPS Status event number
      case getGpsStatus
     /// 获取固件不可删除的快捷应用列表
+    /// Get the list of quick apps that cannot be deleted from the firmware
     /// Get non-deletable menu list in firmware event number
      case getUnerasableMeunList
     /// 运动模式自动识别开关获取
+    /// Get sport mode auto-recognition switch
     /// Get event number for activity switch
      case getActivitySwitch
     /// 设备电量提醒开关获取
@@ -338,10 +346,13 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
      case getBatteryReminderSwitch
      case getAppSleepMode
     /// 获取寻找手机开关（GET:0x02/0x26）
+    /// Get find phone switch (GET:0x02/0x26)
      case getFindPhoneSwitch
     /// 获取 Find My 设备名称（V3 15.113）
+    /// Get Find My device name (V3 15.113)
      case getFindMyDeviceName
     /// 查询运动自动暂停/结束支持的运动类型（V3 15.111）
+    /// Query sport types that support auto pause/end (V3 15.111)
      case getSportAutoPauseEndTypes
     /// 获取宠物信息
     /// Get pet info event number
@@ -413,6 +424,7 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get notification center status event number
      case getNoticeStatus
     /// app获取ble的闹钟
+    /// app gets the alarms from ble
     /// Getting Alarms for V3APP Devices
      case getAlarm
     /// 获取用户习惯信息
@@ -440,26 +452,37 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get BT connected mobile phone model
      case getBtConnectPhoneModel
     /// 获取日程提醒
+    /// Get schedule reminder
     case setScheduleReminder
     /// 获取单位
+    /// Get unit
     case getUnit
     /// 获取小程序信息
+    /// Get applet information
     case getAppletControl
     ///  获取固件算法文件信息（ACC/GPS）
+    ///  Get firmware algorithm file information (ACC/GPS)
     case getAlgFile
     ///  请求固件算法文件信息（ACC/GPS）
+    ///  Request firmware algorithm file information (ACC/GPS)
     case requestAlgFile
     ///  心率模式
+    ///  Heart rate mode
     case getHeartMode
     /// 运动排序
+    /// Sport sorting
     case getSportsTypeV3
     ///  获取左右手佩戴设置
+    ///  Get left/right hand wearing setting
     case getLeftRightWearSettings
     ///  获取运动中设置提示音开关
+    ///  Get in-sport prompt sound switch setting
     case getSettingsDuringExercise
     ///  获取简单心率区间设置
+    ///  Get simple heart rate zone setting
     case getSimpleHeartRateZone
     /// 运动中提醒设置
+    /// In-sport reminder settings
     case getSportingRemindSetting
     case getUserInfo
     case getSn
@@ -487,7 +510,7 @@ extension CmdType {
             return IDOAppletControlModel(operate: 3)
         case .getHeartMode:
             if(sdk.funcTable.syncV3Hr) {
-                return IDOHeartModeParamModel(updateTime: 0) // 0 是获取
+                return IDOHeartModeParamModel(updateTime: 0) // 0 是获取 / means get
             }
             return nil
         default:
@@ -563,6 +586,7 @@ private class GetFunctionDetailVC: UIViewController {
         super.viewDidLoad()
         
         // 注册监听 设备传输文件到app任务
+        // Register listener for device-to-app file transfer tasks
         sdk.transfer.registerDeviceTranFileToApp { [weak self] task in
             self?.deviceTransFileToApp(task)
         }
@@ -902,7 +926,7 @@ private class GetFunctionDetailVC: UIViewController {
             
         case .getHeartMode:
             guard let obj = cmd.type.param() else {
-                print("需要配置参数")
+                print("需要配置参数 / Parameters need to be configured")
                 return
             }
             if (sdk.funcTable.setSmartHeartRate) {
@@ -969,25 +993,28 @@ private class GetFunctionDetailVC: UIViewController {
     }
     
     private func deviceTransFileToApp(_ task: IDODeviceFileToAppTask) {
-        let txt = "\n\n收到设备传输文件 名称：\(task.deviceTransItem.fileName) 大小：\(task.deviceTransItem.fileSize) 到App"
+        let txt = "\n\n收到设备传输文件 名称：\(task.deviceTransItem.fileName) 大小：\(task.deviceTransItem.fileSize) 到App / \n\nReceived file transferred from device to App - name: \(task.deviceTransItem.fileName) size: \(task.deviceTransItem.fileSize)"
         print(txt)
         textResponse.text += "\n\(txt)"
         // 接收设备传输文件到app
+        // Receive file transferred from device to app
         task.acceptReceiveFile { [weak self] progress in
-            let s = "接收进度：\(progress * 100)%"
+            let s = "接收进度：\(progress * 100)% / Receive progress: \(progress * 100)%"
             print(s)
             self?.textResponse.text += "\n\(s)"
         } onComplete: { [weak self] isCompleted, receiveFilePath in
-            let s = "接收结果：\(isCompleted) filePath:\(receiveFilePath ?? "")"
+            let s = "接收结果：\(isCompleted) filePath:\(receiveFilePath ?? "") / Receive result: \(isCompleted) filePath:\(receiveFilePath ?? "")"
             print(s)
             self?.textResponse.text += "\n\(s)"
         }
         
         /*
         // 注：接收中 可随时终止接收
+        // Note: receiving can be stopped at any time
         // 终止接收文件
+        // Stop receiving the file
         task.stopReceiveFile { rs in
-            print("已终止接收文件\(task.deviceTransItem.fileName)")
+            print("已终止接收文件\(task.deviceTransItem.fileName) / Stopped receiving file \(task.deviceTransItem.fileName)")
         }
          */
     }

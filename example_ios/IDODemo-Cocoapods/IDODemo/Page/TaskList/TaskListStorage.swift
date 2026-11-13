@@ -3,7 +3,9 @@
 //  Runner
 //
 //  15.114 任务清单 — Example 本地缓存（key = 设备 MAC + task_list）
+//  15.114 Task list — Example local cache (key = device MAC + task_list)
 //  对齐 protocol_lib/example task_list_storage.dart
+//  Aligned with protocol_lib/example task_list_storage.dart
 //
 
 import Foundation
@@ -36,6 +38,7 @@ enum TaskListStorage {
     }
 
     /// 设备解绑时清除任务清单缓存（同时清 short / full MAC，避免键不一致）
+    /// Clear the task list cache when the device is unbound (also clears short / full MAC to avoid key mismatch)
     static func clearOnUnbind(macAddress: String, alternateMac: String? = nil) {
         var keys = Set<String>()
         if !macAddress.isEmpty { keys.insert(macAddress) }

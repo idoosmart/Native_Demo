@@ -11,28 +11,40 @@ import protocol_channel
 let IDODataTypDict: [IDODataType: String] = [
     IDODataType.none: "--",
     /// 总响应时间
+    /// Overall response time
     IDODataType.overallResponseTime: "overallResponseTime",
     /// 距离类
+    /// Distance category
     IDODataType.distance: "distance",
     /// 海拔类
+    /// Elevation category
     IDODataType.elevation: "elevation",
     /// 配速类
+    /// Pace category
     IDODataType.pace: "pace",
     /// 速度类
+    /// Speed category
     IDODataType.speed: "speed",
     /// 心率类
+    /// Heart rate category
     IDODataType.heartRate: "heartRate",
     /// 功率类
+    /// Power category
     IDODataType.power: "power",
     /// 步频类
+    /// Cadence category
     IDODataType.cadence: "cadence",
     /// 跑步类
+    /// Running category
     IDODataType.runningEconomy: "runningEconomy",
     /// 跑步健身类
+    /// Running fitness category
     IDODataType.runningFitness: "runningFitness",
     /// 时间类
+    /// Time category
     IDODataType.time: "time",
     /// 其他类
+    /// Other category
     IDODataType.other: "other"
 ]
     

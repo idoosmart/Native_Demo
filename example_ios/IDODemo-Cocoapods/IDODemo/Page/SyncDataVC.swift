@@ -111,6 +111,7 @@ extension SyncDataVC {
         textConsole.text = ""
         
         // 方式一： 同步所有
+        // Method 1: sync all
         sdk.syncData.startSync(
             funcProgress:{ [weak self] progress in
             self?.isSyncing = true
@@ -135,7 +136,7 @@ extension SyncDataVC {
         })
         
 //        
-//        // 方式二：同步指定类型
+//        // 方式二：同步指定类型 / Method 2: sync specified types
 //        let types = [
 //            IDOSyncDataTypeClass(type: .heartRate),
 //            IDOSyncDataTypeClass(type: .sleep),
@@ -144,7 +145,7 @@ extension SyncDataVC {
 //            IDOSyncDataTypeClass(type: .stepCount),
 //        ]
 //        
-//        // 可以用以下方法获取支持的类型
+//        // 可以用以下方法获取支持的类型 / The supported types can be obtained with the following method
 ////        sdk.syncData.getSupportSyncDataTypeList { list in
 ////            print("getSupportSyncDataTypeList list:\(list)")
 ////        }

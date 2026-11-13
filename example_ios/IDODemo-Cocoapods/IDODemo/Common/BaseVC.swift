@@ -87,6 +87,7 @@ class BaseVC: UIViewController {
 extension BaseVC {
     
     // 初始化epo（可选）
+    // Initialize epo (optional)
     func initEpoAutoUpdate() {
         // epo upgrade
         IDOEpoManager.shared.enableAutoUpgrade = true
@@ -102,13 +103,16 @@ extension BaseVC {
         }
         
         // 如果已启用自动epo更新，则需要触发请求定位权限
+        // If automatic epo updates are enabled, the location permission request must be triggered
         if (IDOEpoManager.shared.enableAutoUpgrade) {
             guard LocationManager.shared.checkLocationAuthorization() else {
                 LocationManager.shared.didChangeAuthorization = { status in
                     if status == .authorizedWhenInUse || status == .authorizedAlways  {
                         // 已授权
+                        // Authorized
                     }else {
                         // 未授权，提示
+                        // Not authorized, prompt
                         SVProgressHUD.showInfo(withStatus: L10n.gpsTips)
                     }
                 }
@@ -121,6 +125,7 @@ extension BaseVC {
 // MARK: - IDOEpoManagerDelegate
 extension BaseVC: IDOEpoManagerDelegate {
     // 设备优先使用手机GPS以加速定位
+    // The device prefers the phone's GPS to speed up positioning
     func getAppGpsInfo() -> protocol_channel.IDOOtaGpsInfo? {
         guard let loc = LocationManager.shared.previousLocation else {
             return nil

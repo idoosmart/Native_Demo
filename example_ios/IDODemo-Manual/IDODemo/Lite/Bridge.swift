@@ -18,11 +18,14 @@ let bleMgr = XYCentralManager.shared
 extension MainPageVC {
     
     // Register sdk, 只执行一次
+    // Register sdk, run only once
     func registerSDK() {
         // protocol library 注册（必需）（!!!重要）
+        // protocol library registration (required) (!!!important)
         sdk.bridge.setupBridge(delegate: self, logType: .debug)
         
         // 如需使用Alexa， 需先注册
+        // To use Alexa, register it first
         sdk.alexa.setupAlexa(delegate: self, clientId: clientId)
         
         // epo upgrade
@@ -72,12 +75,13 @@ extension MainPageVC: IDOBridgeDelegate {
     
     
     // 需要将指令数据发到蓝牙设备（!!!重要）
+    // The command data must be sent to the Bluetooth device (!!!important)
     func writeDataToBle(bleData: protocol_channel.IDOBleData) {
         guard let device = currentDeviceModel else { return }
         
         guard let data = bleData.data else { return }
         guard data.count >= 2 else {
-            print("空数据")
+            print("空数据 / Empty data")
             return
         }
         let data0 = data[0]
@@ -87,16 +91,19 @@ extension MainPageVC: IDOBridgeDelegate {
         if (!isTrans) {
             bleMgr.write(peripheral: characteristic.0, characteristic: characteristic.1, data: data) { err in
                 if err != nil {
-                    print("写失败：\(err.debugDescription)")
+                    print("写失败：\(err.debugDescription) / Write failed: \(err.debugDescription)")
                 }else {
                     // 写完成 （!!!重要）
+                    // Write complete (!!!important)
                     sdk.bridge.writeDataComplete()
                 }
             }
         }else {
             // 不需要响应
+            // No response needed
             bleMgr.writeWithoutResponse(peripheral: characteristic.0, characteristic: characteristic.1, data: data)
             // 写完成 （!!!重要）
+            // Write complete (!!!important)
             sdk.bridge.writeDataComplete()
         }
     }

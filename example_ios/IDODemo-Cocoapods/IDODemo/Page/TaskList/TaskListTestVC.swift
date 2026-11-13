@@ -3,7 +3,9 @@
 //  Runner
 //
 //  15.114 任务清单 — 独立联调页入口
+//  15.114 Task list — standalone integration test page entry
 //  对齐 protocol_lib/example TaskListTestPage
+//  Aligned with protocol_lib/example TaskListTestPage
 //
 
 import UIKit
@@ -185,6 +187,7 @@ class TaskListTestVC: UIViewController {
     }
 
     /// 查询状态：不判断功能表；展示请求与回复日志
+    /// Query status: does not check the function table; shows request and reply logs
     @objc private func queryStatusChanges() {
         guard ensureConnected() else { return }
         let param = IDOTaskListModel(operate: 2)

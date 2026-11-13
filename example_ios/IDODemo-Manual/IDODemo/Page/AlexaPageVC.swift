@@ -81,6 +81,7 @@ extension AlexaPageVC {
 
     private func _login() {
         // 定制 ColorFit_Pro_3_Alpha
+        // Customized: ColorFit_Pro_3_Alpha
         // IDW01、ID208_BT、IDW05、id206、GT01_Pro、GT01_Pro_Beta
         // ：Ks2_Beta
         SVProgressHUD.show()
@@ -105,6 +106,7 @@ extension AlexaPageVC {
             }
             alert.addAction(okAction)
             // 在视图控制器中显示 UIAlertController
+            // Present the alert in the view controller using UIAlertController
             self?.present(alert, animated: true, completion: nil)
         } completion: { [weak self] rs in
             self?.cancellable = nil
@@ -192,37 +194,45 @@ private class AlexaLoginVC: UIViewController, WKNavigationDelegate {
     }
 
     // WKNavigationDelegate 方法
+    // WKNavigationDelegate methods
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         // 网页加载完成
+        // Web page finished loading
         progoessView.progress = 0
         progoessView.isHidden = true
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         // 网页加载失败
+        // Web page failed to load
         progoessView.progress = 0
         progoessView.isHidden = true
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         // 网页加载失败（临时导航）
+        // Web page failed to load (provisional navigation)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         // 网页开始加载
+        // Web page started loading
         progoessView.isHidden = false
     }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         // 网页内容开始到达
+        // Web page content started arriving
     }
 
     func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
         // 网页重定向
+        // Web page redirect
     }
 
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         // 网页内容进程终止
+        // Web content process terminated
         progoessView.isHidden = true
         progoessView.progress = 0
     }

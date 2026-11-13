@@ -23,10 +23,10 @@ class GetFunctionVC: UIViewController {
     }()
     
     private lazy var items: [GetCmd] = [
-        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information", descCn: "获取设备信息"),
-        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information", descCn: "获取功能表"),
-        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number", descCn: "获取红点提醒开关"),
-        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information", descCn: "获取屏幕信息"),
+        GetCmd(type: .getDeviceInfo, title: "getDeviceInfo", desc: "Get device information", descCn: "获取设备信息 / Get device information"),
+        GetCmd(type: .getFunctionTable, title: "getFunctionTable", desc: "Get function table information", descCn: "获取功能表 / Get function table"),
+        GetCmd(type: .getUnreadAppReminder, title: "getUnreadAppReminder", desc: "Get unread app reminder switch event number", descCn: "获取红点提醒开关 / Get unread red dot reminder switch"),
+        GetCmd(type: .getWatchDialInfo, title: "getWatchDialInfo", desc: "Get Screen Information", descCn: "获取屏幕信息 / Get screen information"),
     ]
     
     override func viewDidLoad() {
@@ -36,24 +36,26 @@ class GetFunctionVC: UIViewController {
         view.backgroundColor = .white
         
         // !!!: 部分接口需根据功能表判定后调用（sdk兼容所有设备，功能表不支持的请勿调用）
+        // !!!: Some APIs must be called only after checking the function table (the SDK is compatible with all devices; do not call APIs the function table does not support)
         
         // 内部全量测试专用（客户使用需保持此值为false）
+        // For internal full-coverage testing only (customers must keep this value false)
         let innerTest = false
         
         if (innerTest || sdk.funcTable.getNewWatchList) {
-            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)", descCn: "获取表盘列表"))
+            items.append(GetCmd(type: .getWatchListV3, title: "getWatchListV3", desc: "Getting watch face list for V3 (New)", descCn: "获取表盘列表 / Get watch face list"))
         }else {
-            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2", descCn: "获取表盘列表"))
+            items.append(GetCmd(type: .getWatchListV2, title: "getWatchListV2", desc: "Get Watch Face List in V2", descCn: "获取表盘列表 / Get watch face list"))
         }
         
         if (innerTest || sdk.funcTable.getBatteryInfo) {
-            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number", descCn: "获取电池信息"))
+            items.append(GetCmd(type: .getBatteryInfo, title: "getBatteryInfo", desc: "Get battery information event number", descCn: "获取电池信息 / Get battery information"))
         }
         if (innerTest || sdk.funcTable.getDeviceLogState) {
-            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number", descCn: "获取设备的日志状态"))
+            items.append(GetCmd(type: .getDeviceLogState, title: "getDeviceLogState", desc: "Get device log state event number", descCn: "获取设备的日志状态 / Get device log state"))
         }
         if (innerTest || sdk.funcTable.getMenuList) {
-            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List", descCn: "获取设备支持的列表"))
+            items.append(GetCmd(type: .getMenuList, title: "getMenuList", desc: "Get Supported Menu List", descCn: "获取设备支持的列表 / Get list supported by the device"))
         }
         if (innerTest || sdk.funcTable.reminderAncs) {
             items.append(GetCmd(type: .getNoticeStatus, title: "getNoticeStatus", desc: "Get notification center status event number"))
@@ -114,7 +116,7 @@ class GetFunctionVC: UIViewController {
         }
         
 //        if (innerTest || sdk.funcTable.getRealtimeData) {
-//            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number")) // 已废弃
+//            items.append(GetCmd(type: .getLiveData, title: "getLiveData", desc: "Get Real-time Data event number")) // 已废弃 / Deprecated
 //        }
         if (innerTest || sdk.funcTable.getFlashLog) {
             items.append(GetCmd(type: .getErrorRecord, title: "getErrorRecord", desc: "Get error record"))
@@ -153,55 +155,58 @@ class GetFunctionVC: UIViewController {
             items.append(GetCmd(type: .getStepGoal, title: "getStepGoal", desc: "Get daily step goal event number"))
         }
         if (innerTest || sdk.funcTable.getSupportGetV3DeviceBtConnectPhoneModel) {
-            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号"))
+            items.append(GetCmd(type: .getBtConnectPhoneModel, title: "getBtConnectPhoneModel", desc: "获取BT连接手机型号 / Get BT-connected phone model"))
         }
         
         if (innerTest || sdk.funcTable.setScheduleReminder) {
-            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: "Get schedule reminder", descCn: "获取日程提醒"))
+            items.append(GetCmd(type: .setScheduleReminder, title: "getScheduleReminder", desc: "Get schedule reminder", descCn: "获取日程提醒 / Get schedule reminder"))
         }
         
         if (innerTest || sdk.funcTable.getSupportGetUnit) {
-            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: "Get Unit event number", descCn: "获取单位"))
+            items.append(GetCmd(type: .getUnit, title: "getUnit", desc: "Get Unit event number", descCn: "获取单位 / Get unit"))
         }
         
         if (innerTest || sdk.funcTable.setSupportControlMiniProgram) {
-            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除）"))
+            items.append(GetCmd(type: .getAppletControl, title: "getAppletControl", desc: "Operation of applet information (obtain, start, delete)", descCn: "操作小程序信息（获取、启动、删除） / Operate applet information (get, start, delete)"))
         }
         
         if (innerTest || sdk.funcTable.getSupportDeviceOperateAlgFile) {
-            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: "Get firmware algorithm file information (ACC/GPS)", descCn: "获取固件算法文件信息（ACC/GPS）"))
-            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: "Request firmware algorithm file information (ACC/GPS)", descCn: "请求固件算法文件信息（ACC/GPS）"))
+            items.append(GetCmd(type: .getAlgFile, title: "getAlgFileInfo", desc: "Get firmware algorithm file information (ACC/GPS)", descCn: "获取固件算法文件信息（ACC/GPS） / Get firmware algorithm file information (ACC/GPS)"))
+            items.append(GetCmd(type: .requestAlgFile, title: "requestAlgFile", desc: "Request firmware algorithm file information (ACC/GPS)", descCn: "请求固件算法文件信息（ACC/GPS） / Request firmware algorithm file information (ACC/GPS)"))
         }
         
         // NOTE:
         // 因为demo要适配所有设备，此处示例适配多种情况。
+        // Because the demo must support all devices, this example handles multiple cases.
         // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+        // When supporting only one device, handle just one of the following cases (use the function table to determine which one the device uses).
         if (sdk.funcTable.setSmartHeartRate) {
             if (sdk.funcTable.getSupportGetSmartHeartRate) {
                 //https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartRateModeSmart.html?h=setHeartRateModeSmart
                 print("getSupportGetSmartHeartRate")
-                items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
+                items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式 / Get heart rate mode"))
             }else {
                 // !!!: - 该设备不支持获取心率模式，需要app自行记录
-                print("该设备不支持获取心率模式，需要app自行记录")
+                // !!!: - This device does not support getting the heart rate mode; the app must record it itself
+                print("该设备不支持获取心率模式，需要app自行记录 / This device does not support getting the heart rate mode; the app must record it itself")
             }
         }else if(sdk.funcTable.syncV3Hr) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/set/IDOSetHeartMode.html
             print("syncV3Hr")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
+            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式 / Get heart rate mode"))
         }else if(sdk.funcTable.getHeartRateModeV2) {
             // https://idoosmart.github.io/Native_GitBook/en/doc/get/IDOGetHeartRateMode.html
             print("getHeartRateModeV2")
-            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式"))
+            items.append(GetCmd(type: .getHeartMode, title: "getHeartMode", desc: "Get heart rate mode", descCn: "获取心率模式 / Get heart rate mode"))
         }
         
         
-        //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用
-        //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用
-        //items.append(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number")) // 未启用
-        //items.append(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number")) // 已废弃
+        //items.append(GetCmd(type: .getHidInfo, title: "getHidInfo", desc: "Get HID Information event number")) // 未启用 / Not enabled
+        //items.append(GetCmd(type: .getWatchDialId, title: "getWatchDialId", desc: "Get watch ID event number")) // 未启用 / Not enabled
+        //items.append(GetCmd(type: .getHotStartParam, title: "getHotStartParam", desc: "Get Hot Start Parameters event number")) // 未启用 / Not enabled
+        //items.append(GetCmd(type: .getDeviceName, title: "getDeviceName", desc: "Get device name event number")) // 已废弃 / Deprecated
         //items.append(GetCmd(type: .getStressVal, title: "getStressVal", desc: "Get stress value event number"))
-        //items.append(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3")) // 未启用
+        //items.append(GetCmd(type: .getHabitInfo, title: "getHabitInfo", desc: "Get User Habit Information in V3")) // 未启用 / Not enabled
         
         items = items.sorted { $0.title < $1.title }
         
@@ -306,7 +311,7 @@ fileprivate struct GetCmd {
     }
 }
 
-fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
+fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量 / Allows getting the number of enum cases
     /// 获取设备信息
     /// Get Device Information
     case getDeviceInfo
@@ -341,9 +346,11 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get GPS Status event number
      case getGpsStatus
     /// 获取固件不可删除的快捷应用列表
+    /// Get the list of quick apps that cannot be deleted from the firmware
     /// Get non-deletable menu list in firmware event number
      case getUnerasableMeunList
     /// 运动模式自动识别开关获取
+    /// Get sport mode auto-recognition switch
     /// Get event number for activity switch
      case getActivitySwitch
     /// 获取红点提醒开关
@@ -413,6 +420,7 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get notification center status event number
      case getNoticeStatus
     /// app获取ble的闹钟
+    /// app gets the alarms from ble
     /// Getting Alarms for V3APP Devices
      case getAlarm
     /// 获取用户习惯信息
@@ -440,16 +448,22 @@ fileprivate enum CmdType: CaseIterable { // 可以获取枚举的case 数量
     /// Get BT connected mobile phone model
      case getBtConnectPhoneModel
     /// 获取日程提醒
+    /// Get schedule reminder
     case setScheduleReminder
     /// 获取单位
+    /// Get unit
     case getUnit
     /// 获取小程序信息
+    /// Get applet information
     case getAppletControl
     ///  获取固件算法文件信息（ACC/GPS）
+    ///  Get firmware algorithm file information (ACC/GPS)
     case getAlgFile
     ///  请求固件算法文件信息（ACC/GPS）
+    ///  Request firmware algorithm file information (ACC/GPS)
     case requestAlgFile
     ///  心率模式
+    ///  Heart rate mode
     case getHeartMode
     
 }
@@ -471,7 +485,7 @@ extension CmdType {
             return IDOAppletControlModel(operate: 3)
         case .getHeartMode:
             if(sdk.funcTable.syncV3Hr) {
-                return IDOHeartModeParamModel(updateTime: 0) // 0 是获取
+                return IDOHeartModeParamModel(updateTime: 0) // 0 是获取 / means get
             }
             return nil
         default:
@@ -547,6 +561,7 @@ private class GetFunctionDetailVC: UIViewController {
         super.viewDidLoad()
         
         // 注册监听 设备传输文件到app任务
+        // Register listener for device-to-app file transfer tasks
         sdk.transfer.registerDeviceTranFileToApp { [weak self] task in
             self?.deviceTransFileToApp(task)
         }
@@ -838,7 +853,7 @@ private class GetFunctionDetailVC: UIViewController {
             
         case .getHeartMode:
             guard let obj = cmd.type.param() else {
-                print("需要配置参数")
+                print("需要配置参数 / Parameters need to be configured")
                 return
             }
             if (sdk.funcTable.setSmartHeartRate) {
@@ -877,25 +892,28 @@ private class GetFunctionDetailVC: UIViewController {
     }
     
     private func deviceTransFileToApp(_ task: IDODeviceFileToAppTask) {
-        let txt = "\n\n收到设备传输文件 名称：\(task.deviceTransItem.fileName) 大小：\(task.deviceTransItem.fileSize) 到App"
+        let txt = "\n\n收到设备传输文件 名称：\(task.deviceTransItem.fileName) 大小：\(task.deviceTransItem.fileSize) 到App / \n\nReceived file transferred from device to App - name: \(task.deviceTransItem.fileName) size: \(task.deviceTransItem.fileSize)"
         print(txt)
         textResponse.text += "\n\(txt)"
         // 接收设备传输文件到app
+        // Receive file transferred from device to app
         task.acceptReceiveFile { [weak self] progress in
-            let s = "接收进度：\(progress * 100)%"
+            let s = "接收进度：\(progress * 100)% / Receive progress: \(progress * 100)%"
             print(s)
             self?.textResponse.text += "\n\(s)"
         } onComplete: { [weak self] isCompleted, receiveFilePath in
-            let s = "接收结果：\(isCompleted) filePath:\(receiveFilePath ?? "")"
+            let s = "接收结果：\(isCompleted) filePath:\(receiveFilePath ?? "") / Receive result: \(isCompleted) filePath:\(receiveFilePath ?? "")"
             print(s)
             self?.textResponse.text += "\n\(s)"
         }
         
         /*
         // 注：接收中 可随时终止接收
+        // Note: receiving can be stopped at any time
         // 终止接收文件
+        // Stop receiving the file
         task.stopReceiveFile { rs in
-            print("已终止接收文件\(task.deviceTransItem.fileName)")
+            print("已终止接收文件\(task.deviceTransItem.fileName) / Stopped receiving file \(task.deviceTransItem.fileName)")
         }
          */
     }

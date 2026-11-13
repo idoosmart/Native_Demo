@@ -3,6 +3,7 @@
 //  IDODemoFull
 //
 //  Full 已绑定设备快照。依赖 IDODeviceModel，仅编入 Full target。
+//  Full bound-device snapshot. Depends on IDODeviceModel; only compiled into the Full target.
 //
 
 import Foundation
@@ -65,6 +66,7 @@ extension UserDefaults {
     private static let boundDevicesKey = "bound-devices"
 
     /// Full：写绑定标志，并维护可展示的 IDODeviceModel 快照。
+    /// Full: writes the bind flag and maintains a displayable IDODeviceModel snapshot.
     func setBind(_ macAddress: String, isBind: Bool, device: IDODeviceModel? = nil) {
         let key = Constant.bindKey + "-" + macAddress
         setValue(isBind, forKey: key)
@@ -137,6 +139,7 @@ extension UserDefaults {
     }
 
     /// 将仅有 bind-state 标记、尚无快照的已绑定设备补进列表
+    /// Add bound devices that only have a bind-state flag and no snapshot yet to the list
     private func migrateBoundFlagsIfNeeded() {
         var list = loadBoundSnapshots()
         let existingMacs = Set(list.compactMap { $0.macAddress })

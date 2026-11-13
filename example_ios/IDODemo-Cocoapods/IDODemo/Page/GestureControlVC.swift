@@ -3,7 +3,9 @@
 //  IDODemo
 //
 //  15.82 手势控制联调页（对齐 PulseBand GestureActivity）：
+//  15.82 Gesture control integration-test page (matches PulseBand GestureActivity):
 //  进页 03→02；动态能力树；功能多选一；同功能子功能手势互斥；设置走 01。
+//  On entering the page: 03→02; dynamic capability tree; one function selected at a time; gestures of sub-functions under the same function are mutually exclusive; settings go through 01.
 //
 
 import UIKit
@@ -64,7 +66,7 @@ class GestureControlVC: UIViewController {
         let v = UILabel()
         v.font = .systemFont(ofSize: 15)
         v.numberOfLines = 0
-        v.text = "状态: 空闲"
+        v.text = "状态: 空闲 / Status: idle"
         return v
     }()
 
@@ -72,7 +74,7 @@ class GestureControlVC: UIViewController {
         let v = UILabel()
         v.font = .boldSystemFont(ofSize: 13)
         v.numberOfLines = 0
-        v.text = "流程: 支持项(03) → 当前配置(02) → 设置(01)"
+        v.text = "流程: 支持项(03) → 当前配置(02) → 设置(01) / Flow: supported items (03) → current config (02) → set (01)"
         return v
     }()
 
@@ -95,7 +97,7 @@ class GestureControlVC: UIViewController {
         v.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
         v.isEditable = false
         v.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        v.text = "（暂无）"
+        v.text = "（暂无） / (none)"
         return v
     }()
 
@@ -121,7 +123,7 @@ class GestureControlVC: UIViewController {
         }
 
         let title = UILabel()
-        title.text = "手势控制（15.82）"
+        title.text = "手势控制（15.82） / Gesture control (15.82)"
         title.font = .boldSystemFont(ofSize: 18)
 
         let masterRow = UIStackView()
@@ -129,25 +131,25 @@ class GestureControlVC: UIViewController {
         masterRow.alignment = .center
         masterRow.spacing = 8
         let masterLbl = UILabel()
-        masterLbl.text = "手势总开关"
+        masterLbl.text = "手势总开关 / Gesture master switch"
         masterLbl.font = .systemFont(ofSize: 15)
         masterRow.addArrangedSubview(masterLbl)
         masterRow.addArrangedSubview(UIView())
         masterRow.addArrangedSubview(switchMaster)
 
         let treeTitle = UILabel()
-        treeTitle.text = "功能 / 子功能 / 手势（由 operate=3 决定）"
+        treeTitle.text = "功能 / 子功能 / 手势（由 operate=3 决定） / Function / sub-function / gesture (decided by operate=3)"
         treeTitle.font = .boldSystemFont(ofSize: 14)
 
         let help = UILabel()
-        help.text = "进页自动：03 建能力树 → 02 刷状态。功能多选一；同功能下子功能手势互斥。修改后点设置走 01。"
+        help.text = "进页自动：03 建能力树 → 02 刷状态。功能多选一；同功能下子功能手势互斥。修改后点设置走 01。 / On entering the page: 03 builds the capability tree → 02 refreshes the state. Only one function can be selected; sub-function gestures under the same function are mutually exclusive. After changes, tap Set to run 01."
         help.font = .systemFont(ofSize: 12)
         help.textColor = .darkGray
         help.numberOfLines = 0
 
-        let btnSupport = UIButton.createNormalButton(title: "查支持(03)")
+        let btnSupport = UIButton.createNormalButton(title: "查支持(03) / Query support (03)")
         btnSupport.addTarget(self, action: #selector(onQuerySupport), for: .touchUpInside)
-        let btnGet = UIButton.createNormalButton(title: "查当前(02)")
+        let btnGet = UIButton.createNormalButton(title: "查当前(02) / Query current (02)")
         btnGet.addTarget(self, action: #selector(onQueryCurrent), for: .touchUpInside)
         let row = UIStackView(arrangedSubviews: [btnSupport, btnGet])
         row.axis = .horizontal
@@ -156,20 +158,20 @@ class GestureControlVC: UIViewController {
         btnSupport.snp.makeConstraints { $0.height.equalTo(40) }
         btnGet.snp.makeConstraints { $0.height.equalTo(40) }
 
-        let btnSet = UIButton.createNormalButton(title: "设置手势(01)")
+        let btnSet = UIButton.createNormalButton(title: "设置手势(01) / Set gesture (01)")
         btnSet.addTarget(self, action: #selector(onSet), for: .touchUpInside)
         btnSet.snp.makeConstraints { $0.height.equalTo(40) }
 
-        let btnRefresh = UIButton.createNormalButton(title: "重新加载(03→02)")
+        let btnRefresh = UIButton.createNormalButton(title: "重新加载(03→02) / Reload (03→02)")
         btnRefresh.addTarget(self, action: #selector(onRefresh), for: .touchUpInside)
         btnRefresh.snp.makeConstraints { $0.height.equalTo(40) }
 
-        let btnClear = UIButton.createNormalButton(title: "清空显示")
+        let btnClear = UIButton.createNormalButton(title: "清空显示 / Clear display")
         btnClear.addTarget(self, action: #selector(onClear), for: .touchUpInside)
         btnClear.snp.makeConstraints { $0.height.equalTo(40) }
 
         let resultTitle = UILabel()
-        resultTitle.text = "最近回调 JSON"
+        resultTitle.text = "最近回调 / Latest callback JSON"
         resultTitle.font = .boldSystemFont(ofSize: 14)
 
         textResult.snp.makeConstraints { $0.height.equalTo(220) }
@@ -183,7 +185,7 @@ class GestureControlVC: UIViewController {
     @discardableResult
     private func ensureSupport() -> Bool {
         guard sdk.funcTable.supportOperateGestureControl else {
-            lblStatus.text = "此设备不支持手势控制（supportOperateGestureControl=false）"
+            lblStatus.text = "此设备不支持手势控制（supportOperateGestureControl=false） / This device does not support gesture control (supportOperateGestureControl=false)"
             SVProgressHUD.showError(withStatus: "不支持 / not support")
             return false
         }
@@ -191,7 +193,7 @@ class GestureControlVC: UIViewController {
     }
 
     private func enterPage() {
-        lblStatus.text = "状态: 正在查询支持项(03)…"
+        lblStatus.text = "状态: 正在查询支持项(03)… / Status: querying supported items (03)…"
         awaitCurrentAfterSupport = true
         querySupport()
     }
@@ -221,9 +223,9 @@ class GestureControlVC: UIViewController {
         supportModel = nil
         currentModel = nil
         clearTreeUi()
-        textResult.text = "（暂无）"
-        lblSummary.text = "流程: 支持项(03) → 当前配置(02) → 设置(01)"
-        lblStatus.text = "状态: 空闲"
+        textResult.text = "（暂无） / (none)"
+        lblSummary.text = "流程: 支持项(03) → 当前配置(02) → 设置(01) / Flow: supported items (03) → current config (02) → set (01)"
+        lblStatus.text = "状态: 空闲 / Status: idle"
     }
 
     @objc private func onMasterChanged() {
@@ -231,25 +233,25 @@ class GestureControlVC: UIViewController {
     }
 
     private func querySupport() {
-        SVProgressHUD.show(withStatus: "查支持(03)")
+        SVProgressHUD.show(withStatus: "查支持(03) / Query support (03)")
         Cmds.getGestureControlSupportConfigs().send { [weak self] res in
             guard let self else { return }
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 switch res {
                 case .failure(let err):
-                    self.lblStatus.text = "状态: 03 失败, code=\(err.code)"
+                    self.lblStatus.text = "状态: 03 失败 / Status: 03 failed, code=\(err.code)"
                     self.textResult.text = "error=\(err.code)"
                     self.awaitCurrentAfterSupport = false
                 case .success(let model):
                     guard let model else {
-                        self.lblStatus.text = "状态: 03 失败, empty"
+                        self.lblStatus.text = "状态: 03 失败 / Status: 03 failed, empty"
                         self.awaitCurrentAfterSupport = false
                         return
                     }
                     self.supportModel = model
                     self.textResult.text = model.toJsonString() ?? "NULL"
-                    self.lblStatus.text = "状态: 支持项已加载(03)"
+                    self.lblStatus.text = "状态: 支持项已加载(03) / Status: supported items loaded (03)"
                     self.buildTreeFromSupport(model)
                     if let current = self.currentModel {
                         self.applyCurrentToUi(current)
@@ -264,23 +266,23 @@ class GestureControlVC: UIViewController {
     }
 
     private func queryCurrent() {
-        SVProgressHUD.show(withStatus: "查当前(02)")
+        SVProgressHUD.show(withStatus: "查当前(02) / Query current (02)")
         Cmds.getGestureControl().send { [weak self] res in
             guard let self else { return }
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 switch res {
                 case .failure(let err):
-                    self.lblStatus.text = "状态: 02 失败, code=\(err.code)"
+                    self.lblStatus.text = "状态: 02 失败 / Status: 02 failed, code=\(err.code)"
                     self.textResult.text = "error=\(err.code)"
                 case .success(let model):
                     guard let model else {
-                        self.lblStatus.text = "状态: 02 失败, empty"
+                        self.lblStatus.text = "状态: 02 失败 / Status: 02 failed, empty"
                         return
                     }
                     self.currentModel = model
                     self.textResult.text = model.toJsonString() ?? "NULL"
-                    self.lblStatus.text = "状态: 当前配置已加载(02)"
+                    self.lblStatus.text = "状态: 当前配置已加载(02) / Status: current config loaded (02)"
                     if !self.funcUis.isEmpty {
                         self.applyCurrentToUi(model)
                     }
@@ -291,26 +293,26 @@ class GestureControlVC: UIViewController {
 
     private func setFromUi() {
         guard let support = supportModel else {
-            lblStatus.text = "状态: 请先查支持项(03)"
+            lblStatus.text = "状态: 请先查支持项(03) / Status: query supported items first (03)"
             return
         }
         guard let model = buildSetModelFromUi(support) else {
-            lblStatus.text = "状态: 组包失败"
+            lblStatus.text = "状态: 组包失败 / Status: failed to build packet"
             return
         }
-        lblStatus.text = "状态: 正在设置(01)…"
-        SVProgressHUD.show(withStatus: "设置手势(01)")
+        lblStatus.text = "状态: 正在设置(01)… / Status: setting (01)…"
+        SVProgressHUD.show(withStatus: "设置手势(01) / Set gesture (01)")
         Cmds.setGestureControl(model).send { [weak self] res in
             guard let self else { return }
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 switch res {
                 case .failure(let err):
-                    self.lblStatus.text = "状态: 01 失败, code=\(err.code)"
+                    self.lblStatus.text = "状态: 01 失败 / Status: 01 failed, code=\(err.code)"
                     self.textResult.text = "error=\(err.code) setReq=\(model.toJsonString() ?? "")"
                 case .success(let reply):
                     self.textResult.text = reply?.toJsonString() ?? model.toJsonString() ?? "NULL"
-                    self.lblStatus.text = "状态: 设置成功(01)"
+                    self.lblStatus.text = "状态: 设置成功(01) / Status: set succeeded (01)"
                 }
             }
         }
@@ -390,7 +392,7 @@ class GestureControlVC: UIViewController {
         if onOff == 0 || onOff == 1 {
             switchMaster.isOn = onOff == 1
         }
-        lblSummary.text = "支持项: \(funcUis.count) 个功能已加载（功能多选一），等待当前配置…"
+        lblSummary.text = "支持项: \(funcUis.count) 个功能已加载（功能多选一），等待当前配置… / Supported items: \(funcUis.count) functions loaded (one function at a time), waiting for current config…"
     }
 
     @objc private func onFuncSwitchChanged(_ sender: UISwitch) {
@@ -410,13 +412,13 @@ class GestureControlVC: UIViewController {
     }
 
     private func refreshSummaryFromUi() {
-        let masterText = switchMaster.isOn ? "开" : "关"
+        let masterText = switchMaster.isOn ? "开 / On" : "关 / Off"
         let enabled = funcUis.first(where: { $0.uiSwitch.isOn })
-        var text = "当前: 总开关=\(masterText)"
+        var text = "当前: 总开关=\(masterText) / Current: master switch=\(masterText)"
         for f in funcUis {
-            text += " | \(Self.gestureFuncLabel(f.functionType))=\(f.uiSwitch.isOn ? "开" : "关")"
+            text += " | \(Self.gestureFuncLabel(f.functionType))=\(f.uiSwitch.isOn ? "开 / On" : "关 / Off")"
         }
-        text += " | 启用=\(enabled.map { Self.gestureFuncLabel($0.functionType) } ?? "无")"
+        text += " | 启用 / Enabled=\(enabled.map { Self.gestureFuncLabel($0.functionType) } ?? "无 / None")"
         lblSummary.text = text
     }
 
@@ -492,7 +494,7 @@ class GestureControlVC: UIViewController {
 
     private func presentGesturePicker(for subUi: SubUi) {
         let parent = funcUis.first(where: { $0.subs.contains(where: { $0 === subUi }) })
-        let sheet = UIAlertController(title: "选择手势", message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "选择手势 / Select gesture", message: nil, preferredStyle: .actionSheet)
         for g in subUi.options {
             sheet.addAction(UIAlertAction(title: Self.gestureTypeLabel(g), style: .default, handler: { [weak self] _ in
                 guard let self else { return }
@@ -505,7 +507,7 @@ class GestureControlVC: UIViewController {
                 self.refreshSummaryFromUi()
             }))
         }
-        sheet.addAction(UIAlertAction(title: "取消", style: .cancel))
+        sheet.addAction(UIAlertAction(title: "取消 / Cancel", style: .cancel))
         if let pop = sheet.popoverPresentationController {
             pop.sourceView = subUi.button
             pop.sourceRect = subUi.button.bounds
@@ -555,10 +557,10 @@ class GestureControlVC: UIViewController {
 
     static func gestureFuncLabel(_ type: Int) -> String {
         switch type {
-        case funcCall: return "控制通话"
-        case funcPhoto: return "遥控拍照"
-        case funcMusic: return "音乐控制"
-        default: return "功能\(type)"
+        case funcCall: return "控制通话 / Call control"
+        case funcPhoto: return "遥控拍照 / Remote photo capture"
+        case funcMusic: return "音乐控制 / Music control"
+        default: return "功能\(type) / Function \(type)"
         }
     }
 
@@ -566,26 +568,26 @@ class GestureControlVC: UIViewController {
         switch funcType {
         case funcCall:
             switch subType {
-            case subAnswer: return "接听电话"
-            case subHangUp: return "挂断电话"
-            default: return "子功能\(subType)"
+            case subAnswer: return "接听电话 / Answer call"
+            case subHangUp: return "挂断电话 / Hang up call"
+            default: return "子功能\(subType) / Sub-function \(subType)"
             }
         case funcPhoto:
-            return subType == subPhoto ? "遥控拍照" : "子功能\(subType)"
+            return subType == subPhoto ? "遥控拍照 / Remote photo capture" : "子功能\(subType) / Sub-function \(subType)"
         case funcMusic:
-            return subType == subMusicNext ? "下一曲" : "子功能\(subType)"
+            return subType == subMusicNext ? "下一曲 / Next song" : "子功能\(subType) / Sub-function \(subType)"
         default:
-            return "子功能\(subType)"
+            return "子功能\(subType) / Sub-function \(subType)"
         }
     }
 
     static func gestureTypeLabel(_ type: Int) -> String {
         switch type {
-        case typeFlipPalm: return "手掌翻转90°×2"
-        case typePlayTwice: return "弹两下"
-        case typeArmHorizontal: return "手臂水平旋转90°×2"
-        case typeArmVertical: return "手臂垂直旋转90°×2"
-        default: return "手势\(type)"
+        case typeFlipPalm: return "手掌翻转90°×2 / Palm flip 90°×2"
+        case typePlayTwice: return "弹两下 / Flick twice"
+        case typeArmHorizontal: return "手臂水平旋转90°×2 / Arm horizontal rotation 90°×2"
+        case typeArmVertical: return "手臂垂直旋转90°×2 / Arm vertical rotation 90°×2"
+        default: return "手势\(type) / Gesture \(type)"
         }
     }
 }

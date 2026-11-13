@@ -412,9 +412,10 @@ class SportScreenChildView:UIButton {
         
     }
     // 重写高亮状态逻辑
+    // Override the highlight state logic
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? .darkGray : .white // 高亮状态背景色
+            backgroundColor = isHighlighted ? .darkGray : .white // 高亮状态背景色 / Highlighted background color
         }
     }
     

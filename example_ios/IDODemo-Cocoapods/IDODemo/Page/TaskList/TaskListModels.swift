@@ -3,15 +3,19 @@
 //  Runner
 //
 //  15.114 任务清单 — Example 联调用条目（非对外 API）
+//  15.114 Task list — Example entry for integration testing (not a public API)
 //  对齐 protocol_lib/example task_list_models.dart
+//  Aligned with protocol_lib/example task_list_models.dart
 //
 
 import Foundation
 
 final class TaskListItemDraft {
     /// 协议 uint32_t 最大值：task_id / remind_timestamp / complete_timestamp
+    /// Protocol uint32_t max value: task_id / remind_timestamp / complete_timestamp
     static let uint32Max = Int(UInt32.max)
     /// 兼容旧名
+    /// Legacy name for compatibility
     static let taskIdMax = uint32Max
 
     static let taskDetailMaxChars = 70
@@ -19,12 +23,15 @@ final class TaskListItemDraft {
     static let statusDone = 1
 
     /// 任务 ID（协议 `uint32_t`，APP 分配）
+    /// Task ID (protocol `uint32_t`, assigned by the app)
     var taskId: Int
     /// 提醒时间：UTC 时间戳（秒，协议 `uint32_t`）
+    /// Reminder time: UTC timestamp (seconds, protocol `uint32_t`)
     var remindTimestamp: Int
     var taskDetail: String
     var status: Int
     /// 完成时间：UTC 时间戳（秒，协议 `uint32_t`）；status=0 时为 0
+    /// Completion time: UTC timestamp (seconds, protocol `uint32_t`); when status=0 this is 0
     var completeTimestamp: Int
 
     init(
@@ -80,6 +87,7 @@ final class TaskListItemDraft {
     }
 
     /// 解析协议 uint32 字段（兼容 Int / NSNumber）
+    /// Parse a protocol uint32 field (supports Int / NSNumber)
     static func parseUInt32(_ value: Any?) -> Int? {
         if let n = value as? Int {
             guard n >= 0, n <= uint32Max else { return nil }
@@ -97,11 +105,13 @@ final class TaskListItemDraft {
     }
 
     /// 合法协议 uint32 数值：0…UInt32.max
+    /// Valid protocol uint32 value: 0…UInt32.max
     static func isValidUInt32(_ value: Int) -> Bool {
         value >= 0 && value <= uint32Max
     }
 
     /// 合法 uint32 任务 ID：1…UInt32.max（0 保留不用）
+    /// Valid uint32 task ID: 1…UInt32.max (0 is reserved and unused)
     static func isValidTaskId(_ id: Int) -> Bool {
         id >= 1 && id <= uint32Max
     }
@@ -111,17 +121,20 @@ final class TaskListItemDraft {
     }
 
     /// UTC 时间戳 + 本地时区格式化日期，例如 `1735689600 (2025-01-01 08:00:00)`
+    /// UTC timestamp + date formatted in the local time zone, e.g. `1735689600 (2025-01-01 08:00:00)`
     static func formatUtcTimestamp(_ sec: Int) -> String {
         "\(sec) (\(formatLocalDateTime(sec)))"
     }
 
     /// 将 UTC 秒时间戳格式化为手机系统时区的 `yyyy-MM-dd HH:mm:ss`
+    /// Format a UTC timestamp in seconds in the phone's system time zone as `yyyy-MM-dd HH:mm:ss`
     static func formatLocalDateTime(_ sec: Int) -> String {
         localDateTimeFormatter.timeZone = .current
         return localDateTimeFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(sec)))
     }
 
     /// 兼容旧名：列表展示用本地时区
+    /// Legacy name for compatibility: the list displays in the local time zone
     static func formatUtcDateTime(_ sec: Int) -> String {
         formatLocalDateTime(sec)
     }
@@ -145,6 +158,7 @@ final class TaskListItemDraft {
     }()
 
     /// 列表统一展示：时间戳为 UTC；格式化日期为手机系统时区
+    /// Unified list display: timestamp is UTC; formatted date uses the phone's system time zone
     func listDisplayText() -> String {
         let detail = taskDetail.trimmingCharacters(in: .whitespacesAndNewlines)
         let detailText = detail.isEmpty ? L10n.taskListNoDetail : detail

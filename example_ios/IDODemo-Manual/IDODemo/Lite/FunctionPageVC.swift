@@ -238,6 +238,7 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
 extension FunctionPageVC {
     
     // 连接设备
+    // Connect the device
     private func connectDevice() {
         SVProgressHUD.show()
         bleMgr.connect(peripheral: deviceModel!.peripheral) { [weak self] res, err in
@@ -246,10 +247,11 @@ extension FunctionPageVC {
                 return
             }
             if (res) {
-                self.testReadData() // 注册数据接收
+                self.testReadData() // 注册数据接收 / Register data receiving
                 let otaType = sdk.bridge.checkOtaType(peripheral: deviceModel!.peripheral, advertisementData: deviceModel!.advertisementData)
                 if (otaType != .none) {
                     // 设备处理ota模式时，需要进入到升级页
+                    // When the device is in OTA mode, go to the upgrade page
                     SVProgressHUD.dismiss()
                     _otaMode()
                     return
@@ -260,6 +262,7 @@ extension FunctionPageVC {
                 self.isBinded = isBinded
                 
                 // 标记协议库已连接（!!!重要）
+                // Mark the protocol library as connected (!!! important)
                 sdk.bridge.markConnectedDevice(uniqueId: self.deviceModel!.uuid,
                                                otaType: .none,
                                                isBinded: isBinded,
@@ -294,6 +297,7 @@ extension FunctionPageVC {
                 //print("subscribeNotify receiveData:\(data!.hexadecimal())")
                 
                 // 将数据发送给协议库处理（!!!重要）
+                // Send the data to the protocol library for processing (!!!important)
                 sdk.bridge.receiveDataFromBle(data: data, macAddress: nil)
             }
         }
@@ -393,12 +397,13 @@ extension FunctionPageVC {
                     if case .success(_) = rs {
                         print("success:")
                         self?.isBinded = true
-                        SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                        SVProgressHUD.showSuccess(withStatus: "绑定成功 / Bind succeeded")
                         UserDefaults.standard.setBind(macAddress, isBind: true)
                         sdk.cmd.appMarkBindResult(success: true)
                     }else {
                         print("failure")
                         //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                        //SVProgressHUD.showSuccess(withStatus: "Bind failed")
                         UserDefaults.standard.setBind(macAddress, isBind: false)
                         sdk.cmd.appMarkBindResult(success: false)
                     }
@@ -454,6 +459,7 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
+    // Export log
     func doExportLog() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -472,7 +478,7 @@ extension FunctionPageVC {
         }
         alertController.addAction(flashLogAction)
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in }
+        let cancelAction = UIAlertAction(title: "取消 / Cancel", style: .cancel) { _ in }
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
@@ -484,9 +490,10 @@ extension FunctionPageVC {
             print("log path:\(path)")
             if (path.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -496,10 +503,11 @@ extension FunctionPageVC {
 //        sdk.ble.exportLog { [weak self] path in
 //            print("log path:\(path ?? "")")
 //            if (path != nil && path!.count > 0) {
-//                // 成功
+//                // 成功 / Succeeded
 //                self?.share(filePath: path!)
 //            }else {
 //                SVProgressHUD.showError(withStatus: "操作失败")
+//                SVProgressHUD.showError(withStatus: "Operation failed")
 //            }
 //        }
 //    }
@@ -509,7 +517,7 @@ extension FunctionPageVC {
         sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
             print("progress: \(progress)")
         } completion: { [weak self] rs in
-            print("设备日志获取 rs=\(rs)")
+            print("设备日志获取 / Get device log rs=\(rs)")
             if (rs) {
                 let path = sdk.deviceLog.logDirPath
                 if (path.count > 0) {
@@ -517,13 +525,13 @@ extension FunctionPageVC {
                     if(zipFilePath != nil) {
                         self?.share(filePath: zipFilePath!)
                     }else {
-                        SVProgressHUD.showError(withStatus: "操作失败")
+                        SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                     }
                 }else {
-                    SVProgressHUD.showError(withStatus: "操作失败")
+                    SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                 }
             } else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -550,7 +558,7 @@ extension FunctionPageVC {
     
 }
 
-//// MARK: - ota模式判定
+//// MARK: - ota模式判定 / ota mode detection
 //
 //extension FunctionPageVC {
 //    
@@ -569,7 +577,7 @@ extension FunctionPageVC {
 //            modeInfo.isInDfu = true
 //            modeInfo.isOta = true
 //        }else {
-//            // TODO: 其它设备升级状态判定
+//            // TODO: 其它设备升级状态判定 / upgrade state detection for other devices
 //        }
 //        return modeInfo
 //    }

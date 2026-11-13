@@ -15,6 +15,7 @@ import SVProgressHUD
 import protocol_channel
 
 // Alexa client id （测试用）
+// Alexa client id (for testing)
 let clientId = "amzn1.application-oa2-client.e45ff1ade6064c24a265fe6924c6f75d"
 
 // MARK: - MainPageVC

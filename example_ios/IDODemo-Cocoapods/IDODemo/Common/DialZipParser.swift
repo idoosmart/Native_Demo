@@ -13,31 +13,40 @@ class DialZipParser {
     // MARK: - Public Properties
     
     // 只读属性，用于访问解析的app.json数据
+    // Read-only property for accessing the parsed app.json data
     private(set) var appConfig: IDODialAppConfig?
     
     // 只读属性，用于访问解析的iwf.json数据
+    // Read-only property for accessing the parsed iwf.json data
     private(set) var iwfConfig: IDODialIWFConfig?
     
     // 解压后的根目录路径
+    // Root directory path after unzipping
     private(set) var pathRootDial: String?
     
     // 背景图 url
+    // Background image url
     private(set) var bgImgPath: String?
     
     private let fileManager = FileManager.default
     
     // 背景图名称（固定）
+    // Background image name (fixed)
     //private let defaultBgImgName = "bg_24bit.png"
     private let defaultBgImgName = "bg.bmp"
     
     // 预览图尺寸，从iwf.json中获取，仅获取一次
+    // Preview image size, read from iwf.json only once
     private var _sizePreviewImage: CGSize?
     
     // MARK: - Public Methods
     
     /// 解析表盘ZIP文件
+    /// Parse the watch face ZIP file
     /// - Parameter zipFilePath: ZIP文件路径
+    /// - Parameter zipFilePath: ZIP file path
     /// - Returns: 解析结果，成功返回true，失败返回false
+    /// - Returns: parse result: true on success, otherwise false
     func parseDialZip(zipFilePath: String) -> Bool {
 //        guard let zipFileName = URL(string: zipFilePath)?.lastPathComponent.replacingOccurrences(of: ".zip", with: "") else {
 //            print("Invalid zip file path")
@@ -48,6 +57,7 @@ class DialZipParser {
         let templateDirName = "custom1_template"
         
         // 1. 删除并重新创建template目录
+        // 1. Delete and recreate the template directory
         let templateDirPath = (NSTemporaryDirectory() as NSString).appendingPathComponent(templateDirName)
         
         do {
@@ -57,9 +67,11 @@ class DialZipParser {
             try fileManager.createDirectory(atPath: templateDirPath, withIntermediateDirectories: true, attributes: nil)
             
             // 解压主ZIP文件到template目录
+            // Unzip the main ZIP file into the template directory
             try fileManager.unzipItem(at: URL(fileURLWithPath: zipFilePath), to: URL(fileURLWithPath: templateDirPath))
             
             // 2. 查找并解压内部的custom1.zip文件
+            // 2. Find and unzip the inner custom1.zip file
             guard let innerZipPath = findFile(inDirectory: templateDirPath, withName: "\(zipFileName).zip") else {
                 print("Failed to find inner zip file in template directory")
                 return false
@@ -74,12 +86,15 @@ class DialZipParser {
             try fileManager.unzipItem(at: URL(fileURLWithPath: innerZipPath), to: URL(fileURLWithPath: extractDir))
             
             // 记录pathRootDial
+            // Record pathRootDial
             self.pathRootDial = extractDir
             
             // 删除解压后的zip文件
+            // Delete the zip file after unzipping
             try fileManager.removeItem(atPath: innerZipPath)
             
             // 3. 查找并解析app.json
+            // 3. Find and parse app.json
             guard let appJsonPath = findFile(inDirectory: templateDirPath, withName: "app.json") else {
                 print("Failed to find app.json in template directory")
                 return false
@@ -101,6 +116,7 @@ class DialZipParser {
             appConfig = try JSONDecoder().decode(IDODialAppConfig.self, from: appJsonData)
             
             // 4. 查找并解析iwf.json
+            // 4. Find and parse iwf.json
             guard let iwfJsonPath = findFile(inDirectory: extractDir, withName: "iwf.json") else {
                 print("Failed to find iwf.json in extracted directory")
                 return false
@@ -124,6 +140,7 @@ class DialZipParser {
             iwfConfig?.jsonFilePath = iwfJsonPath
             
             // 获取背景图片
+            // Get the background image
             bgImgPath = findFile(inDirectory: extractDir, withName: defaultBgImgName)
             _sizePreviewImage = nil
             
@@ -135,18 +152,22 @@ class DialZipParser {
     }
     
     /// 创建24位PNG图片
+    /// Create a 24-bit PNG image
     /// - Parameters:
     ///   - size: 图片大小
+    ///   - size: Image size
     ///   - image: 原始图片
+    ///   - image: Original image
     /// - Returns: 保存的PNG图片路径
+    /// - Returns: Path of the saved PNG image
     func create24BitPNG(size: CGSize, image: UIImage) -> String? {
         guard let newImage = image.scaledTo(size: size) else {
-            print("图片缩放失败")
+            print("图片缩放失败 / Image scaling failed")
             return nil
         }
         
         guard let cgImage = newImage.cgImage else {
-            print("无法创建 CGImage")
+            print("无法创建 / Unable to create CGImage")
             return nil
         }
         
@@ -159,18 +180,19 @@ class DialZipParser {
                                       bytesPerRow: 0,
                                       space: colorSpace,
                                       bitmapInfo: bitmapInfo.rawValue) else {
-            print("无法创建 CGContext")
+            print("无法创建 / Unable to create CGContext")
             return nil
         }
         
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         guard let newCGImage = context.makeImage(),
               let data = UIImage(cgImage: newCGImage).pngData() else {
-            print("无法创建 PNG 数据")
+            print("无法创建 PNG 数据 / Unable to create PNG data")
             return nil
         }
         
         // 保存到临时目录
+        // Save to the temporary directory
         let tempDir = NSTemporaryDirectory()
         let fileName = UUID().uuidString + ".png"
         let filePath = (tempDir as NSString).appendingPathComponent(fileName)
@@ -184,6 +206,7 @@ class DialZipParser {
     }
     
     /// 获取预览图尺寸
+    /// Get the preview image size
     func sizePreviewImage() -> CGSize {
         if _sizePreviewImage != nil {
             return _sizePreviewImage!
@@ -202,8 +225,11 @@ class DialZipParser {
     }
     
     /// 替换预览图片
+    /// Replace the preview image
     /// - Parameter newImagePath: 新图片路径
+    /// - Parameter newImagePath: New image path
     /// - Returns: 是否替换成功
+    /// - Returns: Whether the replacement succeeded
     func replacePreviewImage(newImagePath: String) -> Bool {
         guard let previewFileName = iwfConfig?.preview else {
             return false
@@ -212,15 +238,20 @@ class DialZipParser {
     }
     
     /// 替换背景图片
+    /// Replace the background image
     /// - Parameter newImagePath: 新图片路径
+    /// - Parameter newImagePath: New image path
     /// - Returns: 是否替换成功
+    /// - Returns: Whether the replacement succeeded
     func replaceBgImage(newImagePath: String) -> Bool {
         return replace24BitImage(newImagePath: newImagePath, imgName: defaultBgImgName)
     }
     
     
     /// 将表盘目录打包为ZIP文件
+    /// Pack the watch face directory into a ZIP file
     /// - Returns: ZIP文件路径
+    /// - Returns: ZIP file path
     func packDialToZip() -> String? {
         guard let pathRootDial = self.pathRootDial else {
             return nil
@@ -230,29 +261,35 @@ class DialZipParser {
         let dialDirName = "custom1"
         
         // 获取template目录
+        // Get the template directory
         let templateDir = (dialDirURL.path as NSString).deletingLastPathComponent
         let zipFilePath = (templateDir as NSString).appendingPathComponent("\(dialDirName).zip")
         
         do {
             // 如果ZIP文件已存在，先删除
+            // If the ZIP file already exists, delete it first
             if fileManager.fileExists(atPath: zipFilePath) {
                 try fileManager.removeItem(atPath: zipFilePath)
             }
             
             // 更新iwf.json
+            // Update iwf.json
             _ = iwfConfig?.save()
             
             // 创建ZIP文件
+            // Create the ZIP file
             guard let archive = Archive(url: URL(fileURLWithPath: zipFilePath), accessMode: .create) else {
                 print("Create archive fail")
                 return nil
             }
             
             // 获取所有非隐藏文件
+            // Get all non-hidden files
             let contents = try fileManager.contentsOfDirectory(atPath: pathRootDial)
             let visibleFiles = contents.filter { !$0.hasPrefix(".") }
             
             // 添加所有文件到ZIP
+            // Add all files to the ZIP
             for fileName in visibleFiles {
                 let filePath = (pathRootDial as NSString).appendingPathComponent(fileName)
                 let fileURL = URL(fileURLWithPath: filePath)
@@ -261,9 +298,11 @@ class DialZipParser {
                 if fileManager.fileExists(atPath: filePath, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
                         // 递归添加目录
+                        // Add the directory recursively
                         try addDirectoryToArchive(archive: archive, directoryURL: fileURL, relativeTo: dialDirURL)
                     } else {
                         // 添加文件
+                        // Add the file
                         try archive.addEntry(with: fileName, relativeTo: dialDirURL)
                     }
                 }
@@ -279,8 +318,11 @@ class DialZipParser {
     // MARK: - Private Methods
     
     /// 替换图片
+    /// Replace an image
     /// - Parameter newImagePath: 新图片路径
+    /// - Parameter newImagePath: New image path
     /// - Returns: 是否替换成功
+    /// - Returns: Whether the replacement succeeded
     private func replace24BitImage(newImagePath: String, imgName: String) -> Bool {
         guard let pathRootDial = self.pathRootDial else {
             return false
@@ -293,11 +335,13 @@ class DialZipParser {
         
         do {
             // 如果目标文件已存在，先删除
+            // If the target file already exists, delete it first
             if fileManager.fileExists(atPath: bgImgPath) {
                 try fileManager.removeItem(atPath: bgImgPath)
             }
             
             // 复制新图片到预览图片位置
+            // Copy the new image to the preview image location
             try fileManager.copyItem(atPath: newImagePath, toPath: bgImgPath)
             return true
         } catch {
@@ -308,6 +352,7 @@ class DialZipParser {
     
     
     /// 递归查找文件
+    /// Find a file recursively
     private func findFile(inDirectory directory: String, withName fileName: String) -> String? {
         do {
             let contents = try fileManager.contentsOfDirectory(atPath: directory)
@@ -319,6 +364,7 @@ class DialZipParser {
                 if fileManager.fileExists(atPath: itemPath, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
                         // 递归搜索子目录
+                        // Search subdirectories recursively
                         if let foundPath = findFile(inDirectory: itemPath, withName: fileName) {
                             return foundPath
                         }
@@ -335,6 +381,7 @@ class DialZipParser {
     }
     
     /// 递归添加目录到ZIP
+    /// Recursively add a directory to the ZIP
     private func addDirectoryToArchive(archive: Archive, directoryURL: URL, relativeTo baseURL: URL) throws {
         let contents = try fileManager.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil, options: [])
         
@@ -402,6 +449,7 @@ extension UIImage {
 // MARK: - Model Classes
 
 // App.json 数据模型
+// App.json data model
 class IDODialAppConfig: Codable {
     let app: AppInfo
     let select: SelectInfo
@@ -532,6 +580,7 @@ class IDODialAppConfig: Codable {
 }
 
 // iwf.json 数据模型
+// iwf.json data model
 class IDODialIWFConfig: Codable {
     let version: Int = 0
     let clouddialversion: Int?
@@ -543,9 +592,11 @@ class IDODialIWFConfig: Codable {
     let item: [IWFItem]?
 
     // 非JSON属性，用于保存文件路径
+    // Non-JSON property, used to store the file path
     fileprivate var jsonFilePath: String?
 
     // 使用 CodingKeys 枚举指定需要编码的属性
+    // Use the CodingKeys enum to specify the properties to encode
     enum CodingKeys: String, CodingKey {
         case version
         case clouddialversion
@@ -558,6 +609,7 @@ class IDODialIWFConfig: Codable {
     }
 
     // 保存方法
+    // Save method
     func save() -> Bool {
         guard let filePath = jsonFilePath else {
             return false

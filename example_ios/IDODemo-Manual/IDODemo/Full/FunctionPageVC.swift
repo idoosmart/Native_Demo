@@ -163,6 +163,7 @@ class FunctionPageVC: UIViewController {
                     if (self.isViewLoaded) {
                         if (stateModel.errorState == .pairFail) {
                             // 配对异常提示去忽略设备
+                            // Pairing error: prompt to ignore the device
                             SVProgressHUD.dismiss()
                             let alert = UIAlertController(title: "Tips", message: "配对异常，需要手动忽略设备（设置-蓝牙-找到设备-\"!\")-忽略此设备\nPairing is abnormal, you need to manually ignore the device (Settings-Bluetooth-Find Device-\"!\")-Ignore this device", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
@@ -172,7 +173,7 @@ class FunctionPageVC: UIViewController {
                             self.present(alert, animated: true, completion: nil)
                         }else {
                             if (sdk.device.platform != 98) {
-                                SVProgressHUD.showInfo(withStatus: "连接已断开")
+                                SVProgressHUD.showInfo(withStatus: "连接已断开 / Disconnected")
                                 self.navigationController?.popToRootViewController(animated: true)
                             }
                         }
@@ -205,7 +206,7 @@ class FunctionPageVC: UIViewController {
                     break
                 case .poweredOff:
                     if (self.isViewLoaded) {
-                        SVProgressHUD.showInfo(withStatus: "蓝牙已关闭")
+                        SVProgressHUD.showInfo(withStatus: "蓝牙已关闭 / Bluetooth is off")
                         self.navigationController?.popToRootViewController(animated: true)
                     }
                     break
@@ -325,6 +326,7 @@ extension FunctionPageVC {
         if deviceState.state == .connected, deviceState.macAddress != nil, deviceState.macAddress!.count > 0 {
             if(deviceModel.isOta) {
                 // 设备处理ota模式时，需要进入到升级页
+                // When the device is in OTA mode, go to the upgrade page
                 SVProgressHUD.dismiss()
                 _otaMode()
                 return
@@ -446,12 +448,13 @@ extension FunctionPageVC {
                         if case .success(_) = rs {
                             print("success:")
                             self?.isBinded = true
-                            SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                            SVProgressHUD.showSuccess(withStatus: "绑定成功 / Bind succeeded")
                             UserDefaults.standard.setBind(macAddress, isBind: true)
                             sdk.cmd.appMarkBindResult(success: true)
                         }else {
                             print("failure")
                             //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                            //SVProgressHUD.showSuccess(withStatus: "Bind failed")
                             UserDefaults.standard.setBind(macAddress, isBind: false)
                             sdk.cmd.appMarkBindResult(success: false)
                         }
@@ -496,6 +499,7 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
+    // Export log
     func doExportLog() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -514,7 +518,7 @@ extension FunctionPageVC {
         }
         alertController.addAction(flashLogAction)
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in }
+        let cancelAction = UIAlertAction(title: "取消 / Cancel", style: .cancel) { _ in }
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
@@ -526,9 +530,10 @@ extension FunctionPageVC {
             print("log path:\(path)")
             if (path.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -539,9 +544,10 @@ extension FunctionPageVC {
             print("log path:\(path ?? "")")
             if (path != nil && path!.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path!)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -551,7 +557,7 @@ extension FunctionPageVC {
         sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
             print("progress: \(progress)")
         } completion: { [weak self] rs in
-            print("设备日志获取 rs=\(rs)")
+            print("设备日志获取 / Get device log rs=\(rs)")
             if (rs) {
                 let path = sdk.deviceLog.logDirPath
                 if (path.count > 0) {
@@ -559,13 +565,13 @@ extension FunctionPageVC {
                     if(zipFilePath != nil) {
                         self?.share(filePath: zipFilePath!)
                     }else {
-                        SVProgressHUD.showError(withStatus: "操作失败")
+                        SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                     }
                 }else {
-                    SVProgressHUD.showError(withStatus: "操作失败")
+                    SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                 }
             } else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
