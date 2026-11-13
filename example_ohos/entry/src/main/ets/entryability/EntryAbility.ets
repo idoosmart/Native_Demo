@@ -45,6 +45,7 @@ export default class EntryAbility extends UIAbility {
     })
     let atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
     // requestPermissionsFromUser会判断权限的授权状态来决定是否唤起弹窗
+    // requestPermissionsFromUser checks the grant status of the permissions to decide whether to show the dialog
     atManager.requestPermissionsFromUser(context, permissions).then((data: PermissionRequestResult) => {
       let grantStatus: number[] = data.authResults;
       let length: number = grantStatus.length;
@@ -53,10 +54,12 @@ export default class EntryAbility extends UIAbility {
           break;
         } else {
           // 用户拒绝授权，提示用户必须授权才能访问当前页面的功能，并引导用户到系统设置中打开相应的权限
+          // The user denied the permission; tell the user it is required to use this page and guide them to enable it in system settings
           return;
         }
       }
       // 授权成功
+      // Permission granted
     }).catch((err: BusinessError) => {
       console.error(`Failed to request permissions from user. Code is ${err.code}, message is ${err.message}`);
     })
@@ -89,8 +92,11 @@ export let myPreferences: preferences.Preferences | null = null;
 async function loadPreferences(context: Context) {
   try {
     // 获取Preferences实例，文件名为"my_app_settings"
+    // Get the Preferences instance, the file name is "my_app_settings"
     // 注意：这里的 context 可以通过 Ability 或 AbilityStage 的实例获取，例如 this.context
+    // Note: the context here can be obtained from an Ability or AbilityStage instance, for example this.context
     // 如果你在组件中，可能需要通过参数传递或者从AbilityLifecycleCallbacks获取
+    // If you are inside a component, you may need to pass it as a parameter or get it from AbilityLifecycleCallbacks
     myPreferences = await preferences.getPreferences(context, 'my_app_settings');
     console.log('Preferences loaded successfully');
   } catch (err) {

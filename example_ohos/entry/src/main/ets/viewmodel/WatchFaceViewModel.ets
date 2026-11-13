@@ -50,7 +50,7 @@ export class WatchFaceViewModel {
     this.progress = 0;
     this.resStr = '';
     this.isProcessing = true;
-    this.resStr += `[${new Date().toLocaleTimeString()}] 开始发送...\n`;
+    this.resStr += `[${new Date().toLocaleTimeString()}] 开始发送 / Start sending...\n`;
     return new Promise(async (resolve, reject) => {
       this.rejectFunc = reject;
       let newFilePath = await Tools.getInstance().copyFileToAppCache(this.abilityContext, filePath)
@@ -95,7 +95,7 @@ export class WatchFaceViewModel {
       this.rejectFunc = undefined;
     }
     this.isProcessing = false;
-    this.resStr += `[${new Date().toLocaleTimeString()}] 停止发送。\n`;
+    this.resStr += `[${new Date().toLocaleTimeString()}] 停止发送。\n / Stop sending.\n`;
   }
 
   private async doGetWatchList(): Promise<IDOWatchListModel | null> {

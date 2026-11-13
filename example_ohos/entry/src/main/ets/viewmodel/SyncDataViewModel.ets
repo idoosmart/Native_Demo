@@ -11,7 +11,7 @@ export class SyncDataViewModel {
     this.progress = 0;
     this.resStr = '';
     this.isProcessing = true;
-    this.resStr += `[${new Date().toLocaleTimeString()}] 开始同步数据...\n`;
+    this.resStr += `[${new Date().toLocaleTimeString()}] 开始同步数据 / Start syncing data...\n`;
     return new Promise((resolve, reject) => {
       this.rejectFunc = reject;
       sdk.syncData.startSync((progress) => {
@@ -39,7 +39,7 @@ export class SyncDataViewModel {
     this.progress = 0;
     this.resStr = '';
     this.isProcessing = true;
-    this.resStr += `[${new Date().toLocaleTimeString()}] 开始同步数据...\n`;
+    this.resStr += `[${new Date().toLocaleTimeString()}] 开始同步数据 / Start syncing data...\n`;
     return new Promise((resolve, reject) => {
       this.rejectFunc = reject;
       sdk.syncData.startSyncCustom(
@@ -70,6 +70,6 @@ export class SyncDataViewModel {
       this.rejectFunc = undefined;
     }
     this.isProcessing = false;
-    this.resStr += `[${new Date().toLocaleTimeString()}] 停止同步数据。\n`;
+    this.resStr += `[${new Date().toLocaleTimeString()}] 停止同步数据。\n / Stop syncing data.\n`;
   }
 }

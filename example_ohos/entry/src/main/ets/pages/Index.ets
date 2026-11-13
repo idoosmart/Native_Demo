@@ -19,7 +19,7 @@ struct Index {
   scroller: Scroller = new Scroller();
 
   build() {
-    Column({ space: 30 }) { // 外部的 Column 容器
+    Column({ space: 30 }) { // 外部的 Column 容器 / Outer Column container
       Button("tartScan")
         .width('80%')
         .onClick(() => {
@@ -63,9 +63,9 @@ struct Index {
         console.info(xOffset + ' ' + yOffset);
       })
     }
-    .width('100%') // 确保 Column 容器占据整个屏幕宽度
-    .height('100%') // 确保 Column 容器占据整个屏幕高度
-    .alignItems(HorizontalAlign.Center) // 在 Column 的交叉轴（水平方向）上居中
+    .width('100%') // 确保 Column 容器占据整个屏幕宽度 / Make sure the Column container takes the full screen width
+    .height('100%') // 确保 Column 容器占据整个屏幕高度 / Make sure the Column container takes the full screen height
+    .alignItems(HorizontalAlign.Center) // 在 Column 的交叉轴（水平方向）上居中 / Center on the cross axis (horizontal) of the Column
   }
 
   onBackPress(): boolean {

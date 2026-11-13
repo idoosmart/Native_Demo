@@ -50,6 +50,7 @@ export class EpoUpgradeViewModel implements IDOEpoManagerDelegate {
   }
 
   // 接收位置信息的回调函数
+  // Callback that receives location data
   private onLocationReceived = (locationData: geoLocationManager.Location) => {
     this.longitude = locationData.longitude;
     this.latitude = locationData.latitude;
@@ -64,8 +65,10 @@ export class EpoUpgradeViewModel implements IDOEpoManagerDelegate {
 
   /**
    * 停止升级任务。
+   * Stop the upgrade task.
    *
    * 注：只支持下载中和发送中的任务，不支持正在升级的任务。
+   * Note: only tasks that are downloading or sending are supported, not tasks that are already upgrading.
    */
   public stop(): void {
     this.isProcessing = false;
@@ -76,6 +79,7 @@ export class EpoUpgradeViewModel implements IDOEpoManagerDelegate {
   }
 
   /// 更新gps，设置热启动参数加速手表定位
+  /// Update GPS and set warm-start parameters to speed up watch positioning
   getAppGpsInfo(): IDOOtaGpsInfo | null {
     if (this.longitude > 0 && this.latitude > 0) {
       console.debug(`getAppGpsInfo - longitude: ${this.longitude}, altitude: ${this.altitude}`)

@@ -9,6 +9,7 @@ let storage = LocalStorage.getShared();
 
 /**
  * 已绑定设备首页（对齐 iOS MainPageVC）
+ * Bound devices home page (aligned with iOS MainPageVC)
  */
 @Entry(storage)
 @ComponentV2
@@ -59,7 +60,7 @@ struct BoundDevices {
 
   @Builder
   private endSwipeAction(device: IDOBleDeviceModel) {
-    Button('解绑')
+    Button('解绑 / Unbind')
       .type(ButtonType.Capsule)
       .backgroundColor('#F56C6C')
       .fontColor(Color.White)

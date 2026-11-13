@@ -98,7 +98,7 @@ export class FunctionDataViewModel {
 
   async send(): Promise<void> {
     this.isProcessing = true;
-    this.resStr = ''; // 清空上一次的结果
+    this.resStr = ''; // 清空上一次的结果 / Clear the previous result
     return new Promise((resolve, reject) => {
       this.rejectFunc = reject;
       this.doSend(resolve, reject);
@@ -122,6 +122,7 @@ export class FunctionDataViewModel {
 
   private async doSend(resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: Error | string) => void) {
     // handleResponse - instanceof 版本
+    // handleResponse - instanceof version
     const handleResponse = <T>(rs: CmdResult<T, CmdError>) => {
       this.canceler = undefined;
       this.isProcessing = false;
@@ -129,6 +130,7 @@ export class FunctionDataViewModel {
         const value = rs.value;
 
         // 使用 instanceof 进行类型安全检查
+        // Use instanceof for a type-safe check
         if (value instanceof IDOBaseModel) {
           this.resStr = value.toJsonString();
         } else if (value !== null && typeof value !== 'undefined') {
@@ -152,6 +154,7 @@ export class FunctionDataViewModel {
 
       // =================================================================
       // ------ Get Functions (共 41 项) -----
+      // ------ Get Functions (41 in total) -----
       // =================================================================
 
       case ApiEvtType.GetSnInfo: {
@@ -312,7 +315,7 @@ export class FunctionDataViewModel {
         break;
       }
     // case ApiEvtType.RequestAlgFile: {
-    //   // TODO: 请填充请求算法文件的参数, 例如文件名
+    //   // TODO: 请填充请求算法文件的参数, 例如文件名 / Fill in the parameters for requesting the algorithm file, e.g. the file name
     //   const param = { fileName: "example.alg" };
     //   this.canceler = Cmds.requestAlgFile(param, handleResponse);
     //   break;
@@ -332,6 +335,7 @@ export class FunctionDataViewModel {
             this.canceler = Cmds.setHeartMode(param, handleResponse)
           }else {
             // !!!: - 该设备不支持获取心率模式，需要app自行记录
+            // !!!: - This device does not support getting the heart rate mode; the app must record it itself
             this.resStr = "该设备不支持获取心率模式，需要app自行记录\n\nThe device does not support the heart rate acquisition mode, and the app needs to record it by itself"
           }
         }else if(sdk.funcTable.syncV3Hr) {
@@ -361,6 +365,7 @@ export class FunctionDataViewModel {
 
     // =================================================================
     // ------ Set Functions (共 54 项) -----
+    // ------ Set Functions (54 in total) -----
     // =================================================================
 
       case ApiEvtType.FactoryReset: {
@@ -500,7 +505,7 @@ export class FunctionDataViewModel {
         break;
       }
       case ApiEvtType.SetBleVoice: {
-        // TODO: 获取当前手机系统音量
+        // TODO: 获取当前手机系统音量 / Get the current phone system volume
         const curSysVolume = 50;
         const param = IDOBleVoiceParamModel.fromJson({total_voice: 100 , now_voice: curSysVolume});
         this.canceler = Cmds.setBleVoice(param, handleResponse);
@@ -688,8 +693,8 @@ export class FunctionDataViewModel {
         break;
       }
       // case ApiEvtType.MusicControl: {
-      //   // TODO: 填充音乐控制参数
-      //   const param = { type: 0 }; // 0:播放, 1:暂停, 2:上一首...
+      //   // TODO: 填充音乐控制参数 / Fill in the music control parameters
+      //   const param = { type: 0 }; // 0:播放, 1:暂停, 2:上一首 / play, 1:pause, 2:previous...
       //   this.canceler = Cmds.musicControl(param, handleResponse);
       //   break;
       // }
@@ -768,7 +773,7 @@ export class FunctionDataViewModel {
           IDOWorldTimeParamModel.fromJson({
             id: 31,
             min_offset: 480,
-            city_name: "北京",
+            city_name: "北京 / Beijing",
             sunrise_hour: 7,
             sunrise_min: 25,
             sunset_hour: 16,
@@ -781,7 +786,7 @@ export class FunctionDataViewModel {
           IDOWorldTimeParamModel.fromJson({
             id: 148,
             min_offset: 480,
-            city_name: "伦敦",
+            city_name: "伦敦 / London",
             sunrise_hour: 7,
             sunrise_min: 25,
             sunset_hour: 16,
@@ -794,7 +799,7 @@ export class FunctionDataViewModel {
           IDOWorldTimeParamModel.fromJson({
             id: 197,
             min_offset: -300,
-            city_name: "纽约",
+            city_name: "纽约 / New York",
             sunrise_hour: 7,
             sunrise_min: 25,
             sunset_hour: 16,
@@ -847,7 +852,7 @@ export class FunctionDataViewModel {
         break;
       }
       // case ApiEvtType.SetSportSortV3: {
-      //   // TODO: 填充V3运动类型参数
+      //   // TODO: 填充V3运动类型参数 / Fill in the V3 sport type parameters
       //   const param = { /* ... */ };
       //   this.canceler = Cmds.setSportSortV3(param, handleResponse);
       //   break;
@@ -931,11 +936,13 @@ export class FunctionDataViewModel {
       }
       case ApiEvtType.SetAppletControl: {
         // 步骤1：先获取小程序
+        // Step 1: get the applets first
         Cmds.setAppletControl(new IDOAppletControlModel(3), (rs) => {
           if (rs.success) {
             const value = rs.value;
             if (value != null && value.infoItem.length > 0) {
               // 步骤2：启动小程序
+              // Step 2: launch the applet
               Cmds.setAppletControl(new IDOAppletControlModel(1, value.infoItem[0].appName), (res) => {
                 if (res.success) {
                   this.resStr = res.value?.toJsonString() ?? "";
@@ -984,7 +991,7 @@ export class FunctionDataViewModel {
       }
 
       default: {
-        const str = `"未找到 ${this.funcInfo.name} 的实现，需在 FunctionDataViewModel -> doSend(..) 补充"`;
+        const str = `"未找到 ${this.funcInfo.name} 的实现，需在 FunctionDataViewModel -> doSend(..) 补充 / No implementation found for ${this.funcInfo.name}, add it in FunctionDataViewModel -> doSend(..)"`;
         console.debug(str);
         this.canceler = undefined;
         this.isProcessing = false;

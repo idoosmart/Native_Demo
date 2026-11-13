@@ -14,10 +14,12 @@ export class Tools {
   private keyBindDevices = "keyBindDevices"
 
   // 私有构造函数，确保只能通过 getInstance 创建实例
+  // Private constructor, ensures instances are only created through getInstance
   private constructor() {
   }
 
   // 单例模式的公共访问方法
+  // Public accessor for the singleton
   public static getInstance(): Tools {
     if (!Tools.instance) {
       Tools.instance = new Tools();
@@ -27,29 +29,33 @@ export class Tools {
 
   /**
    * 获取指定文件的大小（字节）
-   * @param path 文件完整路径
+   * Get the size of the specified file (bytes)
+   * @param path 文件完整路径 / Full path of the file
    */
   public getFileSize(path: string): number {
-    let fileStat = fs.statSync(path); // 同步方式获取文件状态
-    return fileStat.size; // 单位是字节
+    let fileStat = fs.statSync(path); // 同步方式获取文件状态 / Get the file status synchronously
+    return fileStat.size; // 单位是字节 / Unit is bytes
   }
 
   public async requestNotificationPermission(context: common.UIAbilityContext): Promise<boolean> {
     const atManager = abilityAccessCtrl.createAtManager();
     const permission: Permissions = 'ohos.permission.ACCESS_NOTIFICATION_POLICY';
     // 获取当前应用的accessTokenId
+    // Get the current app accessTokenId
     const bundleInfo: bundleManager.BundleInfo =
       await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
     const appInfo: bundleManager.ApplicationInfo = bundleInfo.appInfo;
     const tokenID: number = appInfo.accessTokenId;
     try {
       // 检查应用是否已被授予该权限
+      // Check whether the app has already been granted this permission
       const status = await atManager.checkAccessToken(tokenID, permission);
       if (status === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
         console.log('Notification permission has been granted.');
         return true;
       } else {
         // 如果未授权，则向用户发起请求
+        // If not granted, request it from the user
         const data: PermissionRequestResult = await atManager.requestPermissionsFromUser(context, [permission]);
         if (data.authResults[0] === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
           console.log('Notification permission granted successfully.');
@@ -67,7 +73,7 @@ export class Tools {
 
   public async publishNotification(id: number, title: string, text: string, additionalText: string, context: common.UIAbilityContext) : Promise<boolean> {
     const notificationRequest: notificationManager.NotificationRequest = {
-      id: id, // 每个通知需要一个唯一的ID
+      id: id, // 每个通知需要一个唯一的ID / Each notification needs a unique ID
       content: {
         notificationContentType: notificationManager.ContentType.NOTIFICATION_CONTENT_BASIC_TEXT,
         normal: {
@@ -90,13 +96,15 @@ export class Tools {
 
   /**
    * 检查并请求读取媒体文件的权限.
-   * @param context UIAbility 的上下文.
-   * @returns Promise<boolean> - 用户是否授予了权限.
+   * Check and request the permission to read media files.
+   * @param context UIAbility 的上下文 / context.
+   * @returns Promise<boolean> - 用户是否授予了权限 / Whether the user granted the permission.
    */
   public async checkAndRequestReadMediaPermissions(context: common.UIAbilityContext): Promise<boolean> {
     let LOG_TAG = 'requestReadPermission'
     let filePermission: Permissions = 'ohos.permission.READ_MEDIA';
     // 获取当前应用的accessTokenId
+    // Get the current app accessTokenId
     const bundleInfo: bundleManager.BundleInfo =
       await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
     const appInfo: bundleManager.ApplicationInfo = bundleInfo.appInfo;
@@ -104,43 +112,47 @@ export class Tools {
 
     try {
       // 2. 检查当前权限状态
+      // 2. Check the current permission status
       const grantStatus = await this.atManager.checkAccessToken(tokenID, filePermission);
 
       if (grantStatus === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
         hilog.info(0x0000, LOG_TAG, 'Read media permission has already been granted.');
-        return true; // 权限已被授予
+        return true; // 权限已被授予 / Permission already granted
       }
 
       // 3. 如果未授予，则向用户发起请求
+      // 3. If not granted, request it from the user
       hilog.info(0x0000, LOG_TAG, 'Requesting read media permission from user...');
       const result = await this.atManager.requestPermissionsFromUser(context, [filePermission]);
       const authResult = result.authResults[0];
 
       if (authResult === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
         hilog.info(0x0000, LOG_TAG, 'User granted the read media permission.');
-        return true; // 用户刚刚授予了权限
+        return true; // 用户刚刚授予了权限 / The user just granted the permission
       } else {
         hilog.warn(0x0000, LOG_TAG, 'User denied the read media permission.');
-        return false; // 用户拒绝了权限
+        return false; // 用户拒绝了权限 / The user denied the permission
       }
     } catch (err) {
       const error = err as Error;
       hilog.error(0x0000, LOG_TAG, `Failed to request permission: ${error.message}`);
-      return false; // 发生错误
+      return false; // 发生错误 / An error occurred
     }
   }
 
 
   /**
    * 检查并请求指定权限.
-   * @param context UIAbility 的上下文.
-   * @param permissions 需要的权限.
-   * @param sendRequest 是否在未授权时发送请求.
-   * @returns Promise<boolean> - 用户是否授予了权限.
+   * Check and request the specified permission.
+   * @param context UIAbility 的上下文 / context.
+   * @param permissions 需要的权限 / The required permission.
+   * @param sendRequest 是否在未授权时发送请求 / Whether to send a request when not granted.
+   * @returns Promise<boolean> - 用户是否授予了权限 / Whether the user granted the permission.
    */
   public async checkAndRequestPermissionsWith(context: common.UIAbilityContext, permissions: Permissions, sendRequest: boolean): Promise<boolean> {
     let LOG_TAG = 'checkAndRequestPermissions'
     // 获取当前应用的accessTokenId
+    // Get the current app accessTokenId
     const bundleInfo: bundleManager.BundleInfo =
       await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
     const appInfo: bundleManager.ApplicationInfo = bundleInfo.appInfo;
@@ -148,55 +160,62 @@ export class Tools {
 
     try {
       // 2. 检查当前权限状态
+      // 2. Check the current permission status
       const grantStatus = await this.atManager.checkAccessToken(tokenID, permissions);
 
       if (grantStatus === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
         hilog.info(0x0000, LOG_TAG, permissions+' permission has already been granted.');
-        return true; // 权限已被授予
+        return true; // 权限已被授予 / Permission already granted
       }
 
       // 不需要发送请求，直接返回
+      // No request needed, return directly
       if (!sendRequest) {
         return false;
       }
 
       // 3. 如果未授予，则向用户发起请求
+      // 3. If not granted, request it from the user
       hilog.info(0x0000, LOG_TAG, 'Requesting permission from user...');
       const result = await this.atManager.requestPermissionsFromUser(context, [permissions]);
       const authResult = result.authResults[0];
 
       if (authResult === abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
         hilog.info(0x0000, LOG_TAG, 'User granted the  permission.');
-        return true; // 用户刚刚授予了权限
+        return true; // 用户刚刚授予了权限 / The user just granted the permission
       } else {
         hilog.warn(0x0000, LOG_TAG, 'User denied the  permission.');
-        return false; // 用户拒绝了权限
+        return false; // 用户拒绝了权限 / The user denied the permission
       }
     } catch (err) {
       const error = err as Error;
       hilog.error(0x0000, LOG_TAG, `Failed to request permission: ${error.message}`);
-      return false; // 发生错误
+      return false; // 发生错误 / An error occurred
     }
   }
 
 
   /**
    * 将一个外部 URI 指向的文件复制到应用的沙箱缓存目录中.
+   * Copy the file pointed to by an external URI into the app sandbox cache directory.
    * 这是连接原生文件系统和 Flutter 的推荐桥梁方法.
+   * This is the recommended bridge method between the native file system and Flutter.
    *
-   * @param context UIAbility 的上下文，用于获取沙箱路径.
-   * @param sourceUri 文件的源 URI (例如 'file://docs/storage/.../a.json').
-   * @returns Promise<string | null> - 成功则返回沙箱内的文件路径 (string), 失败则返回 null.
+   * @param context UIAbility 的上下文，用于获取沙箱路径 / context, used to get the sandbox path.
+   * @param sourceUri 文件的源 URI (例如 'file://docs/storage/.../a.json') / The source URI of the file (for example 'file://docs/storage/.../a.json').
+   * @returns Promise<string | null> - 成功则返回沙箱内的文件路径 (string), 失败则返回 / On success returns the sandbox file path (string), on failure returns null.
    */
   async copyFileToAppCache(context: common.UIAbilityContext, sourceUri: string): Promise<string | null> {
-    const LOG_TAG = 'FileBridge'; // 定义一个日志标签，方便过滤
+    const LOG_TAG = 'FileBridge'; // 定义一个日志标签，方便过滤 / Define a log tag for easy filtering
 
     try {
       // 1. 获取应用的专属缓存目录路径. 这是存放临时文件的标准位置.
+      // 1. Get the path of the app-specific cache directory. This is the standard place for temporary files.
       const tempDir: string = context.tempDir;
       hilog.info(0x0000, LOG_TAG, 'App temp directory is: %{public}s', tempDir);
 
       // 检查并创建目录
+      // Check and create the directory
       if (!await fs.access(tempDir)) {
         hilog.info(0x000, LOG_TAG, 'create dir :'+tempDir);
         await fs.mkdir(tempDir)
@@ -205,6 +224,7 @@ export class Tools {
       }
 
       // 2. 从源 URI 中解析出原始文件名.
+      // 2. Parse the original file name from the source URI.
       const fileName = sourceUri.substring(sourceUri.lastIndexOf('/') + 1);
       if (!fileName) {
         hilog.error(0x0000, LOG_TAG, 'Could not extract file name from URI: %{public}s', sourceUri);
@@ -212,6 +232,7 @@ export class Tools {
       }
 
       // 3. 构造目标文件的完整路径 (缓存目录 + tmp_文件名).
+      // 3. Build the full path of the target file (cache directory + tmp_file name).
       const destinationPath = `${tempDir}/tmp_${fileName}`;
       hilog.info(0x0000, LOG_TAG, 'Destination path in sandbox will be: %{public}s', destinationPath);
 
@@ -231,23 +252,28 @@ export class Tools {
       // }
 
       // 复制方法失败,返回错误码2 ,应该是权限问题,暂时调整为手动写文件
-      // // 4. 【核心步骤】执行复制操作.
-      // //    fs.copyFile 是一个强大的 API，它可以直接将 URI 作为源进行复制.
+      // The copy method fails and returns error code 2, probably a permission issue; temporarily switched to writing the file manually
+      // // 4. 【核心步骤】执行复制操作 / [Core step] Perform the copy operation.
+      // //    fs.copyFile 是一个强大的 API，它可以直接将 URI 作为源进行复制 / is a powerful API that can copy directly using a URI as the source.
       // await fs.copyFile(sourceUri, destinationPath);
 
       // 4. 复制文件
+      // 4. Copy the file
       // --- 手动读取源文件 ---
+      // --- Read the source file manually ---
       const stat = await fs.stat(sourceFile.fd);
       const buffer = new ArrayBuffer(stat.size);
-      await fs.read(sourceFile.fd, buffer); // 将文件内容读入 buffer
+      await fs.read(sourceFile.fd, buffer); // 将文件内容读入 / Read the file contents into buffer
       hilog.info(0x0000, LOG_TAG, 'Source file read into buffer successfully.');
 
       // --- 手动写入目标文件 ---
+      // --- Write the target file manually ---
       let destFile = await fs.open(destinationPath, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE);
-      await fs.write(destFile.fd, buffer); // 将 buffer 内容写入新文件
+      await fs.write(destFile.fd, buffer); // 将 buffer 内容写入新文件 / Write the buffer contents to the new file
       hilog.info(0x0000, LOG_TAG, 'Buffer written to destination file successfully!');
 
       // 5. 将这个 Flutter 可以直接使用的沙箱路径返回.
+      // 5. Return this sandbox path, which Flutter can use directly.
       return destinationPath;
 
     } catch (err) {
@@ -294,6 +320,7 @@ export class Tools {
     console.info("getBindDevices: "+rs)
     let devices = JSON.parse(rs) as IDOBleDeviceModel[];
     // 按 mac 去重，保留靠前的快照（与 setBindDevice upsert 一致）
+    // Deduplicate by mac, keeping the earlier snapshot (consistent with the setBindDevice upsert)
     const seen = new Set<string>();
     const unique: IDOBleDeviceModel[] = [];
     for (let i = 0; i < devices.length; i++) {
