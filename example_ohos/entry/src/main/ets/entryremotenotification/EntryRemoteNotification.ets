@@ -5,8 +5,11 @@ import { CmdError, Cmds, IDONoticeMessageParamModel, IFailureResult, sdk } from 
 const DOMAIN = 0x0000;
 
 // 远程推送能力扩展（仅对自身app有用） ，作用：
+// Remote push capability extension (only useful for the app itself), purpose:
 // 当您的应用通过华为推送服务（HMS Push）接收到一条推送时，在系统将这条推送消息显示在通知栏之前，给您一个“拦截”并“加工”这条推送内容的机会。
+// When your app receives a push through Huawei Push Service (HMS Push), before the system shows it in the notification bar, you get a chance to intercept and process the push content.
 // 需要远程推送，暂未测试
+// Requires remote push, not tested yet
 export default class EntryRemoteNotification extends RemoteNotificationExtensionAbility {
 
   async onReceiveMessage(remoteNotificationInfo: pushCommon.RemoteNotificationInfo):

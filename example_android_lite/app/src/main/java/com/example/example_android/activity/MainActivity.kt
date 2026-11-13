@@ -29,6 +29,7 @@ import com.idosmart.protocol_channel.sdk
 
 /**
  * 首页：已绑定设备列表。添加设备进入 [ScanActivity]。
+ * Home page: list of bound devices. Adding a device opens [ScanActivity].
  */
 class MainActivity : BaseActivity() {
     private var lvBoundDevice: RecyclerView? = null
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        title = "已绑定设备"
+        title = "已绑定设备 / Bound devices"
         layoutBoundContent = findViewById(R.id.layout_bound_content)
         layoutEmpty = findViewById(R.id.layout_empty)
         lvBoundDevice = findViewById(R.id.lv_bound_device)
@@ -119,17 +120,17 @@ class MainActivity : BaseActivity() {
 
     private fun forceUnbind(info: BoundDeviceInfo, position: Int) {
         isUnbinding = true
-        showProgressDialog("解绑中...")
+        showProgressDialog("解绑中 / Unbinding...")
         sdk.cmd.unbind(info.mac, true) { success ->
             runOnUiThread {
                 closeProgressDialog()
                 isUnbinding = false
                 if (success) {
                     FunctionUtils.removeBindState(info.mac)
-                    toast("解绑成功")
+                    toast("解绑成功 / Unbind succeeded")
                     refreshBoundList()
                 } else {
-                    toast("解绑失败")
+                    toast("解绑失败 / Unbind failed")
                     mBoundAdapter?.notifyItemChanged(position)
                 }
             }
@@ -168,7 +169,7 @@ class MainActivity : BaseActivity() {
         }
         val ble = info.toBleDevice()
         if (ble == null) {
-            toast("无法还原设备")
+            toast("无法还原设备 / Unable to restore device")
             return
         }
         CurrentDevice.bleDevice = ble

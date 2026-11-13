@@ -198,10 +198,10 @@ public class EditSportActivity extends BaseActivity {
             Toast.makeText(EditSportActivity.this,"allSupportScreenLayoutList is null",Toast.LENGTH_SHORT).show();
             return;
         }
-        String[] items = {"布局1", "布局2", "布局3","布局4", "布局5", "布局6"};
+        String[] items = {"布局1 / Layout 1", "布局2 / Layout 2", "布局3 / Layout 3","布局4 / Layout 4", "布局5 / Layout 5", "布局6 / Layout 6"};
         if(allSupportScreenLayoutList != null){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("选择一项");
+            builder.setTitle("选择一项 / Select one");
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

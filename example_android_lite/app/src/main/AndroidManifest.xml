@@ -71,7 +71,7 @@
         <activity
             android:name="com.example.example_android.activity.ScanActivity"
             android:exported="false"
-            android:label="添加设备" />
+            android:label="添加设备 / Add device" />
         <!--
  Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java

@@ -29,6 +29,7 @@ public class ByteDataConvertUtil {
     }
 
     /** 提取index开始长度为len的数据 */
+    /** Extract data of length len starting at index */
     public static void BinnCat(byte[] from, byte[] to, int index, int len) {
         int min = index;
         for (int i = 0, j = min; i < len; i++, j++) {
@@ -38,6 +39,7 @@ public class ByteDataConvertUtil {
 
     /***
      * long转换为byte数组
+     * long to byte array
      * 
      * @param from
      * @param len
@@ -56,6 +58,7 @@ public class ByteDataConvertUtil {
 
     /***
      * 将long转换成Byte 第几个到多长
+     * Convert long into Byte array at a given index for a given length
      * 
      * @param from
      * @param to
@@ -73,6 +76,7 @@ public class ByteDataConvertUtil {
 
     /***
      * int型转换成byte数组
+     * int to byte array
      * 
      * @param from
      * @param len
@@ -91,6 +95,7 @@ public class ByteDataConvertUtil {
 
     /***
      * 转换int保存到byte的第几到几
+     * Convert int and store it into byte array from index to index
      * 
      * @param from
      * @param to
@@ -111,6 +116,7 @@ public class ByteDataConvertUtil {
 
     /***
      * byte数据的第几到几，转换为long
+     * byte data from index to index, converted to long
      * 
      * @param from
      * @param offset
@@ -129,6 +135,7 @@ public class ByteDataConvertUtil {
 
     /***
      * 将byte的第几到几，转换成int
+     * Convert byte range from index to index into int
      * 
      * @param from
      * @param offset
@@ -148,6 +155,7 @@ public class ByteDataConvertUtil {
 
     /***
      * 将MAC地址转换为byte数组
+     * Convert MAC address to byte array
      * 
      * @param mac
      * @return
@@ -175,6 +183,7 @@ public class ByteDataConvertUtil {
 
     /**
      * byte数组转换成16进制字符串
+     * byte array to hex string
      * 
      * @param src
      * @return
@@ -185,6 +194,7 @@ public class ByteDataConvertUtil {
             return null;
         }
         //缩减文件传输内容日志打印
+        //Trim file-transfer content in log output
         if (src.length >= 2) {
             if ((src[0] & 0xff) == 0xd1 && (src[1] & 0xff) == 0x02) {
                 return bytesToHexString(src, 20);
@@ -205,6 +215,7 @@ public class ByteDataConvertUtil {
 
     /**
      * byte数组转换成16进制字符串
+     * byte array to hex string
      *
      * @param src
      * @return
@@ -215,6 +226,7 @@ public class ByteDataConvertUtil {
             return null;
         }
         //缩减文件传输内容日志打印
+        //Trim file-transfer content in log output
         if (src.length >= 4) {
             if ((src[2] & 0xff) == 0xd2 && (src[3] & 0xff) == 0x02) {
                 return bytesToHexString(src, 20);
@@ -234,9 +246,10 @@ public class ByteDataConvertUtil {
     }
     /**
      * byte数组转换成16进制字符串
+     * byte array to hex string
      *
      * @param src
-     * @param length 限制转换的长度, -1不限制
+     * @param length 限制转换的长度, -1不限制 / limit on the converted length, -1 means no limit
      * @return
      */
     public static String bytesToHexString(byte[] src, int length) {
@@ -277,6 +290,7 @@ public class ByteDataConvertUtil {
 
     /**
      * byte数组转换成16进制字符数组
+     * byte array to hex char array
      * 
      * @param src
      * @return
@@ -302,6 +316,7 @@ public class ByteDataConvertUtil {
 
     /**
      * 反转数组
+     * Reverse array
      * 
      */
     @SuppressWarnings("unchecked")
@@ -327,6 +342,7 @@ public class ByteDataConvertUtil {
 
     /***
      * 从byte[]的index开始，长为len，反序之后转换成int
+     * From byte[] starting at index, with length len, reverse then convert to int
      * 
      * @param from
      * @param index
@@ -371,6 +387,7 @@ public class ByteDataConvertUtil {
 
 	/**
 	 * 合并两个byte数组
+	 * Merge two byte arrays
 	 * @param byte_1
 	 * @param byte_2
 	 * @return
@@ -416,6 +433,7 @@ public class ByteDataConvertUtil {
 
     /**
      * 获得指定文件的byte数组
+     * Get the byte array of the specified file
      */
     public static byte[] getBytesByFilePath(String filePath){
         byte[] buffer = null;
@@ -453,6 +471,7 @@ public class ByteDataConvertUtil {
 
     /**
      * 是否是长包数据 33 ad da ad da ,大小端0xADDAADDA
+     * Whether it is long-packet data 33 ad da ad da , big/little-endian 0xADDAADDA
      * @param data
      * @return
      */
@@ -462,11 +481,14 @@ public class ByteDataConvertUtil {
         }
         if((data[0]&0xff)==0x33 && (data[1]&0xff)== 0xda
                 && (data[2]&0xff)== 0xad&& (data[3]&0xff)== 0xda &&
-                (data[4]&0xff)== 0xad && (data[5]&0xff)==0x01){//长包
-           if((data[8]&0xff)==0x0b ||(data[8]&0xff)==0x60 || (data[8]&0xff)==0x65 || (data[8]&0xff)==0x70 ||(data[8]&0xff)==0x71 ||(data[8]&0xff)==0x72){//消息提醒,0x65 睡眠计划
+                (data[4]&0xff)== 0xad && (data[5]&0xff)==0x01){//长包 / long packet
+           if((data[8]&0xff)==0x0b ||(data[8]&0xff)==0x60 || (data[8]&0xff)==0x65 || (data[8]&0xff)==0x70 ||(data[8]&0xff)==0x71 ||(data[8]&0xff)==0x72){//消息提醒,0x65 睡眠计划 / message reminder,0x65 sleep plan
               // 0x70 跑步计划
+              // 0x70 running plan
               // 0x71 跑步计划ble通知app
+              // 0x71 running plan, ble notifies app
              //  0x72 跑步计划app通知ble
+             //  0x72 running plan, app notifies ble
                return true;
            }
            return false;

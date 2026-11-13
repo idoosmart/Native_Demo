@@ -8,7 +8,9 @@ import com.idosmart.model.IDOAlarmType
 
 /**
  * 闹钟 JSON：空 item / 脏 name（raw 对照 + repair）/ 越界 type·status。
+ * Alarm JSON: empty item / dirty name (raw baseline + repair) / out-of-range type·status.
  * 临时从 channel example 同步到 native Full（联调）。
+ * Temporarily synced from the channel example to native Full (integration testing).
  */
 object InternalAlarmJsonCases {
 
@@ -22,6 +24,7 @@ object InternalAlarmJsonCases {
             get() = "AlarmDecode ok=$okCount/$total fail=${failNames.joinToString(",")}"
 
         /** customer_dirty_raw 在 iOS 上预期 FAIL；Android Gson 可能放过，故仍排除 */
+        /** customer_dirty_raw is expected to FAIL on iOS; Android Gson may accept it, so it is still excluded */
         val unexpectedFails: List<String>
             get() = failNames.filter { it != "customer_dirty_raw" }
 
@@ -40,6 +43,7 @@ object InternalAlarmJsonCases {
 
     fun runAll(): Result {
         // 双反斜杠：模拟线格式 JSON 中的 \uXXXX 转义文本（勿写成 Kotlin 的 \u 字面量）
+        // Double backslash: simulates \uXXXX escape text in wire-format JSON (do not write it as a Kotlin \u literal)
         val customerDirtyPacket =
             """{"item":[{"alarm_id":10,"delay_min":10,"hour":64,"minute":0,"name":"\\u0002\\udeae\\udc3c\\u0013<`\\u0004","repeat":0,"repeat_times":3,"shock_on_off":1,"status":0,"tsnooze_duration":0,"type":84}],"num":1,"version":3}"""
         val type236LogPacket =

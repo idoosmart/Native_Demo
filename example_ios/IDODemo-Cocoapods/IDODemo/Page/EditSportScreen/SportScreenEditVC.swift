@@ -33,7 +33,7 @@ class SportScreenEditVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.title = "运动屏幕编辑"
+        self.navigationController?.title = "运动屏幕编辑 / Edit sport screen"
         self.view.backgroundColor = .gray
         initUI()
         addObserverEvent()
@@ -44,6 +44,7 @@ class SportScreenEditVC: UIViewController {
     func getSportScreenDetailInfo(){
         SVProgressHUD.show()
         // 获取运动中屏幕显示详情信息
+        // Get the in-sport screen display details
         guard let sportType = self.sportType else {return}
         let sportItem = IDOSportScreenSportItemModel(sportType: sportType, screenItems: nil)
         Cmds.getSportScreenDetailInfo([sportItem]).send { res in
@@ -94,11 +95,13 @@ class SportScreenEditVC: UIViewController {
             SVProgressHUD.dismiss()
             if case .success(_) = res {
                 // 成功
+                // Succeeded
                 print("set sport screen succes")
                 
                 
             }else {
                 // 失败
+                // Failed
                 print("set sport screen failure")
             }
         }

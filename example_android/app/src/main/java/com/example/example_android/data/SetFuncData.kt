@@ -20,6 +20,7 @@ class SetFuncData(
             mutableListOf.add(SetFuncData(CustomEvtType.SETDATETIME, "setDateTime", context.getString(R.string.desc_setdatetime), isSupported = true))
             mutableListOf.add(SetFuncData(CustomEvtType.SETALARMV3, "setAlarm", context.getString(R.string.desc_setalarm), isSupported = sdk.funcTable.syncV3SyncAlarm))
             // setLongSit 已废弃，入口隐藏；请使用走动提醒 setWalkReminder
+            // setLongSit is deprecated and its entry is hidden; use the walk reminder setWalkReminder instead
             mutableListOf.add(SetFuncData(CustomEvtType.SETDRINKWATERREMIND, "setDrinkWaterRemind", context.getString(R.string.desc_setdrinkwaterremind), isSupported = sdk.funcTable.setDrinkWaterReminder))
             mutableListOf.add(SetFuncData(CustomEvtType.SETHAND, "setHand", context.getString(R.string.desc_sethand), isSupported = sdk.funcTable.getLeftRightHandWearSettings))
             mutableListOf.add(SetFuncData(CustomEvtType.SETUPHANDGESTURE, "setUpHandGesture", context.getString(R.string.desc_setuphandgesture), isSupported = sdk.funcTable.getUpHandGesture))

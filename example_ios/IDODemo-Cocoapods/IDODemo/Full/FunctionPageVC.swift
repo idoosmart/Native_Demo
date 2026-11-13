@@ -38,7 +38,7 @@ class FunctionPageVC: UIViewController {
     }
     
     private lazy var items = [
-        // Word.internalFeatureTest, // 临时联调入口已屏蔽
+        // Word.internalFeatureTest, // 临时联调入口已屏蔽 / temporary integration-test entry is disabled
         Word.deviceConnect,
         Word.deviceDisconnect,
         Word.deviceBind,
@@ -148,12 +148,15 @@ class FunctionPageVC: UIViewController {
                     break
                 case .unbindOnAuthCodeError:
                     // 出现该情况，可能是设备重置 且被别的手机绑定， 需要重置本地缓存的绑定状态
+                    // This happens when the device was reset and bound by another phone; the locally cached bind state must be reset
                     SVProgressHUD.dismiss()
                     self?._hasUnbind()
                     break
                 case .unbindOnBindStateError:
                     // 出现该情况，可能是设备重置了
+                    // If this happens, the device may have been reset
                     // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状在不一致时触发）
+                    // Bind state is abnormal, the locally cached bind state must be reset (triggered when the local bind state and the pairing state in the device info do not match)
                     SVProgressHUD.dismiss()
                     self?._hasUnbind()
                     break
@@ -198,6 +201,7 @@ class FunctionPageVC: UIViewController {
                     if (self.isViewLoaded) {
                         if (stateModel.errorState == .pairFail) {
                             // 配对异常提示去忽略设备
+                            // Pairing error: prompt to ignore the device
                             SVProgressHUD.dismiss()
                             let alert = UIAlertController(title: "Tips", message: L10n.needIgnorePair, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] _ in
@@ -206,7 +210,7 @@ class FunctionPageVC: UIViewController {
                             }))
                             self.present(alert, animated: true, completion: nil)
                         }else {
-                            SVProgressHUD.showInfo(withStatus: "连接已断开")
+                            SVProgressHUD.showInfo(withStatus: "连接已断开 / Disconnected")
                         }
                     }
                     break
@@ -250,6 +254,7 @@ class FunctionPageVC: UIViewController {
         }).disposed(by: disposeBag)
         
         // 对齐 Android FunctionActivity / BaseAutoConnectActivity：进入功能页自动连接
+        // Match Android FunctionActivity / BaseAutoConnectActivity: auto-connect when entering the function page
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let self, let device = self.deviceModel else { return }
             if sdk.state.isConnected {
@@ -409,6 +414,7 @@ extension FunctionPageVC {
         
         if deviceState.state == .connected, deviceState.macAddress != nil, deviceState.macAddress!.count > 0 {
             // 当前不在文件传输详情页才弹出 OTA 提示
+            // Only show the OTA prompt when not on the file transfer detail page
             if(deviceModel.isOta && !(navigationController?.topViewController is TransferFileDetailVC)) {
                 _handleOtaMode(deviceModel: deviceModel)
                 return
@@ -423,6 +429,7 @@ extension FunctionPageVC {
     }
     
     /// 更新连接成功的状态
+    /// Update the connected state
     private func _updateConnectionStatus() {
         guard let macAddress = deviceModel?.macAddress else { return }
         let isBinded = UserDefaults.standard.isBind(macAddress)
@@ -433,6 +440,7 @@ extension FunctionPageVC {
     }
     
     /// 处理 OTA 模式
+    /// Handle OTA mode
     private func _handleOtaMode(deviceModel: IDODeviceModel) {
         SVProgressHUD.dismiss()
         let alert = UIAlertController(title: "OTA Mode", message: "当前设备处理OTA模式，现在去升级？/ The current device handles OTA mode, upgrade now?", preferredStyle: .alert)
@@ -441,6 +449,7 @@ extension FunctionPageVC {
             sdk.ble.stopScan()
             
             // 98|99平台设备ota需要先标记为OTA模式
+            // 98|99 platform device OTA requires marking OTA mode first
             let isSiceOta = [98, 99].contains(deviceModel.platform)
             if (isSiceOta) {
                 Task {
@@ -591,12 +600,13 @@ extension FunctionPageVC {
                         if case .success(_) = rs {
                             print("success:")
                             self?.isBinded = true
-                            SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                            SVProgressHUD.showSuccess(withStatus: "绑定成功 / Bind succeeded")
                             UserDefaults.standard.setBind(macAddress, isBind: true, device: self?.deviceModel)
                             sdk.cmd.appMarkBindResult(success: true)
                         }else {
                             print("failure")
                             //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                            //SVProgressHUD.showSuccess(withStatus: "Bind failed")
                             UserDefaults.standard.setBind(macAddress, isBind: false)
                             sdk.cmd.appMarkBindResult(success: false)
                         }
@@ -628,6 +638,7 @@ extension FunctionPageVC {
     }
     
     // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状在不一致时触发）
+    // Bind state is abnormal, the locally cached bind state must be reset (triggered when the local bind state and the pairing state in the device info do not match)
     private func _hasUnbind() {
         let macAddress = sdk.device.macAddressFull
         isBinded = false
@@ -649,6 +660,7 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
+    // Export log
     @objc func doExportLog() {
         guard isConnected, isBinded else {
             SVProgressHUD.showInfo(withStatus: "Please bind the device first")
@@ -672,7 +684,7 @@ extension FunctionPageVC {
         }
         alertController.addAction(flashLogAction)
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in }
+        let cancelAction = UIAlertAction(title: "取消 / Cancel", style: .cancel) { _ in }
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
@@ -684,9 +696,10 @@ extension FunctionPageVC {
             print("log path:\(path)")
             if (path.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -697,9 +710,10 @@ extension FunctionPageVC {
             print("log path:\(path ?? "")")
             if (path != nil && path!.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path!)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -709,7 +723,7 @@ extension FunctionPageVC {
         sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
             print("progress: \(progress)")
         } completion: { [weak self] rs in
-            print("设备日志获取 rs=\(rs)")
+            print("设备日志获取 / Get device log rs=\(rs)")
             if (rs) {
                 let path = sdk.deviceLog.logDirPath
                 if (path.count > 0) {
@@ -717,13 +731,13 @@ extension FunctionPageVC {
                     if(zipFilePath != nil) {
                         self?.share(filePath: zipFilePath!)
                     }else {
-                        SVProgressHUD.showError(withStatus: "操作失败")
+                        SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                     }
                 }else {
-                    SVProgressHUD.showError(withStatus: "操作失败")
+                    SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                 }
             } else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -750,6 +764,7 @@ extension FunctionPageVC {
 }
 
 // Full-only：Lite SDK 无 IDODeviceStateType
+// Full-only: the Lite SDK has no IDODeviceStateType
 extension IDODeviceStateType {
     var name: String {
         switch self {

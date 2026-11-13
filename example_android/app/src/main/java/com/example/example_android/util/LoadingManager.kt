@@ -25,6 +25,6 @@ class LoadingManager(private val activity: FragmentActivity) {
         android.os.Handler().postDelayed({
             dismiss()
             onComplete()
-        }, 3000) // 3秒后关闭
+        }, 3000) // 3秒后关闭 / 3 seconds later, close
     }
 }

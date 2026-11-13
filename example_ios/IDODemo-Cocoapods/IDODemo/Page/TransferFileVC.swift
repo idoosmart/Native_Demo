@@ -136,7 +136,7 @@ extension TransType {
         case .ota:
             return "固件升级 Firmware upgrade"
         case .app:
-            return "小程序 App"
+            return "小程序 App / Applet"
         case .gps:
             return "GPS"
         case .gpsFw:
@@ -168,19 +168,19 @@ extension TransType {
         let exts = allowedExtensions().map { ".\($0)" }.joined(separator: " / ")
         switch self {
         case .mp3:
-            return "选择音乐文件 (\(exts))\nNote: Only 44.1k sample rate"
+            return "选择音乐文件 / Select music file (\(exts))\nNote: Only 44.1k sample rate"
         case .wallpaper:
-            return "选择壁纸图片 (\(exts))"
+            return "选择壁纸图片 / Select wallpaper image (\(exts))"
         case .contact:
-            return "选择通讯录 (\(exts))"
+            return "选择通讯录 / Select contacts file (\(exts))"
         case .ota:
-            return "选择固件文件 (\(exts))"
+            return "选择固件文件 / Select firmware file (\(exts))"
         case .app:
-            return "选择小程序 (\(exts))"
+            return "选择小程序 / Select applet (\(exts))"
         case .gps:
-            return "选择EPO文件 (\(exts))"
+            return "选择EPO文件 / Select EPO file (\(exts))"
         case .gpsFw:
-            return "选择GPS固件 (\(exts))"
+            return "选择GPS固件 / Select GPS firmware (\(exts))"
         case .watchFace:
             return ""
         }
@@ -188,7 +188,7 @@ extension TransType {
 
     /// OTA 醒目警告提示 / OTA prominent warning
     func otaWarning() -> String {
-        return "注意：需使用正确的固件文件，错误的固件包会导致安装失败，严重的会导致设备变砖无法开机！\nWARNING: Use the correct firmware file. An incorrect firmware package may cause installation failure or brick the device!"
+        return "注意：需使用正确的固件文件，错误的固件包会导致安装失败，严重的会导致设备变砖无法开机！\nWARNING: Use the correct firmware file. An incorrect firmware package may cause installation failure or brick the device! / Note: use the correct firmware file. A wrong firmware package will fail to install and may even brick the device so it cannot boot!\nWARNING: Use the correct firmware file. An incorrect firmware package may cause installation failure or brick the device!"
     }
 }
 
@@ -204,6 +204,7 @@ class TransferFileDetailVC: UIViewController {
     private var selectedFileURL: URL?
 
     // 98/99 平台ota过程会重启设备，然后会接着传输，需要标记ota模式
+    // 98/99 platform: the OTA process reboots the device and then continues the transfer, so OTA mode must be flagged
     var _isSiceOta: Bool = false
     var _devInfo: (address: String, uuid: String, platform: Int, deviceId: Int)
 
@@ -313,6 +314,7 @@ class TransferFileDetailVC: UIViewController {
         view.addSubview(textConsole)
 
         // OTA 场景显示醒目警告
+        // OTA scenario shows a prominent warning
         if cmd == .ota {
             lblOtaWarning.isHidden = false
         }
@@ -401,6 +403,7 @@ class TransferFileDetailVC: UIViewController {
             picker = UIDocumentPickerViewController(forOpeningContentTypes: utTypes, asCopy: true)
         } else {
             // iOS 12/13 回退使用 public.data，选择后再校验后缀
+            // iOS 12/13 fall back to public.data, then validate the extension after selection
             picker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
         }
 
@@ -455,11 +458,11 @@ class TransferFileDetailVC: UIViewController {
 
     private func _mp3(filePath: String, fileName: String) {
         /*
-         !!!: 音乐传输注意事项：
-         1、只支持44.1k采样率的mp3文件
-         2、相同音乐（名称)，需要先删除设备上的该音乐，再创建
-         3、音乐传输前需要先调用接口创建相关音乐，提供musicID + 文件大小 + 名称
-         4、执行音乐传输时，需提供musicID + 文件大小 + 名称
+         !!!: 音乐传输注意事项： / Music transfer notes:
+         1、只支持44.1k采样率的mp3文件 / 1. Only mp3 files with a 44.1k sample rate are supported
+         2、相同音乐（名称)，需要先删除设备上的该音乐，再创建 / 2. For the same music (name), delete it from the device first, then create it again
+         3、音乐传输前需要先调用接口创建相关音乐，提供musicID + 文件大小 + 名称 / 3. Before transferring music, call the API to create the music first, providing musicID + file size + name
+         4、执行音乐传输时，需提供musicID + 文件大小 + 名称 / 4. When performing the music transfer, provide musicID + file size + name
          */
         var musicFileSize = 0
         do {
@@ -468,20 +471,23 @@ class TransferFileDetailVC: UIViewController {
                 musicFileSize = Int(fileSize)
             }
         } catch {
-            SVProgressHUD.showError(withStatus: "获取音乐大小出错！Error getting music size")
+            SVProgressHUD.showError(withStatus: "获取音乐大小出错！Error / Error getting music size")
             return
         }
 
         let musicItem = IDOMusicItem(musicID: 1, musicMemory: musicFileSize, musicName: fileName, singerName: "")
         // 1、先删除设备上的该音乐（如果存在）
+        // 1. Delete the music from the device first (if it exists)
         let param = IDOMusicOpearteParamModel(musicOperate: 1, folderOperate: 0, folderItem: nil, musicItem: musicItem)
         Cmds.setMusicOperate(param).send { [weak self] res in
             // 2、创建音乐
+            // 2. Create the music
             let param = IDOMusicOpearteParamModel(musicOperate: 2, folderOperate: 0, folderItem: nil, musicItem: musicItem)
             Cmds.setMusicOperate(param).send { [weak self] res in
                 if case .success(let val) = res {
                     if (val?.errCode == 0) {
                         // 3、执行传输
+                        // 3. Perform the transfer
                         self?._trans([
                             IDOTransMusicModel(filePath: filePath, fileName: musicItem.musicName, musicId: musicItem.musicID)
                         ])
@@ -512,6 +518,7 @@ class TransferFileDetailVC: UIViewController {
         switch(sdk.device.deviceId) {
         case 8170, 8155:
             // 98平台需标记OTA模式
+            // 98 platform needs to flag OTA mode
             self._isSiceOta = true
             self._devInfo = (sdk.device.macAddressFull,
                              sdk.device.uuid,
@@ -522,6 +529,7 @@ class TransferFileDetailVC: UIViewController {
             ])
         case 877:
             // !!!: 戒指ota需要特殊处理
+            // !!!: Ring OTA needs special handling
             _otaRing(filePath: filePath)
         default:
             _trans([
@@ -538,6 +546,7 @@ class TransferFileDetailVC: UIViewController {
 
     private func _gps(filePath: String, fileName: String) {
         // !!!: epo传输完需要等设备通知安装完成，进度100%后还需等约40秒
+        // !!!: epo transfer must wait for the device to report installation complete; after progress reaches 100% wait about 40 more seconds
         _trans([
             IDOTransNormalModel(fileType: .epo, filePath: filePath, fileName: fileName)
         ])
@@ -545,12 +554,14 @@ class TransferFileDetailVC: UIViewController {
 
     private func _gpsFw(filePath: String) {
         // 1.获取版本
+        // 1. Get version
         Cmds.getGpsInfo().send { res in
             if case .success(let gpsInfoModel) = res {
                 print("gpsInfo version:\(gpsInfoModel?.fwVersionString)")
             }
         }
         // 2.执行传输（注意：文件后缀必须为.gps）
+        // 2. Perform the transfer (note: the file extension must be .gps)
         _trans([
             IDOTransNormalModel(fileType: .gps, filePath: filePath, fileName: "gps")
         ])
@@ -566,6 +577,7 @@ class TransferFileDetailVC: UIViewController {
             let did = sdk.device.deviceId
 
             // 1. 断开连接（Full: sdk.ble；Lite: bleMgr / XYCentralManager）
+            // 1. Disconnect (Full: sdk.ble; Lite: bleMgr / XYCentralManager)
             #if IDOSDK_FULL
             _ = await withCheckedContinuation { continuation in
                 sdk.ble.cancelConnect(macAddress: macAddress) { rs in
@@ -587,6 +599,7 @@ class TransferFileDetailVC: UIViewController {
             #endif
 
             // 2. 标记 OTA 模式
+            // 2. Flag OTA mode
             _ = await withCheckedContinuation { continuation in
                 sdk.bridge.markOtaMode?(macAddress: macAddress, iosUUID: uuid, platform: platform, deviceId: did) { rs in
                     continuation.resume(returning: rs)
@@ -594,6 +607,7 @@ class TransferFileDetailVC: UIViewController {
             }
 
             // 3. 传输 OTA
+            // 3. Transfer OTA
             _trans([
                 IDOTransNormalModel(fileType: .fw, filePath: filePath, fileName: "test")
             ])
@@ -622,6 +636,7 @@ class TransferFileDetailVC: UIViewController {
             self?.textConsole.scrollToBottom()
 
             // 98平台设备传输失败（如中途关闭蓝牙），此处添加重试
+            // 98 platform device transfer failed (e.g. Bluetooth turned off midway); add a retry here
             if(self?._isSiceOta ?? false && rs.last == false) {
                 self?._retryOtaAlert()
             }
@@ -653,6 +668,7 @@ class TransferFileDetailVC: UIViewController {
     }
 
     // 部分ota添加重试操作（98平台设备）
+    // Add a retry operation for some OTA (98 platform devices)
     private func _retrySiceOta() {
         guard let fileURL = selectedFileURL else { return }
 
@@ -665,6 +681,7 @@ class TransferFileDetailVC: UIViewController {
             let did = _devInfo.deviceId
 
             // 1. 标记 OTA 模式
+            // 1. Flag OTA mode
             _ = await withCheckedContinuation { continuation in
                 sdk.bridge.markOtaMode?(macAddress: macAddress, iosUUID: uuid, platform: platform, deviceId: did) { rs in
                     continuation.resume(returning: rs)
@@ -672,6 +689,7 @@ class TransferFileDetailVC: UIViewController {
             }
 
             // 2. 再次执行OTA升级
+            // 2. Perform the OTA upgrade again
             _ota(filePath: fileURL.path)
         }
     }
@@ -690,7 +708,7 @@ extension TransferFileDetailVC: UIDocumentPickerDelegate {
         if !allowedExts.isEmpty && !allowedExts.contains(ext) {
             let supported = allowedExts.map { ".\($0)" }.joined(separator: ", ")
             SVProgressHUD.showError(withStatus:
-                "不支持的格式: .\(ext)\nUnsupported: .\(ext)\n\n支持 Supported: \(supported)")
+                "不支持的格式: .\(ext)\nUnsupported: .\(ext)\n\n支持 Supported / Unsupported: .\(ext)\n\nSupported: \(supported)")
             return
         }
 

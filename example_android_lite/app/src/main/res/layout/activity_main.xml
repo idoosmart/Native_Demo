@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="暂无已绑定设备"
+            android:text="暂无已绑定设备 / No bound devices yet"
             android:textColor="#999999"
             android:textSize="15sp" />
 
@@ -50,7 +50,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:minWidth="160dp"
-            android:text="添加设备"
+            android:text="添加设备 / Add device"
             android:textSize="14sp" />
     </LinearLayout>
 

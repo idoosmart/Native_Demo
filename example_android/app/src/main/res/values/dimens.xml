@@ -3,6 +3,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <!-- 为刷新和标题高之和，即分60dp + 60dp -->
+    <!-- Sum of the refresh and title heights, i.e. 60dp + 60dp -->
     <!--<dimen name="sport_frgament_paddingTop">120dp</dimen>-->
 
     <dimen name="size5dp">5dp</dimen>
@@ -18,14 +19,23 @@
 
     <!---->
     <!-- ViewPager的间隔 -->
+    <!-- ViewPager spacing -->
     <!-- 工具栏上按钮的间距 -->
+    <!-- Spacing between toolbar buttons -->
     <!-- 重新加载文字字体大小 -->
+    <!-- Reload text font size -->
     <!-- 图集标题字体大小 -->
+    <!-- Album title font size -->
     <!-- 图集中图片数量字体大小 -->
+    <!-- Album image count font size -->
     <!-- 图集View的间隔 -->
+    <!-- Album View spacing -->
     <!-- 工具栏上显示1/6文字的字体大小 -->
+    <!-- Font size of the 1/6 text on the toolbar -->
     <!-- 用户引导边距 -->
+    <!-- User guide margin -->
     <!-- 正在加载文本上边距 -->
+    <!-- Loading text top margin -->
     <!---->
 
 

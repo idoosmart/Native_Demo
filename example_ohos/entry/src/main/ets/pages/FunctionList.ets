@@ -60,7 +60,7 @@ struct FunctionPage {
     console.info('Action: Share App log');
     this.uiState.isShareLogSheetShown = false;
     sdk.tool.exportLog((zipFilePath) => {
-      void this.shareExportedPath(zipFilePath, 'app_log', '应用日志');
+      void this.shareExportedPath(zipFilePath, 'app_log', '应用日志 / app log');
     });
   }
 
@@ -68,24 +68,24 @@ struct FunctionPage {
     console.info('Action: Share Ble log');
     this.uiState.isShareLogSheetShown = false;
     sdk.ble.exportLog((path) => {
-      void this.shareExportedPath(path, 'ble_log', '蓝牙日志');
+      void this.shareExportedPath(path, 'ble_log', '蓝牙日志 / Bluetooth log');
     });
   }
 
   private shareDeviceLog(): void {
     console.info('Action: Share Device log');
     this.uiState.isShareLogSheetShown = false;
-    promptAction.showToast({ message: '开始导出设备日志，请稍候' });
+    promptAction.showToast({ message: '开始导出设备日志，请稍候 / Exporting device log, please wait' });
     sdk.deviceLog.startGet(
       [IDODeviceLogType.general],
       60,
       (progress: number) => {
-        console.info(`进度 ${progress}% `);
+        console.info(`进度 / Progress ${progress}% `);
       },
       (success: boolean) => {
-        console.info(`操作完成，结果: ${success}`);
+        console.info(`操作完成，结果 / Operation done, result: ${success}`);
         if (!success) {
-          promptAction.showToast({ message: '设备日志导出失败' });
+          promptAction.showToast({ message: '设备日志导出失败 / Device log export failed' });
           return;
         }
         void this.shareDeviceLogZip(sdk.deviceLog.logDirPath);
@@ -96,7 +96,7 @@ struct FunctionPage {
   @Builder
   private shareLogSheetBuilder() {
     Column({ space: 10 }) {
-      Text('分享日志')
+      Text('分享日志 / Share log')
         .width('100%')
         .fontSize(20)
         .fontWeight(FontWeight.Medium)
@@ -134,7 +134,7 @@ struct FunctionPage {
         .borderRadius(16)
         .onClick(() => this.shareDeviceLog())
 
-      Button('取消')
+      Button('取消 / Cancel')
         .width('100%')
         .height(60)
         .type(ButtonType.Normal)
@@ -154,7 +154,7 @@ struct FunctionPage {
 
   private async shareExportedPath(path: string | null | undefined, defaultName: string, description: string): Promise<void> {
     if (!path || path.length === 0) {
-      promptAction.showToast({ message: `${description}不存在，无法分享` });
+      promptAction.showToast({ message: `${description}不存在，无法分享 / ${description} does not exist, cannot share` });
       return;
     }
 
@@ -170,7 +170,7 @@ struct FunctionPage {
         utd: utdType,
         uri: fileUri.getUriFromPath(path),
         title: fileName,
-        description: `${description}分享`
+        description: `${description}分享 / Share ${description}`
       });
 
       const controller = new systemShare.ShareController(shareData);
@@ -182,31 +182,31 @@ struct FunctionPage {
     } catch (error) {
       const err = error as BusinessError;
       console.error(`Share failed, code=${err.code}, message=${err.message}`);
-      promptAction.showToast({ message: `分享失败: ${err.message ?? '未知错误'}` });
+      promptAction.showToast({ message: `分享失败: ${err.message ?? '未知错误 / Share failed: ${err.message ?? 'Unknown error'}` });
     }
   }
 
   private async shareDeviceLogZip(logDirPath: string | null | undefined): Promise<void> {
     if (!logDirPath || logDirPath.length === 0) {
-      promptAction.showToast({ message: '设备日志目录不存在，无法压缩分享' });
+      promptAction.showToast({ message: '设备日志目录不存在，无法压缩分享 / Device log directory does not exist, cannot zip and share' });
       return;
     }
 
     try {
-      promptAction.showToast({ message: '设备日志导出完成，开始打包 zip' });
+      promptAction.showToast({ message: '设备日志导出完成，开始打包 / Device log export done, packing zip' });
       const zipPath = await this.compressDirectoryToZip(logDirPath, 'device_log');
-      await this.shareExportedPath(zipPath, 'device_log.zip', '设备日志');
+      await this.shareExportedPath(zipPath, 'device_log.zip', '设备日志 / device log');
     } catch (error) {
       const err = error as BusinessError;
       console.error(`Compress device log failed, code=${err.code}, message=${err.message}`);
-      promptAction.showToast({ message: `设备日志打包失败: ${err.message ?? '未知错误'}` });
+      promptAction.showToast({ message: `设备日志打包失败: ${err.message ?? '未知错误 / Device log packing failed: ${err.message ?? 'Unknown error'}` });
     }
   }
 
   private async compressDirectoryToZip(dirPath: string, fileNamePrefix: string): Promise<string> {
     const files = this.collectFilesRecursively(dirPath);
     if (files.length === 0) {
-      throw new Error('日志目录为空');
+      throw new Error('日志目录为空 / Log directory is empty');
     }
 
     const shareDir = `${this.abilityContext.cacheDir}/shared_logs`;
@@ -348,6 +348,7 @@ struct FunctionPage {
               }.width('100%').align(Alignment.Start)
               .onClick(() => {
                 //思澈平台 ota 需要传入设备的虚拟 mac ，这里从 ble 模块当前设备获取 otaMacAddress，该 mac 地址在蓝牙库中检测到设备处于 ota 状态后赋值
+                // SiFli platform OTA needs the virtual MAC of the device; here otaMacAddress is taken from the current device of the ble module. This MAC address is assigned once the Bluetooth library detects the device is in OTA mode
                 let bleDevice = sdk.ble.getCurrentBleDevice();
                 sdk.bridge.markOtaMode(bleDevice?.macAddress ?? "", "",
                   bleDevice?.platform ?? 0, bleDevice?.deviceId ?? 0, sdk.ble.getCurrentBleDevice().otaMacAddress,
@@ -395,7 +396,7 @@ struct FunctionPage {
                 .onClick(() => {
                   this.navigateTo(PAGE_SPORT);
                 })
-              CommonListItem({ title: '音乐控制' })
+              CommonListItem({ title: '音乐控制 / Music control' })
                 .onClick(() => {
                   this.navigateTo(PAGE_MUSIC_PLAYER);
                 })
@@ -452,7 +453,7 @@ struct FunctionPage {
       })
     }.onReady((context: NavDestinationContext) => {
       this.pageInfos = context.pathStack;
-    }).title('功能页面').menus([
+    }).title('功能页面 / Function page').menus([
       {
         'value': "", 'icon': 'resources/base/media/menu_more.svg', action: () => {
         this.showShareLogSheet();

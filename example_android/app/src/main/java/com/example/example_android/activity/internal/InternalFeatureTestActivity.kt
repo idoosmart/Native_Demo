@@ -26,7 +26,9 @@ import kotlinx.android.synthetic.main.activity_internal_feature_test.tv_log
 
 /**
  * 内部功能测试：脏数据 / 边界 JSON / 本地解码 / 绑定加密授权等。
+ * Internal feature tests: dirty data / edge-case JSON / local decoding / binding encrypted auth, etc.
  * 临时从 channel example 同步到 native Full（联调）。
+ * Temporarily synced from the channel example to native Full (integration testing).
  */
 class InternalFeatureTestActivity : BaseActivity() {
 
@@ -45,7 +47,7 @@ class InternalFeatureTestActivity : BaseActivity() {
         if (mac != null) {
             log("current mac=$mac")
         } else {
-            log("current mac=(none) — set/get 需 mac；可从 Function 页带入设备")
+            log("current mac=(none) — set/get 需 mac；可从 Function 页带入设备 / needs a mac; the device can be passed in from the Function page")
         }
     }
 
@@ -67,20 +69,20 @@ class InternalFeatureTestActivity : BaseActivity() {
 
     private fun setupButtons() {
         appendSection(
-            "绑定加密授权",
+            "绑定加密授权 / Bind encrypted auth",
             listOf(
                 "bind + onEncryptedAuthData" to { bindWithEncryptedAuthCallback() },
-                "setEncryptedAuthData(样例)" to { setEncryptedAuthSample() },
+                "setEncryptedAuthData(样例 / sample)" to { setEncryptedAuthSample() },
                 "getEncryptedAuthData" to { getEncryptedAuthCached() },
-                "get → 复制 JSON" to { getEncryptedAuthAndCopy() },
-                "粘贴 → set" to { pasteEncryptedAuthAndSet() },
-                "setEncryptedAuth + 标记已绑定" to { runSetEncryptedAuthAndMarkBound() }
+                "get → 复制 / copy JSON" to { getEncryptedAuthAndCopy() },
+                "粘贴 / Paste → set" to { pasteEncryptedAuthAndSet() },
+                "setEncryptedAuth + 标记已绑定 / mark as bound" to { runSetEncryptedAuthAndMarkBound() }
             )
         )
         appendSection(
-            "闹钟 JSON",
+            "闹钟 / Alarm JSON",
             listOf(
-                "空 item / 脏 name / 越界 type·status" to { runAlarmJsonCases() }
+                "空 item / 脏 name / 越界 / Empty item / dirty name / out-of-range type·status" to { runAlarmJsonCases() }
             )
         )
     }
@@ -111,8 +113,8 @@ class InternalFeatureTestActivity : BaseActivity() {
 
     private fun ensureConnected(): Boolean {
         if (sdk.state.isConnected) return true
-        toast("未连接设备")
-        log("错误：设备未连接")
+        toast("未连接设备 / No device connected")
+        log("错误：设备未连接 / Error: device not connected")
         return false
     }
 
@@ -152,7 +154,7 @@ class InternalFeatureTestActivity : BaseActivity() {
         val mac = resolveMacAddress()
         if (mac.isNullOrEmpty()) {
             toast("no macAddress")
-            log("错误：无 macAddress")
+            log("错误：无 / Error: no macAddress")
             return
         }
         log("--- setEncryptedAuthData mac=$mac ---")
@@ -166,7 +168,7 @@ class InternalFeatureTestActivity : BaseActivity() {
         val mac = resolveMacAddress()
         if (mac.isNullOrEmpty()) {
             toast("no macAddress")
-            log("错误：无 macAddress")
+            log("错误：无 / Error: no macAddress")
             return
         }
         log("--- getEncryptedAuthData mac=$mac ---")
@@ -184,18 +186,20 @@ class InternalFeatureTestActivity : BaseActivity() {
     }
 
     /** 无符号 0–255，与协议 uint8 / JSON auth_data 一致（勿用 ByteArray.contentToString） */
+    /** Unsigned 0–255, consistent with the protocol uint8 / JSON auth_data (do not use ByteArray.contentToString) */
     private fun formatAuthBytes(bytes: ByteArray): String =
         bytes.joinToString(prefix = "[", postfix = "]") { (it.toInt() and 0xFF).toString() }
 
     /** get 缓存并复制 JSON 到剪贴板（跨手机粘贴用） */
+    /** get the cache and copy the JSON to the clipboard (for pasting on another phone) */
     private fun getEncryptedAuthAndCopy() {
         val mac = resolveMacAddress()
         if (mac.isNullOrEmpty()) {
             toast("no macAddress")
-            log("错误：无 macAddress")
+            log("错误：无 / Error: no macAddress")
             return
         }
-        log("--- get → 复制 JSON mac=$mac ---")
+        log("--- get → 复制 / copy JSON mac=$mac ---")
         sdk.cmd.getEncryptedAuthData(mac) { cached ->
             if (cached == null) {
                 log("  no cache")
@@ -205,31 +209,32 @@ class InternalFeatureTestActivity : BaseActivity() {
             val json = cached.toJsonString()
             copyToClipboard(json)
             log("  copied: $json")
-            toast("已复制 JSON")
+            toast("已复制 JSON / JSON copied")
         }
     }
 
     /** 从剪贴板读 JSON 并 setEncryptedAuthData */
+    /** Read the JSON from the clipboard and setEncryptedAuthData */
     private fun pasteEncryptedAuthAndSet() {
         val mac = resolveMacAddress()
         if (mac.isNullOrEmpty()) {
             toast("no macAddress")
-            log("错误：无 macAddress")
+            log("错误：无 / Error: no macAddress")
             return
         }
         val text = readClipboardText()
         if (text.isNullOrBlank()) {
-            toast("剪贴板为空")
-            log("错误：剪贴板为空")
+            toast("剪贴板为空 / Clipboard is empty")
+            log("错误：剪贴板为空 / Error: clipboard is empty")
             return
         }
         val data = IDOEncryptedAuthData.fromJsonString(text.trim())
         if (data == null) {
-            toast("剪贴板不是合法 auth JSON")
-            log("错误：解析失败\n  clipboard=$text")
+            toast("剪贴板不是合法 / Clipboard is not valid auth JSON")
+            log("错误：解析失败\n  clipboard=$text / Error: parsing failed\n  clipboard=$text")
             return
         }
-        log("--- 粘贴 → set mac=$mac ---")
+        log("--- 粘贴 / paste → set mac=$mac ---")
         log("  json=$text")
         sdk.cmd.setEncryptedAuthData(mac, data) { ok ->
             log("  result=$ok")
@@ -250,17 +255,18 @@ class InternalFeatureTestActivity : BaseActivity() {
     }
 
     /** 连接前写入加密授权并标记本地已绑定（模拟换机略过绑定） */
+    /** Write the encrypted auth before connecting and mark as bound locally (simulates skipping binding after switching phones) */
     private fun runSetEncryptedAuthAndMarkBound() {
         val mac = resolveMacAddress()
         if (mac.isNullOrEmpty()) {
             toast("no macAddress")
-            log("错误：无 macAddress")
+            log("错误：无 / Error: no macAddress")
             return
         }
         val data = InternalEncryptedAuthCases.parseSampleJson()
         if (data == null) {
             toast("JSON parse failed")
-            log("错误：JSON parse failed")
+            log("错误：JSON / Error: JSON parse failed")
             return
         }
         log("--- setEncryptedAuthData mac=$mac ver=${data.encryptedVersion} len=${data.authLength} ---")
@@ -335,7 +341,7 @@ class InternalFeatureTestActivity : BaseActivity() {
     }
 
     private fun renderLog() {
-        tv_log.text = if (logBuffer.isEmpty()) "（无日志）" else logBuffer.toString()
+        tv_log.text = if (logBuffer.isEmpty()) "（无日志） / (no log)" else logBuffer.toString()
         sv_log.post { sv_log.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 

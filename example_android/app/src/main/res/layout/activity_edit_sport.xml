@@ -54,7 +54,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size10dp"
-        android:text="切换布局"
+        android:text="切换布局 / Switch layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/llOperate"
         android:textColor="@color/white" />

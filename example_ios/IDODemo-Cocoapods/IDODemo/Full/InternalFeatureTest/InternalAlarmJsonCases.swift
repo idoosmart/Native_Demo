@@ -3,6 +3,7 @@
 //  IDODemo (native Full temp — temp sync to native Full)
 //
 //  闹钟 JSON：空 item / 脏 name（先 raw FAIL，再 repair OK）/ 越界 type·status
+//  Alarm JSON: empty item / dirty name (raw FAILs first, then repair is OK) / out-of-range type·status
 //
 
 import Foundation
@@ -21,6 +22,7 @@ enum InternalAlarmJsonCases {
         }
 
         /// customer_dirty_raw 预期 FAIL；其余失败为意外
+        /// customer_dirty_raw is expected to FAIL; any other failure is unexpected
         var unexpectedFails: [String] {
             failNames.filter { $0 != "customer_dirty_raw" }
         }
@@ -29,6 +31,7 @@ enum InternalAlarmJsonCases {
     }
 
     /// 跑全部用例，返回日志行与汇总（不弹 HUD）
+    /// Runs all cases and returns the log lines and a summary (no HUD)
     static func runAll() -> Result {
         let customerDirtyPacket =
             #"{"item":[{"alarm_id":10,"delay_min":10,"hour":64,"minute":0,"name":"\u0002\udeae\udc3c\u0013<`\u0004","repeat":0,"repeat_times":3,"shock_on_off":1,"status":0,"tsnooze_duration":0,"type":84}],"num":1,"version":3}"#
@@ -44,8 +47,10 @@ enum InternalAlarmJsonCases {
             ("missing_item_has_num", #"{"num":0,"version":3}"#, false, false, false, false),
             ("normal_one", #"{"item":[{"alarm_id":1,"delay_min":0,"hour":7,"minute":30,"name":"Wake","repeat":254,"repeat_times":0,"shock_on_off":0,"status":1,"tsnooze_duration":0,"type":100}],"num":1,"version":3}"#, false, true, false, false),
             // raw：不 repair，预期 FAIL（对照 getAlarm 首次失败）
+            // raw: no repair, expected to FAIL (matches the first getAlarm failure)
             ("customer_dirty_raw", customerDirtyPacket, false, false, false, false),
             // repair：只删非法代理对，预期 OK；name 仍含 `
+            // repair: only removes invalid surrogate pairs, expected OK; name still contains `
             ("customer_dirty_repaired", customerDirtyPacket, true, true, false, true),
             ("type_236_log", type236LogPacket, false, true, false, false),
             ("type_244", #"{"item":[{"alarm_id":1,"delay_min":10,"hour":1,"minute":7,"name":"","repeat":0,"repeat_times":0,"shock_on_off":1,"status":0,"tsnooze_duration":0,"type":244}],"num":1,"version":0}"#, false, true, false, false),

@@ -31,6 +31,7 @@ import java.util.*
 
 /**
  * 蓝牙数据桥接
+ * Bluetooth data bridge
  */
 object BLEdata  {
 
@@ -53,6 +54,7 @@ object BLEdata  {
         }
     }
     //使能通知
+    //Enable notifications
     fun notifyData(bleDevice: BleDevice,isBind:Boolean){
         Logutil.logMessage(TAG,"notify data")
         BleManager.getInstance().notify(
@@ -110,6 +112,7 @@ object BLEdata  {
 
         private fun isNoNeedWaitResponseCmd(data: ByteArray): Boolean {
             //针对Agps文件的协议、Alexa语音
+            //For the Agps file protocol and Alexa voice
             return (data[0].toInt() and 0xff) == 0xD1 || (data[0].toInt() and 0xff) == 0x13
         }
 
@@ -122,22 +125,27 @@ object BLEdata  {
             DeviceNotificationBus.emit(status)
 
             // 快速短信回复
+            // Quick SMS reply
             if (status.controlEvt == 580 && status.controlJson != null) {
                 println("status.controlJson: ${status.controlJson}")
                 val gson = Gson()
                 val msgItem = gson.fromJson(status.controlJson, IDOFastMsgUpdateModel::class.java)
                 // 1 表示来电快捷回复
+                // 1 means incoming call quick reply
                 if (msgItem.msgType == 1) {
-                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果 / TODO: call the android system here to send the quick reply to the third-party app and get the reply result
                     // val isSuccess = if (回复结果) 1 else 0
+                    // val isSuccess = if (reply result) 1 else 0
                     var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
                     Cmds.setFastMsgUpdate(param).send {
                         println("setFastMsgUpdate ${it.res?.toJsonString()}")
                     }
                 }else{
                     // 第三方消息
-                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // Third-party message
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果 / TODO: call the android system here to send the quick reply to the third-party app and get the reply result
                     // val isSuccess = if (回复结果) 1 else 0
+                    // val isSuccess = if (reply result) 1 else 0
                     var param = IDOFastMsgUpdateParamModel(1,msgItem.msgID, msgItem.msgType, msgItem.msgNotice)
                     Cmds.setFastMsgUpdate(param).send {
                         println("setFastMsgUpdate ${it.res?.toJsonString()}")
@@ -146,7 +154,7 @@ object BLEdata  {
             }
 
             if (status.notifyType == 1) {
-                print("闹钟已经修改")
+                print("闹钟已经修改 / Alarm modified")
             }
         }
 

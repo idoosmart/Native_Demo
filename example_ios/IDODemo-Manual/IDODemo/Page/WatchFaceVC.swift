@@ -47,13 +47,13 @@ class WatchFaceVC: UIViewController {
         v.textColor = .gray
         v.isEditable = false
         v.text = """
-添加表盘步骤：
-1、从云端下载对应的表盘文件到本地
-2、获取当前设备表盘列表
-3、判断设备表盘数据和空间是否
-4、传输表盘到设备
-5、如果安装后未显示，需要调用setWatchFaceData设置为第一表盘(可选)
-注：Demo只处理2、3、4，表盘文件内置在工程中
+添加表盘步骤： / Steps to add a watch face:
+1、从云端下载对应的表盘文件到本地 / 1. Download the corresponding watch face file from the cloud to the local
+2、获取当前设备表盘列表 / 2. Get the watch face list of the current device
+3、判断设备表盘数据和空间是否 / 3. Determine whether the device watch face data and space are
+4、传输表盘到设备 / 4. Transfer the watch face to the device
+5、如果安装后未显示，需要调用setWatchFaceData设置为第一表盘(可选) / 5. If it is not displayed after installation, call setWatchFaceData to set it as the first watch face (optional)
+注：Demo只处理2、3、4，表盘文件内置在工程中 / Note: Demo only processes 2, 3, and 4, and the watch face file is built into the project
 
 Steps to add a watch face:
 1. Download the corresponding watch face file from the cloud to the local
@@ -115,6 +115,7 @@ extension WatchFaceVC {
     
     private func _initWatchTransModel() -> Bool {
         // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
+        // !!!: Watch face files and configs differ between device platforms and cannot be used interchangeably
         switch(sdk.device.deviceId) {
         case 7877:
             testWatchModel = IDOTransNormalModel(fileType: .watch, filePath: bundlePath + "/watch_face/7877/wf_w58.watch", fileName: "wf_w58.watch")
@@ -178,7 +179,7 @@ extension WatchFaceVC {
                     if (val == nil || val!.errCode == 0) {
                         // successful
                         SVProgressHUD.showSuccess(withStatus: "Uninstall watch face successful")
-                        self?._getWatchList() // 重新获取表盘列表
+                        self?._getWatchList() // 重新获取表盘列表 / Get the watch face list again
                     }
                 }else if case .failure(let err) = res {
                     SVProgressHUD.showError(withStatus: "Failed to obtain the watch face list err code: \(err)")
@@ -189,6 +190,7 @@ extension WatchFaceVC {
             
             SVProgressHUD.showProgress(0.0);
             //1、把表盘文件传到设备
+            //1. Transfer the watch face file to the device
             sdk.transfer.transferFiles(fileItems: [testWatchModel!], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
                 SVProgressHUD.showProgress(totalProgress);
             } transStatus: { currentIndex, status, errorCode, finishingTime in
@@ -197,9 +199,11 @@ extension WatchFaceVC {
                 
                 if (rs.first ?? false) {
                     // 传输完成
+                    // Transfer done
                     // 设备安装表盘需要时间，此处延迟2秒再刷新表盘列表
+                    // The device needs time to install the watch face, so wait 2 seconds here before refreshing the watch face list
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self?._getWatchList() // 重新获取表盘列表
+                        self?._getWatchList() // 重新获取表盘列表 / Get the watch face list again
                     }
                 }else{
                     SVProgressHUD.dismiss()
@@ -207,7 +211,7 @@ extension WatchFaceVC {
             }
 
             
-//            //2、设置列表生效（可选）
+//            //2、设置列表生效（可选） / //2. Set it to take effect (optional)
 //            let param = IDOWatchFaceParamModel(operate: 1, fileName: testWatchModel.fileName, watchFileSize: 0)
 //            Cmds.setWatchFaceData(param).send { res in
 //                if case .success(let val) = res {
@@ -227,11 +231,13 @@ extension WatchFaceVC {
 extension IDOWatchListModel {
     
     /// 是否已安装
+    /// Whether it is installed
     func isInstalled(watchName: String) -> Bool {
         return items.contains { $0.name == watchName.replacingOccurrences(of: ".watch", with: "") }
     }
     
     /// 设备表盘空间是否已满
+    /// Whether the device watch face storage is full
     func isCapacityFull(willInstallBytes: Int) -> Bool {
         var showFullAlertFalse = false
         let invalidCloudCount = cloudWatchNum <= userCloudWatchNum

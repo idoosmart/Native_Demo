@@ -47,8 +47,9 @@ public class DataItemSelectPop {
     }
     public void init() {
         dialog = new Dialog(mContext);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 隐藏标题栏
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 隐藏标题栏 / Hide the title bar
         // 加载自定义布局
+        // Load the custom layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.dialog_bottom_sheet, null);
         dialog.setContentView(view);
@@ -63,14 +64,15 @@ public class DataItemSelectPop {
         recyclerView2.setAdapter(adapter2);
         Window window = dialog.getWindow();
         if (window != null) {
-            window.setGravity(Gravity.BOTTOM); // 设置显示在底部
+            window.setGravity(Gravity.BOTTOM); // 设置显示在底部 / Show at the bottom
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, /*WindowManager.LayoutParams.WRAP_CONTENT*/1000);
-            window.setBackgroundDrawableResource(android.R.color.transparent); // 设置背景透明
-            window.setWindowAnimations(R.style.DialogAnimationsFade); // 设置动画
+            window.setBackgroundDrawableResource(android.R.color.transparent); // 设置背景透明 / Set a transparent background
+            window.setWindowAnimations(R.style.DialogAnimationsFade); // 设置动画 / Set the animation
         }
     }
 
     // 显示 PopupWindow
+    // Show the PopupWindow
     public void show(View anchorView) {
         if (dialog != null && !dialog.isShowing()) {
             dialog.show();
@@ -78,6 +80,7 @@ public class DataItemSelectPop {
     }
 
     // 关闭 PopupWindow
+    // Close the PopupWindow
     public void dismiss() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();

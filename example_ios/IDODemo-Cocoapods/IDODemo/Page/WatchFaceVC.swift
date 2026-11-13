@@ -18,12 +18,12 @@ import SVProgressHUD
 import protocol_channel
 
 /*
- 自定义表盘：
- custom表盘设置步骤：
+ 自定义表盘： / Custom watch face:
+ custom表盘设置步骤： / custom watch face setup steps:
  private var currentWatchFaceListModel: IDOWatchListModel?
- let watchName = "custom1" // 需要与表盘包中的iwf.json中name值相同
+ let watchName = "custom1" // 需要与表盘包中的iwf.json中name值相同 / Must match iwf.json's name value in the watch face package
 
- 1、获取表盘列表:
+ 1、获取表盘列表 / 1. Get the watch face list:
      Cmds.getWatchListV3().send { [weak self] res in
          if case .success(let val) = res {
              self?.currentWatchFaceListModel = val
@@ -32,7 +32,7 @@ import protocol_channel
          }
      }
 
- 2、判断表盘列表中是否存在将要上传的表盘，如果存在，需要先删除该表盘
+ 2、判断表盘列表中是否存在将要上传的表盘，如果存在，需要先删除该表盘 / 2. Check whether the watch face to upload already exists in the watch face list; if it does, delete it first
      if (currentWatchFaceListModel?.items.contains { $0.name.hasPrefix(watchName) }) {
          let param = IDOWatchFaceParamModel(operate: 2, fileName: watchName, watchFileSize: 0)
          Cmds.setWatchFaceData(param).send { [weak self] res in
@@ -48,7 +48,7 @@ import protocol_channel
      }
      
 
- 3、上传custom表盘
+ 3、上传custom表盘 / 3. Upload custom watch face
      let fileItem = IDOTransNormalModel(fileType: .iwfLz, filePath:"/xx/xx/**/watch.zip", fileName: watchName)
      sdk.transfer.transferFiles(fileItems: [fileItem], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
          SVProgressHUD.showProgress(totalProgress);
@@ -72,6 +72,7 @@ class WatchFaceVC: UIViewController {
     
     private lazy var allowedExtensions: [String] = {
         // 根据不同平台配置表盘文件后缀限制
+        // Configure the watch face file extension restrictions per platform
         switch sdk.device.platform {
         case 98, 99: return ["watch"]
         default:
@@ -140,12 +141,12 @@ class WatchFaceVC: UIViewController {
         v.textColor = .gray
         v.isEditable = false
         v.text = """
-添加表盘步骤：
-1、从云端下载对应的表盘文件到本地 （这里通过选择文件实现）
-2、获取当前设备表盘列表
-3、判断设备表盘数据和空间是否充足
-4、传输表盘到设备
-5、如果安装后未显示，需要调用setWatchFaceData设置为第一表盘(可选)
+添加表盘步骤： / Steps to add a watch face:
+1、从云端下载对应的表盘文件到本地 （这里通过选择文件实现） / 1. Download the corresponding watch face file from the cloud to local storage (implemented here by selecting a file)
+2、获取当前设备表盘列表 / 2. Get the watch face list of the current device
+3、判断设备表盘数据和空间是否充足 / 3. Check whether the device watch face data and space are sufficient
+4、传输表盘到设备 / 4. Transfer the watch face to the device
+5、如果安装后未显示，需要调用setWatchFaceData设置为第一表盘(可选) / 5. If it is not displayed after installation, call setWatchFaceData to set it as the first watch face (optional)
 
 Steps to add a watch face:
 1. Download the corresponding watch face file from the cloud to the local
@@ -266,15 +267,17 @@ extension WatchFaceVC: UIDocumentPickerDelegate {
         
         if !allowedExts.contains(ext) {
             let supported = allowedExts.map { ".\($0)" }.joined(separator: ", ")
-            SVProgressHUD.showError(withStatus: "不支持的格式: .\(ext)\nUnsupported: .\(ext)\n\n支持: \(supported)")
+            SVProgressHUD.showError(withStatus: "不支持的格式: .\(ext)\nUnsupported: .\(ext)\n\n支持 / Unsupported: .\(ext)\n\nSupported: \(supported)")
             return
         }
         
         // 构建传输模型
+        // Build the transfer model
         let fileType: IDOTransType = (ext == "zip" || ext == "iwf") ? .iwfLz : .watch
         var fileName = url.lastPathComponent
         if fileType == .iwfLz {
             // .zip / .iwf 格式在传输时 fileName 通常去掉后缀或使用特定的名字
+            // .zip / .iwf formats usually drop the extension or use a specific name for fileName during transfer
             fileName = url.deletingPathExtension().lastPathComponent
         }
         
@@ -284,10 +287,12 @@ extension WatchFaceVC: UIDocumentPickerDelegate {
         lblFileName.textColor = UIColor(red: 34/255.0, green: 139/255.0, blue: 34/255.0, alpha: 1)
         
         // 重置状态
+        // Reset state
         isInstalled = false
         btnAction.isHidden = true
         
         // 选中后自动尝试获取表盘列表
+        // After selection, automatically try to get the watch face list
         _getWatchList()
     }
     
@@ -343,7 +348,7 @@ extension WatchFaceVC {
                     if (val == nil || val!.errCode == 0) {
                         // successful
                         SVProgressHUD.showSuccess(withStatus: "Uninstall watch face successful")
-                        self?._getWatchList() // 重新获取表盘列表
+                        self?._getWatchList() // 重新获取表盘列表 / Get the watch face list again
                     }else {
                         SVProgressHUD.showError(withStatus: "Uninstall failed")
                     }
@@ -356,6 +361,7 @@ extension WatchFaceVC {
             
             SVProgressHUD.showProgress(0.0);
             //1、把表盘文件传到设备
+            //1. Transfer the watch face file to the device
             sdk.transfer.transferFiles(fileItems: [watchModel], cancelPrevTranTask: true) { currentIndex, totalCount, currentProgress, totalProgress in
                 SVProgressHUD.showProgress(totalProgress);
             } transStatus: { currentIndex, status, errorCode, finishingTime in
@@ -364,10 +370,12 @@ extension WatchFaceVC {
                 
                 if (rs.first ?? false) {
                     // 传输完成
+                    // Transfer done
                     // 设备安装表盘需要时间，此处延迟2秒再刷新表盘列表
+                    // The device needs time to install the watch face, so wait 2 seconds here before refreshing the watch face list
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         
-//                        // 2、设置列表生效（可选）
+//                        // 2、设置列表生效（可选） / 2. Set it to take effect (optional)
 //                        let param = IDOWatchFaceParamModel(operate: 1, fileName: self?.testWatchModel?.fileName ?? "", watchFileSize: 0)
 //                        Cmds.setWatchFaceData(param).send { res in
 //                            if case .success(let val) = res {
@@ -381,6 +389,7 @@ extension WatchFaceVC {
 //                        }
                         
                         // 重新获取表盘列表
+                        // Get the watch face list again
                         self?._getWatchList()
                     }
                 }else{
@@ -393,6 +402,7 @@ extension WatchFaceVC {
     @objc private func _customDial() {
         SVProgressHUD.show()
         // 获取设备屏幕信息
+        // Get device screen information
         Cmds.getWatchDialInfo().send { [weak self] res in
             //sdk.device.deviceShapeType
             if case .success(let o) = res, o != nil {
@@ -406,8 +416,10 @@ extension WatchFaceVC {
     private func gotoCustomDialVC(_ watchDialInfo: IDOWatchDialInfoModel) {
         
         // 设备屏幕信息
+        // Device screen information
         let sizeDial = CGSizeMake(CGFloat(watchDialInfo.width), CGFloat(watchDialInfo.height))
         /// 手表形状 类型：1：圆形；2：方形的； 3：椭圆
+        /// Watch shape type: 1: round; 2: square; 3: oval
         let shapeType = sdk.device.deviceShapeType
         let dialCustomDialInfo = DialCustomDialInfo(sizeDial: sizeDial, shapeType: shapeType)
         let customDialView = DialCustomizationView(customDialInfo: dialCustomDialInfo) { [weak self] zipPath in
@@ -417,6 +429,7 @@ extension WatchFaceVC {
             self?.testWatchModel = IDOTransNormalModel(fileType: .iwfLz, filePath: zipPath, fileName: "custom1")
             
             // 更新 UI 状态
+            // Update UI state
             self?.lblFileName.text = "✅ custom dial"
             self?.lblFileName.textColor = UIColor(red: 34/255.0, green: 139/255.0, blue: 34/255.0, alpha: 1)
             self?.isInstalled = false
@@ -433,6 +446,7 @@ extension WatchFaceVC {
 extension IDOWatchListModel {
     
     /// 是否已安装
+    /// Whether it is installed
     func isInstalled(watchName: String) -> Bool {
         let name = watchName.replacingOccurrences(of: ".watch", with: "")
         return items.contains {
@@ -442,6 +456,7 @@ extension IDOWatchListModel {
     }
     
     /// 设备表盘空间是否已满
+    /// Whether the device watch face storage is full
     func isCapacityFull(willInstallBytes: Int) -> Bool {
         var showFullAlertFalse = false
         let invalidCloudCount = cloudWatchNum <= userCloudWatchNum

@@ -713,6 +713,7 @@ class SetFunctionDetailActivity : BaseActivity() {
 
     private fun setWeatherV3() {
         // 获取当前时间
+        // Get the current time
         val now = LocalDateTime.now()
         var weatherV3 = Cmds.setWeatherV3(
             IDOWeatherV3ParamModel(
@@ -2413,8 +2414,8 @@ class SetFunctionDetailActivity : BaseActivity() {
                         255,
                         1,
                         2,
-                        "提醒事项1",
-                        "记得完成工作",
+                        "提醒事项1 / Reminder 1",
+                        "记得完成工作 / Remember to finish work",
                     )
                 )
             )
@@ -3028,7 +3029,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 IDOWorldTimeParamModel(
                     1,
                     2,
-                    "东京",
+                    "东京 / Tokyo",
                     3,
                     4,
                     5,
@@ -3053,13 +3054,15 @@ class SetFunctionDetailActivity : BaseActivity() {
 
     /**
      * v3 设置运动城市名称
+     * v3 Set the sport city name
      * cityName String 城市名称
+     * cityName String City name
      *
      * v3 Specifies the sports city name
      * cityName String City name
      * */
     private fun setLongCityNameV3() {
-        var longCityNameV3 = Cmds.setLongCityNameV3("深圳")
+        var longCityNameV3 = Cmds.setLongCityNameV3("深圳 / Shenzhen")
         longCityNameV3.send {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
@@ -3692,9 +3695,11 @@ class SetFunctionDetailActivity : BaseActivity() {
         Cmds.setDefaultQuickMsgReplyList(param).send {
             if (it.error.code == 0) {
                 // 成功
+                // Succeeded
                 // it.res is IDOCmdSetResponseModel
             } else {
                 // 失败
+                // Failed
             }
         }
     }

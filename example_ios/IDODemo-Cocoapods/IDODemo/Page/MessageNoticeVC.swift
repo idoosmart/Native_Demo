@@ -17,15 +17,15 @@ import SVProgressHUD
 import protocol_channel
 
 /**
- 消息通知根据不同设备，分为静态和动态（二选一）：
+ 消息通知根据不同设备，分为静态和动态（二选一）： / Message notifications are either static or dynamic depending on the device (one or the other):
  
- 一、动态消息通知
- 可指定应用icon，对应app的信息（如：包名、ID、图标地址）
+ 一、动态消息通知 / 1. Dynamic message notifications
+ 可指定应用icon，对应app的信息（如：包名、ID、图标地址） / The app icon can be specified, along with the corresponding app info (e.g. package name, ID, icon URL)
  
  
  
- 二、静态消息通知（旧设备）：
- 固定的一些常用app
+ 二、静态消息通知（旧设备）： / 2. Static message notifications (older devices):
+ 固定的一些常用app / A fixed set of commonly used apps
  
  */
 class MessageNoticeVC: UIViewController {
@@ -94,16 +94,16 @@ fileprivate enum StaticNoticeAppCatalog {
     }
 
     private static let specs: [Spec] = [
-        Spec(name: "短信", iconResource: "com.apple.MobileSMS_100", systemImage: "message.fill", isSystem: true,
+        Spec(name: "短信 / SMS", iconResource: "com.apple.MobileSMS_100", systemImage: "message.fill", isSystem: true,
              isSupported: { $0.reminderMessage }, getter: { $0.isOnSms }, setter: { $0.isOnSms = $1 }),
-        Spec(name: "日历", iconResource: "com.apple.mobilecal_100", systemImage: "calendar", isSystem: true,
+        Spec(name: "日历 / Calendar", iconResource: "com.apple.mobilecal_100", systemImage: "calendar", isSystem: true,
              isSupported: { $0.reminderCalendar }, getter: { $0.isOnCalendar }, setter: { $0.isOnCalendar = $1 }),
-        Spec(name: "邮件", iconResource: "com.apple.mobilemail_100", systemImage: "envelope.fill", isSystem: true,
+        Spec(name: "邮件 / Mail", iconResource: "com.apple.mobilemail_100", systemImage: "envelope.fill", isSystem: true,
              isSupported: { $0.reminderEmail }, getter: { $0.isOnEmail }, setter: { $0.isOnEmail = $1 }),
-        Spec(name: "未接电话", iconResource: "com.apple.missed.mobilephone_100", systemImage: "phone.fill", isSystem: true,
+        Spec(name: "未接电话 / Missed call", iconResource: "com.apple.missed.mobilephone_100", systemImage: "phone.fill", isSystem: true,
              isSupported: { $0.reminderMissedCall }, getter: { $0.isOnDidNotCall }, setter: { $0.isOnDidNotCall = $1 }),
 
-        Spec(name: "微信", iconResource: "com.tencent.xin_100", systemImage: "message.fill", isSystem: false,
+        Spec(name: "微信 / WeChat", iconResource: "com.tencent.xin_100", systemImage: "message.fill", isSystem: false,
              isSupported: { $0.reminderWeixin }, getter: { $0.isOnWeChat }, setter: { $0.isOnWeChat = $1 }),
         Spec(name: "QQ", iconResource: "com.tencent.mqq_100", systemImage: "bubble.left.fill", isSystem: false,
              isSupported: { $0.reminderQq }, getter: { $0.isOnQq }, setter: { $0.isOnQq = $1 }),
@@ -118,27 +118,27 @@ fileprivate enum StaticNoticeAppCatalog {
         Spec(name: "TikTok", iconResource: "com.zhiliaoapp.musically_100", systemImage: "music.note", isSystem: false,
              isSupported: { $0.reminderTiktok }, getter: { $0.isOnTikTok }, setter: { $0.isOnTikTok = $1 }),
 
-        Spec(name: "淘宝", systemImage: "bag.fill", isSystem: false,
+        Spec(name: "淘宝 / Taobao", systemImage: "bag.fill", isSystem: false,
              isSupported: { $0.reminderTaobao }, getter: { $0.isOnTaobao }, setter: { $0.isOnTaobao = $1 }),
-        Spec(name: "钉钉", systemImage: "person.3.fill", isSystem: false,
+        Spec(name: "钉钉 / DingTalk", systemImage: "person.3.fill", isSystem: false,
              isSupported: { $0.reminderDingding }, getter: { $0.isOnDingTalk }, setter: { $0.isOnDingTalk = $1 }),
-        Spec(name: "支付宝", systemImage: "creditcard.fill", isSystem: false,
+        Spec(name: "支付宝 / Alipay", systemImage: "creditcard.fill", isSystem: false,
              isSupported: { $0.reminderAlipay }, getter: { $0.isOnAlipay }, setter: { $0.isOnAlipay = $1 }),
-        Spec(name: "今日头条", systemImage: "newspaper.fill", isSystem: false,
+        Spec(name: "今日头条 / Toutiao", systemImage: "newspaper.fill", isSystem: false,
              isSupported: { $0.reminderToutiao }, getter: { $0.isOnToutiao }, setter: { $0.isOnToutiao = $1 }),
-        Spec(name: "天猫", systemImage: "cart.fill", isSystem: false,
+        Spec(name: "天猫 / Tmall", systemImage: "cart.fill", isSystem: false,
              isSupported: { $0.reminderTmall }, getter: { $0.isOnTmail }, setter: { $0.isOnTmail = $1 }),
-        Spec(name: "京东", systemImage: "shippingbox.fill", isSystem: false,
+        Spec(name: "京东 / JD", systemImage: "shippingbox.fill", isSystem: false,
              isSupported: { $0.reminderJd }, getter: { $0.isOnJD }, setter: { $0.isOnJD = $1 }),
-        Spec(name: "拼多多", systemImage: "gift.fill", isSystem: false,
+        Spec(name: "拼多多 / Pinduoduo", systemImage: "gift.fill", isSystem: false,
              isSupported: { $0.reminderPinduoduo }, getter: { $0.isOnPinduoduo }, setter: { $0.isOnPinduoduo = $1 }),
-        Spec(name: "百度", systemImage: "magnifyingglass.circle.fill", isSystem: false,
+        Spec(name: "百度 / Baidu", systemImage: "magnifyingglass.circle.fill", isSystem: false,
              isSupported: { $0.reminderBaidu }, getter: { $0.isOnBaidu }, setter: { $0.isOnBaidu = $1 }),
-        Spec(name: "美团", systemImage: "fork.knife.circle.fill", isSystem: false,
+        Spec(name: "美团 / Meituan", systemImage: "fork.knife.circle.fill", isSystem: false,
              isSupported: { $0.reminderMeituan }, getter: { $0.isOnMeituan }, setter: { $0.isOnMeituan = $1 }),
-        Spec(name: "饿了么", systemImage: "takeoutbag.and.cup.and.straw.fill", isSystem: false,
+        Spec(name: "饿了么 / Ele.me", systemImage: "takeoutbag.and.cup.and.straw.fill", isSystem: false,
              isSupported: { $0.reminderEleme }, getter: { $0.isOnEleme }, setter: { $0.isOnEleme = $1 }),
-        Spec(name: "抖音", systemImage: "play.rectangle.fill", isSystem: false,
+        Spec(name: "抖音 / Douyin", systemImage: "play.rectangle.fill", isSystem: false,
              isSupported: { $0.reminderDouyin }, getter: { $0.isOnDouyin }, setter: { $0.isOnDouyin = $1 }),
 
         Spec(name: "Google Messages", systemImage: "message.circle.fill", isSystem: false,
@@ -153,7 +153,7 @@ fileprivate enum StaticNoticeAppCatalog {
              isSupported: { $0.reminderHealthU }, getter: { $0.isOnHealthU }, setter: { $0.isOnHealthU = $1 }),
         Spec(name: "Zalo", systemImage: "bubble.left.and.bubble.right.fill", isSystem: false,
              isSupported: { $0.reminderZalo }, getter: { $0.isOnZalo }, setter: { $0.isOnZalo = $1 }),
-        Spec(name: "滴滴打车", systemImage: "car.fill", isSystem: false,
+        Spec(name: "滴滴打车 / DiDi", systemImage: "car.fill", isSystem: false,
              isSupported: { $0.reminderDidiTaxi }, getter: { $0.isOnDidiTaxi }, setter: { $0.isOnDidiTaxi = $1 }),
         Spec(name: "Zoom Workplace", systemImage: "video.fill", isSystem: false,
              isSupported: { $0.reminderZoomWorkplace }, getter: { $0.isOnZoomWorkplace }, setter: { $0.isOnZoomWorkplace = $1 }),
@@ -186,6 +186,7 @@ fileprivate enum StaticNoticeAppCatalog {
 // MARK: - StaticMessageNoticeVC
 
 // 静态消息通知
+// Static message notifications
 fileprivate class StaticMessageNoticeVC: UIViewController {
     override func viewDidLoad() {
         let swiftUIView = NotificationSettingsView()
@@ -204,6 +205,7 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
         
         if sdk.funcTable.reminderAncs {
             // 打开bt配对
+            // Turn on BT pairing
             let obj = IDOSetNoticeStatusModel.createAllOffModel()
             obj.notifySwitch = .bleOn
             Cmds.setNoticeStatus(obj).send { _ in }
@@ -420,9 +422,10 @@ fileprivate class StaticMessageNoticeVC: UIViewController {
     }
 }
 
-// MARK: - DynamicMessageNoticeVC  动态消息通知
+// MARK: - DynamicMessageNoticeVC  动态消息通知 / Dynamic message notifications
 
 // 动态消息通知
+// Dynamic message notifications
 fileprivate class DynamicMessageNoticeVC: UIViewController {
     override func viewDidLoad() {
         let swiftUIView = NotificationSettingsView()
@@ -441,6 +444,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
         
         if sdk.funcTable.reminderAncs {
             // 打开bt配对
+            // Turn on BT pairing
             let obj = IDOSetNoticeStatusModel.createAllOffModel()
             obj.notifySwitch = .bleOn
             Cmds.setNoticeStatus(obj).send { _ in }
@@ -653,6 +657,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
             do {
                 
                 // 1、获取来电提醒开关
+                // 1. Get the incoming call reminder switch
                 let callSwitch = try await withCheckedThrowingContinuation { continuation in
                     Cmds.getNoticeStatus().send { res in
                         if case .success(let val) = res {
@@ -665,6 +670,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                 }
                 
                 // 2、获取所有应用图标、名字、包名 及分配evtType (固件分配的ID)，执行此接口需要等待过程，updating这个状态说明在更新中，建议添加loading或者updating为false才进入消息图标列表
+                // 2. Get all app icons, names and package names, and assign evtType (ID assigned by the firmware). This call takes a while to complete; the updating state means an update is in progress, so show a loading indicator or only enter the message icon list once updating is false
                 let appList = try await withCheckedThrowingContinuation { continuation in
                     sdk.messageIcon.firstGetAppInfo(force: false) { list in
                         if list.count > 0 {
@@ -676,6 +682,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                 }
                 
                 // 3、获取开关状态 operat=3
+                // 3. Get the switch state operat=3
                 let msgState = try await withCheckedThrowingContinuation { continuation in
                     let param = IDONoticeMessageStateParamModel(operat: 3, allOnOff: 0, allSendNum: 0, nowSendIndex: 0, items: [])
                     Cmds.setNoticeMessageState(param).send { res in
@@ -695,6 +702,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
                 for obj in appList {
                     if obj.packName == "com.apple.mobilephone" {
                         // 来电提醒需要特殊处理，使用别的接口
+                        // Incoming call reminders need special handling and use a different API
                         continue
                     }
                     var status = NotificationStatus.allowed
@@ -720,6 +728,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
         }
         
         // 修改来电通知开关
+        // Change the incoming call notification switch
         func updateCallSwitch(completion: @escaping (Bool) -> Void) {
             let param = IDOSetNoticeStatusModel.createDefaultModel()
             param.callSwitch = (isOnCallSwitch ? .on : .off)
@@ -742,9 +751,11 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
         
         func updateMsgSwitch(completion: @escaping (Bool) -> Void) {
             // !!!: 注意，当列表超过100个时，要分批发送
+            // !!!: Note: when the list exceeds 100 items, send it in batches
             SVProgressHUD.show()
             let allOnOff = allSwitch ? 1 : 0
             // 修改 operat=2
+            // Modify operat=2
             let param = IDONoticeMessageStateParamModel(operat: 2, allOnOff: allOnOff, allSendNum: 0, nowSendIndex: 0, items: makeItems())
             Cmds.setNoticeMessageState(param).send { res in
                 if case .success(let val) = res {
@@ -782,7 +793,7 @@ fileprivate class DynamicMessageNoticeVC: UIViewController {
 }
 
 
-// MARK: - UISwitchWrapper 兼容ios13
+// MARK: - UISwitchWrapper 兼容ios13 / compatible with ios13
 
 fileprivate struct UISwitchWrapper: UIViewRepresentable {
     

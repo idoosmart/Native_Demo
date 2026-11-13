@@ -5,6 +5,7 @@ import { NavStackModel } from '../viewmodel/NavStackModel';
 
 /**
  * 添加设备 / 扫描页（对齐 iOS ScanPageVC）
+ * Add device / scan page (aligned with iOS ScanPageVC)
  */
 @Builder
 export function ScanPageBuilder(name: string, navInfo: NavStackModel) {
@@ -50,7 +51,7 @@ struct ScanPage {
                 .margin({ right: 8 })
                 .layoutWeight(1)
 
-              Button('关闭')
+              Button('关闭 / Close')
                 .type(ButtonType.Capsule)
                 .width(60)
                 .height(32)
@@ -68,21 +69,21 @@ struct ScanPage {
 
           Row({ space: 16 }) {
             if (!this.viewModel.bluetoothState.hasPermission) {
-              Button('申请权限')
+              Button('申请权限 / Request permission')
                 .width('100%')
                 .height(50)
                 .fontSize(18)
                 .backgroundColor('#409EFF')
                 .onClick(() => this.viewModel.requestPermission(getContext(this)))
             } else if (this.viewModel.bluetoothState.isScanning) {
-              Button('停止扫描')
+              Button('停止扫描 / Stop scan')
                 .width('100%')
                 .height(50)
                 .fontSize(18)
                 .backgroundColor('#F56C6C')
                 .onClick(() => this.viewModel.stopScan())
             } else {
-              Button('开始扫描')
+              Button('开始扫描 / Start scan')
                 .width('100%')
                 .height(50)
                 .fontSize(18)
@@ -95,7 +96,7 @@ struct ScanPage {
 
           if (this.viewModel.bluetoothState.otaDeviceList.length > 0) {
             Row() {
-              Text(`以下 ${this.viewModel.bluetoothState.otaDeviceList.length} 个设备在 OTA 中`)
+              Text(`以下 ${this.viewModel.bluetoothState.otaDeviceList.length} 个设备在 OTA 中 / The following ${this.viewModel.bluetoothState.otaDeviceList.length} devices are in OTA`)
                 .fontSize(18)
                 .fontWeight(FontWeight.Medium)
                 .fontColor('#303133')
@@ -162,7 +163,7 @@ struct ScanPage {
         .width('100%')
         .height('100%')
 
-        Button('刷新')
+        Button('刷新 / Refresh')
           .type(ButtonType.Circle)
           .width(64)
           .height(64)
@@ -251,7 +252,7 @@ struct StatusIndicator {
             .height(12)
             .fill(this.state?.hasPermission ? '#67C23A' : '#F56C6C')
             .margin({ right: 8 })
-          Text('权限')
+          Text('权限 / Permission')
             .fontSize(14)
             .fontColor('#606266')
         }
@@ -262,7 +263,7 @@ struct StatusIndicator {
             .height(12)
             .fill(this.state?.bluetoothEnabled ? '#67C23A' : '#F56C6C')
             .margin({ right: 8 })
-          Text('蓝牙')
+          Text('蓝牙 / Bluetooth')
             .fontSize(14)
             .fontColor('#606266')
         }
@@ -273,7 +274,7 @@ struct StatusIndicator {
             .height(12)
             .fill(this.state?.isScanning ? '#67C23A' : '#F56C6C')
             .margin({ right: 8 })
-          Text('扫描')
+          Text('扫描 / Scanning')
             .fontSize(14)
             .fontColor('#606266')
         }

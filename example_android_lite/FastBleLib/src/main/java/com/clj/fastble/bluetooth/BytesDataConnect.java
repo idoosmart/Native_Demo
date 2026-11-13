@@ -30,12 +30,14 @@ abstract class BytesDataConnect {
 
     /**
      * 发送过去之后，无响应的超时时间
+     * Timeout for no response after sending
      */
     private static final long TIME_SEND_TIMEOUT = 2 * 60 * 1000;
 
     private static final int MAX_CMD_QUEUE_SIZE = 20;
     /**
      * 待发送数据命令 队列
+     * Queue of data commands waiting to be sent
      */
     private LinkedList<ByteDataRequest> mCmdDataQueue = new LinkedList<>();
 
@@ -44,15 +46,18 @@ abstract class BytesDataConnect {
     ByteDataRequest currentByteDataRequest;
     /**
      * 是否正在发送数据
+     * Whether data is being sent
      */
     private boolean mIsSendingCmdData = false;
 
     /**
      * 是否正在重发数据
+     * Whether data is being resent
      */
     private boolean mIsReSendData = false;
     /**
      * 连续写入失败的次数
+     * Number of consecutive write failures
      */
     private int mWriteDataFailedCount = 0;
     private int mWriteDataFailedMax = 20;
@@ -126,8 +131,11 @@ abstract class BytesDataConnect {
         }
 
         //有的时候写入过快，会导致失败，所以这里重发
+        //Sometimes writing too fast causes failures, so resend here
         //重发时必须要保证顺序不能变（像文件传输相关命令，不能错乱，错乱了就会导致传输失败）
+        //When resending, the order must not change (e.g. file-transfer commands must not get out of order, otherwise the transfer fails)
         //只重发“文件传输相关的命令” + Alexa语音命令
+        //Only resend “file-transfer-related commands” + Alexa voice commands
         if (isFileTranCmd(failedData) || isSendAlexaVoiceCmd(failedData)) {
             synchronized (mLock) {
                 mIsReSendData = true;
@@ -137,6 +145,7 @@ abstract class BytesDataConnect {
             }
         } else {
             //出现写入error 的时候延时发送指令
+            //Delay sending the command when a write error occurs
             mHandler.sendEmptyMessageDelayed(WHAT_SEND_ERROR, 1000);
 
         }
@@ -159,6 +168,7 @@ abstract class BytesDataConnect {
         currentByteDataRequest = getDataFromQueue();
         if (currentByteDataRequest == null || currentByteDataRequest.getSendData() == null) {
             //没有升级的时候才发送next ,如果在升级就不用发了，不然上面handler error出发了就死循环
+            //Only send next when not upgrading; during an upgrade do not send it, otherwise the handler error above fires and causes an endless loop
             LogTool.e(ConnectConstants.LOG_TGA, "[BytesDataConnect] sendNextCmdData data is null|| siche update");
             mIsSendingCmdData = false;
             sendNextCmdData();
@@ -192,7 +202,7 @@ abstract class BytesDataConnect {
 //            handleWriteFailedStatus(data);
 //            return;
 //        }
-//        //只要有一次写入成功，就清零
+//        //只要有一次写入成功，就清零 / //Reset to zero once any write succeeds
 //        mWriteDataFailedCount = 0;
 //
 //        if (isNoNeedWaitResponseCmd(data)){
@@ -207,6 +217,7 @@ abstract class BytesDataConnect {
 
 
     //从队列拿数据
+    //Take data from the queue
     private ByteDataRequest getDataFromQueue() {
         synchronized (mLock) {
             return mCmdDataQueue.poll();
@@ -216,6 +227,7 @@ abstract class BytesDataConnect {
 
     private void resendData(final byte[] data) {
         //post到队列里，延时一会
+        //post to the queue with a short delay
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -242,8 +254,10 @@ abstract class BytesDataConnect {
             return;
         }
         //只要有一次写入成功，就清零
+        //Reset to zero once any write succeeds
         mWriteDataFailedCount = 0;
         //只要重发(写入)没有成功，就不会走到这里来
+        //As long as the resend (write) has not succeeded, execution never reaches here
         mIsReSendData = false;
         LogTool.e(ConnectConstants.LOG_TGA, "[BytesDataConnect] mIsReSendData " + mIsReSendData);
 /*        if (isNoNeedWaitResponseCmd(data)){
@@ -280,7 +294,7 @@ abstract class BytesDataConnect {
 
         boolean result = false;
         try {
-            result = getRealGatt().writeCharacteristic(characteristic);//之前的写法，当读写操作频繁时，容易报 [BytesDataConnect] send(),
+            result = getRealGatt().writeCharacteristic(characteristic);//之前的写法，当读写操作频繁时，容易报 / Previous approach; when read/write operations are frequent it easily reports [BytesDataConnect] send(),
             if (!result) {
                 LogTool.e(ConnectConstants.LOG_TGA, "[BytesDataConnect] send(), writeCharacteristic() error!");
             }
@@ -317,11 +331,13 @@ abstract class BytesDataConnect {
 
     private boolean isNoNeedWaitResponseCmd(byte[] cmd) {
         //针对Agps文件的协议、Alexa语音
+        //For the Agps file protocol and Alexa voice
         return (cmd[0] & 0xff) == 0xD1 || (cmd[0] & 0xff) == 0x13;
     }
 
     /**
      * 是否为 文件传输的命令
+     * Whether it is a file transfer command
      *
      * @param cmd
      * @return
@@ -332,6 +348,7 @@ abstract class BytesDataConnect {
 
     /**
      * 是否为 下发Alexa语音的命令、设备获取登录状态
+     * Whether it is a command that sends Alexa voice, or the device getting the login status
      *
      * @param cmd
      * @return
@@ -342,6 +359,7 @@ abstract class BytesDataConnect {
 
     /**
      * 是否为 同步时间指令
+     * Whether it is the sync-time command
      *
      * @param cmd
      * @return
@@ -360,9 +378,11 @@ abstract class BytesDataConnect {
             return;
         }
         //长度存储1min 中，防止重复，解决c库，5s内没收到回复，或者500ms没收到发送成功的回应，导致指令重复（消息提醒重复）
+        //Kept for 1min to prevent duplicates; fixes the C library issue where no reply within 5s, or no send-success response within 500ms, caused duplicate commands (duplicate message reminders)
         byte[] cmd = request.getSendData();
         LogTool.p(ConnectConstants.LOG_TGA, "[BytesDataConnect] addCmdData( " + HexUtil.formatHexString(cmd, true) + ")");
         //时间指令优先发，不然时间会有延时
+        //Send the time command first, otherwise the time will lag
         if (isSendTimeCmd(cmd)) {
             isForce = true;
         }

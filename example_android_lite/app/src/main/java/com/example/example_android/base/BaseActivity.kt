@@ -144,9 +144,9 @@ abstract class BaseActivity : AppCompatActivity() {
                         var file = File(filePath)
                         if (file.exists()) {
                             if (file.isDirectory) {
-                                file.deleteRecursively() // 删除目录及其内容
+                                file.deleteRecursively() // 删除目录及其内容 / Delete the directory and its contents
                             } else {
-                                file.delete() // 删除文件
+                                file.delete() // 删除文件 / Delete the file
                             }
                         }
 

@@ -93,6 +93,7 @@ class MusicTransferActivity : BaseActivity() {
                     etSheetName.setHint(R.string.music_tips_input_sheet_id)
                 } else {
                     // 失败
+                    // Failed
                     toast("Playlist creation failed")
                 }
             }
@@ -117,6 +118,7 @@ class MusicTransferActivity : BaseActivity() {
                     etSheetName.setHint(R.string.music_tips_input_sheet_id)
                 } else {
                     // 失败
+                    // Failed
                     toast("Playlist deletion failed")
                 }
             }
@@ -193,17 +195,18 @@ class MusicTransferActivity : BaseActivity() {
         loadingManager.show()
 
         // 调用传输
+        // Invoke transfer
         val cancellable = sdk.transfer.transferFiles(
             items, cancelPre,
             { currentIndex, totalCount, currentProgress, totalProgress ->
-                Log.d(TAG, "传输中${totalProgress}/$currentProgress...")
+                Log.d(TAG, "传输中${totalProgress}/$currentProgress... / Transferring ${totalProgress}/$currentProgress...")
 
                 music_progressBar.setProgress((totalProgress * 100).toInt(), true)
 
             },
             { currentIndex: Int, status: IDOTransStatus, errorCode: Int?, finishingTime: Int? ->
                 if (status != IDOTransStatus.FINISHED || errorCode != 0) {
-                    Log.d(TAG, "传输失败:$errorCode")
+                    Log.d(TAG, "传输失败 / Transfer failed:$errorCode")
                 }
             },
             { resultList ->
@@ -211,14 +214,16 @@ class MusicTransferActivity : BaseActivity() {
                     loadingManager.dismiss()
                     if (it) {
                         //传输成功
-                        Log.d(TAG, "btAddMusic: 传输成功")
-                        toast("传输完成")
+                        //Transfer succeeded
+                        Log.d(TAG, "btAddMusic: 传输成功 / Transfer succeeded")
+                        toast("传输完成 / Transfer done")
 
                     } else {
                         //传输失败
-                        Log.d(TAG, "btAddMusic: 传输失败")
+                        //Transfer failed
+                        Log.d(TAG, "btAddMusic: 传输失败 / Transfer failed")
 
-                        toast("传输失败")
+                        toast("传输失败 / Transfer failed")
                     }
                 }
             })
@@ -234,6 +239,7 @@ class MusicTransferActivity : BaseActivity() {
         idoMusicInfoModel?.musicItems?.forEach {
             if (it.musicId == etMusicId.text.toString().toInt()) {
                 //删除歌曲
+                //Delete song
                 musicOperate(
                     1,
                     0,
@@ -244,9 +250,9 @@ class MusicTransferActivity : BaseActivity() {
                     Cmds.setMusicOperate(isOk).send {
                         if (it.error.code == 0) {
                             loadingManager.dismiss()
-                            Log.d(TAG, "btAddMusic: 删除歌曲成功")
+                            Log.d(TAG, "btAddMusic: 删除歌曲成功 / Delete song succeeded")
                         } else {
-                            Log.d(TAG, "btAddMusic: 删除歌曲失败")
+                            Log.d(TAG, "btAddMusic: 删除歌曲失败 / Delete song failed")
                         }
                     }
                 }
@@ -272,12 +278,13 @@ class MusicTransferActivity : BaseActivity() {
                     )
 
                 //删除歌曲
+                //Delete song
                 Cmds.setMusicOperate(param).send {
 
                     if (it.error.code == 0) {
-                        Log.d(TAG, "btAddMusic: 歌曲移动成功")
+                        Log.d(TAG, "btAddMusic: 歌曲移动成功 / Move song succeeded")
                     } else {
-                        Log.d(TAG, "btAddMusic: 歌曲移动失败")
+                        Log.d(TAG, "btAddMusic: 歌曲移动失败 / Move song failed")
                     }
                 }
             }

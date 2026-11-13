@@ -15,12 +15,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     //设置so库路径
+    //Set the .so library path
 //    sourceSets {
 //        main {
 //            jniLibs.srcDirs = ['libs']
 //        }
 //    }
     //添加aar文件
+    //Add AAR files
     repositories {
         flatDir {
             dirs 'libs'
@@ -68,8 +70,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation project(':FastBleLib')
     // ---------- Native AAR 接入：Nordic OTA 按需打开（打包态 SDK 为 compileOnly，不传递）----------
+    // ---------- Native AAR integration: enable Nordic OTA on demand (packaged-mode SDK is compileOnly, not transitive) ----------
     // Flutter path 引用时 SDK 默认已带上，无需再写。
+    // Flutter path references already include it via the SDK by default; no need to declare it again.
     // Zephyr / MCUmgr DFU：走 ApiNordicHost.startDFU 时取消注释（须 1.5.x / io.runtime.mcumgr）
+    // Zephyr / MCUmgr DFU: uncomment when going through ApiNordicHost.startDFU (requires 1.5.x / io.runtime.mcumgr)
     implementation 'no.nordicsemi.android:mcumgr-ble:1.5.2'
     // Fix Duplicate class
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

@@ -82,6 +82,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         /// 只初始化一次
+        /// Initialize only once
         sdk.init(this)
         BleManager.initSdk()
         initResource()

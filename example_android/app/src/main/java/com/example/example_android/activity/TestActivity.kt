@@ -27,6 +27,7 @@ class TestActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         //注册监听
+        //Register listener
         BleManager.registerBleDelegate(mBlelisten)
     }
 
@@ -34,7 +35,8 @@ class TestActivity : BaseActivity() {
     fun sendData(view: View){
         var content = test_et.text.toString()
         //发送
-        Log.d("TestActivity", "receiveData: ${"发送数据:${sdk.ble.bleDevice!!}" }")
+        //Send
+        Log.d("TestActivity", "receiveData: ${"发送数据 / Send data:${sdk.ble.bleDevice!!}" }")
 
         sdk.ble.writeData(hexStringToByteArray(content), sdk.ble.bleDevice!!, 0,2) {
         }
@@ -49,10 +51,11 @@ class TestActivity : BaseActivity() {
         }
 
         override fun receiveData(data: IDOReceiveData) {
-            Log.d("TestActivity", "receiveData: ${"收到数据:" + data.data?.size + " Byte, platform:" + data.platform}")
+            Log.d("TestActivity", "receiveData: ${"收到数据 / Received data:" + data.data?.size + " Byte, platform:" + data.platform}")
             //显示接收到的数据
+            //Show the received data
             if (data.platform == 2.toLong()) {
-                test_tv.text = "收到数据:" + data.data?.size + " Byte, platform:" + data.platform + "\n" + data.data?.toHexString()
+                test_tv.text = "收到数据 / Received data:" + data.data?.size + " Byte, platform:" + data.platform + "\n" + data.data?.toHexString()
             }
         }
 

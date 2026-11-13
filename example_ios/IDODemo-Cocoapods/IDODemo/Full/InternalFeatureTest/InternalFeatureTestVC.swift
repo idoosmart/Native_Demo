@@ -3,6 +3,7 @@
 //  IDODemo (native Full temp — temp sync to native Full)
 //
 //  内部功能测试：脏数据 / 边界 JSON / 本地解码 / 绑定加密授权等，临时同步到 native Full（联调）。
+//  Internal feature tests: dirty data / edge-case JSON / local decoding / binding encrypted auth, etc., temporarily synced to native Full (integration testing).
 //
 
 import UIKit
@@ -13,6 +14,7 @@ import protocol_channel
 class InternalFeatureTestVC: UIViewController {
 
     /// 来自 Function 页的当前设备（加密鉴权标记绑定时需要）
+    /// Current device from the Function page (needed to mark as bound for encrypted auth)
     var deviceModel: IDODeviceModel?
 
     private var logBuffer = ""
@@ -44,7 +46,7 @@ class InternalFeatureTestVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "内部功能测试"
+        title = "内部功能测试 / Internal feature test"
         view.backgroundColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Clear",
@@ -54,11 +56,11 @@ class InternalFeatureTestVC: UIViewController {
         )
         setupLayout()
         setupActions()
-        appendLog("Internal Feature Test — native Full temp\n不同步六端 Demo")
+        appendLog("Internal Feature Test — native Full temp\n不同步六端 Demo / temp\nnot synced to the six-platform demos")
         if let mac = resolveMacAddress() {
             appendLog("current mac=\(mac)")
         } else {
-            appendLog("current mac=(none) — set/get 需 mac；可从 Function 页带入设备")
+            appendLog("current mac=(none) — set/get 需 mac；可从 Function 页带入设备 / needs a mac; the device can be passed in from the Function page")
         }
     }
 
@@ -96,20 +98,20 @@ class InternalFeatureTestVC: UIViewController {
 
     private func setupActions() {
         appendSection(
-            title: "绑定加密授权",
+            title: "绑定加密授权 / Bind encrypted auth",
             buttons: [
                 ("bind + onEncryptedAuthData", { [weak self] in self?.bindWithEncryptedAuthCallback() }),
-                ("setEncryptedAuthData(样例)", { [weak self] in self?.setEncryptedAuthSample() }),
+                ("setEncryptedAuthData(样例 / sample)", { [weak self] in self?.setEncryptedAuthSample() }),
                 ("getEncryptedAuthData", { [weak self] in self?.getEncryptedAuthCached() }),
-                ("get → 复制 JSON", { [weak self] in self?.getEncryptedAuthAndCopy() }),
-                ("粘贴 → set", { [weak self] in self?.pasteEncryptedAuthAndSet() }),
-                ("setEncryptedAuth + 标记已绑定", { [weak self] in self?.runSetEncryptedAuthAndMarkBound() }),
+                ("get → 复制 / copy JSON", { [weak self] in self?.getEncryptedAuthAndCopy() }),
+                ("粘贴 / Paste → set", { [weak self] in self?.pasteEncryptedAuthAndSet() }),
+                ("setEncryptedAuth + 标记已绑定 / mark as bound", { [weak self] in self?.runSetEncryptedAuthAndMarkBound() }),
             ]
         )
         appendSection(
-            title: "闹钟 JSON",
+            title: "闹钟 / Alarm JSON",
             buttons: [
-                ("空 item / 脏 name / 越界 type·status", { [weak self] in self?.runAlarmJsonCases() }),
+                ("空 item / 脏 name / 越界 / Empty item / dirty name / out-of-range type·status", { [weak self] in self?.runAlarmJsonCases() }),
             ]
         )
     }
@@ -153,8 +155,8 @@ class InternalFeatureTestVC: UIViewController {
 
     private func ensureConnected() -> Bool {
         guard sdk.state.isConnected else {
-            SVProgressHUD.showError(withStatus: "未连接设备")
-            appendLog("错误：设备未连接")
+            SVProgressHUD.showError(withStatus: "未连接设备 / Device not connected")
+            appendLog("错误：设备未连接 / Error: device not connected")
             return false
         }
         return true
@@ -199,7 +201,7 @@ class InternalFeatureTestVC: UIViewController {
     private func setEncryptedAuthSample() {
         guard let mac = resolveMacAddress(), !mac.isEmpty else {
             SVProgressHUD.showError(withStatus: "no macAddress")
-            appendLog("错误：无 macAddress")
+            appendLog("错误：无 / Error: no macAddress")
             return
         }
         appendLog("--- setEncryptedAuthData mac=\(mac) ---")
@@ -216,7 +218,7 @@ class InternalFeatureTestVC: UIViewController {
     private func getEncryptedAuthCached() {
         guard let mac = resolveMacAddress(), !mac.isEmpty else {
             SVProgressHUD.showError(withStatus: "no macAddress")
-            appendLog("错误：无 macAddress")
+            appendLog("错误：无 / Error: no macAddress")
             return
         }
         appendLog("--- getEncryptedAuthData mac=\(mac) ---")
@@ -234,18 +236,20 @@ class InternalFeatureTestVC: UIViewController {
     }
 
     /// 无符号 0–255，与协议 uint8 / JSON auth_data 一致
+    /// Unsigned 0–255, consistent with the protocol uint8 / JSON auth_data
     private static func formatAuthBytes(_ bytes: [UInt8]) -> String {
         "[" + bytes.map { String($0) }.joined(separator: ", ") + "]"
     }
 
     /// get 缓存并复制 JSON 到剪贴板（跨手机粘贴用）
+    /// get the cache and copy the JSON to the clipboard (for pasting on another phone)
     private func getEncryptedAuthAndCopy() {
         guard let mac = resolveMacAddress(), !mac.isEmpty else {
             SVProgressHUD.showError(withStatus: "no macAddress")
-            appendLog("错误：无 macAddress")
+            appendLog("错误：无 / Error: no macAddress")
             return
         }
-        appendLog("--- get → 复制 JSON mac=\(mac) ---")
+        appendLog("--- get → 复制 / copy JSON mac=\(mac) ---")
         sdk.cmd.getEncryptedAuthData(macAddress: mac) { [weak self] cached in
             guard let self else { return }
             guard let cached = cached else {
@@ -260,29 +264,30 @@ class InternalFeatureTestVC: UIViewController {
             }
             UIPasteboard.general.string = json
             self.appendLog("  copied: \(json)")
-            SVProgressHUD.showSuccess(withStatus: "已复制 JSON")
+            SVProgressHUD.showSuccess(withStatus: "已复制 JSON / JSON copied")
         }
     }
 
     /// 从剪贴板读 JSON 并 setEncryptedAuthData
+    /// Read the JSON from the clipboard and setEncryptedAuthData
     private func pasteEncryptedAuthAndSet() {
         guard let mac = resolveMacAddress(), !mac.isEmpty else {
             SVProgressHUD.showError(withStatus: "no macAddress")
-            appendLog("错误：无 macAddress")
+            appendLog("错误：无 / Error: no macAddress")
             return
         }
         guard let text = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
               !text.isEmpty else {
-            SVProgressHUD.showError(withStatus: "剪贴板为空")
-            appendLog("错误：剪贴板为空")
+            SVProgressHUD.showError(withStatus: "剪贴板为空 / Clipboard is empty")
+            appendLog("错误：剪贴板为空 / Error: clipboard is empty")
             return
         }
         guard let data = IDOEncryptedAuthData(jsonString: text) else {
-            SVProgressHUD.showError(withStatus: "剪贴板不是合法 auth JSON")
-            appendLog("错误：解析失败\n  clipboard=\(text)")
+            SVProgressHUD.showError(withStatus: "剪贴板不是合法 / Clipboard is not valid auth JSON")
+            appendLog("错误：解析失败\n  clipboard=\(text) / Error: parsing failed\n  clipboard=\(text)")
             return
         }
-        appendLog("--- 粘贴 → set mac=\(mac) ---")
+        appendLog("--- 粘贴 / paste → set mac=\(mac) ---")
         appendLog("  json=\(text)")
         sdk.cmd.setEncryptedAuthData(macAddress: mac, data: data) { [weak self] ok in
             self?.appendLog("  result=\(ok)")
@@ -295,14 +300,15 @@ class InternalFeatureTestVC: UIViewController {
     }
 
     /// 连接前写入加密授权并标记本地已绑定（模拟换机略过绑定）
+    /// Write the encrypted auth before connecting and mark as bound locally (simulates skipping binding after switching phones)
     private func runSetEncryptedAuthAndMarkBound() {
         guard let mac = resolveMacAddress(), !mac.isEmpty else {
-            appendLog("错误：无 macAddress")
+            appendLog("错误：无 / Error: no macAddress")
             SVProgressHUD.showError(withStatus: "no macAddress")
             return
         }
         guard let data = InternalEncryptedAuthCases.parseSampleJson() else {
-            appendLog("错误：JSON parse failed")
+            appendLog("错误：JSON / Error: JSON parse failed")
             SVProgressHUD.showError(withStatus: "JSON parse failed")
             return
         }
@@ -333,6 +339,7 @@ class InternalFeatureTestVC: UIViewController {
 
     private func appendLog(_ msg: String) {
         // 任意线程回调（含 bind/onEncryptedAuthData）都能打到 Xcode 控制台
+        // Callbacks on any thread (including bind/onEncryptedAuthData) are printed to the Xcode console
         NSLog("[InternalFeatureTest] %@", msg)
         let applyUI = { [weak self] in
             guard let self else { return }

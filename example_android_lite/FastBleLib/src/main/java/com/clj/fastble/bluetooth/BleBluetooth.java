@@ -563,7 +563,7 @@ public class BleBluetooth {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-            BleLog.i("写完成："+HexUtil.formatHexString(characteristic.getValue(),true));
+            BleLog.i("写完成： / Write done:"+HexUtil.formatHexString(characteristic.getValue(),true));
             Iterator iterator = bleWriteCallbackHashMap.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry entry = (Map.Entry) iterator.next();

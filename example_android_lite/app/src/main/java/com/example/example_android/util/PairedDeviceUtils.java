@@ -97,10 +97,12 @@ public class PairedDeviceUtils {
             return false;
         }
         //得到BluetoothDevice的Class对象
+        //Get the BluetoothDevice Class object
         Class<BluetoothDevice> bluetoothDeviceClass = BluetoothDevice.class;
-        try {//得到连接状态的方法
+        try {//得到连接状态的方法 / Get the connection-status method
             Method method = bluetoothDeviceClass.getDeclaredMethod("isConnected", (Class[]) null);
             //打开权限
+            //Enable access
             method.setAccessible(true);
             return (boolean) method.invoke(device, (Object[]) null);
         } catch (Exception e) {
@@ -111,6 +113,7 @@ public class PairedDeviceUtils {
 
     /**
      * 修改系统权限，不然就有些反射被系统限制了
+     * Modify system permissions, otherwise some reflection is restricted by the system
      */
     public static void initSystemPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
@@ -133,6 +136,7 @@ public class PairedDeviceUtils {
 
     /**
      * 创建绑定，系统的创建绑定不能带参数，默认模式是            TRANSPORT_AUTO 0, 但是bt 连接需要走经典模式，TRANSPORT_BREDR1
+     * Create bond. The system createBond cannot take parameters; the default mode is            TRANSPORT_AUTO 0, but a BT connection must use classic mode, TRANSPORT_BREDR1
      *
      * @param device
      */

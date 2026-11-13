@@ -47,6 +47,7 @@ class DialFileTransferActivity : BaseActivity() {
             getDialPath = GetFilePathFromUri.getFileAbsolutePath(this, uri)
 
             // 校验文件后缀（表盘根据平台允许不同后缀）
+            // Validate the file extension (watch faces allow different extensions depending on the platform)
             if (!getDialPath.isNullOrEmpty()) {
                 val fileName = File(getDialPath).name
                 val allowedExts = if (sdk.device.platform == 98 || sdk.device.platform == 99) {

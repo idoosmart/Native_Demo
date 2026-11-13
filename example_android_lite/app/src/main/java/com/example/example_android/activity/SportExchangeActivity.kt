@@ -51,12 +51,15 @@ import kotlin.math.sqrt
 class SportExchangeActivity : BaseActivity() {
     companion object {
         //2秒一次交换简要运动数据
+        //2-second interval for exchanging brief sport data
         const val INTERVAL_EXCHANGE_DATA = 2 * 1000L
 
         //40秒一次交换运动完整数据
+        //40-second interval for exchanging complete sport data
         const val INTERVAL_EXCHANGE_COMPLETE_DATA = 40 * 1000L
 
         //30秒一次交换V3心率数据
+        //30-second interval for exchanging V3 heart rate data
         const val INTERVAL_EXCHANGE_HR_DATA = 30 * 1000L
         const val LOCATION_PERMISSION_REQUEST_CODE = 1;
     }
@@ -175,8 +178,11 @@ class SportExchangeActivity : BaseActivity() {
                         log("sport started now : ${type.model}")
                         if (type.model?.retCode != 0) {
                             //* - 0:成功; 1:设备已经进入运动模式失败;
+                            //* - 0:succeeded; 1:failed, device already in sport mode;;
                             //* - 2:设备电量低失败;3:手环正在充电
+                            //* - 2:failed, device battery low;3:band is charging
                             //* - 4:正在使用Alexa 5:通话中
+                            //* - 4:using Alexa 5:in a call
                             tv_response.text = "sport failed to launch, because of ${type.model?.retCode}"
                             return
                         }
@@ -211,7 +217,7 @@ class SportExchangeActivity : BaseActivity() {
                         distance = max(distance, model?.distance ?: 0)
                         if (isSportEnd) {
                             isSportEnd = false
-                            // TODO: 运动任务结束
+                            // TODO: 运动任务结束 / sport task ended
                             log("运动任务结束!! / Sports mission completed!!")
                         }
                     }
@@ -249,7 +255,7 @@ class SportExchangeActivity : BaseActivity() {
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND),
-            48/*运动类型*/
+            48/*运动类型 / sport type*/
         )
         val model = IDOAppStartExchangeModel(baseModel = baseModel)
         sdk.dataExchange.appExec(IDOAppExecType.appStart(model))
@@ -260,17 +266,23 @@ class SportExchangeActivity : BaseActivity() {
     fun getBaseProvider(): String {
         val criteria = Criteria()
         // Criteria是一组筛选条件
+        // Criteria is a set of filter conditions
         criteria.accuracy = Criteria.ACCURACY_FINE
         //设置定位精准度
+        //Set location accuracy
         criteria.isAltitudeRequired = true
         //是否要求速度
+        //Whether speed is required
         criteria.powerRequirement = Criteria.NO_REQUIREMENT
         //设置电池耗电要求
+        //Set battery power requirement
         criteria.bearingAccuracy = Criteria.ACCURACY_HIGH
         criteria.horizontalAccuracy = Criteria.ACCURACY_HIGH
         //设置水平方向精确度
+        //Set horizontal accuracy
         criteria.verticalAccuracy = Criteria.ACCURACY_HIGH
         // 获取GPS信息
+        // Get GPS info
         return mLocationManager!!.getBestProvider(criteria, true) ?: ""
     }
 
@@ -291,6 +303,7 @@ class SportExchangeActivity : BaseActivity() {
     }
 
     //户外骑行
+    //Outdoor cycling
     private fun updateLocation(location: Location?) {
         if (location != null) {
             if (lastLocation != null) {
@@ -301,9 +314,9 @@ class SportExchangeActivity : BaseActivity() {
         }
     }
 
-    val GPS_INVALID: Int = 0x00 //无效
-    val GPS_VALID: Int = 0x01 //有效
-    val GPS_BAD: Int = 0x02 //GPS信号弱
+    val GPS_INVALID: Int = 0x00 //无效 / Invalid
+    val GPS_VALID: Int = 0x01 //有效 / Valid
+    val GPS_BAD: Int = 0x02 //GPS信号弱 / GPS signal weak
     private fun translateGps(accuracy: Float): Int {
         var gpsSignValue: Int = GPS_INVALID
         if (accuracy < 19) {

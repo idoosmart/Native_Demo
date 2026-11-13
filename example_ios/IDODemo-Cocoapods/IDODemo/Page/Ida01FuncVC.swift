@@ -3,6 +3,7 @@
 //  IDODemo
 //
 //  对齐 ido_android_sdk Demo/Ida01FuncActivity：IDA01 等设备真实联调（已购表盘 / 下载状态 / APP 基本信息）
+//  Aligned with ido_android_sdk Demo/Ida01FuncActivity: real-device integration test for IDA01 and similar devices (purchased watch faces / download status / APP basic info)
 //
 
 import UIKit
@@ -11,6 +12,7 @@ import SVProgressHUD
 import protocol_channel
 
 /// IDA01 功能联调页（参考 Android `Ida01FuncActivity` + `activity_ida01.xml`）
+/// IDA01 function integration test page (see Android `Ida01FuncActivity` + `activity_ida01.xml`)
 final class Ida01FuncVC: UIViewController {
 
     private let scrollView = UIScrollView()
@@ -22,13 +24,13 @@ final class Ida01FuncVC: UIViewController {
     private let tfBaseDomain = UITextField()
     private let tfBaseAppVersion = UITextField()
 
-    private let payStatusControl = UISegmentedControl(items: ["取消", "失败", "成功"])
+    private let payStatusControl = UISegmentedControl(items: ["取消 / Cancelled", "失败 / Failed", "成功 / Succeeded"])
     private let tfPayUserId = UITextField()
     private let tfPayWatchId = UITextField()
 
     private let tfDownloadId = UITextField()
-    private let downloadTypeControl = UISegmentedControl(items: ["表盘", "小程序", "OTA"])
-    private let downloadStatusControl = UISegmentedControl(items: ["需要下载"])
+    private let downloadTypeControl = UISegmentedControl(items: ["表盘 / Watch face", "小程序 / Applet", "OTA"])
+    private let downloadStatusControl = UISegmentedControl(items: ["需要下载 / Download required"])
     private let progressSlider = UISlider()
     private let lblProgress = UILabel()
 
@@ -36,7 +38,7 @@ final class Ida01FuncVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "IDA01 功能联调"
+        title = "IDA01 功能联调 / function integration test"
         view.backgroundColor = .white
         setupLayout()
         fillDefaults()
@@ -64,23 +66,23 @@ final class Ida01FuncVC: UIViewController {
             make.width.equalTo(scrollView.snp.width).offset(-32)
         }
 
-        appendSection("APP 基本信息 (15.79 setAppBaseInfo)")
+        appendSection("APP 基本信息 / basic info (15.79 setAppBaseInfo)")
         contentStack.addArrangedSubview(row(label: "user_name", field: tfBaseUserName))
         contentStack.addArrangedSubview(row(label: "user_id", field: tfBaseUserId))
         contentStack.addArrangedSubview(row(label: "token", field: tfBaseToken))
         contentStack.addArrangedSubview(row(label: "domain_name", field: tfBaseDomain))
         contentStack.addArrangedSubview(row(label: "app_version", field: tfBaseAppVersion))
-        contentStack.addArrangedSubview(actionButton("设置 APP 基本信息", action: #selector(onSetAppBaseInfo)))
+        contentStack.addArrangedSubview(actionButton("设置 APP 基本信息 / Set APP basic info", action: #selector(onSetAppBaseInfo)))
 
-        appendSection("已购表盘 (15.91 setPurchasedWatchFaceInfo)")
+        appendSection("已购表盘 / Purchased watch faces (15.91 setPurchasedWatchFaceInfo)")
         payStatusControl.selectedSegmentIndex = 2
         contentStack.addArrangedSubview(payStatusControl)
-        contentStack.addArrangedSubview(row(label: "用户 id", field: tfPayUserId))
-        contentStack.addArrangedSubview(row(label: "表盘 id", field: tfPayWatchId))
-        contentStack.addArrangedSubview(actionButton("下发已购表盘信息", action: #selector(onSetPayStatus)))
+        contentStack.addArrangedSubview(row(label: "用户 / User id", field: tfPayUserId))
+        contentStack.addArrangedSubview(row(label: "表盘 / Watch face id", field: tfPayWatchId))
+        contentStack.addArrangedSubview(actionButton("下发已购表盘信息 / Send purchased watch face info", action: #selector(onSetPayStatus)))
 
-        appendSection("下载状态 (15.92 setAppDownloadStatusInfo)")
-        contentStack.addArrangedSubview(row(label: "资源 id", field: tfDownloadId))
+        appendSection("下载状态 / Download status (15.92 setAppDownloadStatusInfo)")
+        contentStack.addArrangedSubview(row(label: "资源 / Resource id", field: tfDownloadId))
         downloadTypeControl.selectedSegmentIndex = 1
         contentStack.addArrangedSubview(downloadTypeControl)
         downloadStatusControl.selectedSegmentIndex = 0
@@ -93,9 +95,9 @@ final class Ida01FuncVC: UIViewController {
         progressSlider.maximumValue = 100
         progressSlider.addTarget(self, action: #selector(onProgressChanged), for: .valueChanged)
         contentStack.addArrangedSubview(progressRow)
-        contentStack.addArrangedSubview(actionButton("设置下载状态", action: #selector(onSetDownloadStatus)))
+        contentStack.addArrangedSubview(actionButton("设置下载状态 / Set download status", action: #selector(onSetDownloadStatus)))
 
-        appendSection("结果")
+        appendSection("结果 / Result")
         tvResult.isEditable = false
         tvResult.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
         tvResult.backgroundColor = UIColor(white: 0.94, alpha: 1)
@@ -158,8 +160,8 @@ final class Ida01FuncVC: UIViewController {
 
     private func ensureConnected() -> Bool {
         guard sdk.state.isConnected else {
-            appendResult("错误：设备未连接")
-            SVProgressHUD.showError(withStatus: "未连接设备")
+            appendResult("错误：设备未连接 / Error: device not connected")
+            SVProgressHUD.showError(withStatus: "未连接设备 / Device not connected")
             return false
         }
         return true
@@ -187,7 +189,7 @@ final class Ida01FuncVC: UIViewController {
         guard ensureConnected() else { return }
         let userName = tfBaseUserName.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         guard !userName.isEmpty else {
-            SVProgressHUD.showError(withStatus: "请输入 user_name")
+            SVProgressHUD.showError(withStatus: "请输入 / Please enter user_name")
             return
         }
         var model = IDOAppInfoModel(userName: userName, operate: 1)
@@ -197,8 +199,8 @@ final class Ida01FuncVC: UIViewController {
         model.appVersion = tfBaseAppVersion.text?.trimmingCharacters(in: .whitespacesAndNewlines)
         model.phoneSystem = 2
         model.isFilterWatch = 2
-        appendResult("请求 setAppBaseInfo: \(model.toJsonString() ?? "{}")")
-        SVProgressHUD.show(withStatus: "设置 APP 基本信息")
+        appendResult("请求 / Request setAppBaseInfo: \(model.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "设置 APP 基本信息 / Set APP basic info")
         Cmds.setAppBaseInfo(model).send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.handleSetResult("setAppBaseInfo", res)
@@ -210,7 +212,7 @@ final class Ida01FuncVC: UIViewController {
         let userId = tfPayUserId.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let watchId = tfPayWatchId.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         guard !userId.isEmpty, !watchId.isEmpty else {
-            SVProgressHUD.showError(withStatus: "请输入用户 id 与表盘 id")
+            SVProgressHUD.showError(withStatus: "请输入用户 id 与表盘 / Please enter user id and watch face id")
             return
         }
         let paymentStatus: Int
@@ -224,8 +226,8 @@ final class Ida01FuncVC: UIViewController {
             userId: userId,
             watchId: watchId
         )
-        appendResult("请求 setPurchasedWatchFaceInfo: \(param.toJsonString() ?? "{}")")
-        SVProgressHUD.show(withStatus: "下发已购表盘信息")
+        appendResult("请求 / Request setPurchasedWatchFaceInfo: \(param.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "下发已购表盘信息 / Send purchased watch face info")
         Cmds.setPurchasedWatchFaceInfo(param).send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.handleModelResult("setPurchasedWatchFaceInfo", res)
@@ -249,8 +251,8 @@ final class Ida01FuncVC: UIViewController {
             progress: progress,
             id: id?.isEmpty == false ? id : nil
         )
-        appendResult("请求 setAppDownloadStatusInfo: \(param.toJsonString() ?? "{}")")
-        SVProgressHUD.show(withStatus: "设置下载状态")
+        appendResult("请求 / Request setAppDownloadStatusInfo: \(param.toJsonString() ?? "{}")")
+        SVProgressHUD.show(withStatus: "设置下载状态 / Set download status")
         Cmds.setAppDownloadStatusInfo(param).send { [weak self] res in
             SVProgressHUD.dismiss()
             self?.handleModelResult("setAppDownloadStatusInfo", res)
@@ -260,26 +262,26 @@ final class Ida01FuncVC: UIViewController {
     private func handleSetResult<T>(_ title: String, _ res: Result<T?, CmdError>) {
         switch res {
         case .success(let val):
-            appendResult("\(title) 成功 code=0")
+            appendResult("\(title) 成功 / succeeded code=0")
             if let model = val as? IDOBaseModel {
                 appendResult("  json: \(model.toJsonString() ?? "NULL")")
             }
-            SVProgressHUD.showSuccess(withStatus: "成功")
+            SVProgressHUD.showSuccess(withStatus: "成功 / Succeeded")
         case .failure(let err):
-            appendResult("\(title) 失败 code=\(err.code) msg=\(err.message ?? "")")
-            SVProgressHUD.showError(withStatus: "失败 \(err.code)")
+            appendResult("\(title) 失败 / failed code=\(err.code) msg=\(err.message ?? "")")
+            SVProgressHUD.showError(withStatus: "失败 / Failed \(err.code)")
         }
     }
 
     private func handleModelResult<T: IDOBaseModel>(_ title: String, _ res: Result<T?, CmdError>) {
         switch res {
         case .success(let val):
-            appendResult("\(title) 成功 code=0")
+            appendResult("\(title) 成功 / succeeded code=0")
             appendResult("  json: \(val?.toJsonString() ?? "NULL")")
-            SVProgressHUD.showSuccess(withStatus: "成功")
+            SVProgressHUD.showSuccess(withStatus: "成功 / Succeeded")
         case .failure(let err):
-            appendResult("\(title) 失败 code=\(err.code) msg=\(err.message ?? "")")
-            SVProgressHUD.showError(withStatus: "失败 \(err.code)")
+            appendResult("\(title) 失败 / failed code=\(err.code) msg=\(err.message ?? "")")
+            SVProgressHUD.showError(withStatus: "失败 / Failed \(err.code)")
         }
     }
 }

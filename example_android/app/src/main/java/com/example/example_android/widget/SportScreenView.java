@@ -30,8 +30,8 @@ import java.util.List;
 public class SportScreenView extends View {
     private static final String TAG = "SportScreenView";
     private Context mContext;
-    private int layout_type = 1;//屏幕布局类型
-    private int style = 0;//风格
+    private int layout_type = 1;//屏幕布局类型 / Screen layout type
+    private int style = 0;//风格 / Style
     private List<IDOSportScreenDataItemModel> dataItemList = new ArrayList<>();
     private Paint paint, paintLine, paintText,highlightPaint;
     private List<RectF> dataRectList = new ArrayList<>();
@@ -39,7 +39,7 @@ public class SportScreenView extends View {
     private boolean isIntercept = false;
     private int touchX;
     private int touchY;
-    private RectF highlightRect; // 高亮区域
+    private RectF highlightRect; // 高亮区域 / Highlight area
     public SportScreenView(Context context) {
         super(context);
         mContext = context;
@@ -65,19 +65,19 @@ public class SportScreenView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.BLACK); // 设置画笔颜色
-        paint.setStyle(Paint.Style.FILL); // 设置填充样式
-        paint.setAntiAlias(true); // 抗锯齿
+        paint.setColor(Color.BLACK); // 设置画笔颜色 / Set the paint color
+        paint.setStyle(Paint.Style.FILL); // 设置填充样式 / Set the fill style
+        paint.setAntiAlias(true); // 抗锯齿 / Anti-aliasing
 
         paintText = new Paint();
-        paintText.setColor(Color.WHITE); // 设置画笔颜色
-        paintText.setStyle(Paint.Style.FILL); // 设置填充样式
+        paintText.setColor(Color.WHITE); // 设置画笔颜色 / Set the paint color
+        paintText.setStyle(Paint.Style.FILL); // 设置填充样式 / Set the fill style
         paintText.setTextSize(50);
 
         paintLine = new Paint();
-        paintLine.setColor(Color.GRAY); // 设置画笔颜色
-        paintLine.setStyle(Paint.Style.FILL); // 设置填充样式
-        paintLine.setAntiAlias(true); // 抗锯齿
+        paintLine.setColor(Color.GRAY); // 设置画笔颜色 / Set the paint color
+        paintLine.setStyle(Paint.Style.FILL); // 设置填充样式 / Set the fill style
+        paintLine.setAntiAlias(true); // 抗锯齿 / Anti-aliasing
 
         highlightPaint = new Paint();
         highlightPaint.setColor(0x800000FF);
@@ -110,14 +110,14 @@ public class SportScreenView extends View {
         int height = getHeight();
         Log.i(TAG, "width" + width + " , height =" + height);
         dataRectList = new ArrayList<>();
-        int radius = Math.min(width, height) / 2; // 计算圆的半径
+        int radius = Math.min(width, height) / 2; // 计算圆的半径 / Calculate the circle radius
         int centerX = width / 2;
         int centerY = height / 2;
-        canvas.drawCircle(centerX, centerY, radius, paint); // 绘制圆形
+        canvas.drawCircle(centerX, centerY, radius, paint); // 绘制圆形 / Draw the circle
         if (dataItemList != null) {
             switch (layout_type) {
                 case 1:
-                    if (style == 0) {//一项 居中
+                    if (style == 0) {//一项 居中 / One item, centered
                         String contetent = "--";
                         if(dataItemList.size() >= 1){
                             contetent = getContent(dataItemList.get(0));
@@ -129,7 +129,7 @@ public class SportScreenView extends View {
                     break;
                 case 2:
                     if (style == 0) {
-                        int clipNum = 2;//2项内容 上下平分
+                        int clipNum = 2;//2项内容 上下平分 / 2 items, split evenly top to bottom
                         int centerClipNum = clipNum * 2;
                         String contetent = "--";
                         String contetent2 = "--";
@@ -150,7 +150,7 @@ public class SportScreenView extends View {
                     break;
                 case 3:
                     if (style == 0) {
-                        int clipNum = 3;//3项内容 上下平分
+                        int clipNum = 3;//3项内容 上下平分 / 3 items, split evenly top to bottom
                         int centerClipNum = clipNum * 2;
                         String contetent = "--";
                         String contetent2 = "--";
@@ -178,7 +178,7 @@ public class SportScreenView extends View {
                     break;
                 case 4:
                     if (style == 0) {
-                        int clipNum = 3;//4项内容 上下3平分 2中间2平分
+                        int clipNum = 3;//4项内容 上下3平分 2中间2平分 / 4 items: 3 rows top to bottom, the middle row split into 2
                         int centerClipNum = clipNum * 2;
                         String contetent = "--";
                         String contetent2 = "--";
@@ -214,7 +214,7 @@ public class SportScreenView extends View {
                     break;
                 case 5:
                     if (style == 0) {
-                        int clipNum = 4;//5项内容 上下4平分 3中间2平分
+                        int clipNum = 4;//5项内容 上下4平分 3中间2平分 / 5 items: 4 rows top to bottom, the 3rd (middle) row split into 2
                         int centerClipNum = clipNum * 2;
                         String contetent = "--";
                         String contetent2 = "--";
@@ -256,7 +256,7 @@ public class SportScreenView extends View {
                     break;
                 case 6:
                     if (style == 0) {
-                        int clipNum = 4;//6项内容 上下4平分 23中间2平分
+                        int clipNum = 4;//6项内容 上下4平分 23中间2平分 / 6 items: 4 rows top to bottom, the middle rows 2 and 3 split into 2
                         int centerClipNum = clipNum * 2;
                         String contetent = "--";
                         String contetent2 = "--";

@@ -96,7 +96,7 @@ class GetFunctionDetailActivity : BaseActivity() {
         }
     }
     private fun deviceTransFileToApp(task: IDODeviceFileToAppTask) {
-        println("收到设备传输文件 名称：${task.deviceTransItem.fileName} 大小：${task.deviceTransItem.fileSize} 到App")
+        println("收到设备传输文件 名称：${task.deviceTransItem.fileName} 大小：${task.deviceTransItem.fileSize} 到App / Received file transferred from device, name: ${task.deviceTransItem.fileName} size: ${task.deviceTransItem.fileSize}, to App")
                 task.acceptReceiveFile(onProgress = { progress ->
                     // Handle progress updates here
                     println("Progress: $progress")
@@ -116,7 +116,7 @@ class GetFunctionDetailActivity : BaseActivity() {
                 // Note: Receiving can be terminated at any time
                 // Abort receiving file
                 task.stopReceiveFile { rs ->
-                    println("已终止接收文件${task.deviceTransItem.fileName)")
+                    println("已终止接收文件${task.deviceTransItem.fileName)") / Stopped receiving file ${task.deviceTransItem.fileName)")
                 }
                  */
             }

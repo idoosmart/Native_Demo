@@ -91,7 +91,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btSelectMusicFile"
                     android:background="@color/black"
-                    android:hint="请选择歌曲文件..."
+                    android:hint="请选择歌曲文件 / Please select a song file..."
                     android:minHeight="40dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minWidth="100dp"
-                    android:tooltipText="选择歌单" />
+                    android:tooltipText="选择歌单 / Select playlist" />
             </LinearLayout>
 
             <com.google.android.material.progressindicator.LinearProgressIndicator

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>用于选择吃药提醒图标并裁剪后传输到设备。</string>
+	<string>用于选择吃药提醒图标并裁剪后传输到设备。 / Used to pick a medication-reminder icon, crop it, and send it to the device.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

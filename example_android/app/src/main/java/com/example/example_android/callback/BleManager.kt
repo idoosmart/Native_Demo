@@ -17,6 +17,7 @@ import com.idosmart.protocol_sdk.IDOBleDelegate
  * @date 2023/11/23
  * @time 10:13
  * 用途:
+ * Purpose:
  */
 object BleManager {
 

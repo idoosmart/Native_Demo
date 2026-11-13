@@ -212,12 +212,15 @@ export function getFunctionList(): FunctionInfo[] {
 
   // NOTE:
   // 因为demo要适配所有设备，此处示例适配多种情况。
+  // Because the demo must support all devices, this example handles multiple cases.
   // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+  // When supporting only one device, handle just one of the following cases (use the function table to determine which one the device uses).
   if (sdk.funcTable.setSmartHeartRate) {
     if (sdk.funcTable.getSupportGetSmartHeartRate) {
       funcList.push(new FunctionInfo(ApiEvtType.GetHeartRateMode, 'getHeartMode', $r('app.string.getHeartMode')));
     } else {
       // 该设备不支持获取心率模式，需要app自行记录
+      // This device does not support getting the heart rate mode; the app needs to record it itself
     }
   } else if (sdk.funcTable.syncV3Hr) {
     funcList.push(new FunctionInfo(ApiEvtType.GetHeartRateMode, 'getHeartMode', $r('app.string.getHeartMode')));
@@ -257,6 +260,7 @@ export function getFunctionList(): FunctionInfo[] {
 export function setFunctionList(): FunctionInfo[] {
   const funcList: FunctionInfo[] = [];
   // --- 无需功能表判断，总是显示的函数 ---
+  // --- Functions always shown, no function table check needed ---
   funcList.push(new FunctionInfo(ApiEvtType.FactoryReset, 'factoryReset', $r('app.string.factoryReset')));
   funcList.push(new FunctionInfo(ApiEvtType.PhotoStart, 'photoStart', $r('app.string.photoStart')));
   funcList.push(new FunctionInfo(ApiEvtType.PhotoStop, 'photoStop', $r('app.string.photoStop')));
@@ -277,6 +281,7 @@ export function setFunctionList(): FunctionInfo[] {
   funcList.push(new FunctionInfo(ApiEvtType.SetUnit, 'setUnit', $r('app.string.setUnit')));
 
   // --- 需要根据功能表 (funcTable) 判断的函数 ---
+  // --- Functions that depend on the function table (funcTable) ---
 
   if (sdk.funcTable.getFindDevice) {
     funcList.push(new FunctionInfo(ApiEvtType.FindDeviceStart, 'findDeviceStart', $r('app.string.findDeviceStart')));
@@ -310,7 +315,9 @@ export function setFunctionList(): FunctionInfo[] {
   }
 
   // NOTE: 因为demo要适配所有设备，此处示例适配多种情况。
+  // NOTE: Because the demo must support all devices, this example handles several cases.
   // 当只适配一台设备时，只需处理以下一种即可（根据功能表判断设备使用哪种）。
+  // When supporting only one device, handle just one of the following cases (use the function table to determine which one the device uses).
   if (sdk.funcTable.setSmartHeartRate || sdk.funcTable.syncV3Hr || sdk.funcTable.syncHeartRateMonitor) {
     funcList.push(new FunctionInfo(ApiEvtType.SetHeartMode, 'setHeartMode', $r('app.string.setHeartMode')));
   }
@@ -549,6 +556,7 @@ export class DeviceStateViewModel {
   }
 
   // 内部委托实现
+  // Internal delegate implementation
   private bleDelegateImp: AppDelegate = {
     deviceState: (state: IDODeviceStateModel) => {
       console.info("deviceState change, connect state: " + state.state + ", error: " + state.errorState + ", isOta: " +
@@ -641,20 +649,20 @@ export class DeviceStateViewModel {
     console.info("isBind");
     this.deviceState.updateDoingStatus(true)
     sdk.cmd.bind(1, (deviceInfo) => {
-      console.info("绑定成功，设备信息：" + deviceInfo)
+      console.info("绑定成功，设备信息： / Bind succeeded, device info:" + deviceInfo)
     }, (funcTable) => {
-      console.info("绑定成功，功能表：" + funcTable)
+      console.info("绑定成功，功能表： / Bind succeeded, function table:" + funcTable)
     }, (status) => {
-      console.info("绑定结果 status：" + status)
+      console.info("绑定结果 status： / Bind result status:" + status)
       this.deviceState.updateDoingStatus(false)
       if (status == IDOBindStatus.successful || status === IDOBindStatus.binded) {
-        console.info("绑定成功")
+        console.info("绑定成功 / Bind succeeded")
         this.deviceState.updateBindState(true)
         Tools.getInstance().setBindState(sdk.device.macAddressFull, true)
         Tools.getInstance().setBindDevice(this.device!);
         BluetoothViewModel.getInstance().refreshBindDeviceList();
       } else {
-        console.info("绑定失败")
+        console.info("绑定失败 / Bind failed")
         this.deviceState.updateBindState(false)
         Tools.getInstance().setBindState(sdk.device.macAddressFull, false)
       }
@@ -676,10 +684,11 @@ export class DeviceStateViewModel {
   }
 
   async sendNotificationMsg(context: common.UIAbilityContext): Promise<boolean> {
-    const MAX_ATTEMPTS = 10; // 最大尝试次数
-    const RETRY_DELAY = 5000; // 重试间隔（毫秒）
+    const MAX_ATTEMPTS = 10; // 最大尝试次数 / Maximum number of attempts
+    const RETRY_DELAY = 5000; // 重试间隔（毫秒） / Retry interval (ms)
 
     // 使用 for 循环进行重试
+    // Retry with a for loop
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       console.info(`[Notification] Attempt ${attempt}/${MAX_ATTEMPTS}: Sending notification...`);
       const isSuccess = await Tools.getInstance().publishNotification(attempt, "Msg title", "Msg content", "", context);
@@ -704,9 +713,11 @@ export class DeviceStateViewModel {
         });
       } else {
         // 如果失败，打印失败日志
+        // On failure, log the failure
         console.error(`[Notification] sendNotificationMsg failed on attempt ${attempt}.`);
       }
       // 如果不是最后一次尝试，则等待3秒后再进行下一次循环
+      // If this is not the last attempt, wait 3 seconds before the next iteration
       if (attempt < MAX_ATTEMPTS) {
         console.log(`[Notification] Will retry in ${RETRY_DELAY / 1000} seconds...`);
         await this.delay(RETRY_DELAY);
@@ -714,6 +725,7 @@ export class DeviceStateViewModel {
     }
 
     // 如果循环10次后仍然失败，打印最终失败信息并返回 false
+    // If it still fails after 10 attempts, log the final failure and return false
     console.error(`[Notification] sendNotificationMsg failed after ${MAX_ATTEMPTS} attempts.`);
     return false;
   }

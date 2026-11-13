@@ -183,11 +183,13 @@ extension HexTextField: UITextFieldDelegate {
 
 extension Data {
     /// 将 Data 转换为16进制字符串
+    /// Convert Data to a hex string
     func hexString() -> String {
         return self.map { String(format: "%02hhx", $0) }.joined(separator: " ")
     }
     
     /// 从16进制字符串初始化 Data 对象
+    /// Initialize a Data object from a hex string
     init?(hex: String) {
         let hexString = hex.replacingOccurrences(of: " ", with: "")
         let length = hexString.count / 2

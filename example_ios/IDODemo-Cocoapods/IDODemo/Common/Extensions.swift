@@ -34,6 +34,7 @@ extension UIButton {
 
 extension UserDefaults {
     /// 绑定标志查询。Full/Lite 共用；设备快照分别在 Full/BoundDeviceStore、Lite/LiteBoundStore。
+    /// Bind flag query. Shared by Full/Lite; device snapshots live in Full/BoundDeviceStore and Lite/LiteBoundStore respectively.
     func isBind(_ macAddress: String) -> Bool {
         let key = Constant.bindKey + "-" + macAddress
         return bool(forKey: key)

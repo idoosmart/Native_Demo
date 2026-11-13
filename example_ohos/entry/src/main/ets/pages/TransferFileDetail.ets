@@ -30,33 +30,40 @@ struct TransferFileDetailPage {
   // @State logText: string = '';
   @State title: string | Resource = '';
   // 用于显示最终选择结果的URI
+  // Used to display the final selection result URI
   @State selectedUri: string = '';
   // 定义弹窗中要显示的选项
+  // Define the options to show in the dialog
   private pickerOption: PickerOption | null = null;
   private abilityContext: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
 
   private async doSelectFile() {
     try {
       // 步骤 a: 检查并请求权限
+      // Step a: check and request permission
       const hasPermission = await Tools.getInstance().checkAndRequestReadMediaPermissions(this.abilityContext);
 
       if (hasPermission) {
         // 步骤 b: 权限通过，打开文件选择器
+        // Step b: permission granted, open the file picker
         const uri: string = await FilePicker.select({ fileSuffixes: this.pickerOption!.suffixes });
         // 步骤 c: 成功回调，更新UI状态
+        // Step c: success callback, update the UI state
         this.selectedUri = uri;
-        promptAction.showToast({ message: '文件已选择！' });
+        promptAction.showToast({ message: '文件已选择！ / File selected!' });
       } else {
         // 步骤 d: 权限被拒绝，提示用户
-        promptAction.showToast({ message: '您已拒绝文件读取权限，无法选择文件。' });
+        // Step d: permission denied, notify the user
+        promptAction.showToast({ message: '您已拒绝文件读取权限，无法选择文件。 / You denied the file read permission, cannot select a file.' });
       }
     } catch (error) {
       // 步骤 e: 捕获错误 (例如用户取消了文件选择器)
-      const errorMessage: string = (error instanceof Error) ? error.message : '未知错误';
-      if (errorMessage.includes('cancel')) { // 根据FilePicker的实现判断是否是用户取消
+      // Step e: catch errors (for example the user cancelled the file picker)
+      const errorMessage: string = (error instanceof Error) ? error.message : '未知错误 / Unknown error';
+      if (errorMessage.includes('cancel')) { // 根据FilePicker的实现判断是否是用户取消 / Decide whether the user cancelled, based on the FilePicker implementation
         console.info('File selection was cancelled by user.');
       } else {
-        promptAction.showToast({ message: `操作失败: ${errorMessage}` });
+        promptAction.showToast({ message: `操作失败 / Operation failed: ${errorMessage}` });
       }
     }
   }
@@ -87,7 +94,7 @@ struct TransferFileDetailPage {
           .onClick(() => {
               this.doSelectFile();
           })
-        Text('支持: ' + this.pickerOption?.suffixes).fontSize(12).fontColor($r('app.color.red'))
+        Text('支持 / Supported: ' + this.pickerOption?.suffixes).fontSize(12).fontColor($r('app.color.red'))
           .width('100%').padding(10).textAlign(TextAlign.End);
         Scroll() {
           Text('file: ' + this.selectedUri).width('100%').padding(10).textAlign(TextAlign.Start);

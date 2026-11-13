@@ -15,6 +15,7 @@ import protocol_channel
 extension MainPageVC {
     
     // Register sdk, 只执行一次
+    // Register sdk, run only once
     func registerSDK() {
         sdk.ble.addBleDelegate(api: self)
 
@@ -27,6 +28,7 @@ extension MainPageVC {
         
         
         // 蓝牙状态
+        // Bluetooth state
         sdk.ble.getBluetoothState { [weak self] stateModel in
             self?.bleState = stateModel
             self?.funcPage?.bleState = stateModel
@@ -116,6 +118,7 @@ extension MainPageVC: IDOBridgeDelegate {
     
     
     // SDK状态通知
+    // SDK status notification
     func listenStatusNotification(status: IDOStatusNotification) {
         print("StatusNotification: \(status)")
         NotificationCenter.default.post(name: Notify.onSdkStatusChanged, object: status)
@@ -130,16 +133,21 @@ extension MainPageVC: IDOBridgeDelegate {
             break
         case .unbindOnAuthCodeError:
             // 绑定授权码异常，设备强制解绑，APP可根据该通知更新绑定状态
+            // Bind auth code error, the device is force-unbound; the APP can update the bind state based on this notification
             break
         case .unbindOnBindStateError:
             // 出现该情况，可能是设备重置了
+            // If this happens, the device may have been reset
             // 绑定状态异常，需要APP解绑 (APP记录的绑定状态和设备信息里的绑定状态不一致时触发)
+            // Bind state error, the APP must unbind (APP-recorded bind state does not match the bind state in the device info)
             break
         case .fastSyncCompleted:
             // 快速配置完成
+            // Fast config completed
             break
         case .fastSyncFailed:
             // 快速配置失败（需要APP重新连设备）
+            // Fast config failed (the APP needs to reconnect the device)
             break
         case .deviceInfoBtAddressUpdateCompleted:
             break
@@ -147,9 +155,11 @@ extension MainPageVC: IDOBridgeDelegate {
             break
         case .syncHealthDataIng:
             // 同步健康数据中
+            // Syncing health data
             break
         case .syncHealthDataCompleted:
             // 同步健康数据完成
+            // Health data sync completed
             break
         @unknown default:
             break
@@ -157,12 +167,14 @@ extension MainPageVC: IDOBridgeDelegate {
     }
     
     // 设备通知
+    // Device notification
     func listenDeviceNotification(model: IDODeviceNotificationModel) {
         print("DeviceNotification: \(model)")
         NotificationCenter.default.post(name: Notify.onSdkDeviceStateChanged, object: model)
     }
     
     // APP提供设备绑定状态, 设备蓝牙连接时会调用该方法，如何返回true，将会走快速配置（获取设备功能表、设备信息、三级版本号、更新手表时间等）
+    // APP provides the device bind state; this method is called when the device connects over Bluetooth. If it returns true, fast config runs (get the function table, device info, three-level version number, update the watch time, etc.)
     func checkDeviceBindState(macAddress: String) -> Bool {
         let isBinded = UserDefaults.standard.isBind(macAddress)
         print("checkDeviceBindState mac\(macAddress) isBinded:\(isBinded)")

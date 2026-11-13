@@ -11,10 +11,13 @@ import UniformTypeIdentifiers
 
 class DialCustomDialInfo {
     /// 表盘尺寸
+    /// Watch face size
     var sizeDial: CGSize
     /// 表盘预览图尺寸（手表首页长按切表盘时用到）
+    /// Watch face preview image size (used when long-pressing the watch home screen to switch watch faces)
     var sizePreviewDail: CGSize
     /// 手表形状 类型：1：圆形；2：方形的； 3：椭圆
+    /// Watch shape type: 1: round; 2: square; 3: oval
     var shapeType: Int
     
     init(sizeDial: CGSize, sizePreviewDail: CGSize = CGSizeZero, shapeType: Int) {
@@ -31,7 +34,7 @@ struct DialCustomizationView: View {
     @State private var bgImage: UIImage?
     @State private var isImporting: Bool = false
     @State private var isImagePickerPresented: Bool = false
-    @State private var statusMessage: String = "请导入表盘ZIP文件"
+    @State private var statusMessage: String = "请导入表盘ZIP文件 / Please import a watch face ZIP file"
     @State private var isProcessing: Bool = false
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
@@ -65,12 +68,13 @@ struct DialCustomizationView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     // 按钮
+                    // Buttons
                     Button(action: {
                         isImporting = true
                     }) {
                         HStack {
                             Image(systemName: "doc.badge.plus")
-                            Text("导入ZIP文件")
+                            Text("导入ZIP文件 / Import ZIP file")
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -110,12 +114,14 @@ struct DialCustomizationView: View {
                         })
                         
                         // 状态信息
+                        // Status message
                         Text(statusMessage)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.gray)
                             .padding()
                         
                         // 处理中指示器
+                        // Processing indicator
                         if isProcessing {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())
@@ -130,15 +136,19 @@ struct DialCustomizationView: View {
                                          captureTrigger: $captureTrigger,
                                          onCapture: { image in
                     // 替换预览图
+                    // Replace the preview image
                     replacePreviewImage(with: image) { rs in
                         if (rs) {
                             // 更新颜色
+                            // Update colors
                             changeColor()
                             
                             // 更换function location
+                            // Change the function location
                             changeTimeFuncLoction()
                             
                             // 导出制作后的表盘包
+                            // Export the finished watch face package
                             exportZipFile()
                         }
                     }
@@ -147,7 +157,7 @@ struct DialCustomizationView: View {
                     .opacity(0)
                 )
             }
-            .navigationTitle("表盘定制工具")
+            .navigationTitle("表盘定制工具 / Dial Customization Tool")
             .fileImporter(
                 isPresented: $isImporting,
                 allowedContentTypes: [UTType.zip],
@@ -160,7 +170,7 @@ struct DialCustomizationView: View {
                     DispatchQueue.global(qos: .userInitiated).async {
                         guard let newImg = image.croppedCircularImage(size: customDialInfo.sizeDial, isCircle: customDialInfo.shapeType == 1) else {
                             DispatchQueue.main.async {
-                                showAlert(title: "操作失败", message: "图片裁剪失败")
+                                showAlert(title: "操作失败 / Operation failed", message: "图片裁剪失败 / Image cropping failed")
                             }
                             return
                         }
@@ -175,7 +185,7 @@ struct DialCustomizationView: View {
                 Alert(
                     title: Text(alertTitle),
                     message: Text(alertMessage),
-                    dismissButton: .default(Text("确定"))
+                    dismissButton: .default(Text("确定 / Confirm"))
                 )
             }
         }
@@ -184,21 +194,23 @@ struct DialCustomizationView: View {
     // MARK: - Methods
     private func handleImportedFile(result: Result<[URL], Error>) {
         isProcessing = true
-        statusMessage = "正在处理ZIP文件..."
+        statusMessage = "正在处理ZIP文件 / Processing ZIP file..."
         
         do {
             let selectedFileURLs = try result.get()
             guard let selectedFileURL = selectedFileURLs.first else {
-                throw NSError(domain: "DialCustomizationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "没有选择文件"])
+                throw NSError(domain: "DialCustomizationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "没有选择文件 / No file selected"])
             }
             
             // 安全访问文件
+            // Access the file securely
             guard selectedFileURL.startAccessingSecurityScopedResource() else {
-                throw NSError(domain: "DialCustomizationError", code: 2, userInfo: [NSLocalizedDescriptionKey: "无法访问文件"])
+                throw NSError(domain: "DialCustomizationError", code: 2, userInfo: [NSLocalizedDescriptionKey: "无法访问文件 / Unable to access the file"])
             }
             defer { selectedFileURL.stopAccessingSecurityScopedResource() }
             
             // 复制到临时目录
+            // Copy to the temporary directory
             let tempDir = NSTemporaryDirectory()
             let tempZipPath = (tempDir as NSString).appendingPathComponent(selectedFileURL.lastPathComponent)
             
@@ -211,15 +223,15 @@ struct DialCustomizationView: View {
             processZipFile()
         } catch {
             isProcessing = false
-            showAlert(title: "导入失败", message: error.localizedDescription)
-            statusMessage = "导入失败: \(error.localizedDescription)"
+            showAlert(title: "导入失败 / Import failed", message: error.localizedDescription)
+            statusMessage = "导入失败 / Import failed: \(error.localizedDescription)"
         }
     }
     
     private func processZipFile() {
         guard let zipPath = currentZipPath else {
             isProcessing = false
-            statusMessage = "没有ZIP文件路径"
+            statusMessage = "没有ZIP文件路径 / No ZIP file path"
             return
         }
         
@@ -233,9 +245,11 @@ struct DialCustomizationView: View {
                     config.isLoaded = parser.appConfig != nil
                     
                     // 加载背景图
+                    // Load the background image
                     loadBgImage()
                     
                     // 时间、日期颜色
+                    // Time and date colors
                     config.colors = parser.appConfig?.colors?.toColors() ?? []
                     if (config.colors.count > 0) {
                         if let colorIdx = parser.appConfig?.select.funcColorIndex {
@@ -247,16 +261,17 @@ struct DialCustomizationView: View {
                     }
                     
                     // 坐标、宽高
+                    // Coordinates, width and height
                     config.locations = parser.appConfig?.locations ?? []
                     config.timeFuncLocation = parser.appConfig?.select.timeFuncLocation ?? 2
                     let sizePreviewImage  = parser.sizePreviewImage()
                     print("sizePreviewImage:\(sizePreviewImage)")
                     customDialInfo.sizePreviewDail = sizePreviewImage
                     
-                    statusMessage = "ZIP文件解析成功"
+                    statusMessage = "ZIP文件解析成功 / ZIP file parsed successfully"
                 } else {
-                    statusMessage = "ZIP文件解析失败"
-                    showAlert(title: "解析失败", message: "无法解析ZIP文件，请确保文件格式正确")
+                    statusMessage = "ZIP文件解析失败 / ZIP file parsing failed"
+                    showAlert(title: "解析失败 / Parse failed", message: "无法解析ZIP文件，请确保文件格式正确 / Unable to parse the ZIP file, please make sure the file format is correct")
                 }
             }
         }
@@ -264,7 +279,7 @@ struct DialCustomizationView: View {
     
     private func loadBgImage() {
         guard let bgImgPath = parser.bgImgPath else {
-            showAlert(title: "加载失败", message: "无法加载背景图")
+            showAlert(title: "加载失败 / Load failed", message: "无法加载背景图 / Unable to load the background image")
             return
         }
         
@@ -286,6 +301,7 @@ struct DialCustomizationView: View {
                 if fileManager.fileExists(atPath: itemPath, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
                         // 递归搜索子目录
+                        // Search subdirectories recursively
                         if let foundPath = findFile(inDirectory: itemPath, withName: fileName) {
                             return foundPath
                         }
@@ -302,14 +318,15 @@ struct DialCustomizationView: View {
     
     fileprivate func replaceBgImage(with image: UIImage) {
         guard parser.pathRootDial != nil else {
-            showAlert(title: "错误", message: "未找到表盘目录")
+            showAlert(title: "错误 / Error", message: "未找到表盘目录 / Watch face directory not found")
             return
         }
         
         isProcessing = true
-        statusMessage = "正在替换背景图..."
+        statusMessage = "正在替换背景图 / Replacing background image..."
         
         // 创建24位PNG
+        // Create a 24-bit PNG
         DispatchQueue.global(qos: .userInitiated).async {
             if let pngPath = parser.create24BitPNG(size: customDialInfo.sizeDial, image: image) {
                 let success = parser.replaceBgImage(newImagePath: pngPath)
@@ -318,17 +335,17 @@ struct DialCustomizationView: View {
                     isProcessing = false
                     
                     if success {
-                        statusMessage = "背景图替换成功"
+                        statusMessage = "背景图替换成功 / Background image replaced successfully"
                     } else {
-                        statusMessage = "背景图替换失败"
-                        showAlert(title: "替换失败", message: "无法替换背景图")
+                        statusMessage = "背景图替换失败 / Background image replacement failed"
+                        showAlert(title: "替换失败 / Replace failed", message: "无法替换背景图 / Unable to replace the background image")
                     }
                 }
             } else {
                 DispatchQueue.main.async {
                     isProcessing = false
-                    statusMessage = "无法创建PNG图片"
-                    showAlert(title: "创建失败", message: "无法创建24位PNG图片")
+                    statusMessage = "无法创建PNG图片 / Unable to create PNG image"
+                    showAlert(title: "创建失败 / Create failed", message: "无法创建24位PNG图片 / Unable to create a 24-bit PNG image")
                 }
             }
         }
@@ -336,15 +353,16 @@ struct DialCustomizationView: View {
     
     fileprivate func replacePreviewImage(with image: UIImage, completion: @escaping (Bool) -> Void) {
         guard parser.pathRootDial != nil else {
-            showAlert(title: "错误", message: "未找到表盘目录")
+            showAlert(title: "错误 / Error", message: "未找到表盘目录 / Watch face directory not found")
             completion(false)
             return
         }
         
         isProcessing = true
-        statusMessage = "正在替换背景图..."
+        statusMessage = "正在替换背景图 / Replacing background image..."
         
         // 创建24位PNG
+        // Create a 24-bit PNG
         DispatchQueue.global(qos: .userInitiated).async {
             if let pngPath = parser.create24BitPNG(size: customDialInfo.sizePreviewDail, image: image) {
                 let success = parser.replacePreviewImage(newImagePath: pngPath)
@@ -353,19 +371,19 @@ struct DialCustomizationView: View {
                     isProcessing = false
                     
                     if success {
-                        statusMessage = "背景图替换成功"
+                        statusMessage = "背景图替换成功 / Background image replaced successfully"
                         completion(true)
                     } else {
-                        statusMessage = "背景图替换失败"
-                        showAlert(title: "替换失败", message: "无法替换背景图")
+                        statusMessage = "背景图替换失败 / Background image replacement failed"
+                        showAlert(title: "替换失败 / Replace failed", message: "无法替换背景图 / Unable to replace the background image")
                         completion(false)
                     }
                 }
             } else {
                 DispatchQueue.main.async {
                     isProcessing = false
-                    statusMessage = "无法创建PNG图片"
-                    showAlert(title: "创建失败", message: "无法创建24位PNG图片")
+                    statusMessage = "无法创建PNG图片 / Unable to create PNG image"
+                    showAlert(title: "创建失败 / Create failed", message: "无法创建24位PNG图片 / Unable to create a 24-bit PNG image")
                     completion(false)
                 }
             }
@@ -433,7 +451,7 @@ struct DialCustomizationView: View {
         }
         
         isProcessing = true
-        statusMessage = "正在导出ZIP文件..."
+        statusMessage = "正在导出ZIP文件 / Exporting ZIP file..."
         
         changeColor()
         
@@ -443,7 +461,7 @@ struct DialCustomizationView: View {
                     isProcessing = false
                     isExporting = false
                     exportedZipPath = zipPath
-                    statusMessage = "ZIP文件导出成功: \(URL(fileURLWithPath: zipPath).lastPathComponent)"
+                    statusMessage = "ZIP文件导出成功 / ZIP file exported successfully: \(URL(fileURLWithPath: zipPath).lastPathComponent)"
                     print("zipPath: \(zipPath)")
                     self.callbackCustomZipFilePath(zipPath)
                     //self.navigationController?.popViewController(animated: true)
@@ -453,8 +471,8 @@ struct DialCustomizationView: View {
                 DispatchQueue.main.async {
                     isProcessing = false
                     isExporting = false
-                    statusMessage = "ZIP文件导出失败"
-                    showAlert(title: "导出失败", message: "无法打包ZIP文件")
+                    statusMessage = "ZIP文件导出失败 / ZIP file export failed"
+                    showAlert(title: "导出失败 / Export failed", message: "无法打包ZIP文件 / Unable to pack the ZIP file")
                 }
             }
         }
@@ -481,7 +499,7 @@ struct DialCustomizationView: View {
     }
 }
 
-// MARK: - 辅助视图
+// MARK: - 辅助视图 / Helper views
 struct InfoRow: View {
     let title: String
     let value: String
@@ -497,7 +515,7 @@ struct InfoRow: View {
     }
 }
 
-// MARK: - 图片选择器
+// MARK: - 图片选择器 / Image picker
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     var didSelectImage: (UIImage) -> Void
@@ -537,7 +555,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-// MARK: - 文件共享视图
+// MARK: - 文件共享视图 / File share view
 struct ShareSheet: UIViewControllerRepresentable {
     let filePath: String
     
@@ -758,6 +776,7 @@ struct ActionButtonsView: View {
 }
 
 // 截图工具视图
+// Snapshot helper view
 fileprivate struct SnapshotView<Content: View>: UIViewRepresentable {
     let content: Content
     @Binding var captureTrigger: Bool
@@ -812,6 +831,7 @@ extension Color {
 extension UIImage {
     func croppedCircularImage(size: CGSize, isCircle: Bool) -> UIImage? {
         // 1. 获取原始图片的 CGImage
+        // 1. Get the original image's CGImage
         guard let cgImage = self.cgImage else {
             return nil
         }
@@ -820,24 +840,29 @@ extension UIImage {
         let imageHeight = CGFloat(cgImage.height)
         
         // 2. 计算中心点
+        // 2. Compute the center point
         let centerX = imageWidth / 2
         let centerY = imageHeight / 2
         
         // 3. 计算裁剪区域的 Rect
+        // 3. Compute the crop area's Rect
         let cropRect = CGRect(x: centerX - size.width / 2,
                               y: centerY - size.height / 2,
                               width: size.width,
                               height: size.height)
         
         // 4. 执行裁剪 (确保裁剪区域在图片范围内)
+        // 4. Perform the crop (make sure the crop area is within the image bounds)
         guard let croppedCGImage = cgImage.cropping(to: cropRect) else {
             return nil
         }
         
         // 5. 从 CGImage 创建 UIImage
+        // 5. Use the CGImage to create a UIImage
         var croppedImage = UIImage(cgImage: croppedCGImage)
         
         // 6. 创建遮罩
+        // 6. Create the mask
         croppedImage = croppedImage.createImage(isCircle: isCircle)
         
         return croppedImage
@@ -888,6 +913,7 @@ extension UIImage {
 }
 
 // 控制坐标
+// Position control
 private extension Int {
     
     func postion(_ isCircle: Bool = false) -> (Alignment, EdgeInsets) {

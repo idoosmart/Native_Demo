@@ -5,7 +5,9 @@ import org.json.JSONArray
 
 /**
  * 15.114 任务清单 — Example 本地缓存（key = 设备 MAC + task_list）
+ * 15.114 Task list — Example local cache (key = device MAC + task_list)
  * 对齐 protocol_lib/example task_list_storage.dart
+ * Aligned with protocol_lib/example task_list_storage.dart
  */
 object TaskListStorage {
     fun cacheKey(macAddress: String): String = "${macAddress}task_list"
@@ -39,6 +41,7 @@ object TaskListStorage {
     }
 
     /** 设备解绑时清除任务清单缓存 */
+    /** Clear the task list cache when the device is unbound */
     fun clearOnUnbind(macAddress: String?) {
         val mac = macAddress.orEmpty()
         if (mac.isEmpty()) return

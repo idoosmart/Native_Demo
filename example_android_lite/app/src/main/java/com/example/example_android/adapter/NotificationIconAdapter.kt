@@ -47,13 +47,13 @@ class NotificationIconAdapter(
 
         when (item.status) {
             1 ->
-                holder.status.text = "允许"
+                holder.status.text = "允许 / Allow"
 
             2 ->
-                holder.status.text = "静默"
+                holder.status.text = "静默 / Silent"
 
             3 ->
-                holder.status.text = "关闭"
+                holder.status.text = "关闭 / Off"
         }
 
     }

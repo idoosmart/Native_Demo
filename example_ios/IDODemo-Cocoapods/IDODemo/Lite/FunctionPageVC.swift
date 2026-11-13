@@ -168,6 +168,7 @@ class FunctionPageVC: UIViewController {
         }).disposed(by: disposeBag)
 
         // 对齐 Full / Android：进入功能页自动连接（返回再进也会重连）
+        // Match Full / Android: auto-connect when entering the function page (also reconnects when re-entering after going back)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let self, let device = self.deviceModel else { return }
             if device.peripheral.state == .connected {
@@ -312,6 +313,7 @@ extension FunctionPageVC: UITableViewDelegate, UITableViewDataSource {
 extension FunctionPageVC {
     
     /// 绑定标志按 MAC 存储；从 Lite 快照或协议库当前设备取 MAC。
+    /// The bind flag is stored by MAC; the MAC is taken from the Lite snapshot or the protocol library's current device.
     private func boundMacAddress() -> String? {
         guard let uuid = deviceModel?.uuid else { return nil }
         if let mac = UserDefaults.standard.loadLiteBoundDevices().first(where: { $0.uuid == uuid })?.mac,
@@ -323,6 +325,7 @@ extension FunctionPageVC {
     }
 
     /// 外设已连接时：注册通知、标记协议库、刷新 UI。
+    /// When the peripheral is already connected: subscribe to notifications, mark the protocol library, refresh the UI.
     private func applyConnectedState() {
         guard let device = deviceModel else { return }
         testReadData()
@@ -354,6 +357,7 @@ extension FunctionPageVC {
     }
 
     // 连接设备
+    // Connect the device
     private func connectDevice() {
         guard let peripheral = deviceModel?.peripheral else { return }
         SVProgressHUD.show(withStatus: "Connecting...")
@@ -384,6 +388,7 @@ extension FunctionPageVC {
                 //print("subscribeNotify receiveData:\(data!.hexadecimal())")
                 
                 // 将数据发送给协议库处理（!!!重要）
+                // Send the data to the protocol library for processing (!!!important)
                 sdk.bridge.receiveDataFromBle(data: data, macAddress: nil)
             }
         }
@@ -501,7 +506,7 @@ extension FunctionPageVC {
                     if case .success(_) = rs {
                         print("success:")
                         self?.isBinded = true
-                        SVProgressHUD.showSuccess(withStatus: "绑定成功")
+                        SVProgressHUD.showSuccess(withStatus: "绑定成功 / Bind succeeded")
                         UserDefaults.standard.setBind(macAddress, isBind: true)
                         UserDefaults.standard.saveLiteBoundDevice(
                             mac: macAddress,
@@ -512,6 +517,7 @@ extension FunctionPageVC {
                     }else {
                         print("failure")
                         //SVProgressHUD.showSuccess(withStatus: "绑定失败")
+                        //SVProgressHUD.showSuccess(withStatus: "Bind failed")
                         UserDefaults.standard.setBind(macAddress, isBind: false)
                         sdk.cmd.appMarkBindResult(success: false)
                     }
@@ -568,6 +574,7 @@ extension FunctionPageVC {
 
 extension FunctionPageVC {
     // 导出日志
+    // Export log
     @objc func doExportLog() {
         guard isConnected, isBinded else {
             SVProgressHUD.showInfo(withStatus: "Please bind the device first")
@@ -590,7 +597,7 @@ extension FunctionPageVC {
         }
         alertController.addAction(flashLogAction)
         
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel) { _ in }
+        let cancelAction = UIAlertAction(title: "取消 / Cancel", style: .cancel) { _ in }
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
@@ -602,9 +609,10 @@ extension FunctionPageVC {
             print("log path:\(path)")
             if (path.count > 0) {
                 // 成功
+                // Succeeded
                 self?.share(filePath: path)
             }else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }
@@ -614,10 +622,11 @@ extension FunctionPageVC {
 //        sdk.ble.exportLog { [weak self] path in
 //            print("log path:\(path ?? "")")
 //            if (path != nil && path!.count > 0) {
-//                // 成功
+//                // 成功 / Succeeded
 //                self?.share(filePath: path!)
 //            }else {
 //                SVProgressHUD.showError(withStatus: "操作失败")
+//                SVProgressHUD.showError(withStatus: "Operation failed")
 //            }
 //        }
 //    }
@@ -627,7 +636,7 @@ extension FunctionPageVC {
         sdk.deviceLog.startGet(types: [IDODeviceLogTypeClass(logType: .general)], timeOut: 60) { progress in
             print("progress: \(progress)")
         } completion: { [weak self] rs in
-            print("设备日志获取 rs=\(rs)")
+            print("设备日志获取 / Get device log rs=\(rs)")
             if (rs) {
                 let path = sdk.deviceLog.logDirPath
                 if (path.count > 0) {
@@ -635,13 +644,13 @@ extension FunctionPageVC {
                     if(zipFilePath != nil) {
                         self?.share(filePath: zipFilePath!)
                     }else {
-                        SVProgressHUD.showError(withStatus: "操作失败")
+                        SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                     }
                 }else {
-                    SVProgressHUD.showError(withStatus: "操作失败")
+                    SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
                 }
             } else {
-                SVProgressHUD.showError(withStatus: "操作失败")
+                SVProgressHUD.showError(withStatus: "操作失败 / Operation failed")
             }
         }
     }

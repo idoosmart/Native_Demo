@@ -38,7 +38,9 @@ import java.util.Random
 
 /**
  * 15.114 任务清单 — 全量设置（operate=1）
+ * 15.114 Task list - full set (operate=1)
  * 对齐 iOS TaskListFullSetVC：待发送 / 已发送、随机添加、请求回复日志
+ * Aligned with iOS TaskListFullSetVC: pending / sent, random add, request/reply log
  */
 class TaskListFullSetActivity : BaseActivity() {
 
@@ -54,10 +56,11 @@ class TaskListFullSetActivity : BaseActivity() {
         val taskId = rawTaskId and 0xFFFFFFFFL
         val status = model.taskCompletStatus ?: return@listener
         runOnUiThread {
-            appendLog("通知 dataType=133 task_id=$taskId status=$status")
+            appendLog("通知 / Notification dataType=133 task_id=$taskId status=$status")
             val ok = applyStatusUpdate(taskId, status, persist = false)
-            commitStatusRefresh(if (ok) 1 else 0, "通知")
+            commitStatusRefresh(if (ok) 1 else 0, "通知 / Notification")
             // 133 不含 complete_timestamp，自动查询补齐完成时间
+            // 133 does not include complete_timestamp; query automatically to fill in the completion time
             if (sdk.state.isConnected) {
                 queryStatusChanges(showFeedback = false)
             }
@@ -87,12 +90,12 @@ class TaskListFullSetActivity : BaseActivity() {
             val child = ExpandableListView.getPackedPositionChild(packed)
             if (group != GROUP_PENDING || pendingItems.isEmpty()) return@setOnItemLongClickListener false
             AlertDialog.Builder(this)
-                .setMessage("删除该待发送任务？")
-                .setPositiveButton("删除") { _, _ ->
+                .setMessage("删除该待发送任务？ / Delete this pending task?")
+                .setPositiveButton("删除 / Delete") { _, _ ->
                     pendingItems.removeAt(child)
                     refreshListUi()
                 }
-                .setNegativeButton("取消", null)
+                .setNegativeButton("取消 / Cancel", null)
                 .show()
             true
         }
@@ -137,6 +140,7 @@ class TaskListFullSetActivity : BaseActivity() {
     private fun bootstrap() {
         loadCacheFromLocal()
         // 查询状态不判断功能表，仅要求已连接
+        // Query status does not check the function table; only requires the device to be connected
         if (sdk.state.isConnected) {
             queryStatusChanges(showFeedback = false)
         }
@@ -154,7 +158,7 @@ class TaskListFullSetActivity : BaseActivity() {
 
     private fun ensureConnected(): Boolean {
         if (sdk.state.isConnected) return true
-        toast("未连接设备")
+        toast("未连接设备 / No device connected")
         return false
     }
 
@@ -172,6 +176,7 @@ class TaskListFullSetActivity : BaseActivity() {
     }
 
     /** task_id 从 1 起；已用最大 id 上每次 +1；上限 uint32_t */
+    /** task_id starts from 1; increments by +1 from the largest used id each time; upper limit uint32_t */
     private fun allocUniqueTaskId(used: MutableSet<Long>): Long? {
         val next = (used.maxOrNull() ?: 0L) + 1L
         if (next > TaskListItemDraft.TASK_ID_MAX) return null
@@ -200,7 +205,7 @@ class TaskListFullSetActivity : BaseActivity() {
 
         for (i in 0 until count) {
             val taskId = allocUniqueTaskId(usedIds) ?: run {
-                toast("无法生成唯一任务ID")
+                toast("无法生成唯一任务ID / Cannot generate a unique task ID")
                 return
             }
             usedIds.add(taskId)
@@ -210,7 +215,7 @@ class TaskListFullSetActivity : BaseActivity() {
                     detailChoices[i]
                 else ->
                     TaskListItemDraft.detailPool().firstOrNull { !pickedDetails.contains(it) }
-                        ?: "任务提醒$taskId"
+                        ?: "任务提醒$taskId / Task reminder $taskId"
             }
             pickedDetails.add(detail)
 
@@ -232,7 +237,7 @@ class TaskListFullSetActivity : BaseActivity() {
         }
         pendingItems.addAll(generated)
         refreshListUi()
-        toast("已生成 ${generated.size} 条待发送任务")
+        toast("已生成 ${generated.size} 条待发送任务 / Generated ${generated.size} pending tasks")
     }
 
     private fun onFullSet() {
@@ -244,7 +249,7 @@ class TaskListFullSetActivity : BaseActivity() {
             pendingItems.clear()
             persistSentItems()
             refreshListUi()
-            appendLog("已缓存已下发任务 ${sentItems.size} 条")
+            appendLog("已缓存已下发任务 ${sentItems.size} 条 / Cached ${sentItems.size} sent tasks")
         }
     }
 
@@ -265,29 +270,29 @@ class TaskListFullSetActivity : BaseActivity() {
     ) {
         if (!ensureConnected()) return
         val param = IDOTaskListModel(operate = 1, items = toSdkItems(list))
-        appendLog("全量设置 请求:\n${prettyJson(param.toJsonString() ?: """{"operate":1}""")}")
-        if (showFeedback) showProgressDialog("全量下发中…")
+        appendLog("全量设置 请求 / Full set request:\n${prettyJson(param.toJsonString() ?: """{"operate":1}""")}")
+        if (showFeedback) showProgressDialog("全量下发中… / Sending full set…")
         Cmds.taskList(param).send { res ->
             if (showFeedback) closeProgressDialog()
             if (res.error.code != 0) {
-                appendLog("全量设置 回复: 失败 code=${res.error.code}")
-                if (showFeedback) toast("失败 code=${res.error.code}")
+                appendLog("全量设置 回复: 失败 / Full set reply: failed code=${res.error.code}")
+                if (showFeedback) toast("失败 / Failed code=${res.error.code}")
                 return@send
             }
             val model = res.res
             if (model != null) {
-                appendLog("全量设置 回复:\n${formatReply(model)}")
+                appendLog("全量设置 回复 / Full set reply:\n${formatReply(model)}")
             } else {
-                appendLog("全量设置 回复: (空)")
+                appendLog("全量设置 回复: (空) / Full set reply: (empty)")
             }
             val err = model?.errorCode
             if (err != null && err != 0) {
-                if (showFeedback) toast("error_code 非 0")
+                if (showFeedback) toast("error_code 非 / is not 0")
                 return@send
             }
             onSuccess?.invoke()
             if (showFeedback) {
-                toast(if (list.isEmpty()) "已全量清空" else "已全量下发 ${list.size} 条")
+                toast(if (list.isEmpty()) "已全量清空 / Full set: all cleared" else "已全量下发 ${list.size} 条 / Full set: sent ${list.size} items")
             }
         }
     }
@@ -303,6 +308,7 @@ class TaskListFullSetActivity : BaseActivity() {
         sentItems[idx].status = status
         if (status == TaskListItemDraft.STATUS_DONE) {
             // 通知不含完成时间；仅查询带回有效时间戳时覆盖
+            // Notification does not include the completion time; only overwrite when a query brings back a valid timestamp
             if (completeTimestamp > 0L) {
                 sentItems[idx].completeTimestamp = completeTimestamp
             }
@@ -318,32 +324,32 @@ class TaskListFullSetActivity : BaseActivity() {
 
     private fun commitStatusRefresh(updatedCount: Int, source: String) {
         if (updatedCount <= 0) {
-            appendLog("$source：本地已发送列表无匹配任务，未刷新")
+            appendLog("$source：本地已发送列表无匹配任务，未刷新 / $source: no matching task in the local sent list, not refreshed")
             return
         }
         persistSentItems()
         refreshListUi()
-        appendLog("$source：已刷新 $updatedCount 条状态/完成时间并写缓存")
+        appendLog("$source：已刷新 $updatedCount 条状态/完成时间并写缓存 / $source: refreshed status/completion time of $updatedCount items and wrote cache")
     }
 
     private fun queryStatusChanges(showFeedback: Boolean) {
         if (!sdk.state.isConnected) return
         val param = IDOTaskListModel(operate = 2)
-        appendLog("查询状态 请求:\n${prettyJson(param.toJsonString() ?: """{"operate":2}""")}")
-        if (showFeedback) showProgressDialog("查询状态变化…")
+        appendLog("查询状态 请求 / Query status request:\n${prettyJson(param.toJsonString() ?: """{"operate":2}""")}")
+        if (showFeedback) showProgressDialog("查询状态变化… / Querying status changes…")
         Cmds.taskList(param).send { res ->
             if (showFeedback) closeProgressDialog()
             if (res.error.code != 0) {
-                appendLog("查询状态 回复: 失败 code=${res.error.code}")
-                if (showFeedback) toast("查询失败 code=${res.error.code}")
+                appendLog("查询状态 回复: 失败 / Query status reply: failed code=${res.error.code}")
+                if (showFeedback) toast("查询失败 / Query failed code=${res.error.code}")
                 return@send
             }
             val model = res.res ?: run {
-                appendLog("查询状态 回复: (空)")
-                if (showFeedback) toast("无 JSON 回复")
+                appendLog("查询状态 回复: (空) / Query status reply: (empty)")
+                if (showFeedback) toast("无 JSON 回复 / No JSON reply")
                 return@send
             }
-            appendLog("查询状态 回复:\n${formatReply(model)}")
+            appendLog("查询状态 回复 / Query status reply:\n${formatReply(model)}")
             val err = model.errorCode
             if (err != null && err != 0) {
                 if (showFeedback) toast("error_code=$err")
@@ -361,13 +367,13 @@ class TaskListFullSetActivity : BaseActivity() {
                     updated++
                 }
             }
-            commitStatusRefresh(updated, "查询状态")
+            commitStatusRefresh(updated, "查询状态 / Query status")
             if (showFeedback) {
                 val num = model.statusItemNum ?: model.statusItems?.size ?: 0
                 when {
-                    updated > 0 -> toast("已刷新 $updated 条状态/完成时间")
-                    num > 0 -> toast("设备返回 $num 条，本地无匹配")
-                    else -> toast("无状态变化")
+                    updated > 0 -> toast("已刷新 $updated 条状态/完成时间 / Refreshed status/completion time of $updated items")
+                    num > 0 -> toast("设备返回 $num 条，本地无匹配 / Device returned $num items, no local match")
+                    else -> toast("无状态变化 / No status change")
                 }
             }
         }
@@ -384,11 +390,12 @@ class TaskListFullSetActivity : BaseActivity() {
         val etDetail = container.findViewById<EditText>(R.id.et_task_detail)
 
         // 编辑过程中暂存选中的 UTC 秒；选择器用本地墙钟展示
+        // Temporarily store the selected UTC seconds while editing; the picker displays local wall-clock time
         var selectedUtcSec = draft.remindTimestamp
 
         fun refreshRemindUi() {
             tvRemindDisplay.text = TaskListItemDraft.formatLocalDateTime(selectedUtcSec)
-            tvRemindUtcHint.text = "UTC 时间戳：$selectedUtcSec"
+            tvRemindUtcHint.text = "UTC 时间戳：$selectedUtcSec / timestamp: $selectedUtcSec"
         }
 
         etTaskId.setText(draft.taskId.toString())
@@ -407,17 +414,17 @@ class TaskListFullSetActivity : BaseActivity() {
         tvRemindDisplay.setOnClickListener(pickClick)
 
         AlertDialog.Builder(this)
-            .setTitle("编辑待发送 · 任务ID=${draft.taskId}")
+            .setTitle("编辑待发送 · 任务ID=${draft.taskId} / Edit pending · Task ID=${draft.taskId}")
             .setView(container)
-            .setNegativeButton("取消", null)
-            .setPositiveButton("保存") { _, _ ->
+            .setNegativeButton("取消 / Cancel", null)
+            .setPositiveButton("保存 / Save") { _, _ ->
                 if (!TaskListItemDraft.isValidUInt32(selectedUtcSec)) {
-                    toast("提醒时间无效")
+                    toast("提醒时间无效 / Invalid reminder time")
                     return@setPositiveButton
                 }
                 val now = System.currentTimeMillis() / 1000L
                 if (selectedUtcSec <= now) {
-                    toast("提醒时间须大于当前时间")
+                    toast("提醒时间须大于当前时间 / Reminder time must be later than the current time")
                     return@setPositiveButton
                 }
                 pendingItems[index].remindTimestamp = selectedUtcSec
@@ -430,6 +437,7 @@ class TaskListFullSetActivity : BaseActivity() {
 
     /**
      * 依次弹出：日期 → 时分 → 秒；按手机本地时区选择，再换算为协议 UTC 秒时间戳。
+     * Pops up in sequence: date → hour/minute → second; picked in the phone local time zone, then converted to the protocol UTC-second timestamp.
      */
     private fun pickRemindDateTime(initialUtcSec: Long, onPicked: (Long) -> Unit) {
         val initial = TaskListItemDraft.localCalendarFromUtcSec(initialUtcSec)
@@ -476,10 +484,10 @@ class TaskListFullSetActivity : BaseActivity() {
             wrapSelectorWheel = true
         }
         AlertDialog.Builder(this)
-            .setTitle("选择秒")
+            .setTitle("选择秒 / Select seconds")
             .setView(picker)
-            .setNegativeButton("取消", null)
-            .setPositiveButton("确定") { _, _ ->
+            .setNegativeButton("取消 / Cancel", null)
+            .setPositiveButton("确定 / OK") { _, _ ->
                 val utcSec = TaskListItemDraft.utcSecFromLocal(
                     year = year,
                     month = month,

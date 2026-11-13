@@ -33,7 +33,7 @@ class TransferFileVC: UIViewController {
             list.insert(.mp3, at: 0)
         }
 //        if sdk.device.deviceId != 7877 {
-//            // 7877暂不支持壁纸表盘
+//            // 7877暂不支持壁纸表盘 / 7877 does not support wallpaper watch faces yet
 //            list.append(.wallpaper)
 //        }
         
@@ -133,7 +133,7 @@ extension TransType {
         case .ota:
             return "固件升级 Firmware upgrade"
         case .app:
-            return "小程序 App"
+            return "小程序 App / Applet"
         case .gps:
             return "GPS"
         }
@@ -273,14 +273,15 @@ class TransferFileDetailVC: UIViewController {
     private func _mp3() {
         let mp3Path = bundlePath + "/mp3"
         /*
-         !!!: 音乐传输注意事项：
-         1、只支持44.1k采样率的mp3文件
-         2、相同音乐（名称)，需要先删除设备上的该音乐，再创建
-         3、音乐传输前需要先调用接口创建相关音乐，提供musicID + 文件大小 + 名称
-         4、执行音乐传输时，需提供musicID + 文件大小 + 名称
+         !!!: 音乐传输注意事项： / Music transfer notes:
+         1、只支持44.1k采样率的mp3文件 / 1. Only mp3 files with a 44.1k sample rate are supported
+         2、相同音乐（名称)，需要先删除设备上的该音乐，再创建 / 2. For the same music (name), delete it from the device first, then create it again
+         3、音乐传输前需要先调用接口创建相关音乐，提供musicID + 文件大小 + 名称 / 3. Before transferring music, call the API to create the music first, providing musicID + file size + name
+         4、执行音乐传输时，需提供musicID + 文件大小 + 名称 / 4. When performing the music transfer, provide musicID + file size + name
          */
         
         // 获取音乐文件大小
+        // Get music file size
         let musicFilePath = "\(mp3Path)/3.mp3"
         var musicFileSize = 0
         do {
@@ -289,20 +290,23 @@ class TransferFileDetailVC: UIViewController {
                 musicFileSize = Int(fileSize)
             }
         } catch {
-            SVProgressHUD.showError(withStatus: "获取音乐大小出错！Error getting music size")
+            SVProgressHUD.showError(withStatus: "获取音乐大小出错！Error / Error getting music size")
             return
         }
         
         let musicItem = IDOMusicItem(musicID: 1, musicMemory: musicFileSize, musicName: "m1.mp3", singerName: "singer1")
         // 1、先删除设备上的该音乐（如果存在）
+        // 1. Delete the music from the device first (if it exists)
         let param = IDOMusicOpearteParamModel(musicOperate: 1, folderOperate: 0, folderItem: nil, musicItem: musicItem)
         Cmds.setMusicOperate(param).send { [weak self] res in
             // 2、创建音乐
+            // 2. Create the music
             let param = IDOMusicOpearteParamModel(musicOperate: 2, folderOperate: 0, folderItem: nil, musicItem: musicItem)
             Cmds.setMusicOperate(param).send { [weak self] res in
                 if case .success(let val) = res {
                     if (val?.errCode == 0) {
                         // 3、执行传输
+                        // 3. Perform the transfer
                         self?._trans([
                             IDOTransMusicModel(filePath: musicFilePath, fileName: musicItem.musicName, musicId: musicItem.musicID)
                         ])
@@ -332,6 +336,7 @@ class TransferFileDetailVC: UIViewController {
     
     private func _ota() {
         // !!!: 不同平台设备的表盘文件、配置存在差异，不支持交叉使用
+        // !!!: Watch face files and configs differ between device platforms and cannot be used interchangeably
         switch(sdk.device.deviceId) {
         case 7877:
             /*
@@ -416,6 +421,7 @@ class TransferFileDetailVC: UIViewController {
     
     private func _gps() {
         // !!!:  epo传输完需要等设备通知安装完成，所以会看到进度走到100%时后等待一会儿（大概40秒左右）
+        // !!!:  epo transfer must wait for the device to report that installation is complete, so after the progress reaches 100% there is a pause (about 40 seconds)
         switch(sdk.device.deviceId) {
         case 7883, 7882:
             let aPath = bundlePath + "/gps/7883/EPO.DAT"

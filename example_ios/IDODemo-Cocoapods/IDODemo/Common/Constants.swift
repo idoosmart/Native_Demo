@@ -27,7 +27,8 @@ struct Word {
     static let measure = "Measure"
     static let sdkFeatureTest = "SDK Feature Test"
     /// 临时：从 channel example 同步到 Full（联调）
-    static let internalFeatureTest = "内部功能测试"
+    /// Temporary: synced from the channel example to Full (integration testing)
+    static let internalFeatureTest = "内部功能测试 / Internal feature test"
     static let ida01FuncTest = "IDA01 Func Test"
     static let gestureControl = "Gesture Control"
     static let taskList = "Task List"
@@ -40,12 +41,15 @@ struct Constant {
     static let bindKey = "bind-state"
     
     /// 2秒一次交换简要运动数据
+    /// 2-second interval for exchanging brief sport data
     static let intervalExchangeData = 2
 
     /// 40秒一次交换运动完整数据
+    /// 40-second interval for exchanging complete sport data
     static let intervalExchangeCompleteData = 40
 
     /// 30秒一次交换V3心率数据
+    /// 30-second interval for exchanging V3 heart rate data
     static let intervalExchangeHrData = 30
 }
 

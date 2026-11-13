@@ -12,7 +12,7 @@
         android:indeterminate="true" />
 
     <TextView
-        android:text="加载中..."
+        android:text="加载中 / Loading..."
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:textSize="10sp"

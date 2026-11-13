@@ -15,6 +15,7 @@ import SVProgressHUD
 import protocol_channel
 
 // Alexa client id （测试用）
+// Alexa client id (for testing)
 let clientId = "amzn1.application-oa2-client.e45ff1ade6064c24a265fe6924c6f75d"
 
 // MARK: - MainPageVC
@@ -41,12 +42,12 @@ class MainPageVC: BaseVC {
         let container = UIView()
         container.isHidden = true
         let label = UILabel()
-        label.text = "暂无已绑定设备"
+        label.text = "暂无已绑定设备 / No bound devices yet"
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 15)
         label.textAlignment = .center
         let btn = UIButton(type: .system)
-        btn.setTitle("添加设备", for: .normal)
+        btn.setTitle("添加设备 / Add device", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         btn.addTarget(self, action: #selector(openScanPage), for: .touchUpInside)
         container.addSubview(label)
@@ -64,7 +65,7 @@ class MainPageVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "已绑定设备"
+        title = "已绑定设备 / Bound devices"
         view.backgroundColor = .white
 
         view.addSubview(tableView)
@@ -77,7 +78,7 @@ class MainPageVC: BaseVC {
         }
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "添加",
+            title: "添加 / Add",
             style: .plain,
             target: self,
             action: #selector(openScanPage)
@@ -175,7 +176,7 @@ extension MainPageVC: UITableViewDelegate, UITableViewDataSource {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "解绑") { [weak self] _, _, completion in
+        let delete = UIContextualAction(style: .destructive, title: "解绑 / Unbind") { [weak self] _, _, completion in
             self?.forceUnbind(at: indexPath)
             completion(true)
         }
