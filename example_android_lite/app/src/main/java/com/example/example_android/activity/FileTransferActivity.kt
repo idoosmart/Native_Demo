@@ -28,7 +28,7 @@ class FileTransferActivity : BaseActivity() {
         var cancelPre = false
         val tasks = mutableListOf<IDOTransBaseModel>()
         when (intent.getIntExtra("type", -1)) {
-            1 -> {//表盘
+            1 -> {//表盘 / watch face
                 supportActionBar?.setTitle("Transfer Wallpaper File")
                 cancelPre = true
                 val file = File("${resourceDir}/imgs/0.png")
@@ -42,7 +42,7 @@ class FileTransferActivity : BaseActivity() {
                 )
             }
 
-            2 -> {//联系人
+            2 -> {//联系人 / contacts
                 supportActionBar?.setTitle("Transfer Contact File")
                 tasks.add(
                     IDOTransNormalModel(
@@ -54,7 +54,7 @@ class FileTransferActivity : BaseActivity() {
                 )
             }
 
-            3 -> {//音乐
+            3 -> {//音乐 / music
                 supportActionBar?.setTitle("Transfer Music File")
                 val file = File("${resourceDir}/mp3/3.mp3")
                 tasks.add(

@@ -110,6 +110,7 @@ public class AdvUtils {
 	
 //	   /**
 //        * 解析自定义广播包
+//        * Parse custom advertising packet
 //	    */
 //    public static byte[] decodeManufacturer(byte[] data) {
 //        byte[] one = null;
@@ -149,15 +150,15 @@ public class AdvUtils {
 //				if(fieldName == FLAGS_BIT && data.length > index + 1){
 //					byte value = data[index + 1];
 //					boolean isNotSupportBREDR = false;
-//					// 方法用于检查指定位置的位是否为 1
+//					// 方法用于检查指定位置的位是否为 / Method checks whether the bit at the given position is 1
 //					int bit2 = ((value >> 2) & 1);
 //					//FLAGS_BIT------------------ value : 26 , bit2 : 0
 //					//FLAGS_BIT------------------ value : 2 , bit2 : 0
 //					//FLAGS_BIT------------------ value : 6 , bit2 : 1
 //					if (bit2 > 0) {
-//						//不支持BR/EDR 单模模式 only le
+//						//不支持BR/EDR 单模模式 / //Does not support BR/EDR, single-mode only le
 //					} else {
-//						//支持双模CLASSIC and LE
+//						//支持双模CLASSIC / //Supports dual mode CLASSIC and LE
 //					}
 ////					Log.d("Scance","FLAGS_BIT------------------ value : "+value + " , bit2 : " + bit2);
 //				}
@@ -172,6 +173,7 @@ public class AdvUtils {
 
 	/**
 	 * 解析自定义广播包
+	 * Parse custom advertising packet
 	 */
 	public static BroadcastData decodeManufacturer(byte[] data) {
 		BroadcastData broadcastData = new BroadcastData();
@@ -212,15 +214,18 @@ public class AdvUtils {
 				if(fieldName == FLAGS_BIT && data.length > index + 1){
 					byte value = data[index + 1];
 					// 方法用于检查指定位置的位是否为 1
+					// Method checks whether the bit at the given position is 1
 					int bit2 = ((value >> 2) & 1);
 					//FLAGS_BIT------------------ value : 26 , bit2 : 0
 					//FLAGS_BIT------------------ value : 2 , bit2 : 0  CLASSIC and LE
 					//FLAGS_BIT------------------ value : 6 , bit2 : 1  only le  bluetoothDevice type = 2
 					if (bit2 > 0) {
 						//不支持BR/EDR 单模模式 only le
+						//Does not support BR/EDR, single-mode only le
 						broadcastData.isDualDevice = false;
 					} else {
 						//支持双模CLASSIC and LE
+						//Supports dual mode CLASSIC and LE
 						broadcastData.isDualDevice = true;
 					}
 //					Log.d("Scance","FLAGS_BIT------------------ value : "+value + " , bit2 : " + bit2);
@@ -251,6 +256,7 @@ public class AdvUtils {
 	/**
 	 * check for required Service UUID inside device
 	 * String.format("四位十六进制：%04X", 234),
+	 * String.format("Four-digit hex: %04X", 234),
 	 */
 	private static boolean decodeService16BitUUID(String[] uuidStrings, byte[] data, int startPosition, int serviceDataLength) {
 //		String serviceUUID = Integer.toHexString(decodeUuid16(data, startPosition));//

@@ -42,10 +42,13 @@ class AlexaActivity : BaseActivity(), IDOAlexaDelegate {
                         .setMessage(getString(R.string.alexa_dialog_msg).format(pairCode))
                         .setPositiveButton(R.string.alexa_dialog_copy) { dialog, which ->
                             //获取剪贴板管理器：
+                            //Get the clipboard manager:
                             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                             // 创建普通字符型ClipData
+                            // Create a plain-text ClipData
                             val mClipData = ClipData.newPlainText("Label", pairCode)
                             // 将ClipData内容放到系统剪贴板里。
+                            // Put the ClipData content onto the system clipboard.
                             cm.setPrimaryClip(mClipData)
                             val intent = Intent(Intent.ACTION_VIEW)
                             intent.data = Uri.parse(verificationUri)
@@ -53,7 +56,7 @@ class AlexaActivity : BaseActivity(), IDOAlexaDelegate {
                             dialog.dismiss()
                         }.setNegativeButton(R.string.alexa_dialog_cancel, { dialog, which -> dialog.dismiss() }).show()
                 }, { rs ->
-                    println("登录结果：${rs.name}") })
+                    println("登录结果：${rs.name} / Login result: ${rs.name}") })
             }
         }
     }

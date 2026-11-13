@@ -26,6 +26,7 @@ import kotlin.math.abs
 
 /**
  * 扫描添加设备页。扫描栈仍使用 FastBle。
+ * Scan-and-add-device page. The scan stack still uses FastBle.
  */
 class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     var requestPermissionCount = 0
@@ -62,7 +63,7 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
                     SDK_PERMISSION_REQUEST
                 )
             } else {
-                Log.d(TAG, "PERMISSION OK,开始扫描")
+                Log.d(TAG, "PERMISSION OK,开始扫描 / start scanning")
                 startScan()
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestPermissionCount < 3) {
@@ -74,11 +75,11 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
                     SDK_PERMISSION_REQUEST
                 )
             } else {
-                Log.d(TAG, "PERMISSION OK,开始扫描")
+                Log.d(TAG, "PERMISSION OK,开始扫描 / start scanning")
                 startScan()
             }
         } else {
-            Log.d(TAG, "PERMISSION OK,开始扫描")
+            Log.d(TAG, "PERMISSION OK,开始扫描 / start scanning")
             startScan()
         }
     }
@@ -95,13 +96,13 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
                     permission_list.remove(permissions[i])
                 }
             }
-            Log.d(TAG, "权限请求成功")
+            Log.d(TAG, "权限请求成功 / Permission request succeeded")
             getPermmison()
         }
     }
 
     override fun initView() {
-        title = "添加设备"
+        title = "添加设备 / Add device"
         lv_device = findViewById(R.id.lv_device)
         intPermission()
         val driver = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)

@@ -17,6 +17,7 @@
        Android 10 (API level 29) and higher. -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!-- Demo：走动提醒 dataType=134 本地通知（Android 13+） -->
+    <!-- Demo: walk reminder dataType=134 local notification (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".MyApplication"
@@ -76,7 +77,7 @@
         <activity
             android:name=".activity.ScanActivity"
             android:exported="false"
-            android:label="添加设备" />
+            android:label="添加设备 / Add device" />
         <!--
  Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java

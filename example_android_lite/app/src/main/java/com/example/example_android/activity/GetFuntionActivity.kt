@@ -84,7 +84,7 @@ class GetFuntionActivity : BaseActivity() {
                         )
                         startActivity(intent)
                     } else {
-                        toast("当前设备不支持该功能")
+                        toast("当前设备不支持该功能 / This device does not support this feature")
                     }
                 } else {
                     var intent = Intent(

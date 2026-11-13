@@ -9,16 +9,19 @@ object FunctionUtils {
     private const val BIND_KEY = "bindkey"
     private const val BOUND_DEVICES_KEY = "bound_devices"
     /** 与 [SPUtil] 默认文件 `idodemo` 对应，实际文件名为 `sp_idodemo` */
+    /** Matches the [SPUtil] default file `idodemo`; the actual file name is `sp_idodemo` */
     private const val SP_FILE = "sp_idodemo"
 
     /**
      * 获取设备绑定状态
+     * Get the device bind status
      * */
     fun getDeviceMac(macAddress: String): Boolean {
         return SPUtil.getAValue(BIND_KEY + macAddress, false) as Boolean
     }
     /**
      * 保存设备绑定状态
+     * Save the device bind status
      * */
     fun saveDeviceMac(macAddress: String) {
         SPUtil.putAValue(BIND_KEY + macAddress, true)
@@ -27,6 +30,7 @@ object FunctionUtils {
 
     /**
      * 保存已绑定设备快照，供首页列表还原并连接
+     * Save a snapshot of the bound device so the home list can restore and connect it
      */
     fun saveBoundDevice(device: IDOBleDeviceModel) {
         val mac = device.macAddress ?: return
@@ -36,6 +40,7 @@ object FunctionUtils {
 
     /**
      * 改变设备绑定状态
+     * Change the device bind status
      * */
     fun upDataDeviceMac(macAddress: String) {
         SPUtil.putAValue(BIND_KEY + macAddress, false)
@@ -134,6 +139,7 @@ object FunctionUtils {
 
     /**
      * 将仅有绑定标记、尚无快照的设备补进列表
+     * Add devices that only have a bind flag but no snapshot yet into the list
      */
     private fun migrateBoundFlagsIfNeeded() {
         val existing = loadBoundDeviceList()

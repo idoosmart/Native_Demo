@@ -94,6 +94,7 @@ class AppletTransferActivity : BaseActivity() {
             val filePath = GetFilePathFromUri.getFileAbsolutePath(this, uri) ?: return
 
             // 校验文件后缀
+            // Validate the file extension
             val fileName = File(filePath).name
             if (!TransType.APP.isExtensionValid(fileName)) {
                 val supported = TransType.APP.allowedExtensions().joinToString(", ") { ".$it" }

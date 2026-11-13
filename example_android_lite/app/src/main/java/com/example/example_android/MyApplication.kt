@@ -85,11 +85,13 @@ class MyApplication : Application() {
         BleManager.getInstance().init(this);
         registerIdoSDK()
         //第三方的蓝牙库初始化，如果自己有蓝牙就不需要接入
+        //Third-party Bluetooth library init; not needed if you have your own Bluetooth stack
         initResource()
     }
 
     private fun registerIdoSDK(){
         /// 只初始化一次
+        /// Initialize only once
         sdk.init(this)
         BLEdata.registBridge()
     }

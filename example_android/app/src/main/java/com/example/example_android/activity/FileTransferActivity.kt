@@ -56,6 +56,7 @@ class FileTransferActivity : BaseActivity() {
         tv_select_file.setOnClickListener {
             if (selectedFilePath != null && tv_start.isEnabled.not()) {
                 // 已经在传输中
+                // Transfer already in progress
                 return@setOnClickListener
             }
             openFilePicker()
@@ -137,6 +138,7 @@ class FileTransferActivity : BaseActivity() {
             val filePath = GetFilePathFromUri.getFileAbsolutePath(this, uri) ?: return
 
             // 校验文件后缀
+            // Validate the file extension
             val fileName = File(filePath).name
             if (!transType!!.isExtensionValid(fileName)) {
                 val supported = transType!!.allowedExtensions().joinToString(", ") { ".$it" }

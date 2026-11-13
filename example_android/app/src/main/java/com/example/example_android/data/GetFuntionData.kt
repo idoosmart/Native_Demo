@@ -6,6 +6,7 @@ import com.idosmart.protocol_channel.sdk
 
 /**
  * 此类做用是统一管理各功能列表操作
+ * This class manages the operations of each function list in one place
  * 实际开发时，根据事件类型，关注单个功能直接调用接口即可，在使用前请参考该类中的功能表判断逻辑
  * This class is used to manage the list of functions in a unified manner
  * In actual development, you can directly invoke the interface of a single function based on the event type.
@@ -83,6 +84,7 @@ class GetFuntionData(
             mutableListOf.add(GetFuntionData(CustomEvtType.GETBIKELOCKLIST, "getBikeLockList", context.getString(R.string.desc_getbikelocklist), isSupported = sdk.funcTable.supportBikeLockManager))
 
             // 优先使用v3协议接口
+            // Prefer the v3 protocol API
             if (sdk.funcTable.supportProtocolV3MenuList) {
                 mutableListOf.add(GetFuntionData(CustomEvtType.GETMENULISTV3, "getMenuListV3", context.getString(R.string.desc_getmenulistv3), isSupported = true))
             } else if (sdk.funcTable.getMenuList) {
@@ -98,6 +100,7 @@ class GetFuntionData(
             }
 
             // 心率模式获取逻辑同步 (Heart Rate Modes)
+            // Heart rate mode fetch logic kept in sync (Heart Rate Modes)
             if (sdk.funcTable.setSmartHeartRate) {
                 mutableListOf.add(GetFuntionData(CustomEvtType.GETHEARTMODE, "getHeartMode", context.getString(R.string.desc_getheartmode), isSupported = sdk.funcTable.getSupportGetSmartHeartRate))
             } else if (sdk.funcTable.syncV3Hr) {

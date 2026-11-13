@@ -6,6 +6,7 @@
              the Flutter engine draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
         <!--AlertDialog button英文小写-->
+        <!--AlertDialog button English in lowercase-->
         <item name="android:textAllCaps">false</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started.
@@ -17,6 +18,7 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
         <!--AlertDialog button英文小写-->
+        <!--AlertDialog button English in lowercase-->
         <item name="android:textAllCaps">false</item>
     </style>
     <style name="WalkSectionHeader">

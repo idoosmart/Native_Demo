@@ -19,7 +19,7 @@ import okhttp3.ResponseBody;
 /**
  * @Author: ym
  * @ClassName: DownloadManager
- * @Description: 下载管理类
+ * @Description: 下载管理类 / Download manager class
  * @Package: com.ido.life.data
  * @CreateDate: 2020/5/8 0008 19:21
  */
@@ -29,9 +29,10 @@ public class DownloadManager {
 
     /**
      * 下载文件
+     * Download a file
      *
-     * @param url      下载url
-     * @param path     文件保存路径
+     * @param url      下载url / Download url
+     * @param path     文件保存路径 / File save path
      * @param listener
      */
     public static void download(String url, final String path, final DownloadListener listener) {
@@ -46,6 +47,7 @@ public class DownloadManager {
             OkHttpClient client = HttpUtil.getHttpClient();
             Request request = new Request.Builder()
                     //访问路径
+                    //Request URL
                     .url(url)
                     .build();
             client.newCall(request).enqueue(new Callback() {
@@ -69,6 +71,7 @@ public class DownloadManager {
 
     /**
      * 将流写入文件中
+     * Write the stream to a file
      *
      * @param file
      * @param body
@@ -76,6 +79,7 @@ public class DownloadManager {
      */
     private static void writeFileFromIS(File file, ResponseBody body, DownloadListener listener) {
         //标识是否下载成功
+        //Flag for whether the download succeeded
         boolean isSuccess = false;
         if (body == null) {
             downloadFailed(file.getAbsolutePath(), ErrorCode.CODE_FILE_NOT_EXIT, "file not exist", listener);
@@ -83,6 +87,7 @@ public class DownloadManager {
         }
 
         //创建文件
+        //Create the file
         if (!file.exists()) {
             File parentFile = file.getParentFile();
             if (parentFile == null) {
@@ -114,6 +119,7 @@ public class DownloadManager {
                 int progress = (int) (100f * currentLength / contentLength);
                 if (listener != null && progress > lastProgress) {
                     //计算当前下载进度
+                    //Calculate the current download progress
                     listener.onDownloadProgress(progress);
                     lastProgress = progress;
                 }
@@ -138,6 +144,7 @@ public class DownloadManager {
             }
             if (listener != null && isSuccess) {
                 //下载完成，并返回保存的文件路径
+                //Download finished, return the saved file path
                 listener.onDownloadFinish(file.getAbsolutePath());
             }
         }
@@ -145,6 +152,7 @@ public class DownloadManager {
 
     /**
      * 下载失败
+     * Download failed
      *
      * @param listener
      * @param code
@@ -173,16 +181,19 @@ public class DownloadManager {
 
     /**
      * 以下回调均在子线程，如果需要更新UI，需要切换到主线程
+     * All callbacks below run on a worker thread; switch to the main thread to update the UI
      */
     public interface DownloadListener {
 
         /**
          * 开始下载
+         * Download started
          */
         void onDownloadStart();
 
         /**
          * 下载进度
+         * Download progress
          *
          * @param progress
          */
@@ -190,6 +201,7 @@ public class DownloadManager {
 
         /**
          * 下载完成
+         * Download finished
          *
          * @param path
          */
@@ -197,6 +209,7 @@ public class DownloadManager {
 
         /**
          * 下载失败
+         * Download failed
          *
          * @param errCode
          * @param errInfo

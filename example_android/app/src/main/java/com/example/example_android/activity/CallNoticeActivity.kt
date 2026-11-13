@@ -9,7 +9,9 @@ import com.idosmart.protocol_channel.sdk
 
 /**
  * 来电提醒联调（对齐 PulseBand CallNoticeActivity）。
+ * Incoming call reminder integration test (aligned with PulseBand CallNoticeActivity).
  * 用于配合手势控制页测接听/拒接/挂断闭环。
+ * Used together with the gesture control page to test the answer/reject/hang-up loop.
  */
 class CallNoticeActivity : BaseActivity() {
 
@@ -30,35 +32,35 @@ class CallNoticeActivity : BaseActivity() {
         findViewById<Button>(R.id.btn_call_incoming).setOnClickListener {
             val contact = etContact.text?.toString().orEmpty().ifBlank { "Demo User" }
             val phone = etPhone.text?.toString().orEmpty().ifBlank { "13800138000" }
-            appendLog("来电… contact=$contact phone=$phone")
+            appendLog("来电… / Incoming call… contact=$contact phone=$phone")
             sdk.cmd.setV2CallEvt(contact, phone) { ok ->
-                runOnUiThread { appendLog("来电结果 ok=$ok") }
+                runOnUiThread { appendLog("来电结果 / Incoming call result ok=$ok") }
             }
         }
 
         findViewById<Button>(R.id.btn_call_answered).setOnClickListener {
-            appendLog("来电已接…")
+            appendLog("来电已接… / Call answered…")
             sdk.cmd.stopV2CallEvt { ok ->
-                runOnUiThread { appendLog("来电已接结果 ok=$ok") }
+                runOnUiThread { appendLog("来电已接结果 / Call answered result ok=$ok") }
             }
         }
 
         findViewById<Button>(R.id.btn_call_rejected).setOnClickListener {
-            appendLog("来电已拒…")
+            appendLog("来电已拒… / Call rejected…")
             sdk.cmd.missedV2MissedCallEvt { ok ->
-                runOnUiThread { appendLog("来电已拒结果 ok=$ok") }
+                runOnUiThread { appendLog("来电已拒结果 / Call rejected result ok=$ok") }
             }
         }
 
         findViewById<Button>(R.id.btn_call_hang_up).setOnClickListener {
             if (!sdk.funcTable.setNoticeHangUpInCallV2) {
                 toast(getString(R.string.call_notice_hang_up_not_support))
-                appendLog("通话中挂断跳过：setNoticeHangUpInCallV2=false")
+                appendLog("通话中挂断跳过：setNoticeHangUpInCallV2=false / Hang up in call skipped: setNoticeHangUpInCallV2=false")
                 return@setOnClickListener
             }
-            appendLog("通话中挂断…")
+            appendLog("通话中挂断… / Hang up in call…")
             sdk.cmd.hangUpV2InCallEvt { ok ->
-                runOnUiThread { appendLog("通话中挂断结果 ok=$ok") }
+                runOnUiThread { appendLog("通话中挂断结果 / Hang up in call result ok=$ok") }
             }
         }
     }

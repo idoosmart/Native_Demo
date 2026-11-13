@@ -845,6 +845,7 @@ class SetFunctionDetailActivity : BaseActivity() {
 
     private fun setWeatherV3() {
         // 获取当前时间
+        // Get the current time
         val now = LocalDateTime.now()
         var weatherV3 = Cmds.setWeatherV3(
             IDOWeatherV3ParamModel(
@@ -1358,21 +1359,28 @@ class SetFunctionDetailActivity : BaseActivity() {
         } else if (sdk.funcTable.syncV3Hr) {
             println("syncV3Hr")
             // 注：设置updateTime
+            // Note: set updateTime
             val param = IDOHeartModeParamModel(updateTime = (System.currentTimeMillis() / 1000).toInt())
             // 示例1
+            // Example 1
             // 关闭 （注：单次运动开启默认进行心率实时监测，不受此开关影响）
+            // Off (Note: a single sport session turns on real-time heart rate monitoring by default and is not affected by this switch)
             // param.mode = 3
 
 
             // 示例2
+            // Example 2
             // 持续监测 （比较耗电）
-            // param.mode = 5 // 固定5秒（ID206支持固定5秒的持续监测）
+            // Continuous monitoring (consumes more power)
+            // param.mode = 5 // 固定5秒（ID206支持固定5秒的持续监测） / Fixed 5 seconds (ID206 supports continuous monitoring at a fixed 5-second interval)
             // param.measurementInterval = 5
 
 
             // 示例3
+            // Example 3
             // 自动监测
-            param.mode = 5 // 固定5分钟（ID206支持固定5分钟的自动监测）
+            // Automatic monitoring
+            param.mode = 5 // 固定5分钟（ID206支持固定5分钟的自动监测） / Fixed 5 minutes (ID206 supports automatic monitoring at a fixed 5-minute interval)
             param.measurementInterval = 300
 
             paramter_tv.text = param.toJsonString()
@@ -2596,8 +2604,8 @@ class SetFunctionDetailActivity : BaseActivity() {
                         255,
                         1,
                         2,
-                        "提醒事项1",
-                        "记得完成工作",
+                        "提醒事项1 / Reminder 1",
+                        "记得完成工作 / Remember to finish work",
                     )
                 )
             )
@@ -3215,7 +3223,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 IDOWorldTimeParamModel(
                     1,
                     2,
-                    "东京",
+                    "东京 / Tokyo",
                     3,
                     4,
                     5,
@@ -3240,13 +3248,15 @@ class SetFunctionDetailActivity : BaseActivity() {
 
     /**
      * v3 设置运动城市名称
+     * v3 Set the sport city name
      * cityName String 城市名称
+     * cityName String City name
      *
      * v3 Specifies the sports city name
      * cityName String City name
      * */
     private fun setLongCityNameV3() {
-        var longCityNameV3 = Cmds.setLongCityNameV3("深圳")
+        var longCityNameV3 = Cmds.setLongCityNameV3("深圳 / Shenzhen")
         longCityNameV3.send {
             if (it.error.code == 0) {
                 tv_response.text = it.res?.toJsonString()
@@ -3750,7 +3760,7 @@ class SetFunctionDetailActivity : BaseActivity() {
                 ),
                 0,
                 1,
-                IDOAlarmStatus.DISPLAYED, // 协议上不支持闹钟删除，可以利用HIDDEN隐藏闹钟
+                IDOAlarmStatus.DISPLAYED, // 协议上不支持闹钟删除，可以利用HIDDEN隐藏闹钟 / The protocol does not support deleting alarms; use HIDDEN to hide an alarm
                 0,
                 IDOAlarmType.OTHER
             )
@@ -3835,9 +3845,11 @@ class SetFunctionDetailActivity : BaseActivity() {
         Cmds.setDefaultQuickMsgReplyList(param).send {
             if (it.error.code == 0) {
                 // 成功
+                // Succeeded
                 // it.res is IDOCmdSetResponseModel
             } else {
                 // 失败
+                // Failed
             }
         }
     }

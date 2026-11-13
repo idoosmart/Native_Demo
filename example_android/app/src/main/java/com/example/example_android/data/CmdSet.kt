@@ -160,7 +160,7 @@ object CmdSet {
                     IDOWorldTimeParamModel(
                         1,
                         2,
-                        "东京",
+                        "东京 / Tokyo",
                         3,
                         4,
                         5,
@@ -173,7 +173,7 @@ object CmdSet {
                 )
             )
             CustomEvtType.SETHAND -> Cmds.setHand(false)
-            CustomEvtType.SETLONGCITYNAMEV3 -> Cmds.setLongCityNameV3("深圳")
+            CustomEvtType.SETLONGCITYNAMEV3 -> Cmds.setLongCityNameV3("深圳 / Shenzhen")
             CustomEvtType.GETHISTORICALMENSTRUATION -> Cmds.setHistoricalMenstruation(idoBaseModel as IDOHistoricalMenstruationParamModel)
             CustomEvtType.SETSPORTSORTV3 -> Cmds.setSportSortV3(idoBaseModel as IDOSportParamModel)
             CustomEvtType.SETUSERINFO -> Cmds.setUserInfo(idoBaseModel as IDOUserInfoPramModel)

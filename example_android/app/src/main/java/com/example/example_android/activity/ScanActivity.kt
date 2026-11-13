@@ -28,6 +28,7 @@ import com.idosmart.protocol_sdk.IDOBleDelegate
 
 /**
  * 扫描添加设备页。
+ * Scan and add device page.
  */
 class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     private var requestPermissionCount = 0
@@ -152,7 +153,7 @@ class ScanActivity : BaseActivity(), ScanDeviceAdapter.onSelectDeviceListenter {
     }
 
     override fun initView() {
-        title = "添加设备"
+        title = "添加设备 / Add device"
         lvDevice = findViewById(R.id.lv_device)
         BleManager.registerBleDelegate(bleListen)
         intPermission()

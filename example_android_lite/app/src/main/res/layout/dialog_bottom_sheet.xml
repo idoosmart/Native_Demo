@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:background="#070D23">
     <!-- 第一个列表 -->
+    <!-- First list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv1"
         android:layout_width="100dp"

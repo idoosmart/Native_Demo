@@ -23,6 +23,7 @@
             android:paddingBottom="24dp">
 
     <!-- 临时：从 channel example 同步内部功能测试（仅 Full，不依赖连接） -->
+    <!-- Temporary: internal feature test synced from the channel example (Full only, no connection needed) -->
     <RelativeLayout
         android:id="@+id/rl_internal_feature_test"
         android:layout_width="match_parent"

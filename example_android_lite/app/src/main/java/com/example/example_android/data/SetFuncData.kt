@@ -374,6 +374,7 @@ class SetFuncData(
             }
 
             // setLongSit 已废弃，入口隐藏；请使用走动提醒 setWalkReminder
+            // setLongSit is deprecated and its entry is hidden; use the walk reminder setWalkReminder instead
 
             if (sdk.funcTable.supportSetAntilost) {
                 mutableListOf.add(
@@ -758,6 +759,7 @@ class SetFuncData(
 
             if (sdk.funcTable.setSupportControlMiniProgram) {
                 //获取小程序列表
+                //Get applet list
                 mutableListOf.add(
                     SetFuncData(
                         CustomEvtType.SETAPPLETCONTROL,
@@ -765,6 +767,7 @@ class SetFuncData(
                     )
                 )
                 //设置之前需要先获取小程序列表，然后根据获取的小程序列表名称进行设置操作
+                //Get the applet list first, then set based on the applet names from that list
                 mutableListOf.add(
                     SetFuncData(
                         CustomEvtType.SETAPPLETCONTROL,

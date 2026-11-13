@@ -9,40 +9,48 @@ public class LogTag {
     public static final String TAG_CMD = "IDO_CMD";
     /**
      * 绑定，解绑
+     * Bind, unbind
      */
     public static final String TAG_CMD_BIND_UNBIND = "[BIND_UNBIND] ";
 
     /**
      * 同步
+     * Sync
      */
     public static final String TAG_CMD_SYNC = "[SYNC_DATA] ";
 
     /**
      * 获取信息
+     * Get info
      */
     public static final String TAG_CMD_GET = "[GET_INFO] ";
     /**
      * 设置参数
+     * Set parameters
      */
     public static final String TAG_CMD_SET = "[SET_PARA] ";
 
     /**
      * 操作参数（增，删，改，查）
+     * Operate parameters (add, delete, modify, query)
      */
     public static final String TAG_CMD_OPERATE = "[OPERATE_PARA] ";
 
     /**
      * 获取参数
+     * Get parameters
      */
     public static final String TAG_CMD_GET_PARA = "[GET_PARA] ";
 
     /**
      * 数据操作
+     * Data operations
      */
     public static final String TAG_DATA_OPERATOR = "IDO_DATA ";
 
     /**
      * SO库动作
+     * SO library actions
      */
     public static final String TAG_SO_LIB_ACTION = "SO_LIB_ACTION ";
 
@@ -58,6 +66,7 @@ public class LogTag {
 
     /**
      * 通知提醒
+     * Notification reminders
      */
     public static final String TAG_NOTICE = "IDO_NOTICE";
 
@@ -70,6 +79,7 @@ public class LogTag {
 
     /**
      * 发送数据
+     * Send data
      */
     public static final String TAG_APP_SEND_DATA = "[APP_SEND_DATA] ";
 

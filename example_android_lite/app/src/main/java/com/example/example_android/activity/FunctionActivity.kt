@@ -160,9 +160,9 @@ class FunctionActivity : BaseActivity() {
             } else {
                 showProgressDialog("bind...")
                 sdk.cmd.bind(15, {
-                    println("获取到设备信息 state$it");
+                    println("获取到设备信息 / Got device info state$it");
                 }, {
-                    println("获取到功能表 functableinterface state$it");
+                    println("获取到功能表 / Got function table functableinterface state$it");
                 }, {
                     closeProgressDialog()
                     when (it) {

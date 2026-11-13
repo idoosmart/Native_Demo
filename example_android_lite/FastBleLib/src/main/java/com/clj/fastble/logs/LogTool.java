@@ -28,7 +28,9 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @author: zhouzj
  * @date: 2017/11/2 15:11
  * 日志输出工具，
+ * Log output utility,
  * !!!!!!!!!注意：只有P，E级别的输出，才会保存到文件!!!!!!!!!!
+ * !!!!!!!!!Note: only P and E level output is saved to file!!!!!!!!!!
  */
 public class LogTool {
     private static final String FILE_NAME_PATTERN = "yyyyMMdd";
@@ -116,6 +118,7 @@ public class LogTool {
                     }
 
                     //发送日志内容给主线程
+                    //Send log content to the main thread
                     Message message = Message.obtain(mMainHandler);
                     message.what = WHAT_MESSAGE;
                     message.obj = log;

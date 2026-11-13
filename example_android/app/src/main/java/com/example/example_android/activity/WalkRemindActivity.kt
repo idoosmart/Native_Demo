@@ -68,6 +68,7 @@ import java.util.Locale
 
 /**
  * 走动提醒独立联调页（与 iOS WalkRemindVC UI / 交互对齐）。
+ * Standalone walk reminder integration-test page (aligned with the iOS WalkRemindVC UI / interaction).
  */
 class WalkRemindActivity : BaseActivity() {
 
@@ -76,8 +77,8 @@ class WalkRemindActivity : BaseActivity() {
     private var walkReminderNotifId = 13400
     private val walkReminderPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            appendLog("7.8 本地通知权限 granted=$granted")
-            toast(if (granted) "通知权限已授予" else "未授予通知权限，将无法弹出系统通知")
+            appendLog("7.8 本地通知权限 / Local notification permission granted=$granted")
+            toast(if (granted) "通知权限已授予 / Notification permission granted" else "未授予通知权限，将无法弹出系统通知 / Notification permission not granted, system notifications cannot be shown")
         }
 
     private val weekViews: List<TextView> by lazy {
@@ -122,12 +123,12 @@ class WalkRemindActivity : BaseActivity() {
         DeviceNotificationBus.addListener(notifyListener)
         ensureWalkReminderNotificationPermission()
         ensureWalkReminderNotificationChannel()
-        appendLog("7.8 走动提醒通知(134)：已监听，收到后弹系统通知并展示状态/目标/达成")
+        appendLog("7.8 走动提醒通知(134)：已监听，收到后弹系统通知并展示状态/目标/达成 / Walk reminder notification(134): listening; on receipt, show a system notification and display status/goal/achieved")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val ok = super.onCreateOptionsMenu(menu)
-        menu?.add(0, MENU_HIDE_KEYBOARD, 0, "收起键盘")
+        menu?.add(0, MENU_HIDE_KEYBOARD, 0, "收起键盘 / Hide keyboard")
             ?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         return ok
     }
@@ -222,12 +223,12 @@ class WalkRemindActivity : BaseActivity() {
 
     private fun refreshStatusBar() {
         val connected = sdk.state.isConnected
-        tv_conn_chip.text = if (connected) "已连接" else "未连接"
+        tv_conn_chip.text = if (connected) "已连接 / Connected" else "未连接 / Disconnected"
         tv_conn_chip.setBackgroundResource(
             if (connected) R.drawable.bg_walk_chip_ok else R.drawable.bg_walk_chip_bad
         )
         val supported = sdk.funcTable.setWalkReminder
-        tv_support_chip.text = if (supported) "支持 setWalkReminder" else "功能表不支持"
+        tv_support_chip.text = if (supported) "支持 / Supports setWalkReminder" else "功能表不支持 / Not supported by function table"
         tv_support_chip.setBackgroundResource(
             if (supported) R.drawable.bg_walk_chip_ok else R.drawable.bg_walk_chip_warn
         )
@@ -235,7 +236,7 @@ class WalkRemindActivity : BaseActivity() {
 
     private fun ensureConnected(): Boolean {
         if (sdk.state.isConnected) return true
-        toast("未连接设备")
+        toast("未连接设备 / No device connected")
         return false
     }
 
@@ -303,28 +304,28 @@ class WalkRemindActivity : BaseActivity() {
     private fun queryWalkRemind() {
         if (!ensureConnected()) return
         val cmd = Cmds.getWalkRemind()
-        appendLog("———— 查询 ————")
-        appendLog("请求:\n${prettyJson(cmd.json)}")
+        appendLog("———— 查询 / Query ————")
+        appendLog("请求 / Request:\n${prettyJson(cmd.json)}")
         scrollToLog()
-        showProgressDialog("查询中…")
+        showProgressDialog("查询中… / Querying…")
         cmd.send { res ->
             closeProgressDialog()
             if (res.error.code != 0) {
-                appendLog("响应: 失败 code=${res.error.code}")
-                toast("查询失败 code=${res.error.code}")
+                appendLog("响应: 失败 / Response: failed code=${res.error.code}")
+                toast("查询失败 / Query failed code=${res.error.code}")
                 scrollToLog()
                 return@send
             }
             val model = res.res
             if (model == null) {
-                appendLog("响应: (空)")
-                toast("无回复")
+                appendLog("响应: (空) / Response: (empty)")
+                toast("无回复 / No reply")
                 scrollToLog()
                 return@send
             }
             fillUiFromModel(model)
-            appendLog("响应:\n${prettyJson(model.toJsonString())}")
-            toast("查询完成")
+            appendLog("响应 / Response:\n${prettyJson(model.toJsonString())}")
+            toast("查询完成 / Query done")
             scrollToLog()
         }
     }
@@ -333,44 +334,44 @@ class WalkRemindActivity : BaseActivity() {
         if (!ensureConnected()) return
         val param = buildParamFromUi()
         val cmd = Cmds.setWalkReminder(param)
-        appendLog("———— 设置 ————")
-        appendLog("请求:\n${prettyJson(cmd.json)}")
+        appendLog("———— 设置 / Set ————")
+        appendLog("请求 / Request:\n${prettyJson(cmd.json)}")
         scrollToLog()
-        showProgressDialog("设置中…")
+        showProgressDialog("设置中… / Setting…")
         cmd.send { res ->
             closeProgressDialog()
             if (res.error.code != 0) {
-                appendLog("响应: 失败 code=${res.error.code}")
-                toast("设置失败 code=${res.error.code}")
+                appendLog("响应: 失败 / Response: failed code=${res.error.code}")
+                toast("设置失败 / Set failed code=${res.error.code}")
                 scrollToLog()
                 return@send
             }
             val reply = res.res?.toJsonString()?.takeIf { it.isNotBlank() } ?: """{"is_success":1}"""
-            appendLog("响应:\n${prettyJson(reply)}")
-            toast("设置成功")
+            appendLog("响应 / Response:\n${prettyJson(reply)}")
+            toast("设置成功 / Set succeeded")
             scrollToLog()
         }
     }
 
     private fun showWalkReminderResult(status: Int, goal: Int, achieved: Int, fromNotify: Boolean) {
-        val statusText = if (status == 1) "已达成" else "未达成"
-        tv_notify_status.text = "走动提醒通知 · $statusText"
-        tv_notify_panel.text = "状态 status = $status\n目标值 goal = $goal\n达成值 achieved = $achieved"
+        val statusText = if (status == 1) "已达成 / Achieved" else "未达成 / Not achieved"
+        tv_notify_status.text = "走动提醒通知 / Walk reminder notification · $statusText"
+        tv_notify_panel.text = "状态 status = $status\n目标值 goal = $goal\n达成值 / Status: status = $status\nGoal: goal = $goal\nAchieved: achieved = $achieved"
         val notifyJson = JSONObject()
             .put("data_type", DATA_TYPE_WALK_REMINDER)
             .put("walk_reminder_status", status)
             .put("walk_reminder_goal_value", goal)
             .put("walk_reminder_achieved_value", achieved)
             .toString(2)
-        appendLog("———— 7.8 通知 134 ————")
-        appendLog("响应:\n$notifyJson")
+        appendLog("———— 7.8 通知 / Notification 134 ————")
+        appendLog("响应 / Response:\n$notifyJson")
         postWalkReminderLocalNotification(status, goal, achieved)
         scrollToLog()
         if (fromNotify) {
             AlertDialog.Builder(this)
-                .setTitle("走动提醒通知")
-                .setMessage("状态：$status（$statusText）\n目标值：$goal\n达成值：$achieved")
-                .setPositiveButton("知道了", null)
+                .setTitle("走动提醒通知 / Walk reminder notification")
+                .setMessage("状态：$status（$statusText）\n目标值：$goal\n达成值：$achieved / Status: $status ($statusText)\nGoal: $goal\nAchieved: $achieved")
+                .setPositiveButton("知道了 / OK", null)
                 .show()
         }
     }
@@ -392,21 +393,21 @@ class WalkRemindActivity : BaseActivity() {
         if (nm.getNotificationChannel(WALK_REMINDER_CHANNEL_ID) != null) return
         val channel = NotificationChannel(
             WALK_REMINDER_CHANNEL_ID,
-            "走动提醒",
+            "走动提醒 / Walk reminder",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "设备走动提醒通知（dataType=134）"
+            description = "设备走动提醒通知（dataType=134） / Device walk-reminder notification (dataType=134)"
         }
         nm.createNotificationChannel(channel)
     }
 
     private fun postWalkReminderLocalNotification(status: Int, goal: Int, achieved: Int) {
         ensureWalkReminderNotificationChannel()
-        val statusText = if (status == 1) "1 已达成" else "0 未达成"
-        val body = "状态：$statusText，目标值：$goal，达成值：$achieved"
+        val statusText = if (status == 1) "1 已达成 / Achieved" else "0 未达成 / Not achieved"
+        val body = "状态：$statusText，目标值：$goal，达成值：$achieved / Status: $statusText, goal: $goal, achieved: $achieved"
         val notification = NotificationCompat.Builder(this, WALK_REMINDER_CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("走动提醒")
+            .setContentTitle("走动提醒 / Walk reminder")
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -414,11 +415,11 @@ class WalkRemindActivity : BaseActivity() {
             .build()
         val nm = getSystemService(NotificationManager::class.java) ?: return
         nm.notify(walkReminderNotifId++, notification)
-        appendLog("已弹出走动提醒本地通知: $body")
+        appendLog("已弹出走动提醒本地通知 / Posted walk reminder local notification: $body")
     }
 
     private fun prettyJson(raw: String?): String {
-        if (raw.isNullOrBlank()) return "(空)"
+        if (raw.isNullOrBlank()) return "(空 / empty)"
         return try {
             val trimmed = raw.trim()
             when {
@@ -433,7 +434,7 @@ class WalkRemindActivity : BaseActivity() {
 
     private fun clearLog() {
         logBuilder.clear()
-        tv_log.text = "操作后会在此显示「请求」与「响应」JSON"
+        tv_log.text = "操作后会在此显示「请求」与「响应」JSON / Request and response JSON will appear here after an operation"
     }
 
     private fun appendLog(text: String) {

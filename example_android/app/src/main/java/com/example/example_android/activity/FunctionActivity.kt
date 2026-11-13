@@ -103,12 +103,12 @@ class FunctionActivity : BaseActivity() {
             } else {
                 showProgressDialog("bind...")
                 sdk.cmd.bind(15, {
-                    println("获取到设备信息 state$it");
+                    println("获取到设备信息 / Got device info state$it");
                 }, {
-                    println("获取到功能表 functableinterface state$it");
+                    println("获取到功能表 / Got function table functableinterface state$it");
                 }, { it ->
                     closeProgressDialog()
-                    println("返回状态：$it")
+                    println("返回状态：$it / Returned status: $it")
                     when (it) {
                         IDOBindStatus.BINDED,
                         IDOBindStatus.SUCCESSFUL -> {
@@ -168,11 +168,13 @@ class FunctionActivity : BaseActivity() {
                             sdk.ble.cancelConnect(device?.macAddress) {}
                             bindState()
                             // 解绑设备删除icon数据
+                            // Delete icon data when unbinding the device
                             sdk.messageIcon.resetIconInfoData(
                                 macAddress = device?.macAddress.toString(),
                                 deleteIcon = true
                             ) { success ->
                                 // 在这里处理返回的结果
+                                // Handle the returned result here
                             }
 
                         } else {
@@ -267,6 +269,7 @@ class FunctionActivity : BaseActivity() {
     }
 
     /** 临时：内部功能测试（从 channel example 同步，仅 Full） */
+    /** Temporary: internal feature test (synced from the channel example, Full only) */
     fun internalFeatureTest(view: View) {
         val intent = Intent(this, InternalFeatureTestActivity::class.java)
         device?.let { intent.putExtra(MainActivity.DEVICE, it) }
@@ -371,6 +374,7 @@ class FunctionActivity : BaseActivity() {
 
     /**
      * 绑定状态异常：重置本地缓存绑定状态，提示后强制解绑（对齐 iOS `_hasUnbind`）
+     * Abnormal bind status: reset the locally cached bind status and force unbind after prompting (aligned with iOS `_hasUnbind`)
      */
     private fun hasUnbind() {
         val macAddress = device?.macAddress ?: return
@@ -401,10 +405,13 @@ class FunctionActivity : BaseActivity() {
                 device?.let { sdk.ble.setBtPair(it) }
             } else if (status == IDOStatusNotification.UNBINDONAUTHCODEERROR) {
                 // 出现该情况，可能是设备重置且被别的手机绑定，需要重置本地缓存的绑定状态
+                // If this happens, the device may have been reset and bound by another phone; the locally cached bind status needs to be reset
                 hasUnbind()
             } else if (status == IDOStatusNotification.UNBINDONBINDSTATEERROR) {
                 // 出现该情况，可能是设备重置了
+                // If this happens, the device may have been reset
                 // 绑定状态异常，需要重置本地缓存的绑定状态 (本地绑定状态和设备信息中配对状态不一致时触发）
+                // Abnormal bind status, the locally cached bind status needs to be reset (triggered when the local bind status and the pairing status in device info do not match)
                 hasUnbind()
             }
         }
@@ -419,15 +426,18 @@ class FunctionActivity : BaseActivity() {
             DeviceNotificationBus.emit(status)
 
             // 快速短信回复
+            // Quick SMS reply
             if (status.controlEvt == 580 && status.controlJson != null) {
                 println("status.controlJson: ${status.controlJson}")
                 val gson = Gson()
                 val msgItem =
                     gson.fromJson(status.controlJson, IDOFastMsgUpdateModel::class.java)
                 // 1 表示来电快捷回复
+                // 1 means incoming call quick reply
                 if (msgItem.msgType == 1) {
-                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果 / TODO: call the android system here to send the quick reply to the third-party app and get the reply result
                     // val isSuccess = if (回复结果) 1 else 0
+                    // val isSuccess = if (reply result) 1 else 0
                     var param = IDOFastMsgUpdateParamModel(
                         1,
                         msgItem.msgID,
@@ -439,8 +449,10 @@ class FunctionActivity : BaseActivity() {
                     }
                 } else {
                     // 第三方消息
-                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果
+                    // Third-party message
+                    // TODO：此处调用android系统发送快捷回复到第三app，并获取到回复结果 / TODO: call the android system here to send the quick reply to the third-party app and get the reply result
                     // val isSuccess = if (回复结果) 1 else 0
+                    // val isSuccess = if (reply result) 1 else 0
                     var param = IDOFastMsgUpdateParamModel(
                         1,
                         msgItem.msgID,
@@ -460,6 +472,7 @@ class FunctionActivity : BaseActivity() {
             println("2listenWaitingOtaDevice ${otaDevice.toString()}");
             closeProgressDialog()
             // 对齐 iOS：当前不在文件传输详情页（OtaFileTransferActivity ≈ TransferFileDetailVC）才弹出 OTA 提示
+            // Aligned with iOS: only show the OTA prompt when not on the file transfer detail page (OtaFileTransferActivity ≈ TransferFileDetailVC)
             if (BaseActivity.resumedActivity !is OtaFileTransferActivity) {
                 _otaMode()
             }
@@ -525,8 +538,9 @@ class FunctionActivity : BaseActivity() {
                 closeProgressDialog()
 
                 // 对齐 iOS：当前不在文件传输详情页才弹出 OTA 提示
+                // Aligned with iOS: only show the OTA prompt when not on the file transfer detail page
                 if (sdk.ble.bleDevice.isOta == true && BaseActivity.resumedActivity !is OtaFileTransferActivity) {
-                    println("当前设备处于ota模式")
+                    println("当前设备处于ota模式 / The current device is in OTA mode")
                     _otaMode()
                     return
                 }
@@ -569,6 +583,7 @@ class FunctionActivity : BaseActivity() {
                                     sdk.ble.cancelConnect(device?.macAddress) {}
                                     bindState()
                                     // 解绑设备删除icon数据
+                                    // Delete icon data when unbinding the device
                                     sdk.messageIcon.resetIconInfoData(
                                         macAddress = device?.macAddress.toString(),
                                         deleteIcon = true

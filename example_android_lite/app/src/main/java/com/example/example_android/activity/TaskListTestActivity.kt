@@ -21,7 +21,9 @@ import java.util.Locale
 
 /**
  * 15.114 任务清单 — 独立联调页入口
+ * 15.114 Task list - standalone integration-test page entry
  * 对齐 iOS TaskListTestVC：查询展示请求/回复日志，不判断功能表
+ * Aligned with iOS TaskListTestVC: query and show the request/reply log, without checking the function table
  */
 class TaskListTestActivity : BaseActivity() {
 
@@ -46,13 +48,13 @@ class TaskListTestActivity : BaseActivity() {
 
     private fun refreshStatusBar() {
         val connected = sdk.state.isConnected
-        tv_conn_chip.text = if (connected) "已连接" else "未连接"
+        tv_conn_chip.text = if (connected) "已连接 / Connected" else "未连接 / Disconnected"
         tv_conn_chip.setBackgroundColor(
             if (connected) Color.parseColor("#C8E6C9") else Color.parseColor("#FFCDD2")
         )
 
         val supported = sdk.funcTable.supportTaskList
-        tv_support_chip.text = if (supported) "supportTaskList" else "不支持"
+        tv_support_chip.text = if (supported) "supportTaskList" else "不支持 / Not supported"
         tv_support_chip.setBackgroundColor(
             if (supported) Color.parseColor("#C8E6C9") else Color.parseColor("#FFE0B2")
         )
@@ -60,7 +62,7 @@ class TaskListTestActivity : BaseActivity() {
 
     private fun ensureConnected(): Boolean {
         if (sdk.state.isConnected) return true
-        toast("未连接设备")
+        toast("未连接设备 / No device connected")
         return false
     }
 
@@ -90,23 +92,23 @@ class TaskListTestActivity : BaseActivity() {
         if (!ensureConnected()) return
         val param = IDOTaskListModel(operate = 2)
         val req = param.toJsonString() ?: """{"operate":2}"""
-        appendLog("查询状态 请求:\n${prettyJson(req)}")
-        showProgressDialog("查询状态变化…")
+        appendLog("查询状态 请求 / Query status request:\n${prettyJson(req)}")
+        showProgressDialog("查询状态变化… / Querying status changes…")
         Cmds.taskList(param).send { res ->
             closeProgressDialog()
             if (res.error.code != 0) {
-                appendLog("查询状态 回复: 失败 code=${res.error.code}")
-                toast("失败 code=${res.error.code}")
+                appendLog("查询状态 回复: 失败 / Query status reply: failed code=${res.error.code}")
+                toast("失败 / Failed code=${res.error.code}")
                 return@send
             }
             val model = res.res
             if (model == null) {
-                appendLog("查询状态 回复: (空)")
-                toast("无 JSON 回复")
+                appendLog("查询状态 回复: (空) / Query status reply: (empty)")
+                toast("无 JSON 回复 / No JSON reply")
                 return@send
             }
-            appendLog("查询状态 回复:\n${formatReply(model)}")
-            toast("查询完成")
+            appendLog("查询状态 回复 / Query status reply:\n${formatReply(model)}")
+            toast("查询完成 / Query done")
         }
     }
 

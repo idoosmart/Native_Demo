@@ -213,7 +213,7 @@
     <string name="music_new_sheet">New Playlist</string>
     <string name="music_input_sheet_id">Enter the playlist ID (obtained in the query result)</string>
     <string name="music_delete_sheet">delete playlist</string>
-    <string name="music_title">song management\n仅支持44.1hz采样率的歌曲</string>
+    <string name="music_title">song management\n仅支持44.1hz采样率的歌曲 / Song management\nOnly songs with a 44.1 kHz sample rate are supported</string>
     <string name="music_select_file">Please select a song file...</string>
     <string name="music_select">choose</string>
     <string name="music_input_music_name">Enter the song file name (suffix.mp3)</string>

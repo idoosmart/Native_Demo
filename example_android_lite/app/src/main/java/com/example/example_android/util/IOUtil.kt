@@ -148,6 +148,7 @@ object IOUtil {
 
     /**
      * 关闭IO.可用于任何IO类的close操作
+     * Close IO. Can be used for the close operation of any IO class
      * @param closeable
      */
     fun close(closeable: Closeable?) {
